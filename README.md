@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI**.
 
-This repository organizes a curated set of **30 autonomous agent skills**, global engineering rules, quota-saving protocols, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **31 autonomous agent skills**, global engineering rules, quota-saving protocols, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -18,7 +18,7 @@ cd agy-power-setup
 
 ### What the Installer Does:
 1. **Safety Backup:** Archives existing configurations to `~/.gemini/backups/`.
-2. **Dual-CLI Sync:** Installs all 30 skills to `~/.gemini/config/skills/` and mirrors them to `~/.claude/skills/` if Claude Code is present.
+2. **Dual-CLI Sync:** Installs all 31 skills to `~/.gemini/config/skills/` and mirrors them to `~/.claude/skills/` if Claude Code is present.
 3. **Global Discipline Rules:** Updates `~/.gemini/config/GEMINI.md` with engineering safeguards and the **Output Token Economy**.
 4. **Live Quota & Token Monitor:** Installs `agy-quota-statusline` and `agy-turbo` into `~/.local/bin/`.
 5. **Prompt Integration:** Configures `~/.gemini/antigravity-cli/settings.json` with `stack_with_default: true` for clean statusline display.
@@ -38,7 +38,7 @@ agy-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 30 specialized skills
+    └── skills/                 # 31 specialized skills
 ```
 
 ---
@@ -70,6 +70,7 @@ agy-power-setup/
 | **`standalone-binary-re`** | Systems/RE | Zero-MCP CLI reverse engineering (`readelf`, `objdump`, `jadx`, `pefile`) |
 | **`open-apk`** | Systems/RE | Android APK, XAPK, DEX, and resource loader for JADX headless |
 | **`wakaru`** | Systems/RE | Production JS bundle unpacker & decompiler (Webpack, Vite, Electron) |
+| **`lowlevel-dll-internals`** | Systems/RE | Windows PE/DLL internals, vtables, calling conventions, MinHook |
 | **`steamcmd-workshop-pipeline`** | Systems | Automated Steam Workshop publishing & VDF manifests |
 | **`python-engineering`** | Language | Python 3.10+, strict typing (Mypy), pytest, Ruff |
 | **`rust-engineering`** | Language | Compiler-first Rust, zero-cost abstractions, Clippy |
@@ -218,27 +219,32 @@ agy-power-setup/
 * **Mechanism:** JavaScript bundle unpacker and decompiler. Splits bundled assets into original module structures, reverses transpiler helpers (async/await, classes, JSX, optional chaining), and un-minifies structure deterministically.
 * **Quota Advantage:** Turns unreadable single-line 2MB bundles into isolated, readable modules with zero hallucination.
 
-#### 24. `steamcmd-workshop-pipeline`
+#### 24. `lowlevel-dll-internals`
+* **Trigger:** Analyzing Windows PE/DLL binaries, ASI plugins, C++ engine classes, vtables, crash dumps, or writing native detour hooks.
+* **Mechanism:** Applies compiler-grade binary heuristics: RVA-to-file offset conversion, 32-bit calling convention stack alignment (`__thiscall` in `ecx`, `__stdcall`, `__cdecl`), 64-bit ABI shadow space rules, virtual method table (VTable) slot indexing, 5-byte relative jump detour blueprints, and memory protection patching.
+* **Quota Advantage:** Eliminates trial-and-error memory patching and prevents cryptic `0xC0000005` access violations before code execution.
+
+#### 25. `steamcmd-workshop-pipeline`
 * **Trigger:** Publishing, updating, or managing Steam Workshop items via SteamCMD.
 * **Mechanism:** Generates valid VDF workshop manifests, manages content depots, sets item visibility, handles preview images, and publishes automated changelogs.
 * **Quota Advantage:** Replaces error-prone manual SteamCMD commands with automated, verified scripts.
 
-#### 25. `python-engineering`
+#### 26. `python-engineering`
 * **Trigger:** Python development, API building, test suites, automation scripts.
 * **Mechanism:** Enforces Python 3.10+ modern idioms: strict type annotations (`mypy`), fast linting and formatting (`ruff`), pytest test suites with fixtures, and hot-path memory profiling.
 * **Quota Advantage:** Static type checks catch bugs instantly before runtime.
 
-#### 26. `rust-engineering`
+#### 27. `rust-engineering`
 * **Trigger:** Rust systems development, game tools, CLI applications.
 * **Mechanism:** Enforces compiler-first workflows: zero-cost abstractions, idiomatic error handling with `Result` and `Option`, strict borrow checker compliance, and Clippy lint audits.
 * **Quota Advantage:** Zero runtime crashes; compiler errors are solved systematically.
 
-#### 27. `modern-cpp-engineering`
+#### 28. `modern-cpp-engineering`
 * **Trigger:** C++ systems programming, game engine modules, native libraries.
 * **Mechanism:** Modern C++20/C++23 standards: RAII memory management, smart pointers (`unique_ptr`, `shared_ptr`), Concepts for template constraints, and CMake modular targets.
 * **Quota Advantage:** Eliminates memory leaks, buffer overflows, and undefined behavior debugging.
 
-#### 28. `csharp-dotnet-engineering`
+#### 29. `csharp-dotnet-engineering`
 * **Trigger:** Modern .NET 8/9 applications, C# utilities, engine plugins.
 * **Mechanism:** Emphasizes memory optimization using `Span<T>` and `Memory<T>`, strict `CancellationToken` propagation across async chains, pattern matching, and Roslyn analyzer enforcement.
 * **Quota Advantage:** Guarantees efficient, allocation-conscious code that minimizes GC pauses.
@@ -247,7 +253,7 @@ agy-power-setup/
 
 ### 💰 Quota, Memory & Context Engineering
 
-#### 29. `token-economy`
+#### 30. `token-economy`
 * **Trigger:** Active in all conversations via `GEMINI.md` and on-demand skill.
 * **Mechanism:**
   - **Zero Conversational Fluff:** Drops conversational preambles ("Sure, I can help with that"), fillers, and sign-offs.
@@ -258,7 +264,7 @@ agy-power-setup/
   - **Token Economy Visibility:** Concludes multi-step workflows with a single high-density token savings metric line (`📉 Token Economy: ~<N> tokens saved (<breakdown>)`).
 * **Quota Advantage:** Directly slashes output token consumption by 40–70% and prevents compounding transcript bloat.
 
-#### 30. `project-memory-bank`
+#### 31. `project-memory-bank`
 * **Trigger:** Starting work on a repository, multi-session tasks, before running `/compact`.
 * **Mechanism:**
   - Maintains persistent markdown files in `.agents/memory/`:
