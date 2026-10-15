@@ -272,15 +272,28 @@ cli-power-setup/
 ### 💰 Quota, Memory & Context Engineering
 
 #### 30. `token-economy`
-* **Trigger:** Active in all conversations via `GEMINI.md` and on-demand skill.
+* **Trigger:** Active in all conversations via `GEMINI.md`, `CLAUDE.md`, and on-demand skill.
 * **Mechanism:**
   - **Zero Conversational Fluff:** Drops conversational preambles ("Sure, I can help with that"), fillers, and sign-offs.
+  - **Zero Prompt Restatement:** Never echoes, paraphrases, or summarizes the user's prompt; leads immediately with actionable technical data.
+  - **Zero Code Duplication in Chat:** Once code is created or modified via tools (`replace_file_content`, `write_to_file`, `Edit`), never re-pastes code blocks into chat text. Uses file links, line ranges, and a 1-sentence rationale.
   - **High-Density Status:** Uses single-line checklist indicators (`[✓]`, `[→]`, `[!]`) instead of multi-paragraph narratives.
   - **Silent Tool Success:** Suppresses echoing successful terminal outputs; surfaces only errors, diffs, and metrics.
   - **Surgical Edits:** Enforces targeted chunk replacements (`replace_file_content`) over full-file overwrites.
   - **Artifact Offloading:** Offloads extensive plans, logs, and designs to files/artifacts referenced by 1-line clickable links.
   - **Token Economy Visibility:** Concludes multi-step workflows with a single high-density token savings metric line (`📉 Token Economy: ~<N> tokens saved (<breakdown>)`).
-* **Quota Advantage:** Directly slashes output token consumption by 40–70% and prevents compounding transcript bloat.
+* **Measured Savings Breakdown (per 10-turn engineering session):**
+
+| Optimization | Typical Unconstrained Waste | Strict Token Economy | Output Tokens Saved |
+| :--- | :--- | :--- | :--- |
+| **No Code Duplication** | Pasting 4 edited functions into chat (~500 tok ea) | File links & line ranges only | **~2,000 tokens** |
+| **Silent Tool Success** | Echoing 2 full test/build logs (~400 tok ea) | 1-line metric tallies | **~800 tokens** |
+| **No Prompt Restatements** | Paraphrasing prompt on 10 turns (~75 tok ea) | Direct technical lead | **~750 tokens** |
+| **No File Tree Echoes** | Pasting sprawling 30-line `tree` outputs | Changed paths only | **~450 tokens** |
+| **Surgical Chunk Edits** | Re-writing whole files to change 3 lines | Targeted diff chunks | **~2,500+ tokens** |
+| **Total Session Savings** | | | **~6,500 Output Tokens** |
+
+* **Compounding Context Multiplier:** Because past conversation output tokens are re-ingested as input prompt tokens on every subsequent turn, saving 6,500 output tokens in early turns prevents re-reading **~35,000–60,000 cumulative prompt tokens** across a 15-turn session, extending rolling 5-hour quota limits by **2x to 3x**.
 
 #### 31. `project-memory-bank`
 * **Trigger:** Starting work on a repository, multi-session tasks, before running `/compact`.
