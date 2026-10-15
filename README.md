@@ -33,7 +33,8 @@ agy-power-setup/
 ├── README.md                   # Comprehensive documentation & skill reference
 ├── .gitignore                  # Clean git filters
 ├── bin/
-│   └── agy-quota-statusline    # Asynchronous real-time quota tracker (Python)
+│   ├── agy-quota-statusline    # Asynchronous real-time quota & token savings tracker
+│   └── agy-turbo               # High-speed Turbo mode launcher script (hands-free)
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
@@ -236,6 +237,7 @@ agy-power-setup/
   - **Silent Tool Success:** Suppresses echoing successful terminal outputs; surfaces only errors, diffs, and metrics.
   - **Surgical Edits:** Enforces targeted chunk replacements (`replace_file_content`) over full-file overwrites.
   - **Artifact Offloading:** Offloads extensive plans, logs, and designs to files/artifacts referenced by 1-line clickable links.
+  - **Token Economy Visibility:** Concludes multi-step workflows with a single high-density token savings metric line (`📉 Token Economy: ~<N> tokens saved (<breakdown>)`).
 * **Quota Advantage:** Directly slashes output token consumption by 40–70% and prevents compounding transcript bloat.
 
 #### 27. `project-memory-bank`
@@ -252,18 +254,44 @@ agy-power-setup/
 
 ---
 
-## 📊 Real-Time CLI Quota Statusline
+## 📊 Real-Time CLI Quota & Token Savings Statusline
 
-The statusline script (`~/.local/bin/agy-quota-statusline`) displays real-time 5-hour and weekly quota remaining directly at the bottom of the AGY CLI prompt:
+The statusline script (`~/.local/bin/agy-quota-statusline`) displays real-time 5-hour and weekly quota remaining, plus live session prompt tokens saved via Google context caching:
 
 ```text
-⚡ Gemini: 5h: 88% (reset 18:30) | Wk: 94%
+⚡ Gemini: 5h: 78% (reset 16:00) | Wk: 72% | 💾 Saved: 7.6M tok (Flash)
+```
+
+In multi-model sessions (e.g. adaptive escalation between Flash and Argon):
+```text
+⚡ Gemini: 5h: 78% | Wk: 72% | 💾 Saved: 23.4M tok (Argon: 12.0M | Flash: 11.4M)
 ```
 
 ### Technical Design:
-* **Asynchronous & Non-Blocking:** Queries `agy -p /usage` and caches the result in `/tmp/agy_quota_cache.txt` with a 2-minute TTL.
-* **Zero CLI Lag:** Subprocesses are detached with PID lockfile protection (`/tmp/agy_quota_refresh.lock`), guaranteeing instant prompt rendering.
+* **Context Cache Token Telemetry:** Directly correlates active session step tokens from `transcript.jsonl` with turn models in `gen_metadata`, displaying exact prompt tokens saved by context caching.
+* **Per-Model Savings Breakdown:** Automatically disaggregates saved prompt tokens across models when multiple models (e.g. Gemini 3.8 Flash, Gemini 4 Argon, Claude Sonnet) are used in a single session.
+* **Asynchronous & Non-Blocking Quota:** Queries `agy -p /usage` and caches the result in `/tmp/agy_quota_cache.txt` with a 2-minute TTL.
+* **Zero CLI Lag:** Quota subprocesses are detached with PID lockfile protection (`/tmp/agy_quota_refresh.lock`), guaranteeing instant prompt rendering (<2ms).
 * **Clean Stacking:** Configured in `~/.gemini/antigravity-cli/settings.json` with `stack_with_default: true` so the live quota line renders below the default working directory and model status.
+
+---
+
+## 🚀 Antigravity CLI Turbo Mode (`agy-turbo`)
+
+Equivalent to the **Turbo** mode in the Antigravity Desktop App, the `agy-turbo` launcher activates hands-free auto-execution with minimal chain-of-thought latency:
+
+```bash
+agy-turbo
+```
+
+### Configuration Flags:
+* `--model gemini-3.8-flash-low`: Dispatches the ultra-fast low-latency Flash variant.
+* `--effort low`: Minimizes chain-of-thought reasoning pauses for instantaneous token streaming.
+* `--dangerously-skip-permissions`: Auto-approves tool actions and shell commands without modal stops.
+* `--mode auto`: Automatically applies and accepts validated code edits.
+
+> [!TIP]
+> **Desktop Shortcut:** On Linux systems, a `.desktop` shortcut (`agy-turbo.desktop`) can be created in `~/Desktop/` to launch `agy-turbo` in Konsole with a single click.
 
 ---
 

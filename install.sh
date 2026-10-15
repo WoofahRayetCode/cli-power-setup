@@ -86,6 +86,12 @@ install_statusline() {
     chmod +x "${BIN_DEST}/agy-quota-statusline"
     log_done "Installed executable: ${BIN_DEST}/agy-quota-statusline"
 
+    if [ -f "${SCRIPT_DIR}/bin/agy-turbo" ]; then
+        cp "${SCRIPT_DIR}/bin/agy-turbo" "${BIN_DEST}/agy-turbo"
+        chmod +x "${BIN_DEST}/agy-turbo"
+        log_done "Installed executable: ${BIN_DEST}/agy-turbo"
+    fi
+
     # Merge statusline config into settings.json safely
     log_info "Configuring ${CLI_SETTINGS}..."
     mkdir -p "$(dirname "${CLI_SETTINGS}")"
