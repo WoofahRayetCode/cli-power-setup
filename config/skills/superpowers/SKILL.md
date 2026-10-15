@@ -1,0 +1,33 @@
+---
+name: superpowers
+description: Core engineering methodology and discipline engine. Use when starting non-trivial tasks to evaluate if brainstorming, structured planning, TDD, or systematic debugging applies before writing code.
+---
+
+# Superpowers Discipline Engine
+
+This skill governs engineering discipline across all tasks. It ensures that the assistant works methodically, plans before executing, validates hypotheses before fixing bugs, and verifies all changes before claiming completion.
+
+## Operating Principles
+
+1. **Plan Before Modifying:**
+   - For non-trivial features, refactoring, or new mod components, do not start modifying files immediately.
+   - Formulate a clear design and implementation plan.
+   - Break large tasks into small, verifiable chunks.
+
+2. **Systematic Over Speculative Debugging:**
+   - Never guess a fix or randomly alter parameters.
+   - Trace the failure to its root cause using logs, stack traces, and reproducible test cases.
+   - Formulate a hypothesis and test it before applying code changes.
+
+3. **Evidence-Based Completion:**
+   - Never claim a task is complete without concrete verification evidence (e.g. passing unit tests, successful pack verification, or command outputs).
+   - "It looks correct in the code" is not proof of working functionality.
+
+4. **Progressive Skill Routing:**
+   - **Exploring a new feature, architecture, or mod idea?** $\rightarrow$ Activate `brainstorming`.
+   - **Breaking down a multi-step task?** $\rightarrow$ Activate `writing-plans`.
+   - **Implementing an approved plan?** $\rightarrow$ Activate `executing-plans`.
+   - **Encountering a bug or unexpected crash?** $\rightarrow$ Activate `systematic-debugging`.
+   - **Building testable logic or utilities?** $\rightarrow$ Activate `test-driven-development`.
+   - **Modding S.T.A.L.K.E.R. or game assets?** $\rightarrow$ Activate `game-modding`.
+   - **About to declare a task complete?** $\rightarrow$ Activate `verification-before-completion`.

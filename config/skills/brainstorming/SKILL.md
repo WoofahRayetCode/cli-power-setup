@@ -1,0 +1,27 @@
+---
+name: brainstorming
+description: Interactive design exploration and requirements discovery. Use before committing to an architecture, feature implementation, or mod design to clarify trade-offs, constraints, and user preferences.
+---
+
+# Brainstorming & Design Exploration
+
+Use this skill when tackling ambiguous requirements, designing new systems, or planning complex mod features.
+
+## Workflow
+
+1. **Understand Goals & Constraints:**
+   - Review relevant existing code, game configs, or assets.
+   - Identify what problem is being solved and any platform or engine constraints.
+
+2. **Present Alternatives & Trade-offs:**
+   - Propose 2-3 distinct approaches or options.
+   - Clearly outline pros, cons, and complexity for each option.
+   - For modding: distinguish between engine-level hooks, config tweaks, or script alterations.
+
+3. **Collaborate Interactively:**
+   - Use `ask_question` with structured multiple-choice options whenever design feedback, architectural direction, or user preference is needed.
+   - Do not make major architectural assumptions on behalf of the user.
+
+4. **Summarize Consensus:**
+   - Once aligned, document the chosen approach clearly.
+   - Transition seamlessly to `writing-plans` to outline execution steps.

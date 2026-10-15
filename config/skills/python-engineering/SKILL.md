@@ -1,0 +1,33 @@
+---
+name: python-engineering
+description: Python software engineering and performance standards (Python 3.10+). Use when authoring or refactoring Python code, adding type annotations, writing pytest suites, optimizing hot paths, or using Ruff and Mypy.
+---
+
+# Modern Python Engineering Guide
+
+This skill governs writing, refactoring, and optimizing Python code to ensure high reliability, zero runtime type errors, and minimal quota consumption.
+
+## Core Engineering Principles
+
+### 1. Strict Typing & Modern Idioms
+- Always supply complete type annotations on function signatures and class definitions (`typing.Self`, `typing.Literal`, `Union` syntax `X | Y`).
+- Favor standard library modern idioms:
+  - Use `pathlib.Path` over legacy `os.path` operations.
+  - Use `dataclasses` (or Pydantic for API boundaries) with `@dataclass(frozen=True)` or `@dataclass(slots=True)` for memory and speed.
+  - Leverage pattern matching (`match / case`) for complex state/AST parsing.
+
+### 2. Surgical Diffs over Full-File Regeneration
+- When editing Python files, use `replace_file_content` to make minimal, pinpoint edits.
+- Never output an entire 400-line module to change a single function.
+
+### 3. Fast Tooling & Verification Loops
+- Run fast linting and type checking before executing heavy test suites:
+  ```bash
+  ruff check path/to/file.py --fix
+  mypy path/to/file.py
+  ```
+- Run targeted `pytest` assertions:
+  ```bash
+  pytest -q tests/test_specific.py::test_case_name
+  ```
+- If a test fails, formulate a hypothesis with `systematic-debugging` instead of guessing patches.

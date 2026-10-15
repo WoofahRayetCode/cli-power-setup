@@ -1,0 +1,49 @@
+---
+name: stalker2-modding
+description: Modding workflows and tools for S.T.A.L.K.E.R. 2 Heart of Chornobyl (Unreal Engine 5). Use when packaging UE5 IoStore containers (pak, ucas, utoc) with repak, authoring RE-UE4SS C++ and Lua hooks, inspecting assets via FModel, or organizing mod distributions.
+---
+
+# S.T.A.L.K.E.R. 2: Heart of Chornobyl Modding Guide
+
+This skill governs modding workflows for **S.T.A.L.K.E.R. 2: Heart of Chornobyl**, which is built on **Unreal Engine 5** (unlike the original trilogy's X-Ray engine).
+
+## Architecture & Modding Toolchain
+
+### 1. Pak & IoStore Container Management
+- **File Structure:**
+  - S.T.A.L.K.E.R. 2 packs assets using Unreal Engine 5's **IoStore** container system:
+    - `.pak` (Directory header / metadata)
+    - `.ucas` (Unreal Container Asset Store - raw compressed blocks)
+    - `.utoc` (Unreal Table of Contents - chunk index table)
+- **Mod Directory Staging:**
+  - Injected mod packages are placed into the game's Paks subdirectory:
+    `Stalker2/Content/Paks/~mods/`
+  - Name mod files with alphabetical sorting prefixes (e.g. `zzz_MyMod_P.pak`) to guarantee load order precedence over vanilla paks.
+- **Packaging with `repak`:**
+  - Use [`repak`](https://github.com/trumank/repak) for fast, command-line packing and unpacking of IoStore archives:
+    ```bash
+    # Unpack an existing game pak
+    repak unpack Stalker2-Windows.pak -o extracted_assets/
+
+    # Pack a mod folder into a valid UE5 pak
+    repak pack my_mod_folder/ Stalker2/Content/Paks/~mods/zzz_MyMod_P.pak --version V11
+    ```
+
+### 2. Gameplay Scripting & Runtime Hooks (RE-UE4SS)
+- **The RE-UE4SS Framework:**
+  - Used for injecting custom logic, overriding Actor properties, spawning items, and listening to game events at runtime without modifying compiled game binaries.
+  - Installed into `Stalker2/Binaries/Win64/` (or Steam Proton equivalent).
+- **Lua Mod Structure in UE4SS:**
+  - Place custom mods in `Stalker2/Binaries/Win64/Mods/<ModName>/scripts/main.lua`.
+  - Hook into native engine functions:
+    ```lua
+    -- Hook into a UFunction execution
+    RegisterHook("/Script/Engine.PlayerController:ClientRestart", function(self)
+        print("Player restarted, initializing mod state...")
+    end)
+    ```
+  - Access game singletons and actor iterators via `FindAllOf("BP_StalkerPlayer_C")`.
+
+### 3. Asset Extraction & Inspection (FModel)
+- Use **FModel** with the S.T.A.L.K.E.R. 2 `.usmap` mapping file (generated via UE4SS UHT dumpers) to explore materials, audio cues, and Blueprints.
+- Audio: Wwise soundbanks (`.bnk` / `.pck`) are handled through Wwise authoring pipelines rather than raw Ogg comments.
