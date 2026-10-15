@@ -2,21 +2,28 @@
 set -euo pipefail
 
 # ==============================================================================
-# Antigravity Power Setup Installer
-# Sets up skills, global engineering/quota rules, and real-time CLI statusline
+# CLI Power Setup Installer (cli-power-setup)
+# Dual-CLI configuration for Google Antigravity (agy) and Claude Code
 # ==============================================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-GEMINI_DIR="${HOME}/.gemini"
-SKILLS_DEST="${GEMINI_DIR}/config/skills"
-RULES_DEST="${GEMINI_DIR}/config/GEMINI.md"
 BIN_DEST="${HOME}/.local/bin"
-CLI_SETTINGS="${GEMINI_DIR}/antigravity-cli/settings.json"
+
+GEMINI_DIR="${HOME}/.gemini"
+GEMINI_SKILLS="${GEMINI_DIR}/config/skills"
+GEMINI_RULES="${GEMINI_DIR}/config/GEMINI.md"
+GEMINI_CLI_SETTINGS="${GEMINI_DIR}/antigravity-cli/settings.json"
+
+CLAUDE_DIR="${HOME}/.claude"
+CLAUDE_SKILLS="${CLAUDE_DIR}/skills"
+CLAUDE_RULES="${CLAUDE_DIR}/CLAUDE.md"
+CLAUDE_SETTINGS="${CLAUDE_DIR}/settings.json"
 
 COLOR_GREEN="\033[0;32m"
 COLOR_CYAN="\033[0;36m"
 COLOR_YELLOW="\033[1;33m"
 COLOR_RED="\033[0;31m"
+COLOR_BOLD="\033[1m"
 COLOR_RESET="\033[0m"
 
 log_info()  { echo -e "${COLOR_CYAN}[→]${COLOR_RESET} $1"; }
@@ -27,60 +34,35 @@ log_err()   { echo -e "${COLOR_RED}[✗]${COLOR_RESET} $1"; }
 backup_existing() {
     local timestamp
     timestamp="$(date +%Y%m%d_%H%M%S)"
-    local backup_dir="${GEMINI_DIR}/backups/power_setup_${timestamp}"
-    log_info "Creating backup in ${backup_dir}..."
+    local backup_dir="${HOME}/.cli_power_setup_backups/backup_${timestamp}"
+    log_info "Creating configuration backup in ${backup_dir}..."
     mkdir -p "${backup_dir}"
     
-    if [ -d "${SKILLS_DEST}" ]; then
-        cp -r "${SKILLS_DEST}" "${backup_dir}/skills"
+    if [ -d "${GEMINI_SKILLS}" ]; then
+        mkdir -p "${backup_dir}/gemini"
+        cp -r "${GEMINI_SKILLS}" "${backup_dir}/gemini/skills"
     fi
-    if [ -f "${RULES_DEST}" ]; then
-        cp "${RULES_DEST}" "${backup_dir}/GEMINI.md"
+    if [ -f "${GEMINI_RULES}" ]; then
+        cp "${GEMINI_RULES}" "${backup_dir}/gemini/GEMINI.md"
     fi
-    if [ -f "${CLI_SETTINGS}" ]; then
-        cp "${CLI_SETTINGS}" "${backup_dir}/settings.json"
+    if [ -f "${GEMINI_CLI_SETTINGS}" ]; then
+        cp "${GEMINI_CLI_SETTINGS}" "${backup_dir}/gemini/settings.json"
     fi
-    log_done "Backup created."
+    if [ -d "${CLAUDE_SKILLS}" ]; then
+        mkdir -p "${backup_dir}/claude"
+        cp -r "${CLAUDE_SKILLS}" "${backup_dir}/claude/skills"
+    fi
+    if [ -f "${CLAUDE_RULES}" ]; then
+        cp "${CLAUDE_RULES}" "${backup_dir}/claude/CLAUDE.md"
+    fi
+    if [ -f "${CLAUDE_SETTINGS}" ]; then
+        cp "${CLAUDE_SETTINGS}" "${backup_dir}/claude/settings.json"
+    fi
+    log_done "Backup created successfully."
 }
 
-install_skills() {
-    log_info "Installing skills into ${SKILLS_DEST}..."
-    mkdir -p "${SKILLS_DEST}"
-    cp -r "${SCRIPT_DIR}/config/skills/"* "${SKILLS_DEST}/"
-    local count
-    count="$(find "${SKILLS_DEST}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
-    log_done "Installed ${count} skills for Antigravity."
-
-    # Dual-CLI compatibility: link/copy to Claude Code if ~/.claude exists
-    local claude_skills="${HOME}/.claude/skills"
-    if [ -d "${HOME}/.claude" ] || [ -d "${claude_skills}" ]; then
-        log_info "Detected Claude Code environment; updating ${claude_skills}..."
-        mkdir -p "${claude_skills}"
-        cp -r "${SCRIPT_DIR}/config/skills/"* "${claude_skills}/"
-        log_done "Synchronized skills with Claude Code."
-    fi
-}
-
-install_rules() {
-    log_info "Configuring global rules in ${RULES_DEST}..."
-    mkdir -p "$(dirname "${RULES_DEST}")"
-    if [ ! -f "${RULES_DEST}" ]; then
-        cp "${SCRIPT_DIR}/config/GEMINI.md" "${RULES_DEST}"
-        log_done "Installed global GEMINI.md rules."
-    else
-        # Append rules if not already present
-        if ! grep -q "Output Token Economy" "${RULES_DEST}"; then
-            echo "" >> "${RULES_DEST}"
-            cat "${SCRIPT_DIR}/config/GEMINI.md" >> "${RULES_DEST}"
-            log_done "Appended token economy and modding rules to existing GEMINI.md."
-        else
-            log_done "GEMINI.md rules already up to date."
-        fi
-    fi
-}
-
-install_statusline() {
-    log_info "Installing statusline script to ${BIN_DEST}/agy-quota-statusline..."
+install_binaries() {
+    log_info "Installing utility scripts into ${BIN_DEST}..."
     mkdir -p "${BIN_DEST}"
     cp "${SCRIPT_DIR}/bin/agy-quota-statusline" "${BIN_DEST}/agy-quota-statusline"
     chmod +x "${BIN_DEST}/agy-quota-statusline"
@@ -91,70 +73,181 @@ install_statusline() {
         chmod +x "${BIN_DEST}/agy-turbo"
         log_done "Installed executable: ${BIN_DEST}/agy-turbo"
     fi
+}
 
-    # Merge statusline config into settings.json safely
-    log_info "Configuring ${CLI_SETTINGS}..."
-    mkdir -p "$(dirname "${CLI_SETTINGS}")"
-    python3 - <<EOF
+install_antigravity() {
+    echo ""
+    log_info "Configuring Antigravity (agy)..."
+    
+    # 1. Skills
+    mkdir -p "${GEMINI_SKILLS}"
+    cp -r "${SCRIPT_DIR}/config/skills/"* "${GEMINI_SKILLS}/"
+    local count
+    count="$(find "${GEMINI_SKILLS}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
+    log_done "Installed ${count} skills in ${GEMINI_SKILLS}."
+
+    # 2. Rules
+    mkdir -p "$(dirname "${GEMINI_RULES}")"
+    if [ ! -f "${GEMINI_RULES}" ]; then
+        cp "${SCRIPT_DIR}/config/GEMINI.md" "${GEMINI_RULES}"
+        log_done "Installed global GEMINI.md rules."
+    else
+        if ! grep -q "Output Token Economy" "${GEMINI_RULES}"; then
+            echo "" >> "${GEMINI_RULES}"
+            cat "${SCRIPT_DIR}/config/GEMINI.md" >> "${GEMINI_RULES}"
+            log_done "Appended token economy and modding rules to existing GEMINI.md."
+        else
+            cp "${SCRIPT_DIR}/config/GEMINI.md" "${GEMINI_RULES}"
+            log_done "GEMINI.md updated with latest rules."
+        fi
+    fi
+
+    # 3. Settings / Statusline
+    if [ -d "$(dirname "${GEMINI_CLI_SETTINGS}")" ]; then
+        python3 - <<EOF
 import json, os
-
-settings_path = os.path.expanduser("${CLI_SETTINGS}")
-bin_path = os.path.expanduser("${BIN_DEST}/agy-quota-statusline")
-
+p = os.path.expanduser("${GEMINI_CLI_SETTINGS}")
 data = {}
-if os.path.exists(settings_path):
+if os.path.exists(p):
     try:
-        with open(settings_path, "r") as f:
+        with open(p, "r") as f:
             data = json.load(f)
     except Exception:
         data = {}
-
 data["statusLine"] = {
-    "command": bin_path,
+    "command": os.path.expanduser("${BIN_DEST}/agy-quota-statusline"),
     "enabled": True,
     "stack_with_default": True
 }
-
-with open(settings_path, "w") as f:
+with open(p, "w") as f:
     json.dump(data, f, indent=2)
 EOF
-    log_done "Configured statusLine in settings.json (stack_with_default: true)."
+        log_done "Configured statusLine in Antigravity settings.json."
+    fi
+}
+
+install_claude() {
+    echo ""
+    log_info "Configuring Claude Code..."
+
+    # 1. Skills
+    mkdir -p "${CLAUDE_SKILLS}"
+    cp -r "${SCRIPT_DIR}/config/skills/"* "${CLAUDE_SKILLS}/"
+    local count
+    count="$(find "${CLAUDE_SKILLS}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
+    log_done "Synchronized ${count} skills in ${CLAUDE_SKILLS}."
+
+    # 2. Rules
+    mkdir -p "${CLAUDE_DIR}"
+    cp "${SCRIPT_DIR}/config/GEMINI.md" "${CLAUDE_RULES}"
+    log_done "Installed global rules in ${CLAUDE_RULES}."
+
+    # 3. Settings / Statusline
+    python3 - <<EOF
+import json, os
+p = os.path.expanduser("${CLAUDE_SETTINGS}")
+data = {}
+if os.path.exists(p):
+    try:
+        with open(p, "r") as f:
+            data = json.load(f)
+    except Exception:
+        data = {}
+data["statusLine"] = {
+    "type": "command",
+    "command": os.path.expanduser("${BIN_DEST}/agy-quota-statusline")
+}
+with open(p, "w") as f:
+    json.dump(data, f, indent=2)
+EOF
+    log_done "Configured statusLine in Claude Code settings.json."
 }
 
 verify_installation() {
     echo ""
     log_info "Running verification checks..."
-    
-    # 1. Statusline execution test
+
     if "${BIN_DEST}/agy-quota-statusline" >/dev/null 2>&1; then
-        log_done "Statusline test execution: PASS"
+        local st
+        st="$("${BIN_DEST}/agy-quota-statusline")"
+        log_done "Statusline verification: ${st}"
     else
-        log_warn "Statusline returned non-zero (may need agy credentials or active session)"
+        log_warn "Statusline test executed with warning (normal if no active session yet)."
     fi
 
-    # 2. Skills count check
-    local skill_count
-    skill_count="$(find "${SKILLS_DEST}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
-    log_done "Total active skills detected: ${skill_count}"
-    
+    local agy_count=0 claude_count=0
+    [ -d "${GEMINI_SKILLS}" ] && agy_count="$(find "${GEMINI_SKILLS}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
+    [ -d "${CLAUDE_SKILLS}" ] && claude_count="$(find "${CLAUDE_SKILLS}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
+
     echo ""
     echo -e "${COLOR_GREEN}======================================================${COLOR_RESET}"
-    echo -e "${COLOR_GREEN} Antigravity Power Setup Successfully Installed!     ${COLOR_RESET}"
+    echo -e "${COLOR_GREEN} CLI Power Setup Successfully Installed!             ${COLOR_RESET}"
     echo -e "${COLOR_GREEN}======================================================${COLOR_RESET}"
-    echo -e "Skills directory:     ${COLOR_CYAN}${SKILLS_DEST}${COLOR_RESET}"
-    echo -e "Global rules:         ${COLOR_CYAN}${RULES_DEST}${COLOR_RESET}"
+    echo -e "Antigravity Skills:   ${COLOR_CYAN}${agy_count} active (${GEMINI_SKILLS})${COLOR_RESET}"
+    echo -e "Claude Code Skills:   ${COLOR_CYAN}${claude_count} active (${CLAUDE_SKILLS})${COLOR_RESET}"
     echo -e "Statusline monitor:   ${COLOR_CYAN}${BIN_DEST}/agy-quota-statusline${COLOR_RESET}"
-    echo -e "CLI settings:         ${COLOR_CYAN}${CLI_SETTINGS}${COLOR_RESET}"
+    echo -e "Turbo Launcher:       ${COLOR_CYAN}${BIN_DEST}/agy-turbo${COLOR_RESET}"
     echo ""
 }
 
-# Main Execution Flow
+show_menu() {
+    echo -e "${COLOR_BOLD}CLI Power Setup Installer${COLOR_RESET}"
+    echo "Select target CLI environment:"
+    echo "  1) Dual-CLI (Both Antigravity & Claude Code) [Recommended]"
+    echo "  2) Antigravity only (~/.gemini)"
+    echo "  3) Claude Code only (~/.claude)"
+    echo "  4) Exit"
+    echo ""
+    read -rp "Enter choice [1-4] (default: 1): " choice
+    choice="${choice:-1}"
+    case "$choice" in
+        1) TARGET="all" ;;
+        2) TARGET="agy" ;;
+        3) TARGET="claude" ;;
+        4) echo "Exiting."; exit 0 ;;
+        *) echo "Invalid option, defaulting to Dual-CLI."; TARGET="all" ;;
+    esac
+}
+
 main() {
-    echo -e "${COLOR_CYAN}Installing Antigravity Power Setup...${COLOR_RESET}"
+    local TARGET="all"
+    
+    # Parse CLI flags if passed
+    if [ "$#" -gt 0 ]; then
+        case "$1" in
+            --all|-a)       TARGET="all" ;;
+            --agy|-g)       TARGET="agy" ;;
+            --claude|-c)    TARGET="claude" ;;
+            --help|-h)
+                echo "Usage: ./install.sh [--all | --agy | --claude]"
+                exit 0
+                ;;
+            *)
+                log_warn "Unknown option '$1', opening menu..."
+                show_menu
+                ;;
+        esac
+    elif [ -t 0 ]; then
+        show_menu
+    fi
+
+    echo -e "${COLOR_CYAN}Installing CLI Power Setup (Target: ${TARGET})...${COLOR_RESET}"
     backup_existing
-    install_skills
-    install_rules
-    install_statusline
+    install_binaries
+
+    case "${TARGET}" in
+        all)
+            install_antigravity
+            install_claude
+            ;;
+        agy)
+            install_antigravity
+            ;;
+        claude)
+            install_claude
+            ;;
+    esac
+
     verify_installation
 }
 

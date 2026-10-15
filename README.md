@@ -1,8 +1,8 @@
-# Antigravity Power Setup (`agy-power-setup`)
+# CLI Power Setup (`cli-power-setup`)
 
-A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI**.
+A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **31 autonomous agent skills**, global engineering rules, quota-saving protocols, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **31 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -11,25 +11,43 @@ This repository organizes a curated set of **31 autonomous agent skills**, globa
 Clone this repository to your machine and run the installer:
 
 ```bash
-git clone https://github.com/WoofahRayetCode/agy-power-setup.git
-cd agy-power-setup
+git clone https://github.com/WoofahRayetCode/cli-power-setup.git
+cd cli-power-setup
 ./install.sh
 ```
 
+### 📋 Interactive Installer Menu
+Running `./install.sh` displays an interactive target menu:
+```text
+CLI Power Setup Installer
+Select target CLI environment:
+  1) Dual-CLI (Both Antigravity & Claude Code) [Recommended]
+  2) Antigravity only (~/.gemini)
+  3) Claude Code only (~/.claude)
+  4) Exit
+```
+
+Or pass flags non-interactively in automated scripts:
+```bash
+./install.sh --all     # Install for both Antigravity & Claude Code
+./install.sh --agy     # Install for Google Antigravity only
+./install.sh --claude  # Install for Claude Code only
+```
+
 ### What the Installer Does:
-1. **Safety Backup:** Archives existing configurations to `~/.gemini/backups/`.
-2. **Dual-CLI Sync:** Installs all 31 skills to `~/.gemini/config/skills/` and mirrors them to `~/.claude/skills/` if Claude Code is present.
-3. **Global Discipline Rules:** Updates `~/.gemini/config/GEMINI.md` with engineering safeguards and the **Output Token Economy**.
-4. **Live Quota & Token Monitor:** Installs `agy-quota-statusline` and `agy-turbo` into `~/.local/bin/`.
-5. **Prompt Integration:** Configures `~/.gemini/antigravity-cli/settings.json` with `stack_with_default: true` for clean statusline display.
+1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
+2. **Dual-CLI Sync:** Deploys all 31 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
+4. **Live Quota & Token Monitor:** Installs `agy-quota-statusline` and configures it in both `~/.gemini/antigravity-cli/settings.json` and `~/.claude/settings.json`.
+5. **Turbo Mode Launcher:** Installs `agy-turbo` into `~/.local/bin/`.
 
 ---
 
 ## 📂 Repository Structure
 
 ```text
-agy-power-setup/
-├── install.sh                  # Automated installer with backup & verification
+cli-power-setup/
+├── install.sh                  # Interactive dual-CLI installer with backup & menu
 ├── README.md                   # Comprehensive documentation & skill reference
 ├── .gitignore                  # Clean git filters
 ├── bin/
