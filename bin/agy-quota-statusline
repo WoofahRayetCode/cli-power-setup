@@ -5,9 +5,58 @@ import time
 import subprocess
 from datetime import datetime
 
+import glob
+import json
+
 CACHE_FILE = "/tmp/agy_quota_cache.txt"
 LOCK_FILE = "/tmp/agy_quota_refresh.lock"
 CACHE_TTL = 120  # 2 minutes
+
+def get_token_savings():
+    base_dir = os.path.expanduser("~/.gemini/antigravity-cli")
+    presence_locks = glob.glob(f"{base_dir}/presence/*.lock")
+    active_cid = None
+    if presence_locks:
+        latest_lock = max(presence_locks, key=os.path.getmtime)
+        active_cid = os.path.basename(latest_lock).replace(".lock", "")
+
+    transcript_path = None
+    if active_cid:
+        cand = f"{base_dir}/brain/{active_cid}/.system_generated/logs/transcript.jsonl"
+        if os.path.exists(cand):
+            transcript_path = cand
+
+    if not transcript_path:
+        transcripts = glob.glob(f"{base_dir}/brain/*/.system_generated/logs/transcript.jsonl")
+        if transcripts:
+            transcript_path = max(transcripts, key=os.path.getmtime)
+
+    if not transcript_path or not os.path.exists(transcript_path):
+        return ""
+
+    cached_tokens = 0
+    try:
+        with open(transcript_path, "r") as f:
+            for line in f:
+                try:
+                    row = json.loads(line)
+                    cached_tokens += row.get("cache_read_tokens", 0)
+                except Exception:
+                    pass
+    except Exception:
+        return ""
+
+    if cached_tokens <= 0:
+        return ""
+
+    if cached_tokens >= 1_000_000:
+        val_str = f"{cached_tokens / 1_000_000:.1f}M"
+    elif cached_tokens >= 1_000:
+        val_str = f"{cached_tokens / 1_000:.1f}k"
+    else:
+        val_str = str(cached_tokens)
+
+    return f"💾 Saved: {val_str} tok"
 
 def refresh_now():
     try:
@@ -75,12 +124,16 @@ def main():
         except Exception:
             pass
 
+    saved_str = get_token_savings()
+    suffix = f" | {saved_str}" if saved_str else ""
+
     if cached:
-        print(cached)
+        print(f"{cached}{suffix}")
     else:
         # Generate initial cache
         res = refresh_now()
-        print(res if res else "⚡ Gemini: [5h: --% | Wk: --%]")
+        base = res if res else "⚡ Gemini: [5h: --% | Wk: --%]"
+        print(f"{base}{suffix}")
 
 if __name__ == "__main__":
     main()

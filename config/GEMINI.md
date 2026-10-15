@@ -18,3 +18,4 @@
 - **Surgical Edits Over Rewrites:** Always prefer targeted chunk replacements (`replace_file_content`) over full-file overwrites to minimize token thrashing.
 - **Artifact & File Offloading:** For extensive plans, large reports, or detailed logs, write them to files or artifacts and provide a clickable link with a 1-line headline, rather than dumping large blocks of text directly into the chat transcript.
 - **Rationale Over Syntax Recital:** When explaining code changes, briefly state *why* (non-obvious rationale or design choices) rather than reciting line-by-line *what* the code already shows.
+- **Token Economy Visibility:** Conclude plans, refactors, and multi-step workflows with a single high-density token savings line: `📉 Token Economy: ~<N> tokens saved (<breakdown, e.g. surgical diffs, artifact offload, Flash routing>)`.

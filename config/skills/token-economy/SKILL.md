@@ -27,3 +27,7 @@ Replace conversational status updates with compact markdown checklists:
 ## 4. Offloading Heavy Content
 - **Large Diffs, Logs, or Plans:** Write extensive documentation, plans, or test matrices into files or artifacts.
 - Provide a single clickable file link and a 1-sentence summary rather than dumping 200 lines of markdown into the chat transcript.
+
+## 5. Token Savings Metric Footer
+Conclude plans, refactors, and multi-step tasks with a single high-density token economy line quantifying estimated output/quota savings achieved through these constraints:
+`📉 Token Economy: ~<N> tokens saved (<breakdown: e.g. surgical diffs, artifact offloaded, Flash routing>)`
