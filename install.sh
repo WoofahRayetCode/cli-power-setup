@@ -49,7 +49,16 @@ install_skills() {
     cp -r "${SCRIPT_DIR}/config/skills/"* "${SKILLS_DEST}/"
     local count
     count="$(find "${SKILLS_DEST}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
-    log_done "Installed ${count} skills."
+    log_done "Installed ${count} skills for Antigravity."
+
+    # Dual-CLI compatibility: link/copy to Claude Code if ~/.claude exists
+    local claude_skills="${HOME}/.claude/skills"
+    if [ -d "${HOME}/.claude" ] || [ -d "${claude_skills}" ]; then
+        log_info "Detected Claude Code environment; updating ${claude_skills}..."
+        mkdir -p "${claude_skills}"
+        cp -r "${SCRIPT_DIR}/config/skills/"* "${claude_skills}/"
+        log_done "Synchronized skills with Claude Code."
+    fi
 }
 
 install_rules() {
