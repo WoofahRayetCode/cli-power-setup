@@ -11,7 +11,7 @@ This repository organizes a curated set of **27 autonomous agent skills**, globa
 Clone or copy this repository to your target machine and run the installer:
 
 ```bash
-git clone https://github.com/your-username/agy-power-setup.git
+git clone https://github.com/WoofahRayetCode/agy-power-setup.git
 cd agy-power-setup
 ./install.sh
 ```
