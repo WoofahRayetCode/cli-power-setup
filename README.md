@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI**.
 
-This repository organizes a curated set of **26 autonomous agent skills**, global engineering rules, quota-saving protocols, and a real-time CLI statusline monitor.
+This repository organizes a curated set of **27 autonomous agent skills**, global engineering rules, quota-saving protocols, and a real-time CLI statusline monitor.
 
 ---
 
@@ -84,10 +84,11 @@ agy-power-setup/
 | **`modern-cpp-engineering`** | Modern C++20/C++23 standards: RAII, Concepts, smart pointers, and CMake management. |
 | **`csharp-dotnet-engineering`** | .NET 8/9 standards: Span/Memory allocation optimizations, async cancellation, and Roslyn analyzers. |
 
-### 💰 Quota & Token Economy
+### 💰 Quota, Memory & Context Engineering
 | Skill | Description |
 | :--- | :--- |
 | **`token-economy`** | Output token optimization: eliminates conversational fluff, uses compact checklist status, and offloads heavy text. |
+| **`project-memory-bank`** | Persistent project memory (`.agents/memory/`): eliminates repetitive codebase discovery, logs engine gotchas, and preserves context across `/compact`. |
 
 ---
 
