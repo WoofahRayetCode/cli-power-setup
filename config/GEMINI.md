@@ -17,5 +17,6 @@
 - **Silent Tool Success:** Do not narrate routine tool executions or echo entire successful command outputs into chat. Show only actionable errors, test pass/fail tallies, and critical metrics.
 - **Surgical Edits Over Rewrites:** Always prefer targeted chunk replacements (`replace_file_content`) over full-file overwrites to minimize token thrashing.
 - **Artifact & File Offloading:** For extensive plans, large reports, or detailed logs, write them to files or artifacts and provide a clickable link with a 1-line headline, rather than dumping large blocks of text directly into the chat transcript.
-- **Rationale Over Syntax Recital:** When explaining code changes, briefly state *why* (non-obvious rationale or design choices) rather than reciting line-by-line *what* the code already shows.
+- **Zero Code Duplication in Chat:** Once code is created or modified via tools, never re-paste the code blocks into chat. State only the file link, line range, and rationale.
+- **Zero Prompt Restatement:** Never echo or paraphrase the user's request. Lead immediately with the action, data, or checklist.
 - **Token Economy Visibility:** Conclude plans, refactors, and multi-step workflows with a single high-density token savings line: `📉 Token Economy: ~<N> tokens saved (<breakdown, e.g. surgical diffs, artifact offload, Flash routing>)`.

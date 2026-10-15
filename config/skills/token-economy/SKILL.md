@@ -9,6 +9,7 @@ This skill enforces strict output token efficiency across agent sessions to pres
 
 ## 1. Zero Conversational Overhead
 - **Strip Preambles & Fillers:** Eliminate opening pleasantries ("Sure, I can do that!", "Here is what I found:") and closing conversational sign-offs ("Let me know if you need anything else!").
+- **Zero Prompt Restatement:** Never echo, paraphrase, or summarize the user's request.
 - **Lead with Results:** The first line of response should be the answer, the status indicator, or the action taken.
 
 ## 2. High-Density Status Indicators
@@ -19,6 +20,7 @@ Replace conversational status updates with compact markdown checklists:
 - `[✗] Failure with 1-line error message`
 
 ## 3. Tool Execution & Output Discipline
+- **Zero Code Duplication in Chat:** Once code has been created or modified via tools (`replace_file_content`, `write_to_file`, `Edit`), never re-paste the code blocks into chat text. State only the file link, line range, and rationale.
 - **Silent Success:** When terminal commands or tools succeed with standard expected output, do not paste the raw stdout into chat. Summarize cleanly:
   - *Verbose (bad):* Pasting 50 lines of compiler output.
   - *High-Density (good):* `cargo test: 18 passed, 0 failed (0.42s)`
