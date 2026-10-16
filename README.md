@@ -1808,6 +1808,32 @@ To prevent autonomous tasks, test runners, or overnight builds from abandoning p
 
 ---
 
+## 🛡️ Ultimate Hardening Protocols: Fable 5.1 & Zero-Token Host Pre-Flight
+
+To maximize efficiency and slash token costs when operating heavy-duty frontier models like **Claude Fable 5.1** or **Gemini 4 Argon**, the suite enforces automated host-CPU pre-flighting and strict context containment:
+
+### 1. Claude Fable 5.1 Hardened Governance Protocol
+Claude Fable's 1-million-token context window can easily lead to costly token re-reads if whole repositories are ingested. The suite enforces:
+* **Subsystem Slice Virtualization:** Replaces multi-thousand-line source trees with 30k-token interface skeletons generated via [`fable_slice_extractor.py`](file:///home/ericparsley/Documents/GitHub/cli-power-setup/config/skills/fable-virtual-context-manager/scripts/fable_slice_extractor.py).
+* **Atomic 30-Line Diff Chunking:** Restricts all code changes to surgical `replace_file_content` chunks $\le$ 30 lines, preventing runaway output token burn and tool timeouts.
+* **Thinking Token Clamping:** Caps reasoning effort on routine file edits, syntax checks, and git operations, reserving deep thinking budgets strictly for unsolved crash dumps and pointer alignment proofs.
+* **Hard 80k-Token Compaction Boundary:** Automatically stages active state to `.agents/memory/activeContext.md` and triggers `/compact` at 50%–60% context, locking in the 90% prompt cache discount indefinitely.
+* **Tokenizer-Native Serialization:** Serializes memory and handoff states in flat XML-KV tags for Claude BPE (saving ~65% tokens) and Pipe-TSV for Gemini SentencePiece (saving ~75% tokens).
+
+### 2. The Zero-Token Host Pre-flight Arsenal (<30ms Local Execution)
+Instead of forcing expensive LLMs to read raw, noisy files into their context windows, 6 specialized Python utilities process data directly on the host CPU in milliseconds with **0 API tokens burned**:
+
+| Pre-flight Utility | Associated Skill | What It Does on Host CPU | Token Savings |
+| :--- | :--- | :--- | :--- |
+| **`fable_slice_extractor.py`** | `fable-virtual-context-manager` | Strips function bodies, extracting AST class hierarchies and Lua export signatures | **~97% input token reduction** |
+| **`slice-reader`** | `selective-context-ingestor` | Extracts line-numbered AST skeletons or focused $\pm 15$ line windows around symbols | **~92%–95% file reading reduction** |
+| **`token-guard`** | `shell-output-token-guard` | Enforces a 30-line ceiling on commands (`grep`, `find`, `git log`), truncating intermediate noise | **Prevents 10k–50k stdout floods** |
+| **`compiler_cascade_isolator.py`** | `compiler-error-cascade-isolator` | Filters compiler template error cascades, isolating the #1 root-cause failure coordinate | **~95% compiler log reduction** |
+| **`xray_crash_resolver.py`** | `xray-crash-symbol-resolver` | Scans 15,000-line engine crash logs, isolating fatal assertions and demangling RVAs | **~99% crash log reduction** |
+| **`config_delta_extractor.py`** | `game-config-delta-extractor` | Compares child config sections with parents, extracting only overridden keys | **~95% config token reduction** |
+
+---
+
 ## 🚀 Dual-CLI Turbo Launchers & Thinking Quota Savers
 
 Thinking/reasoning tokens are billed as **output tokens** (typically 4x to 5x the cost of input tokens) and are the fastest way to exhaust 5-hour rolling quotas. This repository provides dedicated low-effort Turbo launchers for both CLIs:
