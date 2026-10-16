@@ -38,6 +38,8 @@ def main():
     parser.add_argument("--no-auto-dismiss-loading", action="store_false", dest="auto_dismiss_loading", help="Disable auto-dismissing loading screens")
     parser.add_argument("--skip-intro", action="store_true", default=True, help="Automatically bypass game intro videos with -nointro and ESC/SPACE pulse (default: True)")
     parser.add_argument("--no-skip-intro", action="store_false", dest="skip_intro", help="Do not bypass intro videos")
+    parser.add_argument("--auto-close-crash-logs", action="store_true", default=True, help="Auto-read and close Wine notepad crash logs that pop up (default: True)")
+    parser.add_argument("--no-auto-close-crash-logs", action="store_false", dest="auto_close_crash_logs", help="Disable automatic dismissal of crash log windows")
     parser.add_argument("--min-5h", type=int, default=15, help="Minimum 5-hour quota remaining percentage before halting test (default: 15)")
     parser.add_argument("--min-weekly", type=int, default=10, help="Minimum weekly quota remaining percentage before halting test (default: 10)")
     parser.add_argument("--no-quota-guard", action="store_true", help="Bypass quota circuit breaker checks")
@@ -76,6 +78,7 @@ def main():
     fuzzer_tool = find_tool("game-exploratory-fuzzing/scripts/game_exploratory_fuzzer.py")
     governor_tool = find_tool("autonomous-goal-governor/scripts/goal_governor.py")
     audio_tool = find_tool("game-audio-engine-engineering/scripts/silent_audio_tester.py")
+    crash_handler_tool = find_tool("stalker-ogsr-migration/scripts/xray_crash_handler.py")
 
     # Step 0: Quota Reserve Safety Check
     if not args.no_quota_guard and governor_tool.exists() and not args.dry_run:
@@ -151,6 +154,15 @@ def main():
         time.sleep(1.0)
         print(f"  -> Visual watcher running (PID: {monitor_proc.pid})")
 
+    # Step 3-watchdog: Background X-Ray Crash Popup Watchdog
+    crash_watchdog_proc = None
+    if args.auto_close_crash_logs and crash_handler_tool.exists() and not args.dry_run:
+        print("[Step 3-crashdog] Launching autonomous X-Ray crash log watchdog...")
+        crash_cmd = [sys.executable, str(crash_handler_tool), "monitor", "--interval", "0.5", "--archive-dir", args.telemetry_dir]
+        crash_watchdog_proc = subprocess.Popen(crash_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        time.sleep(0.5)
+        print(f"  -> Crash watchdog running (PID: {crash_watchdog_proc.pid})")
+
     # Step 3b: Autonomous Loading Screen Dismissal ("Press Any Key")
     dry_flag = ["--dry-run"] if args.dry_run else []
     if args.auto_dismiss_loading and qa_controller.exists():
@@ -200,6 +212,20 @@ def main():
             monitor_proc.wait(timeout=2.0)
         except subprocess.TimeoutExpired:
             monitor_proc.kill()
+
+    # Terminate background crash watchdog & run final sweep
+    if crash_watchdog_proc:
+        crash_watchdog_proc.terminate()
+        try:
+            crash_watchdog_proc.wait(timeout=2.0)
+        except subprocess.TimeoutExpired:
+            crash_watchdog_proc.kill()
+
+    # Final sweep for any remaining Wine notepad / crash popups
+    if args.auto_close_crash_logs and crash_handler_tool.exists() and not args.dry_run:
+        sweep_res = subprocess.run([sys.executable, str(crash_handler_tool), "sweep", "--archive-dir", args.telemetry_dir], capture_output=True, text=True)
+        if "Intercepted Crash Window" in sweep_res.stdout:
+            print(sweep_res.stdout.strip())
 
     # Check for BugTrap crash dialog or error in log file
     crash_detected = False

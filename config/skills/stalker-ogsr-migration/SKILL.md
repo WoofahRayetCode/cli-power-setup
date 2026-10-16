@@ -202,4 +202,23 @@ If the game exits or triggers an X-Ray / BugTrap fatal crash:
    ```
 3. Parse the exact `Expression:`, `File:`, and `Line:` to apply the corresponding LTX, Lua callback, or shader fix from Section 6, then re-trigger the automated playtest loop until 100% clean.
 
+#### Step 5b: Wine/Proton Crash Log Interceptor & Window Dismissal (`xray_crash_handler.py`)
+When OGSR/X-Ray encounters a fatal crash under Wine/Proton, the engine's crash handler invokes Windows `notepad.exe` with the timestamped log (e.g. `xray_steamuser_15-10-26_21-41-28.log - Notepad`). This blocks the process and leaves modal windows lingering on the desktop.
+
+* **Autonomous Interception:** `xray_crash_handler.py` runs as a background watchdog during playtesting.
+* **Instant Read & Triage:** Extracts the fatal expression, function, source file, line number, and Lua stack trace, archiving them to `_appdata_/logs/crash_triage_<timestamp>.json`.
+* **Zero-Hang Dismissal:** Sends `SIGTERM` / `SIGKILL` to the lingering `notepad.exe` process immediately, releasing the parent game process and unblocking the test suite without holding up execution.
+
+```bash
+# Sweep and close any active crash windows right now
+python3 config/skills/stalker-ogsr-migration/scripts/xray_crash_handler.py sweep
+
+# Triage an existing crash log
+python3 config/skills/stalker-ogsr-migration/scripts/xray_crash_handler.py triage _appdata_/logs/xray_steamuser_*.log
+
+# Run background watchdog daemon
+python3 config/skills/stalker-ogsr-migration/scripts/xray_crash_handler.py monitor --interval 0.5
+```
+
+
 
