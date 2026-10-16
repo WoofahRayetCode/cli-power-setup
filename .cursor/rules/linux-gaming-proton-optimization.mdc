@@ -79,6 +79,12 @@ For battery-efficient 40Hz/40FPS or 45Hz/45FPS locked gameplay:
 MANGOHUD_CONFIG=fps_limit=45,no_display gamemoderun %command%
 ```
 
+### D. MangoHud Performance Telemetry (`game-performance-overlay-telemetry`)
+Use `mangohud-configurator` to generate custom HUD layouts, frametime graphs, and non-overlapping positioning:
+```bash
+mangohud-configurator apply --preset competitive --position top-right
+```
+
 ---
 
 ## 4. Anti-Cheat Compatibility Triage (Easy Anti-Cheat / BattlEye)
@@ -91,3 +97,18 @@ Before troubleshooting network or kick errors, verify anti-cheat Linux support:
    - Requires "Proton BattlEye Runtime" installed via Steam client.
 3. **Kernel-Level Anti-Cheats (Vanguard, Ricochet, EA AntiCheat):**
    - Strictly incompatible with Linux / Wine due to ring-0 kernel driver dependencies. Guide user toward dual-boot or Windows VM with GPU passthrough.
+
+---
+
+## 5. Dual-Monitor Cursor Confinement & Window Capture (`linux-game-window-input-capture`)
+
+Games running under Proton or Wine on multi-monitor setups often suffer from cursor drift—where fast mouse flicks escape the game window onto a secondary screen, causing inadvertent window defocus or accidental clicks.
+
+Use `game-window-helper` to lock the cursor and isolate window focus:
+```bash
+# Lock cursor and capture focus to active Proton game window
+game-window-helper lock --pattern "steam_app" --borderless
+
+# Release mouse confinement on exit
+game-window-helper release
+```

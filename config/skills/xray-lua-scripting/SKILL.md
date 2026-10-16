@@ -43,3 +43,12 @@ The X-Ray Engine executes a customized Lua 5.1 / LuaJIT runtime. Scripts reside 
 - Inspect the engine log located in the game's user data directory (or Proton prefix) under `savedgames/` or `logs/` (e.g. `xray_<user>.log`).
 - Look for `FATAL ERROR` or script tracebacks ending in `.script:line_number`.
 - Use `printf("DEBUG: ...")` or custom logger helpers rather than raw `print()`.
+
+---
+
+## 4. Advanced Scripting Integrations
+
+- **Modular Quality-of-Life Mechanics (`game-qol-gameplay-scripting`):** Author modular event-driven hooks (dynamic carry weight, stamina scaling, field repair kits, zone change autosaves) without rewriting vanilla core binders.
+- **Companion & Follower AI Systems (`game-companion-pet-ai`):** Implement companion NPCs, pet mutants, leash thresholds, stealth suppression, and loyalty state machines in X-Ray / OGSR.
+- **Dialogue Script Logic & Callbacks (`game-dialogue-ui-localization`):** Author XML precondition functions (`<precondition>script.function</precondition>`) and phrase action handlers (`<action>script.function</action>`), verifying talk UI constraints with `game-dialogue-tool`.
+

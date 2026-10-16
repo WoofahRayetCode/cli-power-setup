@@ -216,3 +216,17 @@ game-test-watchdog sweep
 # Check status, CPU %, and memory of active game test processes
 game-test-watchdog status
 ```
+
+---
+
+## 6. Powerhouse QA Toolchain Ecosystem
+
+`game-qa-playtest-controller` acts as the kinematic core of a unified autonomous QA stack:
+
+| Skill | Companion CLI | Integration Role |
+| :--- | :--- | :--- |
+| **`linux-game-window-input-capture`** | `game-window-helper` | Locks mouse cursor and isolates window focus so `/dev/uinput` relative motion never escapes the game viewport across multi-monitor setups. |
+| **`game-autonomous-navigation-ai`** | `nav-graph-recorder` | Records and replays deterministic waypoint patrol paths across game levels, replacing purely random wandering with targeted route validation. |
+| **`game-self-improving-qa-pipeline`** | `self-improving-qa` | Continuously analyzes playtest telemetry and crash logs to synthesize new regression test scripts and auto-repair broken locators. |
+| **`game-dynamic-stress-orchestrator`** | `game-stress-orchestrator` | Injects synthetic chaos (CPU core saturation, frame pacing spikes, network packet loss) during locomotion to verify engine resilience. |
+| **`game-performance-overlay-telemetry`** | `mangohud-configurator` | Configures zero-collision MangoHud telemetry overlays and logs frametimes, 1% lows, and VRAM usage throughout playtests. |

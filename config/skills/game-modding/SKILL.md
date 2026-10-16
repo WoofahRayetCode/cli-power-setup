@@ -39,6 +39,18 @@ This skill guides game modding, with specialized domain knowledge for **S.T.A.L.
 - **Packing:** Pack mods using ZoneForge's native packer into `.pack` format (`zoneforge pack`).
 - **Steam Workshop Uploads:** Workshop items are configured via `zoneforge.toml` (visibility `2` = private by default). Test locally in-game before promoting to public.
 
+### E. Dialogue & Conversation UI (`game-dialogue-ui-localization`)
+- Validate and repair string table XMLs (`gamedata/config/text/`), resolve dead-end dialogue trees, and fix text clipping in `talk.xml`/`talk_16.xml` using `game-dialogue-tool`.
+
+### F. Dynamic Weather & Lighting FX (`game-weather-lighting-fx`)
+- Tune ambient light levels, sun shafts/god rays, skybox balance, and tonemapping curves with `weather-lighting-tuner` to prevent overexposure or washed-out shadows.
+
+### G. Weapon Ballistics & Mechanics (`game-weapon-ballistics-mechanics`)
+- Configure authentic ballistic physics, dispersion patterns, condition wear (`condition_shot_dec`), and ammo class tables.
+
+### H. Quality-of-Life Gameplay Scripting (`game-qol-gameplay-scripting`)
+- Architect clean, event-driven QoL features (carry weight scaling, sprint stamina recovery, field weapon repair kits, zone transition autosaves) without modifying fragile core engine scripts.
+
 ---
 
 ## 2. General Game & Console Modding (GTA PC, Switch, Emulators)
@@ -70,5 +82,11 @@ When verifying game mods, engine ports, or visual assets, **do not remain idle i
 5. **Loading Screen Dismissal & Testing Cheats (`game-qa-playtest-controller`):**
    - Automatically dismiss "Press any key to play/continue" loading screen prompts (`game_playtest_controller.py press-any-key --key SPACE`).
    - Enable invulnerability god mode and infinite ammo (`game_playtest_controller.py enable-cheats --god-mode --infinite-ammo`) to ensure uninterrupted, crash-free exploration.
+6. **Cursor Confinement & Focus Trapping (`linux-game-window-input-capture`):**
+   - Run `game-window-helper lock` to confine mouse inputs inside the game window and eliminate accidental desktop or multi-monitor focus loss.
+7. **Waypoint Navigation Replay (`game-autonomous-navigation-ai`):**
+   - Replay deterministic route graphs via `nav-graph-recorder replay` to systematically validate level geometry and avoid getting trapped.
+8. **Self-Improving Regression Tests (`game-self-improving-qa-pipeline`):**
+   - Run `self-improving-qa` to automatically turn crash logs and telemetry anomalies into permanent regression test cases.
 
 

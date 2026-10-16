@@ -82,6 +82,9 @@ def main():
     governor_tool = find_tool("autonomous-goal-governor/scripts/goal_governor.py")
     audio_tool = find_tool("game-audio-engine-engineering/scripts/silent_audio_tester.py")
     crash_handler_tool = find_tool("stalker-ogsr-migration/scripts/xray_crash_handler.py")
+    qa_pipeline_tool = find_tool("game-self-improving-qa-pipeline/scripts/self_improving_qa.py")
+    window_helper_tool = find_tool("linux-game-window-input-capture/scripts/game_window_helper.sh")
+    nav_graph_tool = find_tool("game-autonomous-navigation-ai/scripts/nav_graph_recorder.py")
 
     # Step 0: Quota Reserve Safety Check
     if not args.no_quota_guard and governor_tool.exists() and not args.dry_run:
@@ -265,6 +268,9 @@ def main():
         if coproc_tool.exists():
             print("\n[🤖 Local Coprocessor Triage]:")
             subprocess.run([sys.executable, str(coproc_tool), "summarize-log", "--log", crash_reason, "--dry-run"])
+        if qa_pipeline_tool.exists():
+            clean_desc = crash_reason[:180].replace("\n", " ")
+            subprocess.run([sys.executable, str(qa_pipeline_tool), "log-flaw", "--category", "crash", "--description", clean_desc], check=False)
         sys.exit(2)
 
     # Check for player character death
@@ -297,6 +303,8 @@ def main():
 
     if death_detected:
         print(f"\n[💀 PLAYER DEATH DETECTED]: {death_cause}")
+        if qa_pipeline_tool.exists():
+            subprocess.run([sys.executable, str(qa_pipeline_tool), "log-flaw", "--category", "death", "--description", death_cause[:180]], check=False)
         if not args.no_auto_reload and qa_controller.exists():
             print("  -> Injecting automated respawn & save reload sequence...")
             subprocess.run([sys.executable, str(qa_controller), "respawn-reload", "--key", "SPACE"] + dry_flag, check=False)

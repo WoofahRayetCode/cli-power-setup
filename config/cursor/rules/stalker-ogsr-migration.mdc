@@ -33,6 +33,10 @@ Complete 2009 shipped custom DirectX 9 `shaders/r2/` (depth of field, motion blu
 * **Critical Rule:** **Delete or omit `gamedata/shaders/` from the legacy mod.**
 * Leaving legacy DX9 shaders in `gamedata/shaders/` causes immediate fatal shader compiler crashes (`FATAL ERROR: Expression: !failed()`) or renders a pitch-black world.
 * Allow OGSR's native DX11 shaders (packaged in OGSR database archives) to manage rendering, lighting, ambient occlusion, and sunshafts.
+* **Weather & Sunshaft Tuning (`game-weather-lighting-fx`):** When legacy weather cycles cause over-bright bloom or blinding sunshaft glare under OGSR's DX11 deferred renderer, use `weather-lighting-tuner` to balance tonemapping, sun lux, and skybox lighting curves:
+  ```bash
+  weather-lighting-tuner tune --preset ogsr-dx11-balanced --in-dir gamedata/config/weathers/
+  ```
 
 ---
 
@@ -93,6 +97,8 @@ OGSR enforces strict LTX parser validation and will abort on errors that vanilla
    attach_bone_name        = bip01_r_hand
    ```
 3. **Audio Chunk Integrity:** Verify sound files referenced in configs retain the GSC comment chunk (distance attenuation and volume) using ZoneForge tools.
+4. **Weapon Ballistics & Recoil Sanitization (`game-weapon-ballistics-mechanics`):** Ensure migrated weapons match OGSR ballistics physics (`bullet_speed`, `hit_power`, `dispersion_base`, `cam_dispersion`). Validate against missing ammo sections.
+5. **Dialogue & Conversation UI Repair (`game-dialogue-ui-localization`):** Run `game-dialogue-tool audit` across `gamedata/config/text/` and `gamedata/config/gameplay/` to resolve broken string table IDs, unclosed XML tags, talk UI truncation (`talk.xml`, `talk_16.xml`), and CP1251/UTF-8 mojibake.
 
 ---
 
@@ -219,4 +225,22 @@ python3 config/skills/stalker-ogsr-migration/scripts/xray_crash_handler.py triag
 
 # Run background watchdog daemon
 python3 config/skills/stalker-ogsr-migration/scripts/xray_crash_handler.py monitor --interval 0.5
+```
+
+#### Step 6: Window Focus & Cursor Confinement (`linux-game-window-input-capture`)
+Prevent relative mouse yaw and `/dev/uinput` clicks from escaping the game window on multi-monitor Linux desktops:
+```bash
+game-window-helper lock --pattern "xrEngine" --borderless
+```
+
+#### Step 7: Waypoint Graph Navigation & Level Exploration (`game-autonomous-navigation-ai`)
+Replace random stochastic wandering with recorded waypoint graphs to verify specific routes across Cordon, Garbage, or Rostok:
+```bash
+nav-graph-recorder replay --graph routes/cordon_patrol.json --speed 1.0
+```
+
+#### Step 8: Self-Improving Playtest Synthesis (`game-self-improving-qa-pipeline`)
+Continuously evolve playtest coverage by mining crash logs and telemetry anomalies to generate targeted regression test suites:
+```bash
+self-improving-qa run --target ogsr --telemetry-dir /tmp/ogsr_telemetry --auto-heal
 ```

@@ -86,3 +86,10 @@ When porting legacy 32-bit Shadow of Chernobyl mods (Complete 2009, AMK 1.4) to 
 * **Vision Token Capping:** Every captured frame is constrained to a maximum dimension of 1280px, avoiding the consumption of thousands of tokens per image.
 * **Artifact Offloading:** Telemetry monitoring session logs, frame sequences, and raw OCR outputs must be written directly to `.agents/telemetry/` or `/tmp/` rather than pasted wholesale into chat.
 * **Local Processing:** Screen grabs and OCR occur 100% locally via `spectacle` and `tesseract` with zero cloud transmission.
+
+---
+
+## 5. Overlay & Capture Coordination
+
+- **MangoHud Telemetry Sync (`game-performance-overlay-telemetry`):** Configure non-overlapping HUD metrics (`mangohud-configurator`) so live stats don't obscure in-game error popups, dialogues, or HUD notification areas.
+- **Windowed Capture Isolation (`linux-game-window-input-capture`):** Pair with `game-window-helper` to isolate window coordinates by process name, capturing and analyzing strictly the game viewport without clutter from desktop backgrounds or secondary monitors.
