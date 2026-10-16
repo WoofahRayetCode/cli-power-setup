@@ -1,0 +1,51 @@
+---
+description: Virtualized context paging and hierarchical indexing for Claude Fable (1M-token context). Prevents full 1M-token re-billing by paging active 30k-token subsystem slices from a disk-backed knowledge graph into working memory.
+globs: 
+alwaysApply: false
+---
+
+# Fable Virtual Context Manager (`fable-virtual-context-manager`)
+
+Claude Fable features a **1-million-token context window**, designed for multi-day, long-horizon software engineering. However, ingesting 500,000+ tokens of raw source files into working memory across every turn incurs severe input token re-billing and attention drift.
+
+This skill establishes a disk-backed **virtualized context paging architecture** that allows Fable to reason over massive codebases with the token efficiency of a lightweight session.
+
+---
+
+## 1. Virtualized Context Architecture
+
+Instead of holding entire multi-gigabyte source trees in active context, Fable maintains a disk-backed knowledge graph:
+
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│ MASTER KNOWLEDGE GRAPH (.agents/fable_index.json on disk)              │
+│ - Complete symbol dependency map across all engine subsystems          │
+│ - Full call-graph links, struct layouts, and interface contracts       │
+├────────────────────────────────────────────────────────────────────────┤
+│ ACTIVE WORKING WINDOW (In-Prompt: ~25k to 40k tokens)                  │
+│ - Paged Subsystem Slice: ONLY current focus (e.g. xrRender shaders)    │
+│ - Pinned Static Prefix: Coding standards, tool specs, core types       │
+│ - Active Hypothesis & Current Blocker (activeContext.md)               │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 2. On-Demand Subsystem Paging Protocol
+
+When transitioning across architectural boundaries (e.g. from C++ physics in `xrPhysics` to Lua scripts in `gamedata/scripts/`):
+1. **Flush Inactive Slice:** Unload detailed implementation files of the completed subsystem from the working context.
+2. **Page Active Slice:** Load only the interface headers and symbol references of the target subsystem:
+   ```bash
+   # Extract only the active subsystem slice from the master index
+   python3 -c "import json; idx = json.load(open('.agents/fable_index.json')); print(idx['xrRender']['interfaces'])"
+   ```
+3. **Token Savings:** Reduces turn input billing from **600,000 tokens down to ~30,000 tokens** (95% reduction), while preserving full architectural coherence.
+
+---
+
+## 3. Pinned Cache Invariance for 1M Context
+
+- Maintain exact character-level invariance in the prompt prefix.
+- Never inject fluctuating timestamps, live clock counters, or random seeds into system instructions.
+- Ensure that the static foundation remains pinned in Anthropic's prompt cache for up to 24 hours, guaranteeing the **90% prompt caching discount**.

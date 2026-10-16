@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
 
-This repository organizes a curated set of **197 autonomous agent skills**, 197 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **201 autonomous agent skills**, 201 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -38,7 +38,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Tri-Environment Sync:** Deploys all 197 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Tri-Environment Sync:** Deploys all 201 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo`, `claude-turbo`, and autonomous YOLO shortcuts (`agy-yolo`, `claude-yolo`) into `~/.local/bin/`.
@@ -54,7 +54,8 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & skill reference
 ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
 ├── .cursor/
-│   └── rules/                  # 197 modular Cursor Rules (.mdc) with semantic metadata
+│   └── rules/                  # 201 modular Cursor Rules (.mdc) with semantic metadata
+
 
 ├── bin/
 │   ├── agy-quota-statusline    # Asynchronous real-time quota & token savings tracker (Gemini)
@@ -1599,6 +1600,30 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Strictly prohibits generating raw vertex/polygon coordinate dumps in chat, enforces headless Python script execution with compact 3-line CLI telemetry, and gates visual renders to major milestones.
 * **Why It Saves Quota:** Saves 15,000 to 40,000 tokens per turn by eliminating 3D coordinate chat bloat.
 
+#### 198. `claude-opus-conciseness-enforcer`
+* **In Simple Terms:** Extreme output conciseness enforcer, BLUF formatter, and hard token cap governor for Claude Opus.
+* **When It Kicks In:** Interacting with Claude Opus for architectural planning and root-cause analysis.
+* **How It Works:** Enforces a hard output cap of $\le 200$ tokens per response, eliminates conversational preambles/pleasantries, and bans code block re-pasting in chat (confines code strictly to tool calls).
+* **Why It Saves Quota:** Slashes expensive Opus output token consumption by up to 75%.
+
+#### 199. `fable-virtual-context-manager`
+* **In Simple Terms:** Virtualized context paging and hierarchical indexing for Claude Fable (1M-token context).
+* **When It Kicks In:** Multi-day, long-horizon engine migration or whole-codebase engineering tasks on Claude Fable.
+* **How It Works:** Maintains a master symbol graph on disk (`.agents/fable_index.json`), dynamically paging only active 30k-token subsystem slices into working memory per turn, and preserves exact character invariance for 90% prompt caching.
+* **Why It Saves Quota:** Reduces turn input billing from 600k+ tokens down to ~30k tokens while retaining full architectural coherence.
+
+#### 200. `argon-effort-auto-calibrator`
+* **In Simple Terms:** Dynamic reasoning effort calibrator for Gemini 4 Argon (`--effort low/medium/high`).
+* **When It Kicks In:** Executing multi-turn tasks on Gemini 4 Argon.
+* **How It Works:** Dynamically scales thinking budgets: drops to `--effort low` (<300 tokens) for routine tool calls, file diffs, and git commits; escalates to medium for unit testing; reserves high for unsolved crash triage and `/plan` drafting.
+* **Why It Saves Quota:** Eliminates 4,000 to 12,000 internal thinking tokens per turn on routine mechanical steps, cutting Argon session burn by 85%.
+
+#### 201. `universal-token-containment-protocol`
+* **In Simple Terms:** Universal cross-model and cross-domain token containment protocol across all 201 skills.
+* **When It Kicks In:** Running any engineering task across 3D modeling, reverse engineering, web design, game modding, and test suites.
+* **How It Works:** Enforces strict domain rules: caps disassembly dumps to 30 lines, offloads HTML/docs to files/artifacts, mandates surgical chunk diffs, and enforces quiet flags (`pytest -q`, `cargo test -q`).
+* **Why It Saves Quota:** Eliminates chat transcript pollution and ensures all large data blocks exist exclusively in tools and disk files.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1767,7 +1792,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │  Core Discipline: .cursor/rules/000-cursor-global-discipline.mdc                                    │
 │  Universal Model Adaptation Matrix: .cursor/rules/001-multi-model-optimization.mdc                  │
-│  197 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
+│  201 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
 │  Unified Root Fallback: ~/.cursorrules                                                              │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -1785,8 +1810,9 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 197 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 201 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
+
 
 3. **Unified Global Fallback (`~/.cursorrules`):**
    * Deployed directly to `$HOME/.cursorrules` and project roots so any folder opened in Cursor inherits this entire suite immediately.

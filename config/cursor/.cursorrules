@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (197 Specialized Capabilities)
+## Complete Skills Catalog (201 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -172,6 +172,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`android-testing-ci-cd-security`** | Android automated testing (JUnit 5, MockK, Robolectric, Compose UI testing), headless Gradle CI/CD pipelines, Android App Bundle (AAB) generation, R8/ProGuard obfuscation rules, Android Keystore hardware-backed encryption, and release hardening. |
 | **`api-network-security-hardening`** | API gateway security, network transport hardening, TLS 1.3/certificate pinning, mTLS, token bucket rate limiting, CORS/CSP policy enforcement, and DDoS mitigation for games, bots, and backend services. |
 | **`app-security-threat-modeling`** | Universal application security architecture, STRIDE threat modeling, OWASP Top 10 mitigation, memory safety hardening, and defensive input validation across web, desktop, and mobile systems. |
+| **`argon-effort-auto-calibrator`** | Dynamically calibrates Gemini 4 Argon reasoning effort (--effort low/medium/high) turn-by-turn based on cognitive task complexity, slashing thinking token burn by up to 85% on routine tool execution. |
 | **`argon-thinking-governor`** | Gemini 4 Argon internal chain-of-thought (CoT) and reasoning token governor. Clamps speculative reasoning bloat during routine tool execution and enforces the hybrid 'Argon Brain, Flash Hands' dispatch pattern. |
 | **`audio-dsp-tuning`** | Headset calibration, microphone conditioning, and audio DSP processing across Linux (EasyEffects/PipeWire) and Windows (Equalizer APO/Peace). Configures AutoEq headphone profiles and professional 6-stage broadcast voice chains. |
 | **`autonomous-goal-governor`** | Quota governance, machine-verifiable contract formulation, circuit breaker enforcement (3-strike rule), and phased milestone compaction during long-running /goal and overnight autonomous agent runs. |
@@ -188,6 +189,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`character-creature-anatomy-modeling`** | Character, creature, and animal 3D modeling in Blender. Covers organic biped and quadruped skeletal anatomy, deformation-friendly edge loop topology, automated retopology setup (bpy), and facial blendshapes. |
 | **`claude-context-rot-shield`** | Mitigates Claude context window degradation and prompt cache misses. Enforces 80k-token milestone compaction boundaries, prevents attention dilution, and aligns system prompts to 1,024-token prompt caching blocks. |
 | **`claude-fable-engine-governor`** | Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engine ports (e.g. S.T.A.L.K.E.R. OGSR/X-Ray). Enforces 1M-token prompt cache pinning, C++ AST skeletonization, and surgical crash-dump extraction. |
+| **`claude-opus-conciseness-enforcer`** | Enforces extreme output conciseness, strict BLUF formatting, and hard token caps for Claude Opus. Eliminates conversational pleasantries, preambles, and code block duplication in chat transcripts to slash expensive Opus output token consumption by up to 75%. |
 | **`claude-opus-plan-sonnet-exec`** | Three-tier model routing architecture for Anthropic Claude ('Opus Plan, Sonnet Code, Haiku Hands'). Preserves expensive Opus quotas by confining Opus strictly to architectural planning and root-cause analysis, shifting to Sonnet for code execution and Haiku for mechanical shell commands. |
 | **`claude-silent-dispatch`** | Eliminates pre-tool narration, commentary, and conversational play-by-plays in Claude Code, executing tool calls directly and silently to slash output token burn. |
 | **`claude-thinking-budget-governor`** | Extended thinking token budget governor for Claude 3.7+ Sonnet and Opus. Clamps internal reasoning tokens during routine tool execution and dynamically scales thinking budgets based on task complexity. |
@@ -221,6 +223,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`emulator-development-engineering`** | Video game console emulation architecture, CPU interpreter & JIT dynamic binary translation, cycle-accurate timing, memory-mapped I/O (MMU), Vulkan/OpenGL graphics rendering backends, APU sound emulation, and contributions to open-source emulators (Dolphin, RPCS3, PCSX2, Ryujinx, RetroArch). |
 | **`executing-plans`** | Step-by-step execution of approved implementation plans. Use when executing a multi-step plan to track progress, verify checkpoints, and ensure safe rollbacks. |
 | **`executive-business-communications`** | Professional executive business correspondence, BLUF email structuring, client proposals, Scope of Work (SOW) drafting, invoice generation, and anti-jargon filters. |
+| **`fable-virtual-context-manager`** | Virtualized context paging and hierarchical indexing for Claude Fable (1M-token context). Prevents full 1M-token re-billing by paging active 30k-token subsystem slices from a disk-backed knowledge graph into working memory. |
 | **`first-principles-reasoning`** | First-principles decomposition, Chain-of-Verification (CoVe), adversarial red-teaming, and Ockham's Razor hypothesis ranking. Eliminates logical fallacies, confirmation bias, and cognitive overburn in complex engineering tasks. |
 | **`flash-context-compactor`** | Prevents Gemini 3.8 Flash context window inflation through targeted line-slice reading, AST interface skeletons, and proactive state compaction below the 100k-token ceiling. |
 | **`frontier-image-studio`** | Frontier AI image generation, prompt translation for ChatGPT (DALL-E 3) and Gemini (Imagen 3) styles, multi-backend API dispatch (OpenAI, Gemini Imagen, Flux.1, ComfyUI), and local SVG/texture generation with Pillow. |
@@ -334,6 +337,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`threejs-webgl-engineering`** | Interactive 3D WebGL and WebGPU development using Three.js, OrbitControls, GLTFLoader, PBR lighting rigs, procedural geometry, and zero-build browser previews. |
 | **`token-economy`** | Output token optimization and high-density communication protocol. Use to minimize output token consumption, prevent transcript context bloat, and maintain concise progress visibility during long engineering workflows. |
 | **`unity-game-dev`** | Game development workflows for Unity Engine (C#). Use when developing MonoBehaviours, ScriptableObjects, physics interactions, UI Toolkit/UGUI, shader integrations, or optimizing memory allocations and garbage collection. |
+| **`universal-token-containment-protocol`** | Universal cross-model and cross-domain token containment protocol across all 197 skills (Sonnet, Opus, Fable, Flash, Argon). Mandates zero chat duplication, strict file/artifact offloading, and output clamping across 3D modeling, binary reverse engineering, web design, and game modding. |
 | **`unreal-engine-dev`** | Game development workflows for Unreal Engine 5 (C++ and Blueprints). Use when implementing Gameplay Framework actors, UObject memory management, Subsystems, Enhanced Input, Niagara systems, or profiling performance. |
 | **`using-git-worktrees`** | Manages isolated git worktrees for parallel mod development, experimenting with risky changes, or testing multiple branches simultaneously without dirtying the working directory. |
 | **`verification-before-completion`** | Final quality gate and evidence collector. Use before claiming any task, feature, or bug fix is finished to verify with concrete execution evidence. |
