@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
 
-This repository organizes a curated set of **169 autonomous agent skills**, 171 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **172 autonomous agent skills**, 172 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -38,7 +38,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Tri-Environment Sync:** Deploys all 169 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Tri-Environment Sync:** Deploys all 172 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -54,7 +54,7 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & skill reference
 ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
 ├── .cursor/
-│   └── rules/                  # 169 modular Cursor Rules (.mdc) with semantic metadata
+│   └── rules/                  # 172 modular Cursor Rules (.mdc) with semantic metadata
 ├── bin/
 │   ├── agy-quota-statusline    # Asynchronous real-time quota & token savings tracker (Gemini)
 │   ├── claude-statusline       # Dedicated real-time telemetry, weekly resets & context monitor (Claude Code)
@@ -289,6 +289,9 @@ While all 167 skills and CLI utilities are shared identically between environmen
 | **`game-dynamic-stress-orchestrator`** | QA/Stress | Safe radial wave spawning (anti-mesh-drop), multi-faction air/mutant clashes & VRAM saturation profiling |
 | **`game-memory-scanner`** | Gaming/Trainer | Virtual memory inspection, iterative candidate filtering (exact/changed), AOB scans & memory freeze |
 | **`game-dll-proxy-generator`** | Gaming/Trainer | Automated proxy DLL generator (dinput8, dxgi, version) with export forwarding, MinHook & Proton configs |
+| **`agy-codebase-init`** | Workflow/Parity | Claude Code `/init` parity: automatic codebase architecture intake, stack detection & GEMINI.md/CLAUDE.md scaffolding |
+| **`agy-cli-doctor`** | DevOps/Parity | Claude Code `doctor` parity: SQLite database integrity check, permissions whitelist audit, model endpoint health |
+| **`agy-context-telemetry`** | Token/Parity | Claude Code `/context` & `/cost` parity: step-by-step cache telemetry, model split, token savings & cost estimation |
 
 ---
 
@@ -1426,6 +1429,24 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Generates complete C++ export forwarding tables for `dinput8.dll`, `version.dll`, `dxgi.dll`, and `winmm.dll`, dynamic system loader fallback, background trainer threads (`DllMain`), modern CMake configs, and one-click MinGW cross-compile scripts.
 * **Why It Saves Quota:** Completely automates tedious C++ DLL proxy scaffolding and linker export tables with 100% crash-free stability.
 
+#### 170. `agy-codebase-init`
+* **In Simple Terms:** Autonomous repository onboarding and architecture intake for Antigravity (complete parity with Claude Code `/init`).
+* **When It Kicks In:** Running `agy` on a new or unconfigured repository, setting up build/test/lint conventions, or scaffolding `GEMINI.md` and `CLAUDE.md`.
+* **How It Works:** Recursively inspects project root files (`package.json`, `Cargo.toml`, `pyproject.toml`, `CMakeLists.txt`), discovers entry points and test suites, and generates standardized instructions without manual prompt writing.
+* **Why It Saves Quota:** Eliminates 20,000–50,000 tokens of exploratory thrashing on the first turn of any new project.
+
+#### 171. `agy-cli-doctor`
+* **In Simple Terms:** System diagnostics, configuration audit, and SQLite database health checker for Antigravity CLI (parity with `claude doctor`).
+* **When It Kicks In:** Diagnosing `agy` runtime errors, inspecting `settings.json` permissions whitelist, verifying SQLite database integrity, or clearing stale locks.
+* **How It Works:** Runs non-destructive integrity checks on recent session databases in `~/.gemini/antigravity-cli/conversations/`, verifies model API endpoints, and clears stale statusline lock files.
+* **Why It Saves Quota:** Prevents failed tool runs and broken session loops by catching environment defects before invoking the LLM.
+
+#### 172. `agy-context-telemetry`
+* **In Simple Terms:** Deep context window utilization, step-by-step token trajectory, and dollar savings inspector for Antigravity CLI (parity with `claude /context` & `/cost`).
+* **When It Kicks In:** Monitoring token consumption during complex multi-step refactors, auditing prompt cache efficiency, or timing `/compact` milestones.
+* **How It Works:** Analyzes active conversation transcripts (`transcript.jsonl`) to compute uncached input, cached prefix tokens, output tokens, per-step hit rates, and estimated dollar savings from the 90% prompt cache discount.
+* **Why It Saves Quota:** Pinpoints exact token leakage and warns when context capacity reaches 50% so you compact before rate limits are hit.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1575,7 +1596,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits health across Gemini, Claude, and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all skills across Antigravity, Claude, and Cursor | After adding or updating any skill in the repository. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 169 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 172 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
@@ -1594,7 +1615,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │  Core Discipline: .cursor/rules/000-cursor-global-discipline.mdc                                    │
 │  Universal Model Adaptation Matrix: .cursor/rules/001-multi-model-optimization.mdc                  │
-│  169 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
+│  172 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
 │  Unified Root Fallback: ~/.cursorrules                                                              │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -1612,7 +1633,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 169 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 172 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
 3. **Unified Global Fallback (`~/.cursorrules`):**
    * Deployed directly to `$HOME/.cursorrules` and project roots so any folder opened in Cursor inherits this entire suite immediately.

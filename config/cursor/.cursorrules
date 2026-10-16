@@ -149,13 +149,16 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (169 Specialized Capabilities)
+## Complete Skills Catalog (172 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
 | :--- | :--- |
 | **`adaptive-reasoning`** | Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-speed execution on Flash and deep-reasoning planning on Argon based on prompt complexity. |
 | **`agentic-visual-perception`** | Autonomous AI agent visual reasoning, visual grounding, and high-resolution perception. Covers Slicing Aided Hyper Inference (SAHI) for 4K/8K images, natural language visual grounding coordinates [ymin, xmin, ymax, xmax], click centroid calculation, multi-scale crop-and-zoom inspection heuristics, and structural visual diffing (SSIM). |
+| **`agy-cli-doctor`** | System diagnostics and environment verification for Antigravity CLI (parity with claude doctor). Validates binary health, settings.json permissions, SQLite conversation database integrity, model endpoint connectivity, and quota locks. |
+| **`agy-codebase-init`** | Autonomous repository onboarding and architecture intake for Antigravity (parity with claude /init). Detects build systems, test runners, linters, and directory layout, generating tailored GEMINI.md and CLAUDE.md project guidelines. |
+| **`agy-context-telemetry`** | Deep context window utilization and token cost inspector for Antigravity CLI (parity with claude /context and claude /cost). Tracks step-by-step cache efficiency, prompt overhead, model token splits, and dollar value savings. |
 | **`ai-3d-mesh-generation`** | AI-powered text-to-3D and image-to-3D generation pipelines using Tripo3D API, automatic retopology, PBR texture baking, format conversion (GLB, FBX, OBJ), and offline Blender procedural fallback. |
 | **`ai-procedural-audio-generation`** | AI-powered and procedural audio generation for game development, content creation, and applications. Covers procedural DSP synthesis (oscillators, envelopes, noise bursts, chiptune/sfxr), text-to-sound-effect (SFX) models, adaptive game soundtrack layering, UI sound design, and loudness normalization. |
 | **`android-app-engineering`** | Modern Android development in Kotlin, Gradle KTS, foreground services, network tethering/VPN APIs, ProGuard/R8 rules, and release keystore signing. |

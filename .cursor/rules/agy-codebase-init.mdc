@@ -1,0 +1,45 @@
+---
+description: Autonomous repository onboarding and architecture intake for Antigravity (parity with claude /init). Detects build systems, test runners, linters, and directory layout, generating tailored GEMINI.md and CLAUDE.md project guidelines.
+globs: 
+alwaysApply: false
+---
+
+# Codebase Initializer & Onboarding Scanner (`agy-codebase-init`)
+
+Provides parity with Claude Code's native `/init` command for Google Antigravity (`agy`). Automatically discovers language frameworks, build commands, test runners, and project architecture to establish instant context guidelines without token waste.
+
+---
+
+## When to Use
+
+- When launching `agy` on a new, unfamiliar, or previously unconfigured repository.
+- When onboarding an existing codebase without explicit instructions or test commands.
+- To prevent 20,000–50,000 tokens of exploratory discovery on the first turn of a project.
+
+---
+
+## Capabilities & Architecture
+
+1. **Multi-Ecosystem Detection:**
+   - **Python:** Detects `pytest`, virtual environments (`.venv/bin/pytest`), `ruff`, and `pyproject.toml`.
+   - **Rust:** Identifies Cargo workflows, clippy lints, and test runner flags.
+   - **Node / TypeScript:** Parses `package.json` scripts (`build`, `test`, `lint`).
+   - **C / C++:** Inspects `CMakeLists.txt` and `Makefile` targets.
+2. **Dual-Instruction Generation:**
+   - Writes project rules to `GEMINI.md` (for Antigravity) and `CLAUDE.md` (for Claude Code).
+   - Injects the Output Token Economy, test-driven development requirements, and plan-first rules.
+
+---
+
+## Quick CLI Execution
+
+```bash
+# Scan and initialize current repository
+agy-init
+
+# Target specific workspace
+agy-init --dir /path/to/project
+
+# Force update existing configuration files
+agy-init --force
+```
