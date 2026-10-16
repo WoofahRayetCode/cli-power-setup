@@ -1,0 +1,57 @@
+---
+name: database-sql-engineering
+description: SQLite performance tuning (WAL mode, PRAGMAs, indexing), PostgreSQL/MySQL schema design, query plan analysis, and database migration architecture.
+---
+
+# Database & SQL Performance Engineering
+
+This skill standardizes relational database design, high-performance SQLite tuning for desktop/mobile applications, query execution plan optimization, and schema migration strategies.
+
+---
+
+## ⚡ 1. High-Performance SQLite Configuration
+
+For desktop applications (Electron, Avalonia, C++, Python) and local game storage, default SQLite configurations are bottlenecked by disk synchronization. Always apply high-performance PRAGMAs:
+
+```sql
+-- 1. Enable Write-Ahead Logging (allows concurrent readers & writers)
+PRAGMA journal_mode = WAL;
+
+-- 2. Normal synchronous mode (safe with WAL, 10x write speed)
+PRAGMA synchronous = NORMAL;
+
+-- 3. In-memory temporary tables and indexes
+PRAGMA temp_store = MEMORY;
+
+-- 4. Increase cache size (e.g. 64MB)
+PRAGMA cache_size = -64000;
+
+-- 5. Busy timeout to prevent "database is locked" errors
+PRAGMA busy_timeout = 5000;
+
+-- 6. Enforce foreign key constraints
+PRAGMA foreign_keys = ON;
+```
+
+---
+
+## 🔍 2. Query Execution Plan Analysis (`EXPLAIN QUERY PLAN`)
+
+Never guess why a query is slow; inspect the planner:
+
+```sql
+EXPLAIN QUERY PLAN
+SELECT u.username, count(b.id)
+FROM users u
+LEFT JOIN backups b ON u.id = b.user_id
+WHERE u.status = 'active'
+GROUP BY u.username;
+-- Ensure output shows "USING INDEX" rather than "SCAN TABLE"
+```
+
+---
+
+## 🔄 Interoperability & Handoffs
+
+* **Handoff to `csharp-dotnet-engineering` / `python-engineering`:** For ORM tuning (EF Core, SQLAlchemy, Tortoise).
+* **Handoff to `homelab-docker-devops`:** For PostgreSQL container multi-service deployments and persistent volume backups.
