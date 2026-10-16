@@ -75,6 +75,41 @@ cli-power-setup/
 
 ---
 
+## 🎯 Where Skills Perform Best: CLI vs. Cursor IDE (Division of Labor)
+
+While all 157 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
+
+### 1. Skills That Excel in the CLI (Headless & Unattended)
+*Best launched via `claude-turbo`, `agy-turbo`, or standalone terminal scripts*
+
+* **Autonomous Long-Running Goals:** `stalker-ogsr-migration`, `autonomous-goal-governor`, `task-velocity-governor`. The CLI operates uninterrupted over multi-hour runs, manages 5-hour quota reset sleep loops without manual supervision, and executes automated compaction.
+* **Game QA & System Watchdogs:** `game-qa-playtest-controller`, `game-test-watchdog`, `stalker-playtest-runner`. Direct access to `/dev/uinput` input injection, headless Wine/Proton processes, and X-Ray crash log window dismissals without UI interference.
+* **Batch Asset & Texture Pipelines:** `game-texture-editing` (`game-texture-editor`), `video-production-automation` (FFmpeg), `audio-dsp-tuning`. Maximum CPU/GPU thread saturation (`-j$(nproc)`) with zero GUI re-render overhead.
+* **Quota & Cache Optimization:** `prompt-cache-context-optimizer`, `claude-silent-dispatch`. Achieves the **99% prompt cache hit rate** and sub-second tool turns by eliminating IDE rendering lag.
+
+### 2. Skills That Excel in Cursor IDE (Interactive & Visual)
+*Best used via Cursor Agent or Composer using `grok-4.7`, `claude-3-7-sonnet`, or `o3-mini`*
+
+* **Web, UI & Data Visualization:** `creative-web-design-archetypes`, `human-crafted-web-design`, `interactive-data-visualization-web`, `generative_ui`. Cursor provides integrated browser previews, live DOM inspection, and real-time CSS rendering.
+* **Side-by-Side Code Review & Triage:** `coderabbit-ai-review`, `canvas-interactive-workspace`. Cursor’s split-pane diff viewer allows cherry-picking surgical chunk replacements visually before committing.
+* **Instant Multi-Model Switching:** Toggle on-the-fly between Grok 4.7 (rapid multi-file logic), o3-mini (complex math/RNM derivations), and Claude 3.7 (refactors) within the same active file.
+
+### 3. Skills That Perform Universally (100% Identical)
+* **Core Engineering & Planning:** `writing-plans`, `executing-plans`, `first-principles-reasoning`, `test-driven-development`.
+* **Language & Engine Systems:** `modern-cpp-engineering`, `rust-engineering`, `python-engineering`, `godot-game-dev`, `xray-lua-scripting`.
+* **Reverse Engineering & Metrology:** `binary-re-workflows`, `console-game-decompilation`, `industrial-machine-vision-inspection`.
+
+### Recommended Division of Labor
+
+| Workflow | Recommended Tool | Model |
+| :--- | :--- | :--- |
+| **Overnight mod porting & autonomous QA** | **CLI (`claude-turbo`)** | Claude 3.5 / 3.7 Sonnet |
+| **Batch texture processing & asset conversions** | **CLI (`~/.local/bin/`)** | Local CLI tools |
+| **Interactive UI styling, websites & visual apps** | **Cursor IDE** | Grok 4.7 / Claude 3.7 |
+| **Surgical code editing & pair-programming** | **Cursor IDE** | Grok 4.7 Fast / o3-mini |
+
+---
+
 ## 🧭 Complete Skill Index
 
 | Skill | Category | Primary Focus |
@@ -1476,41 +1511,6 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
 3. **Unified Global Fallback (`~/.cursorrules`):**
    * Deployed directly to `$HOME/.cursorrules` and project roots so any folder opened in Cursor inherits this entire suite immediately.
-
----
-
-### 6. Where Skills Perform Best: CLI vs. Cursor IDE (Division of Labor)
-
-While all 157 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
-
-#### A. Skills That Excel in the CLI (Headless & Unattended)
-*Best launched via `claude-turbo`, `agy-turbo`, or standalone terminal scripts*
-
-* **Autonomous Long-Running Goals:** `stalker-ogsr-migration`, `autonomous-goal-governor`, `task-velocity-governor`. The CLI operates uninterrupted over multi-hour runs, manages 5-hour quota reset sleep loops without manual supervision, and executes automated compaction.
-* **Game QA & System Watchdogs:** `game-qa-playtest-controller`, `game-test-watchdog`, `stalker-playtest-runner`. Direct access to `/dev/uinput` input injection, headless Wine/Proton processes, and X-Ray crash log window dismissals without UI interference.
-* **Batch Asset & Texture Pipelines:** `game-texture-editing` (`game-texture-editor`), `video-production-automation` (FFmpeg), `audio-dsp-tuning`. Maximum CPU/GPU thread saturation (`-j$(nproc)`) with zero GUI re-render overhead.
-* **Quota & Cache Optimization:** `prompt-cache-context-optimizer`, `claude-silent-dispatch`. Achieves the **99% prompt cache hit rate** and sub-second tool turns by eliminating IDE rendering lag.
-
-#### B. Skills That Excel in Cursor IDE (Interactive & Visual)
-*Best used via Cursor Agent or Composer using `grok-4.7`, `claude-3-7-sonnet`, or `o3-mini`*
-
-* **Web, UI & Data Visualization:** `creative-web-design-archetypes`, `human-crafted-web-design`, `interactive-data-visualization-web`, `generative_ui`. Cursor provides integrated browser previews, live DOM inspection, and real-time CSS rendering.
-* **Side-by-Side Code Review & Triage:** `coderabbit-ai-review`, `canvas-interactive-workspace`. Cursor’s split-pane diff viewer allows cherry-picking surgical chunk replacements visually before committing.
-* **Instant Multi-Model Switching:** Toggle on-the-fly between Grok 4.7 (rapid multi-file logic), o3-mini (complex math/RNM derivations), and Claude 3.7 (refactors) within the same active file.
-
-#### C. Skills That Perform Universally (100% Identical)
-* **Core Engineering & Planning:** `writing-plans`, `executing-plans`, `first-principles-reasoning`, `test-driven-development`.
-* **Language & Engine Systems:** `modern-cpp-engineering`, `rust-engineering`, `python-engineering`, `godot-game-dev`, `xray-lua-scripting`.
-* **Reverse Engineering & Metrology:** `binary-re-workflows`, `console-game-decompilation`, `industrial-machine-vision-inspection`.
-
-#### Recommended Division of Labor
-
-| Workflow | Recommended Tool | Model |
-| :--- | :--- | :--- |
-| **Overnight mod porting & autonomous QA** | **CLI (`claude-turbo`)** | Claude 3.5 / 3.7 Sonnet |
-| **Batch texture processing & asset conversions** | **CLI (`~/.local/bin/`)** | Local CLI tools |
-| **Interactive UI styling, websites & visual apps** | **Cursor IDE** | Grok 4.7 / Claude 3.7 |
-| **Surgical code editing & pair-programming** | **Cursor IDE** | Grok 4.7 Fast / o3-mini |
 
 ---
 
