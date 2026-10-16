@@ -142,6 +142,24 @@ install_binaries() {
         chmod +x "${BIN_DEST}/game-dialogue-tool"
         log_done "Installed executable: ${BIN_DEST}/game-dialogue-tool"
     fi
+
+    if [ -f "${SCRIPT_DIR}/bin/weather-lighting-tuner" ]; then
+        cp "${SCRIPT_DIR}/bin/weather-lighting-tuner" "${BIN_DEST}/weather-lighting-tuner"
+        chmod +x "${BIN_DEST}/weather-lighting-tuner"
+        log_done "Installed executable: ${BIN_DEST}/weather-lighting-tuner"
+    fi
+
+    if [ -f "${SCRIPT_DIR}/bin/mangohud-configurator" ]; then
+        cp "${SCRIPT_DIR}/bin/mangohud-configurator" "${BIN_DEST}/mangohud-configurator"
+        chmod +x "${BIN_DEST}/mangohud-configurator"
+        log_done "Installed executable: ${BIN_DEST}/mangohud-configurator"
+    fi
+
+    if [ -f "${SCRIPT_DIR}/bin/game-window-helper" ]; then
+        cp "${SCRIPT_DIR}/bin/game-window-helper" "${BIN_DEST}/game-window-helper"
+        chmod +x "${BIN_DEST}/game-window-helper"
+        log_done "Installed executable: ${BIN_DEST}/game-window-helper"
+    fi
 }
 
 install_antigravity() {

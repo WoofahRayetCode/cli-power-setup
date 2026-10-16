@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Linux Game Window & Input Capture Helper Launcher
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+TOOL_SCRIPT="${SCRIPT_DIR}/config/skills/linux-game-window-input-capture/scripts/game_window_helper.sh"
+
+if [ ! -f "${TOOL_SCRIPT}" ]; then
+    TOOL_SCRIPT="${HOME}/.gemini/config/skills/linux-game-window-input-capture/scripts/game_window_helper.sh"
+fi
+
+if [ ! -f "${TOOL_SCRIPT}" ]; then
+    TOOL_SCRIPT="${HOME}/.claude/skills/linux-game-window-input-capture/scripts/game_window_helper.sh"
+fi
+
+exec bash "${TOOL_SCRIPT}" "$@"

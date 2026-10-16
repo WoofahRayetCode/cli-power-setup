@@ -1,0 +1,96 @@
+---
+description: Game weapon configuration, ballistics physics, firing cycles, projectile damage radii, underbarrel launchers, durability, and anti-jamming mechanics (S.T.A.L.K.E.R. LTX & shooter engines).
+globs: 
+alwaysApply: false
+---
+
+# Game Weapon & Ballistics Mechanics (`game-weapon-ballistics-mechanics`)
+
+The `game-weapon-ballistics-mechanics` skill governs weapon configuration, projectile physics, explosive blast mechanics, underbarrel launcher architecture, and anti-jamming durability tuning in shooter game engines (with deep specialization in **S.T.A.L.K.E.R. X-Ray / OGSR** `gamedata/config/weapons/` LTX tables).
+
+---
+
+## 1. Rate of Fire & Full-Auto Continuous Firing
+
+In the X-Ray Engine, fire modes are governed by the `fire_modes` key in weapon LTX configs:
+
+```ini
+[wpn_rg-6]:identity_immunities
+fire_modes          = -1, 1         ; -1 = Full auto (continuous hold); 1 = Semi-auto
+rpm                 = 240           ; Rounds per minute (rate of fire)
+ammo_mag_size       = 6             ; Cylinder / magazine capacity
+sprint_allowed      = true          ; Enables sprinting with weapon unholstered
+```
+
+### The "Holding Down Fire Fails to Rapid Fire" Trap
+1. **Single-Shot Animation Lock:** If the weapon's shoot animation `anm_shots` does not support looping or has an excessive animation length without early-out cancel frames, holding the trigger will fire once and stall until the trigger is released and re-pressed.
+2. **Missing `fire_modes = -1`:** If `fire_modes` only lists `1` or `1, 3`, the engine forces semi-automatic trigger resets on every cycle.
+3. **Empty Magazine Cycling:** Rapid firing requires either a high `ammo_mag_size` or an active Lua callback replenishing ammo before the magazine empties.
+
+---
+
+## 2. Explosive Ordnance & Projectile Damage Calibration
+
+Explosives (grenades, underbarrel 40mm VOG-25 / M203 rounds, RPG-7 rockets) require distinct tuning between **visual particle effects** and **lethal kinetic damage**:
+
+```ini
+[ammo_vog-25]:identity_immunities
+class               = G_F1          ; Engine projectile class
+fake_grenade_name   = wpn_fake_missile
+blast               = 2.8           ; Core explosive hit power (HP multiplier)
+blast_r             = 6.0           ; Blast radius (meters) where damage applies
+blast_impulse       = 280           ; Ragdoll physics impulse force
+frags               = 25            ; Secondary shrapnel fragmentation count
+frags_r             = 18.0          ; Shrapnel max dispersion distance (meters)
+frag_hit            = 1.1           ; Hit power per shrapnel fragment
+frag_hit_impulse    = 80            ; Impulse per fragment hit
+hit_type            = explosion     ; Engine damage type (bypasses standard bullet armor)
+wm_size             = 0.15          ; Wallmark impact crater size
+```
+
+> [!WARNING]
+> If `blast` or `frag_hit` is set to `0.0` with only `explode_particles` defined, the projectile will produce smoke, sound, and muzzle flashes without inflicting any actual health damage on enemies.
+
+---
+
+## 3. Durability, Jamming & Anti-Misfire Tuning
+
+To eliminate weapon degradation, misfires, and jamming during testing or play:
+
+```ini
+; Complete Anti-Jamming & Infinite Durability Config
+misfire_probability         = 0.0000    ; Chance of misfire when condition degrades
+misfire_condition_k         = 0.00      ; Misfire probability multiplier per wear point
+condition_shot_dec          = 0.0000    ; Durability degradation per single shot
+condition_queue_shot_dec    = 0.0000    ; Durability degradation per burst shot
+```
+
+---
+
+## 4. Slot Positioning & Equipment Mapping
+
+Weapons belong to specific inventory slot hierarchies:
+- **`slot = 1`:** Pistol / Sidearm slot.
+- **`slot = 2`:** Primary Rifle / Shotgun / Heavy weapon slot.
+- **`slot = 0`:** Knife / Melee slot.
+- **`slot = 3`:** Grenades (throwable).
+
+To allow a grenade launcher (such as the RG-6) to be carried as a standard primary combat rifle, set `slot = 2` and ensure `default_to_truck = false`.
+
+---
+
+## 5. Lua Infinite Ammo & No-Reload Runtime Hook
+
+To guarantee continuous non-stop firing without triggering reload cycles:
+
+```lua
+-- gamedata/scripts/bind_stalker.script or weapon_callbacks.script
+function on_actor_weapon_fire(wpn)
+    if not wpn then return end
+    -- Keep active magazine full at all times
+    local mag_size = wpn:get_ammo_magsize()
+    if wpn:get_ammo_in_magazine() < mag_size then
+        wpn:set_ammo_elapsed(mag_size)
+    end
+end
+```

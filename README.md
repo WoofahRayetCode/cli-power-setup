@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
 
-This repository organizes a curated set of **158 autonomous agent skills**, 160 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **163 autonomous agent skills**, 165 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -38,7 +38,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Tri-Environment Sync:** Deploys all 158 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Tri-Environment Sync:** Deploys all 163 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -54,7 +54,7 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & skill reference
 ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
 ├── .cursor/
-│   └── rules/                  # 160 modular Cursor Rules (.mdc) with semantic metadata
+│   └── rules/                  # 165 modular Cursor Rules (.mdc) with semantic metadata
 ├── bin/
 │   ├── agy-quota-statusline    # Asynchronous real-time quota & token savings tracker (Gemini)
 │   ├── claude-statusline       # Dedicated real-time telemetry, weekly resets & context monitor (Claude Code)
@@ -65,20 +65,23 @@ cli-power-setup/
 │   ├── game-test-watchdog      # Autonomous anti-stuck, freeze & infinite loop supervisor for game QA
 │   ├── game-texture-editor     # Procedural normal generation, RNM blend, seamless tiling & DDS transcode
 │   ├── game-dialogue-tool      # S.T.A.L.K.E.R. & RPG conversation UI layout repair, string cross-ref & encoding
+│   ├── weather-lighting-tuner  # Weather cycle balance, sun glare suppression & HDR tonemapping
+│   ├── mangohud-configurator   # In-game performance HUD configurator (FPS, 1% lows, thermals, power, VRAM)
+│   ├── game-window-helper      # Gamescope sandboxing, pointer lock & focus-stealing prevention
 │   ├── cursor-rules-sync       # Converts all skills to Cursor .mdc rules and deploys .cursorrules
 │   └── skills-audit-update     # Health auditor, permissions fixer & multi-environment synchronizer
 └── config/
     ├── GEMINI.md               # Global engineering discipline, quota governance & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
     ├── cursor/                 # Cursor reference templates and rules
-    └── skills/                 # 158 specialized skills
+    └── skills/                 # 163 specialized skills
 ```
 
 ---
 
 ## 🎯 Where Skills Perform Best: CLI vs. Cursor IDE (Division of Labor)
 
-While all 157 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
+While all 163 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
 
 ### 1. Skills That Excel in the CLI (Headless & Unattended)
 *Best launched via `claude-turbo`, `agy-turbo`, or standalone terminal scripts*
@@ -273,6 +276,11 @@ While all 157 skills and CLI utilities are shared identically between environmen
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
 | **`project-memory-bank`** | Memory | Persistent `.agents/memory/` context to prevent re-hydration |
+| **`game-weather-lighting-fx`** | Gaming/Weather | Weather cycle tuning, HDR tonemapping, sun shafts/god rays & blinding glare suppression |
+| **`game-performance-overlay-telemetry`** | Gaming/HUD | In-game telemetry (MangoHud, DXVK HUD), FPS, 1% lows, VRAM/power stats & top-right HUD positioning |
+| **`game-weapon-ballistics-mechanics`** | Gaming/Weapons | Weapon LTX configs, full-auto trigger states, underbarrel launchers, blast physics & anti-jamming |
+| **`game-qol-gameplay-scripting`** | Gaming/Scripting | Proximity item radar & smart auto-loot, faction-filtered defense systems, sprint anomaly immunity |
+| **`linux-game-window-input-capture`** | Gaming/Linux | Pointer grab/confinement, Gamescope sandboxing, borderless windowing & focus-stealing prevention |
 
 ---
 
@@ -1469,11 +1477,14 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`game-dialogue-tool`** | S.T.A.L.K.E.R. & RPG conversation UI repair, string cross-ref & encoding | When fixing dialogue clipping, missing string IDs, or mojibake in game text. |
 | **`game-test-watchdog`** | Autonomous QA supervisor detecting freezes and crashes | Wrap any long-running test to prevent hung processes. |
 | **`stalker-playtest-runner`**| Hands-free game QA with input injection & OCR dialog triage | Automated S.T.A.L.K.E.R. / OGSR engine playtesting. |
+| **`weather-lighting-tuner`** | Audits weather LTX, clamps sun glare, and balances tonemapping | When sun shafts bleed through world geometry or bloom is blinding. |
+| **`mangohud-configurator`** | Generates MangoHud performance HUD profiles (FPS, 1% lows, VRAM) | When benchmarking games or positioning telemetry away from minimaps. |
+| **`game-window-helper`** | Sandboxes game in Gamescope, locks mouse pointer, and stops focus stealing | When playtesting games without losing cursor control or terminal focus. |
 | **`cursor-rules-sync`** | Converts all skills to Cursor `.mdc` rules and syncs `.cursorrules` | After modifying skills or when syncing Cursor configuration. |
 | **`skills-audit-update --audit`** | Audits health across Gemini, Claude, and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all skills across Antigravity, Claude, and Cursor | After adding or updating any skill in the repository. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 158 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 163 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
