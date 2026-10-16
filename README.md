@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **137 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **138 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 137 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 138 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -198,7 +198,8 @@ cli-power-setup/
 | **`game-screen-telemetry-monitor`** | Gaming/Vision | Real-time in-game screen monitoring, visual anomaly detection (magenta textures, freezes) & crash OCR |
 | **`autonomous-goal-governor`** | Goal/Quota | Machine-verifiable contract formulation, 3-strike circuit breaker & phased `/compact` milestones for `/goal` |
 | **`furry-fursona-art-design`** | Creative/Art | Fursona character design, multi-view turnaround refsheets, digitigrade anatomy & palette swatches |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 137+ skills |
+| **`android-rom-os-engineering`** | Mobile/ROM | AOSP & LineageOS device trees, vendor blob extraction, dynamic super partitions & SELinux sepolicy |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 138+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`hierarchical-memory-retrieval`** | Memory/Recall | Multi-tiered query-driven BM25 search across `.agents/memory/`, episodes & git history |
 | **`context-window-governor`** | Context/Budget | Turn-by-turn token budgeting (20/35/25/20%), pre-flight size estimation & hard output clamping |
@@ -1142,6 +1143,12 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Encodes anthro species taxonomy (canines, felines, scalies, avians, protogens), digitigrade hock joint anatomy, and paw pad structures into structured profiles (`fursona_generator.py build`), generates negative prompt filters against humanized feet or body fusion, renders clean hex color chips with Pillow, and exports VRChat PhysBones/viseme specifications.
 * **Why It Saves Quota:** Eliminates dozens of failed image generations, anatomical distortions, and multi-view body blendings by using model-tailored prompt templates and local palette generation.
 
+#### 138. `android-rom-os-engineering`
+* **In Simple Terms:** Operating system engineering and porting suite for building AOSP, LineageOS, and custom Android ROMs on target hardware.
+* **When It Kicks In:** Bringing up new Android devices, authoring device trees (`BoardConfig.mk`, `device.mk`), extracting proprietary vendor blobs from factory images, sizing dynamic super partitions, or diagnosing bootloops.
+* **How It Works:** Automates device tree scaffolding (`android_rom_tools.py scaffold`), translates raw `avc: denied` SELinux audit logs from dmesg into exact `.te` policy allow rules without resorting to permissive mode, validates dynamic partition storage budgets against `BOARD_SUPER_PARTITION_SIZE`, and lints VINTF compatibility matrices.
+* **Why It Saves Quota:** Directly resolves the most common causes of device bootloops, missing HAL symbols, and SELinux denial hangs, avoiding endless multi-hour rebuild cycles.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1272,7 +1279,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 137 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 138 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

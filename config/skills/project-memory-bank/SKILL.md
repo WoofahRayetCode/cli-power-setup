@@ -95,6 +95,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record active goal contract ID, verification command, current phase number (1/2/3), active task strike counts, and circuit breaker trip state in `.agents/goals/current_goal.json` and `activeContext.md`.
 * **Fursona Profile & Refsheet Asset Bindings (`furry-fursona-art-design`):**
   Record active character profile JSON path, species archetype, digitigrade vs plantigrade configuration, official palette hex codes, and 3D VRChat avatar specs in `.agents/fursonas/` and `systemPatterns.md`.
+* **Android ROM & Device Tree Bindings (`android-rom-os-engineering`):**
+  Record target OEM vendor, device codename, SoC architecture, `BOARD_SUPER_PARTITION_SIZE` budget, kernel branch/commit, and active device tree path (`device/<vendor>/<codename>/`) in `systemPatterns.md` and `learnings.md`.
 
 ---
 
