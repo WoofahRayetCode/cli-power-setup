@@ -59,11 +59,12 @@ cli-power-setup/
 │   ├── stalker-playtest-runner # Autonomous hands-free game QA, dialogue & locomotion runner
 │   ├── context-watchdog        # Automated background context monitor & pre-compact memory stager
 │   ├── game-test-watchdog      # Autonomous anti-stuck, freeze & infinite loop supervisor for game QA
+│   ├── game-texture-editor     # Procedural normal generation, RNM blend, seamless tiling & DDS transcode
 │   └── skills-audit-update     # Health auditor, permissions fixer & multi-CLI synchronizer
 └── config/
     ├── GEMINI.md               # Global engineering discipline, quota governance & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 156 specialized skills
+    └── skills/                 # 157 specialized skills
 ```
 
 ---
@@ -158,6 +159,7 @@ cli-power-setup/
 | **`emulator-development-engineering`** | Emulation | Console emulation architecture, JIT dynamic recompilation, fastmem, Vulkan renderers |
 | **`shader-cross-compilation`** | Graphics/Shaders | HLSL/GLSL/SPIR-V/WGSL translation, clip space, std140/std430, `glslangValidator` |
 | **`game-texture-material-pipeline`** | Graphics/Assets | BCn/ASTC/KTX2 compression, normal map Y-inversion, ORM channel packing, sRGB discipline |
+| **`game-texture-editing`** | Graphics/Textures | Procedural normal generation, RNM blending, seamless tiling, de-lighting, alpha edge dilation, CAS sharpening |
 | **`real-time-rendering-pipeline`** | Graphics/Engine | Frame graphs, transient memory aliasing, bindless descriptors, reversed-Z, RenderDoc |
 | **`game-graphics-optimization-profiling`** | Graphics/Perf | Bottleneck triage, Hi-Z occlusion culling, GPU MultiDraw, LODs, TAA & FSR/DLSS |
 | **`post-processing-visual-fx`** | Graphics/PostFX | ACES/AgX tone mapping, progressive dual-filtering bloom, SSAO/GTAO, CSM shadow cascades |
@@ -859,7 +861,13 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Inverts green channels ($Y$) for DirectX/OpenGL normal compatibility, enforces linear color space for data maps and sRGB for albedo, and packs multi-channel textures via automated Python/Pillow pipelines.
 * **Why It Saves Quota:** Cuts GPU texture bandwidth in half by combining multiple texture fetches into single samplers and prevents visual material rendering bugs.
 
-#### 90. `real-time-rendering-pipeline`
+#### 90. `game-texture-editing`
+* **In Simple Terms:** An autonomous texture editor and repair suite that generates 3D normal maps, blends detail normals mathematically without flattening (RNM), creates seamless repeating tiles, removes baked-in shadows (de-lighting), eliminates dark cutout fringe halos, and sharpens micro-details.
+* **When It Kicks In:** Creating or improving game textures, converting heightmaps to tangent normal maps, fixing seam artifacts on repeating terrain/walls, cleaning up ugly dark edges on foliage/sprites, or generating S.T.A.L.K.E.R. `_bump.dds` and `_bump#.dds` pairs.
+* **How It Works:** Executes procedural NumPy, Pillow, and ImageMagick algorithms directly via `game-texture-editor` CLI (Scharr gradient normal generation, Reoriented Normal Mapping, Hermite cross-seam blending, alpha color dilation, and frequency-separation de-lighting).
+* **Why It Saves Quota:** Eliminates manual GUI photo editor round-trips by performing surgical texture repairs, sharpening, and format conversions automatically via code.
+
+#### 91. `real-time-rendering-pipeline`
 * **In Simple Terms:** Architectural guide for modern explicit graphics engines (DirectX 12, Vulkan 1.3+, WebGPU) featuring render graphs, bindless textures, and reversed-Z depth.
 * **When It Kicks In:** Building custom renderers, refactoring legacy slot-based drawing to bindless descriptor indexing, eliminating depth fighting in massive outdoor worlds, or analyzing frame captures in RenderDoc.
 * **How It Works:** Constructs Directed Acyclic Graph (DAG) render passes with transient memory aliasing, implements unbounded descriptor arrays (`Texture2D g_Textures[]`), and configures floating-point reversed-Z ($[1.0, 0.0]$).

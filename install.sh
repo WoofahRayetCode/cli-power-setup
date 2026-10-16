@@ -109,6 +109,12 @@ install_binaries() {
         chmod +x "${BIN_DEST}/game-test-watchdog"
         log_done "Installed executable: ${BIN_DEST}/game-test-watchdog"
     fi
+
+    if [ -f "${SCRIPT_DIR}/bin/game-texture-editor" ]; then
+        cp "${SCRIPT_DIR}/bin/game-texture-editor" "${BIN_DEST}/game-texture-editor"
+        chmod +x "${BIN_DEST}/game-texture-editor"
+        log_done "Installed executable: ${BIN_DEST}/game-texture-editor"
+    fi
 }
 
 install_antigravity() {
