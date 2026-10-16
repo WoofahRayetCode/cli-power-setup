@@ -44,6 +44,7 @@ alwaysApply: true
 ## 6. Installed CLI Power Utilities
 The following tools are installed in `~/.local/bin` and can be executed directly in the terminal:
 - `game-texture-editor`: Procedural normal generation, RNM blending, seamless tiling, alpha edge dilation, CAS sharpening, DDS transcoding.
+- `game-dialogue-tool`: S.T.A.L.K.E.R. & RPG conversation UI layout repair, string table cross-referencing, encoding/mojibake fixing, and dialogue graph validation.
 - `stalker-playtest-runner`: Autonomous hands-free game QA, dialogue & locomotion runner via `/dev/uinput`.
 - `game-test-watchdog`: Anti-stuck, freeze, and infinite loop supervisor for headless game testing.
 - `skills-audit-update`: Health auditor, permissions fixer, and multi-CLI/editor synchronizer.

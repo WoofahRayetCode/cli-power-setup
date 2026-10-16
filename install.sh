@@ -136,6 +136,12 @@ install_binaries() {
         chmod +x "${BIN_DEST}/cursor-rules-sync"
         log_done "Installed executable: ${BIN_DEST}/cursor-rules-sync"
     fi
+
+    if [ -f "${SCRIPT_DIR}/bin/game-dialogue-tool" ]; then
+        cp "${SCRIPT_DIR}/bin/game-dialogue-tool" "${BIN_DEST}/game-dialogue-tool"
+        chmod +x "${BIN_DEST}/game-dialogue-tool"
+        log_done "Installed executable: ${BIN_DEST}/game-dialogue-tool"
+    fi
 }
 
 install_antigravity() {

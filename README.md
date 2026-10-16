@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
 
-This repository organizes a curated set of **157 autonomous agent skills**, 159 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **158 autonomous agent skills**, 160 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -38,7 +38,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Tri-Environment Sync:** Deploys all 157 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Tri-Environment Sync:** Deploys all 158 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -54,7 +54,7 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & skill reference
 ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
 ├── .cursor/
-│   └── rules/                  # 159 modular Cursor Rules (.mdc) with semantic metadata
+│   └── rules/                  # 160 modular Cursor Rules (.mdc) with semantic metadata
 ├── bin/
 │   ├── agy-quota-statusline    # Asynchronous real-time quota & token savings tracker (Gemini)
 │   ├── claude-statusline       # Dedicated real-time telemetry, weekly resets & context monitor (Claude Code)
@@ -64,13 +64,14 @@ cli-power-setup/
 │   ├── context-watchdog        # Automated background context monitor & pre-compact memory stager
 │   ├── game-test-watchdog      # Autonomous anti-stuck, freeze & infinite loop supervisor for game QA
 │   ├── game-texture-editor     # Procedural normal generation, RNM blend, seamless tiling & DDS transcode
+│   ├── game-dialogue-tool      # S.T.A.L.K.E.R. & RPG conversation UI layout repair, string cross-ref & encoding
 │   ├── cursor-rules-sync       # Converts all skills to Cursor .mdc rules and deploys .cursorrules
 │   └── skills-audit-update     # Health auditor, permissions fixer & multi-environment synchronizer
 └── config/
     ├── GEMINI.md               # Global engineering discipline, quota governance & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
     ├── cursor/                 # Cursor reference templates and rules
-    └── skills/                 # 157 specialized skills
+    └── skills/                 # 158 specialized skills
 ```
 
 ---
@@ -237,6 +238,7 @@ While all 157 skills and CLI utilities are shared identically between environmen
 | **`gamemaker-gml-engineering`** | Gaming/GML | Modern GameMaker (2024+), constructors/structs, FSMs, volatile surfaces, delta timing & batching |
 | **`game-trainer-engineering`** | Gaming/Trainer | Cross-platform memory scanning, pointer chain resolvers, AOB scans & mid-function detour hooks |
 | **`game-localization-i18n`** | Gaming/i18n | ICU message formatting, pluralization rules, RTL layout mirroring & CJK/Cyrillic font fallbacks |
+| **`game-dialogue-ui-localization`** | Gaming/Dialogue | S.T.A.L.K.E.R. & RPG conversation UI layout repair, string cross-ref, talk.xml overrun & mojibake |
 | **`headless-game-ci-automation`** | DevOps/GameCI | Headless engine CLI builds (Godot/Unity/UE5), automated test runners (GUT) & matrix packaging |
 | **`godot-shader-vfx`** | Godot/Shaders | Godot 4 screen-reading spatial/canvas shaders, vertex wind displacement & GPU compute particles |
 | **`coderabbit-ai-review`** | Review/PR | CodeRabbit-grade PR reviews, architectural Mermaid sequence diagrams, defect triage & GitHub suggestion diffs |
@@ -1464,13 +1466,14 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`agy`** | Launches standard Antigravity CLI | When you need standard multi-model escalation (Flash to Argon). |
 | **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context gauge crosses 50%–60%. |
 | **`game-texture-editor`** | Procedural normal gen, RNM blend, seamless tiles & DDS | Texture repairs, sharpening, alpha bleeding, and bump map generation. |
+| **`game-dialogue-tool`** | S.T.A.L.K.E.R. & RPG conversation UI repair, string cross-ref & encoding | When fixing dialogue clipping, missing string IDs, or mojibake in game text. |
 | **`game-test-watchdog`** | Autonomous QA supervisor detecting freezes and crashes | Wrap any long-running test to prevent hung processes. |
 | **`stalker-playtest-runner`**| Hands-free game QA with input injection & OCR dialog triage | Automated S.T.A.L.K.E.R. / OGSR engine playtesting. |
 | **`cursor-rules-sync`** | Converts all skills to Cursor `.mdc` rules and syncs `.cursorrules` | After modifying skills or when syncing Cursor configuration. |
 | **`skills-audit-update --audit`** | Audits health across Gemini, Claude, and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all skills across Antigravity, Claude, and Cursor | After adding or updating any skill in the repository. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 157 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 158 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

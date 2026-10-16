@@ -40,6 +40,7 @@
 ## 6. Installed CLI Power Utilities
 The following tools are installed in `~/.local/bin` and can be executed directly in the terminal:
 - `game-texture-editor`: Procedural normal generation, RNM blending, seamless tiling, alpha edge dilation, CAS sharpening, DDS transcoding.
+- `game-dialogue-tool`: S.T.A.L.K.E.R. & RPG conversation UI layout repair, string table cross-referencing, encoding/mojibake fixing, and dialogue graph validation.
 - `stalker-playtest-runner`: Autonomous hands-free game QA, dialogue & locomotion runner via `/dev/uinput`.
 - `game-test-watchdog`: Anti-stuck, freeze, and infinite loop supervisor for headless game testing.
 - `skills-audit-update`: Health auditor, permissions fixer, and multi-CLI/editor synchronizer.
@@ -148,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (157 Specialized Capabilities)
+## Complete Skills Catalog (158 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -212,6 +213,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`game-asset-pack-archive-engineering`** | Virtual file systems (VFS), game asset pack archive containers (PAK, XDB, AssetBundles), chunked zstd/zlib compression, memory-mapped I/O (mmap), and endianness-safe save state serialization. Use when designing asset loaders, porting game archives, or packaging game data distributions. |
 | **`game-audio-engine-engineering`** | Low-latency game audio architecture, 3D spatial audio, HRTF binaural processing, mixing bus hierarchies, and sound bank asset pipelines (FMOD, Wwise, OpenAL Soft, MiniAudio, Oboe). Use when building audio engines, porting sound runtimes, or fixing audio clipping/desyncs. |
 | **`game-debug-ui-tools`** | In-engine debug UI systems, Dear ImGui integration, immediate-mode 3D debug drawing (AABBs, rays, contact manifolds), live console variables (CVars), hierarchical frame profilers, and memory inspectors. Use when diagnosing game runtime issues, tuning gameplay parameters live, or adding telemetry tools. |
+| **`game-dialogue-ui-localization`** | Specialized game dialogue translation, string table repair, and conversation UI layout engine (S.T.A.L.K.E.R. & RPGs). Validates string IDs, resolves dialogue dead-end loops, fixes text clipping/overrun in talk.xml/talk_16.xml, enforces complex_mode multiline wrapping, and repairs CP1251/UTF-8 mojibake. |
 | **`game-engine-migration`** | Universal architectural framework for porting, migrating, and modernizing game engines and legacy mods across bitness (32-bit to 64-bit), graphics APIs (DX9/OpenGL to DX11/DX12/Vulkan), and scripting runtimes. |
 | **`game-entity-component-system`** | High-performance Entity Component System (ECS) architecture, Data-Oriented Design (DOD), Archetype vs Sparse-Set storage, Structure-of-Arrays (SoA) memory layout, and multithreaded system scheduling. Use when designing game engine logic, optimizing cache misses, or porting object-oriented game code to ECS. |
 | **`game-exploratory-fuzzing`** | Evolutionary input fuzzing, novelty-guided action mutation, and crash delta minimization for automated game QA and playtesting. |
