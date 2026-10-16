@@ -17,12 +17,12 @@ Before beginning work on any user request, evaluate the prompt's structural comp
 * **Triggers:** Single-line fixes, simple typo corrections, direct shell commands, asking for file locations, formatting, quick status checks, semantic skill matching (`dynamic-skill-router`), or skill health audits/sync (`skills-audit-update`).
 * **Reasoning Strategy:**
   * Zero extended deliberation.
-  * When uncertain which skill to activate among 110+ choices, run `skill_router.py "<prompt>"` in <20ms to pinpoint the exact 2-3 expert skills.
+  * When uncertain which skill to activate among 112+ choices, run `skill_router.py "<prompt>"` in <20ms to pinpoint the exact 2-3 expert skills.
   * Apply immediate pinpoint diffs via `replace_file_content` or execute terminal commands directly.
   * Run with standard/low thinking latency (keeps streaming instant and saves quota).
 
 ### Tier 2: Standard Engineering & Implementation
-* **Triggers:** Implementing a specific function, refactoring a single module, writing unit tests, fixing a verified bug, session milestone checkpointing (`session-episodic-memory`), video production scripts, vertical shorts generation, Android device automation, Jetpack Compose UI screens, Android architecture/Room flows, Android testing/release hardening, shader translation/validation, PBR texture channel packing, cross-platform input mapping (`game-input-system-abstraction`), VFS container asset packing (`game-asset-pack-archive-engineering`), save state serialization & inspection (`game-save-state-serialization`), in-engine debug UI / CVars (`game-debug-ui-tools`), Discord bot slash commands / UI modals (`discord-bot-engineering`), or skill lifecycle maintenance.
+* **Triggers:** Implementing a specific function, refactoring a single module, writing unit tests, fixing a verified bug, session milestone checkpointing (`session-episodic-memory`), video production scripts, vertical shorts generation, Android device automation, Jetpack Compose UI screens, Android architecture/Room flows, Android testing/release hardening, shader translation/validation, PBR texture channel packing, cross-platform input mapping (`game-input-system-abstraction`), VFS container asset packing (`game-asset-pack-archive-engineering`), save state serialization & inspection (`game-save-state-serialization`), in-engine debug UI / CVars (`game-debug-ui-tools`), Discord bot slash commands / UI modals (`discord-bot-engineering`), procedural SFX synthesis & audio normalization (`ai-procedural-audio-generation`), or skill lifecycle maintenance.
 * **Reasoning Strategy:**
   * When incoming requests are verbose or conversational, activate `high-density-prompting` to distill into a 4-part surgical directive.
   * When logging architectural decisions (ADRs) or preparing for `/compact`, route to `session-episodic-memory` to write a high-density episode record into `.agents/episodes/`.
@@ -39,13 +39,14 @@ Before beginning work on any user request, evaluate the prompt's structural comp
   * When inspecting or migrating save file binary containers and schema versions, route to `game-save-state-serialization`.
   * When embedding ImGui debug windows, runtime CVars, or 3D primitive drawing overlays, route to `game-debug-ui-tools`.
   * When developing Discord bot slash commands, buttons, modals, select menus, or calculating permission/intent bitmasks, route to `discord-bot-engineering`.
+  * When synthesizing game sound effects, procedural chiptune audio, UI interaction sounds, or normalizing audio to platform LUFS standards, route to `ai-procedural-audio-generation`.
   * Follow Test-Driven Development (`test-driven-development`) or targeted debugging (`systematic-debugging`).
   * Sanitize tool outputs using `log-output-sanitizer`.
   * Rely on compiler/linter feedback (e.g. `cargo check`, `ruff`, `clang-tidy`, `pytest`, `spirv-val`).
   * Execute directly on Gemini 3.8 Flash using surgical diffs.
 
 ### Tier 3: Deep Architectural & Multi-System Design
-* **Triggers:** Designing new mods, multi-file refactoring, kernel modules (`omen-acpi`), reverse engineering unfamiliar binaries, visual layout diagnostics, console emulator architecture, game AI reinforcement learning agents, Android NDK C++ native engines/JNI bridges, low-level Android battery/jank profiling, modern rendering engine architectures (Vulkan/DX12), frame graph design, graphics optimization/culling, cinematic post-processing pipelines, real-time spatial audio DSP engines, fixed-timestep physics accumulators & narrowphase solvers, custom memory allocators (Arena/Pool/TLSF), ECS Archetype/Sparse-Set architecture (`game-entity-component-system`), skeletal animation dual-quaternion skinning & IK solvers (`game-animation-skeletal-pipeline`), multiplayer client prediction & state synchronization (`game-networking-state-sync`), or sharded Discord bot cluster architectures & Voice Gateway Opus pipelines (`discord-bot-engineering`).
+* **Triggers:** Designing new mods, multi-file refactoring, kernel modules (`omen-acpi`), reverse engineering unfamiliar binaries, visual layout diagnostics, console emulator architecture, game AI reinforcement learning agents, Android NDK C++ native engines/JNI bridges, low-level Android battery/jank profiling, modern rendering engine architectures (Vulkan/DX12), frame graph design, graphics optimization/culling, cinematic post-processing pipelines, real-time spatial audio DSP engines, fixed-timestep physics accumulators & narrowphase solvers, custom memory allocators (Arena/Pool/TLSF), ECS Archetype/Sparse-Set architecture (`game-entity-component-system`), skeletal animation dual-quaternion skinning & IK solvers (`game-animation-skeletal-pipeline`), multiplayer client prediction & state synchronization (`game-networking-state-sync`), sharded Discord bot cluster architectures (`discord-bot-engineering`), or adaptive multi-stem soundtrack composition & generative audio pipelines (`ai-procedural-audio-generation`).
 * **Reasoning Strategy:**
   * Activate `deliberative-reasoning-tree` to explore 3 branching hypothesis paths and conduct adversarial self-critique before writing code.
   * For live visual layout glitches, GUI rendering anomalies, or game HUD overlaps, route desktop/window capture to `screen-vision-inspector`.
@@ -63,6 +64,7 @@ Before beginning work on any user request, evaluate the prompt's structural comp
   * For character skeletal hierarchy transforms, quaternion SLERP, dual-quaternion skinning, and FABRIK/Two-Bone IK, route to `game-animation-skeletal-pipeline`.
   * For authoritative multiplayer architecture, client-side input prediction replay, remote entity interpolation, and delta snapshot compression, route to `game-networking-state-sync`.
   * For sharded Discord bot clusters, distributed rate-limit coordination, or low-latency Voice Gateway Opus streaming, route to `discord-bot-engineering`.
+  * For dynamic multi-stem vertical soundtrack layering, horizontal music re-sequencing, or deep AI text-to-audio conditioning, route to `ai-procedural-audio-generation`.
   * Route deep external inquiries into unfamiliar APIs to `deep-research-synthesizer`.
   * Route exact mathematical formulas, DSP biquad filter calculations, and log analytics to `sandbox-code-interpreter`.
   * Automatically escalate the architecture and plan drafting phase to a **`pro` (Gemini 4 Argon)** subagent via `invoke_subagent`.

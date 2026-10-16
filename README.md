@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **111 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **112 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 111 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 112 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -60,7 +60,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 111 specialized skills
+    └── skills/                 # 112 specialized skills
 ```
 
 ---
@@ -159,6 +159,7 @@ cli-power-setup/
 | **`game-graphics-optimization-profiling`** | Graphics/Perf | Bottleneck triage, Hi-Z occlusion culling, GPU MultiDraw, LODs, TAA & FSR/DLSS |
 | **`post-processing-visual-fx`** | Graphics/PostFX | ACES/AgX tone mapping, progressive dual-filtering bloom, SSAO/GTAO, CSM shadow cascades |
 | **`game-audio-engine-engineering`** | Engine/Audio | Lock-free audio callbacks, 3D HRTF spatialization, bus mixing & dynamic ducking |
+| **`ai-procedural-audio-generation`** | Audio/SFX | Procedural DSP synthesis, text-to-SFX models, adaptive game music & loudness normalization |
 | **`game-physics-collision-pipeline`** | Engine/Physics | Fixed-timestep accumulator loops, state interpolation, BVH broadphase & GJK/EPA CCD |
 | **`game-memory-allocator-engineering`** | Engine/Memory | Linear Arenas, Stack LIFO rollback, Pool free lists, TLSF & 64-byte cache alignment |
 | **`game-input-system-abstraction`** | Engine/Input | Scaled radial deadzones, sub-pixel mouse smoothing, controller GUID glyph switching |
@@ -175,7 +176,7 @@ cli-power-setup/
 | **`android-architecture-jetpack`** | Mobile/Arch | Clean Architecture, MVI/StateFlow, Room auto-migrations, Navigation DSL, Hilt |
 | **`android-testing-ci-cd-security`** | Mobile/DevOps | Robolectric, Compose UI tests, R8 shrinking, Android Keystore StrongBox |
 | **`android-perf-battery-profiling`** | Mobile/Perf | Jank analysis (`dumpsys gfxinfo`), batterystats, Perfetto, memory leak heap dumps |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 111+ skills |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 112+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
@@ -950,6 +951,14 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Enforces sub-3-second deferred interaction discipline, handles route-specific rate-limit buckets, provides clean modular Cog/Command architectures, streams low-latency audio via FFmpeg and PyNaCl, and includes a standalone bitmask calculator (`scripts/discord_bitmask_calculator.py`).
 * **Why It Saves Quota:** Stops common Discord pitfalls (failed interaction timeouts, missing privileged intents, unhandled rate-limit 429 loops) before you burn tokens debugging WebSocket errors.
 
+### 🎵 Procedural & Generative Audio Engineering
+
+#### 112. `ai-procedural-audio-generation`
+* **In Simple Terms:** Sound effect and music generation workshop—synthesizing game SFX (lasers, explosions, coins, whooshes, UI clicks) offline with pure code, guiding AI text-to-audio models, layering adaptive game music, and mastering loudness.
+* **When It Kicks In:** Creating game sound effects, generating UI interaction audio, scoring background music for videos/shorts, implementing multi-stem dynamic combat music, or normalizing sound to YouTube (-14 LUFS) or mobile (-16 LUFS) standards.
+* **How It Works:** Uses pure mathematical waveform synthesis (Sine, Square, Sawtooth, White Noise) with ADSR envelope shaping, provides an instant offline SFX synthesis tool (`scripts/procedural_sfx_generator.py`), and engineers prompts for frontier text-to-sound-effect models (ElevenLabs SFX, AudioCraft).
+* **Why It Saves Quota:** Generates game-ready sound effects and UI pings locally in milliseconds with zero API costs, zero quotas, and zero external software.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1080,7 +1089,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 111 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 112 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

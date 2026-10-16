@@ -63,6 +63,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record ECS storage archetype model (Flecs vs EnTT), skeletal joint limit configurations, network server tick rate / interpolation buffer delay ($60\text{--}100\text{ms}$), save state schema version integer, and registered runtime CVars in `systemPatterns.md`.
 * **Discord Bot Architecture & Gateway Bindings (`discord-bot-engineering`):**
   Record bot client runtime (discord.py vs discord.js), required gateway intents bitmask, application ID, test guild IDs, and Redis caching topology in `systemPatterns.md`.
+* **Procedural & Generative Audio Bindings (`ai-procedural-audio-generation`):**
+  Record target output sample rate (default $48\text{kHz}$), target integrated loudness ($-14\text{ LUFS}$ YouTube / $-16\text{ LUFS}$ Mobile / $-24\text{ LUFS}$ Game Engine), and procedural SFX preset directories in `systemPatterns.md`.
 
 ---
 

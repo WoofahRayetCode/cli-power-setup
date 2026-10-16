@@ -63,6 +63,7 @@ To ensure the new frontier efficiency tools are always utilized:
 * **VFS Archive Listings & Physics Contact Matrices:** When unpacking or inspecting large asset archives (`vfs_asset_packer.py --list`) or dumping physics contact manifold tables, pipe results to files or artifacts, presenting only summary counts (file count, total payload size, active contact pairs) in chat.
 * **ECS Dumps & Save State Payloads:** When inspecting entity archetype tables or raw save state payloads (`save_state_inspector.py --inspect`), offload detailed byte hex dumps to disk/artifacts, presenting only container header validation, schema versions, and compression statistics in chat.
 * **Discord API Payloads & Gateway Event Logs:** When querying large Discord API endpoints (guild member lists, audit logs, role hierarchies) or capturing raw WebSocket Gateway dispatch JSON, stream them to temporary `.json` files, presenting only counts, user tags, or permission flags in chat.
+* **Audio Waveform Arrays & Loudness Tables:** When generating procedural audio or running FFmpeg loudness filter analysis (`ebur128`), write raw sample arrays and multi-pass JSON logs to disk, outputting only target integrated LUFS, True Peak dB, and file paths in chat.
 * Provide a single clickable file link and a 1-sentence headline rather than dumping large blocks of markdown or HTML into the chat transcript.
 
 ---
