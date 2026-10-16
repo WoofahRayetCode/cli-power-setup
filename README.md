@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **50 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **58 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 50 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 58 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launcher:** Installs `agy-turbo` into `~/.local/bin/`.
@@ -57,7 +57,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 50 specialized skills
+    └── skills/                 # 58 specialized skills
 ```
 
 ---
@@ -102,6 +102,14 @@ cli-power-setup/
 | **`avalonia-cross-platform-dev`** | UI/Desktop | Avalonia UI (.NET 8/9), MVVM, Native AOT, cross-platform XAML |
 | **`tauri-multiplatform-dev`** | UI/Desktop | Lightweight desktop/mobile apps (Tauri 2.0, Rust backend, web frontend) |
 | **`cross-browser-extensions`** | Web/Ext | Manifest V3 multi-browser extensions (Chrome, Firefox, Safari) |
+| **`prompt-cache-context-optimizer`** | Frontier | Emulates 1M+ context window & >90% Anthropic prompt cache discount |
+| **`subagent-swarm-orchestrator`** | Frontier | Autonomous parallel subagent swarms, worktrees & JSON IPC pipelines |
+| **`generative-visual-artifacts`** | Frontier | Interactive HTML5/JS/SVG widgets & live browser preview generation |
+| **`canvas-interactive-workspace`** | Frontier | Side-by-side editing canvas, targeted diff staging & surgical rollbacks |
+| **`deep-research-synthesizer`** | Frontier | Recursive multi-source web crawling & cited technical research whitepapers |
+| **`sandbox-code-interpreter`** | Frontier | Headless Python scientific computing, log analytics & chart plotting |
+| **`deliberative-reasoning-tree`** | Frontier | Tree-of-Thought (ToT) 3-path branching, adversarial self-critique & backtracking |
+| **`semantic-codebase-indexing`** | Frontier | Instant AST symbol graph indexing, ctags/tree-sitter call hierarchy |
 | **`cachyos-arch-packaging`** | Systems | Arch/CachyOS PKGBUILD, DKMS kernel modules, systemd |
 | **`reverse-engineer-anything`** | Systems/RE | Deep multi-target analysis with REA MCP |
 | **`binary-re-workflows`** | Systems/RE | Ghidra, JADX, TShark, objdump, and hex diffing |
@@ -382,75 +390,127 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ---
 
+### 🚀 Frontier Model & Platform Parity (Gemini, ChatGPT, DeepSeek, Cursor)
+
+#### 37. `prompt-cache-context-optimizer`
+* **In Simple Terms:** Emulates Gemini's massive 1M–2M context window in Claude Code and guarantees a 90% discount on your AI token bills.
+* **When It Kicks In:** Working with large codebases, multi-file refactors, or running long 15+ turn sessions.
+* **How It Works:** Re-orders prompts so static system rules and project indexes sit at the front to guarantee Anthropic prompt cache hits (>1,024 tokens, 5-minute TTL), and compresses huge code repositories into lightweight 2-level AST summaries.
+* **Why It Saves Quota:** Slashes input prompt costs by **up to 90%** and prevents expensive repetitive repository reads.
+
+#### 38. `subagent-swarm-orchestrator`
+* **In Simple Terms:** Gives Claude Code the ability to launch and coordinate a team of autonomous background AI worker agents running in parallel.
+* **When It Kicks In:** Running linting, testing, and documentation generation simultaneously, or exploring competing solutions.
+* **How It Works:** Uses detached background tasks in isolated git worktrees (`.worktrees/worker-*`), pipes JSON messages between workers and the parent orchestrator, and aggregates completed results.
+* **Why It Saves Quota:** Offloads massive exploration and test-log noise into disposable background sandboxes, keeping your main conversation transcript tiny.
+
+#### 39. `generative-visual-artifacts`
+* **In Simple Terms:** Generates interactive web widgets, UI mockups, and charts in Claude Code that instantly open in your local web browser.
+* **When It Kicks In:** Reviewing UI wireframes, visualizing hardware telemetry, fan curves, or complex math formulas.
+* **How It Works:** Builds zero-dependency single-file HTML5/Tailwind/Chart.js/KaTeX artifacts, saves them to temporary previews, and auto-launches them via `xdg-open` or `open`.
+* **Why It Saves Quota:** Replaces hundreds of lines of confusing ASCII tables or text descriptions with an instant rendered visual interface.
+
+#### 40. `canvas-interactive-workspace`
+* **In Simple Terms:** Brings ChatGPT's Canvas side-by-side editing experience into Claude Code for reviewing and approving exact line diffs.
+* **When It Kicks In:** Making delicate code refactors, editing configuration files, or reviewing major modifications.
+* **How It Works:** Stages draft modifications in `.canvas/`, renders unified colorized terminal diffs, applies targeted search-and-replace chunks, and logs design rationales.
+* **Why It Saves Quota:** Eliminates full-file rewrites and allows reviewing and approving edits in place before touching production files.
+
+#### 41. `deep-research-synthesizer`
+* **In Simple Terms:** Brings OpenAI Deep Research and Perplexity Pro investigative capabilities into Claude Code for generating cited technical whitepapers.
+* **When It Kicks In:** Researching unfamiliar protocols, complex APIs, kernel subsystems, or open-source libraries.
+* **How It Works:** Formulates multi-vector queries, recursively crawls documentation and GitHub issues, rates source credibility, filters SEO spam, and compiles formal cited reports into `.agents/research/`.
+* **Why It Saves Quota:** Prevents the user from having to manually guide the AI through 20 separate web search rounds.
+
+#### 42. `sandbox-code-interpreter`
+* **In Simple Terms:** An in-chat scientific calculator and data analyst that executes Python in the background to calculate exact numbers, parse data, and plot charts.
+* **When It Kicks In:** Calculating audio DSP filter curves, analyzing hardware telemetry logs, verifying math proofs, or parsing CSV/benchmark files.
+* **How It Works:** Runs headless Python scripts in an isolated virtual environment with `numpy`, `pandas`, `matplotlib`, and `scipy`, outputting exact numbers and high-res vector charts.
+* **Why It Saves Quota:** Eliminates guessing and hallucinated math by calculating exact values programmatically.
+
+#### 43. `deliberative-reasoning-tree`
+* **In Simple Terms:** Implements DeepSeek R1 and OpenAI o1-style Tree-of-Thought reasoning, exploring 3 distinct solution paths and attacking its own logic before writing code.
+* **When It Kicks In:** High-complexity architectural decisions, concurrency debugging, or performance-critical design.
+* **How It Works:** Generates 3 parallel solution paths, runs an adversarial self-critique checking edge cases and memory hazards, explicitly backtracks on flaws, and selects only the proven best path.
+* **Why It Saves Quota:** Prevents the AI from pursuing a flawed architectural path that takes hours of trial-and-error to unwind.
+
+#### 44. `semantic-codebase-indexing`
+* **In Simple Terms:** Gives Claude Code Cursor and Windsurf-style instant photographic memory of your entire project's classes and functions.
+* **When It Kicks In:** Searching for function definitions, callers, or class hierarchies across large multi-file repositories.
+* **How It Works:** Maintains a compact Universal Ctags / Tree-sitter symbol index (`.code_index_tags.json`) that Claude queries in 10ms with `jq` without reading whole files into the chat context.
+* **Why It Saves Quota:** Replaces multi-file `view_file` calls (which burn 20,000+ tokens) with a 200-token targeted symbol lookup.
+
+---
+
 ### 💻 Systems, Reverse Engineering & Languages
 
-#### 37. `cachyos-arch-packaging`
+#### 45. `cachyos-arch-packaging`
 * **In Simple Terms:** Builds and packages Linux software, kernel drivers, and background services specifically for Arch Linux and CachyOS.
 * **When It Kicks In:** Creating Arch/CachyOS packages (`PKGBUILD`), installing kernel drivers (like `omen-acpi`), or setting up systemd background services.
 * **How It Works:** Enforces Arch packaging standards, checks integrity hashes, validates build dependencies in isolated chroots, and verifies systemd service files.
 * **Why It Saves Quota:** Prevents broken package builds and keeps your Linux system clean, stable, and conflict-free.
 
-#### 38. `reverse-engineer-anything`
+#### 46. `reverse-engineer-anything`
 * **In Simple Terms:** A deep inspection engine for understanding closed-source software, compiled games, and applications when no source code is available.
 * **When It Kicks In:** Analyzing compiled binaries, Windows/Linux executables, Android packages, or web apps.
 * **How It Works:** Deeply integrates with REA MCP to perform static disassembly, decompile code, reconstruct data structures, and keep an evidence ledger.
 * **Why It Saves Quota:** Tracks findings in structured evidence summaries rather than dumping thousands of lines of raw, unreadable assembly into chat.
 
-#### 39. `binary-re-workflows`
+#### 47. `binary-re-workflows`
 * **In Simple Terms:** Coordinates professional reverse engineering tools (like Ghidra, JADX, and network packet analyzers) under a strict scientific process.
 * **When It Kicks In:** Inspecting unfamiliar game DLLs, network packets, or complex binary executables.
 * **How It Works:** Combines static analysis and runtime tracing to test hypotheses about how closed-source binaries function.
 * **Why It Saves Quota:** Turns confusing binary mysteries into deterministic, step-by-step discoveries.
 
-#### 40. `standalone-binary-re`
+#### 48. `standalone-binary-re`
 * **In Simple Terms:** A fast, zero-setup toolkit for peeking inside binary files using standard Linux terminal tools—no heavy servers required.
 * **When It Kicks In:** Inspecting executables, DLLs, or Android APKs when external MCP servers are offline or when you need answers in seconds.
 * **How It Works:** Uses built-in Linux tools (`objdump`, `readelf`, `nm`, `strings`, `jadx`, `gdb`) and Python scripts to quickly inspect exported functions, headers, and text.
 * **Why It Saves Quota:** Starts up instantly with zero overhead and filters out noise so you only see the functions you care about.
 
-#### 41. `open-apk`
+#### 49. `open-apk`
 * **In Simple Terms:** Automatically opens, inspects, and decompiles Android mobile app packages (APKs) into readable Java code.
 * **When It Kicks In:** Reverse engineering Android apps, mobile games, or APK packages.
 * **How It Works:** Unpacks APK and DEX files directly into JADX headless analysis, searches classes and methods, and can download APKs directly via `apkeep`.
 * **Why It Saves Quota:** Extracts only the exact Java classes you need instead of dumping hundreds of decompiled files into the chat context.
 
-#### 42. `wakaru`
+#### 50. `wakaru`
 * **In Simple Terms:** Unpacks and unscrambles messy, minified JavaScript bundles (like from Webpack, Vite, or Electron) back into clean, organized files.
 * **When It Kicks In:** Auditing modern web apps, Electron desktop software, or production JavaScript bundles.
 * **How It Works:** Separates bundled web assets back into individual source files and translates minified shortcuts back into readable classes, async functions, and JSX.
 * **Why It Saves Quota:** Turns a gigantic, unreadable 2MB single-line JavaScript file into clean, modular source files with zero hallucination.
 
-#### 43. `lowlevel-dll-internals`
+#### 51. `lowlevel-dll-internals`
 * **In Simple Terms:** A low-level guide for safely modifying Windows DLLs, game engine classes, and memory patches without crashing the game.
 * **When It Kicks In:** Writing game mod plugins (like ASI plugins), hooking engine functions, or analyzing crash dumps.
 * **How It Works:** Calculates computer memory offsets, 32-bit calling conventions (`__thiscall` in `ecx`), 64-bit ABI shadow space, and virtual function tables so memory patches don't cause instant crashes.
 * **Why It Saves Quota:** Prevents dreaded `0xC0000005` "Access Violation" crashes by calculating memory addresses and calling conventions correctly the first time.
 
-#### 44. `steamcmd-workshop-pipeline`
+#### 52. `steamcmd-workshop-pipeline`
 * **In Simple Terms:** Automates publishing and updating mods on the Steam Workshop from the command line without clicking through confusing web forms.
 * **When It Kicks In:** Uploading new mods, pushing updates, setting preview images, or writing changelogs on Steam Workshop.
 * **How It Works:** Generates valid Steam VDF configuration manifests, manages content depots, and executes SteamCMD commands automatically.
 * **Why It Saves Quota:** Replaces error-prone manual upload attempts with an automated, verified deployment script.
 
-#### 45. `python-engineering`
+#### 53. `python-engineering`
 * **In Simple Terms:** Best practices for writing clean, fast, and bug-free modern Python code (Python 3.10+).
 * **When It Kicks In:** Writing Python scripts, web APIs, automation tools, or test suites.
 * **How It Works:** Enforces strict type hints (`mypy`), lightning-fast code formatting and linting (`ruff`), and comprehensive test suites (`pytest`).
 * **Why It Saves Quota:** Catches bugs before code ever runs, saving countless turns of debugging runtime errors.
 
-#### 46. `rust-engineering`
+#### 54. `rust-engineering`
 * **In Simple Terms:** Writes reliable, blazing-fast Rust code by working harmoniously with the Rust compiler.
 * **When It Kicks In:** Writing systems software, game tools, performance-critical modules, or CLI utilities in Rust.
 * **How It Works:** Follows Rust best practices for memory ownership, zero-cost abstractions, error handling with `Result` and `Option`, and strict Clippy lint checks.
 * **Why It Saves Quota:** Eliminates runtime crashes completely—if it compiles cleanly in Rust, it works.
 
-#### 47. `modern-cpp-engineering`
+#### 55. `modern-cpp-engineering`
 * **In Simple Terms:** Modern C++ (C++20/C++23) standards that eliminate old-school memory bugs, buffer overflows, and crashes.
 * **When It Kicks In:** Writing game engine code, native libraries, or performance-critical C++ applications.
 * **How It Works:** Uses smart pointers (`unique_ptr`, `shared_ptr`), RAII (automatic cleanup of resources), modern Concepts, and clean CMake build files.
 * **Why It Saves Quota:** Prevents memory leaks, buffer overflows, and segmentation faults before they happen.
 
-#### 48. `csharp-dotnet-engineering`
+#### 56. `csharp-dotnet-engineering`
 * **In Simple Terms:** High-performance modern C# and .NET (8/9) guidelines focused on zero-allocation and responsive async code.
 * **When It Kicks In:** Writing C# backend services, desktop utilities, game plugins, or tools.
 * **How It Works:** Uses memory-efficient types (`Span<T>`, `Memory<T>`), proper async cancellation tokens, and Roslyn code analyzers to keep apps fast.
@@ -460,7 +520,7 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ### 💰 Quota, Memory & Context Engineering
 
-#### 49. `token-economy`
+#### 57. `token-economy`
 * **In Simple Terms:** The ultimate quota-saving protocol that eliminates robotic fluff, stops the AI from repeating itself, and stretches your daily AI usage limits by 2x to 3x.
 * **When It Kicks In:** Always active in every conversation across Antigravity and Claude Code.
 * **How It Works:**
@@ -485,7 +545,7 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 * **Compounding Context Multiplier:** Because past conversation output tokens are re-ingested as input prompt tokens on every subsequent turn, saving 6,500 output tokens in early turns prevents re-reading **~35,000–60,000 cumulative prompt tokens** across a 15-turn session, extending rolling 5-hour quota limits by **2x to 3x**.
 
-#### 50. `project-memory-bank`
+#### 58. `project-memory-bank`
 * **In Simple Terms:** A smart project notebook that stores your project's architecture and lessons learned, so the AI never forgets what you're working on across restarts.
 * **When It Kicks In:** Starting work on a repository, resuming multi-session tasks, or before running `/compact`.
 * **How It Works:**

@@ -1,0 +1,42 @@
+---
+name: canvas-interactive-workspace
+description: Emulates ChatGPT Canvas side-by-side collaborative drafting, targeted inline diff staging, and surgical change annotations in Claude Code.
+---
+
+# Canvas Interactive Workspace & Diff Staging
+
+This skill provides a side-by-side editing canvas workflow in Claude Code, allowing targeted revisions, inline diff reviews, and versioned staging before touching production files.
+
+---
+
+## 📐 The Canvas Workflow
+
+```
+[Target File] ──> [Staging Buffer (.canvas/)] ──> [Interactive Review] ──> [Surgical Commit]
+```
+
+1. **Zero Overwriting:** Never modify production source code in place until diffs are staged and verified.
+2. **Staging Directory:** Mirror files under `.canvas/<filename>.draft` for iterative tweaking.
+3. **Unified Color Diffs:** Generate clean, terminal-readable color diffs (`git diff --no-index --color-words`).
+4. **Surgical Patching:** Apply only approved chunks using targeted line replacements.
+
+---
+
+## 🛠️ 1. Staging & Diffing Script Pattern
+
+```bash
+# 1. Create staging directory
+mkdir -p .canvas
+
+# 2. Stage draft copy
+cp src/engine.cpp .canvas/engine.cpp.draft
+
+# 3. Perform edits on draft, then render side-by-side diff
+git diff --no-index --color-words src/engine.cpp .canvas/engine.cpp.draft || true
+```
+
+---
+
+## 🔄 Interoperability & Handoffs
+
+* **Handoff to `token-economy`:** Guarantees that only targeted diff lines are communicated, avoiding full-file code dumps into chat.\n

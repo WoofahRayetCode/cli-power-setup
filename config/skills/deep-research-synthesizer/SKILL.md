@@ -1,0 +1,31 @@
+---
+name: deep-research-synthesizer
+description: Autonomous multi-source web crawling, recursive citation mapping, source credibility ranking, and publication-grade technical research synthesis.
+---
+
+# Deep Research Synthesizer
+
+This skill brings OpenAI Deep Research and Perplexity Pro investigative capabilities to Claude Code, conducting multi-source recursive research and compiling comprehensive technical whitepapers.
+
+---
+
+## 🔍 The Deep Research Protocol
+
+1. **Multi-Vector Query Expansion:** Break down research topics into 4–6 distinct search facets (e.g. historical bug reports, RFC specifications, API changes, real-world benchmarks).
+2. **Recursive Traversal:** Follow hyperlinks into official documentation, GitHub issue threads, and release changelogs.
+3. **Source Credibility Ranking:**
+   * Tier 1 (Authoritative): Official RFCs, kernel documentation, official framework source code.
+   * Tier 2 (Practical): GitHub commit diffs, maintainer discussions, reproduction scripts.
+   * Tier 3 (Secondary): StackOverflow answers, curated technical blogs.
+   * *Discarded:* SEO-generated spam, unverified forum claims.
+4. **Evidence Bundling:** Compile findings into structured research artifacts with precise Markdown citations.
+
+---
+
+## 📄 Output Artifact Structure
+
+Every Deep Research task produces a formal report in `.agents/research/<topic>.md`:
+* **Executive Summary:** Core findings and actionable technical takeaways.
+* **Architecture Analysis:** Deep-dive into mechanisms, memory layouts, or APIs.
+* **Comparative Matrix:** Concrete pros/cons and benchmarks.
+* **Verified Citations:** Numbered links with quotes and author dates.\n
