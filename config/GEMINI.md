@@ -20,3 +20,7 @@
 - **Zero Code & Template Duplication in Chat:** Once code, HTML templates, or documents are created or modified via tools, never re-paste the content blocks into chat. State only the file link, line range, and rationale.
 - **Zero Prompt Restatement:** Never echo or paraphrase the user's request. Lead immediately with the action, data, or checklist.
 - **Token Economy Visibility:** Conclude plans, refactors, and multi-step workflows with a single high-density token savings line: `📉 Token Economy: ~<N> tokens saved (<breakdown, e.g. surgical diffs, artifact offload, Flash routing>)`.
+
+## Hardware-Aware High-Performance Execution
+- **Dynamic Thread Saturation:** Automatically saturate all available CPU threads when compiling, running test suites, or packing assets (`-j$(nproc)` / `MAKEFLAGS="-j$(nproc)"`, `CARGO_BUILD_JOBS=$(nproc)`, `CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)`). Never default to single-threaded builds.
+- **Hardware-Aware Tool Dispatch:** Direct heavy GPU tasks (Blender Cycles, voice inference, numerical compute) to CUDA / OptiX or Vulkan rather than slow CPU fallback.

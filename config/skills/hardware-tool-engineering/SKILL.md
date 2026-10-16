@@ -1,0 +1,60 @@
+---
+name: hardware-tool-engineering
+description: Architect, build, and update hardware management tools, system daemons, sensors, and thermal controllers with cross-architecture portability (x86_64 Zen/Intel, ARM64, NVIDIA, AMD).
+---
+
+# Hardware Tool Engineering & System Device Control
+
+This skill guides the creation, updating, and maintenance of hardware management utilities, sensor monitors, fan controllers, power governors, and peripheral tools.
+
+---
+
+## 🎯 When to Activate
+
+* **Hardware Monitoring & Sensor Tools:** Reading and parsing Linux `/sys/class/hwmon/`, thermal zones, power supplies, and battery health.
+* **ACPI & Embedded Controller Control:** Interacting with laptop WMI interfaces, fan curves, performance profiles (HP OMEN, ASUS ROG, Lenovo Legion).
+* **Cross-Vendor Device Discovery:** Querying PCI/USB device topologies and vendor IDs (`0x10de` NVIDIA, `0x1002` AMD, `0x8086` Intel).
+* **CPU Vectorization & Feature Detection:** Writing runtime feature dispatchers that detect AVX-512, AVX2, or ARM NEON at startup and execute the fastest SIMD path.
+* **Background System Daemons:** Designing lightweight systemd D-Bus services that monitor hardware state with zero CPU idle draw.
+
+---
+
+## 🛠️ Architecture & Portability Patterns
+
+### 1. Linux Hardware Discovery Tree:
+* **Sensors & Temperatures:** `/sys/class/hwmon/hwmon*/` (read `temp*_input`, `fan*_input`, `name`).
+* **CPU Frequency & Governor:** `/sys/devices/system/cpu/cpu*/cpufreq/` (read `scaling_governor`, `energy_performance_preference`).
+* **Power & Battery:** `/sys/class/power_supply/` (read `charge_control_limit_max`, `capacity`, `status`).
+
+### 2. Dynamic SIMD & CPU Feature Dispatch (C/C++):
+```c
+#include <immintrin.h>
+
+void execute_fast_vector_add(float* a, float* b, float* c, int n) {
+    #if defined(__AVX512F__)
+    // AVX-512 512-bit vector path (Zen 4 / Intel Xeon)
+    int i = 0;
+    for (; i <= n - 16; i += 16) {
+        __m512 va = _mm512_loadu_ps(&a[i]);
+        __m512 vb = _mm512_loadu_ps(&b[i]);
+        _mm512_storeu_ps(&c[i], _mm512_add_ps(va, vb));
+    }
+    #elif defined(__AVX2__)
+    // AVX2 256-bit vector path
+    int i = 0;
+    for (; i <= n - 8; i += 8) {
+        __m256 va = _mm256_loadu_ps(&a[i]);
+        __m256 vb = _mm256_loadu_ps(&b[i]);
+        _mm256_storeu_ps(&c[i], _mm256_add_ps(va, vb));
+    }
+    #else
+    // Portable scalar fallback
+    int i = 0;
+    #endif
+    for (; i < n; i++) c[i] = a[i] + b[i];
+}
+```
+
+### 3. Safe Hardware Writing Rules:
+* **Bounds Verification:** Never write raw values to `/sys/` or embedded controller registers without clamp validation (e.g. fan speeds must be clamped between 0% and 100%).
+* **Permission Fallback:** Check for `EACCES` and guide the user to `sudo` or udev rules (`/etc/udev/rules.d/`) rather than crashing.

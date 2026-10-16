@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **79 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **82 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 79 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 82 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launcher:** Installs `agy-turbo` into `~/.local/bin/`.
@@ -57,7 +57,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 79 specialized skills
+    └── skills/                 # 82 specialized skills
 ```
 
 ---
@@ -142,6 +142,9 @@ cli-power-setup/
 | **`executive-business-communications`** | Business | BLUF executive emails, anti-jargon filter, high-conversion proposals, SOWs, invoice generation |
 | **`intelligent-interactive-ui`** | Frontier/UI | Reactive single-file micro-apps, forms & live calculators (Astra Intelligent UI) |
 | **`screen-vision-inspector`** | Frontier/Vision | Autonomous screen/window capture & visual layout debugging (Project Astra Vision) |
+| **`cuda-gpu-acceleration`** | Hardware/GPU | NVIDIA CUDA 13.4, nvcc, Tensor Cores, PyTorch C++ extensions & OptiX |
+| **`vulkan-gpu-compute`** | Hardware/GPU | Cross-vendor Vulkan 1.3/1.4 compute, SPIR-V, multi-GPU (NVIDIA, AMD, Intel) |
+| **`hardware-tool-engineering`** | Hardware/Dev | System daemons, hwmon, ACPI/fan controllers & CPU SIMD feature dispatch |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
 | **`project-memory-bank`** | Memory | Persistent `.agents/memory/` context to prevent re-hydration |
@@ -709,6 +712,24 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Uses local capture utilities (`PIL.ImageGrab`, ImageMagick `import`, `grim`) to grab full screens or bounding boxes (`--bbox`), automatically downscales to 1280px to preserve vision tokens, and stores captures privately in `/tmp/`.
 * **Why It Saves Quota:** Eliminates having to manually take screenshots, crop them, upload them to external tools, or guess pixel offsets.
 
+#### 80. `cuda-gpu-acceleration`
+* **In Simple Terms:** Direct GPU engineering for NVIDIA GPUs (including your RTX 5060 Blackwell)—compiling CUDA C++ kernels, Tensor Core matrix math, and OptiX ray-tracing.
+* **When It Kicks In:** Writing custom CUDA kernels, building PyTorch C++ extensions, GPU memory coalescing, or accelerating local offline AI/3D pipelines.
+* **How It Works:** Uses `/opt/cuda/bin/nvcc` with native target flags (`-arch=native`), optimizes shared memory to eliminate DRAM latency, and leverages Tensor Cores (FP16/BF16/FP8).
+* **Why It Saves Quota:** Moves heavy numerical tasks and offline 3D rendering to your discrete GPU, executing in milliseconds with zero cloud compute cost.
+
+#### 81. `vulkan-gpu-compute`
+* **In Simple Terms:** Cross-vendor GPU compute and modern graphics that run identically across NVIDIA, AMD, and Intel hardware.
+* **When It Kicks In:** Writing GPGPU compute shaders, headless data processing, multi-GPU selection, or cross-platform graphics.
+* **How It Works:** Compiles GLSL/HLSL compute shaders into portable SPIR-V binaries via `glslangValidator`, selectively dispatches to high-performance discrete GPUs (RTX 5060) or low-power integrated GPUs (Radeon 610M), and debugs synchronization barriers.
+* **Why It Saves Quota:** Guarantees universal cross-GPU code compatibility that runs on any modern GPU without vendor lock-in.
+
+#### 82. `hardware-tool-engineering`
+* **In Simple Terms:** A specialized guide for building, updating, and maintaining hardware management tools, fan controllers, power governors, and system daemons.
+* **When It Kicks In:** Creating hardware utilities (like `omen-acpi`), reading temperature/fan sensors (`hwmon`), managing battery charge thresholds, or detecting CPU SIMD capabilities.
+* **How It Works:** Reads Linux `/sys/class/hwmon/` and power supply trees, uses runtime CPU feature detection (`cpuid`) to dispatch AVX-512 or AVX2 SIMD paths, and enforces safe bounds checking before writing to embedded controller registers.
+* **Why It Saves Quota:** Prevents kernel panics, permission errors, and hardware crashes through defensive bounds validation and safe udev rules.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -836,7 +857,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`claude`** | Launches standard Claude Code | When you need full deep reasoning for hard bugs or major refactors. |
 | **`agy`** | Launches standard Antigravity CLI | When you need standard multi-model escalation (Flash to Argon). |
 | **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context gauge crosses 50%–60%. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 79 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 82 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
