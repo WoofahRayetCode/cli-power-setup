@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **121 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **124 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 121 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 124 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -185,7 +185,10 @@ cli-power-setup/
 | **`app-security-threat-modeling`** | Security/Arch | STRIDE threat modeling, OWASP Top 10 mitigation, path traversal defense, memory zeroing |
 | **`api-network-security-hardening`** | Security/Network | TLS 1.3 ciphers, SPKI certificate pinning, token bucket rate limiting, replay defense & CSP |
 | **`client-memory-integrity-anticheat`** | Security/Client | XOR value obfuscation, Win32/POSIX anti-debugging, hardware breakpoint traps & state hash |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 121+ skills |
+| **`proton-game-dev-linux`** | Gaming/Proton | Target Valve Proton, case-sensitive asset path normalization, open cutscene codecs & headless CI |
+| **`steamdeck-proton-hardware-tuning`** | Gaming/Handheld | Steam Deck 15W APU TDP budget, 40Hz frame pacing, 1280x800 resolution & 28px font scaling |
+| **`wine-proton-native-interop`** | Gaming/Interop | Win32-to-Linux named pipe mapping, shared memory shims, Wine DLL call thunking & relay traces |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 124+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
@@ -1028,6 +1031,26 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Encrypts in-memory integers with XOR dynamic masks to hide values from scanner sweeps, queries Win32 PEB / hardware debug registers (DR0–DR3) / Linux `ptrace` anti-attach probes, and verifies periodic state hash heartbeats with authoritative servers.
 * **Why It Saves Quota:** Prevents basic cheat engine modifications and memory hacking from breaking game economies and multiplayer simulations.
 
+### 🐧 Proton & Handheld Linux Game Development
+
+#### 122. `proton-game-dev-linux`
+* **In Simple Terms:** Guidelines and automated tools for engineering PC games that target Valve's Proton seamlessly from day one—achieving 100% Linux and SteamOS compatibility without maintaining a separate Linux port.
+* **When It Kicks In:** Designing cross-platform asset VFS paths (preventing case-sensitivity crashes), selecting video cutscene codecs (WebM/VP9 instead of proprietary Media Foundation), and testing builds headlessly via Proton CLI in CI.
+* **How It Works:** Enforces lowercase internal path normalization, specifies open royalty-free video formats (WebM/Opus), and provides a headless continuous integration runner (`proton run Game.exe --headless-tests`).
+* **Why It Saves Quota:** Eliminates the hundreds of hours and engineering turns spent porting games to native Linux by leveraging Proton as a first-class deployment target.
+
+#### 123. `steamdeck-proton-hardware-tuning`
+* **In Simple Terms:** Handheld hardware optimization for Steam Deck and mobile Linux devices running Proton games.
+* **When It Kicks In:** Optimizing games for the Steam Deck's 15W APU TDP envelope, locking 40Hz/45Hz refresh rate frame pacing, supporting native 1280x800 (16:10) resolutions, and ensuring in-game font legibility.
+* **How It Works:** Applies 25ms 40Hz frametime pacing for maximum battery longevity, enforces minimum 28px font heights at 800p for handheld reading, and optimizes asset packaging for MicroSD card read throughput.
+* **Why It Saves Quota:** Directly achieves Valve "Deck Verified" status on the first submission without multi-round QA rejection cycles.
+
+#### 124. `wine-proton-native-interop`
+* **In Simple Terms:** Advanced systems engineering for bridging native Linux host capabilities (system daemons, Unix Domain Sockets, pipe communication, shared memory) with Windows games running inside Proton.
+* **When It Kicks In:** Connecting Windows game processes to native Linux companion tools (OBS, Discord RPC, telemetry dashboards) or writing custom Wine thunking libraries to call Linux `.so` libraries directly.
+* **How It Works:** Uses Wine's named pipe mapping to bridge into Linux Unix sockets (`\\.\pipe\...` -> `/dosdevices/pipe/...`), utilizes `/dev/shm` for zero-copy memory buffers, and configures `WINEDEBUG=+relay` for API call traces.
+* **Why It Saves Quota:** Enables seamless host-to-guest interop without requiring complex networked TCP/UDP overhead or fragile hacks.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1158,7 +1181,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 121 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 124 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
