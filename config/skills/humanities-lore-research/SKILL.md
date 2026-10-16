@@ -1,0 +1,54 @@
+---
+name: humanities-lore-research
+description: Cross-disciplinary research in world history, ancient mythology, comparative folklore, archaeology, and worldbuilding. Compiles structured entity dossiers, chronological timelines, and pantheon relationship graphs ready for websites, wikis, and digital archives.
+---
+
+# Humanities, History & Mythology Lore Research
+
+This skill governs deep cross-disciplinary humanities research across global history, comparative mythology, cultural folklore, ancient archaeology, and worldbuilding lore. It translates raw historical sources and mythic motifs into structured encyclopedic schemas, genealogical graphs, and chronological event streams ready for static sites, wikis, and interactive web visualization.
+
+---
+
+## 🏛️ 1. Cross-Disciplinary Research Methodology
+
+### 1. Source Classification & Historiographical Rigor
+* **Tier 1 (Primary Epigraphic & Textual Records):** Inscriptions, papyri, monumental reliefs, legal codes (Code of Hammurabi), primary manuscripts (Poetic Edda, Homeric Hymns, Kojiki, Popol Vuh).
+* **Tier 2 (Material Archaeology & Material Culture):** Stratigraphic excavations, burial goods, numismatics (coinage), temple architecture, radiometric carbon dates.
+* **Tier 3 (Scholarly Secondary Analysis):** Peer-reviewed historiography, comparative linguistics, structural anthropology (Lévi-Strauss), mythic archetypes (Joseph Campbell, Georges Dumézil).
+* **Tier 4 (Living Folklore & Oral Traditions):** Regional folk tales, balladry, ritual enactments, ethnographic surveys.
+
+### 2. Mythological & Cultural Taxonomy
+* **Cosmology & Creation Motifs:** Ex nihilo, world egg, primordial waters, cosmic dismemberment (Ymir, Tiamat, Pangu).
+* **Pantheon Structures:** Polytheistic hierarchy, dualism, syncretism (e.g. Serapis, Greco-Roman equivalences), chthonic vs celestial deities.
+* **Archetype Mapping:** Tricksters (Loki, Anansi, Hermes), Underworld Descents (Inanna, Orpheus, Izanami), Cultural Heroes (Gilgamesh, Heracles, Väinämöinen).
+* **Etymological Roots:** Proto-Indo-European (PIE) cognates (Dyeus Phter -> Zeus / Jupiter / Tyr), semitic roots, folk etymology.
+
+---
+
+## 📜 2. Digital Lore & Encyclopedia Pipeline
+
+Transform unstructured research notes into publication-grade schemas using `lore_research_compiler.py`:
+
+```bash
+# 1. Export an entity dossier (deity, historical king, or relic) to a Markdown Wiki page
+python3 config/skills/humanities-lore-research/scripts/lore_research_compiler.py \
+  export-wiki pantheon/odin.json --out docs/lore/odin.md
+
+# 2. Compile entity dossiers into a relationship graph (for D3/Vis.js visualization)
+python3 config/skills/humanities-lore-research/scripts/lore_research_compiler.py \
+  compile-network pantheon/*.json --out public/data/pantheon_graph.json
+
+# 3. Sort multi-epoch chronological events (supports BCE and CE)
+python3 config/skills/humanities-lore-research/scripts/lore_research_compiler.py \
+  sort-timeline raw_history.json --out public/data/timeline_events.json
+```
+
+---
+
+## 🌐 3. Integration with Web Site Creation
+
+All compiled research outputs integrate directly with web design archetypes:
+* **Parchment / Mythic Antique:** Displays historical chronicles and illuminated manuscripts.
+* **Interactive Timelines:** Vis.js / TimelineJS widgets fed by `sorted_timeline.json`.
+* **Force-Directed Pantheon Graphs:** D3.js or Mermaid lineage diagrams fed by `pantheon_graph.json`.
+* **Static Site Collections:** Astro or VitePress content collections formatted with Zod schemas.
