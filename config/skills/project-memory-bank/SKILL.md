@@ -103,6 +103,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record active vision model weights (ONNX/PyTorch path), inference execution provider (`CUDAExecutionProvider` / TensorRT), camera intrinsic matrix JSON path, optical scale ratio ($px/mm$), OCR language dictionary (`eng`), and SAHI slice dimensions ($640\times640$, 20% overlap) in `systemPatterns.md`.
 * **Local Hardware Offloading Bindings (`local-model-coprocessor`, `local-vector-rag-engine`, `local-ast-compiler-engine`):**
   Record active local model name (`qwen2.5-coder:1.5b`), server endpoint (`http://localhost:11434`), RAG vector index path (`.agents/rag/index.json`), host CPU thread saturation count (`nproc`), and AST cache paths in `systemPatterns.md`.
+* **Self-Improving Testing Suite Bindings (`game-exploratory-fuzzing`, `self-healing-test-automation`, `coverage-guided-mutation-testing`):**
+  Record active QA input corpus path (`.qa_corpus/`), minimal crash reproduction replay scripts, healed locator patch history (`.agents/healed_locators/`), surviving mutant manifests (`.agents/mutants/`), and mutation score percentages in `systemPatterns.md` and `learnings.md`.
 
 ---
 

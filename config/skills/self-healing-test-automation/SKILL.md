@@ -1,0 +1,50 @@
+---
+name: self-healing-test-automation
+description: Resilient UI test automation, semantic locator auto-repair, visual OCR fallback, and dynamic flakiness mitigation for Web, Mobile, and Desktop GUI testing.
+---
+
+# Self-Healing Test Automation & Resilient Locator Repair
+
+This skill provides dynamic locator self-repair, multi-vector element re-identification, flakiness dampening, and in-place test script auto-patching across Playwright, Puppeteer, Appium, ADB, and desktop GUI automation.
+
+---
+
+## 🎯 When to Activate
+
+* **Broken UI Selectors & Locators:** When CSS selectors, XPaths, Android resource IDs, or window titles change due to app refactors, UI updates, or mod skinning.
+* **Semantic Target Re-identification:** Automatically rediscovering broken elements using multi-vector scoring:
+  - Accessible name / role matching
+  - Cosine text similarity
+  - Relative geometric bounding box proximity
+  - Visual OCR / template grounding
+* **In-Place Test Auto-Patching:** Generating unified git diffs (`.patch`) that update fragile selectors in test code with resilient, healed alternatives.
+* **Flakiness Telemetry & Retries:** Analyzing timing jitter and replacing arbitrary sleeps with condition-driven polling.
+
+---
+
+## 🛠️ CLI Tooling: `self_healing_tester.py`
+
+Located at: `scripts/self_healing_tester.py`
+
+### 1. Heal a Broken Locator:
+```bash
+python3 scripts/self_healing_tester.py heal-locator --broken-selector "#btn-submit-old" --dom-snapshot dom.json --out-patch repair.patch
+```
+
+### 2. Analyze Test Flakiness & Timing Jitter:
+```bash
+python3 scripts/self_healing_tester.py analyze-flakiness --log-file test_run.log
+```
+
+### 3. Headless Dry-Run (CI / Verification):
+```bash
+python3 scripts/self_healing_tester.py heal-locator --dry-run
+```
+
+---
+
+## 📊 Summary Output Format
+
+* `self-healing: [✓] Healed broken locator '#btn-checkout-v1' -> role('button', name='Checkout') (Score: 0.94)`
+* `auto-patch: [✓] Generated unified patch: tests/e2e/checkout.spec.ts (+1, -1)`
+* `flakiness: [✓] Identified 2 fragile sleep() delays; converted to waitForSelector state listener.`

@@ -35,7 +35,7 @@ TOOL_DEPENDENCIES = {
     "cargo": ["rust-engineering", "tauri-multiplatform-dev"],
     "cmake": ["cmake-cross-platform", "modern-cpp-engineering"],
     "tshark": ["network-protocol-engineering", "binary-re-workflows"],
-    "python3": ["python-engineering", "sandbox-code-interpreter", "game-texture-material-pipeline", "autonomous-goal-governor", "furry-fursona-art-design", "android-rom-os-engineering", "game-qa-playtest-controller", "computer-vision-deep-learning", "industrial-machine-vision-inspection", "agentic-visual-perception", "local-model-coprocessor", "local-vector-rag-engine", "local-ast-compiler-engine"],
+    "python3": ["python-engineering", "sandbox-code-interpreter", "game-texture-material-pipeline", "autonomous-goal-governor", "furry-fursona-art-design", "android-rom-os-engineering", "game-qa-playtest-controller", "computer-vision-deep-learning", "industrial-machine-vision-inspection", "agentic-visual-perception", "local-model-coprocessor", "local-vector-rag-engine", "local-ast-compiler-engine", "game-exploratory-fuzzing", "self-healing-test-automation", "coverage-guided-mutation-testing"],
     "objdiff": ["console-game-decompilation"],
     "splat": ["console-game-decompilation"],
     "rizin": ["console-game-decompilation", "binary-re-workflows"],

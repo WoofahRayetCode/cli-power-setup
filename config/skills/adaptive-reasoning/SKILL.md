@@ -74,6 +74,9 @@ Before beginning work on any user request, evaluate the prompt's structural comp
   * When generating boilerplate, docstrings, commit messages, or triaging verbose compiler logs, route to `local-model-coprocessor` to run on local GPU/RAM with 0 cloud tokens billed.
   * When searching large codebases or documentation without stuffing thousands of lines into prompt context, route to `local-vector-rag-engine`.
   * When checking syntax, scanning function/class symbol tables, or verifying code structure across all CPU cores in parallel, route to `local-ast-compiler-engine`.
+  * When executing evolutionary action mutation, novelty-guided state exploration, or bisecting crash traces to minimal reproduction sequences, route to `game-exploratory-fuzzing`.
+  * When repairing broken UI selectors, multi-vector locator matching (role, text, OCR), or mitigating test flakiness, route to `self-healing-test-automation`.
+  * When injecting AST fault mutants (conditional/arithmetic/boolean) to evaluate test quality and synthesize regression assertions, route to `coverage-guided-mutation-testing`.
   * Follow Test-Driven Development (`test-driven-development`) or targeted debugging (`systematic-debugging`).
   * Sanitize tool outputs using `log-output-sanitizer`.
   * Rely on compiler/linter feedback (e.g. `cargo check`, `ruff`, `clang-tidy`, `pytest`, `spirv-val`).

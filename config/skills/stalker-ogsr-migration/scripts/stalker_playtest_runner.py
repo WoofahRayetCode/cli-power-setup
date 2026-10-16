@@ -26,6 +26,8 @@ def main():
     parser.add_argument("--telemetry-dir", type=str, default="/tmp/ogsr_telemetry", help="Directory for screen telemetry captures")
     parser.add_argument("--duration", type=float, default=30.0, help="Total playtest test loop duration")
     parser.add_argument("--skip-lint", action="store_true", help="Skip pre-flight script syntax checks")
+    parser.add_argument("--adaptive", action="store_true", help="Enable self-improving evolutionary input mutation fuzzing")
+    parser.add_argument("--fuzz-duration", type=float, default=5.0, help="Duration for evolutionary action mutation")
     parser.add_argument("--dry-run", action="store_true", help="Simulate playtesting without launching actual game binary")
 
     args = parser.parse_args()
@@ -36,22 +38,28 @@ def main():
     print(f"Game Executable:  {args.game_exe}")
     print(f"Log File:         {args.log_file}")
     print(f"Telemetry Dir:    {args.telemetry_dir}")
-    print(f"Test Duration:    {args.duration}s | Dry Run: {args.dry_run}")
+    print(f"Test Duration:    {args.duration}s | Adaptive Fuzz: {args.adaptive} | Dry Run: {args.dry_run}")
     print("-----------------------------------------------------------------------\n")
 
-    # Resolve skill script paths
-    skills_root = Path.home() / ".claude/skills"
-    if not skills_root.exists():
-        skills_root = Path.home() / ".gemini/config/skills"
-    if not skills_root.exists():
-        skills_root = Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills")
+    # Resolve skill script paths dynamically across Claude, Gemini, and Repo
+    def find_tool(subpath):
+        for root in [
+            Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills"),
+            Path.home() / ".claude/skills",
+            Path.home() / ".gemini/config/skills"
+        ]:
+            p = root / subpath
+            if p.exists():
+                return p
+        return Path.home() / ".claude/skills" / subpath
 
-    ast_tool = skills_root / "local-ast-compiler-engine/scripts/local_ast_compiler.py"
-    qa_controller = skills_root / "game-qa-playtest-controller/scripts/game_playtest_controller.py"
-    screen_monitor = skills_root / "game-screen-telemetry-monitor/scripts/game_screen_monitor.py"
-    ocr_tool = skills_root / "visual-document-ocr-intelligence/scripts/document_ocr_pipeline.py"
-    coproc_tool = skills_root / "local-model-coprocessor/scripts/local_model_coprocessor.py"
-    grounding_tool = skills_root / "agentic-visual-perception/scripts/agent_visual_grounding.py"
+    ast_tool = find_tool("local-ast-compiler-engine/scripts/local_ast_compiler.py")
+    qa_controller = find_tool("game-qa-playtest-controller/scripts/game_playtest_controller.py")
+    screen_monitor = find_tool("game-screen-telemetry-monitor/scripts/game_screen_monitor.py")
+    ocr_tool = find_tool("visual-document-ocr-intelligence/scripts/document_ocr_pipeline.py")
+    coproc_tool = find_tool("local-model-coprocessor/scripts/local_model_coprocessor.py")
+    grounding_tool = find_tool("agentic-visual-perception/scripts/agent_visual_grounding.py")
+    fuzzer_tool = find_tool("game-exploratory-fuzzing/scripts/game_exploratory_fuzzer.py")
 
     # Step 1: Pre-flight AST Syntax Check
     if not args.skip_lint and os.path.exists(args.scripts_dir) and ast_tool.exists():
@@ -97,6 +105,12 @@ def main():
 
     print("[✓] Locomotion & stress sequences completed.")
 
+    # Step 4b: Evolutionary Input Mutation Fuzzing (Self-Improvement)
+    if args.adaptive and fuzzer_tool.exists():
+        print("\n[Step 4b] Executing Self-Improving Evolutionary Input Fuzzing...")
+        fuzz_cmd = [sys.executable, str(fuzzer_tool), "fuzz", "--duration", str(args.fuzz_duration), "--corpus-dir", ".qa_corpus"] + dry_flag
+        subprocess.run(fuzz_cmd, check=False)
+
     # Step 5: Visual Verification & Crash Diagnostic Check
     print("\n[Step 5/5] Checking Visual Verification & Engine Health...")
     
@@ -126,6 +140,9 @@ def main():
     if crash_detected:
         print("\n[❌ CRASH DETECTED] S.T.A.L.K.E.R. OGSR Fatal Error encountered:")
         print(crash_reason)
+        if fuzzer_tool.exists():
+            print("\n[✂️ Delta Minimization]: Bisecting crash input delta to minimal reproduction sequence...")
+            subprocess.run([sys.executable, str(fuzzer_tool), "minimize", "--trace-file", ".qa_corpus/crash_trace.json", "--out-minimal", ".qa_corpus/minimal_repro.json", "--dry-run"], check=False)
         if coproc_tool.exists():
             print("\n[🤖 Local Coprocessor Triage]:")
             subprocess.run([sys.executable, str(coproc_tool), "summarize-log", "--log", crash_reason, "--dry-run"])

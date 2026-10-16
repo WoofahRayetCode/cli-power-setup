@@ -61,7 +61,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 146 specialized skills
+    └── skills/                 # 149 specialized skills
 ```
 
 ---
@@ -208,7 +208,10 @@ cli-power-setup/
 | **`local-model-coprocessor`** | Hardware/LLM | Offloads docstrings, commit msgs & boilerplate to local Ollama/llama.cpp (0 cloud tokens) |
 | **`local-vector-rag-engine`** | Hardware/RAG | Local vector embeddings & dense search, retrieving top-k snippets instead of 50k+ context stuffing |
 | **`local-ast-compiler-engine`** | Hardware/AST | Multithreaded AST parsing (`nproc`), symbol extraction & local syntax check before LLM calls |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 146+ skills |
+| **`game-exploratory-fuzzing`** | QA/Self-Improve | Evolutionary action mutation, novelty-guided state exploration & crash delta bisection |
+| **`self-healing-test-automation`** | QA/Self-Improve | Resilient locator auto-repair, multi-vector semantic scoring & test auto-patching |
+| **`coverage-guided-mutation-testing`** | QA/Self-Improve | AST fault injection (conditionals/arithmetic/booleans), mutant score & test synthesis |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 149+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`hierarchical-memory-retrieval`** | Memory/Recall | Multi-tiered query-driven BM25 search across `.agents/memory/`, episodes & git history |
 | **`context-window-governor`** | Context/Budget | Turn-by-turn token budgeting (20/35/25/20%), pre-flight size estimation & hard output clamping |
