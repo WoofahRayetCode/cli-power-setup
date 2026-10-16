@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (183 Specialized Capabilities)
+## Complete Skills Catalog (187 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -196,6 +196,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`context-pruning-watchdog`** | Live telemetry monitoring of active context consumption; automatically stages memory state into activeContext.md and prompts for lossless compaction before hitting quota thresholds. |
 | **`context-window-governor`** | Deterministic token budgeting, turn-by-turn context partitioning, and hard output containment to prevent tool response bloat and premature context exhaustion. |
 | **`coverage-guided-mutation-testing`** | AST-based fault injection, mutant survival analysis, and automated test synthesis to self-improve test suite detection power across Lua, Python, C++, and Rust. |
+| **`cpp-64bit-engine-port-sanitizer`** | Detects and repairs 64-bit bitness porting defects in C++ game engines (e.g. X-Ray/OGSR). Audits pointer-to-integer truncations, #pragma pack(1) struct padding discrepancies, 64-bit ABI calling convention drift, and virtual method table alignment. |
 | **`creative-web-design-archetypes`** | Advanced web styling archetypes and visual design systems. Covers Neo-Brutalism, Mythic/Fantasy Parchment, Cyberpunk/Terminal HUD, Editorial/Academic Journal, Swiss Modernism, and Glassmorphic aesthetics with responsive CSS and typography pairings. |
 | **`cross-browser-extensions`** | Cross-browser web extension development in Manifest V3, supporting Chrome, Firefox, and Safari with webextension-polyfill, background service workers, and declarativeNetRequest. |
 | **`cross-platform-game-compatibility`** | Diagnosing and repairing legacy and modern PC games to run smoothly across Windows and Linux. Covers DirectX legacy wrappers (dgVoodoo2, DDrawCompat, DXVK), 4GB LAA memory patching, high-refresh rate frame limiters, aspect ratio / widescreen fixes, and anti-crash shims. |
@@ -305,6 +306,8 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`shader-cross-compilation`** | Cross-compilation, translation, and validation of game shaders across HLSL, GLSL, SPIR-V, WGSL, and MSL. Use when porting game shaders between engines (DirectX to Vulkan/OpenGL/WebGPU), modernizing legacy Shader Model 3.0/4.0/5.0 code to SM 6.x, or resolving cross-platform graphics API discrepancies. |
 | **`skills-updater-and-auditor`** | Automated health auditing, synchronization, and upstream updates for all installed agent skills. Verifies YAML frontmatter integrity, helper script syntax/permissions, host CLI dependencies, and cross-CLI parity across Antigravity and Claude Code. |
 | **`smart-context-packer`** | Compresses multi-file codebases into interface-only AST skeletons (stripping function bodies, comments, and blank lines), reducing context consumption by 85-90%. |
+| **`stalker-level-ai-graph-triage`** | Diagnoses and repairs S.T.A.L.K.E.R. and X-Ray/OGSR level AI navmesh and graph defects. Triages 'Cannot find level vertex' CTDs, audits all.spawn cross-level transits, validates level.ai and game.graph connectivity, and resolves NPC pathfinding deadlocks. |
+| **`stalker-luajit-ffi-migration`** | Manages Lua script migration to 64-bit LuaJIT and FFI in modern S.T.A.L.K.E.R. engines (OGSR Engine). Audits deprecated Luabind C++ exports, prevents LuaJIT GC64 memory limits and raw pointer corruption, and traps silent callback failures. |
 | **`stalker-ogsr-migration`** | Migration, adaptation, and porting of legacy S.T.A.L.K.E.R. Shadow of Chernobyl mods (Complete, AMK, Autumn Aurora) to the 64-bit OGSR Engine. Covers 64-bit binary layout, DX11 shader reconciliation, LuaJIT callback adaptation, ACDC spawn translation, LTX sanitization, and crash log diagnosis. |
 | **`stalker2-modding`** | Modding workflows and tools for S.T.A.L.K.E.R. 2 Heart of Chornobyl (Unreal Engine 5). Use when packaging UE5 IoStore containers (pak, ucas, utoc) with repak, authoring RE-UE4SS C++ and Lua hooks, inspecting assets via FModel, or organizing mod distributions. |
 | **`standalone-binary-re`** | Standalone binary reverse engineering without external MCP servers. Uses native Linux CLI utilities (objdump, readelf, nm, jadx, gdb, strings, xxd) and Python (pefile, struct) for fast, zero-dependency disassembly, symbol analysis, and APK decompilation. |
@@ -334,6 +337,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`wine-proton-native-interop`** | Native Linux and Wine/Proton interop engineering. Covers Win32-to-Linux IPC sockets, shared memory shims, Wine DLL call thunking, custom Wine builtin modules, and running hybrid native/Proton tooling. |
 | **`working-memory-checkpointing`** | Atomic snapshotting and 1-command rollback of in-flight git diffs, hypotheses, and active working state to safeguard complex multi-step refactors against dead-end debugging loops. |
 | **`writing-plans`** | Breaks down complex engineering tasks, refactors, and mod implementations into granular, dependency-ordered, verifiable task lists. Use when planning multi-step work. |
+| **`xray-dx11-shader-modernization`** | Modernizes and adapts legacy DirectX 9 Shader Model 3.0 shaders to DirectX 11 Shader Model 5.0 in S.T.A.L.K.E.R. / OGSR Engine. Enforces 16-byte constant buffer (cbuffer) alignment, registers texture sampler splits, and fixes blown-out dynamic lighting/reflections. |
 | **`xray-lua-scripting`** | S.T.A.L.K.E.R. X-Ray Engine Lua scripting guidelines and safeguards. Use when writing, modifying, or debugging game scripts, quest logic, callbacks, inventory hooks, or AI logic in S.T.A.L.K.E.R. EE. |
 | **`yolo-autonomous-watchdog`** | Autonomous execution watchdog and quota protector for YOLO modes (claude-yolo, agy-yolo). Prevents infinite retry loops, terminal stdout flooding, oscillating file churn, and runaway context inflation during unattended operation. |
 | **`youtube-shorts-video-automation`** | Automated creation of viral YouTube Shorts, TikToks, and long-form YouTube edits with 9:16 vertical re-framing, hook-first pacing, kinetic word-by-word subtitles, silence trimming jump cuts, split-screen layouts, and audio ducking. |

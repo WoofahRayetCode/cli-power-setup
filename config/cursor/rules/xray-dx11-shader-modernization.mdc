@@ -1,0 +1,79 @@
+---
+description: Modernizes and adapts legacy DirectX 9 Shader Model 3.0 shaders to DirectX 11 Shader Model 5.0 in S.T.A.L.K.E.R. / OGSR Engine. Enforces 16-byte constant buffer (cbuffer) alignment, registers texture sampler splits, and fixes blown-out dynamic lighting/reflections.
+globs: 
+alwaysApply: false
+---
+
+# S.T.A.L.K.E.R. DirectX 11 Shader Modernization (`xray-dx11-shader-modernization`)
+
+Migrating legacy S.T.A.L.K.E.R. visual mods (e.g. Complete 2009 / Dynamic Shaders) to the 64-bit OGSR Engine requires adapting DirectX 9 HLSL (Shader Model 3.0) to **DirectX 11 HLSL (Shader Model 5.0)**. Legacy shader code fails with cryptic compilation errors (`E_FAIL`), broken constant buffer registers, or severe visual artifacts (blown-out bloom, blinding HDR glare, inverted normal maps).
+
+This skill standardizes the modernization and validation of X-Ray DX11 shaders.
+
+---
+
+## 1. HLSL Register & Sampler Modernization
+
+DirectX 9 combined texture resources and samplers into a single `sampler2D s_base : register(s0)` declaration. DirectX 11 strictly decouples textures and samplers:
+
+### Legacy DX9 vs. Modern DX11 Syntax:
+```hlsl
+// LEGACY DX9 (Shader Model 3.0):
+sampler2D s_base : register(s0);
+float4 main(float2 tc : TEXCOORD0) : COLOR {
+    return tex2D(s_base, tc);
+}
+
+// MODERN DX11 (Shader Model 5.0):
+Texture2D    t_base : register(t0);
+SamplerState s_base : register(s0);
+float4 main(float2 tc : TEXCOORD0) : SV_Target {
+    return t_base.Sample(s_base, tc);
+}
+```
+
+---
+
+## 2. Constant Buffer (`cbuffer`) 16-Byte Alignment Rule
+
+In DirectX 11, constant buffer members must be strictly aligned to **16-byte (float4) boundaries**. Placing scalar floats or mismatched vectors without explicit padding corrupts uniform shader parameters.
+
+### Alignment Pattern:
+```hlsl
+// PROHIBITED: Corrupted alignment in DX11
+cbuffer DynamicLighting : register(b1) {
+    float3 light_dir;   // 12 bytes
+    float  light_power; // 4 bytes (packs neatly into 16)
+    float  fog_density; // 4 bytes (starts at byte 16)
+    float3 fog_color;   // 12 bytes -> STRADDLES 16-byte boundary -> CORRUPTED IN DX11!
+};
+
+// ENFORCED: Explicit float4 packing and alignment
+cbuffer DynamicLighting : register(b1) {
+    float4 light_dir_power; // xyz = light_dir, w = light_power (16 bytes)
+    float4 fog_color_density; // xyz = fog_color, w = fog_density (16 bytes)
+};
+```
+
+---
+
+## 3. HDR Tonemapping & Glare Suppression
+
+Legacy mods often attempted high-contrast lighting by multiplying final color outputs directly. In OGSR's physical deferred pipeline, this causes blinding whiteouts under direct sunlight:
+
+- **Albedo Normalization:** Ensure diffuse texture inputs are multiplied by linear diffuse lighting coefficients before ACES/AgX tonemapping.
+- **Normal Map Y-Inversion:** S.T.A.L.K.E.R. DirectX normal maps use green channel pointing down (`Y-`). Ensure vertex and pixel shaders do not invert green twice, which causes inverted shadow indentations on walls and weapons.
+
+---
+
+## 4. Headless Shader Compilation & Verification
+
+Verify shaders compile cleanly before launching the game engine:
+```bash
+# Compiling vertex shader (vs_5_0)
+fxc /nologo /T vs_5_0 /E main /Fo shader.vs.bin shader.vs.hlsl
+
+# Compiling pixel shader (ps_5_0)
+fxc /nologo /T ps_5_0 /E main /Fo shader.ps.bin shader.ps.hlsl
+```
+If errors occur, isolate the exact line and check for undeclared semantic outputs (`SV_Position`, `SV_Target`).
