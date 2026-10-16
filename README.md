@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **110 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **111 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 110 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 111 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -60,7 +60,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 110 specialized skills
+    └── skills/                 # 111 specialized skills
 ```
 
 ---
@@ -169,12 +169,13 @@ cli-power-setup/
 | **`game-save-state-serialization`** | Engine/Save | Endian-safe GSAV binary containers, versioned schema migrations, CRC32 & atomic file replace |
 | **`game-debug-ui-tools`** | Engine/Tools | In-engine Dear ImGui integration, immediate 3D DebugDraw, runtime CVars & frame profiler flame charts |
 | **`skills-updater-and-auditor`** | Lifecycle/Health | Automated parity audit, YAML frontmatter check, script permission repair & GitHub sync |
+| **`discord-bot-engineering`** | Bot/Discord | API v10 slash commands, interactive UI (Buttons, Modals), Gateway intents & voice audio |
 | **`android-ndk-jni-engineering`** | Mobile/NDK | C/C++ JNI, zero-copy ByteBuffers, Vulkan/Oboe, tombstone symbolization |
 | **`android-compose-ui-ux`** | Mobile/UI | Jetpack Compose, Material 3, edge-to-edge window insets, recomposition optimization |
 | **`android-architecture-jetpack`** | Mobile/Arch | Clean Architecture, MVI/StateFlow, Room auto-migrations, Navigation DSL, Hilt |
 | **`android-testing-ci-cd-security`** | Mobile/DevOps | Robolectric, Compose UI tests, R8 shrinking, Android Keystore StrongBox |
 | **`android-perf-battery-profiling`** | Mobile/Perf | Jank analysis (`dumpsys gfxinfo`), batterystats, Perfetto, memory leak heap dumps |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 110+ skills |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 111+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
@@ -941,6 +942,14 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Hooks Dear ImGui as a post-tonemap render pass with automatic input capture blocking, provides immediate-mode `DebugDraw` primitive rings, exposes runtime CVars with auto-completion, and records hierarchical RAII scope flame charts.
 * **Why It Saves Quota:** Eliminates the cycle of recompiling the game 20 times to test different numbers by letting you tweak values live in-game.
 
+### 🤖 Discord Bot Engineering & Real-Time APIs
+
+#### 111. `discord-bot-engineering`
+* **In Simple Terms:** Complete production Discord bot development kit—creating modern slash commands, interactive buttons, modal text forms, select menus, and voice audio streaming in Python (`discord.py`) or TypeScript (`discord.js`).
+* **When It Kicks In:** Building or maintaining Discord bots, implementing slash commands, handling modals/buttons/select menus, calculating gateway intent and permission bitmasks, connecting to voice channels with Opus audio, or scaling to thousands of servers with sharding.
+* **How It Works:** Enforces sub-3-second deferred interaction discipline, handles route-specific rate-limit buckets, provides clean modular Cog/Command architectures, streams low-latency audio via FFmpeg and PyNaCl, and includes a standalone bitmask calculator (`scripts/discord_bitmask_calculator.py`).
+* **Why It Saves Quota:** Stops common Discord pitfalls (failed interaction timeouts, missing privileged intents, unhandled rate-limit 429 loops) before you burn tokens debugging WebSocket errors.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1071,7 +1080,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 110 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 111 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

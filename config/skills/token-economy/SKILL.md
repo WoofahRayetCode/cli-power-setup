@@ -62,6 +62,7 @@ To ensure the new frontier efficiency tools are always utilized:
 * **Android Native Dumps & Gfxinfo Metrics:** When dumping raw tombstones, HPROF traces, or 200+ frame `dumpsys gfxinfo` tables, capture them to `/tmp/` log files, presenting only the symbolized crash frames or jank frame percentage in chat.
 * **VFS Archive Listings & Physics Contact Matrices:** When unpacking or inspecting large asset archives (`vfs_asset_packer.py --list`) or dumping physics contact manifold tables, pipe results to files or artifacts, presenting only summary counts (file count, total payload size, active contact pairs) in chat.
 * **ECS Dumps & Save State Payloads:** When inspecting entity archetype tables or raw save state payloads (`save_state_inspector.py --inspect`), offload detailed byte hex dumps to disk/artifacts, presenting only container header validation, schema versions, and compression statistics in chat.
+* **Discord API Payloads & Gateway Event Logs:** When querying large Discord API endpoints (guild member lists, audit logs, role hierarchies) or capturing raw WebSocket Gateway dispatch JSON, stream them to temporary `.json` files, presenting only counts, user tags, or permission flags in chat.
 * Provide a single clickable file link and a 1-sentence headline rather than dumping large blocks of markdown or HTML into the chat transcript.
 
 ---

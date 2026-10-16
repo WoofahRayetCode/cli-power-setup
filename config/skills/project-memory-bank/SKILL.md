@@ -61,6 +61,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record physics fixed timestep (`fixedDelta = 1/60.0f`), primary memory allocator strategy (Linear Arena vs TLSF), audio sample rate/voice limits, radial deadzone configurations, and VFS pack mount priority hierarchy in `systemPatterns.md`.
 * **Gameplay Systems & Networked Runtime Bindings (`game-entity-component-system`, `game-animation-skeletal-pipeline`, `game-networking-state-sync`, `game-save-state-serialization`, `game-debug-ui-tools`):**
   Record ECS storage archetype model (Flecs vs EnTT), skeletal joint limit configurations, network server tick rate / interpolation buffer delay ($60\text{--}100\text{ms}$), save state schema version integer, and registered runtime CVars in `systemPatterns.md`.
+* **Discord Bot Architecture & Gateway Bindings (`discord-bot-engineering`):**
+  Record bot client runtime (discord.py vs discord.js), required gateway intents bitmask, application ID, test guild IDs, and Redis caching topology in `systemPatterns.md`.
 
 ---
 
