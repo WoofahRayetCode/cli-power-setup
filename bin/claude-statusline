@@ -7,7 +7,41 @@ import os
 import sys
 import json
 import subprocess
+import shutil
 from datetime import datetime
+
+def wrap_segments(segments, max_width, sep=" | "):
+    """
+    Dynamically wrap segments into lines so that no line exceeds max_width,
+    breaking cleanly at segment boundaries.
+    """
+    segs = [s.strip() for s in segments if s and s.strip()]
+    if not segs:
+        return ""
+
+    lines = []
+    cur_line = []
+    cur_len = 0
+    sep_len = len(sep)
+
+    for seg in segs:
+        seg_len = len(seg)
+        if not cur_line:
+            cur_line.append(seg)
+            cur_len = seg_len
+        else:
+            if cur_len + sep_len + seg_len <= max_width:
+                cur_line.append(seg)
+                cur_len += sep_len + seg_len
+            else:
+                lines.append(sep.join(cur_line))
+                cur_line = [seg]
+                cur_len = seg_len
+
+    if cur_line:
+        lines.append(sep.join(cur_line))
+
+    return "\n".join(lines)
 
 def make_bar(pct, width=6):
     pct = max(0.0, min(100.0, float(pct)))
@@ -211,7 +245,18 @@ def main():
     if wt_name:
         parts.append(f"🌿 {wt_name}")
 
-    print(" | ".join(parts))
+    # Determine terminal width
+    term_width = data.get("terminal_width") or data.get("columns")
+    if not term_width or not isinstance(term_width, int):
+        if "COLUMNS" in os.environ and os.environ["COLUMNS"].isdigit():
+            term_width = int(os.environ["COLUMNS"])
+        else:
+            try:
+                term_width = shutil.get_terminal_size((100, 24)).columns
+            except Exception:
+                term_width = 100
+
+    print(wrap_segments(parts, max_width=term_width, sep=" | "))
 
 if __name__ == "__main__":
     main()
