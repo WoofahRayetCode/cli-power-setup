@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **134 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **135 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 134 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 135 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -195,7 +195,8 @@ cli-power-setup/
 | **`godot-shader-vfx`** | Godot/Shaders | Godot 4 screen-reading spatial/canvas shaders, vertex wind displacement & GPU compute particles |
 | **`coderabbit-ai-review`** | Review/PR | CodeRabbit-grade PR reviews, architectural Mermaid sequence diagrams, defect triage & GitHub suggestion diffs |
 | **`console-game-decompilation`** | Console/Decomp | PS1, PS2, PS3, Xbox, Xbox 360 matching decompilations, splat binary splitting & objdiff |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 134+ skills |
+| **`game-screen-telemetry-monitor`** | Gaming/Vision | Real-time in-game screen monitoring, visual anomaly detection (magenta textures, freezes) & crash OCR |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 135+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`hierarchical-memory-retrieval`** | Memory/Recall | Multi-tiered query-driven BM25 search across `.agents/memory/`, episodes & git history |
 | **`context-window-governor`** | Context/Budget | Turn-by-turn token budgeting (20/35/25/20%), pre-flight size estimation & hard output clamping |
@@ -1121,6 +1122,12 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Integrates native CLI tools (`objdiff` for visual diffing, `splat` for binary splitting, `m2c` for MIPS/PowerPC assembly-to-C translation, and `rizin`/`rz-ghidra` for headless decompilation) to automate container inspection, section partitioning, and register mismatch diagnosis.
 * **Why It Saves Quota:** Eliminates thousands of hours of manual binary analysis by automating container inspection, section partitioning, and register mismatch diagnosis.
 
+#### 135. `game-screen-telemetry-monitor`
+* **In Simple Terms:** Real-time in-game visual observer that detects graphics glitches (missing magenta textures, black screens), monitors frame changes, and automatically transcribes crash errors off the screen.
+* **When It Kicks In:** Playtesting games, porting mods between game engines (e.g. S.T.A.L.K.E.R. Complete to the 64-bit OGSR Engine), or diagnosing sudden engine freezes and desktop crashes.
+* **How It Works:** Uses local headless screen capture (`spectacle` on KDE Wayland, X11/Pillow fallback) downscaled to 1280px to protect quotas, scans pixel histograms for unmapped missing textures (`#FF00FF`) or GPU hangs, and executes local OCR (`tesseract`) to transcribe fatal error dialogs and stack traces.
+* **Why It Saves Quota:** Eliminates manual screenshot cropping and typing out crash logs by autonomously extracting the exact engine crash code directly into structured logs.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1251,7 +1258,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 134 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 135 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

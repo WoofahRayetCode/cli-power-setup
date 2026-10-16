@@ -40,6 +40,8 @@ TOOL_DEPENDENCIES = {
     "splat": ["console-game-decompilation"],
     "rizin": ["console-game-decompilation", "binary-re-workflows"],
     "m2c": ["console-game-decompilation"],
+    "spectacle": ["game-screen-telemetry-monitor"],
+    "tesseract": ["game-screen-telemetry-monitor"],
 }
 
 def parse_frontmatter(skill_file: Path) -> dict:
