@@ -9,41 +9,57 @@ This skill monitors conversation growth and actively prevents sessions from cros
 
 ---
 
-## 🚨 Trigger Thresholds
+## 🚨 Trigger Thresholds & Automated Execution
 
 * **Healthy Tier (0–40% Context, <80k tokens):** Full speed, maximum prompt caching discount, rapid streaming.
-* **Warning Tier (40–60% Context, 80k–120k tokens):** Advise staging task state into memory bank; avoid large multi-file `view_file` calls.
-* **Compaction Gate (>60% Context, >120k tokens):** Mandatory execution of the **Lossless Compaction Protocol**.
+* **Warning Tier (40–50% Context, 80k–100k tokens):** Monitor context growth; avoid unnecessary multi-file dumps.
+* **Compaction Gate (≥50% Context, ≥100k tokens):** **Automated Lossless Compaction Execution**.
+  * The statusline monitor (`claude-statusline`) and goal governor autonomously run `context-watchdog check --threshold 50`.
+  * Instantly snapshots working git state into `.agents/checkpoints/` and stages active task state into `.agents/memory/activeContext.md`.
+  * Updates statusline to `🧠 Ctx: [███░░░] 52% (104k ⚠️ Staged • Run /compact)`.
+
+---
+
+## 🛠️ CLI Reference (`context_watchdog.py` / `context-watchdog`)
+
+```bash
+# Check live context and auto-stage if threshold is exceeded (default: 50%)
+context-watchdog check --threshold 50
+
+# Force immediate staging before manual /compact or phase transition
+context-watchdog stage --reason "Milestone reached"
+
+# View live context percentage and last staged timestamp
+context-watchdog status
+```
 
 ---
 
 ## 🔄 The Lossless Compaction Protocol
 
-Before the context window degrades or triggers rolling quota penalties:
+When triggered automatically or manually before `/compact`:
 
-1. **Stage Current State:**
-   Write current status, completed checklist items, and immediate next steps directly into:
+1. **Auto-Stage Active Memory:**
+   Discovers git branch, commit hash, dirty modified files, and active goals, writing them directly into:
    ```text
    .agents/memory/activeContext.md
    ```
-2. **Preserve Open In-Flight Drafts & Interactive Widgets:**
-   Ensure any uncommitted edits in `.canvas/` or newly generated widgets in `templates/` are noted in `activeContext.md`.
-3. **Vision Token Preservation:**
-   When multimodal images from `screen-vision-inspector` enter context, verify downscaling to 1280px max dimension and remove temporary captures from `/tmp/` before session compaction to prevent image token compounding.
-4. **Prompt User for `/compact`:**
-   Output a single high-density prompt:
+2. **Working Memory Snapshot:**
+   Saves uncommitted diffs and hypothesis state into `.agents/checkpoints/checkpoint_<ts>_pre_compact.json`.
+3. **Preserve Open In-Flight Drafts & Interactive Widgets:**
+   Ensures uncommitted edits in `.canvas/` or newly generated widgets in `templates/` are referenced in `activeContext.md`.
+4. **Trigger Compaction:**
    ```text
-   [!] Context Watchdog: Session context has reached ~120k tokens (60%).
-   [✓] State saved to .agents/memory/activeContext.md.
-   👉 Run /compact now to reset the context window to <2,000 tokens with zero loss of progress.
+   👉 Run /compact now to reset context to <2,000 tokens with zero loss of progress.
    ```
-5. **Hydrate on Resumption:**
-   Upon restarting or post-compaction, read `activeContext.md` first (<300 tokens) and resume execution immediately.
+5. **Lossless Resumption:**
+   Upon post-compaction resume, read `activeContext.md` first (<300 tokens) to instantly re-hydrate state without re-ingesting prior transcripts.
 
 ---
 
 ## 🔄 Interoperability & Handoffs
 
-* **Handoff to `project-memory-bank`:** Owns the persistent `.agents/memory/` directory structure.
-* **Handoff to `prompt-cache-context-optimizer`:** Ensures the compacted resume prompt hits the 90% prompt cache tier.
-* **Handoff to `screen-vision-inspector`:** Enforces local bounding box crops and downsizes to protect the context fuel gauge.
+* **Handoff to `project-memory-bank`:** Owns persistent `.agents/memory/` curation.
+* **Handoff to `autonomous-goal-governor`:** Automatically stages memory during `phase-gate` transitions.
+* **Handoff to `claude-statusline`:** Asynchronously triggers `context-watchdog` when context crosses 50%.
+* **Handoff to `working-memory-checkpointing`:** Safeguards in-flight diffs before conversation resets.

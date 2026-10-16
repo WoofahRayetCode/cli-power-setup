@@ -161,10 +161,20 @@ def cmd_phase_gate(args):
                 p["status"] = "in_progress"
                 print(f"[→] Transitioning to Phase {next_phase_num}: '{p['name']}'.")
         save_state(path, state)
+
+        # Automatically stage working memory for lossless compaction
+        for cand in [
+            Path.home() / ".local/bin/context-watchdog",
+            Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills/context-pruning-watchdog/scripts/context_watchdog.py")
+        ]:
+            if cand.exists():
+                subprocess.run([sys.executable, str(cand), "stage", "--reason", f"Completed Phase {current_phase_num}"], capture_output=True, check=False)
+                print(f"[✓] Working memory automatically staged to .agents/memory/activeContext.md.")
+                break
+
         print(f"\n💡 [RECOMMENDED ACTION BEFORE NEXT PHASE]:")
         print(f"1. Commit completed phase milestone: git commit -m 'Complete Phase {current_phase_num}'")
-        print(f"2. Stage memory state into .agents/memory/activeContext.md")
-        print(f"3. Run /compact to clear working memory and reset context tokens for Phase {next_phase_num}.\n")
+        print(f"2. Run /compact to clear working memory and reset context tokens for Phase {next_phase_num}.\n")
     else:
         state["completed"] = True
         save_state(path, state)

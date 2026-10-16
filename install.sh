@@ -97,6 +97,12 @@ install_binaries() {
         chmod +x "${BIN_DEST}/stalker-playtest-runner"
         log_done "Installed executable: ${BIN_DEST}/stalker-playtest-runner"
     fi
+
+    if [ -f "${SCRIPT_DIR}/bin/context-watchdog" ]; then
+        cp "${SCRIPT_DIR}/bin/context-watchdog" "${BIN_DEST}/context-watchdog"
+        chmod +x "${BIN_DEST}/context-watchdog"
+        log_done "Installed executable: ${BIN_DEST}/context-watchdog"
+    fi
 }
 
 install_antigravity() {

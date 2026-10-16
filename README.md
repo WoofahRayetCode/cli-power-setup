@@ -57,6 +57,7 @@ cli-power-setup/
 │   ├── agy-turbo               # High-speed Turbo mode launcher script (Gemini)
 │   ├── claude-turbo            # Low-effort thinking Turbo launcher script (Claude Code)
 │   ├── stalker-playtest-runner # Autonomous hands-free game QA, dialogue & locomotion runner
+│   ├── context-watchdog        # Automated background context monitor & pre-compact memory stager
 │   └── skills-audit-update     # Health auditor, permissions fixer & multi-CLI synchronizer
 └── config/
     ├── GEMINI.md               # Global engineering discipline, quota governance & token economy rules
@@ -725,10 +726,13 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **Why It Saves Quota:** Shrinks a 50,000-token multi-file codebase down to **<4,000 tokens (a 90% reduction)** while giving the AI 100% of the architectural context it needs.
 
 #### 72. `context-pruning-watchdog`
-* **In Simple Terms:** A smart context fuel gauge that warns you before your conversation gets too long and automatically prepares a clean memory snapshot for `/compact`.
-* **When It Kicks In:** Long coding sessions (15+ turns) as the conversation context approaches 120,000 tokens (60% capacity).
-* **How It Works:** Monitors active context consumption in real-time. When context crosses the 60% threshold, it automatically writes your completed tasks, blockers, and next steps into `.agents/memory/activeContext.md` and advises running `/compact`.
-* **Why It Saves Quota:** Prevents hitting the expensive rolling 5-hour quota ceiling and resets context to <2,000 tokens with zero loss of progress.
+* **In Simple Terms:** An automated context monitor and memory stager that continuously checks prompt volume and safely stages working state into memory before `/compact` is executed.
+* **When It Kicks In:** Continuously in the background via `claude-statusline` and `goal_governor.py`. Triggers automatically when context $\ge 50\%$ (~100k tokens), on goal phase-gates, or via manual `context-watchdog check / stage`.
+* **How It Works:**
+  - Continuously monitors active context percentage and token count from statusline telemetry and conversation logs.
+  - Automatically captures dirty git working tree diffs into `.agents/checkpoints/` and compiles current progress, active goals, and next steps into `.agents/memory/activeContext.md`.
+  - Flags the statusline (`🧠 Ctx: [====] 52% (104k ⚠️ Staged • Run /compact)`) to alert the user or autonomous agent.
+* **Why It Saves Quota:** Eliminates context bloat and catastrophic forgetting. Compacting after staging allows the session to instantly rehydrate in <300 tokens without losing any in-flight code changes or architectural decisions.
 
 #### 75. `token-economy`
 * **In Simple Terms:** The ultimate quota-saving protocol that eliminates robotic fluff, stops the AI from repeating itself, and stretches your daily AI usage limits by 2x to 3x.

@@ -6,6 +6,7 @@ Pipes real-time session telemetry from Claude Code CLI via stdin.
 import os
 import sys
 import json
+import subprocess
 from datetime import datetime
 
 def make_bar(pct, width=6):
@@ -125,7 +126,11 @@ def main():
                     pass
             parts.append(f"Wk: {rem_wk}%{reset_str_wk}")
 
-    if rem_5h is not None or rem_wk is not None:
+    ctx = data.get("context_window", {})
+    used_pct = ctx.get("used_percentage")
+    raw_tok = ctx.get("total_input_tokens")
+
+    if rem_5h is not None or rem_wk is not None or used_pct is not None:
         try:
             with open("/tmp/claude_quota_state.json", "w") as f:
                 json.dump({
@@ -135,22 +140,37 @@ def main():
                     "five_hour_resets_epoch": five_h.get("resets_at") if five_h else None,
                     "weekly_remaining": rem_wk,
                     "weekly_resets_at": reset_wk,
-                    "weekly_resets_epoch": reset_wk_epoch
+                    "weekly_resets_epoch": reset_wk_epoch,
+                    "context_used_pct": float(used_pct) if used_pct is not None else None,
+                    "context_tokens": raw_tok
                 }, f, indent=2)
         except Exception:
             pass
 
-    # 3. Context Window Usage with Visual Progress Bar & Compact Advisory
-    ctx = data.get("context_window", {})
-    used_pct = ctx.get("used_percentage")
+    # 3. Context Window Usage with Visual Progress Bar & Automatic Compaction Staging
     if used_pct is not None:
         pct_val = float(used_pct)
         bar = make_bar(pct_val, width=6)
-        raw_tok = ctx.get("total_input_tokens")
         tok_str = fmt_tok(raw_tok) if raw_tok else fmt_tok(int((pct_val / 100.0) * 200_000))
         
-        if pct_val >= 60.0:
-            parts.append(f"🧠 Ctx: [{bar}] {pct_val:.0f}% ({tok_str} ⚠️ Run /compact)")
+        if pct_val >= 50.0:
+            # Spawn detached background stager to automatically stage activeContext.md
+            watchdog_candidates = [
+                os.path.expanduser("~/.local/bin/context-watchdog"),
+                "/home/ericparsley/Documents/GitHub/cli-power-setup/bin/context-watchdog"
+            ]
+            for cand in watchdog_candidates:
+                if os.path.exists(cand):
+                    try:
+                        subprocess.Popen(
+                            [cand, "check", "--pct", str(pct_val), "--tokens", str(raw_tok or int((pct_val / 100.0) * 200_000))],
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.DEVNULL
+                        )
+                    except Exception:
+                        pass
+                    break
+            parts.append(f"🧠 Ctx: [{bar}] {pct_val:.0f}% ({tok_str} ⚠️ Staged • Run /compact)")
         else:
             parts.append(f"🧠 Ctx: [{bar}] {pct_val:.0f}% ({tok_str})")
 
