@@ -73,12 +73,15 @@ This repository organizes a curated set of **219 autonomous agent skills**, 219 
 │   ├── nav-graph-recorder      # Autonomous waypoint navigation, route smoothing & collision trap logging
 │   ├── self-improving-qa       # Closed-loop QA controller, 'Press any key' dismissal, stall watchdog & timers
 │   ├── cursor-rules-sync       # Converts all skills to Cursor .mdc rules and deploys .cursorrules
+│   ├── token-guard             # Terminal command output line ceiling protector (30-line context guard)
+│   ├── slice-reader            # Surgical line-slice reader & AST skeleton extractor
 │   └── skills-audit-update     # Health auditor, permissions fixer & multi-environment synchronizer
 └── config/
     ├── GEMINI.md               # Global engineering discipline, quota governance & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
+    ├── token_ledger.json       # Universal lifetime token ledger benchmark (1.535B tokens recorded)
     ├── cursor/                 # Cursor reference templates and rules
-    └── skills/                 # 217 specialized skills
+    └── skills/                 # 219 specialized skills
 ```
 
 ---
@@ -1912,6 +1915,8 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`self-improving-qa`** | Closed-loop QA, dismisses 'Press any key', watchdog for 88% stalls & timers | Unattended playtest runs and automated regression failure logging. |
 | **`game-memory-scanner`** | Inspects, scans, filters, and freezes live game memory | Developing cheat trainers, finding dynamic pointers, and scanning AOB signatures. |
 | **`game-dll-proxy-gen`** | Generates proxy DLL scaffolds (dinput8, dxgi, version) with export forwarding | Injecting internal trainers, MinHook detours, and ImGui overlays into games. |
+| **`token-guard`** | Enforces 30-line terminal ceiling on command executions | Wrap commands (`token-guard <cmd>`) to prevent runaway stdout context floods. |
+| **`slice-reader`** | Extracts AST skeletons or $\pm 15$ line slices around symbols | When reading code to view only the target function or class definition. |
 | **`cursor-rules-sync`** | Converts all skills to Cursor `.mdc` rules and syncs `.cursorrules` | After modifying skills or when syncing Cursor configuration. |
 | **`skills-audit-update --audit`** | Audits health across Gemini, Claude, and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all skills across Antigravity, Claude, and Cursor | After adding or updating any skill in the repository. |
