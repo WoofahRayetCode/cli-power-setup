@@ -36,6 +36,8 @@ def main():
     parser.add_argument("--no-infinite-ammo", action="store_false", dest="infinite_ammo", help="Disable infinite ammunition")
     parser.add_argument("--auto-dismiss-loading", action="store_true", default=True, help="Auto-press key to dismiss 'Press any key to play' loading screens (default: True)")
     parser.add_argument("--no-auto-dismiss-loading", action="store_false", dest="auto_dismiss_loading", help="Disable auto-dismissing loading screens")
+    parser.add_argument("--skip-intro", action="store_true", default=True, help="Automatically bypass game intro videos with -nointro and ESC/SPACE pulse (default: True)")
+    parser.add_argument("--no-skip-intro", action="store_false", dest="skip_intro", help="Do not bypass intro videos")
     parser.add_argument("--dry-run", action="store_true", help="Simulate playtesting without launching actual game binary")
 
     args = parser.parse_args()
@@ -47,7 +49,7 @@ def main():
     print(f"Log File:         {args.log_file}")
     print(f"Telemetry Dir:    {args.telemetry_dir}")
     print(f"Test Duration:    {args.duration}s | Adaptive Fuzz: {args.adaptive} | Dry Run: {args.dry_run}")
-    print(f"Cheats & QA Aids: God Mode: {args.god_mode} | Infinite Ammo: {args.infinite_ammo}")
+    print(f"Cheats & QA Aids: God Mode: {args.god_mode} | Infinite Ammo: {args.infinite_ammo} | Skip Intro: {args.skip_intro}")
     print("-----------------------------------------------------------------------\n")
 
     # Resolve skill script paths dynamically across Claude, Gemini, and Repo
@@ -113,6 +115,14 @@ def main():
             cheat_cmd = [sys.executable, str(qa_controller), "enable-cheats"] + cheat_flags + dry_flag
             subprocess.run(cheat_cmd, capture_output=True, check=False)
             print(f"  -> Injected engine cheats: God Mode={'ON' if args.god_mode else 'OFF'} | Infinite Ammo={'ON' if args.infinite_ammo else 'OFF'}")
+
+    # Step 2c: Intro Video & Logo Bypass (-nointro & ESC/SPACE pulse)
+    if args.skip_intro:
+        print("[Step 2c] Intro Video Bypass: Armed '-nointro' flag and ESC/SPACE cutscene skip.")
+        if qa_controller.exists():
+            subprocess.run([sys.executable, str(qa_controller), "skip-intro", "--pulses", "3"] + dry_flag, capture_output=True, check=False)
+    else:
+        print("[Step 2c] Intro Video Bypass: Disabled (playing standard logos & cutscenes)")
 
     # Step 3: Launch Background Visual Surveillance
     monitor_proc = None

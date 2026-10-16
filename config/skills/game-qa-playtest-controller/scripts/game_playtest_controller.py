@@ -396,6 +396,26 @@ def cmd_press_any_key(args, pad):
     time.sleep(args.wait_time if not pad.dry_run else 0.5)
     print("[✓] Loading screen prompt dismissed. Gameplay entered.")
 
+def cmd_skip_intro(args, pad):
+    print("=======================================================================")
+    print(" ⏩ Skip Game Intro & Splash Logos")
+    print("=======================================================================")
+    print(f"Pulses: {args.pulses} | Delay: {args.delay}s | Dry Run: {pad.dry_run}")
+    print("-----------------------------------------------------------------------\n")
+    key_esc = ecodes.KEY_ESC if HAVE_EVDEV else None
+    key_space = ecodes.KEY_SPACE if HAVE_EVDEV else None
+    print("  -> Pulsing ESC & SPACE to dismiss intro cutscenes...")
+    for _ in range(args.pulses):
+        pad.key(key_esc, True)
+        time.sleep(0.1)
+        pad.key(key_esc, False)
+        time.sleep(0.1)
+        pad.key(key_space, True)
+        time.sleep(0.1)
+        pad.key(key_space, False)
+        time.sleep(args.delay if not pad.dry_run else 0.05)
+    print("[✓] Intro splash dismissal sequence complete.")
+
 def main():
     common_parser = argparse.ArgumentParser(add_help=False)
     common_parser.add_argument("--dry-run", action="store_true", help="Simulate input without accessing /dev/uinput")
@@ -446,6 +466,11 @@ def main():
     p_pak = subparsers.add_parser("press-any-key", parents=[common_parser], help="Dismiss loading screen 'press any key' prompt")
     p_pak.add_argument("--key", type=str, default="SPACE", help="Key to press (SPACE, ENTER)")
     p_pak.add_argument("--wait-time", type=float, default=2.0, help="Post-dismissal settle time")
+
+    # skip-intro
+    p_intro = subparsers.add_parser("skip-intro", parents=[common_parser], help="Pulse ESC/SPACE keys to skip startup video cutscenes")
+    p_intro.add_argument("--pulses", type=int, default=3, help="Number of ESC key pulses")
+    p_intro.add_argument("--delay", type=float, default=0.3, help="Interval between pulses")
     
     args = parser.parse_args()
     pad = VirtualGamepad(dry_run=args.dry_run)
@@ -469,6 +494,8 @@ def main():
             cmd_enable_cheats(args, pad)
         elif args.command == "press-any-key":
             cmd_press_any_key(args, pad)
+        elif args.command == "skip-intro":
+            cmd_skip_intro(args, pad)
     finally:
         pad.close()
 
