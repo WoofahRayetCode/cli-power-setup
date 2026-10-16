@@ -1,0 +1,48 @@
+---
+description: Extended thinking token budget governor for Claude 3.7+ Sonnet and Opus. Clamps internal reasoning tokens during routine tool execution and dynamically scales thinking budgets based on task complexity.
+globs: 
+alwaysApply: false
+---
+
+# Claude Thinking Budget Governor (`claude-thinking-budget-governor`)
+
+Claude's **extended thinking** (hybrid reasoning) allows models to explore multiple internal hypothesis paths before taking action. However, without active governance, models can generate **3,000 to 10,000 thinking tokens per turn** on routine tool calls, file writes, and shell executions.
+
+This skill eliminates thinking token inflation by dynamically sizing or disabling thinking budgets based on task demands.
+
+---
+
+## 1. Dynamic Thinking Budget Allocation
+
+| Task Complexity | Recommended Thinking Budget | Operational Directives |
+| :--- | :--- | :--- |
+| **Mechanical / File Moves / Bash** | **0 tokens (Disabled)** | Execute tools instantly; zero preamble or internal monologue |
+| **Surgical Diff / Typo Fix / TDD** | **$\le$ 1,024 tokens** | Quick sanity check on edge cases; immediate diff dispatch |
+| **Standard Feature Implementation** | **1,500 – 2,500 tokens** | Interface validation; dependency checking |
+| **Complex Refactor / Concurrency** | **4,000 – 6,000 tokens** | Deep hypothesis tree exploration; anti-deadlock proofs |
+| **Unknown Root-Cause Crash Analysis**| **8,000+ tokens** | Full deliberative reasoning before any code modification |
+
+---
+
+## 2. Direct Action Mode (Zero-Thinking Tool Calls)
+
+When an operation requires invoking tools (`view_file`, `replace_file_content`, `run_command`):
+- **Rule:** Emit the tool call immediately.
+- **Prohibited:** Reciting file lines in internal thinking, writing long speculative drafts of what the file might contain, or narrating steps before running them.
+- **Principle:** Allow the tool result to provide the ground-truth evidence rather than hallucinating in reasoning tokens.
+
+---
+
+## 3. Configuration & Parameter Enforcement
+
+When invoking Claude via API, SDK, or CLI flags:
+- Set explicit thinking budget caps:
+  ```json
+  {
+    "thinking": {
+      "type": "enabled",
+      "budget_tokens": 2048
+    }
+  }
+  ```
+- Disable thinking entirely for batch linting, test condensation, or formatting scripts.
