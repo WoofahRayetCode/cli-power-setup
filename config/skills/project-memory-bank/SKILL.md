@@ -59,6 +59,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Link active chronological episode logs (`.agents/episodes/<timestamp>_<task>.md`) inside `activeContext.md` before `/compact` to preserve the reasoning trail across compaction cycles.
 * **Game Engine Architecture & VFS Bindings (`game-audio-engine-engineering`, `game-physics-collision-pipeline`, `game-memory-allocator-engineering`, `game-input-system-abstraction`, `game-asset-pack-archive-engineering`):**
   Record physics fixed timestep (`fixedDelta = 1/60.0f`), primary memory allocator strategy (Linear Arena vs TLSF), audio sample rate/voice limits, radial deadzone configurations, and VFS pack mount priority hierarchy in `systemPatterns.md`.
+* **Gameplay Systems & Networked Runtime Bindings (`game-entity-component-system`, `game-animation-skeletal-pipeline`, `game-networking-state-sync`, `game-save-state-serialization`, `game-debug-ui-tools`):**
+  Record ECS storage archetype model (Flecs vs EnTT), skeletal joint limit configurations, network server tick rate / interpolation buffer delay ($60\text{--}100\text{ms}$), save state schema version integer, and registered runtime CVars in `systemPatterns.md`.
 
 ---
 

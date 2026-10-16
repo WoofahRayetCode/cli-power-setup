@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **105 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **110 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 105 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 110 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -60,7 +60,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 105 specialized skills
+    └── skills/                 # 110 specialized skills
 ```
 
 ---
@@ -163,13 +163,18 @@ cli-power-setup/
 | **`game-memory-allocator-engineering`** | Engine/Memory | Linear Arenas, Stack LIFO rollback, Pool free lists, TLSF & 64-byte cache alignment |
 | **`game-input-system-abstraction`** | Engine/Input | Scaled radial deadzones, sub-pixel mouse smoothing, controller GUID glyph switching |
 | **`game-asset-pack-archive-engineering`** | Engine/VFS | Virtual File System mount hierarchy, high-performance VPAK container format & zlib mmap |
+| **`game-entity-component-system`** | Engine/ECS | Archetype & Sparse-Set data layouts, SoA memory alignment & multithreaded system DAG scheduling |
+| **`game-animation-skeletal-pipeline`** | Engine/Anim | TRS bone hierarchies, quaternion SLERP/NLERP, dual-quaternion skinning & FABRIK/Two-Bone IK |
+| **`game-networking-state-sync`** | Engine/Net | Client-side input prediction, server reconciliation, entity interpolation & delta snapshots |
+| **`game-save-state-serialization`** | Engine/Save | Endian-safe GSAV binary containers, versioned schema migrations, CRC32 & atomic file replace |
+| **`game-debug-ui-tools`** | Engine/Tools | In-engine Dear ImGui integration, immediate 3D DebugDraw, runtime CVars & frame profiler flame charts |
 | **`skills-updater-and-auditor`** | Lifecycle/Health | Automated parity audit, YAML frontmatter check, script permission repair & GitHub sync |
 | **`android-ndk-jni-engineering`** | Mobile/NDK | C/C++ JNI, zero-copy ByteBuffers, Vulkan/Oboe, tombstone symbolization |
 | **`android-compose-ui-ux`** | Mobile/UI | Jetpack Compose, Material 3, edge-to-edge window insets, recomposition optimization |
 | **`android-architecture-jetpack`** | Mobile/Arch | Clean Architecture, MVI/StateFlow, Room auto-migrations, Navigation DSL, Hilt |
 | **`android-testing-ci-cd-security`** | Mobile/DevOps | Robolectric, Compose UI tests, R8 shrinking, Android Keystore StrongBox |
 | **`android-perf-battery-profiling`** | Mobile/Perf | Jank analysis (`dumpsys gfxinfo`), batterystats, Perfetto, memory leak heap dumps |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 100+ skills |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 110+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
@@ -906,6 +911,36 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Implements a priority-ordered VFS mount hierarchy (Mod Override $\to$ Patch $\to$ Base Game), serializes chunked binary archives (`VPAK`) with zlib compression, and provides a standalone CLI asset packer (`scripts/vfs_asset_packer.py`).
 * **Why It Saves Quota:** Speeds up game asset loading, prevents loose-file disk thrashing, and eliminates broken mod installation paths.
 
+#### 106. `game-entity-component-system`
+* **In Simple Terms:** Architectural guide for high-throughput Entity Component Systems (ECS) and Data-Oriented Design (DOD)—organizing game entities into cache-friendly memory streams and scheduling systems across CPU cores.
+* **When It Kicks In:** Designing core engine logic, porting slow object-oriented classes to Archetype (Flecs/Bevy) or Sparse-Set (EnTT) patterns, eliminating CPU cache misses, or scheduling multithreaded systems with read/write access bitmasks.
+* **How It Works:** Replaces fragmented pointer chasing with contiguous Structure-of-Arrays (SoA) memory pools, implements $O(1)$ component add/remove via swap-and-pop, and prevents pointer bugs using 64-bit generational entity handles.
+* **Why It Saves Quota:** Enables 100,000+ entities updating simultaneously without frame drops, eliminating late-stage engine rewrites due to OOP CPU bottlenecks.
+
+#### 107. `game-animation-skeletal-pipeline`
+* **In Simple Terms:** Real-time 3D character animation and skeletal deformation—handling bone transforms, quaternion SLERP interpolation, dual-quaternion volume skinning, and inverse kinematics (IK).
+* **When It Kicks In:** Adding skeletal character animation to a custom engine, fixing "candy-wrapper" joint volume loss on extreme twists, implementing foot placement IK on uneven terrain, or decoupling root motion for physics controllers.
+* **How It Works:** Interpolates bone rotations via shortest-path SLERP/NLERP, preserves joint volumes using Dual Quaternion Skinning, solves joint angles using analytical Two-Bone and multi-link FABRIK IK solvers, and extracts horizontal displacement for physics movement.
+* **Why It Saves Quota:** Fixes foot sliding, character mesh twisting glitches, and quaternion flipping bugs on the first implementation attempt.
+
+#### 108. `game-networking-state-sync`
+* **In Simple Terms:** Multiplayer networking engine—keeping players in sync across high-ping connections using client-side input prediction, server reconciliation, remote entity interpolation, and delta snapshots.
+* **When It Kicks In:** Adding multiplayer to a game, fixing rubber-banding and player jitter, compressing state packets over UDP, or building deterministic rollback networking.
+* **How It Works:** Simulates local inputs instantly in an unacknowledged ring buffer, reconciles local errors against authoritative server ticks by replaying inputs, smoothly interpolates remote proxies along Hermite splines, and packs rotations into 32-bit "smallest three" integers.
+* **Why It Saves Quota:** Provides mathematically proven lag compensation algorithms, preventing multiplayer desync loops and phantom hit bugs.
+
+#### 109. `game-save-state-serialization`
+* **In Simple Terms:** Corruption-proof game save system—saving and loading game worlds with versioned binary chunks, checksum validation, and atomic disk replacement.
+* **When It Kicks In:** Implementing save/load checkpoints, porting save files across engine revisions, preventing save file corruption on sudden game crashes, or inspecting binary save containers.
+* **How It Works:** Serializes tagged binary chunks (`GSAV`) with CRC32 integrity validation, handles schema version migrations automatically, and writes atomically to `.tmp` files before disk swaps. Includes a standalone inspector CLI (`scripts/save_state_inspector.py`).
+* **Why It Saves Quota:** Stops corrupted save files and backwards compatibility breakage from corrupting developer test runs and player data.
+
+#### 110. `game-debug-ui-tools`
+* **In Simple Terms:** In-engine developer dashboard and diagnostic toolkit—embedding Dear ImGui menus, 3D debug shapes (rays, boxes, contact points), live console variables (CVars), and real-time CPU/GPU frame profilers.
+* **When It Kicks In:** Diagnosing gameplay bugs in real time, tuning physics/graphics variables live without restarting the engine, profiling frame stutter, or visualizing collision hitboxes.
+* **How It Works:** Hooks Dear ImGui as a post-tonemap render pass with automatic input capture blocking, provides immediate-mode `DebugDraw` primitive rings, exposes runtime CVars with auto-completion, and records hierarchical RAII scope flame charts.
+* **Why It Saves Quota:** Eliminates the cycle of recompiling the game 20 times to test different numbers by letting you tweak values live in-game.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1036,7 +1071,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 105 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 110 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
