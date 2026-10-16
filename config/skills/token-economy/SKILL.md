@@ -54,6 +54,7 @@ To ensure the new frontier efficiency tools are always utilized:
 * **Large Diffs, Logs, or Plans:** Write extensive documentation, plans, or test matrices into files or artifacts.
 * **Documents & Web Templates:** When generating HTML landing pages, PDF templates, invoices, proposals, or contracts, write the entire content directly to disk via `write_to_file`. **Never dump 200+ lines of raw HTML, CSS, or legal text into the chat transcript.**
 * **Video Filtergraphs & Subtitles:** When generating long complex FFmpeg filtergraphs, word-level `.ass` / `.srt` subtitle transcripts, or ADB logcat dumps, write them directly to script files or disk assets rather than printing them in full to chat.
+* **Shader Code & SPIR-V Disassemblies:** When generating or disassembling extensive shaders (HLSL/GLSL/SPIR-V), write them directly to shader files (`.vert`, `.frag`, `.hlsl`, `.spvasm`) rather than dumping 300+ lines of shader code into chat.
 * Provide a single clickable file link and a 1-sentence headline rather than dumping large blocks of markdown or HTML into the chat transcript.
 
 ---

@@ -1,0 +1,76 @@
+---
+name: game-texture-material-pipeline
+description: High-performance asset pipelines for modern PBR and legacy game textures. Use when converting textures across engine formats (DDS, KTX2, PNG, TGA), packing PBR channels (ORM - Occlusion/Roughness/Metallic), inverting normal map Y channels (OpenGL vs DirectX), or setting up mipmaps and color spaces.
+---
+
+# Game Texture & Material Pipeline Engineering
+
+This skill defines the technical standards, color space requirements, normal map orientations, and channel-packing protocols when developing game assets or migrating textures across engines.
+
+---
+
+## 1. Texture Compression Formats Matrix
+
+| Format | Target Channels | Compression Ratio | Best Used For | Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| **BC1 (DXT1)** | RGB (1-bit alpha) | 6:1 (0.5 BPP) | Opaque Albedo, Diffuse, Cutout foliage | High speed, no smooth alpha |
+| **BC3 (DXT5)** | RGBA (interpolated alpha) | 4:1 (1 BPP) | Albedo + Smooth Alpha / Transparency | 8-bit interpolated alpha |
+| **BC4 (ATI1N)** | Grayscale (R-only) | 4:1 (0.5 BPP) | Heightmaps, Roughness, Metallic, AO | High precision single channel |
+| **BC5 (ATI2N)** | 2-Channel (RG) | 2:1 (1 BPP) | **Tangent-space Normal maps** | $X$ in R, $Y$ in G; $Z$ reconstructed in shader |
+| **BC7** | RGB / RGBA | 3:1 (1 BPP) | **Modern AAA PBR Albedo / Normal / ORM** | Superior color fidelity, zero block artifacts |
+| **ASTC (4x4 to 8x8)**| RGBA | Variable | Mobile (Vulkan/Android/iOS) | Hardware native on modern mobile GPUs |
+| **KTX2 / BasisU** | Universal | Universal transcode | WebGL, WebGPU, multi-platform streaming | Transcodes on GPU upload to BCn or ASTC |
+
+---
+
+## 2. Color Spaces: Linear vs. sRGB Discipline
+
+> [!IMPORTANT]
+> Shading math (lighting, PBR reflections, ambient occlusion) MUST occur in **linear space**. Mixing sRGB values into linear calculations ruins material physically based correctness.
+
+* **sRGB Hardware Decoded Textures (Texture sampler format `_SRGB`):**
+  * **Albedo / Base Color / Diffuse**
+  * **Emissive Maps**
+  * **UI and HUD Sprite Atlases**
+  * *Why:* Hardware automatically decodes $sRGB \rightarrow Linear$ during texture fetch for free on the GPU.
+* **Linear Non-Decoded Textures (Texture sampler format `_UNORM`):**
+  * **Normal Maps**
+  * **Roughness / Smoothness**
+  * **Metallic**
+  * **Ambient Occlusion (AO)**
+  * **Height / Displacement / Velocity maps**
+  * *Why:* These represent physical vector quantities or unit scalars, never perceptual human eye brightness.
+
+---
+
+## 3. Tangent-Space Normal Map Conventions
+
+* **OpenGL / Blender / Godot / Unreal Engine:** **Y+ (Green up)**
+* **DirectX / 3ds Max / Unity (prior versions) / S.T.A.L.K.E.R. X-Ray:** **Y- (Green down)**
+* **Quick Rule of Thumb:** If lighting on a sphere or brick wall appears inverted (bumps look like craters when light shines from above), invert the Green (Y) channel:
+  $$G_{\text{new}} = 255 - G_{\text{old}}$$
+* **BC5 Z-Reconstruction in Shader:**
+  ```hlsl
+  // Read BC5 (RG only):
+  float2 normalXY = normalTexture.Sample(samplerState, uv).rg * 2.0 - 1.0;
+  float normalZ = sqrt(saturate(1.0 - dot(normalXY, normalXY)));
+  float3 normalTS = float3(normalXY, normalZ);
+  ```
+
+---
+
+## 4. PBR Channel Packing (ORM Standard)
+
+To save GPU memory bandwidth and reduce texture sampler count from 4 samplers to 2:
+* **Albedo Map:** RGB = Base Color, A = Opacity (or empty).
+* **Normal Map:** RG = Tangent Space Normal (BC5 format).
+* **ORM Map:**
+  * **R:** Ambient Occlusion (AO)
+  * **G:** Roughness (or Inverted Smoothness)
+  * **B:** Metallic
+  * **A:** Optional (Height, Detail mask, or Thickness)
+
+Run the included packing tool:
+```bash
+python3 scripts/texture_pbr_packer.py --ao ao.png --roughness rough.png --metallic metal.png -o orm.png
+```

@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **87 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **92 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 87 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 92 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launcher:** Installs `agy-turbo` into `~/.local/bin/`.
@@ -57,7 +57,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 87 specialized skills
+    └── skills/                 # 92 specialized skills
 ```
 
 ---
@@ -150,6 +150,11 @@ cli-power-setup/
 | **`game-ai-agent-play`** | Gaming/AI | Reinforcement learning, Gymnasium, OpenCV visual state parsing & low-latency uinput |
 | **`android-device-automation`** | Mobile/Auto | ADB/scrcpy real-time screen capture, touch botting, debloating, cache cleaning |
 | **`emulator-development-engineering`** | Emulation | Console emulation architecture, JIT dynamic recompilation, fastmem, Vulkan renderers |
+| **`shader-cross-compilation`** | Graphics/Shaders | HLSL/GLSL/SPIR-V/WGSL translation, clip space, std140/std430, `glslangValidator` |
+| **`game-texture-material-pipeline`** | Graphics/Assets | BCn/ASTC/KTX2 compression, normal map Y-inversion, ORM channel packing, sRGB discipline |
+| **`real-time-rendering-pipeline`** | Graphics/Engine | Frame graphs, transient memory aliasing, bindless descriptors, reversed-Z, RenderDoc |
+| **`game-graphics-optimization-profiling`** | Graphics/Perf | Bottleneck triage, Hi-Z occlusion culling, GPU MultiDraw, LODs, TAA & FSR/DLSS |
+| **`post-processing-visual-fx`** | Graphics/PostFX | ACES/AgX tone mapping, progressive dual-filtering bloom, SSAO/GTAO, CSM shadow cascades |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
 | **`project-memory-bank`** | Memory | Persistent `.agents/memory/` context to prevent re-hydration |
@@ -767,6 +772,38 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Architectures guest-to-host register allocation, handles endianness swapping and memory-mapped I/O (MMIO), builds SSA intermediate representations (IR) for JIT compilation, and synchronizes guest audio/video clocks.
 * **Why It Saves Quota:** Prevents subtle emulation bugs like timing desyncs, guest crashes, and memory leaks by strictly following proven low-level emulation paradigms.
 
+### 🎮 Real-Time Video Game Graphics & Engine Migration
+
+#### 88. `shader-cross-compilation`
+* **In Simple Terms:** Translates, optimizes, and validates game shaders across HLSL, GLSL, SPIR-V, WGSL, and Metal Shading Language (MSL) when modernizing graphics or porting games between engines.
+* **When It Kicks In:** Porting DirectX shaders to Vulkan/OpenGL, converting legacy Shader Model 3.0/4.0/5.0 to modern SM 6.x, fixing buffer alignment bugs (`std140` vs `std430`), or resolving Vulkan vs DirectX clip-space and matrix order gotchas.
+* **How It Works:** Compiles shaders with `glslangValidator`, optimizes bytecode with `spirv-opt`, validates specification adherence via `spirv-val`, and handles matrix ordering (row-major vs column-major) and clip space Y-inversion.
+* **Why It Saves Quota:** Stops endless compile-fail cycles by catching buffer packing violations and dialect incompatibilities before deployment.
+
+#### 89. `game-texture-material-pipeline`
+* **In Simple Terms:** Automates game asset texture compression, PBR material channel packing (ORM), and normal map format conversions (DirectX vs OpenGL).
+* **When It Kicks In:** Migrating game textures between engines, fixing inverted normal maps (bumps looking like dents), packing separate AO/Roughness/Metallic maps into a single ORM texture, or choosing GPU compression formats (BC1/BC3/BC5/BC7, ASTC, KTX2).
+* **How It Works:** Inverts green channels ($Y$) for DirectX/OpenGL normal compatibility, enforces linear color space for data maps and sRGB for albedo, and packs multi-channel textures via automated Python/Pillow pipelines.
+* **Why It Saves Quota:** Cuts GPU texture bandwidth in half by combining multiple texture fetches into single samplers and prevents visual material rendering bugs.
+
+#### 90. `real-time-rendering-pipeline`
+* **In Simple Terms:** Architectural guide for modern explicit graphics engines (DirectX 12, Vulkan 1.3+, WebGPU) featuring render graphs, bindless textures, and reversed-Z depth.
+* **When It Kicks In:** Building custom renderers, refactoring legacy slot-based drawing to bindless descriptor indexing, eliminating depth fighting in massive outdoor worlds, or analyzing frame captures in RenderDoc.
+* **How It Works:** Constructs Directed Acyclic Graph (DAG) render passes with transient memory aliasing, implements unbounded descriptor arrays (`Texture2D g_Textures[]`), and configures floating-point reversed-Z ($[1.0, 0.0]$).
+* **Why It Saves Quota:** Eliminates thousands of CPU draw call stalls and state thrashing, enabling 10,000+ objects on screen without frame drops.
+
+#### 91. `game-graphics-optimization-profiling`
+* **In Simple Terms:** Detects whether a game is CPU-bound, vertex-bound, pixel-bound, or overdraw-bound, and applies high-performance culling and modern temporal upscaling (TAA, FSR, DLSS).
+* **When It Kicks In:** Fixing low framerates, draw call bottlenecks, geometry bottlenecks, implementing Hierarchical-Z (Hi-Z) occlusion culling, or wiring camera jitter and motion vectors for FSR 2/3 and DLSS.
+* **How It Works:** Uses GPU multi-draw indirect commands (`vkCmdDrawIndexedIndirect`), sets up Halton sub-pixel camera jitter sequences, generates per-pixel velocity vectors, and configures LOD transition thresholds.
+* **Why It Saves Quota:** Pinpoints the exact hardware bottleneck in seconds using empirical profiling rules instead of blindly altering shader math.
+
+#### 92. `post-processing-visual-fx`
+* **In Simple Terms:** Implements cinematic visual effects, HDR tone mapping (ACES, AgX), progressive dual-filter bloom, and cascaded shadow maps (CSM).
+* **When It Kicks In:** Adding post-processing stacks to a game engine, eliminating highlight burnout in explosions, implementing realistic bloom without GPU lag, or fixing shadow edge shimmering.
+* **How It Works:** Applies fitted ACES/AgX tone mapping curves, downsamples and upsamples bloom using 13-tap and 9-tap progressive filters, and calculates logarithmic/uniform split distances for Cascaded Shadow Maps with texel snapping.
+* **Why It Saves Quota:** Provides mathematically correct, drop-in shader implementations that eliminate trial-and-error visual tuning.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -894,7 +931,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`claude`** | Launches standard Claude Code | When you need full deep reasoning for hard bugs or major refactors. |
 | **`agy`** | Launches standard Antigravity CLI | When you need standard multi-model escalation (Flash to Argon). |
 | **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context gauge crosses 50%–60%. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 87 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 92 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

@@ -1,0 +1,55 @@
+---
+name: real-time-rendering-pipeline
+description: Architecture, modern paradigms, and debugging for real-time game renderers (DirectX 12, Vulkan 1.3+, WebGPU). Use when designing render graphs, implementing bindless descriptors, configuring reverse-Z depth buffers, managing transient memory aliasing, or capturing frames with RenderDoc.
+---
+
+# Real-Time Rendering Pipeline & Architecture
+
+This skill guides the construction, refactoring, and diagnosis of high-performance modern rendering engines using explicit APIs (Vulkan, DirectX 12, Metal, WebGPU).
+
+---
+
+## 1. Core Architectural Pillars of Modern Renderers
+
+### A. Frame Graph / Render Graph Architecture
+* **Decoupled Passes:** Individual rendering passes (Shadow Pass, G-Buffer, Lighting, SSAO, Post-Processing) do not manage raw API command lists or physical buffers directly.
+* **Transient Resource Aliasing:** Buffers and textures that do not overlap in lifetime share the exact same GPU memory heap (`VkDeviceMemory` / `ID3D12Heap`), slashing VRAM footprints by 40%–60%.
+* **Automatic Barrier Synthesis:** The graph computes resource read/write state transitions and automatically injects minimal pipeline barriers (`vkCmdPipelineBarrier2` / `ResourceBarrier`) with zero redundant synchronization stalls.
+
+### B. Bindless Rendering & Descriptor Indexing
+* **Legacy Slot-Based Model:** CPU binds texture 0 to slot 0, texture 1 to slot 1, causing hundreds of driver API calls per draw.
+* **Modern Bindless Model:**
+  * All textures are uploaded to a single, unbounded descriptor array:
+    ```hlsl
+    // HLSL SM 6.6
+    Texture2D g_Textures[] : register(t0, space0);
+    ```
+    ```glsl
+    // GLSL / Vulkan
+    #extension GL_EXT_nonuniform_qualifier : enable
+    layout(set = 0, binding = 0) uniform texture2D g_Textures[];
+    ```
+  * Per-object material data passes an integer index (`uint textureID`) via push constants or instance data.
+  * **Result:** CPU can draw 10,000 distinct objects in a single draw call without swapping pipeline state or descriptors.
+
+### C. Floating-Point Reversed-Z Depth Buffering
+* **Problem:** Standard depth buffers ($Z \in [0, 1]$ where near=0, far=1) suffer severe floating-point precision loss at distance due to perspective projection non-linearity.
+* **Solution:** Reverse the mapping so **Near = 1.0, Far = 0.0**, combined with a 32-bit float (`D32_SFLOAT`) or 24-bit float depth buffer:
+  * Projection matrix: swap near and far plane bounds.
+  * Depth compare function: change `LESS` / `LESS_EQUAL` to `GREATER` / `GREATER_EQUAL`.
+  * Clear value: `ClearDepth = 0.0f`.
+  * **Result:** Near-infinite z-fighting elimination across vast outdoor game environments.
+
+---
+
+## 2. Frame Diagnostics with RenderDoc
+
+RenderDoc is the industry standard for frame analysis, shader debugging, and pipeline inspection.
+* Launch capture via CLI:
+  ```bash
+  renderdoccmd capture --opt-disallow-vsync --working-dir /path/to/game /path/to/game_executable
+  ```
+* Replay and analyze capture:
+  ```bash
+  renderdoccmd replay /tmp/capture.rdc
+  ```

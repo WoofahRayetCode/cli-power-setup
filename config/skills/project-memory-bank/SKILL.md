@@ -49,6 +49,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record target export bitrates, NVENC preset choices, loudness targets (-14 LUFS), and subtitle styling rules (font, outline, primary color) in `systemPatterns.md`.
 * **Android Target & Emulation Binding (`android-device-automation` & `emulator-development-engineering`):**
   Record target ADB serial numbers, screen resolution bounds, touch coordinates for critical UI elements, and emulator build targets (e.g. Vulkan backend, JIT target architecture) in `systemPatterns.md`.
+* **Graphics Pipeline & Shader Bindings (`shader-cross-compilation`, `real-time-rendering-pipeline`, `game-texture-material-pipeline`):**
+  Record target graphics API (Vulkan 1.3 / D3D12 / WebGPU), clip space conventions, normal map Y-axis orientation (DirectX Y- vs OpenGL Y+), texture compression formats (BCn vs ASTC), and descriptor binding layouts in `systemPatterns.md`.
 
 ---
 
