@@ -106,6 +106,12 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record active local model name (`qwen2.5-coder:1.5b`), server endpoint (`http://localhost:11434`), RAG vector index path (`.agents/rag/index.json`), host CPU thread saturation count (`nproc`), and AST cache paths in `systemPatterns.md`.
 * **Self-Improving Testing Suite Bindings (`game-exploratory-fuzzing`, `self-healing-test-automation`, `coverage-guided-mutation-testing`):**
   Record active QA input corpus path (`.qa_corpus/`), minimal crash reproduction replay scripts, healed locator patch history (`.agents/healed_locators/`), surviving mutant manifests (`.agents/mutants/`), and mutation score percentages in `systemPatterns.md` and `learnings.md`.
+* **Cross-CLI Handoff & Session State Bindings (`cross-cli-session-handoff`):**
+  Record active `.agents/handoff.json` packet status, source CLI environment (Antigravity / Claude Code / Cursor), git diff snapshot paths (`.agents/checkpoints/handoff_*.diff`), and current blocking task in `activeContext.md` to guarantee zero-loss session transitions.
+* **Legacy Engine Cartography & Pruning Bindings (`legacy-codebase-cartographer`):**
+  Record active omit manifest path (`.agents/audit/omit_manifest.txt`), excluded build targets, and unreferenced translation units in `systemPatterns.md` to prevent dead-code porting.
+* **Autonomous Error Recovery & Crash Archive Bindings (`agent-error-recovery-sentinel`):**
+  Record active crash logs (`.agents/crashes/`), modal dismissal counts, cleared lock files, and zombie process recovery metrics in `learnings.md`.
 
 ---
 

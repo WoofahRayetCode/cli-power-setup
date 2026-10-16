@@ -132,8 +132,11 @@ python3 config/skills/adaptive-reasoning/scripts/adaptive_model_router.py route 
    - **Reasoning:** `Medium` / Systematic root-cause diagnosis (`systematic-debugging`).
    - **Strategy:** Read full error stack trace, inspect AST definitions (`local-ast-compiler-engine`), isolate root cause.
 3. **Attempt 2+ or Fatal Memory/Crash (Deep Escalation):**
-   - **Model:** `pro` (Gemini 4 Argon / Claude Sonnet/Opus) via `invoke_subagent(Model="pro")`
+   - **Model:** `pro` (Gemini 4 Argon / Claude Sonnet/Opus / Claude Fable) via `invoke_subagent(Model="pro")`
    - **Reasoning:** `High` / Deliberative Tree-of-Thought (`deliberative-reasoning-tree`).
+   - **Governance:** Enforce `argon-thinking-governor` for Gemini 4 Argon or `claude-fable-engine-governor` / `claude-opus-plan-sonnet-exec` for Anthropic models to prevent quota runaway.
    - **Strategy:** Formulate 3 distinct hypothesis branches, red-team each path, execute provably sound architecture.
 4. **Task Verified Passing (`pass`):**
-   - Immediate automatic de-escalation back to **`Flash` / Low Reasoning**, restoring 100% quota efficiency.
+   - Immediate automatic downshifting back to **`Flash` / Low Reasoning** via `dynamic-model-downshifter`, restoring 100% quota efficiency.
+5. **Context Window Shielding:**
+   - As context grows, engage `flash-context-compactor` (<100k cap) or `claude-context-rot-shield` (<80k cap) to prevent attention degradation and prompt cache misses.

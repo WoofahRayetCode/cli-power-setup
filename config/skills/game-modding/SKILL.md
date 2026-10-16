@@ -89,4 +89,14 @@ When verifying game mods, engine ports, or visual assets, **do not remain idle i
 8. **Self-Improving Regression Tests (`game-self-improving-qa-pipeline`):**
    - Run `self-improving-qa` to automatically turn crash logs and telemetry anomalies into permanent regression test cases.
 
+---
+
+## 4. Automated Release Packaging & Hardening (`game-mod-release-packager`)
+
+Once mod changes and playtests pass:
+1. **Strip Binaries:** Strip non-essential symbols from custom DLLs with `objcopy --strip-debug`.
+2. **Pack Game Archives:** Pack loose `gamedata/` directories into `.pack` or `.xdb` archives with optimal zstd compression.
+3. **Verify Hashes:** Generate cryptographic `SHA256SUMS.txt` and `RELEASE_INFO.json` manifests for release on Steam Workshop, ModDB, or GitHub Releases.
+
+
 

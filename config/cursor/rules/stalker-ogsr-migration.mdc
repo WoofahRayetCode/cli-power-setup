@@ -244,3 +244,17 @@ Continuously evolve playtest coverage by mining crash logs and telemetry anomali
 ```bash
 self-improving-qa run --target ogsr --telemetry-dir /tmp/ogsr_telemetry --auto-heal
 ```
+
+---
+
+## 🚀 7. Specialized Subsystem Engineering & Distribution
+
+For deep technical sub-problems during migration, delegate directly to the specialized domain skills:
+
+* **Dead-Code Pruning (`legacy-codebase-cartographer`):** Map call graphs and generate `.agents/audit/omit_manifest.txt` to avoid porting obsolete DX8/multiplayer files.
+* **64-bit Memory & Struct Alignment (`cpp-64bit-engine-port-sanitizer`):** Audit `uintptr_t` conversions, 64-bit vtable alignments, and `#pragma pack(1)` save structure padding.
+* **Level AI Navmesh & Vertex Crashes (`stalker-level-ai-graph-triage`):** Resolve `! Cannot find level vertex` CTDs, validate `all.spawn` `level_changer` sections, and verify `level.ai` connectivity.
+* **LuaJIT 64-bit & FFI Callbacks (`stalker-luajit-ffi-migration`):** Trap nil-pointer dereferences in Luabind exports and enforce safe FFI pointer lifetimes.
+* **DirectX 11 Shader Modernization (`xray-dx11-shader-modernization`):** Modernize SM 3.0 to SM 5.0, enforce 16-byte `cbuffer` boundaries, and calibrate dynamic lighting/bloom.
+* **Autonomous Error Sentinel (`agent-error-recovery-sentinel`):** Auto-dismiss modal crash windows, release grabbed input focus, clear stale lock files, and resume unattended test runs.
+* **Release Packaging & Hardening (`game-mod-release-packager`):** Strip binary debug symbols, pack `.xdb` archives with zstd compression, and generate SHA-256 release manifests.

@@ -95,3 +95,13 @@ python3 config/skills/autonomous-goal-governor/scripts/goal_governor.py quota-gu
 | `phase-gate` | Completes phase and advises `/compact` | Eliminates 100k+ token per-turn overhead |
 | `quota-guard` | Enforces 5h wait-for-refresh & weekly 25% smart checkpoints | Uninterrupted overnight runs & quota safety |
 | `status` | Reports active goal, phase, and strikes | Instant statusline visibility |
+
+---
+
+## 🔗 7. Autonomous Ecosystem Interoperability
+
+The goal governor directly coordinates with supporting autonomous guardrails:
+
+* **Unattended Command Clamping (`yolo-autonomous-watchdog`):** Limits broad bash commands to `head -n 40` and redirects heavy build logs to `/tmp/`.
+* **Runtime Process Freeze Recovery (`agent-error-recovery-sentinel`):** Automatically sweeps hanging Wine/Notepad/BugTrap modals, terminates dead processes, and unlocks resources during unattended playtests.
+* **Seamless Cross-CLI Handoff (`cross-cli-session-handoff`):** When approaching quota thresholds, the governor writes `.agents/handoff.json` and updates `activeContext.md`, enabling an instant switch to another CLI environment in < 300 tokens.
