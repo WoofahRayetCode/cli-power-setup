@@ -22,7 +22,7 @@ Before beginning work on any user request, evaluate the prompt's structural comp
   * Run with standard/low thinking latency (keeps streaming instant and saves quota).
 
 ### Tier 2: Standard Engineering & Implementation
-* **Triggers:** Implementing a specific function, refactoring a single module, writing unit tests, fixing a verified bug, session milestone checkpointing (`session-episodic-memory`), video production scripts, vertical shorts generation, Android device automation, Jetpack Compose UI screens, Android architecture/Room flows, Android testing/release hardening, shader translation/validation, PBR texture channel packing, or skill lifecycle maintenance.
+* **Triggers:** Implementing a specific function, refactoring a single module, writing unit tests, fixing a verified bug, session milestone checkpointing (`session-episodic-memory`), video production scripts, vertical shorts generation, Android device automation, Jetpack Compose UI screens, Android architecture/Room flows, Android testing/release hardening, shader translation/validation, PBR texture channel packing, cross-platform input mapping (`game-input-system-abstraction`), VFS container asset packing (`game-asset-pack-archive-engineering`), or skill lifecycle maintenance.
 * **Reasoning Strategy:**
   * When incoming requests are verbose or conversational, activate `high-density-prompting` to distill into a 4-part surgical directive.
   * When logging architectural decisions (ADRs) or preparing for `/compact`, route to `session-episodic-memory` to write a high-density episode record into `.agents/episodes/`.
@@ -34,13 +34,15 @@ Before beginning work on any user request, evaluate the prompt's structural comp
   * When transcoding, clipping, or editing video, route to `video-production-automation` and `youtube-shorts-video-automation` for hardware-accelerated NVENC AV1/HEVC pipelines.
   * When automating mobile device maintenance, debloating, or screen observation, route to `android-device-automation`.
   * When compiling/validating shaders (HLSL/GLSL/SPIR-V) or converting texture channels/normal maps, route to `shader-cross-compilation` and `game-texture-material-pipeline`.
+  * When implementing controller deadzones, glyph switching, or mouse delta sub-pixel smoothing, route to `game-input-system-abstraction`.
+  * When packing game mod containers or designing virtual file systems, route to `game-asset-pack-archive-engineering`.
   * Follow Test-Driven Development (`test-driven-development`) or targeted debugging (`systematic-debugging`).
   * Sanitize tool outputs using `log-output-sanitizer`.
   * Rely on compiler/linter feedback (e.g. `cargo check`, `ruff`, `clang-tidy`, `pytest`, `spirv-val`).
   * Execute directly on Gemini 3.8 Flash using surgical diffs.
 
 ### Tier 3: Deep Architectural & Multi-System Design
-* **Triggers:** Designing new mods, multi-file refactoring, kernel modules (`omen-acpi`), reverse engineering unfamiliar binaries, visual layout diagnostics, console emulator architecture, game AI reinforcement learning agents, Android NDK C++ native engines/JNI bridges, low-level Android battery/jank profiling, modern rendering engine architectures (Vulkan/DX12), frame graph design, graphics optimization/culling, or cinematic post-processing pipelines.
+* **Triggers:** Designing new mods, multi-file refactoring, kernel modules (`omen-acpi`), reverse engineering unfamiliar binaries, visual layout diagnostics, console emulator architecture, game AI reinforcement learning agents, Android NDK C++ native engines/JNI bridges, low-level Android battery/jank profiling, modern rendering engine architectures (Vulkan/DX12), frame graph design, graphics optimization/culling, cinematic post-processing pipelines, real-time spatial audio DSP engines, fixed-timestep physics accumulators & narrowphase solvers, or custom memory allocators (Arena/Pool/TLSF).
 * **Reasoning Strategy:**
   * Activate `deliberative-reasoning-tree` to explore 3 branching hypothesis paths and conduct adversarial self-critique before writing code.
   * For live visual layout glitches, GUI rendering anomalies, or game HUD overlaps, route desktop/window capture to `screen-vision-inspector`.
@@ -51,6 +53,9 @@ Before beginning work on any user request, evaluate the prompt's structural comp
   * For modern rendering architectures, bindless descriptors, and frame graphs, route to `real-time-rendering-pipeline`.
   * For rendering bottlenecks, Hi-Z occlusion culling, and TAA/FSR upscaling, route to `game-graphics-optimization-profiling`.
   * For HDR tone mapping, progressive bloom, and cascaded shadow maps, route to `post-processing-visual-fx`.
+  * For lock-free spatial audio callbacks, 3D HRTF convolution, and bus mixing hierarchies, route to `game-audio-engine-engineering`.
+  * For deterministic physics loops, render state interpolation, and GJK/EPA continuous collision detection, route to `game-physics-collision-pipeline`.
+  * For cache-aligned linear arenas, stack rollbacks, pool free lists, and TLSF two-level allocators, route to `game-memory-allocator-engineering`.
   * Route deep external inquiries into unfamiliar APIs to `deep-research-synthesizer`.
   * Route exact mathematical formulas, DSP biquad filter calculations, and log analytics to `sandbox-code-interpreter`.
   * Automatically escalate the architecture and plan drafting phase to a **`pro` (Gemini 4 Argon)** subagent via `invoke_subagent`.

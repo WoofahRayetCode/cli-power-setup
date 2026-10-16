@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **100 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **105 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 100 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 105 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -60,7 +60,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 100 specialized skills
+    └── skills/                 # 105 specialized skills
 ```
 
 ---
@@ -158,6 +158,11 @@ cli-power-setup/
 | **`real-time-rendering-pipeline`** | Graphics/Engine | Frame graphs, transient memory aliasing, bindless descriptors, reversed-Z, RenderDoc |
 | **`game-graphics-optimization-profiling`** | Graphics/Perf | Bottleneck triage, Hi-Z occlusion culling, GPU MultiDraw, LODs, TAA & FSR/DLSS |
 | **`post-processing-visual-fx`** | Graphics/PostFX | ACES/AgX tone mapping, progressive dual-filtering bloom, SSAO/GTAO, CSM shadow cascades |
+| **`game-audio-engine-engineering`** | Engine/Audio | Lock-free audio callbacks, 3D HRTF spatialization, bus mixing & dynamic ducking |
+| **`game-physics-collision-pipeline`** | Engine/Physics | Fixed-timestep accumulator loops, state interpolation, BVH broadphase & GJK/EPA CCD |
+| **`game-memory-allocator-engineering`** | Engine/Memory | Linear Arenas, Stack LIFO rollback, Pool free lists, TLSF & 64-byte cache alignment |
+| **`game-input-system-abstraction`** | Engine/Input | Scaled radial deadzones, sub-pixel mouse smoothing, controller GUID glyph switching |
+| **`game-asset-pack-archive-engineering`** | Engine/VFS | Virtual File System mount hierarchy, high-performance VPAK container format & zlib mmap |
 | **`skills-updater-and-auditor`** | Lifecycle/Health | Automated parity audit, YAML frontmatter check, script permission repair & GitHub sync |
 | **`android-ndk-jni-engineering`** | Mobile/NDK | C/C++ JNI, zero-copy ByteBuffers, Vulkan/Oboe, tombstone symbolization |
 | **`android-compose-ui-ux`** | Mobile/UI | Jetpack Compose, Material 3, edge-to-edge window insets, recomposition optimization |
@@ -858,9 +863,9 @@ To provide maximum flexibility without losing precision, this suite employs a **
 ### 🧭 Dynamic Orchestration & Long-Horizon Memory
 
 #### 99. `dynamic-skill-router`
-* **In Simple Terms:** An intelligent navigation system for your 100-skill toolkit—analyzing your prompt in milliseconds and finding the exact 2-3 best skills to use, stopping the AI from getting overwhelmed by too many choices.
+* **In Simple Terms:** An intelligent navigation system for your 105-skill toolkit—analyzing your prompt in milliseconds and finding the exact 2-3 best skills to use, stopping the AI from getting overwhelmed by too many choices.
 * **When It Kicks In:** Whenever you give a task that spans multiple disciplines, or when the AI needs to discover which specialized skills apply to an unfamiliar technical problem.
-* **How It Works:** Uses a BM25-style inverted keyword index with IDF token weighting and skill name boosting (`scripts/skill_router.py`), scoring all 100 skills in under 20ms and outputting ranked matches with explanations.
+* **How It Works:** Uses a BM25-style inverted keyword index with IDF token weighting and skill name boosting (`scripts/skill_router.py`), scoring all 105 skills in under 20ms and outputting ranked matches with explanations.
 * **Why It Saves Quota:** Eliminates the token cost of scanning or loading dozens of skill files into active memory, cutting discovery overhead by up to **95%**.
 
 #### 100. `session-episodic-memory`
@@ -868,6 +873,38 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **When It Kicks In:** Long engineering tasks, complex multi-session projects, or before running `/compact`.
 * **How It Works:** Writes structured, timestamped episode snapshots to `.agents/episodes/YYYY-MM-DD_HHMM.md` capturing Objectives, Key Decisions (ADRs), Discarded Alternatives, and Next Tasks.
 * **Why It Saves Quota:** Completely prevents circular debugging loops (trying a solution that was already proven broken 2 hours ago) and eliminates having to re-explain the project history after running `/compact`.
+
+### 🕹️ Video Game Engine Architecture & Porting Foundations
+
+#### 101. `game-audio-engine-engineering`
+* **In Simple Terms:** Real-time audio engine architecture—enforcing lock-free audio callbacks, 3D HRTF binaural spatialization, bus mixing hierarchies, and sound bank asset pipelines.
+* **When It Kicks In:** Building custom audio systems, integrating audio libraries (OpenAL Soft, MiniAudio, FMOD, Wwise), fixing audio crackling/pops caused by thread priority inversions, or implementing dynamic ducking and 3D sound occlusion.
+* **How It Works:** Enforces zero-allocation (`malloc`/`free`) and lock-free SPSC queues inside audio threads, implements inverse-distance spatial attenuation with equal-power panning, and applies biquad low-pass filtering for physics-based occlusion.
+* **Why It Saves Quota:** Eliminates intermittent, hard-to-reproduce audio crashes and priority inversions that derail game testing sessions.
+
+#### 102. `game-physics-collision-pipeline`
+* **In Simple Terms:** Deterministic physics simulation and collision pipeline—eliminating collision tunneling via fixed-timestep accumulator loops and continuous collision detection (CCD).
+* **When It Kicks In:** Implementing or porting game physics (Jolt, PhysX, Box2D, custom engine), fixing fast-moving projectiles passing through walls, or resolving visual camera jitter.
+* **How It Works:** Decouples variable rendering framerates from fixed physics steps ($1/60\text{s}$) using alpha state interpolation, organizes bounding volumes into dynamic BVH trees, and computes penetration depth/normals using GJK and EPA simplex algorithms.
+* **Why It Saves Quota:** Prevents broken physics edge cases and collision tunneling loops before they corrupt game state or require multi-hour debugging.
+
+#### 103. `game-memory-allocator-engineering`
+* **In Simple Terms:** Custom game engine memory managers (Linear Arenas, Stack Rollbacks, Pool Free Lists, TLSF)—eliminating memory fragmentation and aligning data to 64-byte CPU cache lines.
+* **When It Kicks In:** Porting 32-bit games to 64-bit, eliminating heap fragmentation (`malloc` overhead), enforcing SIMD vector alignment, or building frame-lifetime transient allocators.
+* **How It Works:** Uses contiguous pre-allocated byte arenas with pointer bumping for single-frame scratchpads, pooled chunks for uniform entities/particles, and bitmask-indexed TLSF for variable heap allocations, with strict 64-byte cache line alignment.
+* **Why It Saves Quota:** Eliminates mysterious OS page fault hitches, memory leaks, and pointer alignment crashes common during 64-bit engine ports.
+
+#### 104. `game-input-system-abstraction`
+* **In Simple Terms:** Universal game input abstraction layer—unifying controllers, mice, and keyboards with mathematically correct radial deadzones and dynamic button glyphs.
+* **When It Kicks In:** Porting game input across platforms (Windows RawInput, SDL3, Linux evdev, Steam Input), fixing diagonal gamepad aiming drift, or auto-switching UI button prompts between Xbox, PlayStation, and Nintendo.
+* **How It Works:** Replaces buggy axial deadzones with normalized Scaled Radial Deadzone math ($D = \frac{\lVert v \rVert - r_{in}}{r_{out} - r_{in}} \cdot \hat{v}$), accumulates sub-pixel mouse deltas for high-DPI mice, and inspects controller vendor/product GUIDs to dynamically render gamepad glyphs.
+* **Why It Saves Quota:** Fixes controller drift, sticky diagonal aiming, and broken device hot-plugging on the first implementation pass.
+
+#### 105. `game-asset-pack-archive-engineering`
+* **In Simple Terms:** Virtual File System (VFS) and packed game container toolchain—loading assets from compressed archives with memory-mapped I/O (`mmap`) and mod priority hierarchies.
+* **When It Kicks In:** Packaging game assets into binary archives, implementing mod override support without altering base game files, or converting loose file disk reads into zero-copy memory-mapped containers.
+* **How It Works:** Implements a priority-ordered VFS mount hierarchy (Mod Override $\to$ Patch $\to$ Base Game), serializes chunked binary archives (`VPAK`) with zlib compression, and provides a standalone CLI asset packer (`scripts/vfs_asset_packer.py`).
+* **Why It Saves Quota:** Speeds up game asset loading, prevents loose-file disk thrashing, and eliminates broken mod installation paths.
 
 ---
 
@@ -999,7 +1036,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 100 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 105 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

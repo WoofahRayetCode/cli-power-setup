@@ -60,6 +60,7 @@ To ensure the new frontier efficiency tools are always utilized:
 * **Video Filtergraphs & Subtitles:** When generating long complex FFmpeg filtergraphs, word-level `.ass` / `.srt` subtitle transcripts, or ADB logcat dumps, write them directly to script files or disk assets rather than printing them in full to chat.
 * **Shader Code & SPIR-V Disassemblies:** When generating or disassembling extensive shaders (HLSL/GLSL/SPIR-V), write them directly to shader files (`.vert`, `.frag`, `.hlsl`, `.spvasm`) rather than dumping 300+ lines of shader code into chat.
 * **Android Native Dumps & Gfxinfo Metrics:** When dumping raw tombstones, HPROF traces, or 200+ frame `dumpsys gfxinfo` tables, capture them to `/tmp/` log files, presenting only the symbolized crash frames or jank frame percentage in chat.
+* **VFS Archive Listings & Physics Contact Matrices:** When unpacking or inspecting large asset archives (`vfs_asset_packer.py --list`) or dumping physics contact manifold tables, pipe results to files or artifacts, presenting only summary counts (file count, total payload size, active contact pairs) in chat.
 * Provide a single clickable file link and a 1-sentence headline rather than dumping large blocks of markdown or HTML into the chat transcript.
 
 ---

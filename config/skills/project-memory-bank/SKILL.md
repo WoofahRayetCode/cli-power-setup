@@ -57,6 +57,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record target Android SDK version (e.g. API 35), minimum SDK, NDK ABI filters (`arm64-v8a`, `armeabi-v7a`), Room database schema version, and Compose compiler metrics in `systemPatterns.md`.
 * **Episodic Narrative & Milestone Checkpoints (`session-episodic-memory`):**
   Link active chronological episode logs (`.agents/episodes/<timestamp>_<task>.md`) inside `activeContext.md` before `/compact` to preserve the reasoning trail across compaction cycles.
+* **Game Engine Architecture & VFS Bindings (`game-audio-engine-engineering`, `game-physics-collision-pipeline`, `game-memory-allocator-engineering`, `game-input-system-abstraction`, `game-asset-pack-archive-engineering`):**
+  Record physics fixed timestep (`fixedDelta = 1/60.0f`), primary memory allocator strategy (Linear Arena vs TLSF), audio sample rate/voice limits, radial deadzone configurations, and VFS pack mount priority hierarchy in `systemPatterns.md`.
 
 ---
 
