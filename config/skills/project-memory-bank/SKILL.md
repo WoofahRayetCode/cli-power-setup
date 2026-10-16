@@ -25,45 +25,32 @@ The memory bank lives in `.agents/memory/` at the root of the project:
 
 ---
 
-## 2. Token-Saving Lifecycle Protocols
+## 2. Frontier Tool Integrations & Bindings
 
-### A. Session Startup (Hydration over Exploration)
-- **Do NOT** run broad recursive searches, read 30 source files, or re-grep the repository when starting a session.
-- **Instead:** Check if `.agents/memory/activeContext.md` exists:
-  - If present: read `activeContext.md` first. You are instantly up to speed in <300 tokens.
-  - If missing: initialize the memory bank after completing your initial assessment.
-
-### B. Bug & Gotcha Logging (Zero Re-Debugging)
-- When a tricky bug, compiler quirk, or game engine crash is diagnosed and resolved:
-  - Append a 2-3 line entry to `.agents/memory/learnings.md`:
-    ```markdown
-    ### [YYYY-MM-DD] S.T.A.L.K.E.R. EE Audio Header Strip
-    - Symptom: Engine crash on custom ambient sound playback.
-    - Cause: Standard Vorbis encoders strip proprietary GSC binary chunk.
-    - Fix: Use ZoneForge asset pipeline to preserve sound comments and volume parameters.
-    ```
-  - This prevents future sessions from repeating failed hypotheses and burning quota on known issues.
-
-### C. Safe Session Compaction (`/compact`)
-- When a conversation becomes long (15+ turns) or context grows heavy:
-  1. Update `.agents/memory/activeContext.md` with:
-     - Completed tasks from the current session.
-     - Current blockers or open questions.
-     - Immediate next actionable steps.
-  2. Recommend or execute `/compact`.
-  3. Upon resuming, re-reading `activeContext.md` restores 100% of working context while freeing up the entire conversation history.
+* **Symbol Index Graph Binding (`semantic-codebase-indexing`):**
+  Record the location and status of `.code_index_tags.json` inside `systemPatterns.md`. On session start, query the symbol index in 10ms instead of running recursive `grep` searches.
+* **Persistent Research Vault (`deep-research-synthesizer`):**
+  Store deep technical whitepapers in `.agents/research/<topic>.md`. Check this directory before performing new web searches to prevent duplicate research.
+* **Deliberative Reasoning Trade-off Logging (`deliberative-reasoning-tree`):**
+  When Tree-of-Thought explores 3 hypothesis branches and rejects 2 during adversarial critique, log the rejected approaches and root causes into `learnings.md` so future sessions never repeat dead-end experiments.
+* **Canvas Draft Tracking (`canvas-interactive-workspace`):**
+  Include any in-progress `.canvas/*.draft` files in `activeContext.md` before session compaction.
 
 ---
 
-## 3. Initialization Template
+## 3. Token-Saving Lifecycle Protocols
 
-When creating a new memory bank for a project, use this concise layout:
+### A. Session Startup (Hydration over Exploration)
+* **Do NOT** run broad recursive searches, read 30 source files, or re-grep the repository when starting a session.
+* **Instead:** Check if `.agents/memory/activeContext.md` exists:
+  * If present: read `activeContext.md` first. You are instantly up to speed in <300 tokens.
+  * If missing: initialize the memory bank after completing your initial assessment.
 
-```bash
-mkdir -p .agents/memory
-```
+### B. Bug & Gotcha Logging (Zero Re-Debugging)
+* When a tricky bug, compiler quirk, or game engine crash is diagnosed and resolved, append a 2-3 line entry to `.agents/memory/learnings.md`. This prevents future sessions from repeating failed hypotheses and burning quota on known issues.
 
-* **`projectBrief.md`:** What is this project, who is it for, and what are the boundaries?
-* **`systemPatterns.md`:** Language/framework, entry points, architectural choices, build commands.
-* **`activeContext.md`:** Current objective, what was modified today, what is next.
-* **`learnings.md`:** Environmental traps, platform-specific workarounds (e.g. CachyOS/Arch, UE5, Godot).
+### C. Safe Session Compaction (`/compact` & `context-pruning-watchdog`)
+* When active context crosses ~120k tokens (60%):
+  1. Update `.agents/memory/activeContext.md` with current completed steps, open blockers, and immediate next tasks.
+  2. Advise running `/compact`.
+  3. Upon resuming, re-reading `activeContext.md` restores 100% of working context while freeing up the entire conversation history.

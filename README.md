@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **58 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **61 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 58 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 61 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launcher:** Installs `agy-turbo` into `~/.local/bin/`.
@@ -57,7 +57,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 58 specialized skills
+    └── skills/                 # 61 specialized skills
 ```
 
 ---
@@ -110,6 +110,9 @@ cli-power-setup/
 | **`sandbox-code-interpreter`** | Frontier | Headless Python scientific computing, log analytics & chart plotting |
 | **`deliberative-reasoning-tree`** | Frontier | Tree-of-Thought (ToT) 3-path branching, adversarial self-critique & backtracking |
 | **`semantic-codebase-indexing`** | Frontier | Instant AST symbol graph indexing, ctags/tree-sitter call hierarchy |
+| **`log-output-sanitizer`** | Context/Quota | Filters noisy compiler/test logs before entering chat context |
+| **`smart-context-packer`** | Context/Quota | Compresses multi-file codebases into interface-only AST skeletons |
+| **`context-pruning-watchdog`** | Context/Quota | Live context telemetry, auto state staging, and lossless compaction |
 | **`cachyos-arch-packaging`** | Systems | Arch/CachyOS PKGBUILD, DKMS kernel modules, systemd |
 | **`reverse-engineer-anything`** | Systems/RE | Deep multi-target analysis with REA MCP |
 | **`binary-re-workflows`** | Systems/RE | Ghidra, JADX, TShark, objdump, and hex diffing |
@@ -520,7 +523,25 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ### 💰 Quota, Memory & Context Engineering
 
-#### 57. `token-economy`
+#### 57. `log-output-sanitizer`
+* **In Simple Terms:** An automatic muffler for noisy terminal commands that stops hundreds of lines of passing tests and compiler junk from cluttering your chat history.
+* **When It Kicks In:** Running `cargo build`, `npm install`, `cmake`, `pytest`, or any test/build pipeline.
+* **How It Works:** Applies compact flags (`--quiet`, `--tb=short`, `--message-format=short`) and redirects heavy build streams to `/tmp/build.log`, passing only actionable errors and 1-line summary tallies to the AI's context window.
+* **Why It Saves Quota:** Saves **2,000–5,000 input tokens per command execution**, preventing chat history from being flooded with useless progress text.
+
+#### 58. `smart-context-packer`
+* **In Simple Terms:** Creates a lightweight "X-ray skeleton" of your code that shows classes and function names without loading thousands of lines of internal loops.
+* **When It Kicks In:** Exploring an unfamiliar subsystem, planning a multi-file refactor, or mapping out architecture across 15+ files.
+* **How It Works:** Strips out function bodies, comments, and empty lines, preserving only class definitions, public method signatures, and exported types.
+* **Why It Saves Quota:** Shrinks a 50,000-token multi-file codebase down to **<4,000 tokens (a 90% reduction)** while giving the AI 100% of the architectural context it needs.
+
+#### 59. `context-pruning-watchdog`
+* **In Simple Terms:** A smart context fuel gauge that warns you before your conversation gets too long and automatically prepares a clean memory snapshot for `/compact`.
+* **When It Kicks In:** Long coding sessions (15+ turns) as the conversation context approaches 120,000 tokens (60% capacity).
+* **How It Works:** Monitors active context consumption in real-time. When context crosses the 60% threshold, it automatically writes your completed tasks, blockers, and next steps into `.agents/memory/activeContext.md` and advises running `/compact`.
+* **Why It Saves Quota:** Prevents hitting the expensive rolling 5-hour quota ceiling and resets context to <2,000 tokens with zero loss of progress.
+
+#### 60. `token-economy`
 * **In Simple Terms:** The ultimate quota-saving protocol that eliminates robotic fluff, stops the AI from repeating itself, and stretches your daily AI usage limits by 2x to 3x.
 * **When It Kicks In:** Always active in every conversation across Antigravity and Claude Code.
 * **How It Works:**
@@ -545,7 +566,7 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 * **Compounding Context Multiplier:** Because past conversation output tokens are re-ingested as input prompt tokens on every subsequent turn, saving 6,500 output tokens in early turns prevents re-reading **~35,000–60,000 cumulative prompt tokens** across a 15-turn session, extending rolling 5-hour quota limits by **2x to 3x**.
 
-#### 58. `project-memory-bank`
+#### 61. `project-memory-bank`
 * **In Simple Terms:** A smart project notebook that stores your project's architecture and lessons learned, so the AI never forgets what you're working on across restarts.
 * **When It Kicks In:** Starting work on a repository, resuming multi-session tasks, or before running `/compact`.
 * **How It Works:**

@@ -5,31 +5,51 @@ description: Output token optimization and high-density communication protocol. 
 
 # Output Token Economy & High-Density Protocol
 
-This skill enforces strict output token efficiency across agent sessions to preserve user quota and prevent context bloat.
+This skill enforces strict token efficiency across agent sessions to preserve user quota and prevent compounding context bloat.
+
+---
 
 ## 1. Zero Conversational Overhead
-- **Strip Preambles & Fillers:** Eliminate opening pleasantries ("Sure, I can do that!", "Here is what I found:") and closing conversational sign-offs ("Let me know if you need anything else!").
-- **Zero Prompt Restatement:** Never echo, paraphrase, or summarize the user's request.
-- **Lead with Results:** The first line of response should be the answer, the status indicator, or the action taken.
+* **Strip Preambles & Fillers:** Eliminate opening pleasantries ("Sure, I can do that!", "Here is what I found:") and closing conversational sign-offs ("Let me know if you need anything else!").
+* **Zero Prompt Restatement:** Never echo, paraphrase, or summarize the user's request. Lead directly with actionable technical data, indicators, or code actions.
+* **Zero Code Duplication in Chat:** Once code has been created or modified via tools (`replace_file_content`, `write_to_file`, `Edit`), never re-paste the code blocks into chat text. State only the file link, line range, and a 1-sentence rationale.
+
+---
 
 ## 2. High-Density Status Indicators
 Replace conversational status updates with compact markdown checklists:
-- `[✓] Completed step / file path`
-- `[→] In progress step`
-- `[!] Warning or blocker`
-- `[✗] Failure with 1-line error message`
+* `[✓] Completed step / file path`
+* `[→] In progress step`
+* `[!] Warning or blocker`
+* `[✗] Failure with 1-line error message`
 
-## 3. Tool Execution & Output Discipline
-- **Zero Code Duplication in Chat:** Once code has been created or modified via tools (`replace_file_content`, `write_to_file`, `Edit`), never re-paste the code blocks into chat text. State only the file link, line range, and rationale.
-- **Silent Success:** When terminal commands or tools succeed with standard expected output, do not paste the raw stdout into chat. Summarize cleanly:
-  - *Verbose (bad):* Pasting 50 lines of compiler output.
-  - *High-Density (good):* `cargo test: 18 passed, 0 failed (0.42s)`
-- **Surgical Edits:** Use `replace_file_content` targeting only the lines that changed. Avoid rewriting entire 500+ line files when modifying a single function.
+---
+
+## 3. Active Context-Saving Enforcement Chain
+
+To ensure the new frontier efficiency tools are always utilized:
+
+* **Prompt Cache Prefix Stability (`prompt-cache-context-optimizer`):**
+  Never interleave dynamic project files between static instructions. Maintain exact prefix order so Anthropic's **90% prompt caching discount** is never broken.
+* **Symbol Lookups Over Full-File Reads (`semantic-codebase-indexing`):**
+  Query `.code_index_tags.json` via `jq` to locate exact function lines before invoking `view_file`. Never read 500-line files when targeting a 10-line function.
+* **Terminal Stream Sanitization (`log-output-sanitizer`):**
+  Never allow verbose test suites or compiler logs to dump 200+ lines into chat. Use silent/short flags and surface only 1-line metrics or actionable stack traces.
+* **Canvas Staged Diffs (`canvas-interactive-workspace`):**
+  Stage proposed edits in `.canvas/` and output only targeted unified diff chunks. Prohibit full-file conversational rewrites.
+* **Swarm Background Offloading (`subagent-swarm-orchestrator`):**
+  Offload multi-file linter sweeps, build logs, and test suites to background worktree subagents, preventing thousands of lines of stdout from polluting the main conversation history.
+* **Visual Artifacts Over ASCII Bloat (`generative-visual-artifacts`):**
+  Never generate massive 50-line ASCII diagrams or markdown tables in chat. Offload visual UI mockups and telemetry graphs to self-contained HTML artifacts that open in the browser.
+
+---
 
 ## 4. Offloading Heavy Content
-- **Large Diffs, Logs, or Plans:** Write extensive documentation, plans, or test matrices into files or artifacts.
-- Provide a single clickable file link and a 1-sentence summary rather than dumping 200 lines of markdown into the chat transcript.
+* **Large Diffs, Logs, or Plans:** Write extensive documentation, plans, or test matrices into files or artifacts.
+* Provide a single clickable file link and a 1-sentence headline rather than dumping large blocks of markdown into the chat transcript.
+
+---
 
 ## 5. Token Savings Metric Footer
 Conclude plans, refactors, and multi-step tasks with a single high-density token economy line quantifying estimated output/quota savings achieved through these constraints:
-`📉 Token Economy: ~<N> tokens saved (<breakdown: e.g. surgical diffs, artifact offloaded, Flash routing>)`
+`📉 Token Economy: ~<N> tokens saved (<breakdown: e.g. cache hits, symbol lookup, swarm offload, surgical diffs>)`
