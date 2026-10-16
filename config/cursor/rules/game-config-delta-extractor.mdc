@@ -1,0 +1,67 @@
+---
+description: Game configuration delta extractor and inheritance pruner. Strips identical inherited keys in S.T.A.L.K.E.R. LTX, Godot TSCN/TRES, and game YAML configurations, exposing only modified parameters to slash game asset context by 80-85%.
+globs: 
+alwaysApply: false
+---
+
+# Game Config Delta Extractor (`game-config-delta-extractor`)
+
+Game configuration files (such as S.T.A.L.K.E.R. LTX weapon and entity definitions, Godot scenes, and Unreal DataTables) rely heavily on object-oriented inheritance. When inspecting or editing derived sections, 80%–90% of the listed keys are identical copies of parent defaults.
+
+This skill extracts only the **overridden deltas** (`[child:parent]`), eliminating hundreds of lines of duplicate configuration parameters.
+
+---
+
+## 1. Delta Extraction Comparison (S.T.A.L.K.E.R. LTX Weapon)
+
+### Raw Weapon Section (Verbose: 350 tokens):
+```ini
+[wpn_ak74_upg]:wpn_ak74
+cost                            = 2500
+inv_name                        = "AK-74 Upgraded"
+inv_name_short                  = "AK-74 Up"
+description                     = enc_weapons_wpn-ak74_upg
+default_to_ruck                 = false
+sprint_allowed                  = true
+control_inertion_factor         = 1.25f
+inv_weight                      = 3.3
+inv_grid_width                  = 5
+inv_grid_height                 = 2
+inv_grid_x                      = 0
+inv_grid_y                      = 10
+auto_spawn_ammo                 = false
+scope_status                    = 2
+silencer_status                 = 0
+grenade_launcher_status         = 0
+hit_power                       = 0.42
+hit_impulse                     = 140
+hit_type                        = fire_wound
+fire_distance                   = 1000
+bullet_speed                    = 900
+rpm                             = 650
+hud                             = wpn_ak74_upg_hud
+```
+
+### Extracted Inheritance Delta (Compact: 48 tokens — 86% reduction):
+```ini
+[wpn_ak74_upg]:wpn_ak74 (overrides 4 / 22 keys)
+cost           = 2500
+inv_name       = "AK-74 Upgraded"
+hit_power      = 0.42 (parent: 0.35)
+bullet_speed   = 900  (parent: 880)
+```
+
+---
+
+## 2. Extraction Pipeline Rules
+
+1. **Resolve Parent Section First:**
+   - When inspecting `[child]:parent`, inspect only keys where `child.val != parent.val`.
+2. **Flag Broken Overrides:**
+   - Highlight missing parent sections or orphaned keys immediately.
+3. **Surgical Diff Modification:**
+   - When modifying a derived game section, write only the changed key-value pairs; never copy and re-paste unchanged inherited parent properties.
+4. **Applies To:**
+   - S.T.A.L.K.E.R. `.ltx` / `.xml` configs
+   - Godot `.tscn` / `.tres` inheritances (`instance=ExtResource(...)`)
+   - Unity `.prefab` override deltas

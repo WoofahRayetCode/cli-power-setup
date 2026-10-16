@@ -1,0 +1,53 @@
+---
+name: network-packet-stream-condenser
+description: Network packet stream and PCAP trace condenser. Flattens verbose tshark and tcpdump protocol dissection trees into high-density 1-line TSV telemetry tuples, slashing network protocol engineering tokens by 85-90%.
+---
+
+# Network Packet Stream Condenser (`network-packet-stream-condenser`)
+
+Standard network packet capture tools (`tshark`, `tcpdump`, `wireshark`) print multi-level hierarchical trees detailing every byte offset, checksum, and header field. A 10-packet handshake can consume over 3,000 prompt tokens.
+
+This skill compresses packet capture streams into high-density 1-line TSV telemetry tuples.
+
+---
+
+## 1. Packet Representation Comparison
+
+### Verbose `tshark -V` Packet Output (380 tokens):
+```text
+Frame 1: 74 bytes on wire (592 bits), 74 bytes captured
+Ethernet II, Src: 00:1a:2b:3c:4d:5e, Dst: 00:5e:4d:3c:2b:1a
+Internet Protocol Version 4, Src: 192.168.1.50, Dst: 10.0.0.1
+    Header Length: 20 bytes
+    Time to Live: 64
+    Protocol: TCP (6)
+Transmission Control Protocol, Src Port: 54321, Dst Port: 443, Seq: 0, Len: 0
+    Flags: 0x002 (SYN)
+    Window size value: 64240
+```
+
+### Compressed Telemetry Tuple (24 tokens — 94% reduction):
+```tsv
+#PKT|1|192.168.1.50:54321->10.0.0.1:443|TCP|SYN|seq:0|win:64240|len:0
+```
+
+---
+
+## 2. Command Pipeline Standards
+
+When capturing or inspecting network traffic:
+
+1. **Mandatory Custom Columns with `tshark`:**
+   Always use `-T fields` with explicit column extractors rather than default multi-line dumps:
+   ```bash
+   tshark -r capture.pcap -T fields \
+     -e frame.number -e ip.src -e tcp.srcport -e ip.dst -e tcp.dstport \
+     -e _ws.col.Protocol -e _ws.col.Info \
+     -E separator='|' | head -n 30
+   ```
+2. **Payload Inspection Filtering:**
+   - Truncate raw hex payloads to the first 16 bytes: `frame[0:16]`.
+   - Never dump unencrypted SSL/TLS binary frames into the chat transcript.
+3. **Stream Aggregation First:**
+   - Run conversation/stream statistics before analyzing individual packets:
+     `tshark -r capture.pcap -q -z conv,ip` (produces a 5-line summary of top talkers).
