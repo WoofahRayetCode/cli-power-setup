@@ -53,6 +53,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record target graphics API (Vulkan 1.3 / D3D12 / WebGPU), clip space conventions, normal map Y-axis orientation (DirectX Y- vs OpenGL Y+), texture compression formats (BCn vs ASTC), and descriptor binding layouts in `systemPatterns.md`.
 * **Skills Health & Synchronization Telemetry (`skills-updater-and-auditor`):**
   Record last-audited skill count, missing host dependencies, and upstream commit sha in `systemPatterns.md` to prevent repetitive dependency rediscovery across sessions.
+* **Android Engineering & NDK Stack Binding (`android-app-engineering`, `android-compose-ui-ux`, `android-architecture-jetpack`, `android-ndk-jni-engineering`):**
+  Record target Android SDK version (e.g. API 35), minimum SDK, NDK ABI filters (`arm64-v8a`, `armeabi-v7a`), Room database schema version, and Compose compiler metrics in `systemPatterns.md`.
 
 ---
 

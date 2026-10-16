@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **93 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **98 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 93 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 98 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -60,7 +60,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 93 specialized skills
+    └── skills/                 # 98 specialized skills
 ```
 
 ---
@@ -159,6 +159,11 @@ cli-power-setup/
 | **`game-graphics-optimization-profiling`** | Graphics/Perf | Bottleneck triage, Hi-Z occlusion culling, GPU MultiDraw, LODs, TAA & FSR/DLSS |
 | **`post-processing-visual-fx`** | Graphics/PostFX | ACES/AgX tone mapping, progressive dual-filtering bloom, SSAO/GTAO, CSM shadow cascades |
 | **`skills-updater-and-auditor`** | Lifecycle/Health | Automated parity audit, YAML frontmatter check, script permission repair & GitHub sync |
+| **`android-ndk-jni-engineering`** | Mobile/NDK | C/C++ JNI, zero-copy ByteBuffers, Vulkan/Oboe, tombstone symbolization |
+| **`android-compose-ui-ux`** | Mobile/UI | Jetpack Compose, Material 3, edge-to-edge window insets, recomposition optimization |
+| **`android-architecture-jetpack`** | Mobile/Arch | Clean Architecture, MVI/StateFlow, Room auto-migrations, Navigation DSL, Hilt |
+| **`android-testing-ci-cd-security`** | Mobile/DevOps | Robolectric, Compose UI tests, R8 shrinking, Android Keystore StrongBox |
+| **`android-perf-battery-profiling`** | Mobile/Perf | Jank analysis (`dumpsys gfxinfo`), batterystats, Perfetto, memory leak heap dumps |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
 | **`project-memory-bank`** | Memory | Persistent `.agents/memory/` context to prevent re-hydration |
@@ -816,6 +821,38 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Audits all 3 directories (`config/skills/`, `~/.gemini/config/skills/`, `~/.claude/skills/`), runs syntax linters on Python/Bash scripts, auto-applies `chmod +x` to helper scripts, scans for required host CLI tools (`ffmpeg`, `adb`, `glslangValidator`, etc.), and checks `origin/main` for remote updates.
 * **Why It Saves Quota:** Eliminates silent agent errors, broken script execution failures, and desynchronized configurations that cause models to fail mid-turn and burn tokens diagnosing setup bugs.
 
+### 📱 Full-Stack Android Engineering & Optimization
+
+#### 94. `android-ndk-jni-engineering`
+* **In Simple Terms:** High-performance Android C/C++ development—connecting native code to Kotlin via zero-copy JNI, running Vulkan/Oboe audio pipelines, and decoding native crash dumps.
+* **When It Kicks In:** Writing native libraries in C++, porting game engines to Android, optimizing DSP audio, preventing JNI local reference table overflow crashes, or symbolizing native `SIGSEGV` tombstone stack traces.
+* **How It Works:** Uses direct ByteBuffers (`GetDirectBufferAddress`) for zero-copy memory transfers, caches `jmethodID`/`jfieldID` lookups in `JNI_OnLoad`, configures Oboe low-latency audio streams (`AAudio`), and symbolizes PC addresses with `addr2line`.
+* **Why It Saves Quota:** Stops native crashes and cryptic JNI pointer bugs before they enter endless trial-and-error debugging loops.
+
+#### 95. `android-compose-ui-ux`
+* **In Simple Terms:** Advanced Jetpack Compose UI design system—building butter-smooth Material 3 interfaces, edge-to-edge window insets, and eliminating recomposition lag.
+* **When It Kicks In:** Creating Android screens in Compose, fixing UI stuttering or dropped frames during scrolling, styling status/navigation bars, handling IME keyboard padding, or designing custom canvas drawings.
+* **How It Works:** Enforces `@Immutable` and `@Stable` contracts on UI models, defers state reads to layout/draw phases via lambdas (`Modifier.offset { ... }`), and utilizes modern `enableEdgeToEdge()` APIs.
+* **Why It Saves Quota:** Fixes UI rendering lag and recomposition thrashing by structuring state correctly on the first attempt.
+
+#### 96. `android-architecture-jetpack`
+* **In Simple Terms:** Architectural blueprint for modern Android apps—connecting ViewModels, Room databases, type-safe Navigation, and WorkManager background tasks using clean Unidirectional Data Flow.
+* **When It Kicks In:** Setting up a new Android project, adding Room persistence with schema migrations, switching to type-safe Kotlin DSL Navigation (2.8+), or managing background sync workers.
+* **How It Works:** Implements single immutable `StateFlow<UiState>` per screen with `collectAsStateWithLifecycle()`, defines Room DAOs with reactive Flows, and injects dependencies via Dagger Hilt.
+* **Why It Saves Quota:** Prevents lifecycle leaks, configuration change data loss, and architecture spaghetti that requires full app rewrites.
+
+#### 97. `android-testing-ci-cd-security`
+* **In Simple Terms:** Complete testing, CI/CD automation, and release security suite for Android—testing ViewModels locally on JVM without an emulator, configuring R8 bytecode shrinking, and securing secrets with Android Keystore.
+* **When It Kicks In:** Writing unit tests with MockK & Turbine, authoring Compose semantics UI tests, setting up headless Gradle CI builds, preventing reverse engineering with R8, or encrypting sensitive tokens.
+* **How It Works:** Runs JVM-speed unit tests with Robolectric, configures strict ProGuard keep rules for JNI and serialization, archives `mapping.txt` for Play Console deobfuscation, and generates hardware-backed AES-256 keys via StrongBox Keystore.
+* **Why It Saves Quota:** Validates code health on the fast local JVM in seconds without booting heavy Android emulators or paying cloud CI fees.
+
+#### 98. `android-perf-battery-profiling`
+* **In Simple Terms:** Diagnostic toolkit for finding why an Android app is lagging, dropping frames, draining the battery, or leaking memory.
+* **When It Kicks In:** Diagnosing missed VSYNC frame deadlines (jank), analyzing battery wake locks, catching main-thread disk/network operations via StrictMode, or debugging OutOfMemoryError crashes.
+* **How It Works:** Queries `dumpsys gfxinfo framestats` for 90Hz/120Hz missed deadlines, dumps battery wake lock durations via `dumpsys batterystats`, and extracts/converts heap dumps (`am dumpheap` + `hprof-conv`) to detect leaked Activities.
+* **Why It Saves Quota:** Replaces vague guessing about app performance with exact millisecond frame histograms and battery power breakdown logs.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -945,7 +982,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context gauge crosses 50%–60%. |
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 93 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 98 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
