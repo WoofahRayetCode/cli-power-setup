@@ -78,14 +78,14 @@ This repository organizes a curated set of **210 autonomous agent skills**, 210 
     ├── GEMINI.md               # Global engineering discipline, quota governance & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
     ├── cursor/                 # Cursor reference templates and rules
-    └── skills/                 # 167 specialized skills
+    └── skills/                 # 210 specialized skills
 ```
 
 ---
 
 ## 🎯 Where Skills Perform Best: CLI vs. Cursor IDE (Division of Labor)
 
-While all 167 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
+While all 210 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
 
 ### 1. Skills That Excel in the CLI (Headless & Unattended)
 *Best launched via `claude-turbo`, `agy-turbo`, or standalone terminal scripts*
@@ -272,7 +272,7 @@ While all 167 skills and CLI utilities are shared identically between environmen
 | **`interactive-data-visualization-web`** | Web/Vis | Zero-build D3.js force-directed networks, Vis.js timelines & dynamic entity stat matrices |
 | **`task-velocity-governor`** | Governance/Speed | Task completion velocity, 5-step targeted rule, anti-thrashing loops & diminishing returns bounds |
 | **`first-principles-reasoning`** | Reasoning/Core | First-principles decomposition, Chain-of-Verification (CoVe), red-teaming & Ockham's razor ranking |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 167+ skills |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 210 skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`hierarchical-memory-retrieval`** | Memory/Recall | Multi-tiered query-driven BM25 search across `.agents/memory/`, episodes & git history |
 | **`context-window-governor`** | Context/Budget | Turn-by-turn token budgeting (20/35/25/20%), pre-flight size estimation & hard output clamping |
@@ -295,6 +295,25 @@ While all 167 skills and CLI utilities are shared identically between environmen
 | **`agy-cli-doctor`** | DevOps/Parity | Claude Code `doctor` parity: SQLite database integrity check, permissions whitelist audit, model endpoint health |
 | **`agy-context-telemetry`** | Token/Parity | Claude Code `/context` & `/cost` parity: step-by-step cache telemetry, model split, token savings & cost estimation |
 | **`argon-thinking-governor`** | Token/Cognitive | Gemini 4 Argon internal CoT thinking token clamp, zero-monologue tool execution & hybrid Flash dispatch |
+| **`blender-high-to-low-baking`** | 3D/Baking | Headless multi-map baking (normal, AO, curvature/cavity, ID) from multi-million sculpts to low-poly via bpy |
+| **`game-engine-3d-budget-profiler`** | 3D/Budget | Game engine 3D performance budget validation, automated LOD0–LOD3 decimation & UCX collision hulls |
+| **`blender-pbr-texture-packager`** | 3D/PBR | PBR ORM channel packing (Occlusion, Roughness, Metallic), texel density enforcement & DirectX/OpenGL normal inversion |
+| **`character-creature-anatomy-modeling`** | 3D/Anatomy | Biped and quadruped skeletal topology, concentric deformation loops, digitigrade mechanics & retopo cages |
+| **`rigging-weight-painting-pipeline`** | 3D/Rigging | Game armature bone budgets, automated weight normalization, 4-influence clamping & IK/FK solvers |
+| **`blender-headless-token-shield`** | 3D/Token | Prohibits raw vertex/mesh dumps in chat; enforces headless Python automation with 3-line CLI telemetry |
+| **`claude-opus-conciseness-enforcer`** | Token/Opus | Enforces <=200 token outputs, strict BLUF, zero code repetition in chat, saving up to 75% Opus output tokens |
+| **`fable-virtual-context-manager`** | Context/Fable | Virtualizes 1M-token context by paging 30k subsystem slices from a disk knowledge graph into working memory |
+| **`argon-effort-auto-calibrator`** | Token/Argon | Dynamically scales Argon thinking effort (--effort low/med/high) turn-by-turn to slash reasoning tokens by 85% |
+| **`universal-token-containment-protocol`** | Token/Global | Enforces zero chat code duplication, artifact offloading, and strict tool caps across all 210 skills |
+| **`model-optimal-state-serializer`** | Token/State | Tokenizer-native state serialization (XML-KV for Claude BPE, Pipe-TSV for Gemini SentencePiece, symbol URIs) |
+| **`multi-model-cache-harmonizer`** | Cache/Multi | Static prefix anchoring and boundary alignment across Claude, Gemini, OpenAI, and Grok for 90-95% cache discounts |
+| **`git-diff-token-compressor`** | Git/Token | Zero-context hunks (-U0) and coordinate patches (<file>#L<num>:+added|-removed) slashing diff tokens by 70-85% |
+| **`polyglot-ast-interface-pruner`** | AST/Context | Strips function bodies, comments, and private variables across C++, C#, Rust, Python, Lua for 85-90% context reduction |
+| **`local-preflight-syntax-gate`** | QA/Preflight | Zero-token host CPU syntax verification (luac, ruff, cargo, clang) saving 15k-40k reasoning tokens per typo |
+| **`disassembly-token-redactor`** | RE/Token | Strips raw hex opcodes and NOP sleds from objdump/readelf/rizin, condensing disasm into symbolic CFG basic blocks |
+| **`game-config-delta-extractor`** | Game/Config | Inheritance delta extractor for S.T.A.L.K.E.R. LTX, Godot TSCN, and YAML, slashing config context by 80-85% |
+| **`network-packet-stream-condenser`** | Net/Token | Compresses verbose tshark/tcpdump packet dissections into high-density 1-line TSV telemetry tuples |
+| **`sql-schema-query-condenser`** | DB/Token | Serializes verbose DDL and EXPLAIN query plan trees into compact type-bracket notation and operator pipelines |
 
 ---
 
@@ -1619,7 +1638,7 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **Why It Saves Quota:** Eliminates 4,000 to 12,000 internal thinking tokens per turn on routine mechanical steps, cutting Argon session burn by 85%.
 
 #### 201. `universal-token-containment-protocol`
-* **In Simple Terms:** Universal cross-model and cross-domain token containment protocol across all 202 skills.
+* **In Simple Terms:** Universal cross-model and cross-domain token containment protocol across all 210 skills.
 * **When It Kicks In:** Running any engineering task across 3D modeling, reverse engineering, web design, game modding, and test suites.
 * **How It Works:** Enforces strict domain rules: caps disassembly dumps to 30 lines, offloads HTML/docs to files/artifacts, mandates surgical chunk diffs, and enforces quiet flags (`pytest -q`, `cargo test -q`).
 * **Why It Saves Quota:** Eliminates chat transcript pollution and ensures all large data blocks exist exclusively in tools and disk files.
