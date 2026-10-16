@@ -78,6 +78,7 @@ To ensure the new frontier efficiency tools are always utilized:
 * **Goal Execution Logs & Autonomous Run Traces:** When executing long-running `/goal` tasks (`goal_governor.py`), offload full step traces, subagent transcripts, and phased milestone diffs to `.agents/goals/` and `.agents/episodes/`, presenting only active phase progress, strike counts, and the machine verification status in chat.
 * **Fursona Profiles, Refsheets & Palette Swatches:** When formulating fursona character sheets (`fursona_generator.py`), save full JSON profiles, multi-model prompt tables, and rendered swatch graphics to `.agents/fursonas/`, presenting only the character name, species archetype, hex palette summary, and clickable image/spec links in chat.
 * **AOSP Build Dumps & SELinux Audit Traces:** When compiling custom ROMs (`mka bacon`) or capturing bootloop dmesg logs (often 50,000+ lines), pipe raw logs to disk files in `/tmp/` or `.agents/rom/`, presenting only the Ninja compilation error, missing vendor blob path, or generated `.te` allow rule in chat.
+* **Game Playtest Locomotion Traces & Input Replays:** When running extended game playtesting or action stress cycles (`game_playtest_controller.py`), save raw tick-by-tick evdev event streams, mouse delta recordings, and input replays to `.agents/playtest/` or `/tmp/`, presenting only the locomotion pattern, duration, tick count, and pass/fail summary in chat.
 * Provide a single clickable file link and a 1-sentence headline rather than dumping large blocks of markdown or HTML into the chat transcript.
 
 ---

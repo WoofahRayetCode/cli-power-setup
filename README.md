@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **138 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **139 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 138 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 139 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -199,7 +199,8 @@ cli-power-setup/
 | **`autonomous-goal-governor`** | Goal/Quota | Machine-verifiable contract formulation, 3-strike circuit breaker & phased `/compact` milestones for `/goal` |
 | **`furry-fursona-art-design`** | Creative/Art | Fursona character design, multi-view turnaround refsheets, digitigrade anatomy & palette swatches |
 | **`android-rom-os-engineering`** | Mobile/ROM | AOSP & LineageOS device trees, vendor blob extraction, dynamic super partitions & SELinux sepolicy |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 138+ skills |
+| **`game-qa-playtest-controller`** | Gaming/QA | Autonomous multi-axis locomotion (orbit, sweep, wander, stress transitions, action cycles) via uinput |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 139+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`hierarchical-memory-retrieval`** | Memory/Recall | Multi-tiered query-driven BM25 search across `.agents/memory/`, episodes & git history |
 | **`context-window-governor`** | Context/Budget | Turn-by-turn token budgeting (20/35/25/20%), pre-flight size estimation & hard output clamping |
@@ -1149,6 +1150,12 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Automates device tree scaffolding (`android_rom_tools.py scaffold`), translates raw `avc: denied` SELinux audit logs from dmesg into exact `.te` policy allow rules without resorting to permissive mode, validates dynamic partition storage budgets against `BOARD_SUPER_PARTITION_SIZE`, and lints VINTF compatibility matrices.
 * **Why It Saves Quota:** Directly resolves the most common causes of device bootloops, missing HAL symbols, and SELinux denial hangs, avoiding endless multi-hour rebuild cycles.
 
+#### 139. `game-qa-playtest-controller`
+* **In Simple Terms:** Programmatic game testing locomotion controller that injects real multi-axis character movements (circle-strafing, 360° panoramic sweeps, obstacle wandering, sprint/jump stress transitions, and action cycles) via Linux kernel `/dev/uinput`.
+* **When It Kicks In:** Autonomous game QA testing, mod validation, continuous stress testing, reproducing physics/clip anomalies, or pairing with `game-screen-telemetry-monitor` to explore game levels and detect render errors.
+* **How It Works:** Generates hardware-level relative mouse motion (`REL_X`/`REL_Y`) and DirectInput/RawInput keyboard scan codes via Linux `evdev`/`uinput`, executing smooth orbit maneuvers around landmarks, continuous panoramic sky/ground sweeps with vertical pitch oscillation, frontier wandering with obstacle turnarounds, and rapid action cycles (weapon fire/reload/inventory).
+* **Why It Saves Quota:** Automates tedious manual game locomotion during testing and reproduces physics clipping or rendering faults predictably in repeatable CLI batches.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1279,7 +1286,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 138 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 139 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

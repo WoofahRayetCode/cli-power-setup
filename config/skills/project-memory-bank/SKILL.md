@@ -97,6 +97,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record active character profile JSON path, species archetype, digitigrade vs plantigrade configuration, official palette hex codes, and 3D VRChat avatar specs in `.agents/fursonas/` and `systemPatterns.md`.
 * **Android ROM & Device Tree Bindings (`android-rom-os-engineering`):**
   Record target OEM vendor, device codename, SoC architecture, `BOARD_SUPER_PARTITION_SIZE` budget, kernel branch/commit, and active device tree path (`device/<vendor>/<codename>/`) in `systemPatterns.md` and `learnings.md`.
+* **Game QA Playtest Locomotion & Profile Bindings (`game-qa-playtest-controller`):**
+  Record active playtest locomotion pattern (`orbit`, `sweep`, `wander`, `stress-locomotion`, `action-cycle`), mouse yaw sensitivity deltas, uinput device capability state, and test replay logs in `.agents/playtest/` and `systemPatterns.md`.
 
 ---
 
