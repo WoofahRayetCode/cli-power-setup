@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **62 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **64 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 62 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 64 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launcher:** Installs `agy-turbo` into `~/.local/bin/`.
@@ -57,7 +57,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 62 specialized skills
+    └── skills/                 # 64 specialized skills
 ```
 
 ---
@@ -81,6 +81,8 @@ cli-power-setup/
 | **`unity-game-dev`** | Game Engine | Unity C#, zero-allocation Span/Memory, ScriptableObjects |
 | **`game-engine-migration`** | Game Engine | Universal 5-stage engine & mod porting framework (32-to-64 bit, DX9-to-DX11/VK) |
 | **`blender-3d-engineering`** | 3D Assets | Headless `bpy` modeling, modifier stacks, game exports |
+| **`threejs-webgl-engineering`** | 3D/WebGL | Interactive 3D browser viewports, GLTFLoader, OrbitControls, PBR |
+| **`ai-3d-mesh-generation`** | 3D/AI | Tripo3D text/image-to-3D pipeline, game asset export (GLB/FBX) |
 | **`game-modding`** | Modding | S.T.A.L.K.E.R. EE ZoneForge toolchain, LTX & audio rules |
 | **`xray-lua-scripting`** | Modding | S.T.A.L.K.E.R. X-Ray Engine Lua callbacks and memory safety |
 | **`stalker2-modding`** | Modding | S.T.A.L.K.E.R. 2 UE5 repak containers & RE-UE4SS hooks |
@@ -242,31 +244,31 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ### ☢️ Game Modding (S.T.A.L.K.E.R. Ecosystem)
 
-#### 16. `game-modding`
+#### 18. `game-modding`
 * **In Simple Terms:** Safety guardrails for modding games like S.T.A.L.K.E.R. Enhanced Edition, making sure configurations and textures don't break the game.
 * **When It Kicks In:** Modding weapons, items, UI menus, textures, or game configurations.
 * **How It Works:** Protects original game files by keeping them read-only, checks game configuration text files (LTX) for missing sections, ensures textures use the right compression (DXT1/DXT5), and preserves special audio headers.
 * **Why It Saves Quota:** Stops the game engine from crashing on startup due to a single missing bracket or corrupted audio file.
 
-#### 17. `xray-lua-scripting`
+#### 19. `xray-lua-scripting`
 * **In Simple Terms:** Specialized scripting rules for the S.T.A.L.K.E.R. X-Ray game engine that prevent savegame corruption and game freezes.
 * **When It Kicks In:** Writing quest scripts, inventory logic, NPC behaviors, or custom game mechanics in S.T.A.L.K.E.R.
 * **How It Works:** Enforces strict nil-checks (verifying an enemy or item still exists before talking to it), prevents memory leaks in Lua, and ensures game saves stay clean.
 * **Why It Saves Quota:** Avoids silent script freezes and prevents corrupted save files that ruin hours of playthroughs.
 
-#### 18. `stalker2-modding`
+#### 20. `stalker2-modding`
 * **In Simple Terms:** Modding toolkit for S.T.A.L.K.E.R. 2 Heart of Chornobyl (Unreal Engine 5).
 * **When It Kicks In:** Creating mods for S.T.A.L.K.E.R. 2, packing game archives, or adding custom C++ and Lua gameplay hooks.
 * **How It Works:** Automates packaging UE5 game containers (`.pak`, `.ucas`, `.utoc`) with proper compression using `repak` and sets up RE-UE4SS scripting hooks.
 * **Why It Saves Quota:** Eliminates failed container packing and wrong compression settings that cause the game to ignore mods.
 
-#### 19. `stalker-ogsr-migration`
+#### 21. `stalker-ogsr-migration`
 * **In Simple Terms:** The expert specialist for porting older S.T.A.L.K.E.R. mods (like S.T.A.L.K.E.R. Complete 2009) to the modern, 64-bit OGSR Engine.
 * **When It Kicks In:** Upgrading 32-bit Shadow of Chernobyl mods to the modern 64-bit OGSR engine.
 * **How It Works:** Removes incompatible 32-bit DLL files, removes old DirectX 9 shaders that crash the modern DX11 renderer, updates script callbacks to LuaJIT, and converts level spawn files using ACDC.
 * **Why It Saves Quota:** Directly solves the known causes of fatal startup crashes (`FATAL ERROR: Expression: !failed()`) without endless guesswork.
 
-#### 20. `game-runtime-diagnostics`
+#### 22. `game-runtime-diagnostics`
 * **In Simple Terms:** A master doctor for PC games that investigates why games crash, stutter, or refuse to launch on Windows and Linux (Steam Deck / Proton), and fixes them.
 * **When It Kicks In:** Whenever a game crashes to desktop, freezes with a DirectX error, suffers from shader compilation stutter, or fails to launch in Steam Proton.
 * **How It Works:** On Linux, parses Proton log streams (`PROTON_LOG=1`), configures DXVK async shader compilation, repairs broken Wine prefixes with Winetricks, and sets up DLL overrides. On Windows, reads Event Viewer crash logs (Event ID 1000), fixes GPU driver timeouts (TDRs), and repairs missing DirectX/Visual C++ runtimes.
@@ -276,7 +278,7 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ### 🎧 Audio Engineering & DSP
 
-#### 21. `audio-dsp-tuning`
+#### 23. `audio-dsp-tuning`
 * **In Simple Terms:** Calibrates headphones to sound balanced and clear, and transforms any microphone into a studio-grade broadcast voice without background noise.
 * **When It Kicks In:** Tuning headset audio, fixing muddy bass or piercing treble, eliminating microphone background noise (fans, keyboard clicks), or setting up stream audio.
 * **How It Works:** Applies acoustic target curves (Harman Target via AutoEq) to headphones and sets up a professional 6-stage microphone processing chain (high-pass filter, AI noise suppression, surgical EQ, vocal compressor, de-esser, and brickwall limiter). Outputs ready-to-use profiles for EasyEffects (Linux) and Equalizer APO / Peace (Windows).
@@ -286,13 +288,13 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ### 📱 Mobile, Emulation & Console Homebrew
 
-#### 22. `android-app-engineering`
+#### 24. `android-app-engineering`
 * **In Simple Terms:** Expert guide for writing fast, modern Android applications in Kotlin, managing Gradle builds, and avoiding background battery/network service kills.
 * **When It Kicks In:** Developing Android apps, configuring Kotlin Gradle scripts (`build.gradle.kts`), network tethering services, or APK release signing.
 * **How It Works:** Enforces modern Jetpack Compose architecture, sets up reliable foreground services that survive Android's Doze battery saver, configures ProGuard/R8 rules so serialization doesn't break, and manages cryptographic keystores.
 * **Why It Saves Quota:** Eliminates trial-and-error Gradle build failures and background service termination debugging.
 
-#### 23. `console-homebrew-engineering`
+#### 25. `console-homebrew-engineering`
 * **In Simple Terms:** A safety-first guide for console softmodding, custom firmware (CFW) setups, payload injectors, and game package management.
 * **When It Kicks In:** Setting up Nintendo Switch CFW (Atmosphere/Hekate), SD card formatting, converting/compressing game packages (NSP/NSZ), or managing Obtainium emulator feeds.
 * **How It Works:** Enforces strict FAT32 32KB cluster alignment (preventing fatal Switch archive-bit corruption), configures Hekate bootloaders and raw emuMMC partitions, and handles block-compressed zstd NSZ files.
@@ -302,19 +304,19 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ### 🖥️ Desktop, Kernel & Infrastructure
 
-#### 24. `electron-desktop-dev`
+#### 26. `electron-desktop-dev`
 * **In Simple Terms:** Best practices for building secure, lightweight desktop applications with Electron without massive memory bloat.
 * **When It Kicks In:** Developing Electron apps, custom Chromium browsers, desktop messaging clients, or system tray utilities.
 * **How It Works:** Enforces strict security boundaries (context isolation, disabled node integration in renderers), types IPC communication via `contextBridge`, handles multi-window and tray lifecycles, and packages multi-platform distributions with electron-builder.
 * **Why It Saves Quota:** Catches Electron security vulnerabilities and memory leaks before deployment.
 
-#### 25. `linux-hardware-acpi`
+#### 27. `linux-hardware-acpi`
 * **In Simple Terms:** Guides the development of Linux kernel ACPI modules, hardware fan curves, and system telemetry background services.
 * **When It Kicks In:** Developing kernel modules (like `omen-acpi`), controlling laptop fan curves, reading thermal sensors via `/sys/class/hwmon/`, or writing D-Bus hardware daemons.
 * **How It Works:** Decompiles ACPI DSDT/SSDT tables (`iasl`), binds Linux WMI drivers to hardware sensors, and implements hysteresis smoothing so fans don't rapidly rev up and down.
 * **Why It Saves Quota:** Prevents kernel panics, memory boundary violations in C kernel space, and runaway fan loops.
 
-#### 26. `homelab-docker-devops`
+#### 28. `homelab-docker-devops`
 * **In Simple Terms:** Standardizes setting up home servers, Docker containers, Samba network storage, and automated backups on Linux / Raspberry Pi.
 * **When It Kicks In:** Managing Raspberry Pi NAS setups, multi-container Docker Compose stacks, network shared folders (Samba), or systemd backup timers.
 * **How It Works:** Deploys clean multi-service `docker-compose.yml` configurations with isolated bridge networks, sets proper Samba POSIX group permissions (`0664`/`0775`) to avoid "Permission Denied" errors, and automates daily maintenance with systemd timers.
@@ -324,19 +326,19 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ### 🐧 Linux Systems & Packaging
 
-#### 27. `linux-systems-engineering`
+#### 29. `linux-systems-engineering`
 * **In Simple Terms:** Deep low-level Linux systems programming for building background services, handling high-speed data, and fixing system crashes.
 * **When It Kicks In:** Writing Linux services in C/C++/Rust, dealing with file descriptors, sockets, `epoll`/`io_uring`, writing systemd daemons, or analyzing core dumps.
 * **How It Works:** Implements non-blocking I/O multiplexing, structures hardened systemd units with watchdog timers and security sandboxing (`ProtectSystem=strict`), and diagnoses crashes with `strace` and `gdb`.
 * **Why It Saves Quota:** Prevents silent process hangs, memory leaks, and mysterious daemon crashes with systematic POSIX diagnostics.
 
-#### 28. `bash-posix-automation`
+#### 30. `bash-posix-automation`
 * **In Simple Terms:** A safety shield for writing bulletproof shell scripts that never break, corrupt files, or fail silently.
 * **When It Kicks In:** Writing installation scripts, build hooks, or setup tools across Linux and macOS.
 * **How It Works:** Enforces strict error trapping (`set -euo pipefail`), signal cleanup (`trap cleanup EXIT INT TERM`), portable argument parsing with `getopts`, atomic temporary files (`mktemp`), and ShellCheck validation.
 * **Why It Saves Quota:** Stops script errors before they start and prevents runaway scripts from altering unwanted files.
 
-#### 29. `linux-desktop-packaging`
+#### 31. `linux-desktop-packaging`
 * **In Simple Terms:** Packages Linux desktop apps so they appear cleanly in app launchers, look great, and run safely on any distribution.
 * **When It Kicks In:** Creating `.desktop` launchers, AppStream metadata, sandboxed Flatpak packages, or portable AppImages.
 * **How It Works:** Enforces FreeDesktop and XDG standards, builds sandboxed Flatpak manifests with fine-grained portal permissions (Wayland, audio, network), and bundles self-contained AppImages with `linuxdeploy`.
@@ -346,19 +348,19 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ### 🪟 Windows Systems & Applications
 
-#### 30. `win32-systems-engineering`
+#### 32. `win32-systems-engineering`
 * **In Simple Terms:** Low-level Windows native programming for building Windows background services, managing the Windows Registry, and handling crashes.
 * **When It Kicks In:** Writing native Windows C++/C# applications, editing the Windows Registry (`.reg`), writing Windows Services (SCM), or reading crash dumps.
 * **How It Works:** Handles Win32 kernel objects, synchronizes threads with Mutexes and Events, embeds modern Per-Monitor V2 DPI manifests, and captures instant crash minidumps via Structured Exception Handling (SEH).
 * **Why It Saves Quota:** Eliminates blurry Windows scaling quirks, permission errors, and untraceable crash bugs.
 
-#### 31. `powershell-windows-automation`
+#### 33. `powershell-windows-automation`
 * **In Simple Terms:** Professional-grade PowerShell scripting for automating Windows tasks, managing services, and configuring environments.
 * **When It Kicks In:** Automating Windows administration, running setup scripts on Windows, querying hardware via CIM/WMI, or scheduling tasks.
 * **How It Works:** Uses advanced cmdlet design (`[CmdletBinding()]`), pipeline streaming, strict error termination (`$ErrorActionPreference = 'Stop'`), and inline Win32 API calls via `Add-Type` (P/Invoke).
 * **Why It Saves Quota:** Prevents broken Windows automation runs and maintains identical CLI argument parity (`--help`, `--dry-run`) with Linux Bash scripts.
 
-#### 32. `windows-app-engineering`
+#### 34. `windows-app-engineering`
 * **In Simple Terms:** Best practices for building beautiful, modern Windows desktop apps using Microsoft's latest UI frameworks (WinUI 3 and WPF).
 * **When It Kicks In:** Creating Windows desktop tools, hardware control panels, or utilities with Fluent Design.
 * **How It Works:** Implements Windows 11 Mica material and custom draggable titlebars, ensures single-instance execution, integrates with the system tray, and packages clean MSIX installers.
@@ -368,25 +370,25 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ### 🌐 Multiplatform & Cross-Platform Development
 
-#### 33. `cmake-cross-platform`
+#### 35. `cmake-cross-platform`
 * **In Simple Terms:** A universal build system guide for compiling C/C++ projects across Linux, Windows, and macOS without messy build scripts.
 * **When It Kicks In:** Managing CMake projects (3.25+), cross-compiling from Linux to Windows (via MinGW-w64 or Clang), or generating installers.
 * **How It Works:** Uses clean target-based CMake (`target_link_libraries`), declarative cross-compilation toolchain files, and automates multi-platform installers using CPack (NSIS for Windows, DEB/RPM for Linux).
 * **Why It Saves Quota:** Solves compiler and linker errors on the first build and avoids brittle, platform-specific compiler flags.
 
-#### 34. `avalonia-cross-platform-dev`
+#### 36. `avalonia-cross-platform-dev`
 * **In Simple Terms:** Build high-performance desktop applications that run natively on Windows, Linux, and macOS using a single C# / XAML codebase.
 * **When It Kicks In:** Developing multiplatform desktop tools, game backup managers (like `PS-Multi-Tools`), or utilities with .NET 8/9.
 * **How It Works:** Employs the MVVM pattern with compiled bindings (`x:DataType`), cross-platform file pickers (`StorageProvider`), system tray integration, and Native Ahead-Of-Time (AOT) compilation for instant startup.
 * **Why It Saves Quota:** Eliminates having to rewrite UI code for different operating systems and avoids reflection runtime bugs.
 
-#### 35. `tauri-multiplatform-dev`
+#### 37. `tauri-multiplatform-dev`
 * **In Simple Terms:** Builds ultra-lightweight desktop and mobile apps with a web frontend (HTML/CSS/JS) and a fast Rust backend, using a fraction of the memory of Electron.
 * **When It Kicks In:** Creating modern desktop tools, lightweight alternatives to Electron apps, or cross-platform utilities.
 * **How It Works:** Uses the operating system's built-in web engine (saving over 100MB of RAM per app), provides secure typed IPC commands between Rust and TypeScript, and compiles to Linux, Windows, macOS, Android, and iOS.
 * **Why It Saves Quota:** Prevents Electron memory bloat and ensures safe, typed communication between the UI and system hardware.
 
-#### 36. `cross-browser-extensions`
+#### 38. `cross-browser-extensions`
 * **In Simple Terms:** Build browser extensions that work simultaneously across Google Chrome, Mozilla Firefox, Microsoft Edge, and Safari using Manifest V3.
 * **When It Kicks In:** Building browser extensions, web feed customizers (like `ClutterlessSocial`), content filters, or social media tools.
 * **How It Works:** Unifies browser APIs using `webextension-polyfill`, manages background service workers and event pages, handles secure content script messaging, and packages separate store-ready zips and signed XPI files.
@@ -396,55 +398,55 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ### 🚀 Frontier Model & Platform Parity (Gemini, ChatGPT, DeepSeek, Cursor)
 
-#### 37. `prompt-cache-context-optimizer`
+#### 39. `prompt-cache-context-optimizer`
 * **In Simple Terms:** Emulates Gemini's massive 1M–2M context window in Claude Code and guarantees a 90% discount on your AI token bills.
 * **When It Kicks In:** Working with large codebases, multi-file refactors, or running long 15+ turn sessions.
 * **How It Works:** Re-orders prompts so static system rules and project indexes sit at the front to guarantee Anthropic prompt cache hits (>1,024 tokens, 5-minute TTL), and compresses huge code repositories into lightweight 2-level AST summaries.
 * **Why It Saves Quota:** Slashes input prompt costs by **up to 90%** and prevents expensive repetitive repository reads.
 
-#### 38. `subagent-swarm-orchestrator`
+#### 40. `subagent-swarm-orchestrator`
 * **In Simple Terms:** Gives Claude Code the ability to launch and coordinate a team of autonomous background AI worker agents running in parallel.
 * **When It Kicks In:** Running linting, testing, and documentation generation simultaneously, or exploring competing solutions.
 * **How It Works:** Uses detached background tasks in isolated git worktrees (`.worktrees/worker-*`), pipes JSON messages between workers and the parent orchestrator, and aggregates completed results.
 * **Why It Saves Quota:** Offloads massive exploration and test-log noise into disposable background sandboxes, keeping your main conversation transcript tiny.
 
-#### 39. `generative-visual-artifacts`
+#### 41. `generative-visual-artifacts`
 * **In Simple Terms:** Generates interactive web widgets, UI mockups, and charts in Claude Code that instantly open in your local web browser.
 * **When It Kicks In:** Reviewing UI wireframes, visualizing hardware telemetry, fan curves, or complex math formulas.
 * **How It Works:** Builds zero-dependency single-file HTML5/Tailwind/Chart.js/KaTeX artifacts, saves them to temporary previews, and auto-launches them via `xdg-open` or `open`.
 * **Why It Saves Quota:** Replaces hundreds of lines of confusing ASCII tables or text descriptions with an instant rendered visual interface.
 
-#### 40. `canvas-interactive-workspace`
+#### 42. `canvas-interactive-workspace`
 * **In Simple Terms:** Brings ChatGPT's Canvas side-by-side editing experience into Claude Code for reviewing and approving exact line diffs.
 * **When It Kicks In:** Making delicate code refactors, editing configuration files, or reviewing major modifications.
 * **How It Works:** Stages draft modifications in `.canvas/`, renders unified colorized terminal diffs, applies targeted search-and-replace chunks, and logs design rationales.
 * **Why It Saves Quota:** Eliminates full-file rewrites and allows reviewing and approving edits in place before touching production files.
 
-#### 41. `deep-research-synthesizer`
+#### 43. `deep-research-synthesizer`
 * **In Simple Terms:** Brings OpenAI Deep Research and Perplexity Pro investigative capabilities into Claude Code for generating cited technical whitepapers.
 * **When It Kicks In:** Researching unfamiliar protocols, complex APIs, kernel subsystems, or open-source libraries.
 * **How It Works:** Formulates multi-vector queries, recursively crawls documentation and GitHub issues, rates source credibility, filters SEO spam, and compiles formal cited reports into `.agents/research/`.
 * **Why It Saves Quota:** Prevents the user from having to manually guide the AI through 20 separate web search rounds.
 
-#### 42. `sandbox-code-interpreter`
+#### 44. `sandbox-code-interpreter`
 * **In Simple Terms:** An in-chat scientific calculator and data analyst that executes Python in the background to calculate exact numbers, parse data, and plot charts.
 * **When It Kicks In:** Calculating audio DSP filter curves, analyzing hardware telemetry logs, verifying math proofs, or parsing CSV/benchmark files.
 * **How It Works:** Runs headless Python scripts in an isolated virtual environment with `numpy`, `pandas`, `matplotlib`, and `scipy`, outputting exact numbers and high-res vector charts.
 * **Why It Saves Quota:** Eliminates guessing and hallucinated math by calculating exact values programmatically.
 
-#### 43. `deliberative-reasoning-tree`
+#### 45. `deliberative-reasoning-tree`
 * **In Simple Terms:** Implements DeepSeek R1 and OpenAI o1-style Tree-of-Thought reasoning, exploring 3 distinct solution paths and attacking its own logic before writing code.
 * **When It Kicks In:** High-complexity architectural decisions, concurrency debugging, or performance-critical design.
 * **How It Works:** Generates 3 parallel solution paths, runs an adversarial self-critique checking edge cases and memory hazards, explicitly backtracks on flaws, and selects only the proven best path.
 * **Why It Saves Quota:** Prevents the AI from pursuing a flawed architectural path that takes hours of trial-and-error to unwind.
 
-#### 44. `semantic-codebase-indexing`
+#### 46. `semantic-codebase-indexing`
 * **In Simple Terms:** Gives Claude Code Cursor and Windsurf-style instant photographic memory of your entire project's classes and functions.
 * **When It Kicks In:** Searching for function definitions, callers, or class hierarchies across large multi-file repositories.
 * **How It Works:** Maintains a compact Universal Ctags / Tree-sitter symbol index (`.code_index_tags.json`) that Claude queries in 10ms with `jq` without reading whole files into the chat context.
 * **Why It Saves Quota:** Replaces multi-file `view_file` calls (which burn 20,000+ tokens) with a 200-token targeted symbol lookup.
 
-#### 45. `frontier-image-studio`
+#### 47. `frontier-image-studio`
 * **In Simple Terms:** Gives Claude Code the ability to generate images in the exact visual styles of ChatGPT (DALL-E 3) and Gemini (Imagen 3), with zero-API local graphics generation.
 * **When It Kicks In:** Creating concept art, UI badges, logos, game textures, or generating images via external AI image APIs.
 * **How It Works:** Applies specialized prompt engineering formulas (Pixar 3D dioramas for ChatGPT, photorealistic Hasselblad camera lenses for Gemini), includes a multi-backend Python runner (`scripts/generate_image.py`), and can render crisp vector SVGs and procedural game textures locally without any API keys.
@@ -454,73 +456,73 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ### 💻 Systems, Reverse Engineering & Languages
 
-#### 46. `cachyos-arch-packaging`
+#### 48. `cachyos-arch-packaging`
 * **In Simple Terms:** Builds and packages Linux software, kernel drivers, and background services specifically for Arch Linux and CachyOS.
 * **When It Kicks In:** Creating Arch/CachyOS packages (`PKGBUILD`), installing kernel drivers (like `omen-acpi`), or setting up systemd background services.
 * **How It Works:** Enforces Arch packaging standards, checks integrity hashes, validates build dependencies in isolated chroots, and verifies systemd service files.
 * **Why It Saves Quota:** Prevents broken package builds and keeps your Linux system clean, stable, and conflict-free.
 
-#### 47. `reverse-engineer-anything`
+#### 49. `reverse-engineer-anything`
 * **In Simple Terms:** A deep inspection engine for understanding closed-source software, compiled games, and applications when no source code is available.
 * **When It Kicks In:** Analyzing compiled binaries, Windows/Linux executables, Android packages, or web apps.
 * **How It Works:** Deeply integrates with REA MCP to perform static disassembly, decompile code, reconstruct data structures, and keep an evidence ledger.
 * **Why It Saves Quota:** Tracks findings in structured evidence summaries rather than dumping thousands of lines of raw, unreadable assembly into chat.
 
-#### 48. `binary-re-workflows`
+#### 50. `binary-re-workflows`
 * **In Simple Terms:** Coordinates professional reverse engineering tools (like Ghidra, JADX, and network packet analyzers) under a strict scientific process.
 * **When It Kicks In:** Inspecting unfamiliar game DLLs, network packets, or complex binary executables.
 * **How It Works:** Combines static analysis and runtime tracing to test hypotheses about how closed-source binaries function.
 * **Why It Saves Quota:** Turns confusing binary mysteries into deterministic, step-by-step discoveries.
 
-#### 49. `standalone-binary-re`
+#### 51. `standalone-binary-re`
 * **In Simple Terms:** A fast, zero-setup toolkit for peeking inside binary files using standard Linux terminal tools—no heavy servers required.
 * **When It Kicks In:** Inspecting executables, DLLs, or Android APKs when external MCP servers are offline or when you need answers in seconds.
 * **How It Works:** Uses built-in Linux tools (`objdump`, `readelf`, `nm`, `strings`, `jadx`, `gdb`) and Python scripts to quickly inspect exported functions, headers, and text.
 * **Why It Saves Quota:** Starts up instantly with zero overhead and filters out noise so you only see the functions you care about.
 
-#### 50. `open-apk`
+#### 52. `open-apk`
 * **In Simple Terms:** Automatically opens, inspects, and decompiles Android mobile app packages (APKs) into readable Java code.
 * **When It Kicks In:** Reverse engineering Android apps, mobile games, or APK packages.
 * **How It Works:** Unpacks APK and DEX files directly into JADX headless analysis, searches classes and methods, and can download APKs directly via `apkeep`.
 * **Why It Saves Quota:** Extracts only the exact Java classes you need instead of dumping hundreds of decompiled files into the chat context.
 
-#### 51. `wakaru`
+#### 53. `wakaru`
 * **In Simple Terms:** Unpacks and unscrambles messy, minified JavaScript bundles (like from Webpack, Vite, or Electron) back into clean, organized files.
 * **When It Kicks In:** Auditing modern web apps, Electron desktop software, or production JavaScript bundles.
 * **How It Works:** Separates bundled web assets back into individual source files and translates minified shortcuts back into readable classes, async functions, and JSX.
 * **Why It Saves Quota:** Turns a gigantic, unreadable 2MB single-line JavaScript file into clean, modular source files with zero hallucination.
 
-#### 52. `lowlevel-dll-internals`
+#### 54. `lowlevel-dll-internals`
 * **In Simple Terms:** A low-level guide for safely modifying Windows DLLs, game engine classes, and memory patches without crashing the game.
 * **When It Kicks In:** Writing game mod plugins (like ASI plugins), hooking engine functions, or analyzing crash dumps.
 * **How It Works:** Calculates computer memory offsets, 32-bit calling conventions (`__thiscall` in `ecx`), 64-bit ABI shadow space, and virtual function tables so memory patches don't cause instant crashes.
 * **Why It Saves Quota:** Prevents dreaded `0xC0000005` "Access Violation" crashes by calculating memory addresses and calling conventions correctly the first time.
 
-#### 53. `steamcmd-workshop-pipeline`
+#### 55. `steamcmd-workshop-pipeline`
 * **In Simple Terms:** Automates publishing and updating mods on the Steam Workshop from the command line without clicking through confusing web forms.
 * **When It Kicks In:** Uploading new mods, pushing updates, setting preview images, or writing changelogs on Steam Workshop.
 * **How It Works:** Generates valid Steam VDF configuration manifests, manages content depots, and executes SteamCMD commands automatically.
 * **Why It Saves Quota:** Replaces error-prone manual upload attempts with an automated, verified deployment script.
 
-#### 54. `python-engineering`
+#### 56. `python-engineering`
 * **In Simple Terms:** Best practices for writing clean, fast, and bug-free modern Python code (Python 3.10+).
 * **When It Kicks In:** Writing Python scripts, web APIs, automation tools, or test suites.
 * **How It Works:** Enforces strict type hints (`mypy`), lightning-fast code formatting and linting (`ruff`), and comprehensive test suites (`pytest`).
 * **Why It Saves Quota:** Catches bugs before code ever runs, saving countless turns of debugging runtime errors.
 
-#### 55. `rust-engineering`
+#### 57. `rust-engineering`
 * **In Simple Terms:** Writes reliable, blazing-fast Rust code by working harmoniously with the Rust compiler.
 * **When It Kicks In:** Writing systems software, game tools, performance-critical modules, or CLI utilities in Rust.
 * **How It Works:** Follows Rust best practices for memory ownership, zero-cost abstractions, error handling with `Result` and `Option`, and strict Clippy lint checks.
 * **Why It Saves Quota:** Eliminates runtime crashes completely—if it compiles cleanly in Rust, it works.
 
-#### 56. `modern-cpp-engineering`
+#### 58. `modern-cpp-engineering`
 * **In Simple Terms:** Modern C++ (C++20/C++23) standards that eliminate old-school memory bugs, buffer overflows, and crashes.
 * **When It Kicks In:** Writing game engine code, native libraries, or performance-critical C++ applications.
 * **How It Works:** Uses smart pointers (`unique_ptr`, `shared_ptr`), RAII (automatic cleanup of resources), modern Concepts, and clean CMake build files.
 * **Why It Saves Quota:** Prevents memory leaks, buffer overflows, and segmentation faults before they happen.
 
-#### 57. `csharp-dotnet-engineering`
+#### 59. `csharp-dotnet-engineering`
 * **In Simple Terms:** High-performance modern C# and .NET (8/9) guidelines focused on zero-allocation and responsive async code.
 * **When It Kicks In:** Writing C# backend services, desktop utilities, game plugins, or tools.
 * **How It Works:** Uses memory-efficient types (`Span<T>`, `Memory<T>`), proper async cancellation tokens, and Roslyn code analyzers to keep apps fast.
@@ -530,25 +532,25 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ### 💰 Quota, Memory & Context Engineering
 
-#### 58. `log-output-sanitizer`
+#### 60. `log-output-sanitizer`
 * **In Simple Terms:** An automatic muffler for noisy terminal commands that stops hundreds of lines of passing tests and compiler junk from cluttering your chat history.
 * **When It Kicks In:** Running `cargo build`, `npm install`, `cmake`, `pytest`, or any test/build pipeline.
 * **How It Works:** Applies compact flags (`--quiet`, `--tb=short`, `--message-format=short`) and redirects heavy build streams to `/tmp/build.log`, passing only actionable errors and 1-line summary tallies to the AI's context window.
 * **Why It Saves Quota:** Saves **2,000–5,000 input tokens per command execution**, preventing chat history from being flooded with useless progress text.
 
-#### 59. `smart-context-packer`
+#### 61. `smart-context-packer`
 * **In Simple Terms:** Creates a lightweight "X-ray skeleton" of your code that shows classes and function names without loading thousands of lines of internal loops.
 * **When It Kicks In:** Exploring an unfamiliar subsystem, planning a multi-file refactor, or mapping out architecture across 15+ files.
 * **How It Works:** Strips out function bodies, comments, and empty lines, preserving only class definitions, public method signatures, and exported types.
 * **Why It Saves Quota:** Shrinks a 50,000-token multi-file codebase down to **<4,000 tokens (a 90% reduction)** while giving the AI 100% of the architectural context it needs.
 
-#### 60. `context-pruning-watchdog`
+#### 62. `context-pruning-watchdog`
 * **In Simple Terms:** A smart context fuel gauge that warns you before your conversation gets too long and automatically prepares a clean memory snapshot for `/compact`.
 * **When It Kicks In:** Long coding sessions (15+ turns) as the conversation context approaches 120,000 tokens (60% capacity).
 * **How It Works:** Monitors active context consumption in real-time. When context crosses the 60% threshold, it automatically writes your completed tasks, blockers, and next steps into `.agents/memory/activeContext.md` and advises running `/compact`.
 * **Why It Saves Quota:** Prevents hitting the expensive rolling 5-hour quota ceiling and resets context to <2,000 tokens with zero loss of progress.
 
-#### 61. `token-economy`
+#### 63. `token-economy`
 * **In Simple Terms:** The ultimate quota-saving protocol that eliminates robotic fluff, stops the AI from repeating itself, and stretches your daily AI usage limits by 2x to 3x.
 * **When It Kicks In:** Always active in every conversation across Antigravity and Claude Code.
 * **How It Works:**
@@ -573,7 +575,7 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 * **Compounding Context Multiplier:** Because past conversation output tokens are re-ingested as input prompt tokens on every subsequent turn, saving 6,500 output tokens in early turns prevents re-reading **~35,000–60,000 cumulative prompt tokens** across a 15-turn session, extending rolling 5-hour quota limits by **2x to 3x**.
 
-#### 62. `project-memory-bank`
+#### 64. `project-memory-bank`
 * **In Simple Terms:** A smart project notebook that stores your project's architecture and lessons learned, so the AI never forgets what you're working on across restarts.
 * **When It Kicks In:** Starting work on a repository, resuming multi-session tasks, or before running `/compact`.
 * **How It Works:**
