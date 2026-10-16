@@ -106,3 +106,23 @@ Always check the tail of `_appdata_/logs/xrEngine.log` when a Crash to Desktop (
 | `attempt to call field '...' (a nil value)` | Script called a deprecated or renamed engine function. | Update the script to use modern OGSR Lua exports. |
 | `XML node not found in ...` | UI XML is missing a layout node expected by OGSR. | Check the UI XML file and add the missing control/tag. |
 | `0xC000007B` on launch | A 32-bit DLL was placed into `bin_x64/`. | Remove 32-bit DLLs from `bin_x64/`. |
+
+---
+
+## 📺 7. Automated In-Game Screen & Telemetry Verification (`game-screen-telemetry-monitor`)
+
+When launching and playtesting the ported mod under Wine/Proton or Windows, **automatically invoke `game-screen-telemetry-monitor`** to validate runtime rendering and catch crashes before declaring completion:
+
+1. **Automatic Background Surveillance:**
+   When launching the game binary (`bin_x64/xrEngine.exe`), immediately launch the background screen watcher:
+   ```bash
+   python3 config/skills/game-screen-telemetry-monitor/scripts/game_screen_monitor.py monitor --interval 2 --duration 60 --out-dir /tmp/ogsr_telemetry
+   ```
+2. **Autonomous Missing Texture Detection:**
+   The watcher scans frames for unmapped magenta (`#FF00FF` / `#FF0080`) pixels. When detected, parse the level geometry/HUD texture coordinates and check `textures.ltx` for missing `.dds` or mismatched bump maps.
+3. **Automated Crash Dialog OCR & Correlation:**
+   If the game crashes or freezes:
+   - The watcher automatically captures the desktop crash frame and runs `tesseract` OCR over the BugTrap / X-Ray "FATAL ERROR" modal.
+   - Extract the `Expression : ...`, `Function : ...`, `File : ...`, and `Line : ...` directly from the image without waiting for the user to copy or transcribe logs.
+   - Cross-reference the error directly against Section 6 to apply immediate LTX, XML, or Lua fixes.
+

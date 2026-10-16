@@ -46,3 +46,12 @@ This skill guides game modding, with specialized domain knowledge for **S.T.A.L.
 - **Vanilla Backups:** Always preserve a clean backup copy before modifying game binaries, scripts, or archives.
 - **Format Verification:** For archive files (PFS0/NSP/NSZ, ZIP, TAR), check header magic, block alignment, and checksums before writing.
 - **Reverse Engineering Delegation:** When disassembling or analyzing unfamiliar binary structures, delegate the research to the `rea` tools or an isolated subagent to keep the main context clean.
+
+---
+
+## 3. Automated Visual & Screen Telemetry Quality Gate (`game-screen-telemetry-monitor`)
+
+- **Automatic Visual Verification:** When testing modded assets, UI textures, or engine ports in-game, automatically run `game_screen_monitor.py` to inspect the screen.
+- **Magenta Artifact Sniffing:** Automatically detect unmapped missing textures (`#FF00FF`) or corrupted alpha blending without waiting for the user to report visual bugs.
+- **Crash Dialog OCR:** If the mod triggers an engine crash dialog on screen, automatically run `game_screen_monitor.py ocr` to extract the crash stack trace from the desktop modal immediately.
+

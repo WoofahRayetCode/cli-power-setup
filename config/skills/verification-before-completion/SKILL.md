@@ -14,6 +14,7 @@ Before declaring a task done, you must verify the following:
 1. **Concrete Evidence:**
    - Did you execute the tests, build commands, or verification scripts?
    - Is there terminal output showing a successful exit code (`0`) and passing assertions?
+   - For game mods, engine ports, and UI apps, run visual telemetry checks (`game-screen-telemetry-monitor`) to verify zero missing textures or fatal crash dialogs on screen.
    - Never say "This should now work" without having run the command that confirms it.
 
 2. **No Regressions:**
