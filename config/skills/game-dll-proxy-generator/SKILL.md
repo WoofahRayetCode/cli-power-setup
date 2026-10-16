@@ -1,0 +1,80 @@
+---
+name: game-dll-proxy-generator
+description: Automated game proxy DLL generation and internal hook architecture. Scaffolds export forwarding wrappers for dinput8.dll, dxgi.dll, version.dll, and winmm.dll with embedded DllMain threads, MinHook detours, ImGui overlays, and Proton WINEDLLOVERRIDES configuration.
+---
+
+# Game DLL Proxy Generator & Internal Hook Architect (`game-dll-proxy-generator`)
+
+The `game-dll-proxy-generator` skill provides an automated pipeline for generating, cross-compiling, and deploying **Proxy DLLs** (DLL hijacking / wrapping) for internal game trainers, debugging shims, and mod hooks on Windows and Linux (Steam Proton / Wine).
+
+---
+
+## 1. Proxy DLL Architecture
+
+Rather than using intrusive external DLL injectors (which require elevated privileges or can trigger operating system protections), proxy DLLs leverage the OS dynamic linker's search order:
+
+```
+                            Game.exe Launches
+                                   │
+                                   ▼
+             OS searches directory containing Game.exe first
+                                   │
+               ┌───────────────────┴───────────────────┐
+               ▼                                       ▼
+    Game loads local proxy             Proxy dynamically loads real DLL
+     e.g. ./dinput8.dll                 from C:\Windows\System32\dinput8.dll
+               │                                       │
+               ├───────────────────┬───────────────────┤
+               ▼                                       ▼
+       Runs Trainer Thread               Forwards all game API calls
+     (MinHook, Memory Cheats,             seamlessly to original OS DLL
+      Dear ImGui In-Game HUD)             (Zero game crashes or desyncs)
+```
+
+---
+
+## 2. CLI Tool Reference (`game-dll-proxy-gen`)
+
+Companion utility: `game-dll-proxy-gen` (installed to `~/.local/bin/game-dll-proxy-gen`).
+
+### A. Generate Proxy Source Scaffold (`generate`)
+Generate production-ready C++ proxy source with full export forwarding:
+```bash
+# Generate dinput8.dll proxy scaffold with MinHook support
+game-dll-proxy-gen generate --target dinput8 --out-dir src/dinput8_proxy --with-minhook
+
+# Generate dxgi.dll proxy scaffold for DirectX 11/12 games
+game-dll-proxy-gen generate --target dxgi --out-dir src/dxgi_proxy
+
+# Generate version.dll proxy scaffold
+game-dll-proxy-gen generate --target version --out-dir src/version_proxy
+```
+
+### B. Generated File Structure
+The generator creates:
+- `dllmain.cpp`: Complete export forwarding table + `TrainerMainThread` hook loop + `DllMain`.
+- `CMakeLists.txt`: Standard modern CMake build configuration.
+- `build_mingw.sh`: One-click cross-compilation script targeting Windows x64 from Linux.
+
+### C. Steam Proton / Wine Configuration (`proton-config`)
+Display the exact launch options for Steam Proton:
+```bash
+game-dll-proxy-gen proton-config --dll dinput8
+```
+
+Output:
+```bash
+WINEDLLOVERRIDES="dinput8=n,b" %command%
+```
+*(Instructs Wine to prioritize the local 'native' mod DLL first, falling back to 'builtin' Wine DLLs only if needed).*
+
+---
+
+## 3. Supported Proxy Targets
+
+| Target DLL | Typical Game Engines | Primary Export Forwarded |
+| :--- | :--- | :--- |
+| **`dinput8.dll`** | Capcom RE Engine, FromSoftware, Classic PC | `DirectInput8Create` |
+| **`version.dll`** | Unreal Engine, Unity, Modern PC | `GetFileVersionInfoA/W`, `VerQueryValueA/W` |
+| **`dxgi.dll`** | Modern DirectX 11 / 12 titles | `CreateDXGIFactory`, `CreateDXGIFactory1/2` |
+| **`winmm.dll`** | Older DirectX 8 / 9 titles, retro PC | `timeGetTime`, `timeBeginPeriod` |

@@ -172,6 +172,18 @@ install_binaries() {
         chmod +x "${BIN_DEST}/self-improving-qa"
         log_done "Installed executable: ${BIN_DEST}/self-improving-qa"
     fi
+
+    if [ -f "${SCRIPT_DIR}/bin/game-memory-scanner" ]; then
+        cp "${SCRIPT_DIR}/bin/game-memory-scanner" "${BIN_DEST}/game-memory-scanner"
+        chmod +x "${BIN_DEST}/game-memory-scanner"
+        log_done "Installed executable: ${BIN_DEST}/game-memory-scanner"
+    fi
+
+    if [ -f "${SCRIPT_DIR}/bin/game-dll-proxy-gen" ]; then
+        cp "${SCRIPT_DIR}/bin/game-dll-proxy-gen" "${BIN_DEST}/game-dll-proxy-gen"
+        chmod +x "${BIN_DEST}/game-dll-proxy-gen"
+        log_done "Installed executable: ${BIN_DEST}/game-dll-proxy-gen"
+    fi
 }
 
 install_antigravity() {

@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (167 Specialized Capabilities)
+## Complete Skills Catalog (169 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -216,6 +216,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`game-companion-pet-ai`** | Custom companion & pet NPC architecture: state machine behaviors (follow, guard, objective guide), god mode status, dynamic light emission in dark areas, homing projectile attacks with audio vocalization, and 3D pet asset pipelines. |
 | **`game-debug-ui-tools`** | In-engine debug UI systems, Dear ImGui integration, immediate-mode 3D debug drawing (AABBs, rays, contact manifolds), live console variables (CVars), hierarchical frame profilers, and memory inspectors. Use when diagnosing game runtime issues, tuning gameplay parameters live, or adding telemetry tools. |
 | **`game-dialogue-ui-localization`** | Specialized game dialogue translation, string table repair, and conversation UI layout engine (S.T.A.L.K.E.R. & RPGs). Validates string IDs, resolves dialogue dead-end loops, fixes text clipping/overrun in talk.xml/talk_16.xml, enforces complex_mode multiline wrapping, and repairs CP1251/UTF-8 mojibake. |
+| **`game-dll-proxy-generator`** | Automated game proxy DLL generation and internal hook architecture. Scaffolds export forwarding wrappers for dinput8.dll, dxgi.dll, version.dll, and winmm.dll with embedded DllMain threads, MinHook detours, ImGui overlays, and Proton WINEDLLOVERRIDES configuration. |
 | **`game-dynamic-stress-orchestrator`** | Dynamic in-game stress testing and entity orchestration: collision-safe multi-entity wave spawning, cross-faction battle simulations (helicopters vs mutants), and real-time performance saturation profiling. |
 | **`game-engine-migration`** | Universal architectural framework for porting, migrating, and modernizing game engines and legacy mods across bitness (32-bit to 64-bit), graphics APIs (DX9/OpenGL to DX11/DX12/Vulkan), and scripting runtimes. |
 | **`game-entity-component-system`** | High-performance Entity Component System (ECS) architecture, Data-Oriented Design (DOD), Archetype vs Sparse-Set storage, Structure-of-Arrays (SoA) memory layout, and multithreaded system scheduling. Use when designing game engine logic, optimizing cache misses, or porting object-oriented game code to ECS. |
@@ -224,6 +225,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`game-input-system-abstraction`** | Cross-platform game input abstraction layers, raw sub-pixel mouse polling, radial deadzone math, controller glyph auto-detection, and low-latency input event buffering (SDL3, Win32 RawInput, evdev, Steam Input). Use when porting game controls across PC, Steam Deck, Linux, and Android. |
 | **`game-localization-i18n`** | Internationalization (i18n) and localization (l10n) pipelines for games, desktop, and web apps. Covers ICU message formatting, pluralization rules, bidirectional text (RTL/LTR), font glyph fallbacks, dynamic dialogue translation tables, and string freeze validation. |
 | **`game-memory-allocator-engineering`** | Custom high-performance game engine memory allocators (Linear Arena, Stack, Pool, TLSF), SIMD memory alignment, and zero-hitch heap fragmentation elimination. Use when optimizing game engine memory allocations, fixing frame stutter, or porting engines to memory-constrained platforms. |
+| **`game-memory-scanner`** | High-performance game memory scanner and pointer discovery engine for Linux & Windows/Proton games. Scans virtual memory ranges, filters candidates iteratively (exact, increased, decreased, changed), resolves multi-level pointer paths, performs AOB wildcard signature scans, and freezes addresses. |
 | **`game-modding`** | Specialized workflows, format rules, and safety checks for game modding, focusing on S.T.A.L.K.E.R. Legends of the Zone Trilogy EE (ZoneForge), LTX configurations, XDB pack archives, DDS textures, and engine-safe audio. |
 | **`game-networking-state-sync`** | Multiplayer network architecture, client-side prediction, server reconciliation, entity interpolation, snapshot delta compression, and rollback networking (GGPO / lockstep). Use when building real-time multiplayer games, porting single-player engines to networked play, or fixing client jitter and desyncs. |
 | **`game-patching-binary-repair`** | Diagnosing and fixing broken PC game binaries, engine crashes, missing DLL dependencies, and memory corruption without source code. Covers Dependency Walker import analysis, hex patching, assembly NOP/JMP patches, crash offset resolution, and custom hook wrappers. |

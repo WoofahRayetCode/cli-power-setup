@@ -110,3 +110,15 @@ When targeting games running on Linux or under Proton:
      WINEDLLOVERRIDES="dinput8=n,b" %command%
      ```
    - On game startup, the OS loader automatically runs your trainer's `DllMain` inside the game process without needing an external injector.
+
+---
+
+## 6. Companion Toolchain for Rapid Trainer Engineering
+
+| Skill / CLI Tool | Command Example | Engineering Purpose |
+| :--- | :--- | :--- |
+| **`game-memory-scanner`** | `game-memory-scanner scan --target game.exe --type i32 --value 100` | Dynamic memory scanning, iterative candidate filtering (`increased`, `decreased`), pointer scanning, and address freezing. |
+| **`game-dll-proxy-generator`** | `game-dll-proxy-gen generate --target dinput8 --with-minhook` | Automated C++ scaffold generator for proxy DLLs (`dinput8.dll`, `version.dll`, `dxgi.dll`), forwarding tables, and MinHook detours. |
+| **`lowlevel-dll-internals`** | `objdump -p game.exe` / `x86_64-w64-mingw32-g++` | PE headers, calling conventions (`__thiscall`, `__fastcall`), and vtable hooking. |
+| **`client-memory-integrity-anticheat`** | - | Threat modeling memory scanners and designing stealthy trainer memory access. |
+

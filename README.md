@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
 
-This repository organizes a curated set of **167 autonomous agent skills**, 169 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **169 autonomous agent skills**, 171 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -38,7 +38,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Tri-Environment Sync:** Deploys all 167 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Tri-Environment Sync:** Deploys all 169 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -287,6 +287,8 @@ While all 167 skills and CLI utilities are shared identically between environmen
 | **`game-self-improving-qa-pipeline`** | QA/Automation | Closed-loop self-improving QA, 'Press any key' dismissal, 88% stall watchdog, regression DB & timers |
 | **`game-companion-pet-ai`** | Gaming/Companion | Custom companion pet AI, god mode status, dynamic torch light in dark, homing mouth missiles & meows |
 | **`game-dynamic-stress-orchestrator`** | QA/Stress | Safe radial wave spawning (anti-mesh-drop), multi-faction air/mutant clashes & VRAM saturation profiling |
+| **`game-memory-scanner`** | Gaming/Trainer | Virtual memory inspection, iterative candidate filtering (exact/changed), AOB scans & memory freeze |
+| **`game-dll-proxy-generator`** | Gaming/Trainer | Automated proxy DLL generator (dinput8, dxgi, version) with export forwarding, MinHook & Proton configs |
 
 ---
 
@@ -1412,6 +1414,18 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Uses circular ring distribution to prevent physics repulsion explosions (anti-falling under map), orchestrates helicopter vs mutant battles, and cleans up entities dynamically.
 * **Why It Saves Quota:** Pushes game engines to their absolute limits safely without corrupting save states or crashing physics solvers.
 
+#### 168. `game-memory-scanner`
+* **In Simple Terms:** Dynamic virtual memory inspection, value scanning, candidate filtering, and pointer discovery for PC games on Linux and Wine/Proton.
+* **When It Kicks In:** Developing game trainers, finding dynamic entity offsets (health, ammo, coordinates, stamina, currency), scanning AOB byte signatures with wildcards, and freezing live memory addresses.
+* **How It Works:** Inspects `/proc/<pid>/maps` across writable regions, performs rapid 4MB chunk pattern scans, iteratively filters candidates across gameplay state changes (`increased`, `decreased`, `changed`, exact), and runs continuous background freeze loops.
+* **Why It Saves Quota:** Pinpoints exact memory offsets in real time on the live process, eliminating trial-and-error code patching and dozens of speculative debug turns.
+
+#### 169. `game-dll-proxy-generator`
+* **In Simple Terms:** Automated scaffold generator and build pipeline for internal proxy DLLs (DLL hijacking / wrapping).
+* **When It Kicks In:** Injecting internal game trainers, MinHook detours, custom Dear ImGui overlays, or binary patches into Windows and Steam Proton / Wine games without external injector tools.
+* **How It Works:** Generates complete C++ export forwarding tables for `dinput8.dll`, `version.dll`, `dxgi.dll`, and `winmm.dll`, dynamic system loader fallback, background trainer threads (`DllMain`), modern CMake configs, and one-click MinGW cross-compile scripts.
+* **Why It Saves Quota:** Completely automates tedious C++ DLL proxy scaffolding and linker export tables with 100% crash-free stability.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1554,11 +1568,13 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`game-window-helper`** | Sandboxes game in Gamescope, locks mouse pointer, and stops focus stealing | When playtesting games without losing cursor control or terminal focus. |
 | **`nav-graph-recorder`** | Records/smoothes routes, avoids invisible walls, and logs collision traps | Autonomous game character navigation and self-improving path routing. |
 | **`self-improving-qa`** | Closed-loop QA, dismisses 'Press any key', watchdog for 88% stalls & timers | Unattended playtest runs and automated regression failure logging. |
+| **`game-memory-scanner`** | Inspects, scans, filters, and freezes live game memory | Developing cheat trainers, finding dynamic pointers, and scanning AOB signatures. |
+| **`game-dll-proxy-gen`** | Generates proxy DLL scaffolds (dinput8, dxgi, version) with export forwarding | Injecting internal trainers, MinHook detours, and ImGui overlays into games. |
 | **`cursor-rules-sync`** | Converts all skills to Cursor `.mdc` rules and syncs `.cursorrules` | After modifying skills or when syncing Cursor configuration. |
 | **`skills-audit-update --audit`** | Audits health across Gemini, Claude, and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all skills across Antigravity, Claude, and Cursor | After adding or updating any skill in the repository. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 167 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 169 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
@@ -1577,7 +1593,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │  Core Discipline: .cursor/rules/000-cursor-global-discipline.mdc                                    │
 │  Universal Model Adaptation Matrix: .cursor/rules/001-multi-model-optimization.mdc                  │
-│  167 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
+│  169 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
 │  Unified Root Fallback: ~/.cursorrules                                                              │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -1595,7 +1611,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 167 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 169 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
 3. **Unified Global Fallback (`~/.cursorrules`):**
    * Deployed directly to `$HOME/.cursorrules` and project roots so any folder opened in Cursor inherits this entire suite immediately.

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+# Game Memory Scanner & Dynamic Pointer Engine Launcher
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+TOOL_SCRIPT="${SCRIPT_DIR}/config/skills/game-memory-scanner/scripts/memory_scanner.py"
+
+if [ ! -f "${TOOL_SCRIPT}" ]; then
+    # Fallback if running from ~/.local/bin
+    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-memory-scanner/scripts/memory_scanner.py"
+fi
+
+if [ ! -f "${TOOL_SCRIPT}" ]; then
+    TOOL_SCRIPT="${HOME}/.claude/skills/game-memory-scanner/scripts/memory_scanner.py"
+fi
+
+exec python3 "${TOOL_SCRIPT}" "$@"
