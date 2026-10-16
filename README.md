@@ -644,6 +644,77 @@ agy-turbo
 
 ---
 
+## 💡 Plain-English Guide: Getting the Most Out of Your Setup
+
+Even if you aren't an AI researcher or senior software engineer, this setup is designed to make your daily coding fast, cheap, and frustration-free. Here is what you need to know in everyday terms:
+
+---
+
+### 1. The 3 Golden Rules for Everyday Work
+
+1. **Use Turbo for Routine Work:**
+   * When doing everyday coding, fixing bugs, asking questions, or running tests, launch with **`claude-turbo`** or **`agy-turbo`**.
+   * *Why:* Standard AI models waste thousands of "thinking tokens" over-analyzing simple tasks. Turbo mode caps thinking, saving you **75%–85% of your quota** and responding in seconds.
+2. **Watch Your Context Fuel Gauge:**
+   * Look at the statusline at the bottom of your terminal: `🧠 Ctx: [█░░░░░] 22%`.
+   * Think of this like a car's fuel tank. When it reaches **60%**, the AI will warn you. Simply type **`/compact`** and press Enter.
+   * *Why:* The [`project-memory-bank`](#62-project-memory-bank) automatically saves your progress, completed checklist, and next steps into `.agents/memory/activeContext.md` before compacting, so `/compact` wipes away chat clutter with **zero loss of progress**.
+3. **Let the AI Plan Big Changes First:**
+   * When building a new app or rewriting multiple files, let the AI create a plan first (using `writing-plans` or `/plan`).
+   * *Why:* It's 10x cheaper to fix a mistake on a 1-page checklist than to let the AI write 500 lines of broken code and spend an hour trying to patch it.
+
+---
+
+### 2. Generating Images: How It Works
+
+With the new [`frontier-image-studio`](#45-frontier-image-studio) skill, you can ask for images in the exact styles of ChatGPT and Gemini:
+
+* **Want a ChatGPT (DALL-E 3) Style Image?**
+  * Say: *"Generate an image of a cybernetic cat in DALL-E 3 style."*
+  * *What it does:* The AI automatically crafts a prompt with 3D Pixar/Disney claymation textures, whimsical lighting, and isometric angles.
+* **Want a Gemini (Imagen 3) Style Image?**
+  * Say: *"Generate a photorealistic portrait of an astronaut with a 85mm lens in Imagen 3 style."*
+  * *What it does:* The AI applies professional photography parameters: camera bodies (Hasselblad), aperture, natural lighting, and sharp embedded text banners.
+* **No API Key? Generate Free Local Graphics:**
+  * Say: *"Create a local SVG vector logo for my app"* or *"Generate a procedural noise texture."*
+  * *What it does:* The AI runs local Python scripts using Pillow to generate crisp `.svg` and `.png` files directly on your computer—**100% free, 100% offline, zero API keys required**.
+  * The image immediately opens in your web browser for you to see.
+
+---
+
+### 3. Understanding the "Snowball Effect" of AI Chat
+
+Why do your daily AI limits sometimes run out so fast?
+
+```
+Turn 1: AI reads your message (1,000 tokens)
+Turn 2: AI re-reads Turn 1 + Turn 2 (2,500 tokens)
+Turn 5: AI re-reads Turns 1, 2, 3, 4 + Turn 5 (15,000 tokens)
+Turn 15: AI re-reads the entire massive chat history (80,000+ tokens!)
+```
+
+This is called **Compounding Context**. Every time you say "okay, now change this line", the AI has to re-read the entire conversation from the very beginning.
+
+* **How this setup protects you:**
+  * **Muffles noisy commands (`log-output-sanitizer`):** When you run a build, it hides 500 lines of junk so it doesn't get glued into your chat history.
+  * **Uses an X-Ray Skeleton (`smart-context-packer`):** Reads only function names and signatures instead of loading 50 heavy source files.
+  * **Surgical Edits (`token-economy`):** Changes only the 3 lines that need fixing instead of re-typing entire 400-line files into the chat.
+
+---
+
+### 4. Everyday Command Quick Reference
+
+| Command | What It Does | When to Use It |
+| :--- | :--- | :--- |
+| **`claude-turbo`** | Launches Claude Code with low-effort thinking | Your default daily driver for fast, quota-saving Claude coding. |
+| **`agy-turbo`** | Launches Antigravity with Gemini Flash + low effort | Your default daily driver for fast, quota-saving Gemini coding. |
+| **`claude`** | Launches standard Claude Code | When you need full deep reasoning for hard bugs or major refactors. |
+| **`agy`** | Launches standard Antigravity CLI | When you need standard multi-model escalation (Flash to Argon). |
+| **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context gauge crosses 50%–60%. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 62 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+
+---
+
 ## 🛠️ Maintenance & Adding New Skills
 
 ### To add a new skill:
