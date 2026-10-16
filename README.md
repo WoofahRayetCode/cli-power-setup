@@ -374,12 +374,20 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ---
 
-## 📊 Real-Time CLI Quota & Token Savings Statusline
+## 📊 Real-Time Dual-CLI Quota & Statusline Monitor
 
-The statusline script (`~/.local/bin/agy-quota-statusline`) displays real-time 5-hour and weekly quota remaining, plus live session prompt tokens saved via Google context caching:
+The statusline script (`~/.local/bin/agy-quota-statusline`) automatically detects whether it is running inside **Google Antigravity (`agy`)** or **Claude Code CLI (`claude`)**:
 
+### When Running in Claude Code CLI:
+Claude Code pipes real-time session telemetry directly into the script via `stdin`, rendering live model name, rolling quotas, context consumption, and estimated session cost:
 ```text
-⚡ Gemini: 5h: 78% (reset 16:00) | Wk: 72% | 💾 Saved: 7.6M tok (Flash)
+⚡ Claude [Sonnet 3.7] | 5h: 76% (reset 17:00) | Wk: 88% | 🧠 Ctx: 18% | 💲 $0.04
+```
+
+### When Running in Antigravity CLI:
+Queries Gemini rolling 5-hour and weekly limits, and tracks cumulative prompt tokens saved via Google context caching:
+```text
+⚡ Gemini: 5h: 78% (reset 16:00) | Wk: 72% | 💾 Saved: 23.7M tok (Flash)
 ```
 
 In multi-model sessions (e.g. adaptive escalation between Flash and Argon):
@@ -388,11 +396,12 @@ In multi-model sessions (e.g. adaptive escalation between Flash and Argon):
 ```
 
 ### Technical Design:
-* **Context Cache Token Telemetry:** Directly correlates active session step tokens from `transcript.jsonl` with turn models in `gen_metadata`, displaying exact prompt tokens saved by context caching.
-* **Per-Model Savings Breakdown:** Automatically disaggregates saved prompt tokens across models when multiple models (e.g. Gemini 3.8 Flash, Gemini 4 Argon, Claude Sonnet) are used in a single session.
-* **Asynchronous & Non-Blocking Quota:** Queries `agy -p /usage` and caches the result in `/tmp/agy_quota_cache.txt` with a 2-minute TTL.
-* **Zero CLI Lag:** Quota subprocesses are detached with PID lockfile protection (`/tmp/agy_quota_refresh.lock`), guaranteeing instant prompt rendering (<2ms).
-* **Clean Stacking:** Configured in `~/.gemini/antigravity-cli/settings.json` with `stack_with_default: true` so the live quota line renders below the default working directory and model status.
+* **Dual-CLI Auto-Detection:** Seamlessly switches between Claude Code's live `stdin` JSON telemetry payload and Antigravity's session cache telemetry with zero configuration toggles.
+* **Claude Session Telemetry:** Extracts model tier, rolling 5-hour and 7-day rate limits, context window percentage (`context_window.used_percentage`), and session cost (`cost.total_cost_usd`).
+* **Context Cache Token Telemetry:** In Antigravity, correlates active session step tokens from `transcript.jsonl` with turn models in `gen_metadata` to display exact prompt tokens saved by context caching.
+* **Asynchronous & Non-Blocking Quota:** In Antigravity, queries `agy -p /usage` and caches the result in `/tmp/agy_quota_cache.txt` with a 2-minute TTL.
+* **Zero CLI Lag:** Subprocesses are detached with PID lockfile protection (`/tmp/agy_quota_refresh.lock`), guaranteeing instantaneous prompt rendering (<2ms).
+* **Clean Stacking:** Configured in `~/.gemini/antigravity-cli/settings.json` and `~/.claude/settings.json`.
 
 ---
 

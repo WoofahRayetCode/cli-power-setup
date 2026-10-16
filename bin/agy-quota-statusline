@@ -109,6 +109,54 @@ def get_token_savings():
         return f"💾 Saved: {fmt(total_saved)} tok ({m})"
     return f"💾 Saved: {fmt(total_saved)} tok"
 
+def format_claude_statusline(payload):
+    try:
+        model_info = payload.get("model", {})
+        model_name = model_info.get("display_name", "Claude") if isinstance(model_info, dict) else str(model_info)
+        short_model = model_name.replace("Claude ", "").replace("Anthropic ", "")
+
+        parts = [f"⚡ Claude [{short_model}]"]
+
+        # Rate limits (5-hour and 7-day rolling quota windows)
+        rate_limits = payload.get("rate_limits", {})
+        five_h = rate_limits.get("five_hour", {})
+        if five_h:
+            used = five_h.get("used_percentage")
+            resets_at = five_h.get("resets_at")
+            if used is not None:
+                rem = max(0, 100 - int(round(used)))
+                reset_str = ""
+                if resets_at:
+                    try:
+                        dt = datetime.fromtimestamp(resets_at).astimezone()
+                        reset_str = f" (reset {dt.strftime('%H:%M')})"
+                    except Exception:
+                        pass
+                parts.append(f"5h: {rem}%{reset_str}")
+
+        seven_d = rate_limits.get("seven_day", {})
+        if seven_d:
+            used = seven_d.get("used_percentage")
+            if used is not None:
+                rem = max(0, 100 - int(round(used)))
+                parts.append(f"Wk: {rem}%")
+
+        # Context window utilization
+        ctx = payload.get("context_window", {})
+        used_pct = ctx.get("used_percentage")
+        if used_pct is not None:
+            parts.append(f"🧠 Ctx: {float(used_pct):.0f}%")
+
+        # Cost tracking
+        cost_info = payload.get("cost", {})
+        cost_usd = cost_info.get("total_cost_usd") if isinstance(cost_info, dict) else None
+        if cost_usd is not None and cost_usd > 0:
+            parts.append(f"💲 ${cost_usd:.2f}")
+
+        return " | ".join(parts)
+    except Exception:
+        return None
+
 def refresh_now():
     try:
         res = subprocess.run(
@@ -150,6 +198,26 @@ def refresh_now():
     return None
 
 def main():
+    # Check for Claude Code piped JSON payload via stdin
+    if not sys.stdin.isatty():
+        try:
+            import select
+            r, _, _ = select.select([sys.stdin], [], [], 0.04)
+            if r:
+                raw_input = sys.stdin.read()
+                if raw_input.strip():
+                    try:
+                        payload = json.loads(raw_input)
+                        if "model" in payload or "context_window" in payload:
+                            output = format_claude_statusline(payload)
+                            if output:
+                                print(output)
+                                return
+                    except Exception:
+                        pass
+        except Exception:
+            pass
+
     if len(sys.argv) > 1 and sys.argv[1] == "--refresh":
         refresh_now()
         return
