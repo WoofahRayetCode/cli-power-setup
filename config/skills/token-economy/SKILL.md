@@ -41,6 +41,12 @@ To ensure the new frontier efficiency tools are always utilized:
   Offload multi-file linter sweeps, build logs, and test suites to background worktree subagents, preventing thousands of lines of stdout from polluting the main conversation history.
 * **Visual Artifacts Over ASCII Bloat (`generative-visual-artifacts`):**
   Never generate massive 50-line ASCII diagrams or markdown tables in chat. Offload visual UI mockups and telemetry graphs to self-contained HTML artifacts that open in the browser.
+* **Reactive Micro-Apps Over Static Tables (`intelligent-interactive-ui`):**
+  When generating calculators, ROI models, or parameter tuners, generate single-file reactive widgets rather than burning multi-turn conversational tokens on manual re-calculations.
+* **Cropped Vision Over Full-DPI Dumps (`screen-vision-inspector`):**
+  Crop screenshots to relevant bounding boxes and downscale to 1280px max dimension before vision ingestion to prevent vision token bloat.
+* **Surgical Directive Formatting (`high-density-prompting`):**
+  Format instructions with target file, line, exact action, and verification command, suppressing 75%–90% of reasoning token burn.
 
 ---
 

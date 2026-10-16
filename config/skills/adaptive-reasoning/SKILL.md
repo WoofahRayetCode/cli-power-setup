@@ -23,15 +23,18 @@ Before beginning work on any user request, evaluate the prompt's structural comp
 ### Tier 2: Standard Engineering & Implementation
 * **Triggers:** Implementing a specific function, refactoring a single module, writing unit tests, or fixing a verified bug.
 * **Reasoning Strategy:**
+  * When incoming requests are verbose or conversational, activate `high-density-prompting` to distill into a 4-part surgical directive.
+  * When the user requests calculators, data models, or parameter tuning, route to `intelligent-interactive-ui` to generate a reactive single-file micro-app.
   * Follow Test-Driven Development (`test-driven-development`) or targeted debugging (`systematic-debugging`).
   * Sanitize tool outputs using `log-output-sanitizer`.
   * Rely on compiler/linter feedback (e.g. `cargo check`, `ruff`, `clang-tidy`, `pytest`).
   * Execute directly on Gemini 3.8 Flash using surgical diffs.
 
 ### Tier 3: Deep Architectural & Multi-System Design
-* **Triggers:** Designing new mods, multi-file refactoring, kernel modules (`omen-acpi`), reverse engineering unfamiliar binaries, or full game architectures.
+* **Triggers:** Designing new mods, multi-file refactoring, kernel modules (`omen-acpi`), reverse engineering unfamiliar binaries, visual layout diagnostics, or full game architectures.
 * **Reasoning Strategy:**
   * Activate `deliberative-reasoning-tree` to explore 3 branching hypothesis paths and conduct adversarial self-critique before writing code.
+  * For live visual layout glitches, GUI rendering anomalies, or game HUD overlaps, route desktop/window capture to `screen-vision-inspector`.
   * Route deep external inquiries into unfamiliar APIs to `deep-research-synthesizer`.
   * Route exact mathematical formulas, DSP biquad filter calculations, and log analytics to `sandbox-code-interpreter`.
   * Automatically escalate the architecture and plan drafting phase to a **`pro` (Gemini 4 Argon)** subagent via `invoke_subagent`.

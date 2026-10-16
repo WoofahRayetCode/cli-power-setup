@@ -26,16 +26,18 @@ Before the context window degrades or triggers rolling quota penalties:
    ```text
    .agents/memory/activeContext.md
    ```
-2. **Preserve Open In-Flight Drafts:**
-   Ensure any uncommitted edits in `.canvas/` are noted in `activeContext.md`.
-3. **Prompt User for `/compact`:**
+2. **Preserve Open In-Flight Drafts & Interactive Widgets:**
+   Ensure any uncommitted edits in `.canvas/` or newly generated widgets in `templates/` are noted in `activeContext.md`.
+3. **Vision Token Preservation:**
+   When multimodal images from `screen-vision-inspector` enter context, verify downscaling to 1280px max dimension and remove temporary captures from `/tmp/` before session compaction to prevent image token compounding.
+4. **Prompt User for `/compact`:**
    Output a single high-density prompt:
    ```text
    [!] Context Watchdog: Session context has reached ~120k tokens (60%).
    [✓] State saved to .agents/memory/activeContext.md.
    👉 Run /compact now to reset the context window to <2,000 tokens with zero loss of progress.
    ```
-4. **Hydrate on Resumption:**
+5. **Hydrate on Resumption:**
    Upon restarting or post-compaction, read `activeContext.md` first (<300 tokens) and resume execution immediately.
 
 ---
@@ -44,3 +46,4 @@ Before the context window degrades or triggers rolling quota penalties:
 
 * **Handoff to `project-memory-bank`:** Owns the persistent `.agents/memory/` directory structure.
 * **Handoff to `prompt-cache-context-optimizer`:** Ensures the compacted resume prompt hits the 90% prompt cache tier.
+* **Handoff to `screen-vision-inspector`:** Enforces local bounding box crops and downsizes to protect the context fuel gauge.

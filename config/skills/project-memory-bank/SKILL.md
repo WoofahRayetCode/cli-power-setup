@@ -37,6 +37,12 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Include any in-progress `.canvas/*.draft` files in `activeContext.md` before session compaction.
 * **Brand & Design Token Binding (`human-crafted-web-design`):**
   Record brand colors, font families, and dark-mode surface hex codes in `systemPatterns.md` to prevent UI drift and eliminate repetitive color re-queries.
+* **Interactive UI & Micro-App State (`intelligent-interactive-ui`):**
+  Record active interactive calculators, forms, and widget paths in `systemPatterns.md` so future sessions build upon existing single-file tools rather than regenerating from scratch.
+* **Visual Inspection & Display Quirks (`screen-vision-inspector`):**
+  Log display resolution scaling, multi-monitor geometry offsets, and visual layout quirks into `learnings.md` to prevent repeated vision troubleshooting.
+* **High-Density Prompt Conventions (`high-density-prompting`):**
+  Record project-specific shorthand aliases and target verification commands in `projectBrief.md`.
 * **Client & Business Terms Binding (`executive-business-communications`):**
   Record billing milestones, deliverable boundaries, and strict revision caps in `projectBrief.md` to maintain scope boundaries across multi-session tasks.
 
