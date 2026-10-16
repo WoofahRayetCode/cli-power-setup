@@ -194,6 +194,14 @@ def monitor_game_session(duration: float = 30.0, interval: float = 2.0, out_dir:
                         "ocr_snippet": ocr_text[:300]
                     })
                     print(f"🚨 [CRASH DETECTED] Frame {frame_idx}: On-screen engine error modal captured!")
+                elif any(k in ocr_text.upper() for k in ["GAME OVER", "YOU ARE DEAD", "PRESS SPACE", "LOAD LAST SAVE", "RELOAD SAVE", "PRESS ANY KEY TO LOAD"]):
+                    anomalies["anomalies"].append({
+                        "type": "PLAYER_DEATH_DETECTED",
+                        "severity": "WARNING",
+                        "detail": "Player character death or Game Over screen detected via OCR.",
+                        "ocr_snippet": ocr_text[:300]
+                    })
+                    print(f"💀 [PLAYER DEATH] Frame {frame_idx}: Death/Game Over screen captured!")
 
             event = {
                 "frame": frame_idx,

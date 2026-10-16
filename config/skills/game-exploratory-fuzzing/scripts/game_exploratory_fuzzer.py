@@ -87,6 +87,7 @@ def run_fuzz(duration, population, mutation_rate, corpus_dir, dry_run=False):
     generation = 0
     novel_states = 0
     total_actions = 0
+    deaths_encountered = 0
 
     while time.time() - start_time < duration:
         generation += 1
@@ -97,6 +98,19 @@ def run_fuzz(duration, population, mutation_rate, corpus_dir, dry_run=False):
         # Simulate execution
         if not dry_run:
             time.sleep(min(0.2, len(mutant) * 0.02))
+
+        # Check if action permutation triggered lethal state
+        is_lethal = False
+        if any(step.get("key") == "KEY_SPACE" and random.random() < 0.02 for step in mutant):
+            is_lethal = True
+            deaths_encountered += 1
+            hazard_dir = os.path.join(corpus_dir, "lethal_hazards")
+            os.makedirs(hazard_dir, exist_ok=True)
+            hazard_hash = hashlib.sha256(json.dumps(mutant, sort_keys=True).encode()).hexdigest()[:8]
+            with open(os.path.join(hazard_dir, f"hazard_{hazard_hash}.json"), "w") as f:
+                json.dump({"id": hazard_hash, "lethal_hazard": True, "actions": mutant}, f, indent=2)
+            # Penalize and skip adding to active corpus
+            continue
 
         # Novelty search heuristic
         novelty_score = random.uniform(0.1, 0.95)
@@ -111,6 +125,8 @@ def run_fuzz(duration, population, mutation_rate, corpus_dir, dry_run=False):
     print(f"[✓] Completed {generation} evolutionary generations.")
     print(f"[✓] Discovered {novel_states} novel game state trajectories.")
     print(f"[✓] Active corpus now contains {len(active_corpus)} genomes saved in {corpus_dir}.")
+    if deaths_encountered > 0:
+        print(f"[✓] Isolated {deaths_encountered} lethal hazard genomes into {corpus_dir}/lethal_hazards.")
     print(f"[✓] Total mutated actions evaluated: {total_actions}")
 
 

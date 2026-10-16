@@ -9,3 +9,7 @@ __pycache__/
 # OS Artifacts
 .DS_Store
 Thumbs.db
+
+# Test Telemetry & QA Corpi
+.qa_corpus/
+*.patch

@@ -35,7 +35,8 @@ class VirtualGamepad:
                         ecodes.KEY_LEFTSHIFT, ecodes.KEY_SPACE, ecodes.KEY_LEFTCTRL,
                         ecodes.KEY_C, ecodes.KEY_R, ecodes.KEY_F, ecodes.KEY_E,
                         ecodes.KEY_1, ecodes.KEY_2, ecodes.KEY_3, ecodes.KEY_TAB,
-                        ecodes.KEY_I, ecodes.KEY_ESC,
+                        ecodes.KEY_I, ecodes.KEY_ESC, ecodes.KEY_F5, ecodes.KEY_F9,
+                        ecodes.KEY_ENTER,
                         ecodes.BTN_LEFT, ecodes.BTN_RIGHT, ecodes.BTN_MIDDLE
                     ],
                     ecodes.EV_REL: [
@@ -257,6 +258,39 @@ def cmd_action_cycle(args, pad: VirtualGamepad):
         
     print("[✓] Gameplay action cycle stress test complete.")
 
+def cmd_respawn_reload(args, pad):
+    print("=======================================================================")
+    print(" 🔄 Player Death Recovery & Save Reload Injection")
+    print("=======================================================================")
+    print(f"Recovery Key:     {args.key}")
+    print(f"Post-Reload Wait: {args.wait_time}s | Dry Run: {pad.dry_run}")
+    print("-----------------------------------------------------------------------\n")
+    
+    time.sleep(1.0)
+    target_key = ecodes.KEY_SPACE if HAVE_EVDEV else None
+    if args.key.upper() == "F9" and HAVE_EVDEV:
+        target_key = ecodes.KEY_F9
+    elif args.key.upper() == "ENTER" and HAVE_EVDEV:
+        target_key = ecodes.KEY_ENTER
+    elif args.key.upper() == "SPACE" and HAVE_EVDEV:
+        target_key = ecodes.KEY_SPACE
+
+    print(f"  -> Injecting death dismissal / reload key: {args.key}...")
+    pad.key(target_key, True)
+    time.sleep(0.2)
+    pad.key(target_key, False)
+    
+    if args.key.upper() == "SPACE" and HAVE_EVDEV:
+        time.sleep(0.5)
+        print("  -> Secondary quickload trigger (F9)...")
+        pad.key(ecodes.KEY_F9, True)
+        time.sleep(0.2)
+        pad.key(ecodes.KEY_F9, False)
+
+    print(f"  -> Waiting {args.wait_time}s for game level re-hydration...")
+    time.sleep(args.wait_time if not pad.dry_run else 0.5)
+    print("[✓] Player death recovery sequence injected.")
+
 def main():
     common_parser = argparse.ArgumentParser(add_help=False)
     common_parser.add_argument("--dry-run", action="store_true", help="Simulate input without accessing /dev/uinput")
@@ -287,6 +321,11 @@ def main():
     # action-cycle
     p_action = subparsers.add_parser("action-cycle", parents=[common_parser], help="Simulate weapon cycling, fire, reload & inventory")
     p_action.add_argument("--cycles", type=int, default=3, help="Number of action cycles")
+
+    # respawn-reload
+    p_respawn = subparsers.add_parser("respawn-reload", parents=[common_parser], help="Inject death recovery and save reload keys")
+    p_respawn.add_argument("--key", type=str, default="SPACE", help="Dismissal key (SPACE, F9, ENTER)")
+    p_respawn.add_argument("--wait-time", type=float, default=3.0, help="Wait time after reload")
     
     args = parser.parse_args()
     pad = VirtualGamepad(dry_run=args.dry_run)
@@ -302,6 +341,8 @@ def main():
             cmd_stress_locomotion(args, pad)
         elif args.command == "action-cycle":
             cmd_action_cycle(args, pad)
+        elif args.command == "respawn-reload":
+            cmd_respawn_reload(args, pad)
     finally:
         pad.close()
 
