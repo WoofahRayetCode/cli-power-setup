@@ -13,3 +13,4 @@ Thumbs.db
 # Test Telemetry & QA Corpi
 .qa_corpus/
 *.patch
+.agents/

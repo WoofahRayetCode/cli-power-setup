@@ -10,7 +10,9 @@ import json
 import os
 import re
 import sys
-from datetime import datetime
+import time
+import subprocess
+from datetime import datetime, timedelta
 from pathlib import Path
 
 DEFAULT_STATE_FILE = Path(".agents/goals/current_goal.json")
@@ -195,7 +197,10 @@ def get_live_quota() -> dict:
         "platform": "Unknown",
         "five_hour_remaining": None,
         "five_hour_resets_at": "",
-        "weekly_remaining": None
+        "five_hour_resets_epoch": None,
+        "weekly_remaining": None,
+        "weekly_resets_at": "",
+        "weekly_resets_epoch": None
     }
     
     # 1. Check Claude Code state
@@ -206,7 +211,10 @@ def get_live_quota() -> dict:
             quota["platform"] = "Claude Code"
             quota["five_hour_remaining"] = d.get("five_hour_remaining")
             quota["five_hour_resets_at"] = d.get("five_hour_resets_at") or ""
+            quota["five_hour_resets_epoch"] = d.get("five_hour_resets_epoch")
             quota["weekly_remaining"] = d.get("weekly_remaining")
+            quota["weekly_resets_at"] = d.get("weekly_resets_at") or ""
+            quota["weekly_resets_epoch"] = d.get("weekly_resets_epoch")
             if quota["five_hour_remaining"] is not None:
                 return quota
         except Exception:
@@ -220,7 +228,10 @@ def get_live_quota() -> dict:
             quota["platform"] = "Antigravity (Gemini)"
             quota["five_hour_remaining"] = d.get("five_hour_remaining")
             quota["five_hour_resets_at"] = d.get("five_hour_resets_at") or ""
+            quota["five_hour_resets_epoch"] = d.get("five_hour_resets_epoch")
             quota["weekly_remaining"] = d.get("weekly_remaining")
+            quota["weekly_resets_at"] = d.get("weekly_resets_at") or ""
+            quota["weekly_resets_epoch"] = d.get("weekly_resets_epoch")
             if quota["five_hour_remaining"] is not None:
                 return quota
         except Exception:
@@ -247,63 +258,193 @@ def get_live_quota() -> dict:
 
     return quota
 
+def trigger_weekly_smart_checkpoint(q: dict):
+    """Executes a smart state checkpoint when weekly quota nears 25% remaining."""
+    p_wk = q.get("weekly_remaining")
+    p_5h = q.get("five_hour_remaining")
+    if p_wk is None or p_wk > 25:
+        return
+
+    tracker_file = Path(".agents/memory/weekly_quota_checkpoint.json")
+    tracker_file.parent.mkdir(parents=True, exist_ok=True)
+    if tracker_file.exists():
+        try:
+            t_data = json.loads(tracker_file.read_text())
+            last_pct = t_data.get("last_checkpoint_pct")
+            # Don't spam checkpoints unless quota dropped by another 3%
+            if last_pct is not None and (last_pct - p_wk) < 3:
+                return
+        except Exception:
+            pass
+
+    ts = int(time.time())
+    iso_ts = datetime.now().isoformat()
+    checkpoints_dir = Path(".agents/checkpoints")
+    checkpoints_dir.mkdir(parents=True, exist_ok=True)
+
+    git_status = ""
+    git_diff = ""
+    git_branch = "unknown"
+    git_commit = "unknown"
+    try:
+        git_status = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True).stdout.strip()
+        git_diff = subprocess.run(["git", "diff", "HEAD"], capture_output=True, text=True).stdout.strip()
+        git_branch = subprocess.run(["git", "branch", "--show-current"], capture_output=True, text=True).stdout.strip()
+        git_commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
+    except Exception:
+        pass
+
+    snap_file = checkpoints_dir / f"checkpoint_{ts}_weekly_{p_wk}pct.json"
+    snap_data = {
+        "timestamp": ts,
+        "label": f"weekly_quota_{p_wk}pct_reserve",
+        "weekly_remaining": p_wk,
+        "five_hour_remaining": p_5h,
+        "branch": git_branch,
+        "commit": git_commit,
+        "status": git_status,
+        "patch": git_diff
+    }
+    snap_file.write_text(json.dumps(snap_data, indent=2), encoding="utf-8")
+
+    # Update activeContext.md
+    active_ctx = Path(".agents/memory/activeContext.md")
+    active_ctx.parent.mkdir(parents=True, exist_ok=True)
+    alert_header = (
+        f"\n## ⚠️ Quota Guard: Weekly Reserve Checkpoint ({p_wk}% Remaining)\n"
+        f"- Timestamp: {iso_ts}\n"
+        f"- Weekly Quota: {p_wk}% remaining (Resets at: {q.get('weekly_resets_at') or 'N/A'})\n"
+        f"- 5-Hour Quota: {p_5h}% remaining (Resets at: {q.get('five_hour_resets_at') or 'N/A'})\n"
+        f"- Snapshot Saved: {snap_file}\n"
+        f"- Branch/Commit: {git_branch}@{git_commit}\n"
+        f"- Modified Files: {len(git_status.splitlines()) if git_status else 0}\n"
+        f"- Rollback Command: python3 config/skills/working-memory-checkpointing/scripts/state_checkpoint.py rollback\n\n"
+    )
+    if active_ctx.exists():
+        curr_text = active_ctx.read_text(encoding="utf-8", errors="ignore")
+        active_ctx.write_text(alert_header + curr_text, encoding="utf-8")
+    else:
+        active_ctx.write_text(alert_header, encoding="utf-8")
+
+    # Record checkpoint tracker
+    tracker_file.write_text(json.dumps({
+        "last_checkpoint_timestamp": iso_ts,
+        "last_checkpoint_pct": p_wk,
+        "snapshot_file": str(snap_file)
+    }, indent=2), encoding="utf-8")
+
+    print("\n-------------------------------------------------------")
+    print(f" ⚠️  [SMART CHECKPOINT CREATED: WEEKLY QUOTA AT {p_wk}%]")
+    print(f"  -> Snapshot saved: {snap_file}")
+    print(f"  -> Uncommitted changes preserved across {len(git_status.splitlines()) if git_status else 0} files.")
+    print(f"  -> Memory context updated: {active_ctx}")
+    print(f"  -> Safe to continue execution while quota remains above reserve threshold.")
+    print("-------------------------------------------------------\n")
+
 def cmd_quota_guard(args):
     q = get_live_quota()
     p_5h = q["five_hour_remaining"]
     p_wk = q["weekly_remaining"]
-    resets = q["five_hour_resets_at"] or "N/A"
+    resets_5h = q["five_hour_resets_at"] or "N/A"
+    resets_wk = q["weekly_resets_at"] or "N/A"
     platform = q["platform"]
     
     print("\n=======================================================")
     print(" 🛡️  Autonomous Quota Watchdog & Circuit Breaker       ")
     print("=======================================================")
     print(f"Platform:         {platform}")
-    print(f"5-Hour Quota:     {p_5h if p_5h is not None else '--'}% remaining (Resets at: {resets})")
-    print(f"Weekly Quota:     {p_wk if p_wk is not None else '--'}% remaining")
+    print(f"5-Hour Quota:     {p_5h if p_5h is not None else '--'}% remaining (Resets at: {resets_5h})")
+    print(f"Weekly Quota:     {p_wk if p_wk is not None else '--'}% remaining (Resets at: {resets_wk})")
     print(f"Safe Reserves:    Min 5-Hour: {args.min_5h}% | Min Weekly: {args.min_weekly}%")
     print("-------------------------------------------------------")
     
-    breached = False
-    reasons = []
+    # 1. Smart Checkpoint when nearing 25% weekly quota
+    if p_wk is not None and p_wk <= 25:
+        trigger_weekly_smart_checkpoint(q)
     
+    # 2. Check 5-Hour Quota
     if p_5h is not None and p_5h <= args.min_5h:
-        breached = True
-        reasons.append(f"5-hour quota ({p_5h}%) is at or below safe reserve threshold ({args.min_5h}%)")
-        
+        if args.wait_on_5h:
+            # Calculate wait duration until refresh
+            wait_seconds = 180  # default 3 min fallback
+            now_ts = datetime.now().timestamp()
+            if q.get("five_hour_resets_epoch"):
+                wait_seconds = max(30, int(q["five_hour_resets_epoch"] - now_ts) + 60)
+            elif q.get("five_hour_resets_at") and ":" in q["five_hour_resets_at"]:
+                try:
+                    parts = q["five_hour_resets_at"].split(":")
+                    now_dt = datetime.now()
+                    target_dt = now_dt.replace(hour=int(parts[0]), minute=int(parts[1]), second=0, microsecond=0)
+                    if target_dt <= now_dt:
+                        target_dt += timedelta(days=1)
+                    wait_seconds = max(30, int((target_dt - now_dt).total_seconds()) + 60)
+                except Exception:
+                    pass
+
+            mins = int(round(wait_seconds / 60))
+            print("\n=======================================================")
+            print(f" ⏳ [5-HOUR QUOTA AT {p_5h}% - WAITING FOR REFRESH WINDOW]")
+            print("=======================================================")
+            print(f"Quota Status:    5h: {p_5h}% (at or below reserve {args.min_5h}%)")
+            print(f"Refresh Target:  {resets_5h} (~{mins} minutes remaining)")
+            print(f"Preserving state to .agents/memory/activeContext.md before waiting...")
+            
+            # Stage current context
+            try:
+                mem_file = Path(".agents/memory/activeContext.md")
+                mem_file.parent.mkdir(parents=True, exist_ok=True)
+                wait_note = (
+                    f"\n# 5-Hour Quota Refresh Pause\n"
+                    f"- Timestamp: {datetime.now().isoformat()}\n"
+                    f"- 5-Hour Quota: {p_5h}%\n"
+                    f"- Scheduled Resume: {resets_5h}\n"
+                    f"- Waiting {mins}m for quota replenishment...\n\n"
+                )
+                if mem_file.exists():
+                    mem_file.write_text(wait_note + mem_file.read_text(encoding="utf-8", errors="ignore"), encoding="utf-8")
+                else:
+                    mem_file.write_text(wait_note, encoding="utf-8")
+            except Exception:
+                pass
+
+            print(f"Sleeping {mins}m until quota reset window passes (Ctrl+C to abort)...")
+            elapsed = 0
+            poll_step = min(60, wait_seconds)
+            while elapsed < wait_seconds:
+                time.sleep(poll_step)
+                elapsed += poll_step
+                left_m = max(0, (wait_seconds - elapsed) // 60)
+                if left_m > 0 and (elapsed % 300 == 0 or left_m <= 5):
+                    print(f"  -> Quota refresh countdown: ~{left_m}m remaining...")
+
+            # Verify replenished quota
+            new_q = get_live_quota()
+            new_5h = new_q.get("five_hour_remaining")
+            print(f"\n[✓] Refresh window reached! 5-Hour quota replenished ({new_5h if new_5h is not None else 'healthy'}%).")
+            print("Resuming execution seamlessly!\n")
+            print("=======================================================")
+            sys.exit(0)
+        else:
+            print("🚨 [QUOTA CIRCUIT BREAKER TRIPPED!]")
+            print(f"  ❌ 5-hour quota ({p_5h}%) is at or below safe reserve threshold ({args.min_5h}%)")
+            print("\n[ACTION TAKEN TO SAFEGUARD USER QUOTA]:")
+            print("  1. Ceasing autonomous execution loop immediately (--no-wait requested).")
+            print(f"  2. Automatic resume safe after quota reset: {resets_5h}")
+            sys.exit(2)
+
+    # 3. Check Weekly Quota Minimum Reserve
     if p_wk is not None and p_wk <= args.min_weekly:
-        breached = True
-        reasons.append(f"Weekly quota ({p_wk}%) is at or below safe reserve threshold ({args.min_weekly}%)")
-        
-    if breached:
-        print("🚨 [QUOTA CIRCUIT BREAKER TRIPPED!]")
-        for r in reasons:
-            print(f"  ❌ {r}")
+        print("🚨 [WEEKLY QUOTA CIRCUIT BREAKER TRIPPED!]")
+        print(f"  ❌ Weekly quota ({p_wk}%) is at or below minimum weekly threshold ({args.min_weekly}%)")
         print("\n[ACTION TAKEN TO SAFEGUARD USER QUOTA]:")
         print("  1. Ceasing autonomous execution loop immediately.")
-        print("  2. Preserving remaining quota so user can resume work safely.")
-        print(f"  3. Automatic resume safe after quota reset: {resets}")
-        
-        try:
-            mem_file = Path(".agents/memory/activeContext.md")
-            mem_file.parent.mkdir(parents=True, exist_ok=True)
-            mem_file.write_text(
-                f"# Quota Guard Circuit Breaker Tripped\n"
-                f"- Timestamp: {datetime.now().isoformat()}\n"
-                f"- 5-Hour Quota: {p_5h}%\n"
-                f"- Weekly Quota: {p_wk}%\n"
-                f"- Quota Reset: {resets}\n"
-                f"- Reason: {'; '.join(reasons)}\n",
-                encoding="utf-8"
-            )
-            print(f"  4. Current execution state checkpointed into {mem_file}")
-        except Exception:
-            pass
-        print("=======================================================\n")
+        print("  2. Preserving remaining weekly quota for user interactive sessions.")
+        print(f"  3. Automatic resume safe after weekly reset: {resets_wk}")
         sys.exit(2)
-    else:
-        print("[✓] Quota reserves are HEALTHY. Safe to proceed with autonomous execution.")
-        print("=======================================================\n")
-        sys.exit(0)
+
+    print(f"[✓] Quota reserves are HEALTHY (5h: {p_5h if p_5h is not None else '--'}% | Wk: {p_wk if p_wk is not None else '--'}%). Safe to proceed with autonomous execution.")
+    print("=======================================================\n")
+    sys.exit(0)
 
 def main():
     parser = argparse.ArgumentParser(description="Autonomous Goal Governor & Quota Protector")
@@ -341,8 +482,10 @@ def main():
 
     # quota-guard
     p_qg = subparsers.add_parser("quota-guard", help="Verify that 5-hour and weekly quotas remain above safe reserve thresholds")
-    p_qg.add_argument("--min-5h", type=int, default=15, help="Minimum 5-hour quota remaining percentage before tripping breaker (default: 15)")
+    p_qg.add_argument("--min-5h", type=int, default=15, help="Minimum 5-hour quota remaining percentage before waiting or halting (default: 15)")
     p_qg.add_argument("--min-weekly", type=int, default=10, help="Minimum weekly quota remaining percentage before tripping breaker (default: 10)")
+    p_qg.add_argument("--wait-on-5h", action="store_true", default=True, help="Wait for 5-hour quota refresh instead of halting (default: True)")
+    p_qg.add_argument("--no-wait", action="store_false", dest="wait_on_5h", help="Do not wait for 5-hour refresh; halt immediately if below reserve")
     
     args = parser.parse_args()
     

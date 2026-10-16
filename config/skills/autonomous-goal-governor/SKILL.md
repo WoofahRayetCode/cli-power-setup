@@ -72,16 +72,15 @@ Autonomous goals degrade when context reaches 100k+ tokens because each subseque
 * **Max Concurrency:** Never spawn more than 2 parallel subagents simultaneously.
 * **Zero Nested Subagents:** Subagents are forbidden from spawning recursive subagents during `/goal` runs to prevent exponential token branching.
 
-### 6. Quota Reserve Watchdog (5-Hour & Weekly Safe Reserves)
+### 6. Quota Reserve Watchdog & Continuous Execution Governance
 Autonomous background processes and test runs actively verify available quota reserves:
 ```bash
 python3 config/skills/autonomous-goal-governor/scripts/goal_governor.py quota-guard --min-5h 15 --min-weekly 10
 ```
-* **Real-Time Telemetry:** Inspects live quota windows (`5h: <rem>% (reset HH:MM)` and `Wk: <rem>%`) across Claude Code (`/tmp/claude_quota_state.json`) and Antigravity (`/tmp/agy_quota_cache.txt`).
-* **Emergency Circuit Breaker:** When 5-hour or weekly remaining quota drops to or below safe reserve thresholds:
-  1. Halts execution loops immediately (exit code `2`).
-  2. Auto-stages active progress to `.agents/memory/activeContext.md`.
-  3. Preserves remaining quota for the user, preventing exhaustion before they return.
+* **Real-Time Telemetry:** Inspects live quota windows (`5h: <rem>% (reset HH:MM)` and `Wk: <rem>% (reset ...)`) across Claude Code (`/tmp/claude_quota_state.json`) and Antigravity (`/tmp/agy_quota_cache.txt`).
+* **Continuous Execution on Available Quota:** Never halts or quits when quota is available (> reserve thresholds).
+* **5-Hour Exhaustion Wait-for-Refresh:** If 5-hour quota reaches or drops below the safe reserve (`--min-5h`, default 15%), the governor preserves active state into `.agents/memory/activeContext.md` and safely sleeps until the quota refresh timestamp arrives, automatically verifying replenishment and resuming execution seamlessly without terminating the task. Pass `--no-wait` to halt immediately if preferred.
+* **Smart Checkpoint at 25% Weekly Quota:** When weekly quota nears 25% remaining, automatically snapshots all uncommitted git diffs, working branch, and active hypothesis context into `.agents/checkpoints/` and records a high-density alert in `.agents/memory/activeContext.md` before continuing execution.
 
 ---
 
@@ -93,5 +92,5 @@ python3 config/skills/autonomous-goal-governor/scripts/goal_governor.py quota-gu
 | `strike --task "..."` | Logs attempt failure; trips at 3 strikes | Halts trial-and-error doom loops |
 | `success --task "..."` | Clears strikes on passing tests | Maintains accurate error budgets |
 | `phase-gate` | Completes phase and advises `/compact` | Eliminates 100k+ token per-turn overhead |
-| `quota-guard` | Enforces 5-hour & weekly safe reserve thresholds | Prevents quota exhaustion when user is away |
+| `quota-guard` | Enforces 5h wait-for-refresh & weekly 25% smart checkpoints | Uninterrupted overnight runs & quota safety |
 | `status` | Reports active goal, phase, and strikes | Instant statusline visibility |

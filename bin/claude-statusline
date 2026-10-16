@@ -95,11 +95,35 @@ def main():
             parts.append(f"5h: {rem_5h}%{reset_str}")
 
     seven_d = rate_limits.get("seven_day", {})
+    reset_wk = None
+    reset_wk_epoch = None
     if seven_d:
         used = seven_d.get("used_percentage")
+        resets_at_wk = seven_d.get("resets_at")
         if used is not None:
             rem_wk = max(0, 100 - int(round(used)))
-            parts.append(f"Wk: {rem_wk}%")
+            reset_str_wk = ""
+            if resets_at_wk:
+                try:
+                    reset_wk_epoch = resets_at_wk
+                    dt_wk = datetime.fromtimestamp(resets_at_wk).astimezone()
+                    now_dt = datetime.now().astimezone()
+                    diff_sec = (dt_wk - now_dt).total_seconds()
+                    if diff_sec > 0 and diff_sec < 86400:
+                        mins = int(round(diff_sec / 60))
+                        if mins < 60:
+                            reset_str_wk = f" (reset in {mins}m)"
+                        else:
+                            hrs = mins // 60
+                            rem_m = mins % 60
+                            reset_str_wk = f" (reset in {hrs}h {rem_m}m)"
+                        reset_wk = dt_wk.strftime('%H:%M')
+                    else:
+                        reset_wk = dt_wk.strftime('%a %H:%M')
+                        reset_str_wk = f" (reset {reset_wk})"
+                except Exception:
+                    pass
+            parts.append(f"Wk: {rem_wk}%{reset_str_wk}")
 
     if rem_5h is not None or rem_wk is not None:
         try:
@@ -108,7 +132,10 @@ def main():
                     "updated_at": datetime.now().isoformat(),
                     "five_hour_remaining": rem_5h,
                     "five_hour_resets_at": reset_5h,
-                    "weekly_remaining": rem_wk
+                    "five_hour_resets_epoch": five_h.get("resets_at") if five_h else None,
+                    "weekly_remaining": rem_wk,
+                    "weekly_resets_at": reset_wk,
+                    "weekly_resets_epoch": reset_wk_epoch
                 }, f, indent=2)
         except Exception:
             pass

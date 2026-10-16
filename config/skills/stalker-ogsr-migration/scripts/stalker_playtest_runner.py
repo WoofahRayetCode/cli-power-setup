@@ -42,8 +42,9 @@ def main():
     parser.add_argument("--no-auto-close-crash-logs", action="store_false", dest="auto_close_crash_logs", help="Disable automatic dismissal of crash log windows")
     parser.add_argument("--test-dialogue", action="store_true", default=True, help="Test NPC character dialogue and talk UI interaction (default: True)")
     parser.add_argument("--no-test-dialogue", action="store_false", dest="test_dialogue", help="Disable character dialogue interaction test")
-    parser.add_argument("--min-5h", type=int, default=15, help="Minimum 5-hour quota remaining percentage before halting test (default: 15)")
+    parser.add_argument("--min-5h", type=int, default=15, help="Minimum 5-hour quota remaining percentage before waiting or halting (default: 15)")
     parser.add_argument("--min-weekly", type=int, default=10, help="Minimum weekly quota remaining percentage before halting test (default: 10)")
+    parser.add_argument("--no-wait", action="store_true", help="Do not wait for 5-hour quota replenishment if reserve is breached; halt immediately")
     parser.add_argument("--no-quota-guard", action="store_true", help="Bypass quota circuit breaker checks")
     parser.add_argument("--dry-run", action="store_true", help="Simulate playtesting without launching actual game binary")
 
@@ -84,12 +85,18 @@ def main():
 
     # Step 0: Quota Reserve Safety Check
     if not args.no_quota_guard and governor_tool.exists() and not args.dry_run:
-        q_res = subprocess.run([sys.executable, str(governor_tool), "quota-guard", "--min-5h", str(args.min_5h), "--min-weekly", str(args.min_weekly)], capture_output=True, text=True)
+        q_cmd = [sys.executable, str(governor_tool), "quota-guard", "--min-5h", str(args.min_5h), "--min-weekly", str(args.min_weekly)]
+        if args.no_wait:
+            q_cmd.append("--no-wait")
+        q_res = subprocess.run(q_cmd, capture_output=True, text=True)
         if q_res.returncode == 2:
             print("\n[🚨 QUOTA BREAKER TRIPPED]: Available quota is below safe reserve threshold. Halting playtest to protect quota.", file=sys.stderr)
             print(q_res.stdout)
             sys.exit(3)
         else:
+            for l in q_res.stdout.splitlines():
+                if "SMART CHECKPOINT" in l or "5-HOUR QUOTA AT" in l or "WAITING FOR REFRESH" in l:
+                    print(l)
             print("[Step 0/5] Quota Reserve Check: [Healthy - Safe to Proceed]")
     else:
         print("[Step 0/5] Quota Reserve Check: [Bypassed or Dry-Run]")

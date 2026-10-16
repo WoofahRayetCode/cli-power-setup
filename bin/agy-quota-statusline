@@ -137,9 +137,26 @@ def format_claude_statusline(payload):
         seven_d = rate_limits.get("seven_day", {})
         if seven_d:
             used = seven_d.get("used_percentage")
+            resets_at_wk = seven_d.get("resets_at")
             if used is not None:
                 rem = max(0, 100 - int(round(used)))
-                parts.append(f"Wk: {rem}%")
+                reset_str_wk = ""
+                if resets_at_wk:
+                    try:
+                        dt_wk = datetime.fromtimestamp(resets_at_wk).astimezone()
+                        now_dt = datetime.now().astimezone()
+                        diff_sec = (dt_wk - now_dt).total_seconds()
+                        if diff_sec > 0 and diff_sec < 86400:
+                            mins = int(round(diff_sec / 60))
+                            if mins < 60:
+                                reset_str_wk = f" (reset in {mins}m)"
+                            else:
+                                reset_str_wk = f" (reset {dt_wk.strftime('%H:%M')})"
+                        else:
+                            reset_str_wk = f" (reset {dt_wk.strftime('%a %H:%M')})"
+                    except Exception:
+                        pass
+                parts.append(f"Wk: {rem}%{reset_str_wk}")
 
         # Context window utilization
         ctx = payload.get("context_window", {})

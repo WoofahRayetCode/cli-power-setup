@@ -28,3 +28,8 @@
 ## Hardware-Aware High-Performance Execution
 - **Dynamic Thread Saturation:** Automatically saturate all available CPU threads when compiling, running test suites, or packing assets (`-j$(nproc)` / `MAKEFLAGS="-j$(nproc)"`, `CARGO_BUILD_JOBS=$(nproc)`, `CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)`). Never default to single-threaded builds.
 - **Hardware-Aware Tool Dispatch:** Direct heavy GPU tasks (Blender Cycles, voice inference, numerical compute) to CUDA / OptiX or Vulkan rather than slow CPU fallback.
+
+## Quota Governance & Uninterrupted Execution
+- **Never Quit on Available Quota:** Quota percentages (e.g. 5h: 86%, Wk: 96%) indicate healthy available headroom. Never quit, halt, or abort autonomous goals or test runners when quota is available (> safe reserve limits).
+- **5-Hour Exhaustion Wait-for-Refresh:** If rolling 5-hour quota reaches or drops below safe reserve during autonomous runs, do not abort or fail the task. Stage working state to `.agents/memory/activeContext.md`, safely sleep until the recorded reset timestamp passes, verify quota replenishment, and seamlessly resume execution.
+- **Smart Checkpoint at 25% Weekly Reserve:** When weekly quota nears 25% remaining, automatically snapshot all uncommitted diffs, git branch, and active hypothesis context to `.agents/checkpoints/` and update `.agents/memory/activeContext.md` before continuing execution.
