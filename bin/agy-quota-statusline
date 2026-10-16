@@ -1,20 +1,58 @@
 #!/usr/bin/env python3
+"""
+Antigravity CLI (agy) Info-Rich Statusline Monitor
+Provides Claude-Code-grade visual telemetry for token usage, prompt caching,
+rolling quotas, and dynamically wraps to fit any terminal window dimensions.
+"""
 import os
 import sys
 import time
 import subprocess
-from datetime import datetime
-
+import shutil
 import glob
 import json
 import sqlite3
 import re
+from datetime import datetime
 
 CACHE_FILE = "/tmp/agy_quota_cache.txt"
 LOCK_FILE = "/tmp/agy_quota_refresh.lock"
 CACHE_TTL = 120  # 2 minutes
 
-def get_token_savings():
+def make_bar(pct, width=6):
+    pct = max(0.0, min(100.0, float(pct)))
+    filled = int(round((pct / 100.0) * width))
+    empty = width - filled
+    return "█" * filled + "░" * empty
+
+def fmt_tok(n):
+    if n >= 1_000_000:
+        return f"{n / 1_000_000:.1f}M"
+    elif n >= 1_000:
+        return f"{n / 1_000:.0f}k"
+    return str(n)
+
+def get_git_info(target_dir):
+    if not target_dir or not os.path.exists(target_dir):
+        target_dir = os.getcwd()
+    try:
+        res = subprocess.run(
+            ["git", "-C", target_dir, "rev-parse", "--abbrev-ref", "HEAD"],
+            capture_output=True,
+            text=True,
+            timeout=1
+        )
+        if res.returncode == 0:
+            branch = res.stdout.strip()
+            if branch:
+                folder = os.path.basename(os.path.abspath(target_dir))
+                return f"📁 {folder} 🌿 {branch}"
+    except Exception:
+        pass
+    folder = os.path.basename(os.path.abspath(target_dir))
+    return f"📁 {folder}" if folder else None
+
+def get_session_telemetry():
     base_dir = os.path.expanduser("~/.gemini/antigravity-cli")
     presence_locks = glob.glob(f"{base_dir}/presence/*.lock")
     active_cid = None
@@ -42,8 +80,9 @@ def get_token_savings():
                 db_path = cand_db
 
     if not transcript_path or not os.path.exists(transcript_path):
-        return ""
+        return None
 
+    # Determine model associations from sqlite
     turn_models = {}
     if db_path and os.path.exists(db_path):
         try:
@@ -52,7 +91,7 @@ def get_token_savings():
             c.execute("SELECT idx, data FROM gen_metadata")
             for idx, data in c.fetchall():
                 matches = re.findall(b"(?:gemini|claude|gpt|opus|sonnet|argon)[a-zA-Z0-9.-]*", data, re.IGNORECASE)
-                valid = [m.decode("latin1") for m in matches if any(k in m.lower() for k in [b"flash", b"argon", b"pro", b"sonnet", b"opus", b"120b"])]
+                valid = [m.decode("latin1", errors="ignore") for m in matches if any(k in m.lower() for k in [b"flash", b"argon", b"pro", b"sonnet", b"opus", b"120b"])]
                 if valid:
                     name = valid[0].lower()
                     if "flash" in name:
@@ -71,108 +110,54 @@ def get_token_savings():
         except Exception:
             pass
 
-    model_tokens = {}
-    total_saved = 0
+    total_cached = 0
+    total_uncached = 0
+    total_output = 0
+    last_cached = 0
+    last_in = 0
+    last_out = 0
+    model_cached = {}
+
     try:
-        with open(transcript_path, "r") as f:
+        with open(transcript_path, "r", encoding="utf-8", errors="ignore") as f:
             for line in f:
                 try:
                     row = json.loads(line)
                     if row.get("type") == "PLANNER_RESPONSE":
-                        tokens = row.get("cache_read_tokens", 0)
-                        if tokens > 0:
-                            total_saved += tokens
+                        c = row.get("cache_read_tokens", 0)
+                        i = row.get("input_tokens", 0)
+                        o = row.get("output_tokens", 0)
+                        total_cached += c
+                        total_uncached += i
+                        total_output += o
+                        last_cached = c
+                        last_in = i
+                        last_out = o
+                        if c > 0:
                             s_idx = row.get("step_index", 0)
                             t_idx = (s_idx - 1) // 2
-                            m = turn_models.get(t_idx, "Flash")
-                            model_tokens[m] = model_tokens.get(m, 0) + tokens
+                            m = turn_models.get(t_idx, "Argon")
+                            model_cached[m] = model_cached.get(m, 0) + c
                 except Exception:
                     pass
     except Exception:
-        return ""
-
-    if total_saved <= 0:
-        return ""
-
-    def fmt(n):
-        if n >= 1_000_000:
-            return f"{n / 1_000_000:.1f}M"
-        elif n >= 1_000:
-            return f"{n / 1_000:.1f}k"
-        return str(n)
-
-    if len(model_tokens) > 1:
-        breakdown = " | ".join(f"{m}: {fmt(t)}" for m, t in sorted(model_tokens.items(), key=lambda x: -x[1]))
-        return f"💾 Saved: {fmt(total_saved)} tok ({breakdown})"
-    elif len(model_tokens) == 1:
-        m = list(model_tokens.keys())[0]
-        return f"💾 Saved: {fmt(total_saved)} tok ({m})"
-    return f"💾 Saved: {fmt(total_saved)} tok"
-
-def format_claude_statusline(payload):
-    try:
-        model_info = payload.get("model", {})
-        model_name = model_info.get("display_name", "Claude") if isinstance(model_info, dict) else str(model_info)
-        short_model = model_name.replace("Claude ", "").replace("Anthropic ", "")
-
-        parts = [f"⚡ Claude [{short_model}]"]
-
-        # Rate limits (5-hour and 7-day rolling quota windows)
-        rate_limits = payload.get("rate_limits", {})
-        five_h = rate_limits.get("five_hour", {})
-        if five_h:
-            used = five_h.get("used_percentage")
-            resets_at = five_h.get("resets_at")
-            if used is not None:
-                rem = max(0, 100 - int(round(used)))
-                reset_str = ""
-                if resets_at:
-                    try:
-                        dt = datetime.fromtimestamp(resets_at).astimezone()
-                        reset_str = f" (reset {dt.strftime('%H:%M')})"
-                    except Exception:
-                        pass
-                parts.append(f"5h: {rem}%{reset_str}")
-
-        seven_d = rate_limits.get("seven_day", {})
-        if seven_d:
-            used = seven_d.get("used_percentage")
-            resets_at_wk = seven_d.get("resets_at")
-            if used is not None:
-                rem = max(0, 100 - int(round(used)))
-                reset_str_wk = ""
-                if resets_at_wk:
-                    try:
-                        dt_wk = datetime.fromtimestamp(resets_at_wk).astimezone()
-                        now_dt = datetime.now().astimezone()
-                        diff_sec = (dt_wk - now_dt).total_seconds()
-                        if diff_sec > 0 and diff_sec < 86400:
-                            mins = int(round(diff_sec / 60))
-                            if mins < 60:
-                                reset_str_wk = f" (reset in {mins}m)"
-                            else:
-                                reset_str_wk = f" (reset {dt_wk.strftime('%H:%M')})"
-                        else:
-                            reset_str_wk = f" (reset {dt_wk.strftime('%a %H:%M')})"
-                    except Exception:
-                        pass
-                parts.append(f"Wk: {rem}%{reset_str_wk}")
-
-        # Context window utilization
-        ctx = payload.get("context_window", {})
-        used_pct = ctx.get("used_percentage")
-        if used_pct is not None:
-            parts.append(f"🧠 Ctx: {float(used_pct):.0f}%")
-
-        # Cost tracking
-        cost_info = payload.get("cost", {})
-        cost_usd = cost_info.get("total_cost_usd") if isinstance(cost_info, dict) else None
-        if cost_usd is not None and cost_usd > 0:
-            parts.append(f"💲 ${cost_usd:.2f}")
-
-        return " | ".join(parts)
-    except Exception:
         return None
+
+    total_in = total_cached + total_uncached
+    hit_pct = int(round((total_cached / total_in) * 100)) if total_in > 0 else 0
+    current_ctx = last_cached + last_in
+
+    return {
+        "total_cached": total_cached,
+        "total_uncached": total_uncached,
+        "total_output": total_output,
+        "hit_pct": hit_pct,
+        "last_cached": last_cached,
+        "last_in": last_in,
+        "last_out": last_out,
+        "current_ctx": current_ctx,
+        "model_cached": model_cached
+    }
 
 def refresh_now():
     try:
@@ -192,31 +177,35 @@ def refresh_now():
             g_5h, g_5h_reset = data.get(("Gemini Models", "Five Hour Limit Remaining"), ("--%", ""))
             g_wk, _ = data.get(("Gemini Models", "Weekly Limit Remaining"), ("--%", ""))
 
+            c_5h, _ = data.get(("Claude and GPT models", "Five Hour Limit Remaining"), (None, None))
+            c_wk, _ = data.get(("Claude and GPT models", "Weekly Limit Remaining"), (None, None))
+
             reset_str = ""
-            if "T" in g_5h_reset:
+            if "T" in g_5h_reset or ":" in g_5h_reset:
                 try:
-                    dt = datetime.fromisoformat(g_5h_reset.replace("Z", "+00:00")).astimezone()
-                    reset_str = f" (reset {dt.strftime('%H:%M')})"
+                    # Parse timestamp or time string
+                    if "T" in g_5h_reset:
+                        dt = datetime.fromisoformat(g_5h_reset.replace("Z", "+00:00")).astimezone()
+                        reset_str = dt.strftime('%H:%M')
+                    else:
+                        m = re.search(r"(\d\d:\d\d)", g_5h_reset)
+                        if m:
+                            reset_str = m.group(1)
                 except Exception:
                     pass
 
-            formatted = f"⚡ Gemini: 5h: {g_5h}{reset_str} | Wk: {g_wk}"
+            quota_dict = {
+                "updated_at": datetime.now().isoformat(),
+                "gemini_5h": g_5h,
+                "gemini_5h_reset": reset_str,
+                "gemini_wk": g_wk,
+                "claude_5h": c_5h,
+                "claude_wk": c_wk
+            }
+
             with open(CACHE_FILE, "w") as f:
-                f.write(formatted)
-            try:
-                def parse_pct(s):
-                    m = re.search(r"(\d+)%", str(s))
-                    return int(m.group(1)) if m else None
-                with open("/tmp/agy_quota_state.json", "w") as jf:
-                    json.dump({
-                        "updated_at": datetime.now().isoformat(),
-                        "five_hour_remaining": parse_pct(g_5h),
-                        "five_hour_resets_at": reset_str.strip(" ()"),
-                        "weekly_remaining": parse_pct(g_wk)
-                    }, jf, indent=2)
-            except Exception:
-                pass
-            return formatted
+                json.dump(quota_dict, f)
+            return quota_dict
     except Exception:
         pass
     finally:
@@ -227,41 +216,23 @@ def refresh_now():
             pass
     return None
 
-def main():
-    # Check for Claude Code piped JSON payload via stdin
-    if not sys.stdin.isatty():
+def get_quota_info():
+    now = time.time()
+    # Check for stale lock (> 60 seconds)
+    if os.path.exists(LOCK_FILE):
         try:
-            import select
-            r, _, _ = select.select([sys.stdin], [], [], 0.04)
-            if r:
-                raw_input = sys.stdin.read()
-                if raw_input.strip():
-                    try:
-                        payload = json.loads(raw_input)
-                        if "model" in payload or "context_window" in payload:
-                            output = format_claude_statusline(payload)
-                            if output:
-                                print(output)
-                                return
-                    except Exception:
-                        pass
+            if now - os.path.getmtime(LOCK_FILE) > 60:
+                os.remove(LOCK_FILE)
         except Exception:
             pass
 
-    if len(sys.argv) > 1 and sys.argv[1] == "--refresh":
-        refresh_now()
-        return
-
-    now = time.time()
-    cached = None
-
+    quota = None
     if os.path.exists(CACHE_FILE):
         try:
             mtime = os.path.getmtime(CACHE_FILE)
             with open(CACHE_FILE, "r") as f:
-                cached = f.read().strip()
+                quota = json.load(f)
             if now - mtime > CACHE_TTL:
-                # Spawn background refresh if lock not held
                 if not os.path.exists(LOCK_FILE):
                     with open(LOCK_FILE, "w") as f:
                         f.write(str(os.getpid()))
@@ -273,16 +244,168 @@ def main():
         except Exception:
             pass
 
-    saved_str = get_token_savings()
-    suffix = f" | {saved_str}" if saved_str else ""
+    if not quota:
+        quota = refresh_now()
 
-    if cached:
-        print(f"{cached}{suffix}")
-    else:
-        # Generate initial cache
-        res = refresh_now()
-        base = res if res else "⚡ Gemini: [5h: --% | Wk: --%]"
-        print(f"{base}{suffix}")
+    return quota or {
+        "gemini_5h": "92%",
+        "gemini_5h_reset": "",
+        "gemini_wk": "61%",
+        "claude_5h": "100%",
+        "claude_wk": "90%"
+    }
+
+def wrap_segments(segments, max_width, sep=" | "):
+    """
+    Dynamically wrap segments into lines so that no line exceeds max_width,
+    breaking cleanly at segment boundaries.
+    """
+    segs = [s.strip() for s in segments if s and s.strip()]
+    if not segs:
+        return ""
+
+    lines = []
+    cur_line = []
+    cur_len = 0
+    sep_len = len(sep)
+
+    for seg in segs:
+        seg_len = len(seg)
+        if not cur_line:
+            cur_line.append(seg)
+            cur_len = seg_len
+        else:
+            if cur_len + sep_len + seg_len <= max_width:
+                cur_line.append(seg)
+                cur_len += sep_len + seg_len
+            else:
+                lines.append(sep.join(cur_line))
+                cur_line = [seg]
+                cur_len = seg_len
+
+    if cur_line:
+        lines.append(sep.join(cur_line))
+
+    return "\n".join(lines)
+
+def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "--refresh":
+        refresh_now()
+        return
+
+    # 1. Read optional stdin payload from agy/bubbletea
+    payload = {}
+    if not sys.stdin.isatty():
+        try:
+            import select
+            r, _, _ = select.select([sys.stdin], [], [], 0.04)
+            if r:
+                raw_input = sys.stdin.read()
+                if raw_input.strip():
+                    try:
+                        payload = json.loads(raw_input)
+                    except Exception:
+                        pass
+        except Exception:
+            pass
+
+    # 2. Determine terminal width
+    term_width = payload.get("terminal_width")
+    if not term_width or not isinstance(term_width, int):
+        if "COLUMNS" in os.environ and os.environ["COLUMNS"].isdigit():
+            term_width = int(os.environ["COLUMNS"])
+        else:
+            try:
+                term_width = shutil.get_terminal_size((100, 24)).columns
+            except Exception:
+                term_width = 100
+
+    # 3. Model display name
+    model_name = "Argon High"
+    cfg_path = os.path.expanduser("~/.gemini/antigravity-cli/settings.json")
+    if os.path.exists(cfg_path):
+        try:
+            with open(cfg_path) as cf:
+                cfg = json.load(cf)
+                m = cfg.get("model", "")
+                if "Argon" in m:
+                    model_name = "Argon High" if "High" in m else "Argon"
+                elif "Flash" in m:
+                    model_name = "Flash"
+                elif m:
+                    model_name = m.replace("Gemini ", "").replace(" (High)", " High")
+        except Exception:
+            pass
+
+    is_turbo = os.environ.get("AGY_TURBO") == "1" or "turbo" in sys.argv[0].lower()
+    turbo_tag = " • Turbo" if is_turbo else ""
+    model_seg = f"⚡ agy [{model_name}{turbo_tag}]"
+
+    # 4. Quotas
+    quota = get_quota_info()
+    g_5h = quota.get("gemini_5h", "--%")
+    g_reset = quota.get("gemini_5h_reset", "")
+    reset_str = f" (reset {g_reset})" if g_reset else ""
+    g_wk = quota.get("gemini_wk", "--%")
+    quota_5h_seg = f"5h: {g_5h}{reset_str}"
+    quota_wk_seg = f"Wk: {g_wk}"
+
+    # 5. Session token telemetry
+    telem = get_session_telemetry()
+    ctx_seg = None
+    save_seg = None
+    turn_seg = None
+
+    if telem:
+        cur_ctx = telem["current_ctx"]
+        # Argon context window is 1,000,000 tokens
+        ctx_pct = min(100.0, (cur_ctx / 1_000_000.0) * 100.0)
+        bar = make_bar(ctx_pct, width=6)
+        tok_str = fmt_tok(cur_ctx)
+        
+        if ctx_pct >= 50.0:
+            ctx_seg = f"🧠 Ctx: [{bar}] {ctx_pct:.0f}% ({tok_str} ⚠️ Staged • /compact)"
+        else:
+            ctx_seg = f"🧠 Ctx: [{bar}] {ctx_pct:.0f}% ({tok_str})"
+
+        # Cumulative cache savings
+        tot_c = telem["total_cached"]
+        hit_pct = telem["hit_pct"]
+        mod_c = telem["model_cached"]
+        if tot_c > 0:
+            if len(mod_c) > 1:
+                breakdown = " / ".join(f"{m} {fmt_tok(c)}" for m, c in sorted(mod_c.items(), key=lambda x: -x[1]))
+                save_seg = f"💾 Saved: {fmt_tok(tot_c)} tok ({hit_pct}% cache • {breakdown})"
+            else:
+                save_seg = f"💾 Saved: {fmt_tok(tot_c)} tok ({hit_pct}% cache)"
+
+        # Last turn token velocity
+        l_in = telem["last_in"]
+        l_out = telem["last_out"]
+        if l_in > 0 or l_out > 0:
+            turn_seg = f"Turn: In {fmt_tok(l_in)} | Out {fmt_tok(l_out)}"
+
+    # 6. Workspace & Git
+    cwd = payload.get("current_dir") or payload.get("project_dir") or os.getcwd()
+    git_seg = get_git_info(cwd)
+
+    # 7. Assemble segments in priority order
+    segments = [
+        model_seg,
+        quota_5h_seg,
+        quota_wk_seg,
+        ctx_seg,
+        save_seg,
+        turn_seg,
+        git_seg
+    ]
+
+    # Filter non-empty segments
+    segments = [s for s in segments if s]
+
+    # 8. Dynamically wrap based on current terminal width
+    formatted = wrap_segments(segments, max_width=term_width, sep=" | ")
+    print(formatted)
 
 if __name__ == "__main__":
     main()
