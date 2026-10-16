@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
 
-This repository organizes a curated set of **163 autonomous agent skills**, 165 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **167 autonomous agent skills**, 169 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -38,7 +38,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Tri-Environment Sync:** Deploys all 163 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Tri-Environment Sync:** Deploys all 167 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -54,7 +54,7 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & skill reference
 ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
 ├── .cursor/
-│   └── rules/                  # 165 modular Cursor Rules (.mdc) with semantic metadata
+│   └── rules/                  # 169 modular Cursor Rules (.mdc) with semantic metadata
 ├── bin/
 │   ├── agy-quota-statusline    # Asynchronous real-time quota & token savings tracker (Gemini)
 │   ├── claude-statusline       # Dedicated real-time telemetry, weekly resets & context monitor (Claude Code)
@@ -68,20 +68,22 @@ cli-power-setup/
 │   ├── weather-lighting-tuner  # Weather cycle balance, sun glare suppression & HDR tonemapping
 │   ├── mangohud-configurator   # In-game performance HUD configurator (FPS, 1% lows, thermals, power, VRAM)
 │   ├── game-window-helper      # Gamescope sandboxing, pointer lock & focus-stealing prevention
+│   ├── nav-graph-recorder      # Autonomous waypoint navigation, route smoothing & collision trap logging
+│   ├── self-improving-qa       # Closed-loop QA controller, 'Press any key' dismissal, stall watchdog & timers
 │   ├── cursor-rules-sync       # Converts all skills to Cursor .mdc rules and deploys .cursorrules
 │   └── skills-audit-update     # Health auditor, permissions fixer & multi-environment synchronizer
 └── config/
     ├── GEMINI.md               # Global engineering discipline, quota governance & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
     ├── cursor/                 # Cursor reference templates and rules
-    └── skills/                 # 163 specialized skills
+    └── skills/                 # 167 specialized skills
 ```
 
 ---
 
 ## 🎯 Where Skills Perform Best: CLI vs. Cursor IDE (Division of Labor)
 
-While all 163 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
+While all 167 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
 
 ### 1. Skills That Excel in the CLI (Headless & Unattended)
 *Best launched via `claude-turbo`, `agy-turbo`, or standalone terminal scripts*
@@ -268,7 +270,7 @@ While all 163 skills and CLI utilities are shared identically between environmen
 | **`interactive-data-visualization-web`** | Web/Vis | Zero-build D3.js force-directed networks, Vis.js timelines & dynamic entity stat matrices |
 | **`task-velocity-governor`** | Governance/Speed | Task completion velocity, 5-step targeted rule, anti-thrashing loops & diminishing returns bounds |
 | **`first-principles-reasoning`** | Reasoning/Core | First-principles decomposition, Chain-of-Verification (CoVe), red-teaming & Ockham's razor ranking |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 163+ skills |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 167+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`hierarchical-memory-retrieval`** | Memory/Recall | Multi-tiered query-driven BM25 search across `.agents/memory/`, episodes & git history |
 | **`context-window-governor`** | Context/Budget | Turn-by-turn token budgeting (20/35/25/20%), pre-flight size estimation & hard output clamping |
@@ -281,6 +283,10 @@ While all 163 skills and CLI utilities are shared identically between environmen
 | **`game-weapon-ballistics-mechanics`** | Gaming/Weapons | Weapon LTX configs, full-auto trigger states, underbarrel launchers, blast physics & anti-jamming |
 | **`game-qol-gameplay-scripting`** | Gaming/Scripting | Proximity item radar & smart auto-loot, faction-filtered defense systems, sprint anomaly immunity |
 | **`linux-game-window-input-capture`** | Gaming/Linux | Pointer grab/confinement, Gamescope sandboxing, borderless windowing & focus-stealing prevention |
+| **`game-autonomous-navigation-ai`** | Gaming/AI | Self-improving waypoint navigation, collision trap blacklisting, and reactive combat aimbot steering |
+| **`game-self-improving-qa-pipeline`** | QA/Automation | Closed-loop self-improving QA, 'Press any key' dismissal, 88% stall watchdog, regression DB & timers |
+| **`game-companion-pet-ai`** | Gaming/Companion | Custom companion pet AI, god mode status, dynamic torch light in dark, homing mouth missiles & meows |
+| **`game-dynamic-stress-orchestrator`** | QA/Stress | Safe radial wave spawning (anti-mesh-drop), multi-faction air/mutant clashes & VRAM saturation profiling |
 
 ---
 
@@ -1382,6 +1388,30 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Enforces Gamescope sandboxing (`--grab --mangoapp`), configures Wine cursor clipping registry keys, and enables borderless windowed mode.
 * **Why It Saves Quota:** Prevents frozen terminals and lost input focus, allowing simultaneous game execution and terminal interaction without disruption.
 
+#### 164. `game-autonomous-navigation-ai`
+* **In Simple Terms:** Autonomous character navigation, level vertex/waypoint graph mapping, route recording/replay, and reactive combat aimbot steering.
+* **When It Kicks In:** Autonomous playtesting, stress walkthroughs, traversing large game levels hands-free, or testing NPC combat encounters.
+* **How It Works:** Navigates via level vertex graphs, injects smoothed mouse-look and sprint vectors via `/dev/uinput`, tracks collision stalls, and blacklists geometry traps.
+* **Why It Saves Quota:** Replaces hours of manual human walkthrough testing with autonomous, self-improving path navigation that avoids getting stuck.
+
+#### 165. `game-self-improving-qa-pipeline`
+* **In Simple Terms:** Closed-loop self-improving game QA test harness: automated loading dismissal, 88% stall watchdog, crash log harvesting, and countdown timers.
+* **When It Kicks In:** Running unattended soak tests, automated regression runs, dismissing 'Press any key to play' screens, and trapping level loading deadlocks.
+* **How It Works:** Injects keystrokes when loading hits 100%, traps 88% loading freezes, auto-terminates Notepad crash dialogs, and logs failure coordinates to a central regression database.
+* **Why It Saves Quota:** Completely eliminates hung CI/playtest processes and automatically builds regression test cases for candidate bug fixes.
+
+#### 166. `game-companion-pet-ai`
+* **In Simple Terms:** Custom companion & pet NPC architecture: state machine behaviors (follow, dynamic speed, guide), god mode status, dynamic lighting, and combat attacks.
+* **When It Kicks In:** Implementing immortal pet companions (like cats/dogs), providing player guidance in complex levels, and adding contextual combat support.
+* **How It Works:** Implements tether distance following, dynamic speed matching, dynamic torch light emission in dark areas, and homing projectile attacks with vocalization triggers.
+* **Why It Saves Quota:** Provides production-ready companion state machines and Blender asset pipelines, avoiding complex trial-and-error AI scripting.
+
+#### 167. `game-dynamic-stress-orchestrator`
+* **In Simple Terms:** In-game stress testing and entity orchestration: collision-safe radial wave spawning, multi-faction air/mutant clashes, and performance saturation profiling.
+* **When It Kicks In:** Stress testing game engines with massive mutant swarms, testing AI squad combat logic, and profiling minimum 1% low frame pacing.
+* **How It Works:** Uses circular ring distribution to prevent physics repulsion explosions (anti-falling under map), orchestrates helicopter vs mutant battles, and cleans up entities dynamically.
+* **Why It Saves Quota:** Pushes game engines to their absolute limits safely without corrupting save states or crashing physics solvers.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1522,11 +1552,13 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`weather-lighting-tuner`** | Audits weather LTX, clamps sun glare, and balances tonemapping | When sun shafts bleed through world geometry or bloom is blinding. |
 | **`mangohud-configurator`** | Generates MangoHud performance HUD profiles (FPS, 1% lows, VRAM) | When benchmarking games or positioning telemetry away from minimaps. |
 | **`game-window-helper`** | Sandboxes game in Gamescope, locks mouse pointer, and stops focus stealing | When playtesting games without losing cursor control or terminal focus. |
+| **`nav-graph-recorder`** | Records/smoothes routes, avoids invisible walls, and logs collision traps | Autonomous game character navigation and self-improving path routing. |
+| **`self-improving-qa`** | Closed-loop QA, dismisses 'Press any key', watchdog for 88% stalls & timers | Unattended playtest runs and automated regression failure logging. |
 | **`cursor-rules-sync`** | Converts all skills to Cursor `.mdc` rules and syncs `.cursorrules` | After modifying skills or when syncing Cursor configuration. |
 | **`skills-audit-update --audit`** | Audits health across Gemini, Claude, and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all skills across Antigravity, Claude, and Cursor | After adding or updating any skill in the repository. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 163 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 167 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
@@ -1545,7 +1577,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │  Core Discipline: .cursor/rules/000-cursor-global-discipline.mdc                                    │
 │  Universal Model Adaptation Matrix: .cursor/rules/001-multi-model-optimization.mdc                  │
-│  163 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
+│  167 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
 │  Unified Root Fallback: ~/.cursorrules                                                              │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -1563,7 +1595,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 163 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 167 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
 3. **Unified Global Fallback (`~/.cursorrules`):**
    * Deployed directly to `$HOME/.cursorrules` and project roots so any folder opened in Cursor inherits this entire suite immediately.

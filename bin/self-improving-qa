@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Self-Improving Game QA Pipeline Launcher
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+TOOL_SCRIPT="${SCRIPT_DIR}/config/skills/game-self-improving-qa-pipeline/scripts/self_improving_qa.py"
+
+if [ ! -f "${TOOL_SCRIPT}" ]; then
+    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-self-improving-qa-pipeline/scripts/self_improving_qa.py"
+fi
+
+if [ ! -f "${TOOL_SCRIPT}" ]; then
+    TOOL_SCRIPT="${HOME}/.claude/skills/game-self-improving-qa-pipeline/scripts/self_improving_qa.py"
+fi
+
+exec python3 "${TOOL_SCRIPT}" "$@"

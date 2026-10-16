@@ -160,6 +160,18 @@ install_binaries() {
         chmod +x "${BIN_DEST}/game-window-helper"
         log_done "Installed executable: ${BIN_DEST}/game-window-helper"
     fi
+
+    if [ -f "${SCRIPT_DIR}/bin/nav-graph-recorder" ]; then
+        cp "${SCRIPT_DIR}/bin/nav-graph-recorder" "${BIN_DEST}/nav-graph-recorder"
+        chmod +x "${BIN_DEST}/nav-graph-recorder"
+        log_done "Installed executable: ${BIN_DEST}/nav-graph-recorder"
+    fi
+
+    if [ -f "${SCRIPT_DIR}/bin/self-improving-qa" ]; then
+        cp "${SCRIPT_DIR}/bin/self-improving-qa" "${BIN_DEST}/self-improving-qa"
+        chmod +x "${BIN_DEST}/self-improving-qa"
+        log_done "Installed executable: ${BIN_DEST}/self-improving-qa"
+    fi
 }
 
 install_antigravity() {
