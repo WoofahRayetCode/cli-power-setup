@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **129 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **132 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 129 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 132 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -193,8 +193,11 @@ cli-power-setup/
 | **`game-localization-i18n`** | Gaming/i18n | ICU message formatting, pluralization rules, RTL layout mirroring & CJK/Cyrillic font fallbacks |
 | **`headless-game-ci-automation`** | DevOps/GameCI | Headless engine CLI builds (Godot/Unity/UE5), automated test runners (GUT) & matrix packaging |
 | **`godot-shader-vfx`** | Godot/Shaders | Godot 4 screen-reading spatial/canvas shaders, vertex wind displacement & GPU compute particles |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 129+ skills |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 132+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
+| **`hierarchical-memory-retrieval`** | Memory/Recall | Multi-tiered query-driven BM25 search across `.agents/memory/`, episodes & git history |
+| **`context-window-governor`** | Context/Budget | Turn-by-turn token budgeting (20/35/25/20%), pre-flight size estimation & hard output clamping |
+| **`working-memory-checkpointing`** | Context/State | Atomic snapshotting & 1-command rollback of dirty diffs, hypotheses & test states |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
 | **`project-memory-bank`** | Memory | Persistent `.agents/memory/` context to prevent re-hydration |
@@ -1086,6 +1089,24 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Uses modern Godot 4 shader syntax with `hint_screen_texture` sampler uniforms, implements custom vertex function world-space displacement, and optimizes particle systems to run on GPU compute pipelines without CPU overhead.
 * **Why It Saves Quota:** Delivers production-grade Godot 4 shader code on the first attempt, avoiding obsolete Godot 3 shader syntax errors and runtime compiler warnings.
 
+#### 130. `hierarchical-memory-retrieval`
+* **In Simple Terms:** A super-fast search engine for your project memory, finding only the 1–2 relevant sentences from past notes without loading entire files into chat.
+* **When It Kicks In:** Whenever the AI needs to check past architectural decisions, bug solutions, or configuration rules across long-running projects.
+* **How It Works:** Uses BM25 keyword relevance to search across `.agents/memory/`, `.agents/episodes/`, and documentation, extracting a 3–5 line preview snippet in under 15ms.
+* **Why It Saves Quota:** Cuts memory hydration costs from 10,000+ tokens down to under 250 tokens per turn, preventing memory bloat.
+
+#### 131. `context-window-governor`
+* **In Simple Terms:** An automatic traffic cop that stops massive command outputs (like 5,000 lines of compiler errors or raw files) from blowing up your conversation limit.
+* **When It Kicks In:** On every command execution and file view, estimating token size before loading.
+* **How It Works:** Allocates mathematical token budgets per turn (20% rules, 35% code, 25% output, 20% response) and clamps noisy outputs over 50 lines to head+tail previews, saving full raw dumps to `/tmp/`.
+* **Why It Saves Quota:** Eliminates catastrophic 40k-token context spikes from a single command, keeping your session running smoothly under the 60% compaction threshold.
+
+#### 132. `working-memory-checkpointing`
+* **In Simple Terms:** A quick-save and rewind button for your code and thoughts, so the AI can safely test risky ideas without messing up your workspace.
+* **When It Kicks In:** Before trying an unverified bug fix, experimental refactor, or complex multi-file edit.
+* **How It Works:** Takes a snapshot of uncommitted git changes and hypothesis notes in `.agents/checkpoints/`. If an experiment fails, a single command restores your clean workspace in milliseconds.
+* **Why It Saves Quota:** Prevents the AI from spending 5 rambling turns trying to manually undo broken code, cutting experiment recovery down to 1 command.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1216,7 +1237,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 129 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 132 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

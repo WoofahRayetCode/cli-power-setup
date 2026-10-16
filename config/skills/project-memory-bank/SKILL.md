@@ -79,6 +79,12 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record target engine CLI execution flags (`--headless`, `-batchmode -nographics`, `RunUAT.sh`), test runner configurations (Godot GUT, Unity UTF), artifact export paths, and packaging matrices in `systemPatterns.md`.
 * **Godot Shader & VFX Material Bindings (`godot-shader-vfx`):**
   Record active Godot 4 shader types (`spatial`, `canvas_item`, `particles`), `hint_screen_texture` sampler usages, compute particle pipeline buffers, and material parameter defaults in `systemPatterns.md`.
+* **Hierarchical Memory & Context Retrieval Bindings (`hierarchical-memory-retrieval`):**
+  Record active memory directories (`.agents/memory/`, `.agents/episodes/`, `.agents/checkpoints/`), top-k retrieval thresholds, and BM25 search parameters in `systemPatterns.md`.
+* **Context Budgeting & Governor Headroom Bindings (`context-window-governor`):**
+  Record model-specific context window ceiling (200k vs 1M), turn-level partition budgets (20% rules / 35% code / 25% output / 20% generation), and clamp line thresholds in `systemPatterns.md`.
+* **Working Memory State Checkpoint Bindings (`working-memory-checkpointing`):**
+  Record active checkpoint retention limit (`--keep 5`), dirty state patch files in `.agents/checkpoints/`, and branch snapshot metadata in `activeContext.md`.
 
 ---
 

@@ -71,6 +71,7 @@ To ensure the new frontier efficiency tools are always utilized:
 * **GameMaker YYP Projects & Room Layout JSON:** When inspecting large GameMaker `.yyp` project manifests or room layer JSON files (tens of thousands of JSON lines), offload to disk/artifacts, presenting only resource counts or modified layer names in chat.
 * **Memory Scan Dumps & Pointer Resolution Maps:** When scanning game memory for addresses or dumping Cheat Engine pointer maps (tens of thousands of memory hits), pipe them to disk files in `/tmp/`, surfacing only the final base address, validated offset chain, and value range in chat.
 * **Translation Catalogs, Headless CI Logs & Shader Graphs:** When inspecting multi-language PO/JSON translation catalogs, continuous integration engine build logs (Godot/Unity/UE5 cooking output), or Godot visual shader node graphs, offload to disk/artifacts, presenting only translation completeness percentages, build duration/status, or material shader parameters in chat.
+* **Raw Checkpoint Patches & Retrieval Matrices:** When taking state snapshots (`state_checkpoint.py`) or querying deep memory indices (`memory_retriever.py --json`), save raw multi-file unified diff patches and full JSON scoring trees to `.agents/checkpoints/` or disk files, presenting only the saved checkpoint name, branch SHA, or top 1–2 snippet excerpts in chat.
 * Provide a single clickable file link and a 1-sentence headline rather than dumping large blocks of markdown or HTML into the chat transcript.
 
 ---
