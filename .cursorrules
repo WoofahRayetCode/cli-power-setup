@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (191 Specialized Capabilities)
+## Complete Skills Catalog (197 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -179,9 +179,13 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`bash-posix-automation`** | Defensive Bash and POSIX shell engineering, strict runtime error handling, signal cleanup traps, argument parsing with getopts, atomic file operations, and ShellCheck compliance. |
 | **`binary-re-workflows`** | Orchestrates reverse engineering tools (REA MCP, Ghidra, JADX, TShark, objdump, hex analysis) with Superpowers discipline. Use when analyzing closed-source binaries, game executables, APKs, packet traces, or firmware. |
 | **`blender-3d-engineering`** | High-efficiency, quota-saving 3D modeling and procedural asset generation with Blender (bpy). Use when creating 3D models, procedural geometry, game-ready assets (glTF, FBX, OBJ), modifier stacks, or running headless Blender automation. |
+| **`blender-headless-token-shield`** | Quota and context token protector for 3D modeling and Blender workflows. Prohibits dumping raw vertex coordinate tables into chat, enforces headless Python script execution with compact CLI telemetry, and gates renders to major task milestones. |
+| **`blender-high-to-low-baking`** | Automated high-to-low poly baking pipeline in Blender (bpy). Bakes tangent-space normal maps, ambient occlusion (AO), curvature/cavity, and material ID masks from multi-million polygon sculpts onto game-ready low-poly meshes. |
+| **`blender-pbr-texture-packager`** | PBR texture channel packing (ORM - Occlusion, Roughness, Metallic), texel density enforcement, and normal map orientation (DirectX vs OpenGL) for game engines. |
 | **`brainstorming`** | Interactive design exploration and requirements discovery. Use before committing to an architecture, feature implementation, or mod design to clarify trade-offs, constraints, and user preferences. |
 | **`cachyos-arch-packaging`** | Arch Linux and CachyOS packaging standards, PKGBUILD authoring, DKMS kernel module builds, and systemd service units. Use when building, testing, or maintaining packages like omen-acpi on CachyOS/Arch. |
 | **`canvas-interactive-workspace`** | Emulates ChatGPT Canvas side-by-side collaborative drafting, targeted inline diff staging, and surgical change annotations in Claude Code. |
+| **`character-creature-anatomy-modeling`** | Character, creature, and animal 3D modeling in Blender. Covers organic biped and quadruped skeletal anatomy, deformation-friendly edge loop topology, automated retopology setup (bpy), and facial blendshapes. |
 | **`claude-context-rot-shield`** | Mitigates Claude context window degradation and prompt cache misses. Enforces 80k-token milestone compaction boundaries, prevents attention dilution, and aligns system prompts to 1,024-token prompt caching blocks. |
 | **`claude-fable-engine-governor`** | Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engine ports (e.g. S.T.A.L.K.E.R. OGSR/X-Ray). Enforces 1M-token prompt cache pinning, C++ AST skeletonization, and surgical crash-dump extraction. |
 | **`claude-opus-plan-sonnet-exec`** | Three-tier model routing architecture for Anthropic Claude ('Opus Plan, Sonnet Code, Haiku Hands'). Preserves expensive Opus quotas by confining Opus strictly to architectural planning and root-cause analysis, shifting to Sonnet for code execution and Haiku for mechanical shell commands. |
@@ -231,6 +235,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`game-dialogue-ui-localization`** | Specialized game dialogue translation, string table repair, and conversation UI layout engine (S.T.A.L.K.E.R. & RPGs). Validates string IDs, resolves dialogue dead-end loops, fixes text clipping/overrun in talk.xml/talk_16.xml, enforces complex_mode multiline wrapping, and repairs CP1251/UTF-8 mojibake. |
 | **`game-dll-proxy-generator`** | Automated game proxy DLL generation and internal hook architecture. Scaffolds export forwarding wrappers for dinput8.dll, dxgi.dll, version.dll, and winmm.dll with embedded DllMain threads, MinHook detours, ImGui overlays, and Proton WINEDLLOVERRIDES configuration. |
 | **`game-dynamic-stress-orchestrator`** | Dynamic in-game stress testing and entity orchestration: collision-safe multi-entity wave spawning, cross-faction battle simulations (helicopters vs mutants), and real-time performance saturation profiling. |
+| **`game-engine-3d-budget-profiler`** | Enforces game engine 3D performance budgets, automated LOD0-LOD3 generation, convex collision hull generation (UCX), and draw-call material audits in Blender. |
 | **`game-engine-migration`** | Universal architectural framework for porting, migrating, and modernizing game engines and legacy mods across bitness (32-bit to 64-bit), graphics APIs (DX9/OpenGL to DX11/DX12/Vulkan), and scripting runtimes. |
 | **`game-entity-component-system`** | High-performance Entity Component System (ECS) architecture, Data-Oriented Design (DOD), Archetype vs Sparse-Set storage, Structure-of-Arrays (SoA) memory layout, and multithreaded system scheduling. Use when designing game engine logic, optimizing cache misses, or porting object-oriented game code to ECS. |
 | **`game-exploratory-fuzzing`** | Evolutionary input fuzzing, novelty-guided action mutation, and crash delta minimization for automated game QA and playtesting. |
@@ -300,6 +305,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`python-engineering`** | Python software engineering and performance standards (Python 3.10+). Use when authoring or refactoring Python code, adding type annotations, writing pytest suites, optimizing hot paths, or using Ruff and Mypy. |
 | **`real-time-rendering-pipeline`** | Architecture, modern paradigms, and debugging for real-time game renderers (DirectX 12, Vulkan 1.3+, WebGPU). Use when designing render graphs, implementing bindless descriptors, configuring reverse-Z depth buffers, managing transient memory aliasing, or capturing frames with RenderDoc. |
 | **`reverse-engineer-anything`** | Reverse engineer native, managed, Electron/JavaScript, packaged, firmware, and browser targets with REA. Use shipped-artifact or requested runtime evidence to explain features, compare versions, decompile code, or guide a reconstruction. Skip REA for ordinary source-repository architecture analysis. |
+| **`rigging-weight-painting-pipeline`** | Character, creature, and animal rigging and skinning in Blender (bpy). Armature hierarchies, bone limits for game engines, automated weight painting normalization, IK/FK solvers, and deformation testing. |
 | **`rust-engineering`** | Rust software engineering and compiler-first workflows. Use when authoring or debugging Rust code, managing lifetimes and the borrow checker, designing zero-cost abstractions, or running Cargo check, Clippy, and tests. |
 | **`sandbox-code-interpreter`** | Headless Python scientific computing, data analytics, mathematical proof verification, and automated chart plotting in Claude Code. |
 | **`screen-vision-inspector`** | Autonomously captures, crops, and visually inspects the active computer screen, desktop application windows, and UI rendering states via local screenshot utilities (Google Project Astra and GPT-6 Astra Vision parity). |

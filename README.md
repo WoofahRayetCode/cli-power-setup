@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
 
-This repository organizes a curated set of **173 autonomous agent skills**, 173 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **197 autonomous agent skills**, 197 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -38,10 +38,10 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Tri-Environment Sync:** Deploys all 173 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Tri-Environment Sync:** Deploys all 197 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
-5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
+5. **Turbo Mode Launchers:** Installs `agy-turbo`, `claude-turbo`, and autonomous YOLO shortcuts (`agy-yolo`, `claude-yolo`) into `~/.local/bin/`.
 6. **Skills Auditor & Auto-Updater:** Installs `skills-audit-update` and `cursor-rules-sync` into `~/.local/bin/` for one-command health audits, permissions repair, and 3-way synchronization.
 
 ---
@@ -54,7 +54,8 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & skill reference
 ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
 ├── .cursor/
-│   └── rules/                  # 173 modular Cursor Rules (.mdc) with semantic metadata
+│   └── rules/                  # 197 modular Cursor Rules (.mdc) with semantic metadata
+
 ├── bin/
 │   ├── agy-quota-statusline    # Asynchronous real-time quota & token savings tracker (Gemini)
 │   ├── claude-statusline       # Dedicated real-time telemetry, weekly resets & context monitor (Claude Code)
@@ -1454,6 +1455,150 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Enforces zero-monologue tool execution (prohibits reciting file lines or speculating about file contents before tool calls) and implements the hybrid "Argon Brain, Flash Hands" dispatch protocol.
 * **Why It Saves Quota:** Eliminates 3,000 to 12,000 internal thinking tokens per turn on routine tasks, reducing overall Argon session token burn by 75% to 85%.
 
+#### 174. `yolo-autonomous-watchdog`
+* **In Simple Terms:** Autonomous execution watchdog and quota protector for unattended YOLO sessions (`claude-yolo`, `agy-yolo`).
+* **When It Kicks In:** Running long, unattended autonomous loops without human prompts.
+* **How It Works:** Enforces hard output limits (`head -n 40` on discovery queries), traps 3-strike file oscillation loops, and mandates 12-turn state checkpointing.
+* **Why It Saves Quota:** Prevents catastrophic token flooding and halts runaway retry loops.
+
+#### 175. `headless-test-condenser`
+* **In Simple Terms:** Test runner output condenser and noise filter for CLI test suites (`pytest`, `cargo test`, `vitest`, `ctest`).
+* **When It Kicks In:** Running automated test suites during debugging and TDD cycles.
+* **How It Works:** Standardizes low-token flags (`pytest -q --tb=short`, `cargo test -q`, `ctest --output-on-failure`) and isolates re-execution solely to failing targets.
+* **Why It Saves Quota:** Strips 95% of passing green test output, saving thousands of context tokens per test run.
+
+#### 176. `dynamic-model-downshifter`
+* **In Simple Terms:** Autonomous multi-tier model downshifting for CLI sessions ("Frontier Brain, Fast Hands").
+* **When It Kicks In:** Executing mechanical shell tasks, file moves, git commits, or directory checks after architectural plans are finalized.
+* **How It Works:** Routes mechanical operations to lightweight models (Flash/Haiku), reserving expensive frontier reasoning (Argon/Opus) exclusively for architectural design and root-cause debugging.
+* **Why It Saves Quota:** Prevents wasting scarce hourly rate limits on simple bash tasks.
+
+#### 177. `gemini-flash-cache-aligner`
+* **In Simple Terms:** Prompt cache optimizer for Gemini 3.8 Flash.
+* **When It Kicks In:** Starting or structuring multi-turn sessions on Gemini Flash.
+* **How It Works:** Enforces the 4,096-token minimum prefix floor to unlock the 90% prompt cache discount, ensures character-level prefix invariance, and isolates dynamic variables to prompt tails.
+* **Why It Saves Quota:** Guarantees >90% prompt cache discounts across multi-turn sessions.
+
+#### 178. `flash-context-compactor`
+* **In Simple Terms:** Context window inflation governor for Gemini Flash.
+* **When It Kicks In:** Working in large codebases where sessions risk accumulating hundreds of thousands of tokens.
+* **How It Works:** Replaces 500+ line file reads with targeted $\le 50$-line slices, uses AST interface skeletons instead of full bodies, and enforces compaction below 100k tokens.
+* **Why It Saves Quota:** Eliminates the 10% residual un-discounted token billing penalty on bloated context windows.
+
+#### 179. `gemini-5h-quota-governor`
+* **In Simple Terms:** Real-time telemetry governor for Gemini 3.8 Flash rolling 5-hour quota windows.
+* **When It Kicks In:** Monitoring burn rate against reset timestamps during intensive agent workflows.
+* **How It Works:** Tracks burn velocity, dynamically throttles verbose tool outputs in the yellow/orange zones, and enforces safe checkpointing and sleep cycles when nearing reserve limits.
+* **Why It Saves Quota:** Eliminates unexpected rate-limit lockouts during continuous runs.
+
+#### 180. `claude-opus-plan-sonnet-exec`
+* **In Simple Terms:** Three-tier operational routing architecture for Anthropic Claude ("Opus Plan, Sonnet Code, Haiku Hands").
+* **When It Kicks In:** Running complex feature implementations or refactors in Claude Code CLI.
+* **How It Works:** Confines Opus strictly to Tier 1 architectural design and `/plan` formulation, dropping to Sonnet for code execution and Haiku for mechanical bash operations.
+* **Why It Saves Quota:** Stretches Opus availability across the entire week rather than exhausting it in a morning.
+
+#### 181. `claude-thinking-budget-governor`
+* **In Simple Terms:** Extended thinking token budget governor for Claude 3.7+ Sonnet and Opus.
+* **When It Kicks In:** Using Claude models with hybrid reasoning / extended thinking enabled.
+* **How It Works:** Clamps internal reasoning tokens based on task complexity (0 tokens for routine tool execution, $\le 1,500$ for standard coding, up to 6,000 for deep concurrency debugging).
+* **Why It Saves Quota:** Saves 3,000 to 10,000 internal thinking tokens per turn on routine tool operations.
+
+#### 182. `claude-context-rot-shield`
+* **In Simple Terms:** Context window degradation protector and 1,024-token prompt cache aligner for Claude Code.
+* **When It Kicks In:** Context window grows beyond 80,000 tokens during long sessions.
+* **How It Works:** Detects attention dilution, stages state to `.agents/memory/activeContext.md`, triggers clean `/compact` boundaries, and aligns static prompts to Anthropic's 1,024-token cache blocks.
+* **Why It Saves Quota:** Restores sub-2s response latency and maintains 90% prompt caching discounts.
+
+#### 183. `claude-fable-engine-governor`
+* **In Simple Terms:** Autonomous context and quota governor for Anthropic's 1M-token Claude Fable model during large game engine ports.
+* **When It Kicks In:** Large-scale C++ game engine migrations (e.g. S.T.A.L.K.E.R. SoC to 64-bit OGSR).
+* **How It Works:** Enforces 1M-token prompt cache pinning, whole-engine C++ AST skeletonization (<60k tokens), and surgical 35-line crash log extraction.
+* **Why It Saves Quota:** Allows a 1M-token model to reason over entire engine architectures with 90% caching discounts.
+
+#### 184. `cpp-64bit-engine-port-sanitizer`
+* **In Simple Terms:** Detects and repairs 64-bit bitness porting defects in C++ game engines.
+* **When It Kicks In:** Migrating legacy 32-bit game engines to 64-bit architectures.
+* **How It Works:** Audits pointer-to-integer truncations (`uintptr_t`), fixes `#pragma pack(1)` struct padding memory corruption, harmonizes 64-bit calling conventions, and checks vtable alignments.
+* **Why It Saves Quota:** Eliminates mysterious heap corruption crashes that cause dozens of failed debugging turns.
+
+#### 185. `stalker-level-ai-graph-triage`
+* **In Simple Terms:** Diagnoses and repairs S.T.A.L.K.E.R. and X-Ray/OGSR level AI navmesh and graph defects.
+* **When It Kicks In:** Encountering `! Cannot find level vertex` CTDs, broken level changers, or NPC pathfinding deadlocks.
+* **How It Works:** Audits `level.ai`, `level.graph`, and `game.graph` point connectivity, cross-referencing ACDC decompiled `all.spawn` entries with level geometry bounds.
+* **Why It Saves Quota:** Replaces trial-and-error coordinate guessing with exact mathematical navmesh clamping.
+
+#### 186. `stalker-luajit-ffi-migration`
+* **In Simple Terms:** Manages Lua script migration to 64-bit LuaJIT and FFI in OGSR Engine.
+* **When It Kicks In:** Porting legacy SoC Lua scripts to modern 64-bit LuaJIT runtimes.
+* **How It Works:** Audits deprecated Luabind C++ exports, traps silent nil-pointer dereferences in callbacks, and enforces safe FFI pointer lifetime management.
+* **Why It Saves Quota:** Prevents silent script deadlocks and unhandled native C++ thunk crashes.
+
+#### 187. `xray-dx11-shader-modernization`
+* **In Simple Terms:** Modernizes legacy DirectX 9 Shader Model 3.0 shaders to DirectX 11 SM 5.0 in OGSR.
+* **When It Kicks In:** Migrating visual mods with custom HLSL shaders to DX11 deferred rendering.
+* **How It Works:** Decouples texture/sampler registers, enforces strict 16-byte `cbuffer` boundaries, and fixes normal map Y-inversion and blown-out HDR bloom.
+* **Why It Saves Quota:** Eliminates cryptic `E_FAIL` shader compilation errors and rendering blackouts.
+
+#### 188. `cross-cli-session-handoff`
+* **In Simple Terms:** Seamless zero-context-loss session handoff protocol between Antigravity CLI, Claude Code CLI, and Cursor IDE.
+* **When It Kicks In:** Switching between AI coding environments to balance quota or leverage specific model strengths.
+* **How It Works:** Exports structured `.agents/handoff.json` packets containing active git diffs, verified milestones, blockers, and next steps for instant resumption in < 300 tokens.
+* **Why It Saves Quota:** Eliminates 40,000+ tokens of conversational catch-up when switching CLIs.
+
+#### 189. `legacy-codebase-cartographer`
+* **In Simple Terms:** Maps legacy game engine architectures and prunes dead code before porting.
+* **When It Kicks In:** Starting a migration on massive legacy codebases with years of accumulated dead code.
+* **How It Works:** Constructs reverse-call dependency graphs from core entry points (`WinMain`, `xrGame.dll`) and generates an `omit_manifest.txt` for unreferenced translation units.
+* **Why It Saves Quota:** Prunes 25% to 40% of unnecessary files from the port, saving massive context tokens and build times.
+
+#### 190. `agent-error-recovery-sentinel`
+* **In Simple Terms:** Autonomous watchdog and runtime error recovery supervisor for unattended playtests.
+* **When It Kicks In:** Running autonomous game tests under Wine/Proton that risk freezing on modal dialogs.
+* **How It Works:** Intercepts 0% CPU freezes (>90s), dismisses BugTrap/Notepad crash windows, clears stale `.lock`/socket files, and safely auto-resumes test loops.
+* **Why It Saves Quota:** Prevents autonomous test sessions from hanging indefinitely in silent failure states.
+
+#### 191. `game-mod-release-packager`
+* **In Simple Terms:** Automated game mod release packaging, archive compression, and distribution pipeline.
+* **When It Kicks In:** Preparing final mod or engine distributions for public release.
+* **How It Works:** Strips debug symbols (`objcopy --strip-debug`), packs game VFS archives (`.xdb`, `.pack`) via ZoneForge with zstd, and generates cryptographic `SHA256SUMS.txt` manifests.
+* **Why It Saves Quota:** Eliminates manual release errors and streamlines the build-to-ship pipeline.
+
+#### 192. `blender-high-to-low-baking`
+* **In Simple Terms:** Automated high-to-low poly normal and AO texture baking pipeline in Blender (`bpy`).
+* **When It Kicks In:** Creating AAA game-ready 3D assets that require film-quality surface detail at low-poly performance.
+* **How It Works:** Headlessly aligns high-poly sculpts and low-poly cages, bakes tangent-space normal maps, ambient occlusion, and cavity maps, and enforces sharp edge UV seam alignment.
+* **Why It Saves Quota:** Produces cinematic game-ready visual fidelity with zero manual baking mistakes.
+
+#### 193. `game-engine-3d-budget-profiler`
+* **In Simple Terms:** Game engine 3D performance budget enforcer, automated LOD generator, and collision hull builder.
+* **When It Kicks In:** Verifying that 3D models meet engine triangle budgets and draw-call constraints.
+* **How It Works:** Audits polycounts against engine thresholds (FPS viewmodel, NPC, prop), automatically generates LOD0–LOD3 decimation cascades, and builds simplified `UCX_` convex collision hulls.
+* **Why It Saves Quota:** Prevents game engine frame drops and eliminates repetitive manual LOD creation.
+
+#### 194. `blender-pbr-texture-packager`
+* **In Simple Terms:** PBR texture channel packing (ORM) and normal map orientation standardizer.
+* **When It Kicks In:** Packaging materials for game engines (Unreal, Godot, Unity, X-Ray/OGSR).
+* **How It Works:** Packs Ambient Occlusion (R), Roughness (G), and Metallic (B) into a single texture via Pillow, standardizes texel density ($px/cm$), and handles DirectX ($Y-$) vs OpenGL ($Y+$) normal green inversion.
+* **Why It Saves Quota:** Reduces GPU texture memory footprint by 66% and prevents draw-call stalls.
+
+#### 195. `character-creature-anatomy-modeling`
+* **In Simple Terms:** Character, creature, and animal 3D modeling and deformation topology guide in Blender.
+* **When It Kicks In:** Sculpting and modeling humans, animals, quadrupeds, or fantasy creatures.
+* **How It Works:** Establishes anatomical proportion landmarks (digitigrade hocks, scapula loops), enforces deformation-friendly concentric quad loops around bending joints/eyes/mouths, and automates shrinkwrap retopology setups via `bpy`.
+* **Why It Saves Quota:** Eliminates non-deforming topology and pinching artifacts before rigging begins.
+
+#### 196. `rigging-weight-painting-pipeline`
+* **In Simple Terms:** Character, creature, and animal skeletal rigging and automated skinning pipeline in Blender.
+* **When It Kicks In:** Rigging organic characters and quadrupeds for game engine animation.
+* **How It Works:** Constructs standardized bone hierarchies, enforces game engine bone limits ($\le 64$ mobile, $\le 128$ desktop), clamps vertex influences to 4, and normalizes vertex weights automatically via `bpy`.
+* **Why It Saves Quota:** Eliminates joint collapsing and candy-wrapper twisting without hours of manual weight painting.
+
+#### 197. `blender-headless-token-shield`
+* **In Simple Terms:** Quota and context token protector for 3D modeling and Blender workflows.
+* **When It Kicks In:** Authoring or executing 3D geometry manipulation scripts with AI assistants.
+* **How It Works:** Strictly prohibits generating raw vertex/polygon coordinate dumps in chat, enforces headless Python script execution with compact 3-line CLI telemetry, and gates visual renders to major milestones.
+* **Why It Saves Quota:** Saves 15,000 to 40,000 tokens per turn by eliminating 3D coordinate chat bloat.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1622,7 +1767,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │  Core Discipline: .cursor/rules/000-cursor-global-discipline.mdc                                    │
 │  Universal Model Adaptation Matrix: .cursor/rules/001-multi-model-optimization.mdc                  │
-│  173 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
+│  197 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
 │  Unified Root Fallback: ~/.cursorrules                                                              │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -1640,8 +1785,9 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 173 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 197 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
+
 3. **Unified Global Fallback (`~/.cursorrules`):**
    * Deployed directly to `$HOME/.cursorrules` and project roots so any folder opened in Cursor inherits this entire suite immediately.
 

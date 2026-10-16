@@ -87,3 +87,17 @@ Before exporting to game engines (Godot, Unreal, Unity, S.T.A.L.K.E.R.):
    - **Godot / Web:** glTF 2.0 (`.glb` / `.gltf`) with embedded PBR materials.
    - **Unreal / Unity:** FBX (`+Y Up`, `-Z Forward`, unit scale `1.0`).
    - **S.T.A.L.K.E.R. / X-Ray:** OBJ or `.object` via X-Ray plugin with strict metric scale.
+
+---
+
+## 4. Specialized 3D Subsystem Delegation
+
+For advanced modeling, baking, and character workflows, route to the dedicated domain skills:
+
+* **High-to-Low Normal & AO Baking (`blender-high-to-low-baking`):** Bake tangent-space normal maps, ambient occlusion, and curvature maps from high-poly sculpts onto low-poly cages.
+* **Engine Budget & LOD Profiling (`game-engine-3d-budget-profiler`):** Enforce triangle budgets, generate LOD0–LOD3 decimation cascades, and build simplified `UCX_` convex collision hulls.
+* **PBR Texture Channel Packing (`blender-pbr-texture-packager`):** Pack ORM (Occlusion/Roughness/Metallic) textures, enforce texel density ($px/cm$), and orient normal maps (DirectX $Y-$ vs OpenGL $Y+$).
+* **Organic Character & Animal Anatomy (`character-creature-anatomy-modeling`):** Model biped and quadruped creatures with deformation-friendly quad loops, digitigrade leg landmarks, and automated retopology setup.
+* **Rigging & Armature Skinning (`rigging-weight-painting-pipeline`):** Construct bone hierarchies, clamp bone limits ($\le 64$ mobile, $\le 128$ desktop), and normalize vertex weights.
+* **Token & Quota Protection (`blender-headless-token-shield`):** Prevent raw vertex/face coordinate dumping in chat, extract compact 3-line CLI telemetry, and gate visual renders to milestones.
+
