@@ -1,0 +1,64 @@
+---
+name: android-device-automation
+description: Real-time Android device control, scrcpy screen observation, mobile game bot scripting, automated app management, carrier debloating, cache cleaning, and system health diagnostics over ADB.
+---
+
+# Android Device Automation, Scrcpy & Mobile Botcraft
+
+This skill allows Claude Code and Google Antigravity to observe, interact with, automate, and clean Android smartphones and tablets connected via **ADB (Android Debug Bridge)** and **scrcpy**.
+
+---
+
+## 🎯 When to Activate
+
+* **Android Mobile Game Botting:** Observing an active mobile game via scrcpy or screencap and simulating taps, swipes, and multi-touch gestures.
+* **Carrier & OEM Debloating:** Removing pre-installed bloatware, carrier spyware, and background trackers safely (`pm uninstall -k --user 0`).
+* **Device Cleaning & Cache Clearing:** Automating storage optimization, cache purging, and background process trimming.
+* **App Testing & UI Automation:** Launching activities, entering text, taking bug screenshots, and inspecting UI hierarchies (`uiautomator dump`).
+* **Wireless ADB Setup:** Enabling wireless debugging over Wi-Fi (`adb tcpip 5555`) for cable-free desktop integration.
+
+---
+
+## 🛠️ Essential Device Operations
+
+### 1. Observe Screen & Mirror:
+```bash
+# Launch high-framerate scrcpy window with low bitrate
+scrcpy --max-size 1080 --video-bit-rate 8M --stay-awake
+
+# Headless screen capture to local disk for AI vision analysis
+adb exec-out screencap -p > /tmp/android_screen.png
+```
+
+### 2. Simulate User Input:
+```bash
+# Tap coordinate (X, Y)
+adb shell input tap 540 960
+
+# Swipe (X1 Y1 X2 Y2 Duration_ms)
+adb shell input swipe 540 1400 540 400 250
+
+# Type text
+adb shell input text "HelloWorld"
+
+# Keyevents (Home=3, Back=4, Power=26)
+adb shell input keyevent 4
+```
+
+### 3. Safe Debloating & Cleaning:
+```bash
+# List third-party and carrier packages
+adb shell pm list packages -3
+
+# Uninstall package for current user (reversible without root)
+adb shell pm uninstall -k --user 0 com.facebook.system
+
+# Clear application cache and data
+adb shell pm clear com.example.bloatware
+```
+
+---
+
+## 📊 Summary Output Format
+* `adb device: [✓] Connected: Google Pixel 8 (Android 14) over USB (Battery: 84%, Temp: 31°C)`
+* `debloat manager: [✓] Removed 14 carrier telemetry packages (saved 420MB RAM)`

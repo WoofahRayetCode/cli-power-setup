@@ -20,6 +20,8 @@ This skill prevents runaway terminal output from polluting the conversation hist
    * `flutter / dart`: Run `flutter test --reporter compact` and append `--quiet` to build commands to muffle heavy Gradle outputs.
    * `vite / tailwind`: Use `vite build --logLevel error` and `tailwindcss --minify` to suppress massive asset chunk tables.
    * `typst / pandoc / weasyprint`: Run `typst compile --diagnostic-format short` and pass `-q` / `--quiet` to muffle font fallback and CSS parsing warnings.
+   * `ffmpeg`: Use `-loglevel error -stats` or redirect verbose frame streams to `/tmp/ffmpeg.log` to prevent thousands of frame updates from entering chat.
+   * `adb`: Use `adb shell ... 2>&1 | head -n 30` when inspecting package dumps or logcat.
 3. **Capture & Tail Failures:** When a long command produces 500+ lines of output, pipe to a temporary log file and print only the last 30 lines or targeted errors:
    ```bash
    ./build.sh > /tmp/build.log 2>&1 || tail -n 30 /tmp/build.log

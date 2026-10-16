@@ -1,0 +1,48 @@
+---
+name: video-production-automation
+description: Hardware-accelerated video engineering and automated post-production using FFmpeg with NVIDIA NVENC (AV1, HEVC, H.264), multi-track audio mastering (-14 LUFS), ProRes/DNxHR intermediate transcoding, and subtitle embedding.
+---
+
+# Video Production Automation & Hardware-Accelerated FFmpeg
+
+This skill governs high-throughput video processing, batch transcoding, audio loudness mastering, and automated post-production leveraging **FFmpeg** and **NVIDIA NVENC hardware acceleration** (`av1_nvenc`, `hevc_nvenc`, `h264_nvenc`).
+
+---
+
+## 🎯 When to Activate
+
+* **Batch Video Transcoding:** Converting consumer camera/phone MP4s into editing-friendly intermediate codecs (**ProRes 422**, **DNxHR**) for smooth playback in Kdenlive or DaVinci Resolve.
+* **Hardware AV1 / HEVC Rendering:** Exporting videos at maximum speed (300+ FPS) using your RTX 5060 NVENC chip without loading the CPU.
+* **Broadcast Audio Mastering:** Normalizing audio loudness to YouTube, Spotify, and broadcast standards (**-14 LUFS / -1 dB True Peak**) via `loudnorm`.
+* **Container Remuxing:** Lossless conversion from OBS Studio formats (`.mkv` / `.ts`) to `.mp4` or `.mov` in milliseconds (`-c copy`).
+* **Subtitles & Captions:** Burning hardcoded subtitles (`libass`) or embedding soft subtitle tracks into MP4/MKV containers.
+
+---
+
+## 🛠️ High-Yield Hardware FFmpeg Commands
+
+### 1. Ultra-Fast NVENC AV1 Export (Highest Quality/Size Ratio):
+```bash
+ffmpeg -hwaccel cuda -i input.mp4 -c:v av1_nvenc -preset p7 -cq 24 -c:a aac -b:a 192k output_av1.mp4
+```
+
+### 2. Batch Transcode to ProRes 422 (Smooth DaVinci/Kdenlive Editing):
+```bash
+ffmpeg -i input.mp4 -c:v prores_ks -profile:v 2 -pix_fmt yuv422p10le -c:a pcm_s16le output_edit.mov
+```
+
+### 3. YouTube Broadcast Audio Normalization (-14 LUFS):
+```bash
+ffmpeg -i input.mp4 -c:v copy -af "loudnorm=I=-14:LRA=7:TP=-1" -c:a aac -b:a 192k output_normalized.mp4
+```
+
+### 4. Lossless Container Remux (OBS MKV to MP4):
+```bash
+ffmpeg -i recording.mkv -c copy -movflags +faststart output.mp4
+```
+
+---
+
+## 📊 Summary Output Format
+* `ffmpeg nvenc: [✓] Encoded 4K video to AV1 in 14.2s (284 FPS, 45% size reduction)`
+* `loudness normalization: [✓] Integrated: -14.1 LUFS | True Peak: -1.0 dB (Pass)`

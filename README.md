@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **82 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **87 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 82 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 87 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launcher:** Installs `agy-turbo` into `~/.local/bin/`.
@@ -57,7 +57,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 82 specialized skills
+    └── skills/                 # 87 specialized skills
 ```
 
 ---
@@ -145,6 +145,11 @@ cli-power-setup/
 | **`cuda-gpu-acceleration`** | Hardware/GPU | NVIDIA CUDA 13.4, nvcc, Tensor Cores, PyTorch C++ extensions & OptiX |
 | **`vulkan-gpu-compute`** | Hardware/GPU | Cross-vendor Vulkan 1.3/1.4 compute, SPIR-V, multi-GPU (NVIDIA, AMD, Intel) |
 | **`hardware-tool-engineering`** | Hardware/Dev | System daemons, hwmon, ACPI/fan controllers & CPU SIMD feature dispatch |
+| **`video-production-automation`** | Video/Media | NVENC AV1/HEVC hardware transcoding, batch processing, -14 LUFS loudness mastering |
+| **`youtube-shorts-video-automation`** | Video/Shorts | 9:16 vertical re-framing, hook-first pacing, kinetic subtitles, split-screen |
+| **`game-ai-agent-play`** | Gaming/AI | Reinforcement learning, Gymnasium, OpenCV visual state parsing & low-latency uinput |
+| **`android-device-automation`** | Mobile/Auto | ADB/scrcpy real-time screen capture, touch botting, debloating, cache cleaning |
+| **`emulator-development-engineering`** | Emulation | Console emulation architecture, JIT dynamic recompilation, fastmem, Vulkan renderers |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
 | **`project-memory-bank`** | Memory | Persistent `.agents/memory/` context to prevent re-hydration |
@@ -730,6 +735,38 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Reads Linux `/sys/class/hwmon/` and power supply trees, uses runtime CPU feature detection (`cpuid`) to dispatch AVX-512 or AVX2 SIMD paths, and enforces safe bounds checking before writing to embedded controller registers.
 * **Why It Saves Quota:** Prevents kernel panics, permission errors, and hardware crashes through defensive bounds validation and safe udev rules.
 
+### 🎬 Video Production, Gaming AI & Emulation
+
+#### 83. `video-production-automation`
+* **In Simple Terms:** Automates video editing, batch transcoding, audio loudness mastering, and color correction with hardware-accelerated NVIDIA NVENC (AV1/HEVC).
+* **When It Kicks In:** Transcoding video archives, normalizing audio to broadcast standards (-14 LUFS for YouTube), concatenating clips, or generating proxy files.
+* **How It Works:** Uses local FFmpeg with NVENC hardware acceleration (`av1_nvenc`, `hevc_nvenc`, `h264_nvenc`), applying two-pass `loudnorm` audio filters and batch script automation.
+* **Why It Saves Quota:** Completely eliminates expensive cloud rendering APIs and GUI video rendering slowdowns by running hardware-accelerated CLI pipelines at hundreds of frames per second.
+
+#### 84. `youtube-shorts-video-automation`
+* **In Simple Terms:** Creates viral YouTube Shorts, TikToks, and Instagram Reels from horizontal footage—automatically handling 9:16 vertical re-framing, hook pacing, split-screen gameplay, and animated subtitles.
+* **When It Kicks In:** Making YouTube Shorts, cutting vertical clips from long-form content, formatting split-screens (cam + gameplay), or generating word-by-word highlighted captions.
+* **How It Works:** Detects aspect ratios, crops or blurs backgrounds to 1080x1920 (9:16), cuts dead silence via audio thresholding, generates styled ASS/SSA animated subtitles, and exports with YouTube-optimized NVENC encoding.
+* **Why It Saves Quota:** Generates complete social video assets from a single CLI command without paying for SaaS video generation tools or burning multi-turn prompt tokens on manual layout math.
+
+#### 85. `game-ai-agent-play`
+* **In Simple Terms:** Builds AI agents that can observe games, learn game mechanics, and play video games using computer vision and direct input simulation.
+* **When It Kicks In:** Training autonomous gaming agents, bot development, reinforcement learning (Gymnasium/Stable-Baselines3), or testing gameplay mechanics automatically.
+* **How It Works:** Captures game frames via desktop/screen grabs or window handles, parses visual state with OpenCV (template matching, contour detection, OCR), feeds states to RL policies or state machines, and sends sub-millisecond keyboard/mouse inputs via `/dev/uinput` or `evdev`.
+* **Why It Saves Quota:** Enables hands-free, autonomous game testing and robotic gameplay loops without human manual input or cloud gaming server costs.
+
+#### 86. `android-device-automation`
+* **In Simple Terms:** Automates Android phone management, real-time screen mirroring (via scrcpy), mobile game botting, app debloating, and cache cleaning.
+* **When It Kicks In:** Mirroring Android devices over USB/Wi-Fi, automating repetitive mobile game actions, cleaning junk cache, uninstalling carrier bloatware, or diagnosing device health.
+* **How It Works:** Communicates over ADB (`adb shell`) and scrcpy for sub-30ms screen frames, executes touch gestures and swipes via `input tap`/`input swipe`, queries package managers to safely disable bloatware for `user 0`, and analyzes battery/thermal throttling via `dumpsys`.
+* **Why It Saves Quota:** Automates tedious phone maintenance and gameplay loops directly over USB/Wi-Fi with zero commercial phone-manager apps or manual tapping.
+
+#### 87. `emulator-development-engineering`
+* **In Simple Terms:** A comprehensive engineering handbook for building, debugging, and contributing to video game console emulators (Dolphin, RPCS3, PCSX2, Ryujinx, etc.).
+* **When It Kicks In:** Working on emulator codebases, writing CPU interpreters or dynamic binary recompiler (JIT) backends, implementing virtual MMU/fastmem, cycle-accurate bus timing, or Vulkan rendering backends.
+* **How It Works:** Architectures guest-to-host register allocation, handles endianness swapping and memory-mapped I/O (MMIO), builds SSA intermediate representations (IR) for JIT compilation, and synchronizes guest audio/video clocks.
+* **Why It Saves Quota:** Prevents subtle emulation bugs like timing desyncs, guest crashes, and memory leaks by strictly following proven low-level emulation paradigms.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -857,7 +894,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`claude`** | Launches standard Claude Code | When you need full deep reasoning for hard bugs or major refactors. |
 | **`agy`** | Launches standard Antigravity CLI | When you need standard multi-model escalation (Flash to Argon). |
 | **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context gauge crosses 50%–60%. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 82 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 87 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

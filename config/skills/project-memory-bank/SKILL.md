@@ -45,6 +45,10 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record project-specific shorthand aliases and target verification commands in `projectBrief.md`.
 * **Client & Business Terms Binding (`executive-business-communications`):**
   Record billing milestones, deliverable boundaries, and strict revision caps in `projectBrief.md` to maintain scope boundaries across multi-session tasks.
+* **Video Production & Content Presets (`video-production-automation` & `youtube-shorts-video-automation`):**
+  Record target export bitrates, NVENC preset choices, loudness targets (-14 LUFS), and subtitle styling rules (font, outline, primary color) in `systemPatterns.md`.
+* **Android Target & Emulation Binding (`android-device-automation` & `emulator-development-engineering`):**
+  Record target ADB serial numbers, screen resolution bounds, touch coordinates for critical UI elements, and emulator build targets (e.g. Vulkan backend, JIT target architecture) in `systemPatterns.md`.
 
 ---
 
