@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 # Launch Claude Code CLI in quota-optimized Turbo mode (low thinking effort)
+export CLAUDE_TURBO=1
 export MAX_THINKING_TOKENS=1024
 exec claude --effort low "$@"

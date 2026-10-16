@@ -3,15 +3,52 @@
 Claude Code CLI Dedicated Statusline Monitor (claude-statusline)
 Pipes real-time session telemetry from Claude Code CLI via stdin.
 """
+import os
 import sys
 import json
 from datetime import datetime
 
-def make_bar(pct, width=8):
+def make_bar(pct, width=6):
     pct = max(0.0, min(100.0, float(pct)))
     filled = int(round((pct / 100.0) * width))
     empty = width - filled
     return "█" * filled + "░" * empty
+
+def fmt_tok(n):
+    if n >= 1_000_000:
+        return f"{n / 1_000_000:.1f}M"
+    elif n >= 1_000:
+        return f"{n / 1_000:.0f}k"
+    return str(n)
+
+def get_cache_savings(transcript_path):
+    if not transcript_path or not os.path.exists(transcript_path):
+        return None, None
+    total_cached = 0
+    total_uncached = 0
+    try:
+        with open(transcript_path, "r", encoding="utf-8", errors="ignore") as f:
+            for line in f:
+                if '"cache_read_input_tokens"' in line:
+                    try:
+                        row = json.loads(line)
+                        msg = row.get("message", {})
+                        if isinstance(msg, dict):
+                            u = msg.get("usage", {})
+                            if u:
+                                c = u.get("cache_read_input_tokens", 0)
+                                if c:
+                                    total_cached += c
+                                total_uncached += u.get("input_tokens", 0) + u.get("cache_creation_input_tokens", 0)
+                    except Exception:
+                        pass
+    except Exception:
+        return None, None
+    if total_cached <= 0:
+        return None, None
+    total_in = total_cached + total_uncached
+    hit_pct = int(round((total_cached / total_in) * 100)) if total_in > 0 else 0
+    return total_cached, hit_pct
 
 def main():
     raw = sys.stdin.read() if not sys.stdin.isatty() else ""
@@ -28,11 +65,13 @@ def main():
 
     parts = []
 
-    # 1. Model Name
+    # 1. Model Name with Turbo mode detection
     model_obj = data.get("model", {})
     model_name = model_obj.get("display_name", "Claude") if isinstance(model_obj, dict) else str(model_obj)
     short_model = model_name.replace("Claude ", "").replace("Anthropic ", "")
-    parts.append(f"⚡ Claude [{short_model}]")
+    is_turbo = os.environ.get("CLAUDE_TURBO") == "1" or os.environ.get("MAX_THINKING_TOKENS") == "1024"
+    mode_tag = " • Turbo" if is_turbo else ""
+    parts.append(f"⚡ Claude [{short_model}{mode_tag}]")
 
     # 2. Rate Limits (5-Hour & 7-Day Rolling Windows)
     rate_limits = data.get("rate_limits", {})
@@ -58,14 +97,28 @@ def main():
             rem = max(0, 100 - int(round(used)))
             parts.append(f"Wk: {rem}%")
 
-    # 3. Context Window Usage with Visual Progress Bar
+    # 3. Context Window Usage with Visual Progress Bar & Compact Advisory
     ctx = data.get("context_window", {})
     used_pct = ctx.get("used_percentage")
     if used_pct is not None:
-        bar = make_bar(used_pct, width=6)
-        parts.append(f"🧠 Ctx: [{bar}] {float(used_pct):.0f}%")
+        pct_val = float(used_pct)
+        bar = make_bar(pct_val, width=6)
+        raw_tok = ctx.get("total_input_tokens")
+        tok_str = fmt_tok(raw_tok) if raw_tok else fmt_tok(int((pct_val / 100.0) * 200_000))
+        
+        if pct_val >= 60.0:
+            parts.append(f"🧠 Ctx: [{bar}] {pct_val:.0f}% ({tok_str} ⚠️ Run /compact)")
+        else:
+            parts.append(f"🧠 Ctx: [{bar}] {pct_val:.0f}% ({tok_str})")
 
-    # 4. Session Cost & Lines Changed
+    # 4. Prompt Cache Token Savings
+    transcript_path = data.get("transcript_path")
+    if transcript_path:
+        cached_tok, hit_pct = get_cache_savings(transcript_path)
+        if cached_tok:
+            parts.append(f"💾 Saved: {fmt_tok(cached_tok)} tok ({hit_pct}% cache)")
+
+    # 5. Session Cost & Lines Changed
     cost_info = data.get("cost", {})
     if isinstance(cost_info, dict):
         cost_usd = cost_info.get("total_cost_usd", 0.0)
@@ -81,7 +134,7 @@ def main():
         if cost_parts:
             parts.append(f"💲 {' '.join(cost_parts)}")
 
-    # 5. Git Worktree / Branch (if present)
+    # 6. Git Worktree / Branch (if present)
     worktree = data.get("worktree", {})
     wt_name = worktree.get("name") if isinstance(worktree, dict) else None
     if wt_name:

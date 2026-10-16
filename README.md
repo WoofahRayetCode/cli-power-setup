@@ -691,11 +691,13 @@ To provide maximum flexibility without losing precision, this suite employs a **
 The suite includes **dedicated, tailor-made statusline monitors** for both CLIs:
 
 ### 1. Claude Code CLI Dedicated Monitor (`claude-statusline`)
-Installed to `~/.local/bin/claude-statusline` and configured in `~/.claude/settings.json`. Intercepts Claude Code's live `stdin` telemetry stream to render model, rate limits, visual context gauge, session cost, and git worktree:
+Installed to `~/.local/bin/claude-statusline` and configured in `~/.claude/settings.json`. Intercepts Claude Code's live `stdin` telemetry stream to render model, rate limits, visual context gauge with token counts and compact advisories, prompt cache token savings, session cost, and git worktree:
 ```text
-⚡ Claude [Sonnet 3.7] | 5h: 72% (reset 17:00) | Wk: 86% | 🧠 Ctx: [█░░░░░] 22% | 💲 $0.06 +45/-12
+⚡ Claude [Sonnet 3.7 • Turbo] | 5h: 78% (reset 16:00) | Wk: 72% | 🧠 Ctx: [█░░░░░] 22% (44k) | 💾 Saved: 5.2M tok (92% cache) | 💲 $0.06 +45/-12
 ```
-* **Visual Context Gauge:** Dynamic progress bar showing real-time token consumption of your 200k context window.
+* **Prompt Cache Token Telemetry:** Parses the active session's transcript to compute exact cached tokens (`cache_read_input_tokens`) and cache hit rate, showing your 90% prompt cache discount in real time.
+* **Visual Context Gauge with Token Counts:** Dynamic progress bar showing real-time token volume (e.g. `22% (44k)`). When context crosses the 60% threshold, it automatically switches to `(128k ⚠️ Run /compact)`.
+* **Turbo Mode Tag:** Confirms at a glance (`• Turbo`) when low-effort thinking caps are active to save reasoning tokens.
 * **Rolling Quotas:** Real-time remaining percentages for 5-hour and 7-day limits with exact reset countdowns.
 * **Diff & Cost Telemetry:** Real-time session spend in USD alongside cumulative lines added/removed (`+45/-12`).
 
