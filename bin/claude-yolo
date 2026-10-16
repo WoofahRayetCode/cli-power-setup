@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Launch Claude Code CLI in hands-free YOLO mode (auto-approves all tool and bash executions)
+exec claude --dangerously-skip-permissions "$@"

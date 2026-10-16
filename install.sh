@@ -107,6 +107,12 @@ install_binaries() {
         log_done "Installed executable: ${BIN_DEST}/claude-turbo"
     fi
 
+    if [ -f "${SCRIPT_DIR}/bin/claude-yolo" ]; then
+        cp "${SCRIPT_DIR}/bin/claude-yolo" "${BIN_DEST}/claude-yolo"
+        chmod +x "${BIN_DEST}/claude-yolo"
+        log_done "Installed executable: ${BIN_DEST}/claude-yolo"
+    fi
+
     if [ -f "${SCRIPT_DIR}/bin/skills-audit-update" ]; then
         cp "${SCRIPT_DIR}/bin/skills-audit-update" "${BIN_DEST}/skills-audit-update"
         chmod +x "${BIN_DEST}/skills-audit-update"
@@ -197,6 +203,14 @@ install_binaries() {
         cp "${SCRIPT_DIR}/bin/game-dll-proxy-gen" "${BIN_DEST}/game-dll-proxy-gen"
         chmod +x "${BIN_DEST}/game-dll-proxy-gen"
         log_done "Installed executable: ${BIN_DEST}/game-dll-proxy-gen"
+    fi
+
+    # Configure YOLO mode aliases in bash and fish
+    if [ -f "$HOME/.bashrc" ] && ! grep -q "claude-yolo" "$HOME/.bashrc"; then
+        echo "alias claude-yolo='claude --dangerously-skip-permissions'" >> "$HOME/.bashrc"
+    fi
+    if [ -f "$HOME/.config/fish/config.fish" ] && ! grep -q "claude-yolo" "$HOME/.config/fish/config.fish"; then
+        echo "alias claude-yolo='claude --dangerously-skip-permissions'" >> "$HOME/.config/fish/config.fish"
     fi
 }
 
