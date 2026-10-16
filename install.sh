@@ -103,6 +103,12 @@ install_binaries() {
         chmod +x "${BIN_DEST}/context-watchdog"
         log_done "Installed executable: ${BIN_DEST}/context-watchdog"
     fi
+
+    if [ -f "${SCRIPT_DIR}/bin/game-test-watchdog" ]; then
+        cp "${SCRIPT_DIR}/bin/game-test-watchdog" "${BIN_DEST}/game-test-watchdog"
+        chmod +x "${BIN_DEST}/game-test-watchdog"
+        log_done "Installed executable: ${BIN_DEST}/game-test-watchdog"
+    fi
 }
 
 install_antigravity() {

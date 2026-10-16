@@ -28,6 +28,12 @@ This skill enforces strict execution velocity, timebox discipline, step budgetin
   * **Halt immediately:** You are stuck in a trial-and-error cycle.
   * **Pivot:** Step back, review system logs, formulate a fundamentally different hypothesis, or seek user alignment.
 
+### 4. Game QA & Automated Test Anti-Stall Guardrail
+* Long-running game playtests, level smoke runs, and engine simulations must never execute without active stuck detection.
+* If a game test produces no log writes for > 60 seconds (log stagnation) or repeats identical action lines > 5 times (infinite loop):
+  * **Terminate immediately:** Run `game-test-watchdog watch` or `sweep` to capture window diagnostics and kill the hung process group (`SIGTERM` -> `SIGKILL`).
+  * **Triage without stalling:** Extract the stack trace, formulate a targeted fix, and never let the AI assistant hang waiting on an orphaned or frozen game binary.
+
 ---
 
 ## ⏱️ 2. Autonomous Timebox & Velocity Telemetry

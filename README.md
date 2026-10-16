@@ -58,6 +58,7 @@ cli-power-setup/
 │   ├── claude-turbo            # Low-effort thinking Turbo launcher script (Claude Code)
 │   ├── stalker-playtest-runner # Autonomous hands-free game QA, dialogue & locomotion runner
 │   ├── context-watchdog        # Automated background context monitor & pre-compact memory stager
+│   ├── game-test-watchdog      # Autonomous anti-stuck, freeze & infinite loop supervisor for game QA
 │   └── skills-audit-update     # Health auditor, permissions fixer & multi-CLI synchronizer
 └── config/
     ├── GEMINI.md               # Global engineering discipline, quota governance & token economy rules

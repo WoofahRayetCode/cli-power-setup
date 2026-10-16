@@ -188,3 +188,30 @@ sudo usermod -aG input $USER
 ```
 
 If run in unprivileged container environments or CI runners without `/dev/uinput`, pass `--dry-run` to execute full kinematic simulation loops without hardware failure.
+
+---
+
+## 5. Anti-Stuck & Anti-Hang Watchdog Protocol (`game-test-watchdog`)
+
+Automated game playtests frequently encounter deadlocks, infinite level-load transitions, repeating script loops, or unhandled crash windows (`notepad.exe` / BugTrap) that stall AI test harnesses indefinitely.
+
+The `game-test-watchdog` utility (`game_test_watchdog.py`) actively supervises running game tests to guarantee autonomous forward momentum.
+
+### Watchdog Capabilities
+1. **Log Stagnation Trapping:** Automatically flags and aborts when game engine logs stop updating for > 60 seconds (customizable via `--timeout`).
+2. **Infinite Loop Detection:** Detects repeated identical log lines or action cycles (e.g. repeated teleports or recursion loops > 5 occurrences) and terminates the process before quota/time is wasted.
+3. **Modal Window Interception:** Sweeps Wine Notepad windows (`xray_*.log - Notepad`) and error dialogs so background tests never hang waiting for manual clicks.
+4. **Autonomous Cleanup & Triage:** Automatically captures a diagnostic window screenshot, extracts the tail of the log/stack trace, and terminates the hung process tree (`SIGTERM` -> `SIGKILL`).
+5. **Orphaned Process Sweeper:** `game-test-watchdog sweep` cleanly kills lingering background game instances so subsequent tests never hit "already running; refusing".
+
+### CLI Usage
+```bash
+# Monitor a running game test harness and terminate if frozen or stuck in a loop
+game-test-watchdog watch --pattern "xrEngine" --log-file _appdata_/logs/xrEngine.log --timeout 60 --max-loops 5
+
+# Cleanly terminate any lingering or orphaned game processes & Wine modals
+game-test-watchdog sweep
+
+# Check status, CPU %, and memory of active game test processes
+game-test-watchdog status
+```
