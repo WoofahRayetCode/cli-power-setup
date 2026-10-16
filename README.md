@@ -56,11 +56,12 @@ cli-power-setup/
 │   ├── claude-statusline       # Dedicated real-time telemetry & context monitor (Claude Code)
 │   ├── agy-turbo               # High-speed Turbo mode launcher script (Gemini)
 │   ├── claude-turbo            # Low-effort thinking Turbo launcher script (Claude Code)
+│   ├── stalker-playtest-runner # Autonomous hands-free game QA & multi-axis locomotion runner
 │   └── skills-audit-update     # Health auditor, permissions fixer & multi-CLI synchronizer
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 115 specialized skills
+    └── skills/                 # 146 specialized skills
 ```
 
 ---

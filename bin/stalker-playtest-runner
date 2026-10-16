@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Autonomous S.T.A.L.K.E.R. OGSR QA Playtest Launcher
+set -e
+
+SCRIPT_PATH="${HOME}/.claude/skills/stalker-ogsr-migration/scripts/stalker_playtest_runner.py"
+if [ ! -f "$SCRIPT_PATH" ]; then
+    SCRIPT_PATH="${HOME}/.gemini/config/skills/stalker-ogsr-migration/scripts/stalker_playtest_runner.py"
+fi
+if [ ! -f "$SCRIPT_PATH" ]; then
+    SCRIPT_PATH="/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills/stalker-ogsr-migration/scripts/stalker_playtest_runner.py"
+fi
+
+exec python3 "$SCRIPT_PATH" "$@"

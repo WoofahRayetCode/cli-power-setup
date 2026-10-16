@@ -91,6 +91,12 @@ install_binaries() {
         chmod +x "${BIN_DEST}/skills-audit-update"
         log_done "Installed executable: ${BIN_DEST}/skills-audit-update"
     fi
+
+    if [ -f "${SCRIPT_DIR}/bin/stalker-playtest-runner" ]; then
+        cp "${SCRIPT_DIR}/bin/stalker-playtest-runner" "${BIN_DEST}/stalker-playtest-runner"
+        chmod +x "${BIN_DEST}/stalker-playtest-runner"
+        log_done "Installed executable: ${BIN_DEST}/stalker-playtest-runner"
+    fi
 }
 
 install_antigravity() {
