@@ -14,17 +14,18 @@ This skill governs automatic reasoning selection and model escalation to maximiz
 Before beginning work on any user request, evaluate the prompt's structural complexity:
 
 ### Tier 1: Trivial / Direct Execution
-* **Triggers:** Single-line fixes, simple typo corrections, direct shell commands, asking for file locations, formatting, or quick status checks.
+* **Triggers:** Single-line fixes, simple typo corrections, direct shell commands, asking for file locations, formatting, quick status checks, or skill health audits/sync (`skills-audit-update`).
 * **Reasoning Strategy:**
   * Zero extended deliberation.
   * Apply immediate pinpoint diffs via `replace_file_content` or execute terminal commands directly.
   * Run with standard/low thinking latency (keeps streaming instant and saves quota).
 
 ### Tier 2: Standard Engineering & Implementation
-* **Triggers:** Implementing a specific function, refactoring a single module, writing unit tests, fixing a verified bug, video production scripts, vertical shorts generation, Android device automation, shader translation/validation, or PBR texture channel packing.
+* **Triggers:** Implementing a specific function, refactoring a single module, writing unit tests, fixing a verified bug, video production scripts, vertical shorts generation, Android device automation, shader translation/validation, PBR texture channel packing, or skill lifecycle maintenance.
 * **Reasoning Strategy:**
   * When incoming requests are verbose or conversational, activate `high-density-prompting` to distill into a 4-part surgical directive.
   * When the user requests calculators, data models, or parameter tuning, route to `intelligent-interactive-ui` to generate a reactive single-file micro-app.
+  * When auditing, verifying permissions, or syncing installed skills across CLIs, route to `skills-updater-and-auditor`.
   * When transcoding, clipping, or editing video, route to `video-production-automation` and `youtube-shorts-video-automation` for hardware-accelerated NVENC AV1/HEVC pipelines.
   * When automating mobile device maintenance, debloating, or screen observation, route to `android-device-automation`.
   * When compiling/validating shaders (HLSL/GLSL/SPIR-V) or converting texture channels/normal maps, route to `shader-cross-compilation` and `game-texture-material-pipeline`.

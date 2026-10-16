@@ -85,6 +85,12 @@ install_binaries() {
         chmod +x "${BIN_DEST}/claude-turbo"
         log_done "Installed executable: ${BIN_DEST}/claude-turbo"
     fi
+
+    if [ -f "${SCRIPT_DIR}/bin/skills-audit-update" ]; then
+        cp "${SCRIPT_DIR}/bin/skills-audit-update" "${BIN_DEST}/skills-audit-update"
+        chmod +x "${BIN_DEST}/skills-audit-update"
+        log_done "Installed executable: ${BIN_DEST}/skills-audit-update"
+    fi
 }
 
 install_antigravity() {
@@ -201,6 +207,7 @@ verify_installation() {
     echo -e "Claude Code Skills:   ${COLOR_CYAN}${claude_count} active (${CLAUDE_SKILLS})${COLOR_RESET}"
     echo -e "Statusline monitors: ${COLOR_CYAN}agy-quota-statusline & claude-statusline${COLOR_RESET}"
     echo -e "Turbo Launchers:      ${COLOR_CYAN}agy-turbo & claude-turbo (Low Thinking Effort)${COLOR_RESET}"
+    echo -e "Auditor & Updater:    ${COLOR_CYAN}skills-audit-update (--audit, --sync, --fix, --pull)${COLOR_RESET}"
     echo ""
 }
 

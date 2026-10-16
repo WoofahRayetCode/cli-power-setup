@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **92 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **93 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,10 +36,11 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 92 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 93 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
-5. **Turbo Mode Launcher:** Installs `agy-turbo` into `~/.local/bin/`.
+5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
+6. **Skills Auditor & Auto-Updater:** Installs `skills-audit-update` into `~/.local/bin/` for one-command health audits, permissions repair, and GitHub synchronization.
 
 ---
 
@@ -53,11 +54,13 @@ cli-power-setup/
 ├── bin/
 │   ├── agy-quota-statusline    # Asynchronous real-time quota & token savings tracker (Gemini)
 │   ├── claude-statusline       # Dedicated real-time telemetry & context monitor (Claude Code)
-│   └── agy-turbo               # High-speed Turbo mode launcher script (hands-free)
+│   ├── agy-turbo               # High-speed Turbo mode launcher script (Gemini)
+│   ├── claude-turbo            # Low-effort thinking Turbo launcher script (Claude Code)
+│   └── skills-audit-update     # Health auditor, permissions fixer & multi-CLI synchronizer
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 92 specialized skills
+    └── skills/                 # 93 specialized skills
 ```
 
 ---
@@ -155,6 +158,7 @@ cli-power-setup/
 | **`real-time-rendering-pipeline`** | Graphics/Engine | Frame graphs, transient memory aliasing, bindless descriptors, reversed-Z, RenderDoc |
 | **`game-graphics-optimization-profiling`** | Graphics/Perf | Bottleneck triage, Hi-Z occlusion culling, GPU MultiDraw, LODs, TAA & FSR/DLSS |
 | **`post-processing-visual-fx`** | Graphics/PostFX | ACES/AgX tone mapping, progressive dual-filtering bloom, SSAO/GTAO, CSM shadow cascades |
+| **`skills-updater-and-auditor`** | Lifecycle/Health | Automated parity audit, YAML frontmatter check, script permission repair & GitHub sync |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
 | **`project-memory-bank`** | Memory | Persistent `.agents/memory/` context to prevent re-hydration |
@@ -804,6 +808,14 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Applies fitted ACES/AgX tone mapping curves, downsamples and upsamples bloom using 13-tap and 9-tap progressive filters, and calculates logarithmic/uniform split distances for Cascaded Shadow Maps with texel snapping.
 * **Why It Saves Quota:** Provides mathematically correct, drop-in shader implementations that eliminate trial-and-error visual tuning.
 
+### 🛡️ Skills Integrity, Health & Lifecycle Management
+
+#### 93. `skills-updater-and-auditor`
+* **In Simple Terms:** An automated mechanic that inspects all installed skills across Antigravity and Claude Code—fixing broken permissions, validating YAML frontmatter, checking missing tool dependencies, and pulling updates from GitHub with one command.
+* **When It Kicks In:** Whenever you want to check if your skills are up to date, after pulling git changes, when adding new skills, or if a skill script fails to run.
+* **How It Works:** Audits all 3 directories (`config/skills/`, `~/.gemini/config/skills/`, `~/.claude/skills/`), runs syntax linters on Python/Bash scripts, auto-applies `chmod +x` to helper scripts, scans for required host CLI tools (`ffmpeg`, `adb`, `glslangValidator`, etc.), and checks `origin/main` for remote updates.
+* **Why It Saves Quota:** Eliminates silent agent errors, broken script execution failures, and desynchronized configurations that cause models to fail mid-turn and burn tokens diagnosing setup bugs.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -931,7 +943,9 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`claude`** | Launches standard Claude Code | When you need full deep reasoning for hard bugs or major refactors. |
 | **`agy`** | Launches standard Antigravity CLI | When you need standard multi-model escalation (Flash to Argon). |
 | **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context gauge crosses 50%–60%. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 92 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
+| **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 93 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
