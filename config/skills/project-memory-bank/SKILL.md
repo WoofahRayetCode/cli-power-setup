@@ -87,6 +87,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record active checkpoint retention limit (`--keep 5`), dirty state patch files in `.agents/checkpoints/`, and branch snapshot metadata in `activeContext.md`.
 * **CodeRabbit AI Review & PR Gate Bindings (`coderabbit-ai-review`):**
   Record last PR readiness score (0–100), active review reports in `.agents/reviews/`, open blocking critical/major findings, and PR gate status (APPROVE / REQUEST_CHANGES) in `progress.md`.
+* **Console Game Decompilation & Binary Split Bindings (`console-game-decompilation`):**
+  Record target console platform (PS1/PS2/PS3/Xbox/Xbox360), executable format, base RAM load address, identified compiler toolchain (e.g. GCC 2.7.2, CodeWarrior GC), and active `splat.yaml` configuration in `systemPatterns.md`.
 
 ---
 

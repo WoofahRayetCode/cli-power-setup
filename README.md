@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **133 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **134 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 133 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 134 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -194,7 +194,8 @@ cli-power-setup/
 | **`headless-game-ci-automation`** | DevOps/GameCI | Headless engine CLI builds (Godot/Unity/UE5), automated test runners (GUT) & matrix packaging |
 | **`godot-shader-vfx`** | Godot/Shaders | Godot 4 screen-reading spatial/canvas shaders, vertex wind displacement & GPU compute particles |
 | **`coderabbit-ai-review`** | Review/PR | CodeRabbit-grade PR reviews, architectural Mermaid sequence diagrams, defect triage & GitHub suggestion diffs |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 133+ skills |
+| **`console-game-decompilation`** | Console/Decomp | PS1, PS2, PS3, Xbox, Xbox 360 matching decompilations, splat binary splitting & objdiff |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 134+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`hierarchical-memory-retrieval`** | Memory/Recall | Multi-tiered query-driven BM25 search across `.agents/memory/`, episodes & git history |
 | **`context-window-governor`** | Context/Budget | Turn-by-turn token budgeting (20/35/25/20%), pre-flight size estimation & hard output clamping |
@@ -1114,6 +1115,12 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Analyzes git diffs using static heuristics (checking for leaked secrets, injection risks, resource leaks, missing boundary checks), produces a Mermaid sequence diagram showing component interactions, and outputs a 0–100 readiness score with a formal verdict (`APPROVE` or `REQUEST_CHANGES`).
 * **Why It Saves Quota:** Catches defects and security vulnerabilities locally before triggering costly remote CI review cycles or production regressions.
 
+#### 134. `console-game-decompilation`
+* **In Simple Terms:** Reverse engineering and matching decompilation toolkit to turn PS1, PS2, PS3, original Xbox, Xbox 360, and GameCube game binaries back into compilable C/C++ source code.
+* **When It Kicks In:** Reverse engineering console games for preservation, source ports, or engine modding; inspecting executable containers (PS-X EXE, ELF, XBE, XEX); splitting ROMs with splat; or verifying function matches with `objdiff` and `decomp.me`.
+* **How It Works:** Analyzes console architectures (MIPS R3000/R5900, PowerPC Xenon/Cell, x86-32), discovers ancient compiler optimizations (GCC 2.7.2, CodeWarrior, MSVC 2003), generates automated `splat.yaml` segment manifests, and guides Ghidra processor plugins for 1:1 matching code reconstruction.
+* **Why It Saves Quota:** Eliminates thousands of hours of manual binary analysis by automating container inspection, section partitioning, and register mismatch diagnosis.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1244,7 +1251,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 133 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 134 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
