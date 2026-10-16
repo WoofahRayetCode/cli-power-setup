@@ -35,6 +35,10 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   When Tree-of-Thought explores 3 hypothesis branches and rejects 2 during adversarial critique, log the rejected approaches and root causes into `learnings.md` so future sessions never repeat dead-end experiments.
 * **Canvas Draft Tracking (`canvas-interactive-workspace`):**
   Include any in-progress `.canvas/*.draft` files in `activeContext.md` before session compaction.
+* **Brand & Design Token Binding (`human-crafted-web-design`):**
+  Record brand colors, font families, and dark-mode surface hex codes in `systemPatterns.md` to prevent UI drift and eliminate repetitive color re-queries.
+* **Client & Business Terms Binding (`executive-business-communications`):**
+  Record billing milestones, deliverable boundaries, and strict revision caps in `projectBrief.md` to maintain scope boundaries across multi-session tasks.
 
 ---
 

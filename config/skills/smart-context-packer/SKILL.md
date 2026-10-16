@@ -51,6 +51,28 @@ Strip inline implementations, keeping declarations:
 grep -E '^(class|struct|virtual|void|int|bool|std::)' include/engine.h | grep -v '{'
 ```
 
+### Mobile / Flutter (Dart) Skeletons:
+Extract class declarations, fields, and constructors while stripping out bulky `build()` widget trees:
+```bash
+grep -E '^(class|abstract class|enum|mixin|[ ]*(final|const|late|@override)|[ ]*[A-Z][a-zA-Z0-9_]*\()' lib/screens/home_screen.dart | grep -v -E 'return |Container|SizedBox|Padding|Column|Row'
+```
+
+### Web / Frontend (TypeScript / React) Skeletons:
+Extract exported interfaces, type definitions, and component signatures without full JSX bodies:
+```bash
+grep -E '^(export (interface|type|const|function|class)|[ ]*(readonly|[a-zA-Z0-9_]+:))' src/components/Dashboard.tsx | grep -v -E '<div|<span|<button|return'
+```
+
+### Systems (Rust & Go) Skeletons:
+Extract public traits, structs, and function signatures:
+```bash
+# Rust:
+grep -E '^(pub (struct|enum|trait|type)|impl|pub fn|pub async fn)' src/lib.rs | grep -v '{'
+
+# Go:
+grep -E '^(type [A-Za-z0-9_]+ (struct|interface)|func [A-Za-z0-9_]+|func \([a-z]+ \*?[A-Za-z0-9_]+\))' pkg/api.go | grep -v '\{.*\}'
+```
+
 ---
 
 ## 📉 Token Savings Impact

@@ -17,6 +17,9 @@ This skill prevents runaway terminal output from polluting the conversation hist
    * `cargo`: Use `cargo check --message-format=short` or `cargo test -- --nocapture` only when debugging specific failures.
    * `npm / yarn`: Append `--silent` or `--loglevel error` to package installations.
    * `cmake / make`: Run with `-s` (silent) or pipe through `grep` when verifying compilation.
+   * `flutter / dart`: Run `flutter test --reporter compact` and append `--quiet` to build commands to muffle heavy Gradle outputs.
+   * `vite / tailwind`: Use `vite build --logLevel error` and `tailwindcss --minify` to suppress massive asset chunk tables.
+   * `typst / pandoc / weasyprint`: Run `typst compile --diagnostic-format short` and pass `-q` / `--quiet` to muffle font fallback and CSS parsing warnings.
 3. **Capture & Tail Failures:** When a long command produces 500+ lines of output, pipe to a temporary log file and print only the last 30 lines or targeted errors:
    ```bash
    ./build.sh > /tmp/build.log 2>&1 || tail -n 30 /tmp/build.log
