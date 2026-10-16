@@ -225,9 +225,129 @@ def cmd_status(args):
         print(f"  - {tid}: {rec.get('attempts', 0)} failed attempt(s) | Last: {rec.get('last_error', 'N/A')[:60]}")
     print("=======================================================\n")
 
+def evaluate_plan_complexity(plan_text: str) -> dict:
+    score = 15
+    factors = []
+    text_lower = plan_text.lower()
+
+    # Step count analysis
+    task_matches = re.findall(r"(?:^|\n)\s*(?:-\s*\[\s*\]|\d+\.\s+|###?\s*(?:Step|Task|Phase))", plan_text)
+    task_count = max(len(task_matches), 1)
+    if task_count >= 8:
+        score += 25
+        factors.append(f"Large multi-step plan ({task_count} tasks, +25)")
+    elif task_count >= 4:
+        score += 15
+        factors.append(f"Multi-phase plan ({task_count} tasks, +15)")
+
+    # Deep architectural triggers
+    tier3_keywords = [
+        ("reverse engineer", 30), ("decompil", 30), ("kernel", 35), ("acpi", 35),
+        ("vulkan", 25), ("directx", 25), ("dx11", 20), ("dx12", 25), ("shader", 20),
+        ("memory allocator", 30), ("concurrency", 25), ("multithread", 20),
+        ("anti-cheat", 25), ("detour hook", 30), ("dll proxy", 25), ("cryptograph", 25),
+        ("x-ray", 20), ("ogsr", 20), ("assembly", 30), ("mips", 30), ("powerpc", 30)
+    ]
+    for kw, pts in tier3_keywords:
+        if kw in text_lower:
+            score += pts
+            factors.append(f"High-complexity domain '{kw}' (+{pts})")
+            break
+
+    # Standard engineering triggers
+    tier2_keywords = [
+        ("refactor", 15), ("unit test", 10), ("migration", 15), ("database", 15),
+        ("sqlite", 10), ("room", 10), ("compose", 10), ("api", 10), ("parser", 15)
+    ]
+    for kw, pts in tier2_keywords:
+        if kw in text_lower:
+            score += pts
+            factors.append(f"Core engineering pattern '{kw}' (+{pts})")
+            break
+
+    score = min(100, score)
+
+    if score >= 50:
+        tier = 3
+        model_gemini = "gemini-4-argon-high"
+        model_claude = "claude-sonnet-5-5-high"
+        effort = "high"
+        strategy = "Architect on Argon High / Sonnet High; execute granular code diffs surgically"
+    elif score >= 25:
+        tier = 2
+        model_gemini = "gemini-4-argon-medium"
+        model_claude = "claude-sonnet-5-5-medium"
+        effort = "medium"
+        strategy = "Standard engineering execution on Argon Medium / Sonnet Medium with compiler verification"
+    else:
+        tier = 1
+        model_gemini = "gemini-3.8-flash-low"
+        model_claude = "claude-sonnet-5-5-low"
+        effort = "low"
+        strategy = "Instant-speed execution on Flash Low / Sonnet Low with low reasoning overhead"
+
+    return {
+        "score": score,
+        "tier": tier,
+        "task_count": task_count,
+        "recommended_model_gemini": model_gemini,
+        "recommended_model_claude": model_claude,
+        "reasoning_effort": effort,
+        "strategy": strategy,
+        "factors": factors
+    }
+
+def cmd_plan(args):
+    plan_text = ""
+    if args.file and os.path.exists(args.file):
+        with open(args.file, "r", encoding="utf-8", errors="ignore") as f:
+            plan_text = f.read()
+    elif args.text:
+        plan_text = args.text
+    else:
+        if not sys.stdin.isatty():
+            plan_text = sys.stdin.read()
+
+    if not plan_text.strip():
+        print("Error: No plan text provided. Specify --file <path>, --text '<plan>', or pipe via stdin.")
+        sys.exit(1)
+
+    eval_res = evaluate_plan_complexity(plan_text)
+
+    if args.json:
+        print(json.dumps(eval_res, indent=2))
+        return
+
+    tier_label = "Deep Architectural (Tier 3)" if eval_res["tier"] == 3 else "Standard Engineering (Tier 2)" if eval_res["tier"] == 2 else "Trivial / Direct (Tier 1)"
+
+    print("\n=======================================================")
+    print(" 📋 Pre-Execution Plan Model & Reasoning Recommender   ")
+    print("=======================================================")
+    print(f"Plan Tasks Detected:  {eval_res['task_count']}")
+    print(f"Complexity Score:     {eval_res['score']}/100 -> {tier_label}")
+    print("-------------------------------------------------------")
+    print(f"Recommended (Gemini): {eval_res['recommended_model_gemini']}")
+    print(f"Recommended (Claude): {eval_res['recommended_model_claude']}")
+    print(f"Recommended Effort:   --effort {eval_res['reasoning_effort']}")
+    print(f"Execution Strategy:   {eval_res['strategy']}")
+    print("-------------------------------------------------------")
+    print("Identified Complexity Factors:")
+    for f in eval_res["factors"]:
+        print(f"  • {f}")
+    print("-------------------------------------------------------")
+    print("Suggested CLI Launch Command:")
+    print(f"  agy --model {eval_res['recommended_model_gemini']} --effort {eval_res['reasoning_effort']}")
+    print("=======================================================\n")
+
 def main():
     parser = argparse.ArgumentParser(description="Adaptive Model & Reasoning Router")
     subparsers = parser.add_subparsers(dest="command", required=True)
+
+    # plan
+    p_plan = subparsers.add_parser("plan", help="Analyze plan complexity and recommend optimal model and reasoning depth")
+    p_plan.add_argument("--file", help="Path to markdown plan file")
+    p_plan.add_argument("--text", help="Plan text string")
+    p_plan.add_argument("--json", action="store_true", help="Output assessment as JSON")
 
     # route
     p_route = subparsers.add_parser("route", help="Evaluate task difficulty and recommend model/reasoning tier")
@@ -254,7 +374,9 @@ def main():
 
     args = parser.parse_args()
 
-    if args.command == "route":
+    if args.command == "plan":
+        cmd_plan(args)
+    elif args.command == "route":
         cmd_route(args)
     elif args.command == "fail":
         cmd_fail(args)
