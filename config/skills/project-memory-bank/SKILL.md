@@ -101,6 +101,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record active playtest locomotion pattern (`orbit`, `sweep`, `wander`, `stress-locomotion`, `action-cycle`), mouse yaw sensitivity deltas, uinput device capability state, and test replay logs in `.agents/playtest/` and `systemPatterns.md`.
 * **Machine Vision Suite & Calibration Bindings (`computer-vision-deep-learning`, `industrial-machine-vision-inspection`, `visual-document-ocr-intelligence`, `agentic-visual-perception`):**
   Record active vision model weights (ONNX/PyTorch path), inference execution provider (`CUDAExecutionProvider` / TensorRT), camera intrinsic matrix JSON path, optical scale ratio ($px/mm$), OCR language dictionary (`eng`), and SAHI slice dimensions ($640\times640$, 20% overlap) in `systemPatterns.md`.
+* **Local Hardware Offloading Bindings (`local-model-coprocessor`, `local-vector-rag-engine`, `local-ast-compiler-engine`):**
+  Record active local model name (`qwen2.5-coder:1.5b`), server endpoint (`http://localhost:11434`), RAG vector index path (`.agents/rag/index.json`), host CPU thread saturation count (`nproc`), and AST cache paths in `systemPatterns.md`.
 
 ---
 

@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **143 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **146 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 143 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 146 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -204,7 +204,10 @@ cli-power-setup/
 | **`industrial-machine-vision-inspection`** | Vision/Metrology | Camera calibration, GD&T sub-pixel dimensioning, Otsu/Sauvola & template matching |
 | **`visual-document-ocr-intelligence`** | Vision/DocAI | Multi-engine OCR (Tesseract/Paddle/Surya), deskewing, Sauvola & table extraction |
 | **`agentic-visual-perception`** | Vision/Agent | SAHI 4K/8K tiling, natural language visual grounding coordinates & SSIM diffing |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 143+ skills |
+| **`local-model-coprocessor`** | Hardware/LLM | Offloads docstrings, commit msgs & boilerplate to local Ollama/llama.cpp (0 cloud tokens) |
+| **`local-vector-rag-engine`** | Hardware/RAG | Local vector embeddings & dense search, retrieving top-k snippets instead of 50k+ context stuffing |
+| **`local-ast-compiler-engine`** | Hardware/AST | Multithreaded AST parsing (`nproc`), symbol extraction & local syntax check before LLM calls |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 146+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`hierarchical-memory-retrieval`** | Memory/Recall | Multi-tiered query-driven BM25 search across `.agents/memory/`, episodes & git history |
 | **`context-window-governor`** | Context/Budget | Turn-by-turn token budgeting (20/35/25/20%), pre-flight size estimation & hard output clamping |
@@ -1184,6 +1187,24 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Implements Slicing Aided Hyper Inference (SAHI) to slice ultra-high-resolution canvases into overlapping tiles, calculates click centroids $(\bar{x}, \bar{y})$ and normalized bounding boxes, and performs structural similarity (SSIM) frame diffing to verify button clicks.
 * **Why It Saves Quota:** Prevents missed clicks and hallucinated UI element coordinates on 2K/4K/Retina displays by inspecting full-resolution tiles rather than blurred downscaled images.
 
+#### 144. `local-model-coprocessor`
+* **In Simple Terms:** Local hardware shield that sends boilerplate code, function docstrings, regex, and git commit messages to small local models (Ollama / llama.cpp) running in your GPU VRAM, billing zero tokens to your cloud quota.
+* **When It Kicks In:** Generating routine docstrings, crafting conventional commit messages from git diffs, formulating regex patterns, or summarizing verbose compiler error logs.
+* **How It Works:** Dispatches HTTP requests to local Ollama or llama.cpp endpoints (`qwen2.5-coder:1.5b`, `llama3.2:3b`), using local NVIDIA Tensor Cores or host RAM to return immediate completions without touching external APIs.
+* **Why It Saves Quota:** Keeps 100% of your 5-hour rolling cloud quota free for difficult architectural planning and deep debugging.
+
+#### 145. `local-vector-rag-engine`
+* **In Simple Terms:** Local semantic search engine that indexes code and documentation on your NVMe/RAM and feeds only the 2–3 exact relevant snippets into the AI prompt instead of dumping 50 full files.
+* **When It Kicks In:** Researching unfamiliar libraries, searching large codebases, or referencing extensive API documentation without exceeding context limits.
+* **How It Works:** Chunks project files into overlapping windows, builds a local inverted index with term frequency scoring, and performs sub-10ms semantic searches to retrieve pinpoint code excerpts with exact file and line links.
+* **Why It Saves Quota:** Slashes input context consumption by 80%–95%, preventing rapid token accumulation and premature `/compact` warnings.
+
+#### 146. `local-ast-compiler-engine`
+* **In Simple Terms:** Multithreaded static code engine that uses all your CPU cores to check syntax, scan class/function symbols, and detect code errors in milliseconds before asking the AI.
+* **When It Kicks In:** Verifying syntax after edits, mapping function signatures across large codebases, or auditing AST patterns across dozens of files simultaneously.
+* **How It Works:** Automatically saturates all CPU threads (`nproc`) to parse Python AST trees concurrently, surfacing line and column errors instantly without guessing.
+* **Why It Saves Quota:** Eliminates multiple trial-and-error reasoning turns and prevents the AI from burning output tokens trying to diagnose simple typos or unclosed brackets.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1314,7 +1335,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 143 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 146 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
