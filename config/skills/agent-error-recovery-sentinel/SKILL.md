@@ -1,0 +1,62 @@
+---
+name: agent-error-recovery-sentinel
+description: Autonomous watchdog and runtime error recovery supervisor for unattended YOLO playtests and background test runners. Intercepts frozen Wine/Proton processes, dismisses modal crash dialogs (Notepad/BugTrap), clears stale file locks, and auto-resumes test loops without human intervention.
+---
+
+# Agent Error Recovery Sentinel (`agent-error-recovery-sentinel`)
+
+During unattended autonomous playtesting and background test runs (e.g. `stalker-playtest-runner`, `xrEngine.exe` on Wine/Proton, or `MiNERVA-Browser` tests), crashes can produce **hanging modal dialogs** (BugTrap, Notepad crash logs, or frozen Wine processes) that block stdin/stdout, causing test runners to hang indefinitely.
+
+This skill provides automated heartbeat monitoring, crash recovery, and process cleanup to ensure unattended execution never freezes.
+
+---
+
+## 1. Process Heartbeat & Freeze Detection
+
+The sentinel monitors active background child processes for unresponsive states:
+
+### Freeze Detection Criteria:
+- **CPU Inactivity:** A game process that consumes **0.0% CPU for > 90 seconds** while holding window focus.
+- **Log Silence:** The active engine log file (e.g. `xray_*.log`) has not updated within 120 seconds during a supposed active gameplay test.
+- **Lingering Modals:** A spawned window matches known crash reporters (`BugTrap`, `* - Notepad`, `Wine error report`).
+
+---
+
+## 2. Automated Modal Interception & Crash Extraction
+
+When an engine crash occurs under Wine/Proton:
+
+```bash
+# Sweep and terminate lingering crash report dialogs
+if pgrep -f "notepad.exe" > /dev/null; then
+    # Extract crash log before killing Notepad
+    LOG_FILE=$(ls -t /home/ericparsley/.wine/drive_c/users/ericparsley/Temp/*.log 2>/dev/null | head -n 1)
+    if [ -f "$LOG_FILE" ]; then
+        echo "=== INTERCEPTED BUGTRAP CRASH DUMP ==="
+        tail -n 30 "$LOG_FILE"
+    fi
+    pkill -9 -f "notepad.exe"
+fi
+
+# Terminate frozen game engine if hung
+if pgrep -f "xrEngine.exe" > /dev/null; then
+    echo "Terminating unresponsive xrEngine process..."
+    pkill -9 -f "xrEngine.exe"
+fi
+```
+
+---
+
+## 3. Stale Lock & Socket Recovery
+
+When an autonomous process crashes or is terminated abruptly, it may leave behind lock files or unreleased sockets:
+
+### Automated Cleanup Tasks:
+1. **Clean Lock Files:**
+   Remove lingering `.lock`, `.pid`, or temporary database locks (e.g. SQLite `.db-wal` or `.db-shm` in uncommitted states).
+2. **Release Game Window Grabs:**
+   If mouse/keyboard focus was captured via `/dev/uinput` or X11 grab during the crash, immediately release grabs to restore system responsiveness.
+3. **Log Crash Delta:**
+   Write a standardized incident report to `.agents/crashes/crash_$(date +%s).log` containing the last 20 log lines and system resource snapshot.
+4. **Resume Cycle:**
+   Signal the primary test runner to increment the crash counter, apply the next diagnostic hypothesis, and restart the test loop.

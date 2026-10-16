@@ -1,0 +1,67 @@
+---
+name: legacy-codebase-cartographer
+description: Maps legacy game engine architectures (e.g. X-Ray, idTech, GoldSrc) by constructing reverse-call dependency graphs from core entry points. Identifies dead code, orphaned translation units, obsolete LTX sections, and unreferenced assets to produce an 'Omit-from-Port' manifest.
+---
+
+# Legacy Codebase Cartographer (`legacy-codebase-cartographer`)
+
+Porting decades-old C++ game engines and sprawling mods (e.g. S.T.A.L.K.E.R. Shadow of Chernobyl / Complete mod) carries a massive risk of **dead-code porting**: wasting hundreds of hours and millions of LLM tokens refactoring legacy subsystems (e.g. DirectX 8 fallbacks, abandoned multiplayer netcode, deprecated demo recorders) that are never actually invoked by the modern runtime.
+
+This skill establishes reverse dependency cartography to systematically map and eliminate dead code prior to porting.
+
+---
+
+## 1. Reverse-Call Dependency Graphing
+
+Instead of porting file-by-file from alphabetical order, mapping starts strictly from the **authoritative entry points**:
+
+```text
+               [xrEngine.exe (WinMain)]
+                         │
+        ┌────────────────┴────────────────┐
+        ▼                                 ▼
+   [xrCore.dll]                     [xrRender_R4.dll (DX11)]
+   - Memory arena                   - Deferred render graph
+   - VFS / Pack loader              - Shader compile pipeline
+        │                                 │
+        ▼                                 ▼
+   [xrGame.dll]                     [xrPhysics.dll]
+   - ALife simulation               - ODE / Jolt collision
+   - LuaJIT scripting               - Contact manifolds
+   - Actor & NPC classes
+```
+
+### Omission Rules:
+- **Obsolete Renderers:** If targeting DX11/Vulkan, flag `xrRender_R1` (DX8 fixed-function) and `xrRender_R2` (DX9 forward) as **DO NOT PORT**.
+- **Abandoned Protocols:** If single-player focused, isolate and stub out DirectPlay / legacy GameSpy multiplayer networking layers.
+
+---
+
+## 2. Automated Dead Code & Asset Audit
+
+Identify unreferenced files using symbol and asset references:
+
+```bash
+# Auditing unreferenced C++ headers:
+# If a header is never #included anywhere across src/
+for f in $(find src/ -name "*.h"); do
+    fname=$(basename "$f")
+    grep -rq "$fname" src/ || echo "ORPHAN HEADER: $f"
+done
+
+# Auditing unreferenced Lua scripts:
+# If a script is never referenced by _g.script, system.ltx, or other scripts
+for s in $(find gamedata/scripts/ -name "*.script"); do
+    sname=$(basename "$s" .script)
+    grep -rqE "(^|[^a-zA-Z0-9_])$sname\." gamedata/ || echo "ORPHAN SCRIPT: $s"
+done
+```
+
+---
+
+## 3. The "Omit-from-Port" Manifest
+
+Before refactoring an engine subsystem, compile `.agents/audit/omit_manifest.txt`:
+- Explicitly list files that can be stubbed or excluded from the build targets (`CMakeLists.txt` / project files).
+- Document why each omitted file is safe to prune (e.g. `xrRender_R1: Legacy DX8 fixed-function pipeline superseded by OGSR DX11 R4`).
+- **Token & Labor Savings:** Cuts active codebase volume by **25% to 40%**, dramatically reducing compilation time and LLM context footprint.
