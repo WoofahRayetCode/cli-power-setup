@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **118 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **121 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 118 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 121 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -182,7 +182,10 @@ cli-power-setup/
 | **`cross-platform-game-compatibility`** | Gaming/Compat | 4GB LAA memory patching, legacy DirectX wrappers (DXVK/dgVoodoo2), thread affinity & frame rate caps |
 | **`linux-gaming-proton-optimization`** | Gaming/Linux | Steam Proton/Wine prefix repair, GE-Proton cutscene codecs, dxvk.conf tuning, Gamescope & GameMode |
 | **`game-patching-binary-repair`** | Gaming/Binary | PE import analysis, crash offset disassembly, missing DLL stubs & surgical byte-level patching |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 118+ skills |
+| **`app-security-threat-modeling`** | Security/Arch | STRIDE threat modeling, OWASP Top 10 mitigation, path traversal defense, memory zeroing |
+| **`api-network-security-hardening`** | Security/Network | TLS 1.3 ciphers, SPKI certificate pinning, token bucket rate limiting, replay defense & CSP |
+| **`client-memory-integrity-anticheat`** | Security/Client | XOR value obfuscation, Win32/POSIX anti-debugging, hardware breakpoint traps & state hash |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 121+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
@@ -1005,6 +1008,26 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Inspects the executable's Import Address Table (`scripts/pe_dependency_check.py`), disassembles instructions around crash offsets with `objdump`, authors proxy DLL shims (`dinput8.dll`, `version.dll`), and applies safe byte-level hex patches.
 * **Why It Saves Quota:** Resolves binary engine crashes through pinpoint offset disassembly and minimal shims rather than trial-and-error mod guessing.
 
+### 🛡️ End-to-End Application & Network Security Hardening
+
+#### 119. `app-security-threat-modeling`
+* **In Simple Terms:** Comprehensive application security architecture covering STRIDE threat modeling, OWASP Top 10 defense, path traversal prevention, and memory zeroing for sensitive secrets.
+* **When It Kicks In:** Architecting new desktop apps, web services, or backend daemons; preventing IDOR/BOLA authorization bypasses; sanitizing file upload paths; and zeroing cryptographic secrets from memory buffers.
+* **How It Works:** Implements STRIDE defense-in-depth matrices, resolves absolute canonical paths against directory climbing attacks, and enforces immediate memory wiping (`memset_s` / `zeroize` / buffer clearing) with `mlock()` to prevent secrets leaking in crash dumps.
+* **Why It Saves Quota:** Identifies security flaws systematically during architectural design before expensive post-release penetration test remediation cycles.
+
+#### 120. `api-network-security-hardening`
+* **In Simple Terms:** Transport and network boundary defense—TLS 1.3 AEAD cipher hardening, mobile/desktop SPKI certificate pinning, token bucket rate limiting, webhook replay defenses, and modern CSP policies.
+* **When It Kicks In:** Protecting API endpoints, game servers, or Discord bots against DDoS floods, credential stuffing, man-in-the-middle (MITM) proxy interception, and webhook replay attacks.
+* **How It Works:** Implements sliding-window token bucket algorithms, validates incoming webhook timestamp freshness (<300s window) with HMAC-SHA256, pins SPKI SHA-256 hashes, and applies strict browser isolation HTTP security headers.
+* **Why It Saves Quota:** Stops bot spam, API brute-forcing, and replay attacks at the network boundary before they consume backend database and compute quota.
+
+#### 121. `client-memory-integrity-anticheat`
+* **In Simple Terms:** Client runtime protection against memory scanners (Cheat Engine), dynamic debuggers (x64dbg, IDA, GDB, Frida), and illegal function hooks.
+* **When It Kicks In:** Developing single-player or multiplayer games, desktop software with sensitive license/auth state, or anti-tamper client modules.
+* **How It Works:** Encrypts in-memory integers with XOR dynamic masks to hide values from scanner sweeps, queries Win32 PEB / hardware debug registers (DR0–DR3) / Linux `ptrace` anti-attach probes, and verifies periodic state hash heartbeats with authoritative servers.
+* **Why It Saves Quota:** Prevents basic cheat engine modifications and memory hacking from breaking game economies and multiplayer simulations.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1135,7 +1158,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 118 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 121 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
