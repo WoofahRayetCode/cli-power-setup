@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **112 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **115 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 112 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 115 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -60,7 +60,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 112 specialized skills
+    └── skills/                 # 115 specialized skills
 ```
 
 ---
@@ -171,12 +171,15 @@ cli-power-setup/
 | **`game-debug-ui-tools`** | Engine/Tools | In-engine Dear ImGui integration, immediate 3D DebugDraw, runtime CVars & frame profiler flame charts |
 | **`skills-updater-and-auditor`** | Lifecycle/Health | Automated parity audit, YAML frontmatter check, script permission repair & GitHub sync |
 | **`discord-bot-engineering`** | Bot/Discord | API v10 slash commands, interactive UI (Buttons, Modals), Gateway intents & voice audio |
+| **`game-security-anti-tamper`** | Security/Game | Memory injection defense, DLL hijacking prevention, save file HMAC integrity seals & anti-teleport |
+| **`cryptographic-security-engineering`** | Security/Crypto | Ed25519 signatures, AES-256-GCM AEAD, HKDF key derivation & constant-time compare |
+| **`devsecops-supply-chain-security`** | Security/DevOps | Checksec binary compiler hardening (RELRO, Canaries, NX, PIE), SBOM & dependency audits |
 | **`android-ndk-jni-engineering`** | Mobile/NDK | C/C++ JNI, zero-copy ByteBuffers, Vulkan/Oboe, tombstone symbolization |
 | **`android-compose-ui-ux`** | Mobile/UI | Jetpack Compose, Material 3, edge-to-edge window insets, recomposition optimization |
 | **`android-architecture-jetpack`** | Mobile/Arch | Clean Architecture, MVI/StateFlow, Room auto-migrations, Navigation DSL, Hilt |
 | **`android-testing-ci-cd-security`** | Mobile/DevOps | Robolectric, Compose UI tests, R8 shrinking, Android Keystore StrongBox |
 | **`android-perf-battery-profiling`** | Mobile/Perf | Jank analysis (`dumpsys gfxinfo`), batterystats, Perfetto, memory leak heap dumps |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 112+ skills |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 115+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
@@ -959,6 +962,26 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Uses pure mathematical waveform synthesis (Sine, Square, Sawtooth, White Noise) with ADSR envelope shaping, provides an instant offline SFX synthesis tool (`scripts/procedural_sfx_generator.py`), and engineers prompts for frontier text-to-sound-effect models (ElevenLabs SFX, AudioCraft).
 * **Why It Saves Quota:** Generates game-ready sound effects and UI pings locally in milliseconds with zero API costs, zero quotas, and zero external software.
 
+### 🛡️ Cyber Security, Anti-Tamper & Applied Cryptography
+
+#### 113. `game-security-anti-tamper`
+* **In Simple Terms:** In-game anti-tamper and anti-cheat guard—protecting game executables against memory injection, blocking DLL proxy hijacking, sealing save files with HMAC signatures, and enforcing server-side anti-teleport physics.
+* **When It Kicks In:** Hardening a game client against memory modifications (Cheat Engine), protecting save states from hex editing, preventing malicious proxy DLLs (`version.dll`, `dxgi.dll`), or writing server-side sanity checks for multiplayer movement.
+* **How It Works:** Restricts DLL search paths to System32 (`SetDefaultDllDirectories`), seals save files with HMAC-SHA256 signatures verified in constant time, tracks monotonic version counters, and bounds player displacement deltas against physics limits.
+* **Why It Saves Quota:** Stops cheat injection vulnerabilities and save file corruption exploits during development before they compromise player economies.
+
+#### 114. `cryptographic-security-engineering`
+* **In Simple Terms:** Applied modern cryptography toolkit—verifying Ed25519 digital signatures (Discord bot webhooks, Git commits), encrypting data with AES-256-GCM AEAD, deriving keys with HKDF, and enforcing constant-time comparisons.
+* **When It Kicks In:** Handling cryptographic keys, verifying Discord interaction HTTP webhooks, encrypting sensitive local credentials/tokens, deriving domain-separated subkeys, or preventing remote timing side-channel attacks.
+* **How It Works:** Uses verified modern primitives (Ed25519, AES-256-GCM, HKDF-SHA256), eliminates timing leaks via constant-time comparisons (`secrets.compare_digest`), and provides a standalone cryptographic utility (`scripts/crypto_guard.py`).
+* **Why It Saves Quota:** Eliminates fragile custom crypto implementations and padding oracle vulnerabilities that cause catastrophic security flaws.
+
+#### 115. `devsecops-supply-chain-security`
+* **In Simple Terms:** Build-time binary hardening and supply chain inspector—verifying compiler defense flags (Full RELRO, Stack Canaries, NX, PIE via `checksec`), scanning dependencies for CVEs, generating SBOMs, and securing CI/CD pipelines.
+* **When It Kicks In:** Packaging production binaries or shared libraries, auditing GitHub Actions workflows for supply chain risks, pinning actions to immutable commit SHAs, or running automated CVE audits (`cargo-audit`, `pip-audit`).
+* **How It Works:** Inspects ELF binary headers for RELRO, canary symbols, and non-executable stacks (`scripts/binary_hardening_check.py`), audits dependency vulnerability databases, and enforces least-privilege CI/CD execution.
+* **Why It Saves Quota:** Catches missing compiler security flags and vulnerable dependencies automatically at build time before deployment to end users.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1089,7 +1112,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 112 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 115 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

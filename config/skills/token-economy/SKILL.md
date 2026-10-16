@@ -64,6 +64,7 @@ To ensure the new frontier efficiency tools are always utilized:
 * **ECS Dumps & Save State Payloads:** When inspecting entity archetype tables or raw save state payloads (`save_state_inspector.py --inspect`), offload detailed byte hex dumps to disk/artifacts, presenting only container header validation, schema versions, and compression statistics in chat.
 * **Discord API Payloads & Gateway Event Logs:** When querying large Discord API endpoints (guild member lists, audit logs, role hierarchies) or capturing raw WebSocket Gateway dispatch JSON, stream them to temporary `.json` files, presenting only counts, user tags, or permission flags in chat.
 * **Audio Waveform Arrays & Loudness Tables:** When generating procedural audio or running FFmpeg loudness filter analysis (`ebur128`), write raw sample arrays and multi-pass JSON logs to disk, outputting only target integrated LUFS, True Peak dB, and file paths in chat.
+* **Security Audits, SBOM Manifests & Binary Disassembly:** When generating multi-thousand-line CycloneDX/SPDX SBOM manifests, full `cargo-audit` dependency advisory trees, or native binary disassembly dumps, write them to disk/artifacts, presenting only the vulnerability count, severity breakdown, and `checksec` status table in chat.
 * Provide a single clickable file link and a 1-sentence headline rather than dumping large blocks of markdown or HTML into the chat transcript.
 
 ---

@@ -1,0 +1,61 @@
+---
+name: devsecops-supply-chain-security
+description: DevSecOps build-time security hardening, Software Bill of Materials (SBOM), dependency vulnerability auditing, binary compiler hardening checks (checksec for RELRO, Canaries, NX, PIE), Git secret leak prevention, and rootless container isolation. Use when preparing releases, securing CI/CD pipelines, or auditing compiled binaries.
+---
+
+# DevSecOps & Supply Chain Security
+
+This skill establishes automated build-time security audits, compiler hardening verification, dependency supply chain integrity, and minimal-privilege CI/CD execution.
+
+---
+
+## 1. Binary Hardening Audit (`checksec`)
+
+All production C/C++/Rust native binaries and shared objects (`.so`, `.dll`) must enable modern compiler mitigation flags:
+
+| Security Mitigation | Compiler Flag (GCC/Clang) | Protection Purpose |
+| :--- | :--- | :--- |
+| **Full RELRO** | `-Wl,-z,relro,-z,now` | Makes Global Offset Table (GOT) strictly read-only, stopping GOT-overwrite exploits |
+| **Stack Canary** | `-fstack-protector-strong` | Inserts random guard values before return addresses to trap buffer overflows |
+| **No-Execute (NX / DEP)** | `-Wl,-z,noexecstack` | Marks data/stack memory pages non-executable, stopping shellcode execution |
+| **PIE (Position Independent)**| `-fPIE -pie` (binaries) / `-fPIC` (shared) | Loads binary code at randomized base addresses via ASLR |
+| **Fortify Source** | `-D_FORTIFY_SOURCE=3 -O2` | Replaces unsafe standard library calls (`strcpy`, `sprintf`) with bounds-checked variants |
+
+---
+
+## 2. Dependency Supply Chain Auditing
+
+Before packaging or merging pull requests, run automated dependency security audits:
+* **Rust:** `cargo audit` (queries RustSec Advisory Database).
+* **Python:** `pip-audit --desc` (audits installed packages against PyPI vulnerability feeds).
+* **Node.js:** `npm audit --audit-level=high` or `pnpm audit`.
+* **Software Bill of Materials (SBOM):**
+  Generate CycloneDX or SPDX JSON manifests:
+  ```bash
+  syft dir:. -o cyclonedx-json > sbom.json
+  ```
+
+---
+
+## 3. GitHub Actions CI/CD Pipeline Hardening
+
+* **Pin Actions to Immutable Commit SHAs:**
+  Never reference mutable tags like `@v4` (subject to supply chain tag hijacking):
+  ```yaml
+  # Vulnerable:
+  - uses: actions/checkout@v4
+  # Hardened:
+  - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+  ```
+* **Least-Privilege Token Permissions:**
+  Set top-level permissions to read-only in all workflows:
+  ```yaml
+  permissions:
+    contents: read
+  ```
+
+---
+
+## 4. Native Binary Hardening Inspector Tool
+
+Use `scripts/binary_hardening_check.py` to inspect ELF Linux binaries and shared libraries for RELRO, Stack Canary symbols, NX stack headers, and PIE flags without external dependencies.
