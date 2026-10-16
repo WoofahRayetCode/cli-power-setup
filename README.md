@@ -1447,31 +1447,30 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ┌─────────────────────────────────────────────────────────────┐
 │                       Cursor IDE                            │
 ├───────────────┬───────────────┬──────────────┬──────────────┤
-│   xAI Grok    │Anthropic Claude│ OpenAI o1/4o │ DeepSeek R1  │
-│  (Grok 4.7)   │  (Sonnet 3.7) │  (o3-mini)   │  (V3 / R1)   │
-└───────┬───────┴───────┬───────┴──────┬───────┴──────┬───────┘
-        ▼               ▼              ▼              ▼
-┌─────────────────────────────────────────────────────────────┐
-│  Core Discipline: .cursor/rules/000-cursor-global-discipline│
-│  Model Adaptations: .cursor/rules/001-multi-model-opt.mdc   │
-│  157 Modular Skill Rules (.cursor/rules/*.mdc)              │
-│  Unified Root Fallback: ~/.cursorrules                      │
-└─────────────────────────────────────────────────────────────┘
+│   xAI Grok    │Anthropic Claude│ OpenAI o1/4o │ DeepSeek R1  │ Gemini 2.0  │ Meta Llama 3.3│ Qwen 2.5 Coder│
+│  (Grok 4.7)   │  (Sonnet 3.7) │  (o3-mini)   │  (V3 / R1)   │ (Flash/Pro) │ (70B / 405B)  │  (32B / 72B)  │
+└───────┬───────┴───────┬───────┴──────┬───────┴──────┬───────┴──────┬──────┴───────┬───────┴───────┬───────┘
+        ▼               ▼              ▼              ▼              ▼              ▼               ▼
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  Core Discipline: .cursor/rules/000-cursor-global-discipline.mdc                                    │
+│  Universal Model Adaptation Matrix: .cursor/rules/001-multi-model-optimization.mdc                  │
+│  157 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
+│  Unified Root Fallback: ~/.cursorrules                                                              │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-#### How Cursor Rules 2.0 Works:
+#### Universal Model Matrix:
 1. **Universal Rules (`alwaysApply: true`):**
    * **`000-cursor-global-discipline.mdc`:** Injected into every prompt. Enforces Output Token Economy (zero fluff, high-density checklists, surgical diffs), S.T.A.L.K.E.R. EE modding integrity, and hardware-aware execution.
-   * **`001-multi-model-optimization.mdc`:** Automatically calibrates model behavior based on which engine is running:
-     * **xAI Grok Frontier (`grok-4.7`, `grok-4.7-fast`, `grok-4.5`, `grok-2`):**
-       * *Co-developed for Cursor:* Specifically tuned for multi-hour software engineering and agentic terminal harnesses.
-       * *500k Context Governance:* Governs massive 500,000-token context windows with `smart-context-packer` and `local-ast-compiler-engine` to avoid context stuffing fees.
-       * *Reasoning Effort Profiles:* Calibrated for `low`/`medium` (rapid bug fixes & surgical diffs) and `high`/`xhigh` (deep architectural refactors & engine crash triage).
-       * *Tone & Discipline:* Completely overrides default conversational banter; enforces anti-hallucination checks on game LTX/C++ configs; commands Grok in Cursor Agent to execute local CLI utilities (`game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`).
-     * **OpenAI Reasoning (o1, o3-mini):** Suppresses verbal re-explanation of hidden internal chain-of-thought tokens, delivering direct surgical diffs.
-     * **OpenAI Standard (GPT-4o):** Clamps output prolixity and eliminates boilerplate full-file rewrites.
-     * **DeepSeek (R1, V3):** Enforces English code outputs, mathematical precision for physics/graphics, and a 3-strike circuit breaker on failed debug loops.
-     * **Anthropic Claude (Sonnet 3.5, 3.7):** Preserves prompt cache prefix stability.
+   * **`001-multi-model-optimization.mdc`:** Automatically calibrates model behavior based on which engine is selected:
+     * **xAI Grok Frontier (`grok-4.7`, `grok-4.7-fast`, `grok-4.5`, `grok-2`):** Multi-hour agentic harness tuning, 500k context governance, reasoning levels (`low` to `xhigh`), zero banter, anti-hallucination LTX/C++ verification.
+     * **Anthropic Claude (`claude-3-7-sonnet`, `claude-3-5-sonnet`, `claude-3-5-haiku`):** Prompt cache prefix stabilization (>90% savings), hybrid reasoning alignment, and surgical diff formatting.
+     * **OpenAI Reasoning & Standard (`o1`, `o3-mini`, `gpt-4o`, `gpt-4o-mini`):** Silent internal reasoning for o1/o3; verbosity containment and surgical edits for GPT-4o.
+     * **Google Gemini (`gemini-2.0-flash`, `gemini-2.0-flash-thinking`, `gemini-1.5-pro`):** Multimodal image/texture grounding, ultra-low latency Flash iterations, 1M+ context handling with AST skeletons.
+     * **DeepSeek (`deepseek-r1`, `deepseek-v3`):** English-only code generation, 3-strike circuit breaker on failed debug loops, and strict memory safety checks.
+     * **Meta Llama (`llama-3.3-70b`, `llama-3.1-405b/8b`):** Concrete search/replace anchor blocks; context budgeting for 8B/70B local models via RAG.
+     * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
+     * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
    * All 157 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.

@@ -260,11 +260,21 @@ data["cursor.chat.model"] = "grok-4.7"
 data["cursor.general.preferredModels"] = [
     "grok-4.7",
     "grok-4.7-fast",
+    "grok-4.5",
     "claude-3-7-sonnet",
     "claude-3-5-sonnet",
+    "claude-3-5-haiku",
     "o3-mini",
+    "o1",
     "gpt-4o",
-    "deepseek-r1"
+    "gpt-4o-mini",
+    "deepseek-r1",
+    "deepseek-v3",
+    "gemini-2.0-flash",
+    "gemini-1.5-pro",
+    "llama-3.3-70b",
+    "qwen-2.5-coder-32b",
+    "codestral-2501"
 ]
 env_linux = data.get("terminal.integrated.env.linux", {})
 env_linux["PATH"] = "\${env:HOME}/.local/bin:\${env:PATH}"
