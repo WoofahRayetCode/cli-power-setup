@@ -50,25 +50,41 @@ The following tools are installed in `~/.local/bin` and can be executed directly
 
 # Multi-Model Optimization & Adaptation in Cursor
 
-Cursor allows switching between multiple frontier and open-weight models (Anthropic Claude, xAI Grok, OpenAI GPT/o1/o3, DeepSeek, and Google Gemini). Each model architecture requires specific behavioral calibration to maximize precision, eliminate hallucinations, and avoid token waste.
+Cursor provides native support and API toggles for leading frontier and open-weight models: **xAI Grok (Grok 4.7, Grok 4.7 Fast, Grok 4.5/4.6, Grok-2/3)**, **Anthropic Claude (3.5 / 3.7 Sonnet)**, **OpenAI (o1, o3-mini, GPT-4o)**, and **DeepSeek (R1, V3)**. Each model family requires specific architectural calibration to maximize engineering velocity, ensure evidence-based completion, and slash token waste.
 
 ---
 
-## 1. xAI Grok Calibration (Grok-2, Grok-beta, Grok 3)
+## 1. xAI Grok Frontier Calibration (Grok 4.7, Grok 4.7 Fast, Grok 4.5/4.6, Grok-2/3)
 
-### A. Tone & Persona Suppression
-- **Zero Snark or Fluff:** By default, Grok is tuned for conversational wit and playful banter. In Cursor coding, agent, and composer modes, strictly suppress humor, sarcasm, colloquialisms, and conversational preambles.
-- **Immediate Execution:** Grok must never output introductory meta-commentary ("Alright, let's dive into this", "Here is what we are going to do"). Lead immediately with code diffs, terminal actions, or diagnostic evidence.
+Grok 4.7 is xAI's flagship frontier coding and agentic model, co-developed with Cursor and trained with extended reinforcement learning on multi-hour developer workflows and terminal execution harnesses.
 
-### B. Anti-Hallucination & Engine Rigor
+### A. Context & Reasoning Effort Governance
+- **500k Context Window Management:** Grok 4.7 scales up to a 500,000-token context window. While capable of holding entire repositories in attention, **do not indulge in raw context stuffing**. Use `smart-context-packer` and `local-ast-compiler-engine` to maintain high-density AST skeletons. Prompts under 200k tokens enjoy lower latency and optimal pricing (\$2.00/M input, \$6.00/M output).
+- **Reasoning Effort Selection (`low`, `medium`, `high`, `xhigh`):**
+  - **`low` / `medium` (Recommended for Daily Driving):** Use with `grok-4.7-fast` or `grok-4.7` for rapid bug fixes, single-function edits, unit tests, and surgical texture repairs.
+  - **`high` / `xhigh` (Deep Architectural Mode):** Activate when tackling multi-file engine refactors, decompilation matching (`console-game-decompilation`), or tracing difficult S.T.A.L.K.E.R. X-Ray crash dumps and memory corruption.
+
+### B. Persona & Output Tone Calibration
+- **Zero Snark or Fluff:** By default, Grok can display conversational wit and banter. In Cursor coding, composer, and agent modes, strictly suppress humor, sarcasm, colloquialisms, and conversational preambles ("Alright, let's dive into this", "Here is what we are going to do").
+- **Immediate Execution:** Lead immediately with code diffs, terminal actions, or diagnostic evidence. Never restate the user's prompt.
+
+### C. Anti-Hallucination & Engine Rigor
 - **Config & LTX Strictness:** When generating or modifying game configuration files (e.g. S.T.A.L.K.E.R. LTX, Godot project configs, Unreal schemas), never guess section names, inheritances, or parameter keys. Always inspect existing unpacked or repo baselines first.
 - **Symbol & Namespace Precision:** When working in C++, Rust, Python, or C#, verify function signatures, includes, and dependencies against the workspace before proposing modifications.
 - **Chain-of-Verification (CoVe):** For tricky runtime errors or engine crashes, Grok must formulate a 2-step verification:
   1. *Root Cause Hypothesis:* Cite exact log lines or stack trace offsets.
   2. *Refutation Check:* Ensure the proposed fix does not break related subsystems.
 
-### C. Tool & Terminal Discipline
-- When executing shell commands, Grok should invoke our purpose-built local CLI utilities located in `~/.local/bin/` (e.g. `game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`, `skills-audit-update`) rather than generating ad-hoc one-off Python scripts.
+### D. Native Agent Harness & Tool Calling
+- Grok 4.7 features native understanding of Cursor's agent harnesses and terminal environments.
+- When executing terminal commands in Cursor Agent, Grok must invoke our purpose-built local CLI power utilities in `~/.local/bin/` rather than writing ad-hoc throwaway scripts:
+  - `game-texture-editor <subcommand>` (procedural normal gen, RNM blend, seamless tiles, alpha bleed, CAS sharpen, DDS transcode)
+  - `stalker-playtest-runner <subcommand>` (hands-free testing, uinput input injection, loading screen dismissal, crash dialog OCR)
+  - `game-test-watchdog <subcommand>` (anti-stuck, freeze, and loop monitor for game QA)
+  - `skills-audit-update <subcommand>` (skills synchronization and health verification)
+
+### E. Multi-Hour Task Governance
+- Grok 4.7's training for long-running workflows pairs directly with `task-velocity-governor` (5-step targeted rule, 3-strike file churn breaker) and `autonomous-goal-governor` to prevent circular debugging loops during autonomous porting or large refactors.
 
 ---
 

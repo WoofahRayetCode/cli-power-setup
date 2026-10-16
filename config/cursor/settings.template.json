@@ -2,6 +2,16 @@
   "cursor.general.userRules": "Adhere strictly to ~/.cursorrules and .cursor/rules/*.mdc. Follow Output Token Economy (zero conversational fluff, high-density status, surgical edits). Never restate user prompts. Use installed CLI tools in ~/.local/bin (game-texture-editor, stalker-playtest-runner, game-test-watchdog, skills-audit-update).",
   "cursor.composer.agentFlag": true,
   "cursor.composer.showAgent": true,
+  "cursor.chat.model": "grok-4.7",
+  "cursor.general.preferredModels": [
+    "grok-4.7",
+    "grok-4.7-fast",
+    "claude-3-7-sonnet",
+    "claude-3-5-sonnet",
+    "o3-mini",
+    "gpt-4o",
+    "deepseek-r1"
+  ],
   "terminal.integrated.env.linux": {
     "PATH": "${env:HOME}/.local/bin:${env:PATH}"
   }

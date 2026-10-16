@@ -256,13 +256,23 @@ if os.path.exists(p):
 data["cursor.general.userRules"] = "Adhere strictly to ~/.cursorrules and .cursor/rules/*.mdc. Follow Output Token Economy (zero conversational fluff, high-density status, surgical edits). Never restate user prompts. Use installed CLI tools in ~/.local/bin (game-texture-editor, stalker-playtest-runner, game-test-watchdog, skills-audit-update)."
 data["cursor.composer.agentFlag"] = True
 data["cursor.composer.showAgent"] = True
+data["cursor.chat.model"] = "grok-4.7"
+data["cursor.general.preferredModels"] = [
+    "grok-4.7",
+    "grok-4.7-fast",
+    "claude-3-7-sonnet",
+    "claude-3-5-sonnet",
+    "o3-mini",
+    "gpt-4o",
+    "deepseek-r1"
+]
 env_linux = data.get("terminal.integrated.env.linux", {})
 env_linux["PATH"] = "\${env:HOME}/.local/bin:\${env:PATH}"
 data["terminal.integrated.env.linux"] = env_linux
 with open(p, "w") as f:
     json.dump(data, f, indent=2)
 EOF
-    log_done "Configured agent mode, user rules, and CLI path in Cursor settings.json."
+    log_done "Configured Grok 4.7, agent mode, user rules, and CLI path in Cursor settings.json."
 }
 
 verify_installation() {

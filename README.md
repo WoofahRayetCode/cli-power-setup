@@ -1448,7 +1448,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 │                       Cursor IDE                            │
 ├───────────────┬───────────────┬──────────────┬──────────────┤
 │   xAI Grok    │Anthropic Claude│ OpenAI o1/4o │ DeepSeek R1  │
-│  (Grok-2/3)   │ (Sonnet 3.5)  │  (o3-mini)   │  (V3 / R1)   │
+│  (Grok 4.7)   │  (Sonnet 3.7) │  (o3-mini)   │  (V3 / R1)   │
 └───────┬───────┴───────┬───────┴──────┬───────┴──────┬───────┘
         ▼               ▼              ▼              ▼
 ┌─────────────────────────────────────────────────────────────┐
@@ -1463,7 +1463,11 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 1. **Universal Rules (`alwaysApply: true`):**
    * **`000-cursor-global-discipline.mdc`:** Injected into every prompt. Enforces Output Token Economy (zero fluff, high-density checklists, surgical diffs), S.T.A.L.K.E.R. EE modding integrity, and hardware-aware execution.
    * **`001-multi-model-optimization.mdc`:** Automatically calibrates model behavior based on which engine is running:
-     * **xAI Grok (Grok-2, Grok-beta, Grok 3):** Suppresses conversational wit and banter in code mode; enforces anti-hallucination verification on game LTX/C++ configs; commands Grok to execute installed CLI utilities (`game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`) in Cursor Agent terminal.
+     * **xAI Grok Frontier (`grok-4.7`, `grok-4.7-fast`, `grok-4.5`, `grok-2`):**
+       * *Co-developed for Cursor:* Specifically tuned for multi-hour software engineering and agentic terminal harnesses.
+       * *500k Context Governance:* Governs massive 500,000-token context windows with `smart-context-packer` and `local-ast-compiler-engine` to avoid context stuffing fees.
+       * *Reasoning Effort Profiles:* Calibrated for `low`/`medium` (rapid bug fixes & surgical diffs) and `high`/`xhigh` (deep architectural refactors & engine crash triage).
+       * *Tone & Discipline:* Completely overrides default conversational banter; enforces anti-hallucination checks on game LTX/C++ configs; commands Grok in Cursor Agent to execute local CLI utilities (`game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`).
      * **OpenAI Reasoning (o1, o3-mini):** Suppresses verbal re-explanation of hidden internal chain-of-thought tokens, delivering direct surgical diffs.
      * **OpenAI Standard (GPT-4o):** Clamps output prolixity and eliminates boilerplate full-file rewrites.
      * **DeepSeek (R1, V3):** Enforces English code outputs, mathematical precision for physics/graphics, and a 3-strike circuit breaker on failed debug loops.
