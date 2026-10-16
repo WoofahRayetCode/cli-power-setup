@@ -609,22 +609,31 @@ In multi-model sessions (e.g. adaptive escalation between Flash and Argon):
 
 ---
 
-## 🚀 Antigravity CLI Turbo Mode (`agy-turbo`)
+## 🚀 Dual-CLI Turbo Launchers & Thinking Quota Savers
 
-Equivalent to the **Turbo** mode in the Antigravity Desktop App, the `agy-turbo` launcher activates hands-free auto-execution with minimal chain-of-thought latency:
+Thinking/reasoning tokens are billed as **output tokens** (typically 4x to 5x the cost of input tokens) and are the fastest way to exhaust 5-hour rolling quotas. This repository provides dedicated low-effort Turbo launchers for both CLIs:
 
+### 1. Claude Code Turbo (`claude-turbo`)
+Installed to `~/.local/bin/claude-turbo`. Launches Claude Code with low thinking effort and capped reasoning tokens:
+```bash
+claude-turbo
+```
+* **Configuration:** Sets `MAX_THINKING_TOKENS=1024` and `--effort low`.
+* **Savings:** Slashes thinking token generation by **75%–85%**, reserving deep extended thinking only when explicitly escalated for Tier 3 architectural tasks.
+
+### 2. Antigravity Turbo (`agy-turbo`)
+Installed to `~/.local/bin/agy-turbo`. Activates hands-free auto-execution with minimal chain-of-thought latency:
 ```bash
 agy-turbo
 ```
-
-### Configuration Flags:
-* `--model gemini-3.8-flash-low`: Dispatches the ultra-fast low-latency Flash variant.
-* `--effort low`: Minimizes chain-of-thought reasoning pauses for instantaneous token streaming.
-* `--dangerously-skip-permissions`: Auto-approves tool actions and shell commands without modal stops.
-* `--mode auto`: Automatically applies and accepts validated code edits.
+* **Configuration Flags:**
+  * `--model gemini-3.8-flash-low`: Dispatches the ultra-fast low-latency Flash variant.
+  * `--effort low`: Minimizes chain-of-thought reasoning pauses for instantaneous token streaming.
+  * `--dangerously-skip-permissions`: Auto-approves tool actions and shell commands without modal stops.
+  * `--mode auto`: Automatically applies and accepts validated code edits.
 
 > [!TIP]
-> **Desktop Shortcut:** On Linux systems, a `.desktop` shortcut (`agy-turbo.desktop`) can be created in `~/Desktop/` to launch `agy-turbo` in Konsole with a single click.
+> **Desktop Shortcuts:** On Linux systems, `.desktop` shortcuts (`agy-turbo.desktop` and `claude-turbo.desktop`) can be created in `~/Desktop/` to launch high-speed sessions with a single click.
 
 ---
 

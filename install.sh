@@ -79,6 +79,12 @@ install_binaries() {
         chmod +x "${BIN_DEST}/agy-turbo"
         log_done "Installed executable: ${BIN_DEST}/agy-turbo"
     fi
+
+    if [ -f "${SCRIPT_DIR}/bin/claude-turbo" ]; then
+        cp "${SCRIPT_DIR}/bin/claude-turbo" "${BIN_DEST}/claude-turbo"
+        chmod +x "${BIN_DEST}/claude-turbo"
+        log_done "Installed executable: ${BIN_DEST}/claude-turbo"
+    fi
 }
 
 install_antigravity() {
@@ -125,10 +131,11 @@ data["statusLine"] = {
     "enabled": True,
     "stack_with_default": True
 }
+data["model"] = "Gemini 3.8 Flash (Low)"
 with open(p, "w") as f:
     json.dump(data, f, indent=2)
 EOF
-        log_done "Configured statusLine in Antigravity settings.json."
+        log_done "Configured statusLine and low-effort Flash model in Antigravity settings.json."
     fi
 }
 
@@ -140,7 +147,7 @@ install_claude() {
     mkdir -p "${CLAUDE_SKILLS}"
     cp -r "${SCRIPT_DIR}/config/skills/"* "${CLAUDE_SKILLS}/"
     local count
-    count="$(find "${CLAUDE_SKILLS}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
+    count="$(find "${CLAUDE_SKILLS}" -mindepth 1 -maxdepth 1 -type d ! -name "synced" | wc -l)"
     log_done "Synchronized ${count} skills in ${CLAUDE_SKILLS}."
 
     # 2. Rules
@@ -148,7 +155,7 @@ install_claude() {
     cp "${SCRIPT_DIR}/config/GEMINI.md" "${CLAUDE_RULES}"
     log_done "Installed global rules in ${CLAUDE_RULES}."
 
-    # 3. Settings / Statusline
+    # 3. Settings / Statusline / Effort
     python3 - <<EOF
 import json, os
 p = os.path.expanduser("${CLAUDE_SETTINGS}")
@@ -163,10 +170,11 @@ data["statusLine"] = {
     "type": "command",
     "command": os.path.expanduser("${BIN_DEST}/claude-statusline")
 }
+data["effort"] = "low"
 with open(p, "w") as f:
     json.dump(data, f, indent=2)
 EOF
-    log_done "Configured statusLine in Claude Code settings.json."
+    log_done "Configured statusLine and low-effort thinking in Claude Code settings.json."
 }
 
 verify_installation() {
@@ -183,7 +191,7 @@ verify_installation() {
 
     local agy_count=0 claude_count=0
     [ -d "${GEMINI_SKILLS}" ] && agy_count="$(find "${GEMINI_SKILLS}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
-    [ -d "${CLAUDE_SKILLS}" ] && claude_count="$(find "${CLAUDE_SKILLS}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
+    [ -d "${CLAUDE_SKILLS}" ] && claude_count="$(find "${CLAUDE_SKILLS}" -mindepth 1 -maxdepth 1 -type d ! -name "synced" | wc -l)"
 
     echo ""
     echo -e "${COLOR_GREEN}======================================================${COLOR_RESET}"
@@ -191,8 +199,8 @@ verify_installation() {
     echo -e "${COLOR_GREEN}======================================================${COLOR_RESET}"
     echo -e "Antigravity Skills:   ${COLOR_CYAN}${agy_count} active (${GEMINI_SKILLS})${COLOR_RESET}"
     echo -e "Claude Code Skills:   ${COLOR_CYAN}${claude_count} active (${CLAUDE_SKILLS})${COLOR_RESET}"
-    echo -e "Statusline monitor:   ${COLOR_CYAN}${BIN_DEST}/agy-quota-statusline${COLOR_RESET}"
-    echo -e "Turbo Launcher:       ${COLOR_CYAN}${BIN_DEST}/agy-turbo${COLOR_RESET}"
+    echo -e "Statusline monitors: ${COLOR_CYAN}agy-quota-statusline & claude-statusline${COLOR_RESET}"
+    echo -e "Turbo Launchers:      ${COLOR_CYAN}agy-turbo & claude-turbo (Low Thinking Effort)${COLOR_RESET}"
     echo ""
 }
 
