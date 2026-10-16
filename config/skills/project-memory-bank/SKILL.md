@@ -93,6 +93,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record target game window title, display capture backend (`spectacle` Wayland / X11), active telemetry session output directory (`.agents/telemetry/` or `/tmp/`), known missing texture false positives, and OCR crash pattern signatures in `systemPatterns.md` and `learnings.md`.
 * **Autonomous Goal Contract & Circuit Breaker Bindings (`autonomous-goal-governor`):**
   Record active goal contract ID, verification command, current phase number (1/2/3), active task strike counts, and circuit breaker trip state in `.agents/goals/current_goal.json` and `activeContext.md`.
+* **Fursona Profile & Refsheet Asset Bindings (`furry-fursona-art-design`):**
+  Record active character profile JSON path, species archetype, digitigrade vs plantigrade configuration, official palette hex codes, and 3D VRChat avatar specs in `.agents/fursonas/` and `systemPatterns.md`.
 
 ---
 
