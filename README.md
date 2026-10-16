@@ -268,7 +268,7 @@ While all 163 skills and CLI utilities are shared identically between environmen
 | **`interactive-data-visualization-web`** | Web/Vis | Zero-build D3.js force-directed networks, Vis.js timelines & dynamic entity stat matrices |
 | **`task-velocity-governor`** | Governance/Speed | Task completion velocity, 5-step targeted rule, anti-thrashing loops & diminishing returns bounds |
 | **`first-principles-reasoning`** | Reasoning/Core | First-principles decomposition, Chain-of-Verification (CoVe), red-teaming & Ockham's razor ranking |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 156+ skills |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 163+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`hierarchical-memory-retrieval`** | Memory/Recall | Multi-tiered query-driven BM25 search across `.agents/memory/`, episodes & git history |
 | **`context-window-governor`** | Context/Budget | Turn-by-turn token budgeting (20/35/25/20%), pre-flight size estimation & hard output clamping |
@@ -1340,6 +1340,48 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Injects AST mutants, measures mutant kill rates, and synthesizes missing boundary test cases to plug coverage gaps.
 * **Why It Saves Quota:** Ensures tests are truly reliable before shipping code, preventing costly production regressions.
 
+#### 157. `laptop-performance-profile`
+* **In Simple Terms:** Thermal and acoustic hardware governor that switches laptop fan curves, CPU power limits, and GPU profiles for whisper-quiet runs or turbo builds.
+* **When It Kicks In:** Running long overnight tasks, muted coding sessions, or running heavy parallel compilations (`-j$(nproc)`).
+* **How It Works:** Interfaces with OMEN Space daemon, ACPI/WMI sysfs, and power-profiles-daemon to enforce whisper-quiet acoustics or max boost.
+* **Why It Saves Quota:** Prevents thermal throttling, hardware degradation, and fan acoustic noise during extended unattended agent runs.
+
+#### 158. `game-dialogue-ui-localization`
+* **In Simple Terms:** Specialized game dialogue translation, string table repair, and conversation UI layout engine (S.T.A.L.K.E.R. & RPGs).
+* **When It Kicks In:** Fixing dialogue UI text clipping, missing string IDs, CP1251/CP1250/UTF-8 mojibake, or multi-language localization (FIGS, CJK, Slavic, BiDi, Turkish).
+* **How It Works:** Validates string tables, cross-references dialogue trees, enforces `complex_mode="1"` multiline wrapping, and calculates visual pixel width across fullwidth CJK glyphs.
+* **Why It Saves Quota:** Eliminates game crashes (`xrXMLParser.cpp`), dialogue freezing dead-ends, and unreadable character sets on turn one.
+
+#### 159. `game-weather-lighting-fx`
+* **In Simple Terms:** Dynamic game weather cycle tuner, HDR tonemapping calibrator, and sun glare/light-bleed suppressor.
+* **When It Kicks In:** When sun shafts (god rays) bleed through solid terrain/geometry, looking at the sun is blindingly overblown, or cutscenes flash unrendered frames.
+* **How It Works:** Audits weather LTX files, clamps overblown `sun_color` RGB values, balances `r2_sun_lumscale` and bloom thresholds, and aligns shadow map bias (`r2_sun_bias`).
+* **Why It Saves Quota:** Eliminates iterative guessing and testing of lighting CVars by providing calibrated mathematical limits for deferred rendering engines.
+
+#### 160. `game-performance-overlay-telemetry`
+* **In Simple Terms:** In-game HUD performance metrics and telemetry profiling suite (MangoHud, DXVK HUD, PresentMon).
+* **When It Kicks In:** Profiling FPS, frametimes, 1% lows, GPU/VRAM/RAM saturation, thermals, and power draw during gameplay and engine port QA.
+* **How It Works:** Automatically configures MangoHud and DXVK overlays anchored to `top-right` to prevent collision with in-game minimaps and combat HUDs.
+* **Why It Saves Quota:** Provides instant visual evidence of frame stutter, VRAM thrashing, and CPU draw-call bottlenecks without requiring external profilers.
+
+#### 161. `game-weapon-ballistics-mechanics`
+* **In Simple Terms:** Weapon configuration, ballistics physics, firing cycles, explosive blast radii, underbarrel launchers, and anti-jamming mechanics.
+* **When It Kicks In:** Configuring rapid-fire weapons, underbarrel grenade launchers, explosive ordnance, no-reload ammo hooks, and infinite durability.
+* **How It Works:** Calibrates `fire_modes = -1`, animation loop states, blast radius vs smoke particle effects (`blast`, `frags`), and zeroes out misfire degradation.
+* **Why It Saves Quota:** Prevents weapon animation locks, misfire duds, and weapon script crashes during gameplay testing.
+
+#### 162. `game-qol-gameplay-scripting`
+* **In Simple Terms:** Autonomous quality-of-life gameplay scripting: proximity radar scanning, intelligent auto-loot for quest/ammo/health items, and faction-filtered defense.
+* **When It Kicks In:** Adding proximity radar auto-loot for quest items, vacuuming needed ammo/medkits, spawning homing counter-measures against enemies, and sprint anomaly repulsion.
+* **How It Works:** Implements spatial distance scanning algorithms, faction community goodwill checks (protecting loners/allies), and anomaly immunity hooks.
+* **Why It Saves Quota:** Speeds up game testing runs by automating inventory management, protecting key NPCs from premature death, and eliminating tedious backtracking.
+
+#### 163. `linux-game-window-input-capture`
+* **In Simple Terms:** Linux game window containment, mouse grab/confinement, focus isolation, and dual-monitor multitasking under Wine/Proton and Gamescope.
+* **When It Kicks In:** When the mouse drifts out of the game viewport, the cursor gets trapped on Alt-Tab, or the running game steals focus from the terminal during paired development.
+* **How It Works:** Enforces Gamescope sandboxing (`--grab --mangoapp`), configures Wine cursor clipping registry keys, and enables borderless windowed mode.
+* **Why It Saves Quota:** Prevents frozen terminals and lost input focus, allowing simultaneous game execution and terminal interaction without disruption.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1503,7 +1545,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │  Core Discipline: .cursor/rules/000-cursor-global-discipline.mdc                                    │
 │  Universal Model Adaptation Matrix: .cursor/rules/001-multi-model-optimization.mdc                  │
-│  157 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
+│  163 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
 │  Unified Root Fallback: ~/.cursorrules                                                              │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -1521,7 +1563,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 157 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 163 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
 3. **Unified Global Fallback (`~/.cursorrules`):**
    * Deployed directly to `$HOME/.cursorrules` and project roots so any folder opened in Cursor inherits this entire suite immediately.
