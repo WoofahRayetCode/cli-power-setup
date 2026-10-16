@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **35 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **40 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,9 +36,9 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 35 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 40 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
-4. **Live Quota & Token Monitor:** Installs `agy-quota-statusline` and configures it in both `~/.gemini/antigravity-cli/settings.json` and `~/.claude/settings.json`.
+4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launcher:** Installs `agy-turbo` into `~/.local/bin/`.
 
 ---
@@ -57,7 +57,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 35 specialized skills
+    └── skills/                 # 40 specialized skills
 ```
 
 ---
@@ -87,6 +87,11 @@ cli-power-setup/
 | **`stalker-ogsr-migration`** | Modding | 32-bit S.T.A.L.K.E.R. mod porting to 64-bit OGSR Engine |
 | **`game-runtime-diagnostics`** | Diagnostics | Cross-platform PC & Steam Deck game crash troubleshooting (Proton, DirectX, TDRs) |
 | **`audio-dsp-tuning`** | Audio/DSP | Studio headset EQ (AutoEq/Harman) & 6-stage broadcast mic processing (EasyEffects/Equalizer APO) |
+| **`android-app-engineering`** | Mobile | Modern Android Kotlin, Jetpack Compose, foreground services, Gradle KTS |
+| **`console-homebrew-engineering`** | Homebrew | Switch Atmosphere/Hekate CFW, 32KB FAT32 alignment, NSP/NSZ, Obtainium |
+| **`electron-desktop-dev`** | Desktop/Web | Secure Electron desktop apps, IPC context bridges, memory optimization |
+| **`linux-hardware-acpi`** | Systems/HW | Linux kernel ACPI modules, `/sys/class/hwmon`, D-Bus fan control daemons |
+| **`homelab-docker-devops`** | DevOps | Multi-container Docker Compose, Samba POSIX ACLs, Nextcloud, systemd timers |
 | **`cachyos-arch-packaging`** | Systems | Arch/CachyOS PKGBUILD, DKMS kernel modules, systemd |
 | **`reverse-engineer-anything`** | Systems/RE | Deep multi-target analysis with REA MCP |
 | **`binary-re-workflows`** | Systems/RE | Ghidra, JADX, TShark, objdump, and hex diffing |
@@ -257,75 +262,113 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ---
 
+### 📱 Mobile, Emulation & Console Homebrew
+
+#### 22. `android-app-engineering`
+* **In Simple Terms:** Expert guide for writing fast, modern Android applications in Kotlin, managing Gradle builds, and avoiding background battery/network service kills.
+* **When It Kicks In:** Developing Android apps, configuring Kotlin Gradle scripts (`build.gradle.kts`), network tethering services, or APK release signing.
+* **How It Works:** Enforces modern Jetpack Compose architecture, sets up reliable foreground services that survive Android's Doze battery saver, configures ProGuard/R8 rules so serialization doesn't break, and manages cryptographic keystores.
+* **Why It Saves Quota:** Eliminates trial-and-error Gradle build failures and background service termination debugging.
+
+#### 23. `console-homebrew-engineering`
+* **In Simple Terms:** A safety-first guide for console softmodding, custom firmware (CFW) setups, payload injectors, and game package management.
+* **When It Kicks In:** Setting up Nintendo Switch CFW (Atmosphere/Hekate), SD card formatting, converting/compressing game packages (NSP/NSZ), or managing Obtainium emulator feeds.
+* **How It Works:** Enforces strict FAT32 32KB cluster alignment (preventing fatal Switch archive-bit corruption), configures Hekate bootloaders and raw emuMMC partitions, and handles block-compressed zstd NSZ files.
+* **Why It Saves Quota:** Prevents bricked consoles, corrupt SD cards, and broken bootloader configuration loops.
+
+---
+
+### 🖥️ Desktop, Kernel & Infrastructure
+
+#### 24. `electron-desktop-dev`
+* **In Simple Terms:** Best practices for building secure, lightweight desktop applications with Electron without massive memory bloat.
+* **When It Kicks In:** Developing Electron apps, custom Chromium browsers, desktop messaging clients, or system tray utilities.
+* **How It Works:** Enforces strict security boundaries (context isolation, disabled node integration in renderers), types IPC communication via `contextBridge`, handles multi-window and tray lifecycles, and packages multi-platform distributions with electron-builder.
+* **Why It Saves Quota:** Catches Electron security vulnerabilities and memory leaks before deployment.
+
+#### 25. `linux-hardware-acpi`
+* **In Simple Terms:** Guides the development of Linux kernel ACPI modules, hardware fan curves, and system telemetry background services.
+* **When It Kicks In:** Developing kernel modules (like `omen-acpi`), controlling laptop fan curves, reading thermal sensors via `/sys/class/hwmon/`, or writing D-Bus hardware daemons.
+* **How It Works:** Decompiles ACPI DSDT/SSDT tables (`iasl`), binds Linux WMI drivers to hardware sensors, and implements hysteresis smoothing so fans don't rapidly rev up and down.
+* **Why It Saves Quota:** Prevents kernel panics, memory boundary violations in C kernel space, and runaway fan loops.
+
+#### 26. `homelab-docker-devops`
+* **In Simple Terms:** Standardizes setting up home servers, Docker containers, Samba network storage, and automated backups on Linux / Raspberry Pi.
+* **When It Kicks In:** Managing Raspberry Pi NAS setups, multi-container Docker Compose stacks, network shared folders (Samba), or systemd backup timers.
+* **How It Works:** Deploys clean multi-service `docker-compose.yml` configurations with isolated bridge networks, sets proper Samba POSIX group permissions (`0664`/`0775`) to avoid "Permission Denied" errors, and automates daily maintenance with systemd timers.
+* **Why It Saves Quota:** Eliminates permission-denied errors and container crash loops through verified configuration templates.
+
+---
+
 ### 💻 Systems, Reverse Engineering & Languages
 
-#### 22. `cachyos-arch-packaging`
+#### 27. `cachyos-arch-packaging`
 * **In Simple Terms:** Builds and packages Linux software, kernel drivers, and background services specifically for Arch Linux and CachyOS.
 * **When It Kicks In:** Creating Arch/CachyOS packages (`PKGBUILD`), installing kernel drivers (like `omen-acpi`), or setting up systemd background services.
 * **How It Works:** Enforces Arch packaging standards, checks integrity hashes, validates build dependencies in isolated chroots, and verifies systemd service files.
 * **Why It Saves Quota:** Prevents broken package builds and keeps your Linux system clean, stable, and conflict-free.
 
-#### 23. `reverse-engineer-anything`
+#### 28. `reverse-engineer-anything`
 * **In Simple Terms:** A deep inspection engine for understanding closed-source software, compiled games, and applications when no source code is available.
 * **When It Kicks In:** Analyzing compiled binaries, Windows/Linux executables, Android packages, or web apps.
 * **How It Works:** Deeply integrates with REA MCP to perform static disassembly, decompile code, reconstruct data structures, and keep an evidence ledger.
 * **Why It Saves Quota:** Tracks findings in structured evidence summaries rather than dumping thousands of lines of raw, unreadable assembly into chat.
 
-#### 24. `binary-re-workflows`
+#### 29. `binary-re-workflows`
 * **In Simple Terms:** Coordinates professional reverse engineering tools (like Ghidra, JADX, and network packet analyzers) under a strict scientific process.
 * **When It Kicks In:** Inspecting unfamiliar game DLLs, network packets, or complex binary executables.
 * **How It Works:** Combines static analysis and runtime tracing to test hypotheses about how closed-source binaries function.
 * **Why It Saves Quota:** Turns confusing binary mysteries into deterministic, step-by-step discoveries.
 
-#### 25. `standalone-binary-re`
+#### 30. `standalone-binary-re`
 * **In Simple Terms:** A fast, zero-setup toolkit for peeking inside binary files using standard Linux terminal tools—no heavy servers required.
 * **When It Kicks In:** Inspecting executables, DLLs, or Android APKs when external MCP servers are offline or when you need answers in seconds.
 * **How It Works:** Uses built-in Linux tools (`objdump`, `readelf`, `nm`, `strings`, `jadx`, `gdb`) and Python scripts to quickly inspect exported functions, headers, and text.
 * **Why It Saves Quota:** Starts up instantly with zero overhead and filters out noise so you only see the functions you care about.
 
-#### 26. `open-apk`
+#### 31. `open-apk`
 * **In Simple Terms:** Automatically opens, inspects, and decompiles Android mobile app packages (APKs) into readable Java code.
 * **When It Kicks In:** Reverse engineering Android apps, mobile games, or APK packages.
 * **How It Works:** Unpacks APK and DEX files directly into JADX headless analysis, searches classes and methods, and can download APKs directly via `apkeep`.
 * **Why It Saves Quota:** Extracts only the exact Java classes you need instead of dumping hundreds of decompiled files into the chat context.
 
-#### 27. `wakaru`
+#### 32. `wakaru`
 * **In Simple Terms:** Unpacks and unscrambles messy, minified JavaScript bundles (like from Webpack, Vite, or Electron) back into clean, organized files.
 * **When It Kicks In:** Auditing modern web apps, Electron desktop software, or production JavaScript bundles.
 * **How It Works:** Separates bundled web assets back into individual source files and translates minified shortcuts back into readable classes, async functions, and JSX.
 * **Why It Saves Quota:** Turns a gigantic, unreadable 2MB single-line JavaScript file into clean, modular source files with zero hallucination.
 
-#### 28. `lowlevel-dll-internals`
+#### 33. `lowlevel-dll-internals`
 * **In Simple Terms:** A low-level guide for safely modifying Windows DLLs, game engine classes, and memory patches without crashing the game.
 * **When It Kicks In:** Writing game mod plugins (like ASI plugins), hooking engine functions, or analyzing crash dumps.
 * **How It Works:** Calculates computer memory offsets, 32-bit calling conventions (`__thiscall` in `ecx`), 64-bit ABI shadow space, and virtual function tables so memory patches don't cause instant crashes.
 * **Why It Saves Quota:** Prevents dreaded `0xC0000005` "Access Violation" crashes by calculating memory addresses and calling conventions correctly the first time.
 
-#### 29. `steamcmd-workshop-pipeline`
+#### 34. `steamcmd-workshop-pipeline`
 * **In Simple Terms:** Automates publishing and updating mods on the Steam Workshop from the command line without clicking through confusing web forms.
 * **When It Kicks In:** Uploading new mods, pushing updates, setting preview images, or writing changelogs on Steam Workshop.
 * **How It Works:** Generates valid Steam VDF configuration manifests, manages content depots, and executes SteamCMD commands automatically.
 * **Why It Saves Quota:** Replaces error-prone manual upload attempts with an automated, verified deployment script.
 
-#### 30. `python-engineering`
+#### 35. `python-engineering`
 * **In Simple Terms:** Best practices for writing clean, fast, and bug-free modern Python code (Python 3.10+).
 * **When It Kicks In:** Writing Python scripts, web APIs, automation tools, or test suites.
 * **How It Works:** Enforces strict type hints (`mypy`), lightning-fast code formatting and linting (`ruff`), and comprehensive test suites (`pytest`).
 * **Why It Saves Quota:** Catches bugs before code ever runs, saving countless turns of debugging runtime errors.
 
-#### 31. `rust-engineering`
+#### 36. `rust-engineering`
 * **In Simple Terms:** Writes reliable, blazing-fast Rust code by working harmoniously with the Rust compiler.
 * **When It Kicks In:** Writing systems software, game tools, performance-critical modules, or CLI utilities in Rust.
 * **How It Works:** Follows Rust best practices for memory ownership, zero-cost abstractions, error handling with `Result` and `Option`, and strict Clippy lint checks.
 * **Why It Saves Quota:** Eliminates runtime crashes completely—if it compiles cleanly in Rust, it works.
 
-#### 32. `modern-cpp-engineering`
+#### 37. `modern-cpp-engineering`
 * **In Simple Terms:** Modern C++ (C++20/C++23) standards that eliminate old-school memory bugs, buffer overflows, and crashes.
 * **When It Kicks In:** Writing game engine code, native libraries, or performance-critical C++ applications.
 * **How It Works:** Uses smart pointers (`unique_ptr`, `shared_ptr`), RAII (automatic cleanup of resources), modern Concepts, and clean CMake build files.
 * **Why It Saves Quota:** Prevents memory leaks, buffer overflows, and segmentation faults before they happen.
 
-#### 33. `csharp-dotnet-engineering`
+#### 38. `csharp-dotnet-engineering`
 * **In Simple Terms:** High-performance modern C# and .NET (8/9) guidelines focused on zero-allocation and responsive async code.
 * **When It Kicks In:** Writing C# backend services, desktop utilities, game plugins, or tools.
 * **How It Works:** Uses memory-efficient types (`Span<T>`, `Memory<T>`), proper async cancellation tokens, and Roslyn code analyzers to keep apps fast.
@@ -335,7 +378,7 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ### 💰 Quota, Memory & Context Engineering
 
-#### 34. `token-economy`
+#### 39. `token-economy`
 * **In Simple Terms:** The ultimate quota-saving protocol that eliminates robotic fluff, stops the AI from repeating itself, and stretches your daily AI usage limits by 2x to 3x.
 * **When It Kicks In:** Always active in every conversation across Antigravity and Claude Code.
 * **How It Works:**
@@ -360,7 +403,7 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 * **Compounding Context Multiplier:** Because past conversation output tokens are re-ingested as input prompt tokens on every subsequent turn, saving 6,500 output tokens in early turns prevents re-reading **~35,000–60,000 cumulative prompt tokens** across a 15-turn session, extending rolling 5-hour quota limits by **2x to 3x**.
 
-#### 35. `project-memory-bank`
+#### 40. `project-memory-bank`
 * **In Simple Terms:** A smart project notebook that stores your project's architecture and lessons learned, so the AI never forgets what you're working on across restarts.
 * **When It Kicks In:** Starting work on a repository, resuming multi-session tasks, or before running `/compact`.
 * **How It Works:**
