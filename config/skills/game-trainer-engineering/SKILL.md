@@ -1,0 +1,112 @@
+---
+name: game-trainer-engineering
+description: Cross-platform game trainer development across Windows and Linux. Covers dynamic memory scanning, multi-level pointer resolution, AOB pattern scanning, code injection (trampoline/detour mid-function hooks), global hotkey hooking, and embedded ImGui/web overlays.
+---
+
+# Cross-Platform Game Trainer Engineering (Windows & Linux)
+
+This skill provides an advanced reverse-engineering and software development guide for creating game trainers, memory modification utilities, and internal/external debug overlays for PC games on Windows and Linux (native and Proton/Wine).
+
+---
+
+## 1. Trainer Architecture: External vs. Internal
+
+| Feature | **External Trainer** (Process Injection) | **Internal Trainer** (DLL / `.so` Injection) |
+| :--- | :--- | :--- |
+| **Execution Context** | Runs as a separate `.exe` or Python/Rust CLI process | Injected directly into the game's address space |
+| **OS Memory Access** | `OpenProcess` + `ReadProcessMemory` / `WriteProcessMemory` (Windows)<br>`process_vm_readv` / `process_vm_writev` or `/proc/<pid>/mem` (Linux) | Direct C++ pointer dereference (`*reinterpret_cast<float*>(ptr) = 100.0f`) |
+| **Performance** | High context-switch overhead across system calls | Sub-microsecond zero-copy direct memory access |
+| **Hook Capabilities** | Byte patching only; complex mid-function hooks require remote thread hijacking | Seamless inline assembly detours, MinHook, VMT hooks, and DirectX/Vulkan overlays |
+| **GUI Integration** | Separate desktop window (ImGui, WinUI, Webview) | In-game rendered overlay (ImGui hooking `Present()` / `vkQueuePresentKHR`) |
+
+---
+
+## 2. Multi-Level Dynamic Pointer Resolution
+
+Game engines allocate entity structures dynamically on the heap; hardcoded memory addresses change on every game restart.
+To resolve the live address:
+$$\text{Base Address} \xrightarrow{+\text{Offset}_1} \text{Pointer}_1 \xrightarrow{+\text{Offset}_2} \text{Pointer}_2 \dots \xrightarrow{+\text{Offset}_N} \text{Target Value}$$
+
+### Python Cross-Platform Multi-Level Pointer Resolver
+```python
+import struct
+
+def resolve_pointer_chain(read_mem_func, base_address: int, offsets: list[int], is_64bit: bool = True) -> int:
+    ptr_size = 8 if is_64bit else 4
+    unpack_fmt = "<Q" if is_64bit else "<I"
+    
+    current_addr = base_address
+    for i, offset in enumerate(offsets):
+        if i == len(offsets) - 1:
+            return current_addr + offset
+        
+        # Read next pointer address from memory
+        raw_bytes = read_mem_func(current_addr + offset, ptr_size)
+        if not raw_bytes or len(raw_bytes) < ptr_size:
+            raise MemoryError(f"Failed to resolve pointer at 0x{current_addr + offset:X}")
+        current_addr = struct.unpack(unpack_fmt, raw_bytes)[0]
+        if current_addr == 0:
+            raise ValueError(f"Null pointer encountered at offset step {i}")
+            
+    return current_addr
+```
+
+---
+
+## 3. AOB (Array of Bytes) Signature Scanning
+
+Game patches frequently shift memory offsets. Signature scanning finds code and data by searching for unique machine instruction sequences with wildcards:
+
+* **Signature Pattern:** `48 89 5C 24 ?? 57 48 83 EC 20 48 8B D9 8B ??`
+* **Algorithm:** Search the `.text` executable code section using Boyer-Moore-Horspool or SIMD vector scanning:
+```cpp
+uintptr_t find_pattern(uintptr_t start, size_t length, const char* pattern, const char* mask) {
+    size_t pattern_len = strlen(mask);
+    for (size_t i = 0; i <= length - pattern_len; ++i) {
+        bool match = true;
+        for (size_t j = 0; j < pattern_len; ++j) {
+            if (mask[j] != '?' && *(char*)(start + i + j) != pattern[j]) {
+                match = false;
+                break;
+            }
+        }
+        if (match) return start + i;
+    }
+    return 0;
+}
+```
+
+---
+
+## 4. Code Injection & Mid-Function Detours
+
+When memory freeze (writing in a loop) causes health or ammo flickering:
+1. **Locate Subtraction Instruction:**
+   `SUB [RCX + 0x30], EAX` (Health subtraction)
+2. **Hook with 5-byte/14-byte JMP Trampoline:**
+   - Overwrite instruction with `JMP cave_function`.
+   - In cave function, check if entity is the player.
+   - If player, bypass subtraction (`NOP`). If enemy, execute original instruction.
+   - Jump back to `return_address`.
+
+---
+
+## 5. Linux & Steam Proton / Wine Specifics
+
+When targeting games running on Linux or under Proton:
+1. **Linux `/proc/<pid>/mem` Direct Access:**
+   - Linux requires `CAP_SYS_PTRACE` or `/proc/sys/kernel/yama/ptrace_scope` configured to 0.
+2. **Proton Wine Prefix Windows Trainers:**
+   - Run Windows trainers inside the exact same Proton prefix using `protontricks` or `wine`:
+     ```bash
+     STEAM_COMPAT_DATA_PATH="$HOME/.steam/steam/steamapps/compatdata/<appid>" \
+     python3 "$PROTON_PATH/proton" run Trainer.exe
+     ```
+   - Trainers running inside the prefix can call Win32 `ReadProcessMemory` directly across simulated wine processes.
+3. **Internal DLL Injection via `WINEDLLOVERRIDES`:**
+   - Name your trainer DLL `dinput8.dll`, `version.dll`, or `dxgi.dll`.
+   - Place in the game folder and launch with:
+     ```bash
+     WINEDLLOVERRIDES="dinput8=n,b" %command%
+     ```
+   - On game startup, the OS loader automatically runs your trainer's `DllMain` inside the game process without needing an external injector.

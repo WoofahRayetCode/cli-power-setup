@@ -69,6 +69,7 @@ To ensure the new frontier efficiency tools are always utilized:
 * **Threat Model Matrices & Pen-Test Logs:** When generating extensive STRIDE threat matrices, DAST penetration test outputs, or network packet captures (`pcap`), offload them to structured artifacts or disk files, presenting only the critical risk score and remediations in chat.
 * **Wine Relay Traces & Handheld Performance Logs:** When capturing `WINEDEBUG=+relay` execution traces (hundreds of thousands of Win32 calls) or multi-minute MangoHud/Steam Deck frametime CSVs, pipe them directly to files in `/tmp/`, reporting only the specific hanging function call or 1% low FPS metrics in chat.
 * **GameMaker YYP Projects & Room Layout JSON:** When inspecting large GameMaker `.yyp` project manifests or room layer JSON files (tens of thousands of JSON lines), offload to disk/artifacts, presenting only resource counts or modified layer names in chat.
+* **Memory Scan Dumps & Pointer Resolution Maps:** When scanning game memory for addresses or dumping Cheat Engine pointer maps (tens of thousands of memory hits), pipe them to disk files in `/tmp/`, surfacing only the final base address, validated offset chain, and value range in chat.
 * Provide a single clickable file link and a 1-sentence headline rather than dumping large blocks of markdown or HTML into the chat transcript.
 
 ---

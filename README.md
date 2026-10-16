@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **125 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **126 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 125 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 126 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -189,7 +189,8 @@ cli-power-setup/
 | **`steamdeck-proton-hardware-tuning`** | Gaming/Handheld | Steam Deck 15W APU TDP budget, 40Hz frame pacing, 1280x800 resolution & 28px font scaling |
 | **`wine-proton-native-interop`** | Gaming/Interop | Win32-to-Linux named pipe mapping, shared memory shims, Wine DLL call thunking & relay traces |
 | **`gamemaker-gml-engineering`** | Gaming/GML | Modern GameMaker (2024+), constructors/structs, FSMs, volatile surfaces, delta timing & batching |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 125+ skills |
+| **`game-trainer-engineering`** | Gaming/Trainer | Cross-platform memory scanning, pointer chain resolvers, AOB scans & mid-function detour hooks |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 126+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
@@ -1058,6 +1059,12 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Replaces traditional `ds_*` maps/lists with native GC-managed structs and arrays, safeguards dynamic surfaces against alt-tab crashes with automatic recreation logic, batches draw calls by texture group, and implements sub-pixel delta timing.
 * **Why It Saves Quota:** Prevents common GameMaker pitfalls (VRAM memory leaks, stuttery frame pacing, object count bloat) before they corrupt runtime performance.
 
+#### 126. `game-trainer-engineering`
+* **In Simple Terms:** Cross-platform game trainer, cheat engine, and debug overlay development for PC games on Windows and Linux (native and Steam Proton/Wine).
+* **When It Kicks In:** Creating external or internal game trainers, resolving dynamic multi-level pointer chains, scanning memory with wildcard AOB (Array of Bytes) signatures, writing mid-function assembly trampoline detours, or injecting trainers via `WINEDLLOVERRIDES`.
+* **How It Works:** Provides cross-platform pointer resolution algorithms, wildcard bytecode pattern scanners, Win32 `ReadProcessMemory` / Linux `/proc/<pid>/mem` handlers, and DirectX/Vulkan ImGui overlay injection techniques.
+* **Why It Saves Quota:** Pinpoints exact memory offsets and stable signature masks in 1 turn rather than wasting context on blind trial-and-error memory scanning.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1188,7 +1195,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 125 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 126 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
