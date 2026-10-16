@@ -1,0 +1,136 @@
+---
+name: game-engine-migration
+description: Universal architectural framework for porting, migrating, and modernizing game engines and legacy mods across bitness (32-bit to 64-bit), graphics APIs (DX9/OpenGL to DX11/DX12/Vulkan), and scripting runtimes.
+---
+
+# Universal Game Engine Migration & Porting Framework
+
+This skill establishes the universal 5-stage architectural framework for porting legacy game engines, source ports, custom forks, and game mods across modern hardware architectures, graphics APIs, and operating environments.
+
+---
+
+## 🏛️ The 5-Stage Migration Lifecycle
+
+```
+[Phase 1: Architecture Audit]
+       │
+       ▼
+[Phase 2: Bitness & ABI Alignment]
+       │
+       ▼
+[Phase 3: Graphics Pipeline Modernization]
+       │
+       ▼
+[Phase 4: Scripting Runtime & VFS Reconciliation]
+       │
+       ▼
+[Phase 5: Differential Verification & Triage]
+```
+
+---
+
+## 🔍 Phase 1: Architecture Audit & Dependency Inventory
+
+Before altering source files or replacing engine binaries:
+1. **Catalog Target Bitness & Subsystem Dependencies:**
+   - Map all compiled native libraries (`.dll`, `.so`, `.dylib`).
+   - Identify 32-bit proprietary binary blobs lacking source code. Any 32-bit closed-source DLL **cannot** link into a 64-bit process space; classify them immediately for re-implementation or Lua/script emulation.
+2. **Virtual File System (VFS) & Mount Hierarchy:**
+   - Document archive precedence (e.g., loose file overlays vs packed container priority).
+   - Verify file-path case sensitivity assumptions (Linux/Wine porting often fails on un-sanitized case-sensitive lookups).
+3. **Establish Vanilla / Baseline Checkpoint:**
+   - Isolate unmodified legacy baselines in read-only directories (`unpacked/`, `vanilla/`).
+   - Capture baseline execution logs, memory footprint, and frame times for differential comparison.
+
+---
+
+## ⚙️ Phase 2: Bitness Transition & Memory Alignment (32-bit to 64-bit)
+
+### 1. Pointer Sizing & Arithmetic
+* Replace raw integer casts (`int`, `long`, `DWORD`) holding memory addresses with `uintptr_t` or `size_t`.
+* Audit pointer arithmetic and offset calculations:
+  ```cpp
+  // INCORRECT (Trunctates 64-bit addresses, causing 0xC0000005 crashes)
+  DWORD baseAddr = (DWORD)ptr;
+  
+  // CORRECT (Architecture-agnostic pointer handling)
+  uintptr_t baseAddr = reinterpret_cast<uintptr_t>(ptr);
+  ```
+
+### 2. Struct Alignment & Padding (`#pragma pack`)
+* 32-bit x86 aligns `uint64_t` or `double` on 4-byte boundaries; 64-bit x86_64 aligns them on 8-byte boundaries.
+* Binary file formats reading raw structs directly from disk via `fread()` or memory maps will suffer deserialization corruption if struct layout changes.
+* Use explicit packing pragmas or fixed-width serializers:
+  ```cpp
+  #pragma pack(push, 1)
+  struct LegacyDiskHeader {
+      uint32_t magic;
+      uint64_t dataOffset; // Explicit alignment preservation
+  };
+  #pragma pack(pop)
+  ```
+
+### 3. Calling Convention Alignment
+* 32-bit engines use explicit conventions (`__thiscall` in `ECX`, `__stdcall`, `__cdecl`, `__fastcall`).
+* 64-bit platforms collapse into unified ABIs (Microsoft x64 ABI using `RCX, RDX, R8, R9` with 32-byte shadow space; System V AMD64 using `RDI, RSI, RDX, RCX, R8, R9`).
+* Ensure function pointers, engine callbacks, and native detour hooks drop obsolete 32-bit calling convention decorators under 64-bit compilation targets.
+
+---
+
+## 🎨 Phase 3: Graphics Pipeline Modernization
+
+### 1. Legacy Fixed-Function & Early Shaders → Modern Programmable Pipeline
+* **DirectX 9 / OpenGL 1.x-2.x:** Rely on implicit render states, fixed texture stages, and implicit uniform updates.
+* **DirectX 11 / 12 / Vulkan:** Require explicit Pipeline State Objects (PSOs), explicit render targets, constant buffers, and descriptor sets.
+* Strip or convert legacy shader models (SM 2.0 / 3.0). Never load legacy DX9 compiled shaders into modern deferred renderers without transpilation (e.g. via SPIRV-Cross, HLSLcc, or native DX11/12 rewrites).
+
+### 2. Constant Buffer (CBuffer) & Uniform Alignment
+* Modern graphics APIs require constant buffer layouts to align on 16-byte boundaries (float4).
+* Verify uniform struct padding matches shader-side expectations to avoid matrix distortion or corrupt vertex transformation.
+
+### 3. Vertex Layout Strides
+* Ensure vertex declarations match input layouts bit-for-bit.
+* Replace deprecated flexible vertex formats (FVF) with explicit vertex input descriptors.
+
+---
+
+## 📜 Phase 4: Scripting Runtime, Host Bridges & VFS
+
+### 1. Embedded Scripting Engine Modernization
+* **Lua 5.1 → LuaJIT / C++ Host Bridges:**
+  * Ensure 64-bit LuaJIT memory allocation stays within the accessible 32-bit GC address space (or build with `LUAJIT_ENABLE_GC64`).
+  * Reconcile callback signatures between engine C++ functions and Lua scripts.
+* **Host Callback Lifetimes:**
+  * Verify engine game objects exposed to scripts are validated before method invocations (prevent use-after-free or dangling pointers when entities are despawned).
+
+### 2. VFS & Asset Serialization
+* **Endianness & Coordinate Swizzling:**
+  * When porting between platforms, convert endianness for multi-byte values.
+  * Swizzle coordinates when migrating between left-handed (DirectX) and right-handed (OpenGL/Vulkan) coordinate systems.
+* **Case Sanitization:**
+  * Normalize all asset paths in VFS lookups to lowercase to ensure seamless operation on Linux / Steam Deck filesystems.
+
+---
+
+## 🧪 Phase 5: Differential Verification & Triage
+
+### 1. Telemetry & Log Diffing
+* Run identical scenario scripts in the baseline legacy engine and the migrated engine.
+* Compare entity spawn counts, inventory inventories, quest state variables, and network synchronization hashes.
+
+### 2. System Crash Classification
+
+| Crash Signature | Root Cause | Remediation Protocol |
+| :--- | :--- | :--- |
+| `0xC0000005` (Access Violation at `0x00000000`) | Null pointer dereference or missing game entity pointer. | Add strict null guard; inspect host entity lifecycle before call. |
+| `0xC0000005` (Access Violation at `0xFFFFFFFF...`) | Pointer truncation caused by casting 64-bit address to 32-bit int. | Audit pointer arithmetic for `DWORD` or `int` casts; replace with `uintptr_t`. |
+| `0xC00000FD` (Stack Overflow) | Infinite recursion in engine callback hook or cyclic script event. | Audit hook detours and event dispatch cascades for missing recursion guards. |
+| Shader compilation failure (`D3D11 / VK`) | Mismatched constant buffer alignment or missing semantics. | Reconcile cbuffer 16-byte alignment and explicit input layout semantics. |
+
+---
+
+## 🔗 Skill Composition Matrix
+
+* **Low-Level Binaries & VTables:** When reconstructing native C++ classes, combine with `lowlevel-dll-internals`.
+* **Zero-MCP CLI Disassembly:** Combine with `standalone-binary-re` for inspecting PE exports, symbols, and relocations.
+* **S.T.A.L.K.E.R. Specifics:** When porting to OGSR or Shadow of Chernobyl 64-bit, delegate to `stalker-ogsr-migration`.

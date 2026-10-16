@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **32 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **33 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 32 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 33 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs `agy-quota-statusline` and configures it in both `~/.gemini/antigravity-cli/settings.json` and `~/.claude/settings.json`.
 5. **Turbo Mode Launcher:** Installs `agy-turbo` into `~/.local/bin/`.
@@ -56,7 +56,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 32 specialized skills
+    └── skills/                 # 33 specialized skills
 ```
 
 ---
@@ -78,6 +78,7 @@ cli-power-setup/
 | **`godot-game-dev`** | Game Engine | Godot 4.x, GDScript 2.0 static typing, headless GUT |
 | **`unreal-engine-dev`** | Game Engine | Unreal Engine 5 C++, Gameplay Framework, GC rules |
 | **`unity-game-dev`** | Game Engine | Unity C#, zero-allocation Span/Memory, ScriptableObjects |
+| **`game-engine-migration`** | Game Engine | Universal 5-stage engine & mod porting framework (32-to-64 bit, DX9-to-DX11/VK) |
 | **`blender-3d-engineering`** | 3D Assets | Headless `bpy` modeling, modifier stacks, game exports |
 | **`game-modding`** | Modding | S.T.A.L.K.E.R. EE ZoneForge toolchain, LTX & audio rules |
 | **`xray-lua-scripting`** | Modding | S.T.A.L.K.E.R. X-Ray Engine Lua callbacks and memory safety |
@@ -180,7 +181,12 @@ cli-power-setup/
 * **Mechanism:** Enforces zero-allocation patterns (avoiding runtime GC spikes), `Span<T>` and `Memory<T>` for buffers, ScriptableObject architectures, and decoupled EventChannel systems.
 * **Quota Advantage:** Eliminates garbage collection churn and memory leak debugging cycles.
 
-#### 14. `blender-3d-engineering`
+#### 14. `game-engine-migration`
+* **Trigger:** Porting legacy game engines, source ports, custom forks, and mods across architectures (32-to-64 bit), graphics APIs (DX9/OpenGL to DX11/DX12/Vulkan), or modern scripting runtimes.
+* **Mechanism:** Executes the universal 5-stage migration lifecycle: dependency audit, bitness transition & pointer math (`uintptr_t`, `#pragma pack`, unified 64-bit ABI calling conventions), graphics pipeline modernization (constant buffer 16-byte alignment, PSO state), script runtime modernizations (Lua 5.1 to LuaJIT, Mono to modern .NET), VFS case-normalization, and differential regression diffing.
+* **Quota Advantage:** Eliminates speculative crash debugging (`0xC0000005`, memory corruption, broken vertex strides) with a standardized architectural protocol.
+
+#### 15. `blender-3d-engineering`
 * **Trigger:** Creating 3D models, procedural geometry, hard-surface props, game asset exports.
 * **Mechanism:** Headless Python execution via `/usr/bin/blender -b -P script.py`. Constructs assets using parameter-driven primitives and non-destructive modifier stacks (Boolean, Bevel, Mirror, Array, Subsurf). Validates manifold topology in-script and exports clean glTF/FBX.
 * **Quota Advantage:** Eliminates the disaster of emitting thousands of raw vertex coordinates into chat, saving 20,000+ tokens per asset while producing clean, manifold meshes.
@@ -189,22 +195,22 @@ cli-power-setup/
 
 ### ☢️ Game Modding (S.T.A.L.K.E.R. Ecosystem)
 
-#### 15. `game-modding`
+#### 16. `game-modding`
 * **Trigger:** S.T.A.L.K.E.R. Legends of the Zone Trilogy Enhanced Edition (EE) modding.
 * **Mechanism:** Operates ZoneForge asset workflows. Enforces read-only baseline protection for unpacked vanilla archives, strict LTX section header and inheritance syntax, DXT1/DXT5 texture standards, and engine-safe OGG audio chunk preservation.
 * **Quota Advantage:** Eliminates fatal X-Ray engine crashes caused by missing LTX parent sections or corrupted audio comment headers.
 
-#### 16. `xray-lua-scripting`
+#### 17. `xray-lua-scripting`
 * **Trigger:** S.T.A.L.K.E.R. X-Ray Engine Lua scripts, quest logic, inventory hooks, callbacks.
 * **Mechanism:** Enforces safe engine callback bindings, memory leak prevention in global Lua states, safe game save serialization, and strict nil-checking on game objects.
 * **Quota Advantage:** Prevents silent script freezes and corrupt savegame states.
 
-#### 17. `stalker2-modding`
+#### 18. `stalker2-modding`
 * **Trigger:** S.T.A.L.K.E.R. 2 Heart of Chornobyl modding (Unreal Engine 5).
 * **Mechanism:** Governs UE5 IoStore container packaging (`.pak`, `.ucas`, `.utoc`) using `repak`, RE-UE4SS C++ and Lua hooking workflows, and game asset extraction.
 * **Quota Advantage:** Eliminates trial-and-error container packing errors and mismatched compression flags.
 
-#### 18. `stalker-ogsr-migration`
+#### 19. `stalker-ogsr-migration`
 * **Trigger:** Porting legacy 32-bit S.T.A.L.K.E.R. Shadow of Chernobyl mods (e.g., S.T.A.L.K.E.R. Complete 2009) to modern 64-bit OGSR Engine.
 * **Mechanism:** Handles 64-bit binary layout migration (`bin_x64/`), purging incompatible 32-bit native libraries (`complete_blood_pools.dll`), stripping legacy DX9 shaders causing DX11 crashes (`shaders/r2/`), migrating Lua callbacks to LuaJIT engine signals, universal ACDC spawn decomposition/recompilation, and diagnosing `_appdata_/logs/*.log` crash signatures.
 * **Quota Advantage:** Eliminates fatal runtime engine crashes (`FATAL ERROR: Expression: !failed()`, `0xC0000005` access violations) and avoids speculative shader debugging.
@@ -213,62 +219,62 @@ cli-power-setup/
 
 ### 💻 Systems, Reverse Engineering & Languages
 
-#### 19. `cachyos-arch-packaging`
+#### 20. `cachyos-arch-packaging`
 * **Trigger:** CachyOS and Arch Linux PKGBUILD authoring, DKMS modules, systemd services.
 * **Mechanism:** Enforces Arch packaging standards, safe DKMS kernel hooks (e.g. `omen-acpi`), systemd unit authoring, `makepkg` verification, and package integrity checks.
 * **Quota Advantage:** Prevents broken build chroots and dirty package installations.
 
-#### 20. `reverse-engineer-anything`
+#### 21. `reverse-engineer-anything`
 * **Trigger:** Reverse engineering native binaries, managed code, Electron apps, APKs, firmware.
 * **Mechanism:** Deep integration with REA MCP. Handles static disassembly, decompilation, memory reconstruction, control-flow graphing, and evidence ledger maintenance.
 * **Quota Advantage:** Focuses analysis strictly on evidence ledgers rather than dumping raw assembly dumps into chat.
 
-#### 21. `binary-re-workflows`
+#### 22. `binary-re-workflows`
 * **Trigger:** Inspecting compiled binaries, game DLLs, network packets, executables.
 * **Mechanism:** Orchestrates REA, Ghidra, JADX, TShark, `objdump`, and hex analysis tools under Superpowers verification standards.
 * **Quota Advantage:** Converts opaque binary debugging into deterministic, hypothesis-driven investigation.
 
-#### 22. `standalone-binary-re`
+#### 23. `standalone-binary-re`
 * **Trigger:** Reverse engineering binaries when REA MCP is offline, unavailable, or for fast zero-overhead CLI inspection.
 * **Mechanism:** Direct execution of native Linux utilities (`objdump`, `readelf`, `nm`, `jadx`, `gdb`, `strings`, `xxd`) and Python `pefile`. Handles Linux ELF relocations/symbols, Windows PE export/import directories, Android APK Java decompilation, and custom binary formats without MCP dependencies.
 * **Quota Advantage:** Zero MCP startup latency; avoids large token-heavy disassembly dumps through targeted function filters.
 
-#### 23. `open-apk`
+#### 24. `open-apk`
 * **Trigger:** Opening, decompiling, or inspecting Android APK, XAPK, DEX, or JAR files.
 * **Mechanism:** Streamlines loading Android packages into JADX headless static analysis, extracting package metadata, searching classes/methods, resolving xrefs, and exporting readable Java source. Supports downloading from APKPure via `apkeep`.
 * **Quota Advantage:** Extracts targeted classes rather than dumping hundreds of decompiled Java files into context.
 
-#### 24. `wakaru`
+#### 25. `wakaru`
 * **Trigger:** Auditing minified production JavaScript, Webpack/Vite/Rollup bundles, Electron apps, or compiled Vue 3 artifacts.
 * **Mechanism:** JavaScript bundle unpacker and decompiler. Splits bundled assets into original module structures, reverses transpiler helpers (async/await, classes, JSX, optional chaining), and un-minifies structure deterministically.
 * **Quota Advantage:** Turns unreadable single-line 2MB bundles into isolated, readable modules with zero hallucination.
 
-#### 25. `lowlevel-dll-internals`
+#### 26. `lowlevel-dll-internals`
 * **Trigger:** Analyzing Windows PE/DLL binaries, ASI plugins, C++ engine classes, vtables, crash dumps, or writing native detour hooks.
 * **Mechanism:** Applies compiler-grade binary heuristics: RVA-to-file offset conversion, 32-bit calling convention stack alignment (`__thiscall` in `ecx`, `__stdcall`, `__cdecl`), 64-bit ABI shadow space rules, virtual method table (VTable) slot indexing, 5-byte relative jump detour blueprints, and memory protection patching.
 * **Quota Advantage:** Eliminates trial-and-error memory patching and prevents cryptic `0xC0000005` access violations before code execution.
 
-#### 26. `steamcmd-workshop-pipeline`
+#### 27. `steamcmd-workshop-pipeline`
 * **Trigger:** Publishing, updating, or managing Steam Workshop items via SteamCMD.
 * **Mechanism:** Generates valid VDF workshop manifests, manages content depots, sets item visibility, handles preview images, and publishes automated changelogs.
 * **Quota Advantage:** Replaces error-prone manual SteamCMD commands with automated, verified scripts.
 
-#### 27. `python-engineering`
+#### 28. `python-engineering`
 * **Trigger:** Python development, API building, test suites, automation scripts.
 * **Mechanism:** Enforces Python 3.10+ modern idioms: strict type annotations (`mypy`), fast linting and formatting (`ruff`), pytest test suites with fixtures, and hot-path memory profiling.
 * **Quota Advantage:** Static type checks catch bugs instantly before runtime.
 
-#### 28. `rust-engineering`
+#### 29. `rust-engineering`
 * **Trigger:** Rust systems development, game tools, CLI applications.
 * **Mechanism:** Enforces compiler-first workflows: zero-cost abstractions, idiomatic error handling with `Result` and `Option`, strict borrow checker compliance, and Clippy lint audits.
 * **Quota Advantage:** Zero runtime crashes; compiler errors are solved systematically.
 
-#### 29. `modern-cpp-engineering`
+#### 30. `modern-cpp-engineering`
 * **Trigger:** C++ systems programming, game engine modules, native libraries.
 * **Mechanism:** Modern C++20/C++23 standards: RAII memory management, smart pointers (`unique_ptr`, `shared_ptr`), Concepts for template constraints, and CMake modular targets.
 * **Quota Advantage:** Eliminates memory leaks, buffer overflows, and undefined behavior debugging.
 
-#### 30. `csharp-dotnet-engineering`
+#### 31. `csharp-dotnet-engineering`
 * **Trigger:** Modern .NET 8/9 applications, C# utilities, engine plugins.
 * **Mechanism:** Emphasizes memory optimization using `Span<T>` and `Memory<T>`, strict `CancellationToken` propagation across async chains, pattern matching, and Roslyn analyzer enforcement.
 * **Quota Advantage:** Guarantees efficient, allocation-conscious code that minimizes GC pauses.
@@ -277,7 +283,7 @@ cli-power-setup/
 
 ### 💰 Quota, Memory & Context Engineering
 
-#### 31. `token-economy`
+#### 32. `token-economy`
 * **Trigger:** Active in all conversations via `GEMINI.md`, `CLAUDE.md`, and on-demand skill.
 * **Mechanism:**
   - **Zero Conversational Fluff:** Drops conversational preambles ("Sure, I can help with that"), fillers, and sign-offs.
@@ -301,7 +307,7 @@ cli-power-setup/
 
 * **Compounding Context Multiplier:** Because past conversation output tokens are re-ingested as input prompt tokens on every subsequent turn, saving 6,500 output tokens in early turns prevents re-reading **~35,000–60,000 cumulative prompt tokens** across a 15-turn session, extending rolling 5-hour quota limits by **2x to 3x**.
 
-#### 32. `project-memory-bank`
+#### 33. `project-memory-bank`
 * **Trigger:** Starting work on a repository, multi-session tasks, before running `/compact`.
 * **Mechanism:**
   - Maintains persistent markdown files in `.agents/memory/`:
