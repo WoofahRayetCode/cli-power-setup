@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Launch Antigravity CLI in hands-free YOLO mode (auto-approves tool executions without prompting)
+exec agy --dangerously-skip-permissions --mode auto "$@"

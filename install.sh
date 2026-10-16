@@ -95,6 +95,12 @@ install_binaries() {
         log_done "Installed executable: ${BIN_DEST}/agy-turbo"
     fi
 
+    if [ -f "${SCRIPT_DIR}/bin/agy-yolo" ]; then
+        cp "${SCRIPT_DIR}/bin/agy-yolo" "${BIN_DEST}/agy-yolo"
+        chmod +x "${BIN_DEST}/agy-yolo"
+        log_done "Installed executable: ${BIN_DEST}/agy-yolo"
+    fi
+
     if [ -f "${SCRIPT_DIR}/bin/claude-turbo" ]; then
         cp "${SCRIPT_DIR}/bin/claude-turbo" "${BIN_DEST}/claude-turbo"
         chmod +x "${BIN_DEST}/claude-turbo"

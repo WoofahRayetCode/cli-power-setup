@@ -1556,6 +1556,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | :--- | :--- | :--- |
 | **`claude-turbo`** | Launches Claude Code with low-effort thinking | Your default daily driver for fast, quota-saving Claude coding. |
 | **`agy-turbo`** | Launches Antigravity with Gemini Flash + low effort | Your default daily driver for fast, quota-saving Gemini coding. |
+| **`agy-yolo`** / **`yolo`** | Launches Antigravity in hands-free YOLO mode (`--dangerously-skip-permissions --mode auto`) | Runs without prompting to accept tool calls or command executions. |
 | **`claude`** | Launches standard Claude Code | When you need full deep reasoning for hard bugs or major refactors. |
 | **`agy`** | Launches standard Antigravity CLI | When you need standard multi-model escalation (Flash to Argon). |
 | **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context gauge crosses 50%–60%. |
