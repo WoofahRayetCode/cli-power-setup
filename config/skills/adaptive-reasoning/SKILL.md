@@ -109,3 +109,31 @@ Before beginning work on any user request, evaluate the prompt's structural comp
   * Route exact mathematical formulas, DSP biquad filter calculations, and log analytics to `sandbox-code-interpreter`.
   * Automatically escalate the architecture and plan drafting phase to a **`pro` (Gemini 4 Argon)** subagent via `invoke_subagent`.
   * Once the plan artifact is created and approved, route all execution back to **Flash** for quota-efficient task completion.
+
+---
+
+## Dynamic Difficulty-Triggered Escalation (`adaptive_model_router.py`)
+
+When an agent encounters difficulty getting something to work (e.g. failing unit tests, compilation errors, repeated crash loops), it must **never thrash in low-reasoning trial-and-error loops**.
+
+Invoke the Adaptive Router to dynamically calibrate model and reasoning depth:
+```bash
+python3 config/skills/adaptive-reasoning/scripts/adaptive_model_router.py route --error "<error snippet>" --attempts <N>
+```
+
+### Escalation Hierarchy:
+1. **Attempt 0 (Normal Execution):**
+   - **Model:** `Flash` / `Turbo`
+   - **Reasoning:** `Low` / instant streaming
+   - **Strategy:** Surgical pinpoint edits (`replace_file_content`).
+2. **Attempt 1 (Difficulty Encountered):**
+   - **Model:** `Flash`
+   - **Reasoning:** `Medium` / Systematic root-cause diagnosis (`systematic-debugging`).
+   - **Strategy:** Read full error stack trace, inspect AST definitions (`local-ast-compiler-engine`), isolate root cause.
+3. **Attempt 2+ or Fatal Memory/Crash (Deep Escalation):**
+   - **Model:** `pro` (Gemini 4 Argon / Claude Sonnet/Opus) via `invoke_subagent(Model="pro")`
+   - **Reasoning:** `High` / Deliberative Tree-of-Thought (`deliberative-reasoning-tree`).
+   - **Strategy:** Formulate 3 distinct hypothesis branches, red-team each path, execute provably sound architecture.
+4. **Task Verified Passing (`pass`):**
+   - Immediate automatic de-escalation back to **`Flash` / Low Reasoning**, restoring 100% quota efficiency.
+
