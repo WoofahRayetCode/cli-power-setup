@@ -36,6 +36,10 @@ TOOL_DEPENDENCIES = {
     "cmake": ["cmake-cross-platform", "modern-cpp-engineering"],
     "tshark": ["network-protocol-engineering", "binary-re-workflows"],
     "python3": ["python-engineering", "sandbox-code-interpreter", "game-texture-material-pipeline"],
+    "objdiff": ["console-game-decompilation"],
+    "splat": ["console-game-decompilation"],
+    "rizin": ["console-game-decompilation", "binary-re-workflows"],
+    "m2c": ["console-game-decompilation"],
 }
 
 def parse_frontmatter(skill_file: Path) -> dict:

@@ -78,16 +78,38 @@ Ancient compilers had distinct code generation quirks. Identify the original com
 
 ---
 
-## 🛠️ 4. Toolchain Ecosystem & Ghidra Plugins
+## 🛠️ 4. Installed Local Toolchain Ecosystem
 
-* **Ghidra Processors:**
+The following native tools are installed and ready for immediate CLI usage:
+
+* **`objdiff`:** Local visual and CLI diff engine highlighting registers, instructions, and relocations in real time.
+  ```bash
+  objdiff cli diff --target build/func.o --base orig/func.o
+  ```
+* **`splat` (`splat64`):** Binary splitting framework to partition ROMs/ELFs into `.s`, `.c`, and asset chunks.
+  ```bash
+  splat split split.yaml
+  ```
+* **`m2c` (`mips-to-c`):** High-performance assembly-to-C translator supporting MIPS, PS2 Emotion Engine, PowerPC, and ARM.
+  ```bash
+  # PS2 Emotion Engine assembly to C scaffolding
+  m2c -t mipsee -f CalculatePhysics asm/physics.s
+
+  # GameCube / Wii / Xbox 360 PowerPC assembly to C
+  m2c -t ppc -f ProcessMatrix asm/matrix.s
+
+  # PS1 MIPS I assembly to C
+  m2c -t mips -f InitGame asm/init.s
+  ```
+* **`rizin` & `rz-ghidra`:** Offline headless Ghidra decompilation and disassembly engine.
+  ```bash
+  # Decompile function at entry point via rz-ghidra
+  rizin -q -A -c "s main; pdc" game.elf
+  ```
+* **Ghidra Processors (External GUI):**
   * PS2: `ghidra-emotionengine` (supports R5900 128-bit registers, VU0/VU1 microcode).
   * PS3: `Ghidra-Cell-SPU` (Cell Synergistic Processing Element assembly analysis).
   * Xbox / Xbox 360: `ghidra-xbe` & `ghidra-xex` loaders.
-* **Decomp Tools:**
-  * `mips-to-c`: Instant heuristic translation of MIPS assembly functions into initial C scaffolding.
-  * `decomp.me`: Collaborative online assembly scratchpad for community matching decompilations.
-  * `objdiff`: Local visual diff tool highlighting registers and instructions in real-time.
 
 ---
 

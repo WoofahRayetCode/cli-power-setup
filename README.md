@@ -1118,7 +1118,7 @@ To provide maximum flexibility without losing precision, this suite employs a **
 #### 134. `console-game-decompilation`
 * **In Simple Terms:** Reverse engineering and matching decompilation toolkit to turn PS1, PS2, PS3, original Xbox, Xbox 360, and GameCube game binaries back into compilable C/C++ source code.
 * **When It Kicks In:** Reverse engineering console games for preservation, source ports, or engine modding; inspecting executable containers (PS-X EXE, ELF, XBE, XEX); splitting ROMs with splat; or verifying function matches with `objdiff` and `decomp.me`.
-* **How It Works:** Analyzes console architectures (MIPS R3000/R5900, PowerPC Xenon/Cell, x86-32), discovers ancient compiler optimizations (GCC 2.7.2, CodeWarrior, MSVC 2003), generates automated `splat.yaml` segment manifests, and guides Ghidra processor plugins for 1:1 matching code reconstruction.
+* **How It Works:** Integrates native CLI tools (`objdiff` for visual diffing, `splat` for binary splitting, `m2c` for MIPS/PowerPC assembly-to-C translation, and `rizin`/`rz-ghidra` for headless decompilation) to automate container inspection, section partitioning, and register mismatch diagnosis.
 * **Why It Saves Quota:** Eliminates thousands of hours of manual binary analysis by automating container inspection, section partitioning, and register mismatch diagnosis.
 
 ---
