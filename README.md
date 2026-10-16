@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **146 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **156 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,9 +36,9 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 146 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
-3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
-4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
+2. **Dual-CLI Sync:** Deploys all 156 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+3. **Global Discipline Rules:** Installs engineering safeguards, Quota Governance, and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
+4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
 6. **Skills Auditor & Auto-Updater:** Installs `skills-audit-update` into `~/.local/bin/` for one-command health audits, permissions repair, and GitHub synchronization.
 
@@ -53,15 +53,15 @@ cli-power-setup/
 ├── .gitignore                  # Clean git filters
 ├── bin/
 │   ├── agy-quota-statusline    # Asynchronous real-time quota & token savings tracker (Gemini)
-│   ├── claude-statusline       # Dedicated real-time telemetry & context monitor (Claude Code)
+│   ├── claude-statusline       # Dedicated real-time telemetry, weekly resets & context monitor (Claude Code)
 │   ├── agy-turbo               # High-speed Turbo mode launcher script (Gemini)
 │   ├── claude-turbo            # Low-effort thinking Turbo launcher script (Claude Code)
-│   ├── stalker-playtest-runner # Autonomous hands-free game QA & multi-axis locomotion runner
+│   ├── stalker-playtest-runner # Autonomous hands-free game QA, dialogue & locomotion runner
 │   └── skills-audit-update     # Health auditor, permissions fixer & multi-CLI synchronizer
 └── config/
-    ├── GEMINI.md               # Global engineering discipline & token economy rules
+    ├── GEMINI.md               # Global engineering discipline, quota governance & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 149 specialized skills
+    └── skills/                 # 156 specialized skills
 ```
 
 ---
@@ -211,7 +211,14 @@ cli-power-setup/
 | **`game-exploratory-fuzzing`** | QA/Self-Improve | Evolutionary action mutation, novelty-guided state exploration & crash delta bisection |
 | **`self-healing-test-automation`** | QA/Self-Improve | Resilient locator auto-repair, multi-vector semantic scoring & test auto-patching |
 | **`coverage-guided-mutation-testing`** | QA/Self-Improve | AST fault injection (conditionals/arithmetic/booleans), mutant score & test synthesis |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 149+ skills |
+| **`laptop-performance-profile`** | Hardware/Perf | OMEN Space integration, ACPI/WMI sysfs, whisper-quiet night runs & boost execution |
+| **`humanities-lore-research`** | Lore/Research | Cross-disciplinary history, ancient mythology, folklore, entity dossiers & relationship graphs |
+| **`creative-web-design-archetypes`** | Web/Archetypes | Neo-Brutalism, Parchment, Cyberpunk HUD, Academic Journal, Swiss Modernism & Glassmorphism |
+| **`static-site-architecture`** | Web/Jamstack | Jamstack & SSG architecture (Astro, VitePress, Starlight, Content Collections, GitHub Pages CI/CD) |
+| **`interactive-data-visualization-web`** | Web/Vis | Zero-build D3.js force-directed networks, Vis.js timelines & dynamic entity stat matrices |
+| **`task-velocity-governor`** | Governance/Speed | Task completion velocity, 5-step targeted rule, anti-thrashing loops & diminishing returns bounds |
+| **`first-principles-reasoning`** | Reasoning/Core | First-principles decomposition, Chain-of-Verification (CoVe), red-teaming & Ockham's razor ranking |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 156+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`hierarchical-memory-retrieval`** | Memory/Recall | Multi-tiered query-driven BM25 search across `.agents/memory/`, episodes & git history |
 | **`context-window-governor`** | Context/Budget | Turn-by-turn token budgeting (20/35/25/20%), pre-flight size estimation & hard output clamping |
@@ -1144,10 +1151,10 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **Why It Saves Quota:** Eliminates manual screenshot cropping and typing out crash logs by autonomously extracting the exact engine crash code directly into structured logs.
 
 #### 136. `autonomous-goal-governor`
-* **In Simple Terms:** Autonomous supervisor and quota protector for long-running `/goal` commands and overnight agent tasks that prevents infinite error loops and token runaway.
-* **When It Kicks In:** Running `/goal <description>`, launching overnight autonomous builds, formulating testable completion contracts, or handling recurring compile/test failures.
-* **How It Works:** Turns open-ended prompts into machine-verifiable exit criteria (`goal_governor.py formulate`), enforces an automated 3-strike circuit breaker that rolls back code via `working-memory-checkpointing` after 3 consecutive failures, and divides long tasks into phases with milestone commits and `/compact` prompts to reset context volume.
-* **Why It Saves Quota:** Stops the agent from burning 50,000+ tokens in trial-and-error doom loops on a single test, eliminates 100k+ token per-turn accumulation, and keeps prompt caching discounts intact.
+* **In Simple Terms:** Autonomous supervisor and quota protector for long-running `/goal` commands and overnight agent tasks that prevents infinite error loops, halts on 3 consecutive failures, and manages 5-hour and weekly quota reserves.
+* **When It Kicks In:** Running `/goal <description>`, launching overnight autonomous builds, formulating testable completion contracts, monitoring quota reserves, or handling recurring compile/test failures.
+* **How It Works:** Turns open-ended prompts into machine-verifiable exit criteria (`goal_governor.py formulate`), enforces an automated 3-strike circuit breaker that rolls back code via `working-memory-checkpointing` after 3 consecutive failures, automatically takes a **smart checkpoint** into `.agents/checkpoints/` when weekly quota drops to 25%, and safely pauses and waits (`--wait-on-5h`) for 5-hour quota replenishment before resuming execution seamlessly.
+* **Why It Saves Quota:** Stops the agent from burning 50,000+ tokens in trial-and-error doom loops on a single test, eliminates 100k+ token per-turn accumulation, and guarantees that autonomous tasks never abort prematurely when quota is available or refreshing.
 
 #### 137. `furry-fursona-art-design`
 * **In Simple Terms:** Specialized design and generation pipeline for furry and fursona character art, multi-view turnaround reference sheets (refsheets), digitigrade anatomy, and color palette swatches.
@@ -1162,10 +1169,10 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **Why It Saves Quota:** Directly resolves the most common causes of device bootloops, missing HAL symbols, and SELinux denial hangs, avoiding endless multi-hour rebuild cycles.
 
 #### 139. `game-qa-playtest-controller`
-* **In Simple Terms:** Programmatic game testing locomotion controller that injects real multi-axis character movements (circle-strafing, 360° panoramic sweeps, obstacle wandering, sprint/jump stress transitions, and action cycles) via Linux kernel `/dev/uinput`.
-* **When It Kicks In:** Autonomous game QA testing, mod validation, continuous stress testing, reproducing physics/clip anomalies, or pairing with `game-screen-telemetry-monitor` to explore game levels and detect render errors.
-* **How It Works:** Generates hardware-level relative mouse motion (`REL_X`/`REL_Y`) and DirectInput/RawInput keyboard scan codes via Linux `evdev`/`uinput`, executing smooth orbit maneuvers around landmarks, continuous panoramic sky/ground sweeps with vertical pitch oscillation, frontier wandering with obstacle turnarounds, and rapid action cycles (weapon fire/reload/inventory).
-* **Why It Saves Quota:** Automates tedious manual game locomotion during testing and reproduces physics clipping or rendering faults predictably in repeatable CLI batches.
+* **In Simple Terms:** Programmatic game testing locomotion and dialogue controller that injects real multi-axis character movements (circle-strafing, 360° panoramic sweeps, obstacle wandering, sprint/jump transitions, action cycles) and full NPC character dialogue interaction (`talk.xml` navigation, choices traversal, trade testing) via Linux kernel `/dev/uinput`.
+* **When It Kicks In:** Autonomous game QA testing, mod validation, testing NPC conversations and trade menus, continuous stress testing, reproducing physics/clip anomalies, or pairing with `game-screen-telemetry-monitor` to explore game levels and detect render errors.
+* **How It Works:** Generates hardware-level relative mouse motion (`REL_X`/`REL_Y`) and DirectInput/RawInput keyboard scan codes via Linux `evdev`/`uinput`, executing smooth orbit maneuvers around landmarks, continuous panoramic sky/ground sweeps with vertical pitch oscillation, frontier wandering with obstacle turnarounds, rapid action cycles (weapon fire/reload/inventory), and character talk sequences (`interact-character`) with automatic dialog dismissal.
+* **Why It Saves Quota:** Automates tedious manual game locomotion and UI interaction during testing, eliminates hanging modal dialogs, and reproduces physics clipping or rendering faults predictably in repeatable CLI batches.
 
 #### 140. `computer-vision-deep-learning`
 * **In Simple Terms:** Modern neural computer vision and high-performance inference engine for real-time object detection, segmentation, and multi-object tracking.
@@ -1209,6 +1216,66 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Automatically saturates all CPU threads (`nproc`) to parse Python AST trees concurrently, surfacing line and column errors instantly without guessing.
 * **Why It Saves Quota:** Eliminates multiple trial-and-error reasoning turns and prevents the AI from burning output tokens trying to diagnose simple typos or unclosed brackets.
 
+#### 147. `laptop-performance-profile`
+* **In Simple Terms:** Laptop hardware performance and acoustic controller that interoperates with OMEN Space and Linux ACPI/WMI sysfs for quiet overnight runs and max-boost compilation.
+* **When It Kicks In:** Tuning fan acoustics when the laptop is muted, running overnight background test batches, boosting CPU for parallel C++/Rust builds, or querying live thermals and clock speeds.
+* **How It Works:** Bridges `omen-cli` and system ACPI sysfs interfaces (`/sys/devices/platform/hp-wmi`), setting whisper-quiet fan profiles (`laptop_performance_controller.py sleep-mode`), balanced daily operations, and dynamic max-fan boost profiles (`boost-exec`).
+* **Why It Saves Quota:** Keeps host temperatures low to prevent thermal CPU throttling during heavy local compilation and playtesting, eliminating frozen timeouts and build stalls.
+
+#### 148. `humanities-lore-research`
+* **In Simple Terms:** Cross-disciplinary research engine for world history, ancient mythology, folklore, and complex worldbuilding that compiles structured entity dossiers and timelines ready for web publishing.
+* **When It Kicks In:** Researching historical faction backgrounds, mythological archetypes, comparative folklore, artifact origins, and chronological timelines.
+* **How It Works:** Organizes cross-cultural entity files with primary source citations, genealogies, historical periods, and entity relationship graphs formatted for direct web integration.
+* **Why It Saves Quota:** Prevents speculative historical and mythological hallucinations through structured, evidence-grounded knowledge dossiers.
+
+#### 149. `creative-web-design-archetypes`
+* **In Simple Terms:** Visual design and styling system offering curated aesthetics (Neo-Brutalism, Parchment, Cyberpunk HUD, Academic Journal, Swiss Modernism, Glassmorphism).
+* **When It Kicks In:** Designing landing pages, mod wikis, lore archives, interactive calculators, or client dashboards.
+* **How It Works:** Provides battle-tested CSS variables, typography pairings, color palettes, and component styling rules tailored to distinct aesthetic archetypes.
+* **Why It Saves Quota:** Eliminates generic AI-designed interfaces and iterative CSS rework by applying production-grade design tokens on turn one.
+
+#### 150. `static-site-architecture`
+* **In Simple Terms:** Modern Jamstack and static site generator (SSG) architecture covering Astro, VitePress, Starlight, and automated GitHub Pages deployment.
+* **When It Kicks In:** Creating documentation hubs, project portfolios, mod databases, or blogs with zero server maintenance.
+* **How It Works:** Enforces strict Content Collections schemas with Zod validation, zero-JS baseline performance, and turnkey GitHub Actions CI/CD workflows.
+* **Why It Saves Quota:** Generates clean, reproducible static architectures without trial-and-error build errors.
+
+#### 151. `interactive-data-visualization-web`
+* **In Simple Terms:** Zero-build, browser-native data visualization generating D3.js force-directed networks, Vis.js timelines, and dynamic stat matrices.
+* **When It Kicks In:** Visualizing complex character relationships, faction alliances, technological trees, chronological event timelines, and mod dependency graphs.
+* **How It Works:** Emits self-contained HTML/JS visualizations with zoom, pan, interactive node filtering, and search capabilities.
+* **Why It Saves Quota:** Generates client-side visualizations that run in any web browser without Node.js build pipelines or external hosting.
+
+#### 152. `task-velocity-governor`
+* **In Simple Terms:** Task velocity enforcement and anti-thrashing engine that stops iterative wheel-spinning and breaks 3-strike file churn loops.
+* **When It Kicks In:** Fixing bugs, refactoring modules, or executing multi-step porting tasks.
+* **How It Works:** Enforces a strict 5-step targeted rule, halts immediately once verification tests pass, and flags repeated edits to the same file before token budgets are exhausted.
+* **Why It Saves Quota:** Prevents tasks from taking longer than necessary and stops the AI from endlessly polishing passing code.
+
+#### 153. `first-principles-reasoning`
+* **In Simple Terms:** Deep reasoning methodology combining First-Principles decomposition, Chain-of-Verification (CoVe), and Ockham's razor hypothesis ranking.
+* **When It Kicks In:** Diagnosing elusive bugs, engine crashes, memory leaks, or resolving architectural conflicts.
+* **How It Works:** Strips assumptions, decomposes problems into fundamental axioms, generates falsification questions, and ranks hypotheses by simplicity and testability.
+* **Why It Saves Quota:** Eliminates confirmation bias and speculative code churn, solving root causes on the first targeted attempt.
+
+#### 154. `game-exploratory-fuzzing`
+* **In Simple Terms:** Automated game QA and fuzz testing that uses evolutionary action mutations and novelty search to explore unvisited game states.
+* **When It Kicks In:** Stress testing game physics, finding collision boundary holes, discovering memory leaks, or stress-testing AI behaviors.
+* **How It Works:** Mutates input sequences (locomotion vectors, weapon toggles, jump/crouch timing) based on screen novelty scores, saving crashing seeds for instant reproduction.
+* **Why It Saves Quota:** Finds game crashes and rendering glitches autonomously without requiring hours of manual human playtesting.
+
+#### 155. `self-healing-test-automation`
+* **In Simple Terms:** Resilient test automation suite that auto-repairs broken UI selectors, falls back to OCR, and eliminates test flakiness.
+* **When It Kicks In:** Web, desktop, and game UI testing where IDs, coordinates, or element hierarchies shift between versions.
+* **How It Works:** Combines accessibility trees, visual OCR, and multi-vector semantic locators to locate elements even after layout redesigns.
+* **Why It Saves Quota:** Prevents test suites from breaking every time a minor UI element or button text changes.
+
+#### 156. `coverage-guided-mutation-testing`
+* **In Simple Terms:** Test suite quality auditor that injects deliberate AST mutations (flipping conditionals, altering operators) to verify if tests actually catch bugs.
+* **When It Kicks In:** Hardening critical parsers, game logic, security algorithms, and CI test suites across Lua, Python, C++, and Rust.
+* **How It Works:** Injects AST mutants, measures mutant kill rates, and synthesizes missing boundary test cases to plug coverage gaps.
+* **Why It Saves Quota:** Ensures tests are truly reliable before shipping code, preventing costly production regressions.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1216,14 +1283,14 @@ To provide maximum flexibility without losing precision, this suite employs a **
 The suite includes **dedicated, tailor-made statusline monitors** for both CLIs:
 
 ### 1. Claude Code CLI Dedicated Monitor (`claude-statusline`)
-Installed to `~/.local/bin/claude-statusline` and configured in `~/.claude/settings.json`. Intercepts Claude Code's live `stdin` telemetry stream to render model, rate limits, visual context gauge with token counts and compact advisories, prompt cache token savings, session cost, and git worktree:
+Installed to `~/.local/bin/claude-statusline` and configured in `~/.claude/settings.json`. Intercepts Claude Code's live `stdin` telemetry stream to render model, rate limits, weekly reset countdowns, visual context gauge with token counts and compact advisories, prompt cache token savings, session cost, and git worktree:
 ```text
-⚡ Claude [Sonnet 3.7 • Turbo] | 5h: 78% (reset 16:00) | Wk: 72% | 🧠 Ctx: [█░░░░░] 22% (44k) | 💾 Saved: 5.2M tok (92% cache) | 💲 $0.06 +45/-12
+⚡ Claude [Sonnet 3.7 • Turbo] | 5h: 86% (reset 00:40) | Wk: 96% (reset in 40m) | 🧠 Ctx: [█░░░░░] 22% (44k) | 💾 Saved: 5.2M tok (92% cache) | 💲 $0.06 +45/-12
 ```
 * **Prompt Cache Token Telemetry:** Parses the active session's transcript to compute exact cached tokens (`cache_read_input_tokens`) and cache hit rate, showing your 90% prompt cache discount in real time.
 * **Visual Context Gauge with Token Counts:** Dynamic progress bar showing real-time token volume (e.g. `22% (44k)`). When context crosses the 60% threshold, it automatically switches to `(128k ⚠️ Run /compact)`.
 * **Turbo Mode Tag:** Confirms at a glance (`• Turbo`) when low-effort thinking caps are active to save reasoning tokens.
-* **Rolling Quotas:** Real-time remaining percentages for 5-hour and 7-day limits with exact reset countdowns.
+* **Dual Rolling Quota & Reset Timers:** Real-time remaining percentages for both 5-hour and 7-day rolling windows, with relative countdowns (e.g. `(reset in 40m)`) when resets are imminent.
 * **Diff & Cost Telemetry:** Real-time session spend in USD alongside cumulative lines added/removed (`+45/-12`).
 
 ### 2. Antigravity CLI Dedicated Monitor (`agy-quota-statusline`)
@@ -1238,6 +1305,12 @@ In multi-model sessions (e.g. adaptive escalation between Flash and Argon):
 * **Context Cache Token Telemetry:** Correlates active session step tokens from `transcript.jsonl` with turn models in `gen_metadata` to display exact prompt tokens saved by context caching.
 * **Asynchronous & Non-Blocking Quota:** Queries `agy -p /usage` and caches the result in `/tmp/agy_quota_cache.txt` with a 2-minute TTL.
 * **Zero CLI Lag:** Subprocesses are detached with PID lockfile protection (`/tmp/agy_quota_refresh.lock`), guaranteeing instantaneous prompt rendering (<2ms).
+
+### 3. Quota Governance & Uninterrupted Execution (`goal_governor.py`)
+To prevent autonomous tasks, test runners, or overnight builds from abandoning progress prematurely:
+* **Never Quit on Available Quota:** Quota numbers (e.g. `5h: 86%`, `Wk: 96%`) represent available headroom. Agents are strictly forbidden from halting when quota is available (> safe reserve limits).
+* **5-Hour Exhaustion Wait-for-Refresh:** If rolling 5-hour quota hits safe reserve during an autonomous `/goal` or playtest run, the governor stages active memory to `.agents/memory/activeContext.md`, sleeps until the recorded reset timestamp passes, verifies quota replenishment, and seamlessly resumes execution.
+* **Smart Checkpoint at 25% Weekly Quota:** When weekly quota nears 25% remaining, the governor automatically snapshots all uncommitted git diffs, working branch, and active hypothesis context into `.agents/checkpoints/` before proceeding safely.
 
 ---
 
@@ -1339,7 +1412,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 146 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 156 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
