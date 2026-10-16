@@ -73,6 +73,12 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record GameMaker runtime version, YYP project root, target texture page sizes ($2048\times2048$ default), custom texture groups, and active surface IDs in `systemPatterns.md`.
 * **Game Trainer & Memory Hook Bindings (`game-trainer-engineering`):**
   Record verified multi-level pointer offsets, base module names, AOB signature byte masks, and detour hook addresses in `systemPatterns.md` and `learnings.md`.
+* **Game Localization & Internationalization Bindings (`game-localization-i18n`):**
+  Record supported locales (BCP 47 language tags), active translation catalog formats (PO/JSON/CSV), RTL layout mirrors, ICU pluralization rules, and fallback font chains (Noto Sans CJK, Cyrillic) in `systemPatterns.md`.
+* **Headless Game CI & Build Automation Bindings (`headless-game-ci-automation`):**
+  Record target engine CLI execution flags (`--headless`, `-batchmode -nographics`, `RunUAT.sh`), test runner configurations (Godot GUT, Unity UTF), artifact export paths, and packaging matrices in `systemPatterns.md`.
+* **Godot Shader & VFX Material Bindings (`godot-shader-vfx`):**
+  Record active Godot 4 shader types (`spatial`, `canvas_item`, `particles`), `hint_screen_texture` sampler usages, compute particle pipeline buffers, and material parameter defaults in `systemPatterns.md`.
 
 ---
 

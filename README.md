@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **126 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **129 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 126 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 129 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -190,7 +190,10 @@ cli-power-setup/
 | **`wine-proton-native-interop`** | Gaming/Interop | Win32-to-Linux named pipe mapping, shared memory shims, Wine DLL call thunking & relay traces |
 | **`gamemaker-gml-engineering`** | Gaming/GML | Modern GameMaker (2024+), constructors/structs, FSMs, volatile surfaces, delta timing & batching |
 | **`game-trainer-engineering`** | Gaming/Trainer | Cross-platform memory scanning, pointer chain resolvers, AOB scans & mid-function detour hooks |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 126+ skills |
+| **`game-localization-i18n`** | Gaming/i18n | ICU message formatting, pluralization rules, RTL layout mirroring & CJK/Cyrillic font fallbacks |
+| **`headless-game-ci-automation`** | DevOps/GameCI | Headless engine CLI builds (Godot/Unity/UE5), automated test runners (GUT) & matrix packaging |
+| **`godot-shader-vfx`** | Godot/Shaders | Godot 4 screen-reading spatial/canvas shaders, vertex wind displacement & GPU compute particles |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 129+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
@@ -1065,6 +1068,24 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Provides cross-platform pointer resolution algorithms, wildcard bytecode pattern scanners, Win32 `ReadProcessMemory` / Linux `/proc/<pid>/mem` handlers, and DirectX/Vulkan ImGui overlay injection techniques.
 * **Why It Saves Quota:** Pinpoints exact memory offsets and stable signature masks in 1 turn rather than wasting context on blind trial-and-error memory scanning.
 
+#### 127. `game-localization-i18n`
+* **In Simple Terms:** Complete game internationalization (i18n) and localization (L10n) pipeline for games, engines, and interactive applications.
+* **When It Kicks In:** Setting up multi-language catalogs (PO, JSON, CSV), handling ICU message format pluralization rules, managing RTL (Right-to-Left) BiDi layout flipping for Arabic/Hebrew, and configuring fallback font chains for CJK and Cyrillic glyphs.
+* **How It Works:** Enforces key-based string extraction over hardcoded text, validates ICU plural rules across languages with distinct numeric categories (e.g. Slavic `one/few/many/other`), automates UI bounding box expansion budgets (30%–50% growth for German), and configures runtime font fallback hierarchies.
+* **Why It Saves Quota:** Prevents catastrophic broken UI text truncations, missing glyph boxes ("tofu"), and grammar bugs without requiring multi-round localization patch cycles.
+
+#### 128. `headless-game-ci-automation`
+* **In Simple Terms:** Headless continuous integration, automated command-line testing, and cross-platform artifact packaging for Godot, Unity, and Unreal Engine.
+* **When It Kicks In:** Setting up GitHub Actions, GitLab CI, or local Docker build containers to run game test suites headlessly (Godot GUT, Unity Test Framework, Unreal RunUAT) and export automated release builds.
+* **How It Works:** Formats exact headless CLI execution arguments (`--headless`, `-batchmode -nographics`, `RunUAT.sh -nocompileeditor`), handles fake virtual framebuffers (Xvfb) when display servers are missing, parses machine-readable JUnit/XML test reports, and generates versioned zip/tar release archives.
+* **Why It Saves Quota:** Automates tedious manual export clicks and catches game regressions in CI before they pollute release builds.
+
+#### 129. `godot-shader-vfx`
+* **In Simple Terms:** Specialized visual shaders, screen-space distortion effects, and GPU compute particle systems for Godot Engine 4.
+* **When It Kicks In:** Writing Godot 4 `spatial`, `canvas_item`, and `particles` shaders, creating screen-reading distortion effects (heat haze, shockwaves, water refractions), foliage wind vertex displacement, and GPU particle simulations.
+* **How It Works:** Uses modern Godot 4 shader syntax with `hint_screen_texture` sampler uniforms, implements custom vertex function world-space displacement, and optimizes particle systems to run on GPU compute pipelines without CPU overhead.
+* **Why It Saves Quota:** Delivers production-grade Godot 4 shader code on the first attempt, avoiding obsolete Godot 3 shader syntax errors and runtime compiler warnings.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1195,7 +1216,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 126 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 129 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
