@@ -173,7 +173,8 @@ def main():
         ("Circle-Strafe Orbit (NPC / Bump Map Lighting Stress)", ["orbit", "--duration", "5.0", "--direction", "right"] + dry_flag),
         ("Autonomous Frontier Wander (Collision / Boundary Mesh)", ["wander", "--duration", "8.0"] + dry_flag),
         ("Locomotion State Stress (Sprint / Jump / Crouch)", ["stress-locomotion", "--duration", "5.0"] + dry_flag),
-        ("Combat & UI Action Cycle (Weapon / Reload / Inventory)", ["action-cycle", "--cycles", "2"] + dry_flag)
+        ("Combat & UI Action Cycle (Weapon / Reload / Inventory)", ["action-cycle", "--cycles", "2"] + dry_flag),
+        ("Hybrid Dual-Input Stress (Gamepad Analog + KBM Cross-Pollination)", ["hybrid-stress", "--duration", "4.0", "--cycles", "2"] + dry_flag)
     ]
 
     for label, cmd_args in locomotion_steps:

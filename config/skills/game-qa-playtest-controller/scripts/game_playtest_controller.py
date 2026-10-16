@@ -29,6 +29,7 @@ class VirtualGamepad:
         
         if not dry_run and HAVE_EVDEV:
             try:
+                from evdev import AbsInfo
                 all_keys = [
                     getattr(ecodes, f"KEY_{c}") for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                     if hasattr(ecodes, f"KEY_{c}")
@@ -38,12 +39,28 @@ class VirtualGamepad:
                     ecodes.KEY_TAB, ecodes.KEY_ESC, ecodes.KEY_ENTER, ecodes.KEY_BACKSPACE,
                     ecodes.KEY_GRAVE, ecodes.KEY_MINUS, ecodes.KEY_EQUAL,
                     ecodes.KEY_F1, ecodes.KEY_F5, ecodes.KEY_F9, ecodes.KEY_F12,
+                    ecodes.KEY_UP, ecodes.KEY_DOWN, ecodes.KEY_LEFT, ecodes.KEY_RIGHT,
                     ecodes.BTN_LEFT, ecodes.BTN_RIGHT, ecodes.BTN_MIDDLE
                 ]
+                gamepad_buttons = [
+                    ecodes.BTN_SOUTH, ecodes.BTN_EAST, ecodes.BTN_NORTH, ecodes.BTN_WEST,
+                    ecodes.BTN_TL, ecodes.BTN_TR, ecodes.BTN_SELECT, ecodes.BTN_START,
+                    ecodes.BTN_THUMBL, ecodes.BTN_THUMBR, ecodes.BTN_MODE
+                ]
                 cap = {
-                    ecodes.EV_KEY: list(set(all_keys + special_keys)),
+                    ecodes.EV_KEY: list(set(all_keys + special_keys + gamepad_buttons)),
                     ecodes.EV_REL: [
                         ecodes.REL_X, ecodes.REL_Y, ecodes.REL_WHEEL
+                    ],
+                    ecodes.EV_ABS: [
+                        (ecodes.ABS_X, AbsInfo(value=0, min=-32768, max=32767, fuzz=16, flat=128, resolution=0)),
+                        (ecodes.ABS_Y, AbsInfo(value=0, min=-32768, max=32767, fuzz=16, flat=128, resolution=0)),
+                        (ecodes.ABS_RX, AbsInfo(value=0, min=-32768, max=32767, fuzz=16, flat=128, resolution=0)),
+                        (ecodes.ABS_RY, AbsInfo(value=0, min=-32768, max=32767, fuzz=16, flat=128, resolution=0)),
+                        (ecodes.ABS_Z, AbsInfo(value=0, min=0, max=255, fuzz=0, flat=0, resolution=0)),
+                        (ecodes.ABS_RZ, AbsInfo(value=0, min=0, max=255, fuzz=0, flat=0, resolution=0)),
+                        (ecodes.ABS_HAT0X, AbsInfo(value=0, min=-1, max=1, fuzz=0, flat=0, resolution=0)),
+                        (ecodes.ABS_HAT0Y, AbsInfo(value=0, min=-1, max=1, fuzz=0, flat=0, resolution=0)),
                     ]
                 }
                 self.uinput = UInput(cap, name="Virtual-QA-Playtest-Controller")
@@ -96,6 +113,34 @@ class VirtualGamepad:
         self.key(btn_code, True)
         time.sleep(duration)
         self.key(btn_code, False)
+
+    def stick(self, stick_type="left", x=0, y=0):
+        if self.dry_run:
+            return
+        if self.uinput and HAVE_EVDEV:
+            if stick_type == "left":
+                self.uinput.write(ecodes.EV_ABS, ecodes.ABS_X, int(x))
+                self.uinput.write(ecodes.EV_ABS, ecodes.ABS_Y, int(y))
+            else:
+                self.uinput.write(ecodes.EV_ABS, ecodes.ABS_RX, int(x))
+                self.uinput.write(ecodes.EV_ABS, ecodes.ABS_RY, int(y))
+            self.uinput.syn()
+
+    def trigger(self, trigger_type="right", value=0):
+        if self.dry_run:
+            return
+        if self.uinput and HAVE_EVDEV:
+            axis = ecodes.ABS_RZ if trigger_type == "right" else ecodes.ABS_Z
+            self.uinput.write(ecodes.EV_ABS, axis, int(value))
+            self.uinput.syn()
+
+    def dpad(self, dx=0, dy=0):
+        if self.dry_run:
+            return
+        if self.uinput and HAVE_EVDEV:
+            self.uinput.write(ecodes.EV_ABS, ecodes.ABS_HAT0X, int(dx))
+            self.uinput.write(ecodes.EV_ABS, ecodes.ABS_HAT0Y, int(dy))
+            self.uinput.syn()
 
     def close(self):
         if self.uinput:
@@ -416,6 +461,77 @@ def cmd_skip_intro(args, pad):
         time.sleep(args.delay if not pad.dry_run else 0.05)
     print("[✓] Intro splash dismissal sequence complete.")
 
+def cmd_hybrid_stress(args, pad: VirtualGamepad):
+    print("=======================================================================")
+    print(" 🎮 ⌨️  Hybrid Dual-Input Stress Test (Controller + KBM)")
+    print("=======================================================================")
+    print(f"Duration: {args.duration}s | Cycles: {args.cycles} | Dry Run: {pad.dry_run}")
+    print("-----------------------------------------------------------------------\n")
+    
+    key_w = ecodes.KEY_W if HAVE_EVDEV else None
+    key_s = ecodes.KEY_S if HAVE_EVDEV else None
+    key_shift = ecodes.KEY_LEFTSHIFT if HAVE_EVDEV else None
+    btn_left = ecodes.BTN_LEFT if HAVE_EVDEV else None
+
+    start_time = time.time()
+    cycle = 1
+    while time.time() - start_time < args.duration:
+        print(f"  -> Cycle {cycle}: Keyboard WASD locomotion + Mouse camera yaw...")
+        pad.key(key_shift, True)
+        pad.key(key_w, True)
+        for _ in range(6):
+            pad.mouse_move(15, -2)
+            time.sleep(0.04)
+        pad.key(key_w, False)
+        pad.key(key_shift, False)
+        time.sleep(0.05)
+
+        print(f"  -> Cycle {cycle}: Gamepad Left Stick analog glide + Right Stick sweep...")
+        pad.stick("left", 32000, 16000)
+        pad.stick("right", -28000, 0)
+        pad.trigger("right", 255)
+        time.sleep(0.2)
+        pad.trigger("right", 0)
+        pad.stick("left", 0, 0)
+        pad.stick("right", 0, 0)
+        time.sleep(0.05)
+
+        print(f"  -> Cycle {cycle}: Simultaneous cross-pollination (Stick walk + Mouse click)...")
+        pad.stick("left", -32000, 0)
+        pad.key(btn_left, True)
+        pad.mouse_move(-15, 0)
+        time.sleep(0.1)
+        pad.key(btn_left, False)
+        pad.stick("left", 0, 0)
+        time.sleep(0.05)
+
+        cycle += 1
+        if cycle > args.cycles:
+            break
+
+    print("[✓] Hybrid dual-input stress test completed successfully.")
+
+def cmd_click_target(args, pad: VirtualGamepad):
+    x = args.x
+    y = args.y
+    if args.grounding_json and os.path.exists(args.grounding_json):
+        try:
+            g_data = json.loads(Path(args.grounding_json).read_text())
+            centroid = g_data.get("click_centroid", [960, 540])
+            x, y = centroid[0], centroid[1]
+            print(f"  -> Extracted visual target from {args.grounding_json}: ({x}, {y})")
+        except Exception as e:
+            print(f"  -> Error reading grounding JSON: {e}")
+            
+    print(f"  -> Moving mouse to visual centroid ({x}, {y}) and clicking...")
+    pad.mouse_move(x // 10, y // 10)
+    time.sleep(0.1)
+    btn = ecodes.BTN_LEFT if HAVE_EVDEV else None
+    pad.key(btn, True)
+    time.sleep(0.1)
+    pad.key(btn, False)
+    print(f"[✓] Visual target click dispatched at ({x}, {y}).")
+
 def main():
     common_parser = argparse.ArgumentParser(add_help=False)
     common_parser.add_argument("--dry-run", action="store_true", help="Simulate input without accessing /dev/uinput")
@@ -471,6 +587,17 @@ def main():
     p_intro = subparsers.add_parser("skip-intro", parents=[common_parser], help="Pulse ESC/SPACE keys to skip startup video cutscenes")
     p_intro.add_argument("--pulses", type=int, default=3, help="Number of ESC key pulses")
     p_intro.add_argument("--delay", type=float, default=0.3, help="Interval between pulses")
+
+    # hybrid-stress
+    p_hybrid = subparsers.add_parser("hybrid-stress", parents=[common_parser], help="Simultaneously stress Keyboard, Mouse, and Gamepad inputs")
+    p_hybrid.add_argument("--duration", type=float, default=6.0, help="Duration in seconds")
+    p_hybrid.add_argument("--cycles", type=int, default=2, help="Number of hybrid cycles")
+
+    # click-target
+    p_click = subparsers.add_parser("click-target", parents=[common_parser], help="Click visual UI coordinates or grounding centroid")
+    p_click.add_argument("--x", type=int, default=960, help="Screen X coordinate")
+    p_click.add_argument("--y", type=int, default=540, help="Screen Y coordinate")
+    p_click.add_argument("--grounding-json", type=str, help="Path to visual grounding JSON output")
     
     args = parser.parse_args()
     pad = VirtualGamepad(dry_run=args.dry_run)
@@ -496,6 +623,10 @@ def main():
             cmd_press_any_key(args, pad)
         elif args.command == "skip-intro":
             cmd_skip_intro(args, pad)
+        elif args.command == "hybrid-stress":
+            cmd_hybrid_stress(args, pad)
+        elif args.command == "click-target":
+            cmd_click_target(args, pad)
     finally:
         pad.close()
 

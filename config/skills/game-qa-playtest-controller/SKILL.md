@@ -96,6 +96,23 @@ Executes end-to-end combat and inventory cycles: weapon swapping (`KEY_1`, `KEY_
 python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controller.py action-cycle --cycles 5
 ```
 
+#### 6. Hybrid Dual-Input Stress (`hybrid-stress`)
+Simultaneously and intermittently injects both Gamepad controller (analog thumbstick locomotion, right-stick sweep, trigger fire) and Keyboard + Mouse (WASD sprint, sub-pixel mouse look, left-click). Tests if the game engine crashes or desyncs when handling dual-input devices or auto-switching UI button glyphs:
+```bash
+# Stress dual input devices for 10 seconds
+python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controller.py hybrid-stress --duration 10.0 --cycles 3
+```
+
+#### 7. Visual Target Cursor Clicker (`click-target`)
+Bridges visual grounding (`agentic-visual-perception`) directly into mouse cursor actions. Reads screen coordinates or grounding centroids from JSON and executes pinpoint mouse clicks on UI elements (e.g. dialogue responses, inventory items, "Load Game" buttons):
+```bash
+# Click visual target from agent_visual_grounding.py output
+python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controller.py click-target --grounding-json /tmp/grounding_result.json
+
+# Click explicit screen coordinates
+python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controller.py click-target --x 960 --y 540
+```
+
 ---
 
 ## 3. Autonomous QA Playtesting Symbiosis
