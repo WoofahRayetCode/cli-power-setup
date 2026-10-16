@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **40 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **50 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 40 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 50 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launcher:** Installs `agy-turbo` into `~/.local/bin/`.
@@ -57,7 +57,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 40 specialized skills
+    └── skills/                 # 50 specialized skills
 ```
 
 ---
@@ -92,6 +92,16 @@ cli-power-setup/
 | **`electron-desktop-dev`** | Desktop/Web | Secure Electron desktop apps, IPC context bridges, memory optimization |
 | **`linux-hardware-acpi`** | Systems/HW | Linux kernel ACPI modules, `/sys/class/hwmon`, D-Bus fan control daemons |
 | **`homelab-docker-devops`** | DevOps | Multi-container Docker Compose, Samba POSIX ACLs, Nextcloud, systemd timers |
+| **`linux-systems-engineering`** | Systems | POSIX APIs, epoll/io_uring, systemd units, strace & core triage |
+| **`bash-posix-automation`** | Automation | Defensive Bash/POSIX scripts, exit traps, argument parsing, ShellCheck |
+| **`linux-desktop-packaging`** | Packaging | Flatpak, AppImage, XDG Base Directory, FreeDesktop integration |
+| **`win32-systems-engineering`** | Systems | Win32 API, Registry, SCM Windows services, SEH, manifests |
+| **`powershell-windows-automation`** | Automation | Modern PowerShell 7, CIM/WMI, Task Scheduler, P/Invoke |
+| **`windows-app-engineering`** | UI/Desktop | WinUI 3, WPF, Windows App SDK, C#/WinRT, Fluent UI, MSIX |
+| **`cmake-cross-platform`** | Build/Tools | Modern CMake (3.25+), cross-compilation toolchains, CPack |
+| **`avalonia-cross-platform-dev`** | UI/Desktop | Avalonia UI (.NET 8/9), MVVM, Native AOT, cross-platform XAML |
+| **`tauri-multiplatform-dev`** | UI/Desktop | Lightweight desktop/mobile apps (Tauri 2.0, Rust backend, web frontend) |
+| **`cross-browser-extensions`** | Web/Ext | Manifest V3 multi-browser extensions (Chrome, Firefox, Safari) |
 | **`cachyos-arch-packaging`** | Systems | Arch/CachyOS PKGBUILD, DKMS kernel modules, systemd |
 | **`reverse-engineer-anything`** | Systems/RE | Deep multi-target analysis with REA MCP |
 | **`binary-re-workflows`** | Systems/RE | Ghidra, JADX, TShark, objdump, and hex diffing |
@@ -300,75 +310,147 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ---
 
+### 🐧 Linux Systems & Packaging
+
+#### 27. `linux-systems-engineering`
+* **In Simple Terms:** Deep low-level Linux systems programming for building background services, handling high-speed data, and fixing system crashes.
+* **When It Kicks In:** Writing Linux services in C/C++/Rust, dealing with file descriptors, sockets, `epoll`/`io_uring`, writing systemd daemons, or analyzing core dumps.
+* **How It Works:** Implements non-blocking I/O multiplexing, structures hardened systemd units with watchdog timers and security sandboxing (`ProtectSystem=strict`), and diagnoses crashes with `strace` and `gdb`.
+* **Why It Saves Quota:** Prevents silent process hangs, memory leaks, and mysterious daemon crashes with systematic POSIX diagnostics.
+
+#### 28. `bash-posix-automation`
+* **In Simple Terms:** A safety shield for writing bulletproof shell scripts that never break, corrupt files, or fail silently.
+* **When It Kicks In:** Writing installation scripts, build hooks, or setup tools across Linux and macOS.
+* **How It Works:** Enforces strict error trapping (`set -euo pipefail`), signal cleanup (`trap cleanup EXIT INT TERM`), portable argument parsing with `getopts`, atomic temporary files (`mktemp`), and ShellCheck validation.
+* **Why It Saves Quota:** Stops script errors before they start and prevents runaway scripts from altering unwanted files.
+
+#### 29. `linux-desktop-packaging`
+* **In Simple Terms:** Packages Linux desktop apps so they appear cleanly in app launchers, look great, and run safely on any distribution.
+* **When It Kicks In:** Creating `.desktop` launchers, AppStream metadata, sandboxed Flatpak packages, or portable AppImages.
+* **How It Works:** Enforces FreeDesktop and XDG standards, builds sandboxed Flatpak manifests with fine-grained portal permissions (Wayland, audio, network), and bundles self-contained AppImages with `linuxdeploy`.
+* **Why It Saves Quota:** Eliminates distribution dependency hell and ensures apps launch reliably everywhere on the first try.
+
+---
+
+### 🪟 Windows Systems & Applications
+
+#### 30. `win32-systems-engineering`
+* **In Simple Terms:** Low-level Windows native programming for building Windows background services, managing the Windows Registry, and handling crashes.
+* **When It Kicks In:** Writing native Windows C++/C# applications, editing the Windows Registry (`.reg`), writing Windows Services (SCM), or reading crash dumps.
+* **How It Works:** Handles Win32 kernel objects, synchronizes threads with Mutexes and Events, embeds modern Per-Monitor V2 DPI manifests, and captures instant crash minidumps via Structured Exception Handling (SEH).
+* **Why It Saves Quota:** Eliminates blurry Windows scaling quirks, permission errors, and untraceable crash bugs.
+
+#### 31. `powershell-windows-automation`
+* **In Simple Terms:** Professional-grade PowerShell scripting for automating Windows tasks, managing services, and configuring environments.
+* **When It Kicks In:** Automating Windows administration, running setup scripts on Windows, querying hardware via CIM/WMI, or scheduling tasks.
+* **How It Works:** Uses advanced cmdlet design (`[CmdletBinding()]`), pipeline streaming, strict error termination (`$ErrorActionPreference = 'Stop'`), and inline Win32 API calls via `Add-Type` (P/Invoke).
+* **Why It Saves Quota:** Prevents broken Windows automation runs and maintains identical CLI argument parity (`--help`, `--dry-run`) with Linux Bash scripts.
+
+#### 32. `windows-app-engineering`
+* **In Simple Terms:** Best practices for building beautiful, modern Windows desktop apps using Microsoft's latest UI frameworks (WinUI 3 and WPF).
+* **When It Kicks In:** Creating Windows desktop tools, hardware control panels, or utilities with Fluent Design.
+* **How It Works:** Implements Windows 11 Mica material and custom draggable titlebars, ensures single-instance execution, integrates with the system tray, and packages clean MSIX installers.
+* **Why It Saves Quota:** Prevents common XAML layout bugs, memory leaks, and confusing packaging errors.
+
+---
+
+### 🌐 Multiplatform & Cross-Platform Development
+
+#### 33. `cmake-cross-platform`
+* **In Simple Terms:** A universal build system guide for compiling C/C++ projects across Linux, Windows, and macOS without messy build scripts.
+* **When It Kicks In:** Managing CMake projects (3.25+), cross-compiling from Linux to Windows (via MinGW-w64 or Clang), or generating installers.
+* **How It Works:** Uses clean target-based CMake (`target_link_libraries`), declarative cross-compilation toolchain files, and automates multi-platform installers using CPack (NSIS for Windows, DEB/RPM for Linux).
+* **Why It Saves Quota:** Solves compiler and linker errors on the first build and avoids brittle, platform-specific compiler flags.
+
+#### 34. `avalonia-cross-platform-dev`
+* **In Simple Terms:** Build high-performance desktop applications that run natively on Windows, Linux, and macOS using a single C# / XAML codebase.
+* **When It Kicks In:** Developing multiplatform desktop tools, game backup managers (like `PS-Multi-Tools`), or utilities with .NET 8/9.
+* **How It Works:** Employs the MVVM pattern with compiled bindings (`x:DataType`), cross-platform file pickers (`StorageProvider`), system tray integration, and Native Ahead-Of-Time (AOT) compilation for instant startup.
+* **Why It Saves Quota:** Eliminates having to rewrite UI code for different operating systems and avoids reflection runtime bugs.
+
+#### 35. `tauri-multiplatform-dev`
+* **In Simple Terms:** Builds ultra-lightweight desktop and mobile apps with a web frontend (HTML/CSS/JS) and a fast Rust backend, using a fraction of the memory of Electron.
+* **When It Kicks In:** Creating modern desktop tools, lightweight alternatives to Electron apps, or cross-platform utilities.
+* **How It Works:** Uses the operating system's built-in web engine (saving over 100MB of RAM per app), provides secure typed IPC commands between Rust and TypeScript, and compiles to Linux, Windows, macOS, Android, and iOS.
+* **Why It Saves Quota:** Prevents Electron memory bloat and ensures safe, typed communication between the UI and system hardware.
+
+#### 36. `cross-browser-extensions`
+* **In Simple Terms:** Build browser extensions that work simultaneously across Google Chrome, Mozilla Firefox, Microsoft Edge, and Safari using Manifest V3.
+* **When It Kicks In:** Building browser extensions, web feed customizers (like `ClutterlessSocial`), content filters, or social media tools.
+* **How It Works:** Unifies browser APIs using `webextension-polyfill`, manages background service workers and event pages, handles secure content script messaging, and packages separate store-ready zips and signed XPI files.
+* **Why It Saves Quota:** Eliminates having to maintain duplicate codebases for Chrome and Firefox.
+
+---
+
 ### 💻 Systems, Reverse Engineering & Languages
 
-#### 27. `cachyos-arch-packaging`
+#### 37. `cachyos-arch-packaging`
 * **In Simple Terms:** Builds and packages Linux software, kernel drivers, and background services specifically for Arch Linux and CachyOS.
 * **When It Kicks In:** Creating Arch/CachyOS packages (`PKGBUILD`), installing kernel drivers (like `omen-acpi`), or setting up systemd background services.
 * **How It Works:** Enforces Arch packaging standards, checks integrity hashes, validates build dependencies in isolated chroots, and verifies systemd service files.
 * **Why It Saves Quota:** Prevents broken package builds and keeps your Linux system clean, stable, and conflict-free.
 
-#### 28. `reverse-engineer-anything`
+#### 38. `reverse-engineer-anything`
 * **In Simple Terms:** A deep inspection engine for understanding closed-source software, compiled games, and applications when no source code is available.
 * **When It Kicks In:** Analyzing compiled binaries, Windows/Linux executables, Android packages, or web apps.
 * **How It Works:** Deeply integrates with REA MCP to perform static disassembly, decompile code, reconstruct data structures, and keep an evidence ledger.
 * **Why It Saves Quota:** Tracks findings in structured evidence summaries rather than dumping thousands of lines of raw, unreadable assembly into chat.
 
-#### 29. `binary-re-workflows`
+#### 39. `binary-re-workflows`
 * **In Simple Terms:** Coordinates professional reverse engineering tools (like Ghidra, JADX, and network packet analyzers) under a strict scientific process.
 * **When It Kicks In:** Inspecting unfamiliar game DLLs, network packets, or complex binary executables.
 * **How It Works:** Combines static analysis and runtime tracing to test hypotheses about how closed-source binaries function.
 * **Why It Saves Quota:** Turns confusing binary mysteries into deterministic, step-by-step discoveries.
 
-#### 30. `standalone-binary-re`
+#### 40. `standalone-binary-re`
 * **In Simple Terms:** A fast, zero-setup toolkit for peeking inside binary files using standard Linux terminal tools—no heavy servers required.
 * **When It Kicks In:** Inspecting executables, DLLs, or Android APKs when external MCP servers are offline or when you need answers in seconds.
 * **How It Works:** Uses built-in Linux tools (`objdump`, `readelf`, `nm`, `strings`, `jadx`, `gdb`) and Python scripts to quickly inspect exported functions, headers, and text.
 * **Why It Saves Quota:** Starts up instantly with zero overhead and filters out noise so you only see the functions you care about.
 
-#### 31. `open-apk`
+#### 41. `open-apk`
 * **In Simple Terms:** Automatically opens, inspects, and decompiles Android mobile app packages (APKs) into readable Java code.
 * **When It Kicks In:** Reverse engineering Android apps, mobile games, or APK packages.
 * **How It Works:** Unpacks APK and DEX files directly into JADX headless analysis, searches classes and methods, and can download APKs directly via `apkeep`.
 * **Why It Saves Quota:** Extracts only the exact Java classes you need instead of dumping hundreds of decompiled files into the chat context.
 
-#### 32. `wakaru`
+#### 42. `wakaru`
 * **In Simple Terms:** Unpacks and unscrambles messy, minified JavaScript bundles (like from Webpack, Vite, or Electron) back into clean, organized files.
 * **When It Kicks In:** Auditing modern web apps, Electron desktop software, or production JavaScript bundles.
 * **How It Works:** Separates bundled web assets back into individual source files and translates minified shortcuts back into readable classes, async functions, and JSX.
 * **Why It Saves Quota:** Turns a gigantic, unreadable 2MB single-line JavaScript file into clean, modular source files with zero hallucination.
 
-#### 33. `lowlevel-dll-internals`
+#### 43. `lowlevel-dll-internals`
 * **In Simple Terms:** A low-level guide for safely modifying Windows DLLs, game engine classes, and memory patches without crashing the game.
 * **When It Kicks In:** Writing game mod plugins (like ASI plugins), hooking engine functions, or analyzing crash dumps.
 * **How It Works:** Calculates computer memory offsets, 32-bit calling conventions (`__thiscall` in `ecx`), 64-bit ABI shadow space, and virtual function tables so memory patches don't cause instant crashes.
 * **Why It Saves Quota:** Prevents dreaded `0xC0000005` "Access Violation" crashes by calculating memory addresses and calling conventions correctly the first time.
 
-#### 34. `steamcmd-workshop-pipeline`
+#### 44. `steamcmd-workshop-pipeline`
 * **In Simple Terms:** Automates publishing and updating mods on the Steam Workshop from the command line without clicking through confusing web forms.
 * **When It Kicks In:** Uploading new mods, pushing updates, setting preview images, or writing changelogs on Steam Workshop.
 * **How It Works:** Generates valid Steam VDF configuration manifests, manages content depots, and executes SteamCMD commands automatically.
 * **Why It Saves Quota:** Replaces error-prone manual upload attempts with an automated, verified deployment script.
 
-#### 35. `python-engineering`
+#### 45. `python-engineering`
 * **In Simple Terms:** Best practices for writing clean, fast, and bug-free modern Python code (Python 3.10+).
 * **When It Kicks In:** Writing Python scripts, web APIs, automation tools, or test suites.
 * **How It Works:** Enforces strict type hints (`mypy`), lightning-fast code formatting and linting (`ruff`), and comprehensive test suites (`pytest`).
 * **Why It Saves Quota:** Catches bugs before code ever runs, saving countless turns of debugging runtime errors.
 
-#### 36. `rust-engineering`
+#### 46. `rust-engineering`
 * **In Simple Terms:** Writes reliable, blazing-fast Rust code by working harmoniously with the Rust compiler.
 * **When It Kicks In:** Writing systems software, game tools, performance-critical modules, or CLI utilities in Rust.
 * **How It Works:** Follows Rust best practices for memory ownership, zero-cost abstractions, error handling with `Result` and `Option`, and strict Clippy lint checks.
 * **Why It Saves Quota:** Eliminates runtime crashes completely—if it compiles cleanly in Rust, it works.
 
-#### 37. `modern-cpp-engineering`
+#### 47. `modern-cpp-engineering`
 * **In Simple Terms:** Modern C++ (C++20/C++23) standards that eliminate old-school memory bugs, buffer overflows, and crashes.
 * **When It Kicks In:** Writing game engine code, native libraries, or performance-critical C++ applications.
 * **How It Works:** Uses smart pointers (`unique_ptr`, `shared_ptr`), RAII (automatic cleanup of resources), modern Concepts, and clean CMake build files.
 * **Why It Saves Quota:** Prevents memory leaks, buffer overflows, and segmentation faults before they happen.
 
-#### 38. `csharp-dotnet-engineering`
+#### 48. `csharp-dotnet-engineering`
 * **In Simple Terms:** High-performance modern C# and .NET (8/9) guidelines focused on zero-allocation and responsive async code.
 * **When It Kicks In:** Writing C# backend services, desktop utilities, game plugins, or tools.
 * **How It Works:** Uses memory-efficient types (`Span<T>`, `Memory<T>`), proper async cancellation tokens, and Roslyn code analyzers to keep apps fast.
@@ -378,7 +460,7 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ### 💰 Quota, Memory & Context Engineering
 
-#### 39. `token-economy`
+#### 49. `token-economy`
 * **In Simple Terms:** The ultimate quota-saving protocol that eliminates robotic fluff, stops the AI from repeating itself, and stretches your daily AI usage limits by 2x to 3x.
 * **When It Kicks In:** Always active in every conversation across Antigravity and Claude Code.
 * **How It Works:**
@@ -403,7 +485,7 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 * **Compounding Context Multiplier:** Because past conversation output tokens are re-ingested as input prompt tokens on every subsequent turn, saving 6,500 output tokens in early turns prevents re-reading **~35,000–60,000 cumulative prompt tokens** across a 15-turn session, extending rolling 5-hour quota limits by **2x to 3x**.
 
-#### 40. `project-memory-bank`
+#### 50. `project-memory-bank`
 * **In Simple Terms:** A smart project notebook that stores your project's architecture and lessons learned, so the AI never forgets what you're working on across restarts.
 * **When It Kicks In:** Starting work on a repository, resuming multi-session tasks, or before running `/compact`.
 * **How It Works:**

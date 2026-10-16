@@ -1,0 +1,78 @@
+---
+name: cross-browser-extensions
+description: Cross-browser web extension development in Manifest V3, supporting Chrome, Firefox, and Safari with webextension-polyfill, background service workers, and declarativeNetRequest.
+---
+
+# Cross-Browser Web Extension Engineering (Manifest V3)
+
+This skill guides the design, development, and multi-browser deployment of browser extensions using Manifest V3 (MV3) across Chromium (Chrome, Edge, Brave), Firefox (Gecko), and Safari (WebKit).
+
+---
+
+## 🧩 Core Architecture
+
+1. **Manifest V3 Unification:** Cross-browser compatibility using `webextension-polyfill` (`browser.*` standard promises).
+2. **Background Contexts:** Background Service Workers in Chromium vs Event Pages in Firefox.
+3. **Declarative Network Filtering:** Modern privacy-preserving network intercept using `declarativeNetRequest`.
+4. **DOM & Content Isolation:** Secure content script messaging, custom UI overlays, and CSS encapsulation using Shadow DOM.
+5. **Automated Cross-Target Packaging:** Multi-target builds generating Chrome Web Store `.zip` and Mozilla Add-ons (AMO) signed `.xpi`.
+
+---
+
+## 🛠️ 1. Manifest V3 Template (`manifest.json`)
+
+```json
+{
+  "manifest_version": 3,
+  "name": "Clutterless Social",
+  "version": "1.0.0",
+  "description": "Distraction-free social feed filter and layout customizer.",
+  "permissions": [
+    "storage",
+    "declarativeNetRequest"
+  ],
+  "host_permissions": [
+    "*://*.twitter.com/*",
+    "*://*.x.com/*"
+  ],
+  "action": {
+    "default_popup": "popup/index.html",
+    "default_icon": "icons/icon-128.png"
+  },
+  "background": {
+    "service_worker": "background/worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.x.com/*"],
+      "js": ["content/bundle.js"],
+      "run_at": "document_start"
+    }
+  ]
+}
+```
+
+---
+
+## 🔌 2. Cross-Browser API Polyfill
+
+Write asynchronous, promise-based extension code that executes identically in Chrome and Firefox:
+
+```javascript
+import browser from 'webextension-polyfill';
+
+export async function loadUserPreferences() {
+    const data = await browser.storage.local.get(['hideSidebar', 'customTheme']);
+    return {
+        hideSidebar: data.hideSidebar ?? true,
+        customTheme: data.customTheme ?? 'dark'
+    };
+}
+```
+
+---
+
+## 🔄 Interoperability & Handoffs
+
+* **Synergy with [`ClutterlessSocial`](file:///home/ericparsley/Documents/GitHub/ClutterlessSocial/package.json):** Standardizes extension building and testing.
+* **Handoff to `electron-desktop-dev`:** If packaging the extension functionality into a standalone desktop application.\n
