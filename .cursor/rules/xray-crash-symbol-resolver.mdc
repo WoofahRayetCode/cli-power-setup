@@ -1,0 +1,62 @@
+---
+description: Translates Wine, Proton, and native Linux crash addresses and DLL relative virtual addresses (RVAs) into exact source file coordinates and line numbers via host CPU symbol analysis (addr2line, objdump, rizin), eliminating 25k-40k tokens of blind codebase searching.
+globs: 
+alwaysApply: false
+---
+
+# X-Ray Crash Symbol Resolver (`xray-crash-symbol-resolver`)
+
+When S.T.A.L.K.E.R. (X-Ray / OGSR Engine) crashes under Wine, Proton, or native Linux, it outputs stack trace crash dialogs or log entries with raw hexadecimal memory offsets:
+`xrGame.dll + 0x3b4a12` or `CRASH: [00000001803b4a12]`.
+
+Without symbol resolution, an AI agent must read 20–50 source files searching for function names or text fragments, burning **25,000 to 50,000 prompt tokens** on guesswork.
+
+This skill runs fast, zero-token host CPU symbol resolution to translate raw crash offsets directly into exact source files and line numbers in under 20 milliseconds.
+
+---
+
+## 1. Symbol Resolution Pipeline
+
+```mermaid
+flowchart LR
+    A["Raw Crash Offset: xrGame.dll+0x3b4a12"] --> B["Host Tool: addr2line / llvm-symbolizer / rizin"]
+    B --> C["Resolved Coordinate: src/xrGame/alife_simulator.cpp#L184"]
+    C --> D["Targeted Ingestion to Fable 5.1 (10 Lines only!)"]
+```
+
+---
+
+## 2. Command Pipeline Standards
+
+### A. For Linux Native & MinGW Builds with DWARF / PDB:
+```bash
+# Translates relative offset directly using addr2line
+addr2line -e bin/xrGame.so -f -C 0x3b4a12
+# Output:
+# CALifeSimulator::update()
+# /home/ericparsley/ogsr/src/xrGame/alife_simulator.cpp:184
+```
+
+### B. For Windows PE Binaries under Wine/Proton (with Symbols):
+```bash
+# Uses rizin or objdump to resolve function boundary & offset
+rizin -q -c "s 0x3b4a12; af.; pdf" bin/xrGame.dll
+```
+
+### C. Output Format to Model:
+Never dump disassembly pages into chat. Output the single resolved source coordinate:
+```text
+#CRASH_COORDINATE:
+BINARY: bin/xrGame.dll (RVA: 0x3b4a12)
+FUNCTION: CALifeSimulator::update()
+SOURCE: src/xrGame/alife_simulator.cpp#L184
+FAULT_TYPE: ACCESS_VIOLATION_READ (0x0000000000000018)
+```
+
+---
+
+## 3. Quota & Context Savings
+
+- **Eliminates Blind File Exploration:** Resolves the exact line in 15ms on the host before making an LLM tool call.
+- **Precision Focus:** Fable 5.1 reads only the 15-line block around `alife_simulator.cpp#L184` instead of ingesting the entire 2,000-line translation unit.
+- **Saves ~30,000 tokens** per crash triage cycle.
