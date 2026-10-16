@@ -238,7 +238,7 @@ While all 157 skills and CLI utilities are shared identically between environmen
 | **`gamemaker-gml-engineering`** | Gaming/GML | Modern GameMaker (2024+), constructors/structs, FSMs, volatile surfaces, delta timing & batching |
 | **`game-trainer-engineering`** | Gaming/Trainer | Cross-platform memory scanning, pointer chain resolvers, AOB scans & mid-function detour hooks |
 | **`game-localization-i18n`** | Gaming/i18n | ICU message formatting, pluralization rules, RTL layout mirroring & CJK/Cyrillic font fallbacks |
-| **`game-dialogue-ui-localization`** | Gaming/Dialogue | S.T.A.L.K.E.R. & RPG conversation UI layout repair, string cross-ref, talk.xml overrun & mojibake |
+| **`game-dialogue-ui-localization`** | Gaming/Dialogue | Multi-language conversation UI repair (FIGS, CJK fullwidth, Slavic CP1251/CP1250, BiDi RTL, Turkish), talk.xml overrun & mojibake |
 | **`headless-game-ci-automation`** | DevOps/GameCI | Headless engine CLI builds (Godot/Unity/UE5), automated test runners (GUT) & matrix packaging |
 | **`godot-shader-vfx`** | Godot/Shaders | Godot 4 screen-reading spatial/canvas shaders, vertex wind displacement & GPU compute particles |
 | **`coderabbit-ai-review`** | Review/PR | CodeRabbit-grade PR reviews, architectural Mermaid sequence diagrams, defect triage & GitHub suggestion diffs |

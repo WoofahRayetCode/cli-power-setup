@@ -9,34 +9,195 @@ import sys
 import os
 import re
 import argparse
+import unicodedata
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-# Estimated average character widths per font in S.T.A.L.K.E.R. (in pixels at 1024x768 base)
+# Estimated average character widths per font in S.T.A.L.K.E.R. & typical RPGs (pixels at 1024x768 base)
 FONT_METRICS = {
-    "letterica16": {"char_w": 7.0, "line_h": 16},
-    "letterica18": {"char_w": 8.0, "line_h": 18},
-    "graffiti19":  {"char_w": 8.5, "line_h": 19},
-    "graffiti22":  {"char_w": 9.5, "line_h": 22},
-    "arial_14":    {"char_w": 6.5, "line_h": 14},
-    "default":     {"char_w": 8.0, "line_h": 18}
+    "letterica16": {"char_w": 7.0, "line_h": 16, "cjk_w": 14.0},
+    "letterica18": {"char_w": 8.0, "line_h": 18, "cjk_w": 16.0},
+    "graffiti19":  {"char_w": 8.5, "line_h": 19, "cjk_w": 17.0},
+    "graffiti22":  {"char_w": 9.5, "line_h": 22, "cjk_w": 19.0},
+    "arial_14":    {"char_w": 6.5, "line_h": 14, "cjk_w": 13.0},
+    "default":     {"char_w": 8.0, "line_h": 18, "cjk_w": 16.0}
 }
 
+# Industry standard text expansion ratios relative to English baseline (1.0)
+LANGUAGE_EXPANSION_RATIOS = {
+    # FIGS (Western Europe)
+    "de": 1.35,  # German: long compound nouns, ~30-35% expansion
+    "fr": 1.25,  # French: verbose grammar and articles, ~25% expansion
+    "it": 1.25,  # Italian: ~20-25% expansion
+    "es": 1.25,  # Spanish (Castilian/LatAm): ~20-30% expansion
+    "pt": 1.25,  # Portuguese (PT/BR): ~20-25% expansion
+    # Slavic & Eastern European
+    "ru": 1.20,  # Russian: inflections, Cyrillic glyphs, ~15-25% expansion
+    "uk": 1.20,  # Ukrainian: ~15-25% expansion
+    "pl": 1.25,  # Polish: Latin-2, complex noun compounds, ~20-25% expansion
+    "cs": 1.20,  # Czech: ~15-25% expansion
+    "sk": 1.20,  # Slovak: ~15-25% expansion
+    "hu": 1.25,  # Hungarian: agglutinative, long words, ~25% expansion
+    "ro": 1.20,  # Romanian: ~20% expansion
+    "bg": 1.20,  # Bulgarian: Cyrillic, ~20% expansion
+    "sr": 1.20,  # Serbian: Cyrillic/Latin, ~20% expansion
+    # CJK (East Asian) - Character count shrinks, but each glyph occupies 2x horizontal space
+    "ja": 0.65,  # Japanese: ~65% character count of EN, fullwidth CJK glyphs
+    "zh": 0.55,  # Chinese (Simplified/Traditional): ~55% character count, fullwidth CJK
+    "zh-cn": 0.55,
+    "zh-tw": 0.55,
+    "ko": 0.80,  # Korean (Hangul): ~80% character count, syllable blocks
+    # BiDi / Middle Eastern (Right-to-Left)
+    "ar": 1.15,  # Arabic: ~15% expansion, requires RTL shaping & UI mirroring
+    "he": 1.05,  # Hebrew: ~5% expansion, requires RTL layout
+    "fa": 1.15,  # Persian/Farsi: ~15% expansion, RTL
+    # Eurasian & Nordic
+    "tr": 1.15,  # Turkish: agglutinative suffixes, dotted/dotless i pitfalls
+    "nl": 1.20,  # Dutch: compound nouns, ~20% expansion
+    "sv": 1.15,  # Swedish: ~15% expansion
+    "no": 1.15,  # Norwegian: ~15% expansion
+    "da": 1.15,  # Danish: ~15% expansion
+    "fi": 1.25,  # Finnish: long agglutinative words, ~25% expansion
+    "el": 1.20,  # Greek: ~20% expansion
+    "vi": 1.25,  # Vietnamese: accented tone markers, ~25% expansion
+    "th": 0.90,  # Thai: script without word spaces, ~90% char count
+    # Default baseline
+    "en": 1.00
+}
+
+# Common legacy game codepages per language family
+LANGUAGE_LEGACY_CODEPAGES = {
+    "ru": "windows-1251",
+    "uk": "windows-1251",
+    "bg": "windows-1251",
+    "be": "windows-1251",
+    "pl": "windows-1250",
+    "cs": "windows-1250",
+    "sk": "windows-1250",
+    "hu": "windows-1250",
+    "ro": "windows-1250",
+    "de": "windows-1252",
+    "fr": "windows-1252",
+    "es": "windows-1252",
+    "it": "windows-1252",
+    "pt": "windows-1252",
+    "en": "windows-1252",
+    "tr": "windows-1254",
+    "el": "windows-1253",
+    "he": "windows-1255",
+    "ar": "windows-1256",
+    "ja": "shift_jis",
+    "zh": "gb18030",
+    "zh-cn": "gb18030",
+    "zh-tw": "big5",
+    "ko": "cp949"
+}
+
+# Kinzoku Shori rules: Punctuation characters that cannot start a line in CJK
+CJK_NO_LINE_START = set("、。，．・：；？！ヽヾゝゞ々ー）〕］｝〉》」』】’”?!)]}")
+# Punctuation characters that cannot end a line in CJK
+CJK_NO_LINE_END = set("（〔［｛〈《「『【‘“([")
+
+def calculate_visual_width(text: str, font_name: str = "letterica18") -> float:
+    """Calculates visual pixel width of text accounting for Latin vs fullwidth CJK glyphs."""
+    metric = FONT_METRICS.get(font_name, FONT_METRICS["default"])
+    latin_w = metric["char_w"]
+    cjk_w = metric.get("cjk_w", latin_w * 2.0)
+    
+    total_w = 0.0
+    for ch in text:
+        # Strip XML color tags (%c[...]) from visual width calculation
+        ea = unicodedata.east_asian_width(ch)
+        if ea in ('W', 'F'):
+            total_w += cjk_w
+        else:
+            total_w += latin_w
+    return total_w
+
+def detect_script_and_language(text: str) -> dict:
+    """Detects dominant scripts, potential language characteristics, and UI risks."""
+    scripts = {
+        "cjk": 0,
+        "hangul": 0,
+        "cyrillic": 0,
+        "arabic": 0,
+        "hebrew": 0,
+        "latin": 0,
+        "greek": 0,
+        "thai": 0
+    }
+    turkish_specific = 0
+    for ch in text:
+        code = ord(ch)
+        if 0x4E00 <= code <= 0x9FFF or 0x3040 <= code <= 0x30FF: # CJK Ideographs / Hiragana / Katakana
+            scripts["cjk"] += 1
+        elif 0xAC00 <= code <= 0xD7AF or 0x1100 <= code <= 0x11FF: # Hangul
+            scripts["hangul"] += 1
+        elif 0x0400 <= code <= 0x04FF: # Cyrillic
+            scripts["cyrillic"] += 1
+        elif 0x0600 <= code <= 0x06FF: # Arabic
+            scripts["arabic"] += 1
+        elif 0x0590 <= code <= 0x05FF: # Hebrew
+            scripts["hebrew"] += 1
+        elif 0x0370 <= code <= 0x03FF: # Greek
+            scripts["greek"] += 1
+        elif 0x0E00 <= code <= 0x0E7F: # Thai
+            scripts["thai"] += 1
+        elif 'A' <= ch <= 'Z' or 'a' <= ch <= 'z':
+            scripts["latin"] += 1
+        elif ch in "çğıöşüÇĞİÖŞÜ":
+            turkish_specific += 1
+
+    dominant = max(scripts, key=scripts.get) if any(scripts.values()) else "latin"
+    is_bidi = scripts["arabic"] > 0 or scripts["hebrew"] > 0
+    
+    return {
+        "dominant_script": dominant,
+        "is_bidi": is_bidi,
+        "has_cjk": scripts["cjk"] > 0 or scripts["hangul"] > 0,
+        "has_cyrillic": scripts["cyrillic"] > 0,
+        "has_turkish": turkish_specific > 0,
+        "scripts": {k: v for k, v in scripts.items() if v > 0}
+    }
+
 def robust_xml_parse(file_path: Path):
-    """Attempts to parse XML across common game encoding quirks (CP1251, UTF-8, etc.)."""
+    """Attempts to parse XML across common game encoding quirks (CP1251, CP1250, CP1252, CJK, UTF-8)."""
     raw = file_path.read_bytes()
-    encodings = ["utf-8-sig", "utf-8", "windows-1251", "cp1252", "latin-1"]
+    encodings = [
+        "utf-8-sig",
+        "utf-8",
+        "windows-1251",  # Russian, Ukrainian, Bulgarian
+        "windows-1250",  # Polish, Czech, Slovak, Hungarian
+        "windows-1252",  # FIGS (English, German, French, Spanish, Italian)
+        "shift_jis",     # Japanese
+        "gb18030",       # Simplified Chinese
+        "big5",          # Traditional Chinese
+        "cp949",         # Korean
+        "windows-1254",  # Turkish
+        "windows-1256",  # Arabic
+        "latin-1"
+    ]
     
     # Check declared encoding in XML header
     header_match = re.search(rb'encoding=["\']([a-zA-Z0-9_-]+)["\']', raw[:128])
     if header_match:
-        declared = header_match.group(1).decode("ascii", errors="ignore").lower()
-        if declared in ["windows-1251", "cp1251"]:
-            encodings.insert(0, "windows-1251")
-        elif declared in ["utf-8", "utf8"]:
-            encodings.insert(0, "utf-8")
-        elif declared in ["windows-1252", "cp1252"]:
-            encodings.insert(0, "windows-1252")
+        declared = header_match.group(1).decode("ascii", errors="ignore").lower().replace("_", "-")
+        alias_map = {
+            "cp1251": "windows-1251", "windows-1251": "windows-1251",
+            "cp1250": "windows-1250", "windows-1250": "windows-1250",
+            "cp1252": "windows-1252", "windows-1252": "windows-1252",
+            "cp1254": "windows-1254", "windows-1254": "windows-1254",
+            "cp1256": "windows-1256", "windows-1256": "windows-1256",
+            "sjis": "shift_jis", "shift-jis": "shift_jis", "shift_jis": "shift_jis",
+            "gb2312": "gb18030", "gbk": "gb18030", "gb18030": "gb18030",
+            "big-5": "big5", "big5": "big5",
+            "euc-kr": "cp949", "cp949": "cp949",
+            "utf-8": "utf-8", "utf8": "utf-8"
+        }
+        resolved = alias_map.get(declared, declared)
+        if resolved in encodings:
+            encodings.remove(resolved)
+            encodings.insert(0, resolved)
 
     for enc in encodings:
         try:
@@ -174,8 +335,9 @@ def cross_reference(dialog_paths: list, string_paths: list):
 # -----------------------------------------------------------------------------
 # 3. Conversation UI Overrun & Clipping Check
 # -----------------------------------------------------------------------------
-def check_ui_overrun(ui_file: Path, string_paths: list, max_warn_chars: int = 120):
-    print(f"\n[→] Checking conversation UI text overrun against {ui_file}...")
+def check_ui_overrun(ui_file: Path, string_paths: list, max_warn_chars: int = 120, lang: str = "auto", target_lang: str = None):
+    target_expansion = LANGUAGE_EXPANSION_RATIOS.get(target_lang.lower(), 1.0) if target_lang else 1.0
+    print(f"\n[→] Checking conversation UI text overrun against {ui_file} (lang={lang}, target_lang={target_lang or 'none'})...")
     if not ui_file.exists():
         print(f"[✗] UI file not found: {ui_file}")
         return 1
@@ -207,12 +369,15 @@ def check_ui_overrun(ui_file: Path, string_paths: list, max_warn_chars: int = 12
     else:
         print("[✓] All text containers have complex_mode='1' enabled for multiline wrapping.")
 
-    # Check string lengths against typical dialogue answer/question widths (~500px)
+    # Dialogue box width (~520px in S.T.A.L.K.E.R. standard HUD)
     avg_box_width = 520.0
-    font_metric = FONT_METRICS.get("letterica18", FONT_METRICS["default"])
-    chars_per_line = int(avg_box_width / font_metric["char_w"])
+    font_name = "letterica18"
 
     long_strings = []
+    bidi_warnings = []
+    cjk_kinzoku_warnings = []
+    turkish_warnings = []
+
     for sp in string_paths:
         p = Path(sp)
         target_files = list(p.rglob("*.xml")) if p.is_dir() else [p]
@@ -224,27 +389,62 @@ def check_ui_overrun(ui_file: Path, string_paths: list, max_warn_chars: int = 12
                     t_elem = s.find("text")
                     if t_elem is not None and t_elem.text:
                         txt = t_elem.text.strip()
-                        lines_needed = (len(txt) // chars_per_line) + 1
-                        # If a single question/dialogue option exceeds 3 lines, it risks overflowing the question_list box (height ~80px)
-                        if lines_needed > 4 and len(txt) > max_warn_chars:
+                        script_info = detect_script_and_language(txt)
+                        
+                        # BiDi layout alert
+                        if script_info["is_bidi"]:
+                            bidi_warnings.append({"id": sid, "file": f.name, "script": script_info["dominant_script"]})
+
+                        # Turkish casing pitfalls
+                        if script_info["has_turkish"] or lang == "tr":
+                            if ("I" in txt and "i" in txt) and ("ı" not in txt and "İ" not in txt):
+                                turkish_warnings.append({"id": sid, "file": f.name})
+
+                        # CJK Kinzoku Shori rules: line cannot start with closing punctuation
+                        if script_info["has_cjk"]:
+                            for line in txt.splitlines():
+                                line_clean = line.strip()
+                                if line_clean and line_clean[0] in CJK_NO_LINE_START:
+                                    cjk_kinzoku_warnings.append({"id": sid, "char": line_clean[0], "file": f.name})
+
+                        # Calculate pixel width taking Latin vs fullwidth CJK glyphs into account
+                        base_visual_width = calculate_visual_width(txt, font_name)
+                        projected_width = base_visual_width * target_expansion
+                        projected_lines = int(projected_width // avg_box_width) + 1
+
+                        if projected_lines > 4 and (len(txt) > max_warn_chars or projected_width > (avg_box_width * 4)):
                             long_strings.append({
                                 "id": sid,
                                 "len": len(txt),
-                                "lines": lines_needed,
-                                "file": str(f.name)
+                                "lines": projected_lines,
+                                "px": int(projected_width),
+                                "file": str(f.name),
+                                "dominant": script_info["dominant_script"]
                             })
             except Exception:
                 continue
 
+    if bidi_warnings:
+        print(f"\n[!] BiDi / RTL Notice: Detected {len(bidi_warnings)} Arabic/Hebrew strings.")
+        print("    Requirement: Ensure conversation UI mirrors container coordinates (right-aligned x anchors).")
+
+    if cjk_kinzoku_warnings:
+        print(f"\n[!] CJK Kinzoku Shori Notice: Detected {len(cjk_kinzoku_warnings)} lines starting with forbidden punctuation:")
+        for w in cjk_kinzoku_warnings[:5]:
+            print(f"    - ID '{w['id']}' ({w['file']}): starts with '{w['char']}'")
+
+    if turkish_warnings:
+        print(f"\n[!] Turkish i-casing Notice: Detected {len(turkish_warnings)} strings with ambiguous ASCII I/i conversions.")
+
     if long_strings:
-        print(f"\n[!] Detected {len(long_strings)} long dialogue strings that may overflow UI question lists:")
+        print(f"\n[!] Detected {len(long_strings)} dialogue strings that overflow UI question lists (>4 lines):")
         for s in long_strings[:15]:
-            print(f"    - ID '{s['id']}' ({s['file']}): {s['len']} chars (~{s['lines']} wrapped lines)")
+            print(f"    - ID '{s['id']}' ({s['file']}, script={s['dominant']}): {s['len']} chars, ~{s['px']}px (~{s['lines']} lines)")
         if len(long_strings) > 15:
             print(f"    ... and {len(long_strings) - 15} more.")
-        print("    Recommendation: Ensure <questions_list> has always_show_scroll='1' or increase window height.")
+        print("    Recommendation: Enable always_show_scroll='1' on <questions_list> or condense string.")
     else:
-        print("[✓] All dialogue strings fit within standard UI line budgets.")
+        print("[✓] All dialogue strings fit comfortably within standard UI line budgets.")
     return 0
 
 # -----------------------------------------------------------------------------
@@ -287,39 +487,55 @@ def fix_widescreen_ui(talk_file: Path, talk16_file: Path, apply_fix: bool = Fals
 # 5. Encoding & Mojibake Detection and Repair
 # -----------------------------------------------------------------------------
 def fix_encoding(target_files: list, target_enc: str = "utf-8", apply_fix: bool = False):
-    print(f"\n[→] Inspecting file encoding and mojibake across {len(target_files)} files...")
+    print(f"\n[→] Inspecting file encoding and mojibake across {len(target_files)} files (target={target_enc})...")
     fixed_count = 0
-    mojibake_pattern = re.compile(r'[ÐÑ][\x80-\xBF]') # Common UTF-8 decoded as CP1251/CP1252 artifact
+    # Common mojibake patterns:
+    # 1. Cyrillic decoded as CP1252: [ÐÑ][\x80-\xBF]
+    # 2. Central European (CP1250) double-encoded UTF-8: [ÂÃ][\x80-\xBF]
+    # 3. CJK Shift-JIS / GBK decoded as Latin-1: [ææ][\x80-\xFF]
+    mojibake_patterns = [
+        re.compile(r'[ÐÑ][\x80-\xBF]'),
+        re.compile(r'[ÂÃ][\x80-\xBF]'),
+        re.compile(r'[\xc2\xc3][\x80-\xbf]')
+    ]
 
     for f in target_files:
         p = Path(f)
         if not p.is_file():
             continue
         raw = p.read_bytes()
-        try:
-            detected_enc = "utf-8"
-            text = raw.decode("utf-8")
-        except UnicodeDecodeError:
+        
+        # Detect encoding by testing supported codepages
+        detected_enc = "utf-8"
+        text = ""
+        candidate_encodings = [
+            "utf-8-sig", "utf-8", "windows-1251", "windows-1250",
+            "windows-1252", "shift_jis", "gb18030", "big5", "cp949",
+            "windows-1254", "windows-1256", "latin-1"
+        ]
+        
+        for cand in candidate_encodings:
             try:
-                detected_enc = "windows-1251"
-                text = raw.decode("windows-1251")
+                text = raw.decode(cand)
+                detected_enc = cand
+                break
             except Exception:
-                detected_enc = "windows-1252"
-                text = raw.decode("windows-1252", errors="ignore")
+                continue
 
-        has_mojibake = bool(mojibake_pattern.search(text))
+        has_mojibake = any(bool(pat.search(text)) for pat in mojibake_patterns)
         needs_transcode = (detected_enc.lower() != target_enc.lower()) or has_mojibake
 
         if needs_transcode:
             print(f"[!] File {p.name}: detected={detected_enc}, mojibake={has_mojibake}")
             if apply_fix:
-                # If mojibake detected, try round-trip repair
                 clean_text = text
-                if has_mojibake and detected_enc == "utf-8":
-                    try:
-                        clean_text = raw.decode("utf-8").encode("windows-1251").decode("utf-8")
-                    except Exception:
-                        pass
+                if has_mojibake and detected_enc in ["utf-8", "utf-8-sig"]:
+                    for fallback in ["windows-1251", "windows-1250", "windows-1252"]:
+                        try:
+                            clean_text = raw.decode("utf-8").encode(fallback).decode("utf-8")
+                            break
+                        except Exception:
+                            pass
 
                 # Update XML declaration encoding attribute
                 clean_text = re.sub(
@@ -327,13 +543,64 @@ def fix_encoding(target_files: list, target_enc: str = "utf-8", apply_fix: bool 
                     f'<?xml\\1encoding="{target_enc}"\\2>',
                     clean_text
                 )
-                p.write_bytes(clean_text.encode(target_enc))
-                fixed_count += 1
+                try:
+                    p.write_bytes(clean_text.encode(target_enc))
+                    fixed_count += 1
+                except Exception as e:
+                    print(f"[✗] Failed to encode {p.name} as {target_enc}: {e}")
 
     if apply_fix:
         print(f"[✓] Transcoded and repaired {fixed_count} files to {target_enc}.")
     else:
         print(f"[✓] Inspection complete. Run with --fix to execute encoding repairs.")
+    return 0
+
+# -----------------------------------------------------------------------------
+# 6. Global Multi-Language Coverage Audit
+# -----------------------------------------------------------------------------
+def audit_languages(base_dir: Path):
+    print(f"\n[→] Auditing game language coverage across {base_dir}...")
+    if not base_dir.exists():
+        print(f"[✗] Directory not found: {base_dir}")
+        return 1
+
+    # Standard international game language codes
+    common_locales = {
+        "en": "English",
+        "de": "German (FIGS)",
+        "fr": "French (FIGS)",
+        "es": "Spanish (FIGS)",
+        "it": "Italian (FIGS)",
+        "ru": "Russian (Slavic)",
+        "uk": "Ukrainian (Slavic)",
+        "pl": "Polish (Slavic / Latin-2)",
+        "cs": "Czech (Slavic / Latin-2)",
+        "ja": "Japanese (CJK)",
+        "zh": "Chinese Simplified (CJK)",
+        "zh-tw": "Chinese Traditional (CJK)",
+        "ko": "Korean (CJK)",
+        "pt-br": "Portuguese Brazil",
+        "tr": "Turkish",
+        "ar": "Arabic (BiDi/RTL)"
+    }
+
+    found_locales = {}
+    for d in base_dir.iterdir():
+        if d.is_dir():
+            name = d.name.lower()
+            found_locales[name] = len(list(d.glob("*.xml")))
+
+    print(f"[✓] Found language folders in {base_dir.name}:")
+    for loc, count in found_locales.items():
+        desc = common_locales.get(loc, "Custom Locale")
+        ratio = LANGUAGE_EXPANSION_RATIOS.get(loc, 1.0)
+        print(f"    - {loc} ({desc}): {count} XML files [Expansion Ratio: {ratio:+.0%}]")
+
+    missing = [k for k in ["en", "de", "fr", "es", "it", "ru", "pl", "ja", "zh"] if k not in found_locales and k != "en"]
+    if missing:
+        print(f"\n[!] Missing key global market languages: {', '.join(missing)}")
+    else:
+        print("[✓] Broad global game language coverage verified!")
     return 0
 
 # -----------------------------------------------------------------------------
@@ -423,6 +690,8 @@ def main():
     p_ui.add_argument("--ui", required=True, type=Path, help="talk.xml or talk_16.xml file")
     p_ui.add_argument("--strings", required=True, nargs="+", help="String table directories")
     p_ui.add_argument("--max-chars", type=int, default=120, help="Char limit before flagging possible overrun")
+    p_ui.add_argument("--lang", default="auto", help="Language code of source strings (auto, en, de, fr, ja, ru, etc.)")
+    p_ui.add_argument("--target-lang", help="Target language to simulate expansion against (e.g. de, fr, es, ru, ja)")
 
     # 4. fix-widescreen-ui
     p_wide = subparsers.add_parser("fix-widescreen-ui", help="Audit and fix complex_mode and bounds in talk_16.xml")
@@ -431,14 +700,26 @@ def main():
     p_wide.add_argument("--fix", action="store_true", help="Apply fixes directly to talk_16.xml")
 
     # 5. fix-encoding
-    p_enc = subparsers.add_parser("fix-encoding", help="Detect and transcode XML files (UTF-8, CP1251) and repair mojibake")
+    p_enc = subparsers.add_parser("fix-encoding", help="Detect and transcode XML files across common game codepages")
     p_enc.add_argument("files", nargs="+", help="Target XML files")
-    p_enc.add_argument("--to", default="utf-8", choices=["utf-8", "windows-1251", "windows-1252"], help="Target encoding")
+    p_enc.add_argument(
+        "--to",
+        default="utf-8",
+        choices=[
+            "utf-8", "windows-1250", "windows-1251", "windows-1252",
+            "windows-1254", "windows-1256", "shift_jis", "gb18030", "big5", "cp949"
+        ],
+        help="Target encoding"
+    )
     p_enc.add_argument("--fix", action="store_true", help="Write changes to disk")
 
     # 6. validate-graph
     p_graph = subparsers.add_parser("validate-graph", help="Validate dialogue tree phrase links and check for dead-end loops")
     p_graph.add_argument("dialogs", nargs="+", help="Dialogue XML files or directories")
+
+    # 7. audit-languages
+    p_aud = subparsers.add_parser("audit-languages", help="Audit global game language coverage, file counts, and expansion ratios")
+    p_aud.add_argument("text_dir", type=Path, help="Base text directory (e.g. gamedata/config/text/)")
 
     args = parser.parse_args()
 
@@ -447,13 +728,21 @@ def main():
     elif args.subcommand == "cross-reference":
         return cross_reference(args.dialogs, args.strings)
     elif args.subcommand == "check-ui-overrun":
-        return check_ui_overrun(args.ui, args.strings, max_warn_chars=args.max_chars)
+        return check_ui_overrun(
+            args.ui,
+            args.strings,
+            max_warn_chars=args.max_chars,
+            lang=args.lang,
+            target_lang=args.target_lang
+        )
     elif args.subcommand == "fix-widescreen-ui":
         return fix_widescreen_ui(args.talk, args.talk16, apply_fix=args.fix)
     elif args.subcommand == "fix-encoding":
         return fix_encoding(args.files, target_enc=args.to, apply_fix=args.fix)
     elif args.subcommand == "validate-graph":
         return validate_graph(args.dialogs)
+    elif args.subcommand == "audit-languages":
+        return audit_languages(args.text_dir)
 
     return 0
 
