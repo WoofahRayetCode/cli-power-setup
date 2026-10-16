@@ -127,6 +127,13 @@ Before altering source files or replacing engine binaries:
 | `0xC00000FD` (Stack Overflow) | Infinite recursion in engine callback hook or cyclic script event. | Audit hook detours and event dispatch cascades for missing recursion guards. |
 | Shader compilation failure (`D3D11 / VK`) | Mismatched constant buffer alignment or missing semantics. | Reconcile cbuffer 16-byte alignment and explicit input layout semantics. |
 
+### 3. Autonomous Closed-Loop Playtest Locomotion & Vision Telemetry
+* If hands-on testing by the user is unavailable, **autonomously execute closed-loop locomotion and vision monitoring**:
+  - **Input Injection (`game-qa-playtest-controller`):** Inject hardware-level kernel inputs (`/dev/uinput`) running `wander`, `orbit` (circle-strafing), `sweep` (360° panoramic yaw/pitch), and `stress-locomotion` (sprint/jump/crouch) to trigger physics, LOD transitions, and animation blend states.
+  - **Screen Surveillance (`game-screen-telemetry-monitor`):** Continuously sample game frames in the background to detect missing shader/texture artifacts (magenta `#FF00FF`), graphics driver hangs, and window freezes.
+  - **Action Verification (`agentic-visual-perception`):** Run structural visual diffing (SSIM) between action frames to confirm character responses and UI transitions.
+  - **Crash Extraction (`visual-document-ocr-intelligence`):** If a crash occurs, capture the error dialog and run local OCR to extract faulting call stacks instantly.
+
 ---
 
 ## 🔗 Skill Composition Matrix
@@ -134,3 +141,4 @@ Before altering source files or replacing engine binaries:
 * **Low-Level Binaries & VTables:** When reconstructing native C++ classes, combine with `lowlevel-dll-internals`.
 * **Zero-MCP CLI Disassembly:** Combine with `standalone-binary-re` for inspecting PE exports, symbols, and relocations.
 * **S.T.A.L.K.E.R. Specifics:** When porting to OGSR or Shadow of Chernobyl 64-bit, delegate to `stalker-ogsr-migration`.
+* **Hands-Free QA:** Combine `game-qa-playtest-controller` with `game-screen-telemetry-monitor` and `agentic-visual-perception` for autonomous testing.

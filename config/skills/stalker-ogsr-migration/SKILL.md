@@ -109,20 +109,88 @@ Always check the tail of `_appdata_/logs/xrEngine.log` when a Crash to Desktop (
 
 ---
 
-## 📺 7. Automated In-Game Screen & Telemetry Verification (`game-screen-telemetry-monitor`)
+## 🎮 7. Closed-Loop Autonomous Playtesting & Vision Control (Hands-Free QA)
 
-When launching and playtesting the ported mod under Wine/Proton or Windows, **automatically invoke `game-screen-telemetry-monitor`** to validate runtime rendering and catch crashes before declaring completion:
+When porting legacy mods like *S.T.A.L.K.E.R. Complete 2009* to the 64-bit OGSR Engine, **never leave testing idle**. If there is no manual input from the user, the agent must autonomously take control of the game using the integrated locomotion controller and machine vision stack to stress-test rendering, physics, and scripting.
 
-1. **Automatic Background Surveillance:**
-   When launching the game binary (`bin_x64/xrEngine.exe`), immediately launch the background screen watcher:
+```
++-------------------------------------------------------------------------------+
+|             Autonomous Hands-Free Playtest & QA Orchestrator                  |
++-------------------------------------------------------------------------------+
+       |                                                    |
+       v                                                    v
+[Locomotion Controller]                             [Visual Telemetry Engine]
+game_playtest_controller.py                         game_screen_monitor.py
+  - orbit (circle-strafe NPCs & campfires)            - scans for #FF00FF magenta
+  - sweep (360° panoramic horizon yaw/pitch)          - detects graphics freezes & blackouts
+  - wander (autonomous level navigation)              - captures BugTrap modal dialogs
+  - stress-locomotion (sprint/jump/crouch)                  |
+  - action-cycle (weapons/reload/inventory)                 v
+                                                    [Agentic Perception & OCR]
+                                                    agent_visual_grounding.py (SSIM diff)
+                                                    document_ocr_pipeline.py (Crash OCR)
+                                                            |
+                                                            v
+                                            [Automated Crash Log Triage]
+                                            local_model_coprocessor.py (0 cloud tokens)
+                                            -> Immediate LTX/Lua fix & re-test
+```
+
+### Protocol Steps:
+
+#### Step 1: Pre-Flight Static Linting (`local-ast-compiler-engine`)
+Before launching `bin_x64/xrEngine.exe`, run parallel static validation across all CPU cores to catch malformed syntax or scripts in $<20\text{ms}$:
+```bash
+python3 config/skills/local-ast-compiler-engine/scripts/local_ast_compiler.py check-syntax --path gamedata/scripts/
+```
+
+#### Step 2: Spawn Background Visual Monitor & Telemetry (`game-screen-telemetry-monitor`)
+Launch the real-time screen watcher in the background to monitor game frames every 2 seconds:
+```bash
+python3 config/skills/game-screen-telemetry-monitor/scripts/game_screen_monitor.py \
+  monitor --interval 2 --duration 120 --out-dir /tmp/ogsr_telemetry &
+MONITOR_PID=$!
+```
+
+#### Step 3: Inject Autonomous Locomotion & Action Sequences (`game-qa-playtest-controller`)
+Take active control of the character via kernel `/dev/uinput` to execute non-linear stress maneuvers:
+```bash
+# 1. 360° Panoramic horizon sweep with vertical pitch oscillation (tests DX11 skybox, sunshafts, lighting LODs)
+python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controller.py sweep --duration 8.0 --pitch
+
+# 2. Circle-strafe orbit around focal targets (tests DX11 bump maps, specular highlights, and mesh collision)
+python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controller.py orbit --duration 10.0 --direction right
+
+# 3. Autonomous level wandering (tests terrain navmesh, obstacle bounce-back, and level geometry boundaries)
+python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controller.py wander --duration 30.0
+
+# 4. Stress physics & character state machines (rapid sprint, bunny-hop jump, and crouch transitions)
+python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controller.py stress-locomotion --duration 12.0
+
+# 5. Combat & UI action cycle (weapon swap, aim, fire, reload, interact with KEY_F, and toggle inventory KEY_TAB)
+python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controller.py action-cycle --cycles 3
+```
+
+#### Step 4: Verify Visual Mutation & UI State (`agentic-visual-perception`)
+Verify that injected actions actually mutated game state rather than hanging on silent freezes:
+```bash
+# Verify inventory opened or frame changed via Structural Similarity (SSIM)
+python3 config/skills/agentic-visual-perception/scripts/agent_visual_grounding.py \
+  diff --frame-a /tmp/ogsr_telemetry/frame_01.png --frame-b /tmp/ogsr_telemetry/frame_02.png --threshold 0.05
+```
+
+#### Step 5: Automated Crash Extraction & Triage (`visual-document-ocr-intelligence` + `local-model-coprocessor`)
+If the game exits or triggers an X-Ray / BugTrap fatal crash:
+1. The monitor captures the desktop crash modal. Preprocess and OCR the error:
    ```bash
-   python3 config/skills/game-screen-telemetry-monitor/scripts/game_screen_monitor.py monitor --interval 2 --duration 60 --out-dir /tmp/ogsr_telemetry
+   python3 config/skills/visual-document-ocr-intelligence/scripts/document_ocr_pipeline.py \
+     ocr --image /tmp/ogsr_telemetry/crash_dialog.png --engine tesseract
    ```
-2. **Autonomous Missing Texture Detection:**
-   The watcher scans frames for unmapped magenta (`#FF00FF` / `#FF0080`) pixels. When detected, parse the level geometry/HUD texture coordinates and check `textures.ltx` for missing `.dds` or mismatched bump maps.
-3. **Automated Crash Dialog OCR & Correlation:**
-   If the game crashes or freezes:
-   - The watcher automatically captures the desktop crash frame and runs `tesseract` OCR over the BugTrap / X-Ray "FATAL ERROR" modal.
-   - Extract the `Expression : ...`, `Function : ...`, `File : ...`, and `Line : ...` directly from the image without waiting for the user to copy or transcribe logs.
-   - Cross-reference the error directly against Section 6 to apply immediate LTX, XML, or Lua fixes.
+2. Summarize `_appdata_/logs/xrEngine.log` locally using the local coprocessor (billing 0 cloud tokens):
+   ```bash
+   python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py \
+     summarize-log --file _appdata_/logs/xrEngine.log
+   ```
+3. Parse the exact `Expression:`, `File:`, and `Line:` to apply the corresponding LTX, Lua callback, or shader fix from Section 6, then re-trigger the automated playtest loop until 100% clean.
+
 

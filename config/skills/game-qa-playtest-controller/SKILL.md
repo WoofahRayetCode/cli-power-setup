@@ -138,6 +138,14 @@ python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controll
 kill -SIGINT $MONITOR_PID
 ```
 
+### Hands-Free Game Porting Recipe (e.g. S.T.A.L.K.E.R. Complete to OGSR)
+When the user is hands-off during mod ports:
+1. **Pre-flight Lint:** `python3 config/skills/local-ast-compiler-engine/scripts/local_ast_compiler.py check-syntax --path gamedata/scripts/`
+2. **Launch Game + Watcher:** Start `bin_x64/xrEngine.exe` and `game_screen_monitor.py monitor` in detached background tasks.
+3. **Execute Non-Linear Test:** Execute `sweep --pitch` -> `orbit` -> `wander` -> `stress-locomotion` -> `action-cycle`.
+4. **Verify Action Mutated Screen:** Verify UI mutation via `python3 config/skills/agentic-visual-perception/scripts/agent_visual_grounding.py diff`.
+5. **Auto-Recover Crash:** If a crash modal appears, run `document_ocr_pipeline.py ocr` on the modal and `local_model_coprocessor.py summarize-log` on `_appdata_/logs/xrEngine.log` to patch configs and retry.
+
 ---
 
 ## 4. Permission & Environment Setup

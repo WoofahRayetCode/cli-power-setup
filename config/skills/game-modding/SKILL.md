@@ -49,9 +49,23 @@ This skill guides game modding, with specialized domain knowledge for **S.T.A.L.
 
 ---
 
-## 3. Automated Visual & Screen Telemetry Quality Gate (`game-screen-telemetry-monitor`)
+## 3. Autonomous Hands-Free Playtesting & Closed-Loop Vision Control
 
-- **Automatic Visual Verification:** When testing modded assets, UI textures, or engine ports in-game, automatically run `game_screen_monitor.py` to inspect the screen.
-- **Magenta Artifact Sniffing:** Automatically detect unmapped missing textures (`#FF00FF`) or corrupted alpha blending without waiting for the user to report visual bugs.
-- **Crash Dialog OCR:** If the mod triggers an engine crash dialog on screen, automatically run `game_screen_monitor.py ocr` to extract the crash stack trace from the desktop modal immediately.
+When verifying game mods, engine ports, or visual assets, **do not remain idle if the user provides no live controller/keyboard input**. Autonomously assume active control of the game to thoroughly exercise level geometry, physics, and rendering:
+
+1. **Kernel Input Injection (`game-qa-playtest-controller`):**
+   - Automatically launch `game_playtest_controller.py` in the background with varied locomotion patterns:
+     - `wander`: Autonomous level navigation to verify obstacle colliders, navmeshes, and map bounds.
+     - `orbit`: Circle-strafing around key landmarks to test dynamic lighting, normal map reflections, and shadow cascades.
+     - `sweep`: 360° panoramic camera sweeps with pitch oscillation to inspect skyboxes, horizon LODs, and distant foliage.
+     - `stress-locomotion` & `action-cycle`: Rapid sprint/jump/crouch transitions and weapon swap/fire/reload/inventory cycles to stress animation blend trees and HUD scripts.
+2. **Concurrent Screen Telemetry (`game-screen-telemetry-monitor`):**
+   - Continuously capture frames in the background to detect:
+     - Missing textures (`#FF00FF` magenta or unmapped UVs).
+     - GPU pipeline freezes, blackouts, or frametime lockups.
+3. **Agentic Perception & Visual Diffing (`agentic-visual-perception`):**
+   - Use `agent_visual_grounding.py diff` (SSIM comparison) between pre- and post-action frames to verify that actions (e.g. inventory toggle, weapon discharge) actually mutated visual state on screen.
+4. **Autonomous Crash Extraction (`visual-document-ocr-intelligence`):**
+   - If an engine crash dialog or BugTrap modal appears, automatically capture the modal, binarize with `document_ocr_pipeline.py preprocess`, and run local OCR (`document_ocr_pipeline.py ocr`) to extract the exact faulting line, file, and expression without human intervention.
+
 

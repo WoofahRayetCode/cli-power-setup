@@ -62,7 +62,7 @@ Before beginning work on any user request, evaluate the prompt's structural comp
   * When testing speculative fixes or alternative hypotheses during complex refactors, route to `working-memory-checkpointing` to snapshot state before modification.
   * When auditing pull requests, generating architectural sequence diagrams, or reviewing diffs with 1-click GitHub suggestions, route to `coderabbit-ai-review`.
   * When inspecting console executables (PS-X EXE, ELF, XBE, XEX), configuring splat binary splitting, or matching ancient compiler assembly, route to `console-game-decompilation`.
-  * When running game QA, validating engine ports (e.g. S.T.A.L.K.E.R. Complete to OGSR), detecting missing textures, or transcribing on-screen crash dialogs via OCR, route to `game-screen-telemetry-monitor`.
+  * When running game QA, validating engine ports (e.g. S.T.A.L.K.E.R. Complete to OGSR), or verifying games without user input, orchestrate `game-qa-playtest-controller` with `game-screen-telemetry-monitor` and `agentic-visual-perception` to autonomously take control of character movement, detect missing textures/freezes, and extract crash dialogs.
   * When automating game testing locomotion, circle-strafing orbits, 360° panoramic camera sweeps, obstacle wandering, or action cycle stress testing, route to `game-qa-playtest-controller`.
   * When executing `/goal` runs or multi-hour autonomous tasks, route to `autonomous-goal-governor` to formulate verifiable exit contracts, enforce 3-strike circuit breaker rollbacks, and guide phased `/compact` milestones.
   * When designing fursonas, generating anthro character refsheets, or formulating model-specific prompts for SDXL/Pony/Midjourney/Flux, route to `furry-fursona-art-design`.
