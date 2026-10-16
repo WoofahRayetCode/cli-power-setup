@@ -194,7 +194,7 @@ def monitor_game_session(duration: float = 30.0, interval: float = 2.0, out_dir:
                         "ocr_snippet": ocr_text[:300]
                     })
                     print(f"🚨 [CRASH DETECTED] Frame {frame_idx}: On-screen engine error modal captured!")
-                elif any(k in ocr_text.upper() for k in ["GAME OVER", "YOU ARE DEAD", "PRESS SPACE", "LOAD LAST SAVE", "RELOAD SAVE", "PRESS ANY KEY TO LOAD"]):
+                elif any(k in ocr_text.upper() for k in ["GAME OVER", "YOU ARE DEAD", "PRESS SPACE TO LOAD", "RELOAD SAVE"]):
                     anomalies["anomalies"].append({
                         "type": "PLAYER_DEATH_DETECTED",
                         "severity": "WARNING",
@@ -202,6 +202,14 @@ def monitor_game_session(duration: float = 30.0, interval: float = 2.0, out_dir:
                         "ocr_snippet": ocr_text[:300]
                     })
                     print(f"💀 [PLAYER DEATH] Frame {frame_idx}: Death/Game Over screen captured!")
+                elif any(k in ocr_text.upper() for k in ["PRESS ANY KEY", "PRESS ANY KEY TO PLAY", "PRESS ANY KEY TO CONTINUE", "CLICK TO CONTINUE", "СИНХРОНИЗАЦИЯ", "НАЖМИТЕ ЛЮБУЮ КЛАВИШУ"]):
+                    anomalies["anomalies"].append({
+                        "type": "PRESS_ANY_KEY_PROMPT_DETECTED",
+                        "severity": "INFO",
+                        "detail": "Level loading complete: 'Press any key to play/continue' prompt detected.",
+                        "ocr_snippet": ocr_text[:300]
+                    })
+                    print(f"🎮 [LOAD PROMPT] Frame {frame_idx}: 'Press any key to play' prompt detected!")
 
             event = {
                 "frame": frame_idx,

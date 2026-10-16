@@ -10,7 +10,7 @@
 - **LTX Syntax Discipline:** Respect case-sensitivity, correct section headers (`[section]`), inheritance (`[child]:parent`), and avoid trailing commas or malformed keys.
 - **Audio Integrity:** When modifying or converting S.T.A.L.K.E.R. audio, never use standard editors that strip the proprietary GSC binary engine chunk from the Ogg Vorbis comment header. Use ZoneForge asset replacement tools to preserve distance and volume parameters.
 - **Texture Standards:** Use DXT1 for opaque/1-bit alpha and DXT5 for smooth alpha. In shared UI atlas sheets (e.g. `ui_menu_backgraund`), use region replacement rather than overwriting the entire atlas sheet.
-- **Autonomous Hands-Free Playtest & QA:** When testing ported mods (e.g. S.T.A.L.K.E.R. Complete to OGSR) without live user input, immediately launch `stalker-playtest-runner` to autonomously take control of character movement via `/dev/uinput`, monitor frames for missing textures/freezes, and auto-triage crash dialogs.
+- **Autonomous Hands-Free Playtest & QA:** When testing ported mods (e.g. S.T.A.L.K.E.R. Complete to OGSR) without live user input, immediately launch `stalker-playtest-runner` to autonomously dismiss 'Press any key to play' loading screens, inject god mode / infinite ammo cheats, take control of character movement via `/dev/uinput`, monitor frames for missing textures/freezes, and auto-triage crash dialogs.
 
 ## Output Token Economy & High-Density Visibility
 - **Zero Conversational Fluff:** Omit pleasantries, preambles ("Sure, I can help with that", "Now I will proceed to..."), and conversational sign-offs. Lead directly with the technical result or action.

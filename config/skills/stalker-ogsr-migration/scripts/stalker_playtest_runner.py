@@ -34,6 +34,8 @@ def main():
     parser.add_argument("--no-god-mode", action="store_false", dest="god_mode", help="Disable invulnerability god mode")
     parser.add_argument("--infinite-ammo", action="store_true", default=True, help="Enable infinite weapon ammunition for combat testing (default: True)")
     parser.add_argument("--no-infinite-ammo", action="store_false", dest="infinite_ammo", help="Disable infinite ammunition")
+    parser.add_argument("--auto-dismiss-loading", action="store_true", default=True, help="Auto-press key to dismiss 'Press any key to play' loading screens (default: True)")
+    parser.add_argument("--no-auto-dismiss-loading", action="store_false", dest="auto_dismiss_loading", help="Disable auto-dismissing loading screens")
     parser.add_argument("--dry-run", action="store_true", help="Simulate playtesting without launching actual game binary")
 
     args = parser.parse_args()
@@ -121,6 +123,14 @@ def main():
         monitor_proc = subprocess.Popen(monitor_cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         time.sleep(1.0)
         print(f"  -> Visual watcher running (PID: {monitor_proc.pid})")
+
+    # Step 3b: Autonomous Loading Screen Dismissal ("Press Any Key")
+    dry_flag = ["--dry-run"] if args.dry_run else []
+    if args.auto_dismiss_loading and qa_controller.exists():
+        print("[Step 3b] Auto-Dismissing 'Press Any Key to Play' Loading Screen Prompt...")
+        dismiss_cmd = [sys.executable, str(qa_controller), "press-any-key", "--key", "SPACE"] + dry_flag
+        subprocess.run(dismiss_cmd, capture_output=True, check=False)
+        print("  -> Loading screen prompt dismissed; active gameplay reached.")
 
     # Step 4: Inject Multi-Axis Kinematic Locomotion & Actions
     print("\n[Step 4/5] Injecting Autonomous Multi-Axis Character Locomotion & Actions...")

@@ -376,6 +376,26 @@ def cmd_enable_cheats(args, pad):
     time.sleep(0.2)
     print("[✓] Testing cheats enabled.")
 
+def cmd_press_any_key(args, pad):
+    print("=======================================================================")
+    print(" 🎮 Autonomous 'Press Any Key' Loading Screen Dismissal")
+    print("=======================================================================")
+    print(f"Key: {args.key} | Post Wait: {args.wait_time}s | Dry Run: {pad.dry_run}")
+    print("-----------------------------------------------------------------------\n")
+    
+    target_key = ecodes.KEY_SPACE if HAVE_EVDEV else None
+    if args.key.upper() == "ENTER" and HAVE_EVDEV:
+        target_key = ecodes.KEY_ENTER
+    elif args.key.upper() == "SPACE" and HAVE_EVDEV:
+        target_key = ecodes.KEY_SPACE
+
+    print(f"  -> Pulsing '{args.key}' to transition into gameplay...")
+    pad.key(target_key, True)
+    time.sleep(0.15)
+    pad.key(target_key, False)
+    time.sleep(args.wait_time if not pad.dry_run else 0.5)
+    print("[✓] Loading screen prompt dismissed. Gameplay entered.")
+
 def main():
     common_parser = argparse.ArgumentParser(add_help=False)
     common_parser.add_argument("--dry-run", action="store_true", help="Simulate input without accessing /dev/uinput")
@@ -421,6 +441,11 @@ def main():
     p_cheat = subparsers.add_parser("enable-cheats", parents=[common_parser], help="Inject god mode and unlimited ammo commands")
     p_cheat.add_argument("--god-mode", action="store_true", default=True, help="Enable god mode")
     p_cheat.add_argument("--infinite-ammo", action="store_true", default=True, help="Enable unlimited ammo")
+
+    # press-any-key
+    p_pak = subparsers.add_parser("press-any-key", parents=[common_parser], help="Dismiss loading screen 'press any key' prompt")
+    p_pak.add_argument("--key", type=str, default="SPACE", help="Key to press (SPACE, ENTER)")
+    p_pak.add_argument("--wait-time", type=float, default=2.0, help="Post-dismissal settle time")
     
     args = parser.parse_args()
     pad = VirtualGamepad(dry_run=args.dry_run)
@@ -442,6 +467,8 @@ def main():
             cmd_console_command(args, pad)
         elif args.command == "enable-cheats":
             cmd_enable_cheats(args, pad)
+        elif args.command == "press-any-key":
+            cmd_press_any_key(args, pad)
     finally:
         pad.close()
 

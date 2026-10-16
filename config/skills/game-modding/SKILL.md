@@ -67,5 +67,8 @@ When verifying game mods, engine ports, or visual assets, **do not remain idle i
    - Use `agent_visual_grounding.py diff` (SSIM comparison) between pre- and post-action frames to verify that actions (e.g. inventory toggle, weapon discharge) actually mutated visual state on screen.
 4. **Autonomous Crash Extraction (`visual-document-ocr-intelligence`):**
    - If an engine crash dialog or BugTrap modal appears, automatically capture the modal, binarize with `document_ocr_pipeline.py preprocess`, and run local OCR (`document_ocr_pipeline.py ocr`) to extract the exact faulting line, file, and expression without human intervention.
+5. **Loading Screen Dismissal & Testing Cheats (`game-qa-playtest-controller`):**
+   - Automatically dismiss "Press any key to play/continue" loading screen prompts (`game_playtest_controller.py press-any-key --key SPACE`).
+   - Enable invulnerability god mode and infinite ammo (`game_playtest_controller.py enable-cheats --god-mode --infinite-ammo`) to ensure uninterrupted, crash-free exploration.
 
 
