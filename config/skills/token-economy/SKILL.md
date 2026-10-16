@@ -68,6 +68,7 @@ To ensure the new frontier efficiency tools are always utilized:
 * **Proton Logs, Crash Traces & PE Import Tables:** When capturing verbose `PROTON_LOG=1` traces (often 10,000+ lines), Windows Event ID 1000 crash dumps, or extensive PE Import Address Tables, redirect stdout to disk log files, surfacing only the faulting module, exception offset, or missing DLL names in chat.
 * **Threat Model Matrices & Pen-Test Logs:** When generating extensive STRIDE threat matrices, DAST penetration test outputs, or network packet captures (`pcap`), offload them to structured artifacts or disk files, presenting only the critical risk score and remediations in chat.
 * **Wine Relay Traces & Handheld Performance Logs:** When capturing `WINEDEBUG=+relay` execution traces (hundreds of thousands of Win32 calls) or multi-minute MangoHud/Steam Deck frametime CSVs, pipe them directly to files in `/tmp/`, reporting only the specific hanging function call or 1% low FPS metrics in chat.
+* **GameMaker YYP Projects & Room Layout JSON:** When inspecting large GameMaker `.yyp` project manifests or room layer JSON files (tens of thousands of JSON lines), offload to disk/artifacts, presenting only resource counts or modified layer names in chat.
 * Provide a single clickable file link and a 1-sentence headline rather than dumping large blocks of markdown or HTML into the chat transcript.
 
 ---

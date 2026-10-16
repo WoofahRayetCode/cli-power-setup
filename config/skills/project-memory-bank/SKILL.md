@@ -69,6 +69,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record binary checksec audit status (RELRO, Canaries, NX, PIE), HMAC signing key rotation cycles, Ed25519 public keys, GitHub Actions SHA pins, STRIDE threat vectors, rate limit thresholds, and memory obfuscation schemes in `systemPatterns.md`.
 * **Game Compatibility & Proton Development Bindings (`cross-platform-game-compatibility`, `linux-gaming-proton-optimization`, `game-patching-binary-repair`, `proton-game-dev-linux`, `steamdeck-proton-hardware-tuning`, `wine-proton-native-interop`):**
   Record target Steam AppID, wineprefix path, LAA 4GB PE header status, `dxvk.conf` flags (e.g. `enableAsync`, `maxFrameLatency`), required DLL overrides (`WINEDLLOVERRIDES`), Steam Deck 40Hz/45Hz targets, font scale thresholds, and Wine named pipe paths in `systemPatterns.md` and `learnings.md`.
+* **GameMaker & GML Architecture Bindings (`gamemaker-gml-engineering`):**
+  Record GameMaker runtime version, YYP project root, target texture page sizes ($2048\times2048$ default), custom texture groups, and active surface IDs in `systemPatterns.md`.
 
 ---
 

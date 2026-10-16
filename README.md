@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **124 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **125 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 124 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 125 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -188,7 +188,8 @@ cli-power-setup/
 | **`proton-game-dev-linux`** | Gaming/Proton | Target Valve Proton, case-sensitive asset path normalization, open cutscene codecs & headless CI |
 | **`steamdeck-proton-hardware-tuning`** | Gaming/Handheld | Steam Deck 15W APU TDP budget, 40Hz frame pacing, 1280x800 resolution & 28px font scaling |
 | **`wine-proton-native-interop`** | Gaming/Interop | Win32-to-Linux named pipe mapping, shared memory shims, Wine DLL call thunking & relay traces |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 124+ skills |
+| **`gamemaker-gml-engineering`** | Gaming/GML | Modern GameMaker (2024+), constructors/structs, FSMs, volatile surfaces, delta timing & batching |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 125+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
@@ -1051,6 +1052,12 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Uses Wine's named pipe mapping to bridge into Linux Unix sockets (`\\.\pipe\...` -> `/dosdevices/pipe/...`), utilizes `/dev/shm` for zero-copy memory buffers, and configures `WINEDEBUG=+relay` for API call traces.
 * **Why It Saves Quota:** Enables seamless host-to-guest interop without requiring complex networked TCP/UDP overhead or fragile hacks.
 
+#### 125. `gamemaker-gml-engineering`
+* **In Simple Terms:** Modern 2D/2.5D game architecture and performance optimization using modern GameMaker (2024+) and GML Code.
+* **When It Kicks In:** Authoring GML scripts, creating lightweight constructor structs (eliminating heavy object bloat), finite state machines via method variables, managing volatile surface VRAM lifecycle, avoiding draw batch breaks, and tuning delta timing.
+* **How It Works:** Replaces traditional `ds_*` maps/lists with native GC-managed structs and arrays, safeguards dynamic surfaces against alt-tab crashes with automatic recreation logic, batches draw calls by texture group, and implements sub-pixel delta timing.
+* **Why It Saves Quota:** Prevents common GameMaker pitfalls (VRAM memory leaks, stuttery frame pacing, object count bloat) before they corrupt runtime performance.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1181,7 +1188,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 124 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 125 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
