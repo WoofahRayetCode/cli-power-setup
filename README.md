@@ -51,7 +51,8 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & skill reference
 ├── .gitignore                  # Clean git filters
 ├── bin/
-│   ├── agy-quota-statusline    # Asynchronous real-time quota & token savings tracker
+│   ├── agy-quota-statusline    # Asynchronous real-time quota & token savings tracker (Gemini)
+│   ├── claude-statusline       # Dedicated real-time telemetry & context monitor (Claude Code)
 │   └── agy-turbo               # High-speed Turbo mode launcher script (hands-free)
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
@@ -374,34 +375,31 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ---
 
-## 📊 Real-Time Dual-CLI Quota & Statusline Monitor
+## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
 
-The statusline script (`~/.local/bin/agy-quota-statusline`) automatically detects whether it is running inside **Google Antigravity (`agy`)** or **Claude Code CLI (`claude`)**:
+The suite includes **dedicated, tailor-made statusline monitors** for both CLIs:
 
-### When Running in Claude Code CLI:
-Claude Code pipes real-time session telemetry directly into the script via `stdin`, rendering live model name, rolling quotas, context consumption, and estimated session cost:
+### 1. Claude Code CLI Dedicated Monitor (`claude-statusline`)
+Installed to `~/.local/bin/claude-statusline` and configured in `~/.claude/settings.json`. Intercepts Claude Code's live `stdin` telemetry stream to render model, rate limits, visual context gauge, session cost, and git worktree:
 ```text
-⚡ Claude [Sonnet 3.7] | 5h: 76% (reset 17:00) | Wk: 88% | 🧠 Ctx: 18% | 💲 $0.04
+⚡ Claude [Sonnet 3.7] | 5h: 72% (reset 17:00) | Wk: 86% | 🧠 Ctx: [█░░░░░] 22% | 💲 $0.06 +45/-12
 ```
+* **Visual Context Gauge:** Dynamic progress bar showing real-time token consumption of your 200k context window.
+* **Rolling Quotas:** Real-time remaining percentages for 5-hour and 7-day limits with exact reset countdowns.
+* **Diff & Cost Telemetry:** Real-time session spend in USD alongside cumulative lines added/removed (`+45/-12`).
 
-### When Running in Antigravity CLI:
-Queries Gemini rolling 5-hour and weekly limits, and tracks cumulative prompt tokens saved via Google context caching:
+### 2. Antigravity CLI Dedicated Monitor (`agy-quota-statusline`)
+Installed to `~/.local/bin/agy-quota-statusline` and configured in `~/.gemini/antigravity-cli/settings.json`:
 ```text
 ⚡ Gemini: 5h: 78% (reset 16:00) | Wk: 72% | 💾 Saved: 23.7M tok (Flash)
 ```
-
 In multi-model sessions (e.g. adaptive escalation between Flash and Argon):
 ```text
 ⚡ Gemini: 5h: 78% | Wk: 72% | 💾 Saved: 23.4M tok (Argon: 12.0M | Flash: 11.4M)
 ```
-
-### Technical Design:
-* **Dual-CLI Auto-Detection:** Seamlessly switches between Claude Code's live `stdin` JSON telemetry payload and Antigravity's session cache telemetry with zero configuration toggles.
-* **Claude Session Telemetry:** Extracts model tier, rolling 5-hour and 7-day rate limits, context window percentage (`context_window.used_percentage`), and session cost (`cost.total_cost_usd`).
-* **Context Cache Token Telemetry:** In Antigravity, correlates active session step tokens from `transcript.jsonl` with turn models in `gen_metadata` to display exact prompt tokens saved by context caching.
-* **Asynchronous & Non-Blocking Quota:** In Antigravity, queries `agy -p /usage` and caches the result in `/tmp/agy_quota_cache.txt` with a 2-minute TTL.
+* **Context Cache Token Telemetry:** Correlates active session step tokens from `transcript.jsonl` with turn models in `gen_metadata` to display exact prompt tokens saved by context caching.
+* **Asynchronous & Non-Blocking Quota:** Queries `agy -p /usage` and caches the result in `/tmp/agy_quota_cache.txt` with a 2-minute TTL.
 * **Zero CLI Lag:** Subprocesses are detached with PID lockfile protection (`/tmp/agy_quota_refresh.lock`), guaranteeing instantaneous prompt rendering (<2ms).
-* **Clean Stacking:** Configured in `~/.gemini/antigravity-cli/settings.json` and `~/.claude/settings.json`.
 
 ---
 

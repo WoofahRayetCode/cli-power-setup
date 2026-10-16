@@ -68,6 +68,12 @@ install_binaries() {
     chmod +x "${BIN_DEST}/agy-quota-statusline"
     log_done "Installed executable: ${BIN_DEST}/agy-quota-statusline"
 
+    if [ -f "${SCRIPT_DIR}/bin/claude-statusline" ]; then
+        cp "${SCRIPT_DIR}/bin/claude-statusline" "${BIN_DEST}/claude-statusline"
+        chmod +x "${BIN_DEST}/claude-statusline"
+        log_done "Installed executable: ${BIN_DEST}/claude-statusline"
+    fi
+
     if [ -f "${SCRIPT_DIR}/bin/agy-turbo" ]; then
         cp "${SCRIPT_DIR}/bin/agy-turbo" "${BIN_DEST}/agy-turbo"
         chmod +x "${BIN_DEST}/agy-turbo"
@@ -155,7 +161,7 @@ if os.path.exists(p):
         data = {}
 data["statusLine"] = {
     "type": "command",
-    "command": os.path.expanduser("${BIN_DEST}/agy-quota-statusline")
+    "command": os.path.expanduser("${BIN_DEST}/claude-statusline")
 }
 with open(p, "w") as f:
     json.dump(data, f, indent=2)
