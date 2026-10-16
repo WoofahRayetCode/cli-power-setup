@@ -1,0 +1,49 @@
+---
+description: Autonomously captures, crops, and visually inspects the active computer screen, desktop application windows, and UI rendering states via local screenshot utilities (Google Project Astra and GPT-6 Astra Vision parity).
+globs: 
+alwaysApply: false
+---
+
+# Screen Vision Inspector & Autonomous Visual Perception
+
+This skill gives Claude Code and Google Antigravity **continuous visual eyes on your desktop environment**, matching **Google Project Astra** and **GPT-6 Astra** multimodal screen perception.
+
+---
+
+## 🎯 When to Activate
+
+* **UI Layout & Glitch Diagnosis:** Inspecting misaligned elements, broken padding, responsive CSS bugs, or font clipping in a live browser or desktop app.
+* **Game & Engine Inspection:** Capturing running game windows (S.T.A.L.K.E.R., Godot, Unity) to diagnose HUD overlap, shader anomalies, or texture corruption.
+* **TUI & CLI Inspection:** Checking terminal layout sizing, ANSI color balance, or statusline alignment.
+* **Visual Diff Verification:** Verifying that a code change visually rendered as intended without requiring manual browser navigation by the user.
+
+---
+
+## 🛠️ Capture Engine (`capture_screen.py`)
+
+The skill includes a zero-dependency Python script at `scripts/capture_screen.py` that handles local screen capture:
+
+```bash
+# Capture full desktop
+python3 scripts/capture_screen.py --output /tmp/screen_capture.png
+
+# Capture specific bounding box (X Y Width Height)
+python3 scripts/capture_screen.py --bbox 100 100 800 600 --output /tmp/window_crop.png
+
+# Capture and scale down to preserve token quota
+python3 scripts/capture_screen.py --max-dim 1280 --output /tmp/screen_optimized.png
+```
+
+### Supported Capture Backends (Auto-Detected):
+1. **`PIL.ImageGrab`:** Built-in Python Pillow screen grabber (works across Linux X11/XWayland, Windows, macOS).
+2. **`import` (ImageMagick):** `import -window root /tmp/screen.png`.
+3. **`grim` (Wayland native):** High-speed Wayland capture.
+4. **`scrot` / `maim` (X11 native):** Standard Linux X11 utilities.
+
+---
+
+## 🛡️ Quota & Privacy Protocols
+
+1. **Local Privacy First:** Screenshots are written to local temporary paths (`/tmp/screen_capture.png`) and never uploaded to public clouds.
+2. **Max Dimension Capping:** High-DPI screens (e.g. 4K / 1440p) are automatically downscaled to `1280px` max dimension to prevent feeding 4,000+ unnecessary vision tokens into the model context.
+3. **Immediate Cleanup:** Temporary captures can be safely overwritten or deleted once the visual analysis turn concludes.

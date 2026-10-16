@@ -20,6 +20,8 @@ REPO_DIR = Path("/home/ericparsley/Documents/GitHub/cli-power-setup")
 REPO_SKILLS = REPO_DIR / "config/skills"
 GEMINI_SKILLS = HOME / ".gemini/config/skills"
 CLAUDE_SKILLS = HOME / ".claude/skills"
+CURSOR_RULES_DIR = HOME / ".cursor/rules"
+REPO_CURSOR_RULES = REPO_DIR / ".cursor/rules"
 
 # Key external tool dependencies mapped to skills
 TOOL_DEPENDENCIES = {
@@ -67,6 +69,7 @@ def audit_skills(fix: bool = False, json_output: bool = False):
         "repo_skills_count": 0,
         "gemini_skills_count": 0,
         "claude_skills_count": 0,
+        "cursor_rules_count": 0,
         "desync_skills": [],
         "invalid_frontmatter": [],
         "script_syntax_errors": [],
@@ -79,23 +82,27 @@ def audit_skills(fix: bool = False, json_output: bool = False):
     repo_skills = set(p.name for p in REPO_SKILLS.iterdir() if p.is_dir()) if REPO_SKILLS.exists() else set()
     gemini_skills = set(p.name for p in GEMINI_SKILLS.iterdir() if p.is_dir()) if GEMINI_SKILLS.exists() else set()
     claude_skills = set(p.name for p in CLAUDE_SKILLS.iterdir() if p.is_dir() and p.name != "synced") if CLAUDE_SKILLS.exists() else set()
+    cursor_rules = set(p.stem for p in CURSOR_RULES_DIR.glob("*.mdc") if not p.name.startswith("00")) if CURSOR_RULES_DIR.exists() else set()
 
     report["repo_skills_count"] = len(repo_skills)
     report["gemini_skills_count"] = len(gemini_skills)
     report["claude_skills_count"] = len(claude_skills)
+    report["cursor_rules_count"] = len(cursor_rules)
 
     # Desync detection
-    all_known = repo_skills | gemini_skills | claude_skills
+    all_known = repo_skills | gemini_skills | claude_skills | cursor_rules
     for s in sorted(all_known):
         in_repo = s in repo_skills
         in_gemini = s in gemini_skills
         in_claude = s in claude_skills
-        if not (in_repo and in_gemini and in_claude):
+        in_cursor = s in cursor_rules
+        if not (in_repo and in_gemini and in_claude and in_cursor):
             report["desync_skills"].append({
                 "skill": s,
                 "in_repo": in_repo,
                 "in_gemini": in_gemini,
-                "in_claude": in_claude
+                "in_claude": in_claude,
+                "in_cursor": in_cursor
             })
 
     # 2. Check Frontmatter & Scripts in Repo
@@ -181,16 +188,17 @@ def audit_skills(fix: bool = False, json_output: bool = False):
     print(f"Repo Skills:       {report['repo_skills_count']} active")
     print(f"Gemini Skills:     {report['gemini_skills_count']} active ({GEMINI_SKILLS})")
     print(f"Claude Skills:     {report['claude_skills_count']} active ({CLAUDE_SKILLS})")
+    print(f"Cursor Rules:      {report['cursor_rules_count']} active ({CURSOR_RULES_DIR})")
     print(f"Git Remote Status: {report['upstream_status']}")
 
     # Desync
     if report["desync_skills"]:
         print(f"\n[!] Desynchronized Skills Found ({len(report['desync_skills'])}):")
         for d in report["desync_skills"]:
-            print(f"    - {d['skill']}: repo={d['in_repo']}, gemini={d['in_gemini']}, claude={d['in_claude']}")
+            print(f"    - {d['skill']}: repo={d['in_repo']}, gemini={d['in_gemini']}, claude={d['in_claude']}, cursor={d['in_cursor']}")
         print("    Run: `skills-audit-update --sync` to synchronize all directories.")
     else:
-        print(f"\n[✓] All {report['repo_skills_count']} skills are 100% synchronized across Antigravity and Claude Code.")
+        print(f"\n[✓] All {report['repo_skills_count']} skills & rules are 100% synchronized across Antigravity, Claude Code, and Cursor.")
 
     # Frontmatter
     if report["invalid_frontmatter"]:
@@ -239,9 +247,14 @@ def sync_skills():
     subprocess.run(f"cp -r '{REPO_SKILLS}/'* '{GEMINI_SKILLS}/'", shell=True, check=True)
     subprocess.run(f"cp -r '{REPO_SKILLS}/'* '{CLAUDE_SKILLS}/'", shell=True, check=True)
 
+    cursor_sync_bin = REPO_DIR / "bin/cursor-rules-sync"
+    if cursor_sync_bin.exists():
+        subprocess.run([str(cursor_sync_bin)], check=True)
+
     gem_cnt = len([p for p in GEMINI_SKILLS.iterdir() if p.is_dir()])
     cla_cnt = len([p for p in CLAUDE_SKILLS.iterdir() if p.is_dir() and p.name != "synced"])
-    print(f"[✓] Synchronized: Gemini={gem_cnt} skills, Claude={cla_cnt} skills.")
+    cur_cnt = len([p for p in CURSOR_RULES_DIR.glob("*.mdc") if not p.name.startswith("00")]) if CURSOR_RULES_DIR.exists() else 0
+    print(f"[✓] Synchronized: Gemini={gem_cnt} skills, Claude={cla_cnt} skills, Cursor={cur_cnt} rules.")
 
 def pull_upstream():
     print(f"[→] Fetching and pulling latest upstream changes from origin/main...")

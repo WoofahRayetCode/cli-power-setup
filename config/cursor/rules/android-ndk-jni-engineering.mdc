@@ -1,0 +1,67 @@
+---
+description: High-performance Android NDK C/C++ development, JNI bridge architecture, native Vulkan/OpenGL ES rendering, Oboe low-latency audio, NEON SIMD vectorization, and tombstone crash symbolization. Use when writing native game engines, DSP libraries, hardware-accelerated processing, or debugging native crashes in Android apps.
+globs: 
+alwaysApply: false
+---
+
+# Android NDK & JNI Systems Engineering
+
+This skill defines best practices for Android Native Development Kit (NDK) engineering, Java Native Interface (JNI) interop, memory pinning, hardware-accelerated Vulkan/Oboe native runtimes, and native crash symbolization.
+
+---
+
+## 1. JNI Interop & Memory Performance Rules
+
+Direct JNI calls between Kotlin/Java and C/C++ introduce VM transition overhead and GC pinning contention. Enforce these strict rules:
+
+### A. Zero-Copy Buffer Passing
+* **Never** copy byte arrays element-by-element across JNI.
+* **Use Direct ByteBuffers:** Allocate off-heap memory via `ByteBuffer.allocateDirect(size)` in Kotlin or `malloc` in C++:
+  ```kotlin
+  // Kotlin
+  val directBuffer: ByteBuffer = ByteBuffer.allocateDirect(1024 * 1024).order(ByteOrder.nativeOrder())
+  nativeProcessBuffer(directBuffer, directBuffer.capacity())
+  ```
+  ```cpp
+  // C++ JNI
+  JNIEXPORT void JNICALL Java_com_example_NativeBridge_nativeProcessBuffer(
+      JNIEnv* env, jobject /* this */, jobject byteBuffer, jint capacity) {
+      void* bufferAddress = env->GetDirectBufferAddress(byteBuffer);
+      // Direct pointer access with zero copies
+      processData(static_cast<uint8_t*>(bufferAddress), capacity);
+  }
+  ```
+
+### B. Local Reference Leaks & Local Frames
+* JNI automatically reserves only **16 local references** per native frame. Looping over Java arrays or strings in C++ without releasing them causes `JNI local reference table overflow` crashes.
+* Always push and pop local frames when performing repetitive object creation:
+  ```cpp
+  if (env->PushLocalFrame(64) < 0) {
+      // Out of memory
+      return;
+  }
+  // Allocate objects...
+  env->PopLocalFrame(nullptr);
+  ```
+
+### C. Caching `jfieldID` and `jmethodID`
+* Field and method lookups (`env->GetMethodID`, `env->GetFieldID`) invoke heavy reflection lookups.
+* **Rule:** Cache IDs in `JNI_OnLoad` into global static variables. Never look up method IDs inside per-frame render loops or audio callbacks.
+
+---
+
+## 2. Low-Latency Audio with Oboe / AAudio
+
+Android audio requires hardware-specific buffer tuning to prevent glitches and achieve sub-10ms round-trip latency:
+* Request `AAUDIO_PERFORMANCE_MODE_LOW_LATENCY` and `AAUDIO_SHARING_MODE_EXCLUSIVE`.
+* Set buffer capacity to a multiple of `oboe::AudioStream::getFramesPerBurst()`.
+* Never make blocking system calls (file I/O, `malloc`, mutexes) inside the realtime audio callback `onAudioReady`.
+
+---
+
+## 3. Native Tombstone Symbolization
+
+When a native crash (`SIGSEGV`, `SIGABRT`) occurs, Android writes a crash dump to `/data/tombstones/` or logcat. Use the included symbolizer script:
+```bash
+python3 scripts/ndk_tombstone_symbolizer.py --logcat /tmp/crash.log --symbols app/build/intermediates/stripped_native_libs/release/out/lib/arm64-v8a
+```

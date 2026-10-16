@@ -1,0 +1,84 @@
+---
+description: Offloads low-complexity tasks (docstrings, commit messages, log summarization, regex, boilerplate) to local SLMs/LLMs running in GPU VRAM or system RAM via Ollama or llama.cpp, saving 100% of cloud quota for hard architectural reasoning.
+globs: 
+alwaysApply: false
+---
+
+# Local Model Coprocessor (`local-model-coprocessor`)
+
+The `local-model-coprocessor` skill bridges your agent with local small language models (SLMs) and open-weights models running directly on your host GPU (NVIDIA CUDA) or CPU/RAM via Ollama or `llama.cpp`.
+
+By delegating deterministic, low-complexity drafting tasks to local hardware, this skill preserves your 5-hour rolling cloud quota for difficult architectural planning, deep debugging, and multi-file refactoring.
+
+---
+
+## 1. Coprocessor Architecture & Quota Shielding
+
+```
++------------------------------------------------------------------------+
+|                          Incoming User Request                         |
++------------------------------------------------------------------------+
+                                    |
+                                    v
++------------------------------------------------------------------------+
+|                 Adaptive Complexity Filter (Tier 1 & 2)                |
++------------------------------------------------------------------------+
+            |                                               |
+ [Hard Problem: Cloud Model]                 [Boilerplate / Trivial: Local]
+ (Argon / Sonnet / Flash)                   (Ollama / llama.cpp / VRAM)
+            |                                               |
+            v                                               v
+ Cloud Reasoning Quota Billed                Host GPU VRAM / Local RAM
+ (Architectural Plans, Hard Bugs)             - Docstring generation
+                                              - Conventional commit msgs
+                                              - Terminal log triage
+                                              - Regex & shell one-liners
+                                              - 0 Cloud Tokens Billed!
+```
+
+---
+
+## 2. Supported Local Engines & Recommended Models
+
+* **Ollama** (`http://localhost:11434` default):
+  - `qwen2.5-coder:1.5b` (Blazing fast, 1.2 GB VRAM, excellent for Python/JS boilerplate).
+  - `qwen2.5-coder:7b` (High-accuracy code completions and refactoring, ~4.5 GB VRAM).
+  - `llama3.2:3b` (General text summarization and commit message generation).
+  - `deepseek-r1:1.5b` (Local step-by-step thinking for math and logic).
+* **llama.cpp** (`http://localhost:8080`):
+  - GGUF quantizations (`Q4_K_M`, `Q5_K_M`) running with full GPU layer offloading (`-ngl 99`).
+
+---
+
+## 3. CLI Helper Tool Reference (`local_model_coprocessor.py`)
+
+Located at `config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py`.
+
+### Commands
+```bash
+# 1. Check local server health and model availability
+python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py status
+
+# 2. Generate function docstrings locally
+python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py \
+  docstring --file src/utils.py --model qwen2.5-coder:1.5b
+
+# 3. Generate conventional git commit message from staged diff
+git diff --staged | python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py \
+  commit-msg --model llama3.2:3b
+
+# 4. Summarize compiler or test error logs locally
+python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py \
+  summarize-log --file /tmp/build.log --model qwen2.5-coder:1.5b
+
+# 5. Free-form local prompt generation
+python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py \
+  generate --prompt "Write a regex that matches semver strings" --model qwen2.5-coder:1.5b
+```
+
+---
+
+## 4. Host Hardware Optimization
+
+* **VRAM Allocation**: Set `OLLAMA_NUM_PARALLEL=2` and `OLLAMA_MAX_LOADED_MODELS=1` in your environment to prevent VRAM thrashing when sharing GPU with graphical desktop tasks.
+* **CPU Fallback**: When GPU is busy running Blender or games, run quantized models (`qwen2.5-coder:1.5b-instruct-q4_K_M`) on host CPU cores with zero GPU memory footprint.

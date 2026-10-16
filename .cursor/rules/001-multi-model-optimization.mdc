@@ -1,0 +1,68 @@
+---
+description: Multi-model behavioral adaptation and prompt optimization for xAI Grok, Anthropic Claude, OpenAI (o1/o3/GPT-4o), and DeepSeek in Cursor
+globs: 
+alwaysApply: true
+---
+
+# Multi-Model Optimization & Adaptation in Cursor
+
+Cursor allows switching between multiple frontier and open-weight models (Anthropic Claude, xAI Grok, OpenAI GPT/o1/o3, DeepSeek, and Google Gemini). Each model architecture requires specific behavioral calibration to maximize precision, eliminate hallucinations, and avoid token waste.
+
+---
+
+## 1. xAI Grok Calibration (Grok-2, Grok-beta, Grok 3)
+
+### A. Tone & Persona Suppression
+- **Zero Snark or Fluff:** By default, Grok is tuned for conversational wit and playful banter. In Cursor coding, agent, and composer modes, strictly suppress humor, sarcasm, colloquialisms, and conversational preambles.
+- **Immediate Execution:** Grok must never output introductory meta-commentary ("Alright, let's dive into this", "Here is what we are going to do"). Lead immediately with code diffs, terminal actions, or diagnostic evidence.
+
+### B. Anti-Hallucination & Engine Rigor
+- **Config & LTX Strictness:** When generating or modifying game configuration files (e.g. S.T.A.L.K.E.R. LTX, Godot project configs, Unreal schemas), never guess section names, inheritances, or parameter keys. Always inspect existing unpacked or repo baselines first.
+- **Symbol & Namespace Precision:** When working in C++, Rust, Python, or C#, verify function signatures, includes, and dependencies against the workspace before proposing modifications.
+- **Chain-of-Verification (CoVe):** For tricky runtime errors or engine crashes, Grok must formulate a 2-step verification:
+  1. *Root Cause Hypothesis:* Cite exact log lines or stack trace offsets.
+  2. *Refutation Check:* Ensure the proposed fix does not break related subsystems.
+
+### C. Tool & Terminal Discipline
+- When executing shell commands, Grok should invoke our purpose-built local CLI utilities located in `~/.local/bin/` (e.g. `game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`, `skills-audit-update`) rather than generating ad-hoc one-off Python scripts.
+
+---
+
+## 2. OpenAI Reasoning Models (o1, o3-mini)
+
+- **Hidden Reasoning Utilization:** o1 and o3-mini perform extensive internal chain-of-thought tokens. They must not duplicate or re-explain their reasoning steps in visible response text.
+- **Direct Deliverable:** Provide only the final verified diff, test execution command, or architectural conclusion.
+- **Deterministic Math & Logic:** Rely on o1/o3 for complex quaternion math, collision geometry (GJK/EPA), Reoriented Normal Mapping (RNM) derivations, and AST transformations.
+
+---
+
+## 3. OpenAI Standard Models (GPT-4o, GPT-4o-mini)
+
+- **Verbosity Containment:** GPT-4o tends to rewrite full files and explain code line-by-line. Strictly enforce surgical replacements (`// ... existing code ...` is handled by Cursor diffing, but keep chunk sizes minimal).
+- **Format Discipline:** Never restate user instructions. Never summarize what was just changed unless explicitly asked.
+
+---
+
+## 4. DeepSeek Reasoning & Coder Models (R1, V3)
+
+- **Language Constraint:** DeepSeek models must output all thoughts, explanations, comments, and identifiers strictly in English.
+- **Anti-Looping:** When diagnosing repetitive test failures or compiler errors, DeepSeek models must halt after 3 unsuccessful attempts and switch hypotheses rather than retrying minor variations of the same broken change.
+- **Memory Safety & Typing:** Enforce explicit type annotations, memory bounds checks, and zero unhandled errors in all C++, Rust, and Python code.
+
+---
+
+## 5. Anthropic Claude (Claude 3.5 Sonnet, Claude 3.7 Sonnet)
+
+- **Prompt Cache Prefix Stability:** Claude benefits from our 99% prompt cache optimization. Ensure that static rule sets and skill descriptions remain strictly ordered at the start of prompts.
+- **Surgical Diff Alignment:** Claude's strength in tool use is leveraged by emitting small, unambiguous replacement targets that apply cleanly without fuzz or offset errors.
+
+---
+
+## 6. Universal Multi-Model Execution Heuristic
+
+Regardless of which model is currently selected in Cursor's model picker:
+1. **Read Before Writing:** Inspect target files and imports before generating edits.
+2. **Surgical Diffs:** Replace only modified lines; never regenerate entire source files.
+3. **Verify Locally:** Test builds, lint, or run unit tests before declaring completion.
+4. **Token Economy:** End responses with the standard token savings indicator:
+   `📉 Token Economy: ~<N> tokens saved (<breakdown>)`

@@ -1,0 +1,37 @@
+---
+description: Game development workflows for Unity Engine (C#). Use when developing MonoBehaviours, ScriptableObjects, physics interactions, UI Toolkit/UGUI, shader integrations, or optimizing memory allocations and garbage collection.
+globs: 
+alwaysApply: false
+---
+
+# Unity Engine Development Guide
+
+This skill governs game development within the **Unity Engine** (Unity 2022/6+), focusing on clean C# architecture and zero-allocation performance.
+
+## Core Architectural Patterns
+
+### 1. Memory & Zero-GC Discipline
+- **Eliminate Garbage in Hot Loops:**
+  - Never call `GetComponent<T>()`, `GameObject.Find()`, or `FindObjectsOfType<T>()` inside `Update()` or `FixedUpdate()`. Cache references in `Awake()` or `OnEnable()`.
+  - Avoid `LINQ` operations or closures/lambdas inside frame execution loops (creates hidden heap allocations).
+  - Use `NonAlloc` physics API variants:
+    ```csharp
+    // Good: Zero heap allocation
+    int hits = Physics.RaycastNonAlloc(ray, hitBuffer, maxDistance, layerMask);
+    ```
+  - Use string builders or cached strings for UI text formatting.
+
+### 2. Data-Driven Design with ScriptableObjects
+- Decouple game data and balance parameters from scene game objects using `ScriptableObject`.
+- Use ScriptableObject event channels and game state variables to decouple cross-system communication (e.g. HealthChangedEvent, LevelStateSO).
+
+### 3. Lifecycle & Component Discipline
+- `Awake()`: Initialize self and internal references.
+- `Start()`: Connect to external systems or cross-object dependencies.
+- `OnEnable()` / `OnDisable()`: Subscribe and unsubscribe event handlers to prevent memory leaks.
+- `FixedUpdate()`: RigidBody forces, velocity manipulation, physics simulations.
+- `Update()`: User input, cooldowns, timers, visual rotations.
+- `LateUpdate()`: Camera tracking and camera follow positioning.
+
+### 4. Modular Assembly Definitions (`.asmdef`)
+- Split codebases into focused assemblies (`Core.asmdef`, `Gameplay.asmdef`, `UI.asmdef`) to dramatically reduce script compilation times.

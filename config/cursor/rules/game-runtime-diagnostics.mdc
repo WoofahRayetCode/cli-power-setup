@@ -1,0 +1,94 @@
+---
+description: Cross-platform game crash diagnostics, performance tuning, and compatibility triage across Windows (DirectX, Event Viewer, GPU TDRs) and Linux (Steam Proton, DXVK, Wine prefixes, Winetricks, DLL overrides).
+globs: 
+alwaysApply: false
+---
+
+# Cross-Platform Game Runtime Diagnostics & Troubleshooting
+
+This skill provides a systematic troubleshooting and repair protocol for PC game crashes, stutters, shader compilation drops, and launch failures across Windows and Linux (including Steam Deck / Proton).
+
+---
+
+## 🐧 Part 1: Linux & Steam Deck (Proton / Wine) Diagnostics
+
+### 1. Generating & Interpreting `PROTON_LOG=1`
+Add the launch command in Steam properties:
+```bash
+PROTON_LOG=1 %command%
+```
+Log files are written to `~/steam-<appid>.log`.
+
+#### Common Proton Error Patterns & Immediate Solutions:
+
+| Error in `PROTON_LOG` | Root Cause | Solution |
+| :--- | :--- | :--- |
+| `err:module:import_dll Library ... not found` | Missing Windows runtime dependency in the wine prefix. | Install via Winetricks (e.g. `protontricks <appid> vcrun2019`). |
+| `winegstreamer error: decodebin...` | Game video cutscene playback failure (Media Foundation codecs). | Switch to **GE-Proton** (Proton-GE contains proprietary media codecs), or install `mfplat`. |
+| `d3d11: CreateDevice failed` | Vulkan driver mismatch or DXVK shader compilation crash. | Ensure 32-bit and 64-bit Vulkan drivers are installed (`vulkan-radeon` / `nvidia-utils`). |
+| `0xC0000005` in game DLL | Native mod hook rejected by Wine builtin library. | Apply DLL override: `WINEDLLOVERRIDES="dinput8=n,b" %command%`. |
+
+### 2. DXVK & VKD3D-Proton Performance Optimization
+Place a `dxvk.conf` file in the game's executable directory:
+```ini
+# Eliminate stutter by enabling asynchronous pipeline compilation
+dxvk.enableAsync = true
+dxvk.numCompilerThreads = 8
+
+# Cap max frame latency to reduce input lag
+dxvk.maxFrameLatency = 1
+```
+
+### 3. Winetricks & Wine Prefix Management
+Game prefixes are stored in `~/.steam/steam/steamapps/compatdata/<appid>/pfx/`.
+To repair broken dependencies non-interactively:
+```bash
+protontricks -c "wineboot -u" <appid>
+protontricks <appid> d3dcompiler_47 vcrun2022
+```
+
+### 4. Gaming Launch Script Wrapper
+To combine high performance, frame pacing, and HUD diagnostics:
+```bash
+gamemoderun mangohud gamescope -W 1920 -H 1080 -r 144 --fsr -e -- %command%
+```
+
+---
+
+## 🪟 Part 2: Windows Game Crash Diagnostics
+
+### 1. Event Viewer Application Crash Triage (Event ID 1000)
+When a game crashes to desktop without an error message, query the Application Event Log via PowerShell:
+```powershell
+Get-WinEvent -FilterHashtable @{LogName='Application'; ID=1000} -MaxEvents 5 | Format-List TimeCreated, Message
+```
+
+#### Key Fields to Inspect:
+1. **Faulting Application Name:** Confirms the exact game executable that aborted.
+2. **Faulting Module Name:** Identifies the offending library (e.g. `ntdll.dll`, `d3d11.dll`, `nvwgf2umx.dll` [Nvidia driver], `xrGame.dll`).
+3. **Exception Code:**
+   * `0xC0000005` (Access Violation): Memory pointer error or missing DLL symbol.
+   * `0x80000003` (Breakpoint reached): Assertion failure triggered by engine code.
+   * `0xC000001D` (Illegal Instruction): Game compiled with AVX/AVX2 running on unsupported CPU.
+
+### 2. GPU Driver Timeout & TDR Fixes (`DXGI_ERROR_DEVICE_REMOVED`)
+* **Symptom:** Screen freezes, turns black for 2 seconds, and the game closes with a DirectX device lost error.
+* **Diagnosis:** Windows Timeout Detection and Recovery (TDR) killed the GPU driver because a shader computation took longer than 2 seconds.
+* **Remediation:**
+  1. Clear DirectX and GPU shader caches: `%LOCALAPPDATA%\D3DSCache` and `%LOCALAPPDATA%\NVIDIA\DXCache`.
+  2. Increase TDR delay in Windows Registry if running heavy modded shaders:
+     `HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\GraphicsDrivers` -> Add `TdrDelay` (DWORD) = `8`.
+
+### 3. Fullscreen & High-DPI Scaling Blur
+* Right-click game `.exe` -> **Properties** -> **Compatibility**:
+  * Check **"Disable fullscreen optimizations"** (re-enables true exclusive fullscreen and reduces frame latency).
+  * Click **"Change high DPI settings"** -> Check **"Override high DPI scaling behavior"** -> Set to **Application**.
+
+---
+
+## 🔗 Synergy with Low-Level DLL & Reverse Engineering Skills
+
+When games crash inside opaque binary libraries:
+* **Pinpoint Function Offsets:** Use [`lowlevel-dll-internals`](file:///home/ericparsley/Documents/GitHub/cli-power-setup/config/skills/lowlevel-dll-internals/SKILL.md) to convert the crash offset (e.g. `Game.exe + 0x2A140`) to the exact faulty function or vtable slot.
+* **Inspect Missing Imports:** Use [`standalone-binary-re`](file:///home/ericparsley/Documents/GitHub/cli-power-setup/config/skills/standalone-binary-re/SKILL.md) to inspect the Import Address Table of mod DLLs and verify that all dependent functions exist.
+* **DLL Overrides & Proxying:** Determine whether custom mod hooks (`dinput8.dll`, `version.dll`, `dxgi.dll`) require native loading in Proton or detour patches in Windows.

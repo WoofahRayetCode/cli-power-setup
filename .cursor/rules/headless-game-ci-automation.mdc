@@ -1,0 +1,70 @@
+---
+description: Automated headless game compilation, asset baking, CLI test execution, and packaging across Godot, Unity, Unreal Engine 5, and custom C++/Rust engines.
+globs: 
+alwaysApply: false
+---
+
+# Headless Game CI/CD & Build Automation
+
+This skill provides automated headless build scripts, asset cooking pipelines, and test runners for continuous integration (GitHub Actions, local CLI daemons) across major video game engines.
+
+---
+
+## 1. Godot 4 Headless CI Automation
+
+Export game binaries and execute unit tests headlessly without an X11/Wayland display server:
+
+```bash
+# 1. Import and bake assets headlessly
+godot --headless --editor --quit
+
+# 2. Run GUT (Godot Unit Testing) suite
+godot --headless -s addons/gut/gut_cmdln.gd -gdir=res://tests/ -gexit
+
+# 3. Export dedicated release build for Linux and Windows
+godot --headless --export-release "Linux/X11" build/linux/mygame.x86_64
+godot --headless --export-release "Windows Desktop" build/windows/mygame.exe
+```
+
+---
+
+## 2. Unity Headless Batchmode Builds
+
+Run Unity Editor in headless batchmode with automated log capture:
+
+```bash
+unity-editor \
+  -batchmode \
+  -nographics \
+  -projectPath . \
+  -executeMethod BuildPipelineScript.BuildStandaloneWindows64 \
+  -quit \
+  -logFile /tmp/unity_build.log
+
+# Check exit code
+if [ $? -ne 0 ]; then
+  cat /tmp/unity_build.log | grep -E "error CS|Fatal Error"
+  exit 1
+fi
+```
+
+---
+
+## 3. Unreal Engine 5 Headless Cook & Package
+
+Automate UE5 builds using `RunUAT.sh` (Unreal Automation Tool):
+
+```bash
+"$UE5_DIR/Engine/Build/BatchFiles/RunUAT.sh" BuildCookRun \
+  -project="$(pwd)/MyGame.uproject" \
+  -platform=Linux \
+  -clientconfig=Shipping \
+  -cook \
+  -build \
+  -stage \
+  -package \
+  -archive \
+  -archivedirectory="$(pwd)/dist" \
+  -nocompileeditor \
+  -nop4
+```

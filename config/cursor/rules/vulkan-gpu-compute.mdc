@@ -1,0 +1,43 @@
+---
+description: Cross-vendor GPU compute and modern graphics engineering via Vulkan 1.3/1.4, SPIR-V shader compilation, headless GPGPU pipelines, and multi-GPU portability across NVIDIA, AMD, and Intel.
+globs: 
+alwaysApply: false
+---
+
+# Vulkan GPU Compute & Cross-Vendor Graphics
+
+This skill governs the development of cross-vendor GPU applications using **Vulkan 1.3 / 1.4**, targeting **NVIDIA**, **AMD**, and **Intel** GPUs with a unified codebase.
+
+---
+
+## 🎯 When to Activate
+
+* **Headless GPGPU Compute:** Executing parallel compute pipelines (data processing, simulation, physics) without creating a display window.
+* **Cross-Vendor Portability:** Ensuring compute and graphics logic runs interchangeably across discrete GPUs (NVIDIA RTX) and integrated GPUs (AMD Radeon, Intel Iris/Arc).
+* **SPIR-V Shader Authoring:** Writing compute shaders in GLSL or HLSL and compiling them into portable SPIR-V binaries via `glslangValidator` or `dxc`.
+* **Validation & Pipeline Debugging:** Diagnosing synchronization hazards (`VK_PIPELINE_STAGE_*`), memory barrier issues, and descriptor set layout mismatches.
+
+---
+
+## 🛠️ Modern Vulkan Toolchain & Commands
+
+### 1. Shader Compilation to SPIR-V:
+```bash
+# Compile GLSL compute shader to SPIR-V
+glslangValidator -V -S comp shader.comp -o shader.comp.spv
+```
+
+### 2. Multi-GPU Selection Protocol:
+In systems with dual GPUs (e.g. AMD Radeon iGPU + NVIDIA RTX dGPU), query physical device properties to choose the optimal device:
+* **High Performance (Heavy Compute / 3D):** Filter for `VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU`.
+* **Low Power / Efficiency (Background / UI):** Filter for `VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU`.
+
+### 3. Synchronization Safety:
+* Enforce explicit pipeline barriers (`vkCmdPipelineBarrier2`) with minimal stage masks.
+* Avoid full pipeline stalls (`VK_PIPELINE_STAGE_ALL_COMMANDS_BIT`).
+
+---
+
+## 📊 Summary Output Format
+* `glslangValidator: [✓] shader.comp -> shader.comp.spv (SPIR-V 1.6, clean)`
+* `vulkan compute: [✓] Device: NVIDIA RTX 5060 | 65,536 invocations in 0.82ms`

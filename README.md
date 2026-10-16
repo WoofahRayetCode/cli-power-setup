@@ -1,8 +1,8 @@
 # CLI Power Setup (`cli-power-setup`)
 
-A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
+A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
 
-This repository organizes a curated set of **156 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **157 autonomous agent skills**, 159 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -20,27 +20,29 @@ cd cli-power-setup
 Running `./install.sh` displays an interactive target menu:
 ```text
 CLI Power Setup Installer
-Select target CLI environment:
-  1) Dual-CLI (Both Antigravity & Claude Code) [Recommended]
+Select target environment:
+  1) Tri-Environment (Antigravity, Claude Code, & Cursor) [Recommended]
   2) Antigravity only (~/.gemini)
   3) Claude Code only (~/.claude)
-  4) Exit
+  4) Cursor only (~/.cursor, ~/.cursorrules)
+  5) Exit
 ```
 
 Or pass flags non-interactively in automated scripts:
 ```bash
-./install.sh --all     # Install for both Antigravity & Claude Code
+./install.sh --all     # Install for Antigravity, Claude Code, and Cursor IDE
 ./install.sh --agy     # Install for Google Antigravity only
 ./install.sh --claude  # Install for Claude Code only
+./install.sh --cursor  # Install for Cursor IDE only
 ```
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 156 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
-3. **Global Discipline Rules:** Installs engineering safeguards, Quota Governance, and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
+2. **Tri-Environment Sync:** Deploys all 157 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
-6. **Skills Auditor & Auto-Updater:** Installs `skills-audit-update` into `~/.local/bin/` for one-command health audits, permissions repair, and GitHub synchronization.
+6. **Skills Auditor & Auto-Updater:** Installs `skills-audit-update` and `cursor-rules-sync` into `~/.local/bin/` for one-command health audits, permissions repair, and 3-way synchronization.
 
 ---
 
@@ -48,9 +50,11 @@ Or pass flags non-interactively in automated scripts:
 
 ```text
 cli-power-setup/
-├── install.sh                  # Interactive dual-CLI installer with backup & menu
+├── install.sh                  # Interactive tri-environment installer with backup & menu
 ├── README.md                   # Comprehensive documentation & skill reference
-├── .gitignore                  # Clean git filters
+├── .cursorrules                # Root-level unified Cursor AI rules & skill index
+├── .cursor/
+│   └── rules/                  # 159 modular Cursor Rules (.mdc) with semantic metadata
 ├── bin/
 │   ├── agy-quota-statusline    # Asynchronous real-time quota & token savings tracker (Gemini)
 │   ├── claude-statusline       # Dedicated real-time telemetry, weekly resets & context monitor (Claude Code)
@@ -60,10 +64,12 @@ cli-power-setup/
 │   ├── context-watchdog        # Automated background context monitor & pre-compact memory stager
 │   ├── game-test-watchdog      # Autonomous anti-stuck, freeze & infinite loop supervisor for game QA
 │   ├── game-texture-editor     # Procedural normal generation, RNM blend, seamless tiling & DDS transcode
-│   └── skills-audit-update     # Health auditor, permissions fixer & multi-CLI synchronizer
+│   ├── cursor-rules-sync       # Converts all skills to Cursor .mdc rules and deploys .cursorrules
+│   └── skills-audit-update     # Health auditor, permissions fixer & multi-environment synchronizer
 └── config/
     ├── GEMINI.md               # Global engineering discipline, quota governance & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
+    ├── cursor/                 # Cursor reference templates and rules
     └── skills/                 # 157 specialized skills
 ```
 
@@ -1422,10 +1428,51 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`claude`** | Launches standard Claude Code | When you need full deep reasoning for hard bugs or major refactors. |
 | **`agy`** | Launches standard Antigravity CLI | When you need standard multi-model escalation (Flash to Argon). |
 | **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context gauge crosses 50%–60%. |
-| **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
+| **`game-texture-editor`** | Procedural normal gen, RNM blend, seamless tiles & DDS | Texture repairs, sharpening, alpha bleeding, and bump map generation. |
+| **`game-test-watchdog`** | Autonomous QA supervisor detecting freezes and crashes | Wrap any long-running test to prevent hung processes. |
+| **`stalker-playtest-runner`**| Hands-free game QA with input injection & OCR dialog triage | Automated S.T.A.L.K.E.R. / OGSR engine playtesting. |
+| **`cursor-rules-sync`** | Converts all skills to Cursor `.mdc` rules and syncs `.cursorrules` | After modifying skills or when syncing Cursor configuration. |
+| **`skills-audit-update --audit`** | Audits health across Gemini, Claude, and Cursor | Periodically or when diagnosing missing tools/scripts. |
+| **`skills-audit-update --sync`** | Synchronizes all skills across Antigravity, Claude, and Cursor | After adding or updating any skill in the repository. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
-| **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 156 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 157 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
+
+---
+
+### 5. Cursor IDE & Multi-Model Integration (xAI Grok, Claude, OpenAI, DeepSeek)
+
+This suite is fully integrated with **Cursor IDE**, supporting all major frontier and open-weight models available in Cursor's model picker:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                       Cursor IDE                            │
+├───────────────┬───────────────┬──────────────┬──────────────┤
+│   xAI Grok    │Anthropic Claude│ OpenAI o1/4o │ DeepSeek R1  │
+│  (Grok-2/3)   │ (Sonnet 3.5)  │  (o3-mini)   │  (V3 / R1)   │
+└───────┬───────┴───────┬───────┴──────┬───────┴──────┬───────┘
+        ▼               ▼              ▼              ▼
+┌─────────────────────────────────────────────────────────────┐
+│  Core Discipline: .cursor/rules/000-cursor-global-discipline│
+│  Model Adaptations: .cursor/rules/001-multi-model-opt.mdc   │
+│  157 Modular Skill Rules (.cursor/rules/*.mdc)              │
+│  Unified Root Fallback: ~/.cursorrules                      │
+└─────────────────────────────────────────────────────────────┘
+```
+
+#### How Cursor Rules 2.0 Works:
+1. **Universal Rules (`alwaysApply: true`):**
+   * **`000-cursor-global-discipline.mdc`:** Injected into every prompt. Enforces Output Token Economy (zero fluff, high-density checklists, surgical diffs), S.T.A.L.K.E.R. EE modding integrity, and hardware-aware execution.
+   * **`001-multi-model-optimization.mdc`:** Automatically calibrates model behavior based on which engine is running:
+     * **xAI Grok (Grok-2, Grok-beta, Grok 3):** Suppresses conversational wit and banter in code mode; enforces anti-hallucination verification on game LTX/C++ configs; commands Grok to execute installed CLI utilities (`game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`) in Cursor Agent terminal.
+     * **OpenAI Reasoning (o1, o3-mini):** Suppresses verbal re-explanation of hidden internal chain-of-thought tokens, delivering direct surgical diffs.
+     * **OpenAI Standard (GPT-4o):** Clamps output prolixity and eliminates boilerplate full-file rewrites.
+     * **DeepSeek (R1, V3):** Enforces English code outputs, mathematical precision for physics/graphics, and a 3-strike circuit breaker on failed debug loops.
+     * **Anthropic Claude (Sonnet 3.5, 3.7):** Preserves prompt cache prefix stability.
+2. **Modular Skill Rules (`alwaysApply: false`):**
+   * All 157 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
+3. **Unified Global Fallback (`~/.cursorrules`):**
+   * Deployed directly to `$HOME/.cursorrules` and project roots so any folder opened in Cursor inherits this entire suite immediately.
 
 ---
 
@@ -1442,7 +1489,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
    # Skill Title
    ...
    ```
-3. Run `./install.sh` to deploy the new skill across Antigravity and Claude Code environments.
+3. Run `skills-audit-update --sync` (or `./install.sh --all`) to automatically compile and deploy the new skill across **Antigravity**, **Claude Code**, and **Cursor IDE**.
 
 ---
 

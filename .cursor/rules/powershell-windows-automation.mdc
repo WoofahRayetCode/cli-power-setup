@@ -1,0 +1,86 @@
+---
+description: Modern PowerShell 7 and Windows PowerShell automation, advanced cmdlet design, pipeline streaming, WMI/CIM querying, Task Scheduler automation, and Win32 P/Invoke.
+globs: 
+alwaysApply: false
+---
+
+# Modern PowerShell & Windows Automation
+
+This skill establishes production-grade PowerShell 7 (Core) and Windows PowerShell 5.1 automation standards, emphasizing pipeline efficiency, strict error handling, and robust systems management.
+
+---
+
+## ⚡ Core Principles
+
+1. **Defensive Scripting:** Mandatory `[CmdletBinding()]` and `$ErrorActionPreference = 'Stop'` to fail fast on unexpected conditions.
+2. **Pipeline Streaming:** Use `begin`, `process`, and `end` blocks to stream objects rather than accumulating huge arrays in memory.
+3. **CIM/WMI Integration:** Use modern `Get-CimInstance` / `Invoke-CimMethod` over deprecated `Get-WmiObject`.
+4. **P/Invoke Win32 Calls:** Call native Windows C functions directly inside PowerShell via `Add-Type`.
+5. **Cross-Platform Argument Parity:** Support standardized parameters (`-WhatIf`, `-Confirm`, `-Verbose`) matching Linux Bash flags.
+
+---
+
+## 🛠️ 1. Advanced Script Cmdlet Template
+
+```powershell
+<#
+.SYNOPSIS
+    Installs and configures system components.
+.PARAMETER Prefix
+    Target installation path.
+.PARAMETER DryRun
+    Simulate actions without writing to disk.
+#>
+[CmdletBinding(SupportsShouldProcess = $true)]
+param (
+    [Parameter(Position = 0, Mandatory = $false)]
+    [string]$Prefix = "$env:ProgramFiles\MyTool",
+
+    [Parameter(Mandatory = $false)]
+    [switch]$DryRun
+)
+
+$ErrorActionPreference = 'Stop'
+Set-StrictMode -Version 3.0
+
+function Write-LogInfo { param([string]$Message) Write-Host "[INFO] $Message" -ForegroundColor Cyan }
+function Write-LogErr  { param([string]$Message) Write-Host "[ERROR] $Message" -ForegroundColor Red }
+
+try {
+    Write-LogInfo "Validating installation prefix: $Prefix"
+    if ($DryRun) {
+        Write-LogInfo "[DRY-RUN] Would create directory $Prefix"
+    } else {
+        if (-not (Test-Path -Path $Prefix)) {
+            New-Item -ItemType Directory -Path $Prefix -Force | Out-Null
+        }
+    }
+}
+catch {
+    Write-LogErr "Execution failed: $_"
+    throw
+}
+```
+
+---
+
+## 🔌 2. Native Win32 API P/Invoke in PowerShell
+
+Call Win32 kernel methods directly without compiling separate C# binaries:
+
+```powershell
+$Signature = @"
+[DllImport("kernel32.dll", SetLastError = true)]
+public static extern bool SetProcessWorkingSetSize(IntPtr hProcess, IntPtr dwMinimumWorkingSetSize, IntPtr dwMaximumWorkingSetSize);
+"@
+$Kernel32 = Add-Type -MemberDefinition $Signature -Name "Kernel32Helper" -Namespace "Win32" -PassThru
+$Kernel32::SetProcessWorkingSetSize([System.Diagnostics.Process]::GetCurrentProcess().Handle, -1, -1) | Out-Null
+```
+
+---
+
+## 🔄 Interoperability & Handoffs
+
+* **Parity with `bash-posix-automation`:** Maintain identical CLI argument behaviors (`--help`, `--dry-run`, `--verbose`) across paired scripts.
+* **Handoff to `win32-systems-engineering`:** When complex logic exceeds scripting and requires native C++ services or DLL hooks.
+* **Handoff to `csharp-dotnet-engineering`:** For building standalone compiled utilities when PowerShell startup latency is unacceptable.\n

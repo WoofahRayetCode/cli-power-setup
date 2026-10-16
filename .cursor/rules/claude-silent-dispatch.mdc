@@ -1,0 +1,50 @@
+---
+description: Eliminates pre-tool narration, commentary, and conversational play-by-plays in Claude Code, executing tool calls directly and silently to slash output token burn.
+globs: 
+alwaysApply: false
+---
+
+# Claude Silent Dispatch & Zero-Narration Tool Execution
+
+This skill enforces strict silence prior to tool invocations in Claude Code. By default, Claude often writes introductory lines (e.g. *"Verifying missing-API claims and computing overlay conflicts..."* or *"Now I will check the git status..."*) immediately before calling a tool. This commentary wastes 20 to 50 output tokens on every single step, compounding into tens of thousands of billed tokens across long sessions.
+
+---
+
+## 🚫 The Anti-Pattern (Verbose Narration)
+
+```text
+[Claude writes:] "I am going to check if the file exists by running ls."
+[Tool Call:] ls src/
+[Claude writes:] "Now that I see the file, I will grep for the symbol."
+[Tool Call:] grep -rn "Render" src/
+```
+* **Cost:** 80 wasted output tokens + re-billed on every future turn.
+
+---
+
+## ⚡ The Silent Dispatch Standard
+
+When an action requires a tool call:
+1. **Never Announce the Tool:** Do not describe, explain, or preview what command or file edit is about to occur.
+2. **Execute Immediately:** Emit the tool call directly as the very first token of the turn.
+3. **Report Only After Execution:** If an explanation is necessary, provide a high-density 1-line result *after* the tool returns, never before.
+
+```text
+[Tool Call:] ls src/
+[Tool Call:] grep -rn "Render" src/
+[Claude writes:] "[✓] Found Render in src/engine.cpp:42"
+```
+
+---
+
+## 📉 Token Savings Impact
+
+* Typical multi-step debugging session (20 tool calls): **~800 output tokens saved**.
+* Compounding input token savings over a 15-turn session: **~12,000–18,000 billed tokens saved**.
+
+---
+
+## 🔄 Interoperability & Handoffs
+
+* **Pairing with `token-economy`:** Enforces the Zero Conversational Fluff rule at the API tool invocation layer.
+* **Pairing with `log-output-sanitizer`:** Ensures both the input command and the output result remain high-density.

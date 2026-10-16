@@ -1,0 +1,277 @@
+# Cursor AI Unified Rules & Multi-Model Power Configuration
+
+# Global Engineering Discipline & Game Modding Standards
+
+## 1. Engineering Discipline
+- **Plan Before Major Modifications:** When working on complex tasks, multi-file refactors, or new mod architectures, outline the implementation plan or invoke `writing-plans` / `/plan`.
+- **Systematic Debugging:** Trace bugs and game crashes to root causes via engine logs, stack traces, and reproducible test cases before changing code. Do not speculate or randomly alter values.
+- **Evidence-Based Completion:** Verify that code builds, unit tests pass, and assets parse before declaring any task complete.
+
+## 2. Game Modding & S.T.A.L.K.E.R. EE Rules
+- **Protect Vanilla Baselines:** Treat unpacked game archives (e.g. `unpacked/`) as strictly read-only references for diffs. Mod files belong in project mod source directories.
+- **LTX Syntax Discipline:** Respect case-sensitivity, correct section headers (`[section]`), inheritance (`[child]:parent`), and avoid trailing commas or malformed keys.
+- **Audio Integrity:** When modifying or converting S.T.A.L.K.E.R. audio, never use standard editors that strip the proprietary GSC binary engine chunk from the Ogg Vorbis comment header. Use ZoneForge asset replacement tools to preserve distance and volume parameters.
+- **Autonomous Hands-Free Playtest & QA:** When testing ported mods (e.g. S.T.A.L.K.E.R. Complete to OGSR) without live user input, immediately launch `stalker-playtest-runner` to autonomously dismiss 'Press any key to play' loading screens, inject god mode / infinite ammo cheats, take control of character movement via `/dev/uinput`, monitor frames for missing textures/freezes, and auto-triage crash dialogs.
+- **X-Ray Crash Interception & Modal Dismissal:** When OGSR or X-Ray crashes under Wine/Proton and spawns a Notepad or BugTrap crash log window (`xray_*.log - Notepad`), immediately run `xray_crash_handler.py sweep` or rely on `stalker-playtest-runner` to extract the crash stack trace and terminate `notepad.exe` so tests never hang.
+- **Task Velocity & Anti-Thrashing Discipline:** Enforce `task-velocity-governor` (5-step targeted rule, stop once tests pass, break 3-strike file churn loops) and `first-principles-reasoning` (Chain-of-Verification, Ockham's razor on bug hypotheses) to ensure porting tasks don't take longer than necessary.
+- **Laptop Acoustics & Night Governance:** Interoperate with `laptop-performance-profile` (use `laptop_performance_controller.py sleep-mode` during overnight runs or when muted, and `boost-exec` for heavy parallel builds).
+- **Lore Research & Web Architecture:** When documenting game lore, faction histories, or creating modding web portals, leverage `humanities-lore-research`, `creative-web-design-archetypes`, `static-site-architecture`, and `interactive-data-visualization-web`.
+
+## 3. Output Token Economy & High-Density Visibility
+- **Zero Conversational Fluff:** Omit pleasantries, preambles ("Sure, I can help with that", "Now I will proceed to..."), and conversational sign-offs. Lead directly with the technical result or action.
+- **High-Density Status:** Report multi-step progress using compact checklists (`[✓] Step complete`, `[→] In progress`) rather than multi-sentence narratives.
+- **Silent Tool Success:** Do not narrate routine tool executions or echo entire successful command outputs into chat. Show only actionable errors, test pass/fail tallies, and critical metrics.
+- **Surgical Edits Over Rewrites:** Always prefer targeted chunk replacements over full-file overwrites to minimize token thrashing and avoid rate limits.
+- **Artifact & File Offloading:** For extensive plans, large reports, detailed logs, HTML templates, reactive micro-apps, landing pages, contracts, proposals, and invoices, write them directly to files and provide a clickable link with a 1-line headline, rather than dumping large blocks of text directly into chat.
+- **Zero Code & Template Duplication in Chat:** Once code, HTML templates, or documents are created or modified, never re-paste the content blocks into chat. State only the file link, line range, and rationale.
+- **Zero Prompt Restatement:** Never echo or paraphrase the user's request. Lead immediately with the action, data, or checklist.
+- **Token Economy Visibility:** Conclude plans, refactors, and multi-step workflows with a single high-density token savings line: `📉 Token Economy: ~<N> tokens saved (<breakdown>)`.
+
+## 4. Hardware-Aware High-Performance Execution
+- **Dynamic Thread Saturation:** Automatically saturate all available CPU threads when compiling, running test suites, or packing assets (`-j$(nproc)` / `MAKEFLAGS="-j$(nproc)"`, `CARGO_BUILD_JOBS=$(nproc)`, `CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)`). Never default to single-threaded builds.
+- **Hardware-Aware Tool Dispatch:** Direct heavy GPU tasks (Blender Cycles, voice inference, numerical compute) to CUDA / OptiX or Vulkan rather than slow CPU fallback.
+
+## 5. Quota Governance & Uninterrupted Execution
+- **Never Quit on Available Quota:** Quota percentages indicate healthy available headroom. Never quit, halt, or abort autonomous goals or test runners when quota is available (> safe reserve limits).
+- **5-Hour Exhaustion Wait-for-Refresh:** If rolling 5-hour quota reaches or drops below safe reserve during autonomous runs, do not abort or fail the task. Stage working state to `.agents/memory/activeContext.md`, safely sleep until the recorded reset timestamp passes, verify quota replenishment, and seamlessly resume execution.
+- **Smart Checkpoint at 25% Weekly Reserve:** When weekly quota nears 25% remaining, automatically snapshot all uncommitted diffs, git branch, and active hypothesis context to `.agents/checkpoints/` and update `.agents/memory/activeContext.md` before continuing execution.
+- **Uninterrupted Compaction & Seamless Goal Resumption:** Compaction must **never** interrupt an active goal, plan, or test run. Always execute compaction at clean step boundaries (immediately after a tool or test run completes, before the next edit cycle). Before `/compact`, verify `.agents/memory/activeContext.md` contains the active goal, current in-flight state, and resumption instructions.
+
+## 6. Installed CLI Power Utilities
+The following tools are installed in `~/.local/bin` and can be executed directly in the terminal:
+- `game-texture-editor`: Procedural normal generation, RNM blending, seamless tiling, alpha edge dilation, CAS sharpening, DDS transcoding.
+- `stalker-playtest-runner`: Autonomous hands-free game QA, dialogue & locomotion runner via `/dev/uinput`.
+- `game-test-watchdog`: Anti-stuck, freeze, and infinite loop supervisor for headless game testing.
+- `skills-audit-update`: Health auditor, permissions fixer, and multi-CLI/editor synchronizer.
+- `context-watchdog`: Background context telemetry and pre-compaction memory stager.
+- `agy-quota-statusline` / `claude-statusline`: Live quota statusline generators.
+
+---
+
+# Multi-Model Optimization & Adaptation in Cursor
+
+Cursor allows switching between multiple frontier and open-weight models (Anthropic Claude, xAI Grok, OpenAI GPT/o1/o3, DeepSeek, and Google Gemini). Each model architecture requires specific behavioral calibration to maximize precision, eliminate hallucinations, and avoid token waste.
+
+---
+
+## 1. xAI Grok Calibration (Grok-2, Grok-beta, Grok 3)
+
+### A. Tone & Persona Suppression
+- **Zero Snark or Fluff:** By default, Grok is tuned for conversational wit and playful banter. In Cursor coding, agent, and composer modes, strictly suppress humor, sarcasm, colloquialisms, and conversational preambles.
+- **Immediate Execution:** Grok must never output introductory meta-commentary ("Alright, let's dive into this", "Here is what we are going to do"). Lead immediately with code diffs, terminal actions, or diagnostic evidence.
+
+### B. Anti-Hallucination & Engine Rigor
+- **Config & LTX Strictness:** When generating or modifying game configuration files (e.g. S.T.A.L.K.E.R. LTX, Godot project configs, Unreal schemas), never guess section names, inheritances, or parameter keys. Always inspect existing unpacked or repo baselines first.
+- **Symbol & Namespace Precision:** When working in C++, Rust, Python, or C#, verify function signatures, includes, and dependencies against the workspace before proposing modifications.
+- **Chain-of-Verification (CoVe):** For tricky runtime errors or engine crashes, Grok must formulate a 2-step verification:
+  1. *Root Cause Hypothesis:* Cite exact log lines or stack trace offsets.
+  2. *Refutation Check:* Ensure the proposed fix does not break related subsystems.
+
+### C. Tool & Terminal Discipline
+- When executing shell commands, Grok should invoke our purpose-built local CLI utilities located in `~/.local/bin/` (e.g. `game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`, `skills-audit-update`) rather than generating ad-hoc one-off Python scripts.
+
+---
+
+## 2. OpenAI Reasoning Models (o1, o3-mini)
+
+- **Hidden Reasoning Utilization:** o1 and o3-mini perform extensive internal chain-of-thought tokens. They must not duplicate or re-explain their reasoning steps in visible response text.
+- **Direct Deliverable:** Provide only the final verified diff, test execution command, or architectural conclusion.
+- **Deterministic Math & Logic:** Rely on o1/o3 for complex quaternion math, collision geometry (GJK/EPA), Reoriented Normal Mapping (RNM) derivations, and AST transformations.
+
+---
+
+## 3. OpenAI Standard Models (GPT-4o, GPT-4o-mini)
+
+- **Verbosity Containment:** GPT-4o tends to rewrite full files and explain code line-by-line. Strictly enforce surgical replacements (`// ... existing code ...` is handled by Cursor diffing, but keep chunk sizes minimal).
+- **Format Discipline:** Never restate user instructions. Never summarize what was just changed unless explicitly asked.
+
+---
+
+## 4. DeepSeek Reasoning & Coder Models (R1, V3)
+
+- **Language Constraint:** DeepSeek models must output all thoughts, explanations, comments, and identifiers strictly in English.
+- **Anti-Looping:** When diagnosing repetitive test failures or compiler errors, DeepSeek models must halt after 3 unsuccessful attempts and switch hypotheses rather than retrying minor variations of the same broken change.
+- **Memory Safety & Typing:** Enforce explicit type annotations, memory bounds checks, and zero unhandled errors in all C++, Rust, and Python code.
+
+---
+
+## 5. Anthropic Claude (Claude 3.5 Sonnet, Claude 3.7 Sonnet)
+
+- **Prompt Cache Prefix Stability:** Claude benefits from our 99% prompt cache optimization. Ensure that static rule sets and skill descriptions remain strictly ordered at the start of prompts.
+- **Surgical Diff Alignment:** Claude's strength in tool use is leveraged by emitting small, unambiguous replacement targets that apply cleanly without fuzz or offset errors.
+
+---
+
+## 6. Universal Multi-Model Execution Heuristic
+
+Regardless of which model is currently selected in Cursor's model picker:
+1. **Read Before Writing:** Inspect target files and imports before generating edits.
+2. **Surgical Diffs:** Replace only modified lines; never regenerate entire source files.
+3. **Verify Locally:** Test builds, lint, or run unit tests before declaring completion.
+4. **Token Economy:** End responses with the standard token savings indicator:
+   `📉 Token Economy: ~<N> tokens saved (<breakdown>)`
+
+---
+
+## Complete Skills Catalog (157 Specialized Capabilities)
+All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
+
+| Skill | Capabilities & When to Use |
+| :--- | :--- |
+| **`adaptive-reasoning`** | Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-speed execution on Flash and deep-reasoning planning on Argon based on prompt complexity. |
+| **`agentic-visual-perception`** | Autonomous AI agent visual reasoning, visual grounding, and high-resolution perception. Covers Slicing Aided Hyper Inference (SAHI) for 4K/8K images, natural language visual grounding coordinates [ymin, xmin, ymax, xmax], click centroid calculation, multi-scale crop-and-zoom inspection heuristics, and structural visual diffing (SSIM). |
+| **`ai-3d-mesh-generation`** | AI-powered text-to-3D and image-to-3D generation pipelines using Tripo3D API, automatic retopology, PBR texture baking, format conversion (GLB, FBX, OBJ), and offline Blender procedural fallback. |
+| **`ai-procedural-audio-generation`** | AI-powered and procedural audio generation for game development, content creation, and applications. Covers procedural DSP synthesis (oscillators, envelopes, noise bursts, chiptune/sfxr), text-to-sound-effect (SFX) models, adaptive game soundtrack layering, UI sound design, and loudness normalization. |
+| **`android-app-engineering`** | Modern Android development in Kotlin, Gradle KTS, foreground services, network tethering/VPN APIs, ProGuard/R8 rules, and release keystore signing. |
+| **`android-architecture-jetpack`** | Modern Android Architecture (Now in Android standard), Clean Architecture, MVI/MVVM with unidirectional data flow (UDF), Kotlin Coroutines & StateFlow, Room SQLite persistence, type-safe Navigation DSL, WorkManager background execution, and Dagger Hilt dependency injection. |
+| **`android-compose-ui-ux`** | Advanced Jetpack Compose UI/UX architecture, Material 3 design systems, edge-to-edge window insets, recomposition performance optimization, stability inference, custom Layouts/DrawModifiers, and fluid physics animations. Use when designing modern Android UI, fixing recomposition jank, or implementing edge-to-edge screens. |
+| **`android-device-automation`** | Real-time Android device control, scrcpy screen observation, mobile game bot scripting, automated app management, carrier debloating, cache cleaning, and system health diagnostics over ADB. |
+| **`android-ndk-jni-engineering`** | High-performance Android NDK C/C++ development, JNI bridge architecture, native Vulkan/OpenGL ES rendering, Oboe low-latency audio, NEON SIMD vectorization, and tombstone crash symbolization. Use when writing native game engines, DSP libraries, hardware-accelerated processing, or debugging native crashes in Android apps. |
+| **`android-perf-battery-profiling`** | Low-level Android performance profiling, frame rate/jank diagnosis (dumpsys gfxinfo), battery consumption analysis (dumpsys batterystats), Perfetto system tracing, memory leak detection (heap dump triage), and StrictMode violation traps. Use when diagnosing Android app slowness, frame drops, or battery drain. |
+| **`android-rom-os-engineering`** | Android custom ROM development, AOSP and LineageOS device tree bring-up, proprietary vendor blob extraction, kernel defconfigs, dynamic super partition sizing, and SELinux sepolicy denial triage. |
+| **`android-testing-ci-cd-security`** | Android automated testing (JUnit 5, MockK, Robolectric, Compose UI testing), headless Gradle CI/CD pipelines, Android App Bundle (AAB) generation, R8/ProGuard obfuscation rules, Android Keystore hardware-backed encryption, and release hardening. |
+| **`api-network-security-hardening`** | API gateway security, network transport hardening, TLS 1.3/certificate pinning, mTLS, token bucket rate limiting, CORS/CSP policy enforcement, and DDoS mitigation for games, bots, and backend services. |
+| **`app-security-threat-modeling`** | Universal application security architecture, STRIDE threat modeling, OWASP Top 10 mitigation, memory safety hardening, and defensive input validation across web, desktop, and mobile systems. |
+| **`audio-dsp-tuning`** | Headset calibration, microphone conditioning, and audio DSP processing across Linux (EasyEffects/PipeWire) and Windows (Equalizer APO/Peace). Configures AutoEq headphone profiles and professional 6-stage broadcast voice chains. |
+| **`autonomous-goal-governor`** | Quota governance, machine-verifiable contract formulation, circuit breaker enforcement (3-strike rule), and phased milestone compaction during long-running /goal and overnight autonomous agent runs. |
+| **`avalonia-cross-platform-dev`** | Cross-platform XAML GUI development with Avalonia UI (.NET 8/9), MVVM pattern, CompiledBindings, Native AOT compilation, and native OS desktop integration. |
+| **`bash-posix-automation`** | Defensive Bash and POSIX shell engineering, strict runtime error handling, signal cleanup traps, argument parsing with getopts, atomic file operations, and ShellCheck compliance. |
+| **`binary-re-workflows`** | Orchestrates reverse engineering tools (REA MCP, Ghidra, JADX, TShark, objdump, hex analysis) with Superpowers discipline. Use when analyzing closed-source binaries, game executables, APKs, packet traces, or firmware. |
+| **`blender-3d-engineering`** | High-efficiency, quota-saving 3D modeling and procedural asset generation with Blender (bpy). Use when creating 3D models, procedural geometry, game-ready assets (glTF, FBX, OBJ), modifier stacks, or running headless Blender automation. |
+| **`brainstorming`** | Interactive design exploration and requirements discovery. Use before committing to an architecture, feature implementation, or mod design to clarify trade-offs, constraints, and user preferences. |
+| **`cachyos-arch-packaging`** | Arch Linux and CachyOS packaging standards, PKGBUILD authoring, DKMS kernel module builds, and systemd service units. Use when building, testing, or maintaining packages like omen-acpi on CachyOS/Arch. |
+| **`canvas-interactive-workspace`** | Emulates ChatGPT Canvas side-by-side collaborative drafting, targeted inline diff staging, and surgical change annotations in Claude Code. |
+| **`claude-silent-dispatch`** | Eliminates pre-tool narration, commentary, and conversational play-by-plays in Claude Code, executing tool calls directly and silently to slash output token burn. |
+| **`claude-worktree-tmux`** | Native Claude Code background session and tmux pane isolation, running heavy builds, test suites, and long tasks in detached worktrees without context pollution. |
+| **`client-memory-integrity-anticheat`** | In-depth client runtime security, anti-debugging, memory scanner detection, obfuscated value storage (XOR/bitwise masks), and anti-tamper heartbeat synchronization for desktop games and sensitive client apps. |
+| **`cmake-cross-platform`** | Cross-platform CMake architecture (3.25+), target-centric modern CMake, toolchain files for cross-compilation (Linux, Windows via MinGW/Clang, macOS), platform abstraction, and CPack installers. |
+| **`coderabbit-ai-review`** | CodeRabbit-grade autonomous code review, PR walk-through generation, architectural Mermaid sequence diagrams, line-by-line defect triage, and GitHub suggestion diffs. |
+| **`computer-vision-deep-learning`** | Modern deep-learning computer vision engineering and high-performance inference pipelines. Covers neural object detection (YOLOv8/YOLOv11, RT-DETR), instance segmentation (SAM 2), vision-language models (Florence-2, CLIP), ONNX Runtime/TensorRT GPU acceleration, and multi-object tracking (ByteTrack, DeepSORT). |
+| **`console-game-decompilation`** | Console game decompilation, matching reverse engineering, and disassembly workflows for PS1, PS2, PS3, original Xbox, Xbox 360, and retro platforms (MIPS, PowerPC, x86). Covers container inspection (PS-X EXE, ELF, XBE, XEX), binary splitting (splat), compiler matching, and objdiff verification. |
+| **`console-homebrew-engineering`** | Console custom firmware (CFW) setups, Nintendo Switch Atmosphere/Hekate bootloaders, FAT32 32KB cluster alignment, NSP/NSZ package compression, and Obtainium emulator feeds. |
+| **`context-pruning-watchdog`** | Live telemetry monitoring of active context consumption; automatically stages memory state into activeContext.md and prompts for lossless compaction before hitting quota thresholds. |
+| **`context-window-governor`** | Deterministic token budgeting, turn-by-turn context partitioning, and hard output containment to prevent tool response bloat and premature context exhaustion. |
+| **`coverage-guided-mutation-testing`** | AST-based fault injection, mutant survival analysis, and automated test synthesis to self-improve test suite detection power across Lua, Python, C++, and Rust. |
+| **`creative-web-design-archetypes`** | Advanced web styling archetypes and visual design systems. Covers Neo-Brutalism, Mythic/Fantasy Parchment, Cyberpunk/Terminal HUD, Editorial/Academic Journal, Swiss Modernism, and Glassmorphic aesthetics with responsive CSS and typography pairings. |
+| **`cross-browser-extensions`** | Cross-browser web extension development in Manifest V3, supporting Chrome, Firefox, and Safari with webextension-polyfill, background service workers, and declarativeNetRequest. |
+| **`cross-platform-game-compatibility`** | Diagnosing and repairing legacy and modern PC games to run smoothly across Windows and Linux. Covers DirectX legacy wrappers (dgVoodoo2, DDrawCompat, DXVK), 4GB LAA memory patching, high-refresh rate frame limiters, aspect ratio / widescreen fixes, and anti-crash shims. |
+| **`cryptographic-security-engineering`** | Applied modern cryptography and secure protocol implementations. Covers Ed25519 digital signatures (Discord interaction webhooks, Git commit signing), AES-256-GCM / ChaCha20-Poly1305 authenticated encryption, HKDF key derivation, constant-time comparison discipline, and hardware security module (TPM2/Keystore) integration. |
+| **`csharp-dotnet-engineering`** | Modern C# and .NET 8/9 engineering standards. Use when writing C# applications, Unity/Godot C# logic, memory optimization with Span and Memory, async/await cancellation patterns, or running dotnet test and Roslyn analyzers. |
+| **`cuda-gpu-acceleration`** | High-performance NVIDIA GPU engineering, CUDA 13.4 kernel development, nvcc compilation, Tensor Core acceleration, PyTorch CUDA extensions, and OptiX ray-tracing for modern NVIDIA GPUs (RTX 5060/Blackwell). |
+| **`database-sql-engineering`** | SQLite performance tuning (WAL mode, PRAGMAs, indexing), PostgreSQL/MySQL schema design, query plan analysis, and database migration architecture. |
+| **`deep-research-synthesizer`** | Autonomous multi-source web crawling, recursive citation mapping, source credibility ranking, and publication-grade technical research synthesis. |
+| **`deliberative-reasoning-tree`** | DeepSeek R1 and OpenAI o1-style Tree-of-Thought reasoning, exploring 3 branching hypothesis paths, adversarial self-critique, and formal backtracking before code modification. |
+| **`devsecops-supply-chain-security`** | DevSecOps build-time security hardening, Software Bill of Materials (SBOM), dependency vulnerability auditing, binary compiler hardening checks (checksec for RELRO, Canaries, NX, PIE), Git secret leak prevention, and rootless container isolation. Use when preparing releases, securing CI/CD pipelines, or auditing compiled binaries. |
+| **`discord-bot-engineering`** | Production Discord bot development across Python (discord.py) and TypeScript (discord.js). Covers modern Discord API v10, slash commands, interactive UI components (Buttons, Select Menus, Modals), Gateway intent discipline, rate-limit bucket management, Voice Gateway audio streaming, and high-availability sharded deployment. |
+| **`documentation-site-generator`** | Static documentation site generation using VitePress and MkDocs Material, automated API reference extraction, and GitHub Pages deployment. |
+| **`dynamic-skill-router`** | High-performance semantic intent matching and capability indexing across 100+ installed skills. Use to instantly discover, rank, and activate the exact 2-3 optimal skills for any complex prompt, eliminating skill choice paralysis and context bloat. |
+| **`electron-desktop-dev`** | Electron desktop application engineering, IPC security, context isolation, preload scripts, multi-window lifecycles, and cross-platform packaging with electron-builder. |
+| **`emulator-development-engineering`** | Video game console emulation architecture, CPU interpreter & JIT dynamic binary translation, cycle-accurate timing, memory-mapped I/O (MMU), Vulkan/OpenGL graphics rendering backends, APU sound emulation, and contributions to open-source emulators (Dolphin, RPCS3, PCSX2, Ryujinx, RetroArch). |
+| **`executing-plans`** | Step-by-step execution of approved implementation plans. Use when executing a multi-step plan to track progress, verify checkpoints, and ensure safe rollbacks. |
+| **`executive-business-communications`** | Professional executive business correspondence, BLUF email structuring, client proposals, Scope of Work (SOW) drafting, invoice generation, and anti-jargon filters. |
+| **`first-principles-reasoning`** | First-principles decomposition, Chain-of-Verification (CoVe), adversarial red-teaming, and Ockham's Razor hypothesis ranking. Eliminates logical fallacies, confirmation bias, and cognitive overburn in complex engineering tasks. |
+| **`frontier-image-studio`** | Frontier AI image generation, prompt translation for ChatGPT (DALL-E 3) and Gemini (Imagen 3) styles, multi-backend API dispatch (OpenAI, Gemini Imagen, Flux.1, ComfyUI), and local SVG/texture generation with Pillow. |
+| **`furry-fursona-art-design`** | Specialized design and generation pipeline for furry and fursona character art, multi-view turnaround reference sheets (refsheets), species taxonomy, digitigrade anatomy, color palette swatches, and 3D VRChat avatar specifications. |
+| **`game-ai-agent-play`** | Autonomous game-playing agent engineering and reinforcement learning (Gymnasium, OpenCV computer vision, reward modeling, and low-latency input simulation via uinput/evdev/pyautogui). |
+| **`game-animation-skeletal-pipeline`** | Real-time skeletal animation, quaternion slerp/nlerp interpolation, dual quaternion skinning, inverse kinematics (Two-Bone IK, FABRIK), blend spaces, and root motion extraction. Use when implementing skeletal meshes, character animation runtimes, or fixing skinning artifacts. |
+| **`game-asset-pack-archive-engineering`** | Virtual file systems (VFS), game asset pack archive containers (PAK, XDB, AssetBundles), chunked zstd/zlib compression, memory-mapped I/O (mmap), and endianness-safe save state serialization. Use when designing asset loaders, porting game archives, or packaging game data distributions. |
+| **`game-audio-engine-engineering`** | Low-latency game audio architecture, 3D spatial audio, HRTF binaural processing, mixing bus hierarchies, and sound bank asset pipelines (FMOD, Wwise, OpenAL Soft, MiniAudio, Oboe). Use when building audio engines, porting sound runtimes, or fixing audio clipping/desyncs. |
+| **`game-debug-ui-tools`** | In-engine debug UI systems, Dear ImGui integration, immediate-mode 3D debug drawing (AABBs, rays, contact manifolds), live console variables (CVars), hierarchical frame profilers, and memory inspectors. Use when diagnosing game runtime issues, tuning gameplay parameters live, or adding telemetry tools. |
+| **`game-engine-migration`** | Universal architectural framework for porting, migrating, and modernizing game engines and legacy mods across bitness (32-bit to 64-bit), graphics APIs (DX9/OpenGL to DX11/DX12/Vulkan), and scripting runtimes. |
+| **`game-entity-component-system`** | High-performance Entity Component System (ECS) architecture, Data-Oriented Design (DOD), Archetype vs Sparse-Set storage, Structure-of-Arrays (SoA) memory layout, and multithreaded system scheduling. Use when designing game engine logic, optimizing cache misses, or porting object-oriented game code to ECS. |
+| **`game-exploratory-fuzzing`** | Evolutionary input fuzzing, novelty-guided action mutation, and crash delta minimization for automated game QA and playtesting. |
+| **`game-graphics-optimization-profiling`** | Profiling and optimizing GPU/CPU rendering performance for games and engine ports. Use when identifying vertex, pixel, or bandwidth bottlenecks, implementing draw call batching, designing frustum/occlusion culling, creating LOD systems, or integrating temporal upscaling (TAA, FSR, DLSS). |
+| **`game-input-system-abstraction`** | Cross-platform game input abstraction layers, raw sub-pixel mouse polling, radial deadzone math, controller glyph auto-detection, and low-latency input event buffering (SDL3, Win32 RawInput, evdev, Steam Input). Use when porting game controls across PC, Steam Deck, Linux, and Android. |
+| **`game-localization-i18n`** | Internationalization (i18n) and localization (l10n) pipelines for games, desktop, and web apps. Covers ICU message formatting, pluralization rules, bidirectional text (RTL/LTR), font glyph fallbacks, dynamic dialogue translation tables, and string freeze validation. |
+| **`game-memory-allocator-engineering`** | Custom high-performance game engine memory allocators (Linear Arena, Stack, Pool, TLSF), SIMD memory alignment, and zero-hitch heap fragmentation elimination. Use when optimizing game engine memory allocations, fixing frame stutter, or porting engines to memory-constrained platforms. |
+| **`game-modding`** | Specialized workflows, format rules, and safety checks for game modding, focusing on S.T.A.L.K.E.R. Legends of the Zone Trilogy EE (ZoneForge), LTX configurations, XDB pack archives, DDS textures, and engine-safe audio. |
+| **`game-networking-state-sync`** | Multiplayer network architecture, client-side prediction, server reconciliation, entity interpolation, snapshot delta compression, and rollback networking (GGPO / lockstep). Use when building real-time multiplayer games, porting single-player engines to networked play, or fixing client jitter and desyncs. |
+| **`game-patching-binary-repair`** | Diagnosing and fixing broken PC game binaries, engine crashes, missing DLL dependencies, and memory corruption without source code. Covers Dependency Walker import analysis, hex patching, assembly NOP/JMP patches, crash offset resolution, and custom hook wrappers. |
+| **`game-physics-collision-pipeline`** | Real-time physics engine architecture, fixed timestep accumulator loops, continuous collision detection (CCD), broadphase BVH spatial hashing, narrowphase GJK/EPA solvers, and Jolt/PhysX integration. Use when porting physics runtimes, fixing tunneling, or optimizing simulation performance. |
+| **`game-qa-playtest-controller`** | Autonomous multi-axis game testing locomotion controller using Linux /dev/uinput and evdev. Injects dynamic character movement patterns (circle-strafing orbit, 360° panoramic camera sweeps, obstacle wandering, sprint/jump/crouch stress locomotion, and action cycles) for automated game QA and crash reproduction. |
+| **`game-runtime-diagnostics`** | Cross-platform game crash diagnostics, performance tuning, and compatibility triage across Windows (DirectX, Event Viewer, GPU TDRs) and Linux (Steam Proton, DXVK, Wine prefixes, Winetricks, DLL overrides). |
+| **`game-save-state-serialization`** | Robust game save system architecture, versioned schema migrations, bit-packed binary serialization, endianness safety, checksum validation, and atomic file replacement. Use when implementing save/load systems, retro game save states, or preventing save corruption. |
+| **`game-screen-telemetry-monitor`** | Real-time in-game screen telemetry monitoring, visual anomaly detection (missing textures, freezes, blackouts), and automated crash dialog OCR for game modding, engine porting, and QA testing. |
+| **`game-security-anti-tamper`** | Game engine runtime security, anti-tamper architectures, memory modification detection, DLL hijacking prevention, save file HMAC integrity seals, server-side simulation sanity validation, and anti-teleport physics checks. Use when securing multiplayer games, protecting save files against hex editing, or hardening game binaries against injection. |
+| **`game-texture-editing`** | Autonomous game texture editing, enhancement, and repair suite. Generates tangent-space normal maps, blends detail normals via Reoriented Normal Mapping (RNM), synthesizes seamless repeating tiles, strips baked lighting (de-lighting), dilates alpha edges (bleed) to eliminate dark fringe halos, sharpens micro-details (CAS), packs PBR ORM maps, and transcodes DDS textures (BC1-BC7). |
+| **`game-texture-material-pipeline`** | High-performance asset pipelines for modern PBR and legacy game textures. Use when converting textures across engine formats (DDS, KTX2, PNG, TGA), packing PBR channels (ORM - Occlusion/Roughness/Metallic), inverting normal map Y channels (OpenGL vs DirectX), or setting up mipmaps and color spaces. |
+| **`game-trainer-engineering`** | Cross-platform game trainer development across Windows and Linux. Covers dynamic memory scanning, multi-level pointer resolution, AOB pattern scanning, code injection (trampoline/detour mid-function hooks), global hotkey hooking, and embedded ImGui/web overlays. |
+| **`gamemaker-gml-engineering`** | Modern GameMaker (2024+) game development workflows in GML Code. Covers lightweight constructors/structs, state machines, delta-timing, surface memory management, texture page optimization, sound emitter hierarchies, and YYP project architecture. |
+| **`generative-visual-artifacts`** | Generates self-contained interactive HTML/SVG widgets, KaTeX mathematical formulas, and live browser previews directly from Claude Code CLI. |
+| **`github-actions-cicd`** | Multi-OS GitHub Actions matrix builds (Linux, Windows, macOS), automated release packaging, semantic versioning, and compilation caching. |
+| **`godot-game-dev`** | Game development workflows for Godot Engine (GDScript 2.0 & C#). Use when designing game systems, scene trees, custom nodes, signals, UI layouts, or running headless Godot CLI builds and GUT tests. |
+| **`godot-shader-vfx`** | Authoring 2D and 3D visual shaders, canvas item shaders, spatial shaders, particle systems, and screen-reading post-processing effects in Godot Engine 4. |
+| **`hardware-tool-engineering`** | Architect, build, and update hardware management tools, system daemons, sensors, and thermal controllers with cross-architecture portability (x86_64 Zen/Intel, ARM64, NVIDIA, AMD). |
+| **`headless-browser-automation`** | Headless browser automation via Playwright and Puppeteer, executing dynamic JavaScript on SPAs, capturing screenshots, form interactions, and bypass techniques. |
+| **`headless-game-ci-automation`** | Automated headless game compilation, asset baking, CLI test execution, and packaging across Godot, Unity, Unreal Engine 5, and custom C++/Rust engines. |
+| **`hierarchical-memory-retrieval`** | Multi-tiered query-driven memory retrieval across working context, episodic logs (.agents/episodes/), semantic project patterns (.agents/memory/), and archival records with BM25 ranking. |
+| **`high-density-prompting`** | Compresses verbose prompts into surgical, quota-saving directives, eliminates speculative reasoning tokens, and enforces deterministic, zero-waste agent outputs. |
+| **`homelab-docker-devops`** | Self-hosted infrastructure, Docker Compose multi-service stacks, Samba network storage permissions, Nextcloud optimization, and systemd automation timers. |
+| **`human-crafted-web-design`** | Anti-AI web design heuristics, Linear and Stripe-grade UI aesthetics, professional typography hierarchy, tactile dark-mode interfaces, and production Tailwind CSS. |
+| **`humanities-lore-research`** | Cross-disciplinary research in world history, ancient mythology, comparative folklore, archaeology, and worldbuilding. Compiles structured entity dossiers, chronological timelines, and pantheon relationship graphs ready for websites, wikis, and digital archives. |
+| **`industrial-machine-vision-inspection`** | Classical computer vision, camera calibration, precision metrology, and industrial inspection. Covers OpenCV pinhole camera intrinsic/extrinsic matrix calibration, sub-pixel edge detection, geometric dimensioning, color space segmentation, normalized cross-correlation template matching, and surface anomaly detection. |
+| **`intelligent-interactive-ui`** | Generates reactive, single-file interactive micro-apps, live calculators, filterable data tables, and dynamic forms with instant client-side state and export capabilities (GPT-6 Astra Intelligent UI parity). |
+| **`interactive-data-visualization-web`** | Browser-based interactive data visualization for history, mythology, game lore, and complex architectures. Generates zero-build D3.js force-directed network graphs, Vis.js chronological timelines, and interactive entity stat charts. |
+| **`laptop-performance-profile`** | Laptop performance tuning, thermal management, and acoustic control. Integrates OMEN Space (omen-cli / omen-space-daemon), ACPI/WMI sysfs, and power-profiles-daemon for whisper-quiet night runs, balanced daily operation, and turbo boost execution. |
+| **`linux-desktop-packaging`** | Linux desktop integration and packaging standards, XDG Base Directory specs, FreeDesktop .desktop entries, AppStream metadata, Flatpak manifests, and AppImage bundling. |
+| **`linux-gaming-proton-optimization`** | Optimizing and fixing games under Linux, Wine, Steam Proton, and Steam Deck. Covers GE-Proton switching, dxvk.conf tuning, async shader compilation, GameMode, Gamescope micro-compositing, Winetricks prefix repair, Media Foundation cutscene codec fixes, and anti-cheat compatibility triage. |
+| **`linux-hardware-acpi`** | Linux kernel ACPI module development, DSDT/SSDT table analysis, hwmon sensor interfaces, thermal fan curves, and systemd D-Bus daemons. |
+| **`linux-systems-engineering`** | Linux systems programming in C/C++/Rust, POSIX APIs, asynchronous I/O (epoll, io_uring), process/signal management, systemd service units, and diagnostics (strace, gdb, perf, sanitizers). |
+| **`local-ast-compiler-engine`** | High-performance multithreaded AST analysis, symbol table scanning, and structural linting running across all host CPU cores (nproc). Detects syntax errors and extracts symbol trees in milliseconds locally, eliminating trial-and-error reasoning turns. |
+| **`local-model-coprocessor`** | Offloads low-complexity tasks (docstrings, commit messages, log summarization, regex, boilerplate) to local SLMs/LLMs running in GPU VRAM or system RAM via Ollama or llama.cpp, saving 100% of cloud quota for hard architectural reasoning. |
+| **`local-vector-rag-engine`** | Local vector embeddings and dense semantic search engine running on host CPU/GPU/RAM. Replaces context-stuffing (50k+ tokens) by retrieving only the top-k relevant 15-line snippets into LLM prompts, slashing context consumption by 80-95%. |
+| **`log-output-sanitizer`** | Intercepts noisy compiler, package manager, and test suite terminal output (cargo, pytest, npm, cmake), passing only actionable errors and compact summaries to preserve context. |
+| **`lowlevel-dll-internals`** | Windows PE/DLL internals, assembly-level disassembly, vtable reconstruction, calling convention alignment (__thiscall, __stdcall, __cdecl, x64 ABI), and native detour hooks (MinHook, MS Detours, trampoline patching). Use when analyzing or modifying game DLLs, ASI plugins, C++ engine classes, crash dumps, or writing native binary patches. |
+| **`modern-cpp-engineering`** | Modern C++ standards (C++20/C++23) and systems engineering. Use when authoring or debugging C++ code, game engine plugins, DLLs, memory management with RAII, smart pointers, Concepts, or managing CMake builds. |
+| **`network-protocol-engineering`** | Packet inspection with tshark and tcpdump, binary serialization with Protobuf and FlatBuffers, custom TCP/UDP client-servers, and Linux TUN/TAP network routing. |
+| **`nix-reproducible-environments`** | Hermetic developer environments using Nix Flakes (flake.nix), declarative dependencies, reproducible devShells, and cross-platform isolation. |
+| **`open-apk`** | Load an Android APK / XAPK / DEX / JAR into the jadx-headless MCP for static analysis. Accepts a local file path, or a package name to fetch from APKPure via apkeep. Use when the user asks to open/load an APK in jadx (e.g. "open com.example.app in jadx", "load ./demo.xapk", "/jadx-headless:open-apk <path|package>"). |
+| **`post-processing-visual-fx`** | Screen-space rendering, post-processing stacks, and volumetric lighting when building or porting engines. Use when implementing HDR tone mapping (ACES, AgX), progressive dual-filtering bloom, ambient occlusion (SSAO, GTAO), screen-space reflections (SSR), or cascaded shadow maps (CSM). |
+| **`powershell-windows-automation`** | Modern PowerShell 7 and Windows PowerShell automation, advanced cmdlet design, pipeline streaming, WMI/CIM querying, Task Scheduler automation, and Win32 P/Invoke. |
+| **`project-memory-bank`** | Persistent project memory and context curation system. Use when starting sessions on existing codebases, resuming tasks, recording architectural decisions, logging bug solutions, or preparing state before running /compact to slash token usage. |
+| **`prompt-cache-context-optimizer`** | Emulates 1M+ context windows and maximizes Anthropic prompt caching discounts (>90% savings) through strict prefix ordering, hierarchical AST compression, and cache stabilization. |
+| **`proton-game-dev-linux`** | Engineering and validating PC games and engines to target Valve Proton seamlessly from day one. Covers cross-platform Win32/POSIX case-sensitivity bugs, Steamworks SDK integration under Wine/Proton, headless Proton CLI test runners, and anti-cheat runtime packaging. |
+| **`python-engineering`** | Python software engineering and performance standards (Python 3.10+). Use when authoring or refactoring Python code, adding type annotations, writing pytest suites, optimizing hot paths, or using Ruff and Mypy. |
+| **`real-time-rendering-pipeline`** | Architecture, modern paradigms, and debugging for real-time game renderers (DirectX 12, Vulkan 1.3+, WebGPU). Use when designing render graphs, implementing bindless descriptors, configuring reverse-Z depth buffers, managing transient memory aliasing, or capturing frames with RenderDoc. |
+| **`reverse-engineer-anything`** | Reverse engineer native, managed, Electron/JavaScript, packaged, firmware, and browser targets with REA. Use shipped-artifact or requested runtime evidence to explain features, compare versions, decompile code, or guide a reconstruction. Skip REA for ordinary source-repository architecture analysis. |
+| **`rust-engineering`** | Rust software engineering and compiler-first workflows. Use when authoring or debugging Rust code, managing lifetimes and the borrow checker, designing zero-cost abstractions, or running Cargo check, Clippy, and tests. |
+| **`sandbox-code-interpreter`** | Headless Python scientific computing, data analytics, mathematical proof verification, and automated chart plotting in Claude Code. |
+| **`screen-vision-inspector`** | Autonomously captures, crops, and visually inspects the active computer screen, desktop application windows, and UI rendering states via local screenshot utilities (Google Project Astra and GPT-6 Astra Vision parity). |
+| **`security-vulnerability-audit`** | Pre-commit secret scanning with gitleaks, SAST vulnerability analysis with semgrep, dependency audits, and binary hardening verification. |
+| **`self-healing-test-automation`** | Resilient UI test automation, semantic locator auto-repair, visual OCR fallback, and dynamic flakiness mitigation for Web, Mobile, and Desktop GUI testing. |
+| **`semantic-codebase-indexing`** | Cursor and Windsurf-style AST symbol indexing, call-graph tracing, and ctags/tree-sitter repository mapping for instant token-efficient code navigation. |
+| **`session-episodic-memory`** | Multi-session milestone checkpointing, chronological episode logging (.agents/episodes/), decision rationales, and seamless restoration across /compact events. Use during long-running tasks to prevent conversational amnesia and maintain an audit trail of engineering decisions. |
+| **`shader-cross-compilation`** | Cross-compilation, translation, and validation of game shaders across HLSL, GLSL, SPIR-V, WGSL, and MSL. Use when porting game shaders between engines (DirectX to Vulkan/OpenGL/WebGPU), modernizing legacy Shader Model 3.0/4.0/5.0 code to SM 6.x, or resolving cross-platform graphics API discrepancies. |
+| **`skills-updater-and-auditor`** | Automated health auditing, synchronization, and upstream updates for all installed agent skills. Verifies YAML frontmatter integrity, helper script syntax/permissions, host CLI dependencies, and cross-CLI parity across Antigravity and Claude Code. |
+| **`smart-context-packer`** | Compresses multi-file codebases into interface-only AST skeletons (stripping function bodies, comments, and blank lines), reducing context consumption by 85-90%. |
+| **`stalker-ogsr-migration`** | Migration, adaptation, and porting of legacy S.T.A.L.K.E.R. Shadow of Chernobyl mods (Complete, AMK, Autumn Aurora) to the 64-bit OGSR Engine. Covers 64-bit binary layout, DX11 shader reconciliation, LuaJIT callback adaptation, ACDC spawn translation, LTX sanitization, and crash log diagnosis. |
+| **`stalker2-modding`** | Modding workflows and tools for S.T.A.L.K.E.R. 2 Heart of Chornobyl (Unreal Engine 5). Use when packaging UE5 IoStore containers (pak, ucas, utoc) with repak, authoring RE-UE4SS C++ and Lua hooks, inspecting assets via FModel, or organizing mod distributions. |
+| **`standalone-binary-re`** | Standalone binary reverse engineering without external MCP servers. Uses native Linux CLI utilities (objdump, readelf, nm, jadx, gdb, strings, xxd) and Python (pefile, struct) for fast, zero-dependency disassembly, symbol analysis, and APK decompilation. |
+| **`static-site-architecture`** | Modern Jamstack and static site generator (SSG) architecture. Covers Astro, VitePress, Starlight, Content Collections with Zod schemas, zero-JS baseline performance, and automated GitHub Pages CI/CD deployment pipelines. |
+| **`steamcmd-workshop-pipeline`** | SteamCMD and Steam Workshop publishing pipeline. Use when authoring workshop item VDF manifests, managing content depots, setting visibility, or publishing/updating mods via SteamCMD. |
+| **`steamdeck-proton-hardware-tuning`** | Steam Deck & handheld Linux hardware optimization for Proton games. Covers 15W TDP power budgets, 40Hz/45Hz refresh rate frame pacing, 1280x800 16:10 aspect ratio handling, font readability scaling, and battery longevity tuning. |
+| **`subagent-code-reviewer`** | Dispatches an isolated reviewer subagent to audit code changes, mod diffs, security implications, or edge cases before committing or publishing, without polluting the primary context. |
+| **`subagent-swarm-orchestrator`** | Coordinates autonomous parallel subagent swarms in Claude Code, leveraging isolated git worktrees, background processes, and parent-child JSON messaging pipelines. |
+| **`superpowers`** | Core engineering methodology and discipline engine. Use when starting non-trivial tasks to evaluate if brainstorming, structured planning, TDD, or systematic debugging applies before writing code. |
+| **`systematic-debugging`** | Root-cause diagnosis and hypothesis-driven debugging. Use when encountering test failures, runtime errors, game crashes, or unexpected behavior to diagnose before editing. |
+| **`task-velocity-governor`** | Enforces task completion velocity, strict timeboxing, step budgeting, anti-thrashing loops, and diminishing returns boundaries. Prevents tasks from taking longer than necessary and halts iterative wheel-spinning. |
+| **`tauri-multiplatform-dev`** | Lightweight cross-platform desktop and mobile engineering with Tauri 2.0, Rust backend, web frontend, secure IPC commands, low RAM usage, and native system integration. |
+| **`test-driven-development`** | Test-Driven Development (TDD) workflow. Use when developing testable features, parsers, codecs, utilities, or bug fixes to write tests before implementation. |
+| **`threejs-webgl-engineering`** | Interactive 3D WebGL and WebGPU development using Three.js, OrbitControls, GLTFLoader, PBR lighting rigs, procedural geometry, and zero-build browser previews. |
+| **`token-economy`** | Output token optimization and high-density communication protocol. Use to minimize output token consumption, prevent transcript context bloat, and maintain concise progress visibility during long engineering workflows. |
+| **`unity-game-dev`** | Game development workflows for Unity Engine (C#). Use when developing MonoBehaviours, ScriptableObjects, physics interactions, UI Toolkit/UGUI, shader integrations, or optimizing memory allocations and garbage collection. |
+| **`unreal-engine-dev`** | Game development workflows for Unreal Engine 5 (C++ and Blueprints). Use when implementing Gameplay Framework actors, UObject memory management, Subsystems, Enhanced Input, Niagara systems, or profiling performance. |
+| **`using-git-worktrees`** | Manages isolated git worktrees for parallel mod development, experimenting with risky changes, or testing multiple branches simultaneously without dirtying the working directory. |
+| **`verification-before-completion`** | Final quality gate and evidence collector. Use before claiming any task, feature, or bug fix is finished to verify with concrete execution evidence. |
+| **`video-production-automation`** | Hardware-accelerated video engineering and automated post-production using FFmpeg with NVIDIA NVENC (AV1, HEVC, H.264), multi-track audio mastering (-14 LUFS), ProRes/DNxHR intermediate transcoding, and subtitle embedding. |
+| **`visual-document-ocr-intelligence`** | Document AI, optical character recognition (OCR), table extraction, and visual document understanding. Covers multi-engine OCR orchestration (Tesseract, PaddleOCR, Surya), document preprocessing (deskewing, adaptive Sauvola binarization, shadow flattening), and structured table/form key-value extraction. |
+| **`voice-speech-audio-synthesis`** | Speech-to-text transcription via Whisper, natural voice generation using Piper/Kokoro/OpenAI TTS, game NPC dialogue synthesis, and subtitle timing. |
+| **`vulkan-gpu-compute`** | Cross-vendor GPU compute and modern graphics engineering via Vulkan 1.3/1.4, SPIR-V shader compilation, headless GPGPU pipelines, and multi-GPU portability across NVIDIA, AMD, and Intel. |
+| **`wakaru`** | >- |
+| **`win32-systems-engineering`** | Windows systems programming in C++/C#, Win32 API, Windows Registry, Windows Services (SCM), Named Pipes, Structured Exception Handling (SEH), and Windows Application Manifests. |
+| **`windows-app-engineering`** | Native Windows desktop UI engineering, WinUI 3, Windows App SDK, WPF (.NET 8/9), C#/WinRT component interop, Fluent Design, and MSIX packaging. |
+| **`wine-proton-native-interop`** | Native Linux and Wine/Proton interop engineering. Covers Win32-to-Linux IPC sockets, shared memory shims, Wine DLL call thunking, custom Wine builtin modules, and running hybrid native/Proton tooling. |
+| **`working-memory-checkpointing`** | Atomic snapshotting and 1-command rollback of in-flight git diffs, hypotheses, and active working state to safeguard complex multi-step refactors against dead-end debugging loops. |
+| **`writing-plans`** | Breaks down complex engineering tasks, refactors, and mod implementations into granular, dependency-ordered, verifiable task lists. Use when planning multi-step work. |
+| **`xray-lua-scripting`** | S.T.A.L.K.E.R. X-Ray Engine Lua scripting guidelines and safeguards. Use when writing, modifying, or debugging game scripts, quest logic, callbacks, inventory hooks, or AI logic in S.T.A.L.K.E.R. EE. |
+| **`youtube-shorts-video-automation`** | Automated creation of viral YouTube Shorts, TikToks, and long-form YouTube edits with 9:16 vertical re-framing, hook-first pacing, kinetic word-by-word subtitles, silence trimming jump cuts, split-screen layouts, and audio ducking. |

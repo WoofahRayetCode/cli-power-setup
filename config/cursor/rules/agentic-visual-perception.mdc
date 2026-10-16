@@ -1,0 +1,84 @@
+---
+description: Autonomous AI agent visual reasoning, visual grounding, and high-resolution perception. Covers Slicing Aided Hyper Inference (SAHI) for 4K/8K images, natural language visual grounding coordinates [ymin, xmin, ymax, xmax], click centroid calculation, multi-scale crop-and-zoom inspection heuristics, and structural visual diffing (SSIM).
+globs: 
+alwaysApply: false
+---
+
+# Agentic Visual Grounding & Perception (`agentic-visual-perception`)
+
+The `agentic-visual-perception` skill empowers autonomous AI agents to interact with graphical interfaces, inspect high-resolution desktop and game canvases, ground natural language instructions into precise screen coordinates, and perform multi-scale visual verification.
+
+---
+
+## 1. Agentic Perception Architecture
+
+```
++------------------------------------------------------------------------+
+|               High-Resolution Canvas / Display Capture                 |
+|                   (Full HD, 2K, 4K, 8K, Retina Displays)               |
++------------------------------------------------------------------------+
+                                    |
+            +-----------------------+-----------------------+
+            |                                               |
+            v                                               v
++-------------------------------+               +------------------------+
+|    Slicing Aided Hyper        |               |   Visual Grounding     |
+|      Inference (SAHI)         |               |     Resolution         |
+| Overlapping grid slices for   |               | NL Query -> Bounding   |
+| microscopic icons/buttons     |               | Box & Click Centroid   |
++-------------------------------+               +------------------------+
+            |                                               |
+            +-----------------------+-----------------------+
+                                    |
+                                    v
++------------------------------------------------------------------------+
+|                     Verification & State Tracking                      |
+|  - Crop-and-Zoom ROI: Dynamic scaling for high-confidence checks       |
+|  - Structural Visual Diffing: SSIM change detection between actions    |
+|  - Action Confirmation: Ensures UI state changed before next turn      |
++------------------------------------------------------------------------+
+```
+
+---
+
+## 2. Core Capabilities
+
+### A. Slicing Aided Hyper Inference (SAHI)
+* Standard vision models resize images to $640\times640\text{ px}$, causing small UI elements, text, or distant objects to vanish into blur.
+* SAHI partitions massive canvases (e.g. $3840\times2160$) into overlapping tiles with a defined stride, runs inference on each tile, and merges overlapping bounding boxes back into global coordinate space.
+
+### B. Natural Language Visual Grounding
+* Maps user directives (*"click the gear settings icon"*, *"find the cancel button"*) into standard normalized coordinates:
+  $$\text{Box} = [y_{\min}, x_{\min}, y_{\max}, x_{\max}]$$
+  with click centroid $(\bar{x}, \bar{y})$ in physical screen pixels.
+
+### C. Multi-Scale Crop-and-Zoom Heuristics
+* When confidence is borderline ($0.50 \le c \le 0.80$), automatically crops an expanded region of interest (ROI) centered around the target and performs a secondary high-zoom pass before executing clicks.
+
+### D. Structural Visual Diffing (SSIM)
+* Compares pre-action and post-action frames using Structural Similarity Index (SSIM) and perceptual hashing to verify that a click or keystroke actually caused the expected UI state mutation.
+
+---
+
+## 3. CLI Helper Tool (`agent_visual_grounding.py`)
+
+Located at `config/skills/agentic-visual-perception/scripts/agent_visual_grounding.py`.
+
+### Commands
+```bash
+# 1. Tile high-resolution 4K canvas using SAHI grid
+python3 config/skills/agentic-visual-perception/scripts/agent_visual_grounding.py \
+  slice --image desktop_4k.png --slice-w 640 --slice-h 640 --overlap 0.20 --output slices.json
+
+# 2. Ground natural language target to spatial coordinates
+python3 config/skills/agentic-visual-perception/scripts/agent_visual_grounding.py \
+  ground --image screen.png --query "save changes button" --output target.json
+
+# 3. Crop high-resolution ROI for verification
+python3 config/skills/agentic-visual-perception/scripts/agent_visual_grounding.py \
+  zoom-crop --image screen.png --center-x 960 --center-y 107 --zoom 2.5 --output roi.png
+
+# 4. Compute visual diff between consecutive action frames
+python3 config/skills/agentic-visual-perception/scripts/agent_visual_grounding.py \
+  diff --frame-a before_click.png --frame-b after_click.png --threshold 0.05
+```

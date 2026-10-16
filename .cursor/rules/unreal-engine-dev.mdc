@@ -1,0 +1,37 @@
+---
+description: Game development workflows for Unreal Engine 5 (C++ and Blueprints). Use when implementing Gameplay Framework actors, UObject memory management, Subsystems, Enhanced Input, Niagara systems, or profiling performance.
+globs: 
+alwaysApply: false
+---
+
+# Unreal Engine 5 Development Guide
+
+This skill governs C++ and Blueprint architecture in **Unreal Engine 5 (UE 5.1 - 5.5)**.
+
+## Core Architectural Patterns
+
+### 1. C++ & Reflection Macro Discipline
+- **Exposing Types to Reflection:**
+  - Classes inheriting from `UObject` must have `UCLASS()`, `GENERATED_BODY()`.
+  - Structs must use `USTRUCT(BlueprintType)` and member variables must have `UPROPERTY()`.
+- **Property Specifiers:**
+  - `UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Combat")`: Exposed on the Blueprint Class defaults, not editable per-instance in the level viewport.
+  - `UPROPERTY(EditInstanceOnly, Category = "Level")`: Exposed only per placed level instance.
+  - `UPROPERTY(VisibleAnywhere, BlueprintReadOnly)`: Read-only component pointers.
+- **Function Specifiers:**
+  - `UFUNCTION(BlueprintCallable)`: Callable from Blueprint event graphs.
+  - `UFUNCTION(BlueprintPure)`: Side-effect free getter functions (no execution pins).
+  - `UFUNCTION(BlueprintNativeEvent)` / `UFUNCTION(BlueprintImplementableEvent)`: For C++ default implementations that can be overridden in Blueprints (`_Implementation` postfix in C++).
+
+### 2. Memory & Garbage Collection Management
+- **`UObject` Pointers:**
+  - Raw `UObject*` variables MUST be marked with `UPROPERTY()` or wrapped in smart pointers; otherwise, the garbage collector will sweep them unexpectedly, resulting in dangling pointers and fatal crashes.
+  - Use `TWeakObjectPtr<T>` when referencing an actor or object that you do not own to avoid keeping it alive during level changes.
+  - For non-`UObject` C++ classes, use `TSharedPtr<T>` and `TUniquePtr<T>`.
+
+### 3. Gameplay Framework Role Separation
+- `AGameModeBase`: Server-authoritative rules, win/loss conditions, spawn logic.
+- `APlayerController`: Non-physical representation of the human player, input routing, UI management, RPC handlers.
+- `APawn` / `ACharacter`: Physical in-world avatar (mesh, collisions, movement components).
+- `APlayerState`: Persistent player state (score, ping, player stats) across actor respawns.
+- `UActorComponent`: Reusable, modular gameplay behaviors (e.g. `HealthComponent`, `InventoryComponent`) attached to actors rather than creating monolithic character subclasses.

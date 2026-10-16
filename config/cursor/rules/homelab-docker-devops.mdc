@@ -1,0 +1,88 @@
+---
+description: Self-hosted infrastructure, Docker Compose multi-service stacks, Samba network storage permissions, Nextcloud optimization, and systemd automation timers.
+globs: 
+alwaysApply: false
+---
+
+# Homelab & Self-Hosted DevOps Engineering
+
+This skill provides standardized deployment, security, and maintenance patterns for self-hosted home servers, NAS devices (like Raspberry Pi NAS setups), Docker stacks, and network storage.
+
+---
+
+## 🐳 1. Docker Compose Multi-Service Architecture
+
+### Production Compose Standard (`docker-compose.yml`)
+* Enforce explicit restart policies, container names, isolated bridge networks, and environment variable decoupling:
+  ```yaml
+  services:
+    nextcloud:
+      image: nextcloud:stable-apache
+      container_name: nextcloud-app
+      restart: unless-stopped
+      networks:
+        - internal_net
+      volumes:
+        - /mnt/storage/nextcloud/html:/var/www/html
+        - /mnt/storage/nextcloud/data:/var/www/html/data
+      environment:
+        - POSTGRES_HOST=nextcloud-db
+        - REDIS_HOST=nextcloud-redis
+      depends_on:
+        - nextcloud-db
+        - nextcloud-redis
+
+    nextcloud-db:
+      image: postgres:16-alpine
+      container_name: nextcloud-db
+      restart: unless-stopped
+      networks:
+        - internal_net
+      volumes:
+        - /mnt/storage/database:/var/lib/postgresql/data
+      environment:
+        - POSTGRES_DB=${POSTGRES_DB}
+        - POSTGRES_USER=${POSTGRES_USER}
+        - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  networks:
+    internal_net:
+      driver: bridge
+  ```
+
+---
+
+## 📁 2. Samba Network Storage & POSIX ACLs (`smb.conf`)
+
+* Enforce clean file masking and user group permissions to prevent `Permission Denied` errors across Windows, Mac, and Linux clients:
+  ```ini
+  [shared_drive]
+      path = /mnt/storage/shares
+      browseable = yes
+      read only = no
+      guest ok = no
+      valid users = @nas_users
+      create mask = 0664
+      directory mask = 0775
+      force group = nas_users
+  ```
+* Test Samba syntax with: `testparm -s`.
+
+---
+
+## ⏰ 3. Maintenance & Automated Backups (Systemd Timers)
+
+* Use native systemd timers instead of legacy cron jobs for better logging via `journalctl`:
+  ```ini
+  # /etc/systemd/system/nas-backup.timer
+  [Unit]
+  Description=Run daily NAS backup
+
+  [Timer]
+  OnCalendar=*-*-* 03:00:00
+  Persistent=true
+
+  [Install]
+  WantedBy=timers.target
+  ```
+* **Drive Mount Protection:** In `/etc/fstab`, always include `nofail,x-systemd.device-timeout=10s` for external USB storage so the server boots normally even if a drive is disconnected.

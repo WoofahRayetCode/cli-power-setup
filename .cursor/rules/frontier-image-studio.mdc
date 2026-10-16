@@ -1,0 +1,90 @@
+---
+description: Frontier AI image generation, prompt translation for ChatGPT (DALL-E 3) and Gemini (Imagen 3) styles, multi-backend API dispatch (OpenAI, Gemini Imagen, Flux.1, ComfyUI), and local SVG/texture generation with Pillow.
+globs: 
+alwaysApply: false
+---
+
+# Frontier Image Studio & Multi-Model Style Synthesis
+
+This skill brings state-of-the-art image generation capabilities to Claude Code and Google Antigravity, mastering the distinct aesthetic styles of ChatGPT (DALL-E 3), Gemini (Imagen 3), and Flux.1 with automated multi-backend dispatch.
+
+---
+
+## 🎨 1. Frontier Style Prompt Formulas
+
+When authoring prompts for image generation, apply the exact stylistic syntax for the requested aesthetic:
+
+### A. ChatGPT / DALL-E 3 Style
+* **Core Aesthetics:** Stylized 3D digital art, Pixar/Disney claymation, isometric dioramas, clean vector graphics, vibrant whimsical lighting.
+* **Prompt Formula:**
+  ```text
+  [Subject & Action], in the style of a detailed 3D digital illustration, isometric perspective, soft subsurface scattering, vibrant warm color palette, studio rim lighting, octane render, 8k resolution, whimsical, detailed miniature textures.
+  ```
+
+### B. Gemini / Imagen 3 Style
+* **Core Aesthetics:** Photorealistic optical realism, studio commercial product photography, legible typography/text, natural depth of field, authentic skin/material textures.
+* **Prompt Formula:**
+  ```text
+  A photograph of [Subject], shot on Hasselblad H6D-100c, 85mm f/1.4 lens, natural diffuse morning window light, subtle film grain, authentic physical texture, shallow depth of field, commercial editorial photography, hyper-detailed, with text clearly displaying "[Exact Text]".
+  ```
+
+### C. Flux.1 / Midjourney Cinematic Style
+* **Core Aesthetics:** 35mm anamorphic film, moody atmospheric lighting, atmospheric haze, raw unfiltered realism.
+* **Prompt Formula:**
+  ```text
+  Cinematic 35mm photograph of [Subject], anamorphic widescreen lens, volumetric fog, dramatic chiaroscuro lighting, Kodak Vision3 500T film stock, moody color grading, tactile grit.
+  ```
+
+---
+
+## 🛠️ 2. Universal Dispatch Script (`generate_image.py`)
+
+A standalone, multi-backend Python runner is provided in `scripts/generate_image.py`:
+
+```bash
+# Generate using Gemini Imagen 3 (requires GEMINI_API_KEY)
+python3 scripts/generate_image.py --backend gemini --style imagen3 --prompt "A sleek titanium cybernetic watch"
+
+# Generate using OpenAI DALL-E 3 (requires OPENAI_API_KEY)
+python3 scripts/generate_image.py --backend openai --style dalle3 --prompt "An isometric cozy coffee shop diorama"
+
+# Generate local SVG vector graphics (Zero API / 100% offline)
+python3 scripts/generate_image.py --backend local-svg --prompt "Shield and sword emblem" --output shield.svg
+
+# Generate local game texture with Pillow (Zero API / 100% offline)
+python3 scripts/generate_image.py --backend local-texture --type noise --output noise_texture.png
+```
+
+---
+
+## 🖥️ 3. Local Offline Generation (Zero API Required)
+
+When no external API keys are configured, generate crisp vector graphics and game textures locally using Python and Pillow:
+
+```python
+from PIL import Image, ImageDraw
+
+def create_badge(output_path="badge.png"):
+    img = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    # Render procedural vector shapes or icons
+    draw.rounded_rectangle([32, 32, 480, 480], radius=64, fill=(30, 41, 59), outline=(56, 189, 248), width=8)
+    img.save(output_path, "PNG")
+```
+
+---
+
+## 👁️ 4. Instant Browser Preview
+
+Hook directly into `generative-visual-artifacts` to preview generated images:
+
+```bash
+xdg-open /path/to/generated_image.png 2>/dev/null || open /path/to/generated_image.png 2>/dev/null
+```
+
+---
+
+## 🔄 Interoperability & Handoffs
+
+* **Handoff to `generative-visual-artifacts`:** To embed generated images in interactive HTML dashboards.
+* **Handoff to `game-modding`:** To convert generated textures into DXT1/DXT5 `.dds` formats for S.T.A.L.K.E.R.

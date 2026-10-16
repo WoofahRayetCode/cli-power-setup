@@ -1,0 +1,106 @@
+---
+description: Autonomous game texture editing, enhancement, and repair suite. Generates tangent-space normal maps, blends detail normals via Reoriented Normal Mapping (RNM), synthesizes seamless repeating tiles, strips baked lighting (de-lighting), dilates alpha edges (bleed) to eliminate dark fringe halos, sharpens micro-details (CAS), packs PBR ORM maps, and transcodes DDS textures (BC1-BC7).
+globs: 
+alwaysApply: false
+---
+
+# Game Texture Editing & Enhancement Suite (`game-texture-editing`)
+
+The `game-texture-editing` skill provides automated, high-precision procedural image processing and repair tools for game development, asset migration, and modding. It allows AI agents and developers to programmatically inspect, enhance, fix, synthesize, and convert textures without opening an interactive GUI editor.
+
+---
+
+## 1. Core Texture Operations Matrix
+
+| Operation | Purpose | Algorithm / Standard | Typical Game Assets |
+| :--- | :--- | :--- | :--- |
+| **`normal-gen`** | Generate 3D surface slope normals | Scharr gradient operator + wrap padding | Wall/ground heightmaps, character fabrics |
+| **`normal-blend`** | Combine macro & micro normal maps | Reoriented Normal Mapping (RNM) | Skin pores on face normals, cloth detail on uniforms |
+| **`normal-fix`** | Vector normalization, Z-reconstruct, Y-flip | $Z = \sqrt{1 - X^2 - Y^2}$, $G = 1.0 - G$ | DirectX $\leftrightarrow$ OpenGL ports, BC5 fixes |
+| **`seamless`** | Eliminate repeating edge seams | 2D Offset wrap + Hermite cross-fade | Terrain ground, tiling bricks, foliage canopies |
+| **`alpha-bleed`** | Eliminate dark/white fringe halos | Edge color dilation into $\alpha=0$ | Cutout foliage, hair cards, UI sprites, decals |
+| **`delight`** | Strip pre-baked sunlight and shadows | High-pass / Gaussian illumination division | Photographed rock/bark textures $\rightarrow$ PBR Albedo |
+| **`sharpen`** | Enhance micro-details without ringing | Contrast-Adaptive Sharpening (CAS) | Blurry upscaled or compressed textures |
+| **`pack-pbr`** | Pack 3 single-channel masks into ORM | Red=AO, Green=Roughness, Blue=Metallic | Modern PBR pipelines (Unreal, Unity, Godot) |
+| **`stalker-bump`** | Generate paired X-Ray bump textures | Normal+Height (`_bump`) & Gloss (`_bump#`) | S.T.A.L.K.E.R. EE / OGSR Engine modding |
+| **`convert`** | Universal format transcode with PoT | Power-of-Two scaling, DXT1/DXT5 compression | DDS, PNG, TGA, WebP asset pipelines |
+
+---
+
+## 2. Technical Standards & Mathematics
+
+### A. Reoriented Normal Mapping (RNM)
+Standard linear addition ($\vec{N}_1 + \vec{N}_2$) flattens surface vectors and creates unnatural shading artifacts. RNM treats the base normal as a rotated reference frame:
+$$\vec{N}_1^* = (x_1, y_1, z_1 + 1), \quad \vec{N}_2^* = (-x_2, -y_2, z_2)$$
+$$\vec{R} = \vec{N}_1^* \cdot \frac{\vec{N}_1^* \cdot \vec{N}_2^*}{z_1 + 1} - \vec{N}_2^*, \quad \vec{N}_{\text{final}} = \frac{\vec{R}}{\|\vec{R}\|}$$
+*Use `game-texture-editor normal-blend` to preserve detail vectors without flattening slopes.*
+
+### B. Alpha Edge Dilation (Texture Bleed)
+Texture filtering (bilinear/trilinear interpolation) and mipmap downsampling pull color from adjacent transparent pixels. If transparent pixels are black (`#00000000`), dark halos appear along cutout edges in game engines.
+* `game-texture-editor alpha-bleed` dilates border RGB colors outward into empty space while preserving the exact 1-bit or smooth alpha channel.
+
+### C. Albedo De-lighting
+Photographed textures contain baked directional lighting and shadow gradients that clash with real-time game lighting engines.
+* The frequency separation de-lighter isolates low-frequency illumination ($L_{\text{shading}}$) and divides it out from raw color ($C_{\text{raw}}$), normalizing luminance while preserving high-frequency surface detail:
+$$A_{\text{delighted}} = \text{clip}\left(\frac{C_{\text{raw}}}{\max(L_{\text{shading}}, 0.05)} \times 0.5 + 0.25, 0.0, 1.0\right)$$
+
+---
+
+## 3. CLI Command Reference (`game-texture-editor`)
+
+Tool executable: `bin/game-texture-editor` (installed to `~/.local/bin/game-texture-editor`).
+
+### 1. Generate Tangent Normal Map
+```bash
+# Generate DirectX normal map (Green/Y inverted) from diffuse or height image
+game-texture-editor normal-gen terrain_diffuse.png -o terrain_normal.dds --strength 3.0 --invert-y --dds dxt5
+```
+
+### 2. Blend Base and Detail Normals (RNM)
+```bash
+game-texture-editor normal-blend character_body_normal.png micro_skin_detail.png -o character_final_normal.dds --dds dxt5
+```
+
+### 3. Fix Normal Map Vectors & Flip Y Channel
+```bash
+# Flip DirectX to OpenGL or reconstruct Z channel from BC5 RG
+game-texture-editor normal-fix directx_normal.png -o opengl_normal.png --invert-y
+game-texture-editor normal-fix bc5_normal.png -o full_normal.png --reconstruct-z
+```
+
+### 4. Synthesize Seamless Repeating Tiling Texture
+```bash
+game-texture-editor seamless ground_photo.jpg -o ground_seamless.png --feather 0.25
+```
+
+### 5. Dilate Alpha Edges (Eliminate Cutout Seam Halos)
+```bash
+game-texture-editor alpha-bleed foliage_leaf.png -o foliage_leaf_bled.png --steps 8
+```
+
+### 6. Strip Baked Lighting (De-light to PBR Albedo)
+```bash
+game-texture-editor delight bark_photo.jpg -o bark_albedo.png --sigma 30.0
+```
+
+### 7. Contrast-Adaptive Sharpening
+```bash
+game-texture-editor sharpen texture_upscaled.png -o texture_crisp.png --amount 0.8
+```
+
+### 8. Pack PBR ORM Texture Map
+```bash
+game-texture-editor pack-orm --ao ao.png --roughness rough.png --metallic metal.png -o material_orm.dds --dds dxt1
+```
+
+### 9. Generate S.T.A.L.K.E.R. Bump Map Pair
+```bash
+# Generates <texture>_bump.dds (Normal + Height) and <texture>_bump#.dds (Gloss/Error)
+game-texture-editor stalker-bump gamedata/textures/wpn/wpn_ak74.dds -o gamedata/textures/wpn/
+```
+
+### 10. Transcode Format & Power-of-Two Resizing
+```bash
+# Resize to nearest Power-of-Two (e.g. 1920x1080 -> 2048x1024) and compress to DXT1 DDS
+game-texture-editor convert non_pot_image.png -o game_ready.dds --pot --dds dxt1
+```

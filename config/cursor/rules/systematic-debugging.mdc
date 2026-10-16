@@ -1,0 +1,31 @@
+---
+description: Root-cause diagnosis and hypothesis-driven debugging. Use when encountering test failures, runtime errors, game crashes, or unexpected behavior to diagnose before editing.
+globs: 
+alwaysApply: false
+---
+
+# Systematic Debugging
+
+Use this skill whenever an error, bug, test failure, or unexpected crash occurs.
+
+## The 4-Phase Debugging Process
+
+### Phase 1: Reproduce & Capture Evidence
+- Do NOT guess or modify code yet.
+- Capture the exact error message, stack trace, engine log, or crash dump.
+- Identify the minimal reproduction command (e.g. running a specific unit test, CLI command, or script).
+
+### Phase 2: Trace & Formulate Hypothesis
+- Trace the data and control flow leading to the point of failure.
+- Inspect variables, file contents, or format expectations.
+- Formulate a clear, falsifiable hypothesis:
+  *"The error occurs because X expects format Y, but receives Z at line N."*
+
+### Phase 3: Test the Hypothesis
+- Verify the hypothesis with targeted inspection (e.g. checking log files, running a minimal test assertion, or printing state).
+- If the hypothesis is refuted, form a new one before modifying production code.
+
+### Phase 4: Minimal Fix & Verification
+- Apply the minimal change required to fix the root cause.
+- Run the reproduction test to prove the fix works.
+- Run the full test suite or relevant checks to ensure no regressions were introduced.

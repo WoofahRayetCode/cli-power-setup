@@ -19,6 +19,11 @@ CLAUDE_SKILLS="${CLAUDE_DIR}/skills"
 CLAUDE_RULES="${CLAUDE_DIR}/CLAUDE.md"
 CLAUDE_SETTINGS="${CLAUDE_DIR}/settings.json"
 
+CURSOR_DIR="${HOME}/.cursor"
+CURSOR_RULES="${CURSOR_DIR}/rules"
+CURSOR_GLOBAL_RULES="${HOME}/.cursorrules"
+CURSOR_SETTINGS="${HOME}/.config/Cursor/User/settings.json"
+
 COLOR_GREEN="\033[0;32m"
 COLOR_CYAN="\033[0;36m"
 COLOR_YELLOW="\033[1;33m"
@@ -57,6 +62,16 @@ backup_existing() {
     fi
     if [ -f "${CLAUDE_SETTINGS}" ]; then
         cp "${CLAUDE_SETTINGS}" "${backup_dir}/claude/settings.json"
+    fi
+    if [ -d "${CURSOR_RULES}" ]; then
+        mkdir -p "${backup_dir}/cursor"
+        cp -r "${CURSOR_RULES}" "${backup_dir}/cursor/rules"
+    fi
+    if [ -f "${CURSOR_GLOBAL_RULES}" ]; then
+        cp "${CURSOR_GLOBAL_RULES}" "${backup_dir}/cursor/.cursorrules"
+    fi
+    if [ -f "${CURSOR_SETTINGS}" ]; then
+        cp "${CURSOR_SETTINGS}" "${backup_dir}/cursor/settings.json"
     fi
     log_done "Backup created successfully."
 }
@@ -114,6 +129,12 @@ install_binaries() {
         cp "${SCRIPT_DIR}/bin/game-texture-editor" "${BIN_DEST}/game-texture-editor"
         chmod +x "${BIN_DEST}/game-texture-editor"
         log_done "Installed executable: ${BIN_DEST}/game-texture-editor"
+    fi
+
+    if [ -f "${SCRIPT_DIR}/bin/cursor-rules-sync" ]; then
+        cp "${SCRIPT_DIR}/bin/cursor-rules-sync" "${BIN_DEST}/cursor-rules-sync"
+        chmod +x "${BIN_DEST}/cursor-rules-sync"
+        log_done "Installed executable: ${BIN_DEST}/cursor-rules-sync"
     fi
 }
 
@@ -207,6 +228,43 @@ EOF
     log_done "Configured statusLine and low-effort thinking in Claude Code settings.json."
 }
 
+install_cursor() {
+    echo ""
+    log_info "Configuring Cursor IDE & Multi-Model Rules..."
+
+    # 1. Generate and synchronize rules and unified .cursorrules
+    if [ -f "${SCRIPT_DIR}/bin/cursor-rules-sync" ]; then
+        python3 "${SCRIPT_DIR}/bin/cursor-rules-sync"
+    fi
+    local count=0
+    [ -d "${CURSOR_RULES}" ] && count="$(find "${CURSOR_RULES}" -name "*.mdc" | wc -l)"
+    log_done "Installed ${count} Cursor rules (.mdc) in ${CURSOR_RULES}."
+    log_done "Configured global rules in ${CURSOR_GLOBAL_RULES}."
+
+    # 2. Configure Cursor User settings
+    mkdir -p "$(dirname "${CURSOR_SETTINGS}")"
+    python3 - <<EOF
+import json, os
+p = os.path.expanduser("${CURSOR_SETTINGS}")
+data = {}
+if os.path.exists(p):
+    try:
+        with open(p, "r") as f:
+            data = json.load(f)
+    except Exception:
+        data = {}
+data["cursor.general.userRules"] = "Adhere strictly to ~/.cursorrules and .cursor/rules/*.mdc. Follow Output Token Economy (zero conversational fluff, high-density status, surgical edits). Never restate user prompts. Use installed CLI tools in ~/.local/bin (game-texture-editor, stalker-playtest-runner, game-test-watchdog, skills-audit-update)."
+data["cursor.composer.agentFlag"] = True
+data["cursor.composer.showAgent"] = True
+env_linux = data.get("terminal.integrated.env.linux", {})
+env_linux["PATH"] = "\${env:HOME}/.local/bin:\${env:PATH}"
+data["terminal.integrated.env.linux"] = env_linux
+with open(p, "w") as f:
+    json.dump(data, f, indent=2)
+EOF
+    log_done "Configured agent mode, user rules, and CLI path in Cursor settings.json."
+}
+
 verify_installation() {
     echo ""
     log_info "Running verification checks..."
@@ -219,9 +277,10 @@ verify_installation() {
         log_warn "Statusline test executed with warning (normal if no active session yet)."
     fi
 
-    local agy_count=0 claude_count=0
+    local agy_count=0 claude_count=0 cursor_count=0
     [ -d "${GEMINI_SKILLS}" ] && agy_count="$(find "${GEMINI_SKILLS}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
     [ -d "${CLAUDE_SKILLS}" ] && claude_count="$(find "${CLAUDE_SKILLS}" -mindepth 1 -maxdepth 1 -type d ! -name "synced" | wc -l)"
+    [ -d "${CURSOR_RULES}" ] && cursor_count="$(find "${CURSOR_RULES}" -name "*.mdc" | wc -l)"
 
     echo ""
     echo -e "${COLOR_GREEN}======================================================${COLOR_RESET}"
@@ -229,6 +288,7 @@ verify_installation() {
     echo -e "${COLOR_GREEN}======================================================${COLOR_RESET}"
     echo -e "Antigravity Skills:   ${COLOR_CYAN}${agy_count} active (${GEMINI_SKILLS})${COLOR_RESET}"
     echo -e "Claude Code Skills:   ${COLOR_CYAN}${claude_count} active (${CLAUDE_SKILLS})${COLOR_RESET}"
+    echo -e "Cursor Rules:         ${COLOR_CYAN}${cursor_count} active (${CURSOR_RULES})${COLOR_RESET}"
     echo -e "Statusline monitors: ${COLOR_CYAN}agy-quota-statusline & claude-statusline${COLOR_RESET}"
     echo -e "Turbo Launchers:      ${COLOR_CYAN}agy-turbo & claude-turbo (Low Thinking Effort)${COLOR_RESET}"
     echo -e "Auditor & Updater:    ${COLOR_CYAN}skills-audit-update (--audit, --sync, --fix, --pull)${COLOR_RESET}"
@@ -237,20 +297,22 @@ verify_installation() {
 
 show_menu() {
     echo -e "${COLOR_BOLD}CLI Power Setup Installer${COLOR_RESET}"
-    echo "Select target CLI environment:"
-    echo "  1) Dual-CLI (Both Antigravity & Claude Code) [Recommended]"
+    echo "Select target environment:"
+    echo "  1) Tri-Environment (Antigravity, Claude Code, & Cursor) [Recommended]"
     echo "  2) Antigravity only (~/.gemini)"
     echo "  3) Claude Code only (~/.claude)"
-    echo "  4) Exit"
+    echo "  4) Cursor only (~/.cursor, ~/.cursorrules)"
+    echo "  5) Exit"
     echo ""
-    read -rp "Enter choice [1-4] (default: 1): " choice
+    read -rp "Enter choice [1-5] (default: 1): " choice
     choice="${choice:-1}"
     case "$choice" in
         1) TARGET="all" ;;
         2) TARGET="agy" ;;
         3) TARGET="claude" ;;
-        4) echo "Exiting."; exit 0 ;;
-        *) echo "Invalid option, defaulting to Dual-CLI."; TARGET="all" ;;
+        4) TARGET="cursor" ;;
+        5) echo "Exiting."; exit 0 ;;
+        *) echo "Invalid option, defaulting to Tri-Environment."; TARGET="all" ;;
     esac
 }
 
@@ -263,8 +325,9 @@ main() {
             --all|-a)       TARGET="all" ;;
             --agy|-g)       TARGET="agy" ;;
             --claude|-c)    TARGET="claude" ;;
+            --cursor|-u)    TARGET="cursor" ;;
             --help|-h)
-                echo "Usage: ./install.sh [--all | --agy | --claude]"
+                echo "Usage: ./install.sh [--all | --agy | --claude | --cursor]"
                 exit 0
                 ;;
             *)
@@ -284,12 +347,16 @@ main() {
         all)
             install_antigravity
             install_claude
+            install_cursor
             ;;
         agy)
             install_antigravity
             ;;
         claude)
             install_claude
+            ;;
+        cursor)
+            install_cursor
             ;;
     esac
 

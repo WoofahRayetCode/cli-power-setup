@@ -1,0 +1,109 @@
+---
+description: Specialized design and generation pipeline for furry and fursona character art, multi-view turnaround reference sheets (refsheets), species taxonomy, digitigrade anatomy, color palette swatches, and 3D VRChat avatar specifications.
+globs: 
+alwaysApply: false
+---
+
+# Furry & Fursona Art and Character Design Pipeline
+
+The **Furry & Fursona Art and Character Design** skill governs the creation, prompt engineering, reference sheet (refsheet) layout formulation, and 3D avatar technical specifications for anthropomorphic characters.
+
+It solves common generative AI failure modes—such as anatomical confusion (human feet vs. digitigrade paws), multi-view pose blending, color bleeding across fur markings, and hallucinated palette text.
+
+---
+
+## 🎯 When to Activate
+
+* **Fursona Concept & Refsheet Creation:** Designing new anthro characters, multi-angle turnaround sheets (front, back, profile), and expression sheets.
+* **AI Prompt Formulation Across Model Families:**
+  - **SDXL / Pony Diffusion / NovelAI:** Generating Danbooru/e621 tag taxonomies and negative prompt isolation.
+  - **Midjourney v6 & Niji 6:** Crafting cinematic or kemono turnaround prompts with `--ar 16:9`.
+  - **Flux.1 & DALL-E 3:** Engineering spatial natural language prompts that separate front and rear poses without body fusion.
+* **Color Palette Swatch Generation:** Rendering crisp, clean PNG/SVG color chips with exact hex codes via Python rather than relying on messy AI-generated text.
+* **3D & VRChat Avatar Design Preparation:** Exporting technical rigging specifications (PhysBones ear/tail chains, ARKit visemes, digitigrade inverse kinematics, and ORM texture channels).
+
+---
+
+## 🐾 Anatomical & Species Taxonomy
+
+### 1. Leg & Locomotion Anatomy
+* **Digitigrade (Standard for Canines, Felines, Foxes, Mustelids):**
+  - Walks on the balls of the feet and toes with the heel (hock joint) elevated off the ground.
+  - Anatomy chain: *Femur/Thigh $\rightarrow$ Tibia-Fibula/Calf $\rightarrow$ Calcaneus/Hock $\rightarrow$ Metatarsus/Foot $\rightarrow$ Phalanges/Paws*.
+  - Prompt tagging: `digitigrade legs, hock joints, walking on toes, defined digitigrade paws`.
+* **Plantigrade (Bears, Primates, Mustelids, Casual Anthro):**
+  - Entire sole of the foot rests flat on the ground.
+  - Prompt tagging: `plantigrade legs, flat feet, human-like posture`.
+* **Unguligrade (Equines, Cervines, Caprines, Bovines):**
+  - Walks on the tips of keratinous hooves (cloven or solid).
+  - Prompt tagging: `unguligrade legs, hooves, cloven hooves`.
+
+### 2. Paw Anatomy & "Beans"
+* **Digital Pads:** Small oval pads located beneath each toe ("toe beans").
+* **Metacarpal (Front) / Metatarsal (Rear) Pad:** The large central heart- or wedge-shaped pad supporting body weight.
+* **Carpal Pad:** The small accessory pad situated higher on the wrist of the foreleg.
+* **Claws:** Retractable (cats), semi-retractable (canines, foxes), or digging talons.
+
+### 3. Species Archetypes
+* **Canines (Wolf, Fox, Coyote, Jackal, Husky):** Defined muzzles, upright triangular ears, bushy tails, stop angle at brow.
+* **Felines (Snow Leopard, Tiger, Lion, Domestic):** Shorter rounded muzzles, pronounced whisker pads, rounded ears, thick expressive tails.
+* **Scalies & Dragons:** Horn horns/frills, reptilian snout, dorsal spines, tapered muscular tail, scale scutes or smooth leather.
+* **Avians & Gryphons:** Feather crests, beaks, raptor talons on forelegs, feathered wing-arms or back-mounted wings.
+* **Protogens:** Curved aerodynamic tinted LED visor face, modular acoustic ear plugs, cybernetic chest chassis and tail plugs.
+
+---
+
+## 🛠️ CLI Generator (`fursona_generator.py`)
+
+Located at `scripts/fursona_generator.py`, this tool automates profile formulation, prompt translation, and palette rendering.
+
+### 1. Build a Character Profile
+```bash
+python3 config/skills/furry-fursona-art-design/scripts/fursona_generator.py build \
+  --name "Kaelen" \
+  --species "wolf" \
+  --leg-type "digitigrade" \
+  --primary "#2B2D42" \
+  --secondary "#EDF2F4" \
+  --accent "#EF233C" \
+  --paw-pads "#D90429" \
+  --eyes "#8D99AE" \
+  --output .agents/fursonas/kaelen_profile.json
+```
+
+### 2. Generate Model-Specific AI Prompts
+```bash
+python3 config/skills/furry-fursona-art-design/scripts/fursona_generator.py prompt \
+  --profile .agents/fursonas/kaelen_profile.json
+```
+Outputs tailored prompts for:
+* **SDXL / Pony Diffusion (Pony XL):** High-confidence tag strings with negative anatomy filters (`photorealistic, human feet, flat feet, plantigrade feet, deformed paws`).
+* **Midjourney v6 / Niji 6:** Turnaround phrasing with aspect ratio flags (`--ar 16:9 --v 6.1`).
+* **Flux.1 / DALL-E 3:** Bounded spatial layout descriptions ("left side front view, right side rear view on light gray studio canvas").
+
+### 3. Render Crisp Local Color Palette Swatches
+Renders an uncorrupted graphic swatch strip using Pillow, displaying exact hex codes and labels:
+```bash
+python3 config/skills/furry-fursona-art-design/scripts/fursona_generator.py swatch \
+  --profile .agents/fursonas/kaelen_profile.json \
+  --output .agents/fursonas/kaelen_palette.png
+```
+
+### 4. Export 3D & VRChat Technical Specification
+Generates rigging requirements, PhysBones bone chains, ARKit visemes, and PBR ORM texture channel configurations:
+```bash
+python3 config/skills/furry-fursona-art-design/scripts/fursona_generator.py spec-3d \
+  --profile .agents/fursonas/kaelen_profile.json \
+  --output .agents/fursonas/kaelen_3d_spec.json
+```
+
+---
+
+## 📐 Reference Sheet Composition Standards
+
+To prevent multi-figure blending and anatomy distortion when executing refsheet prompts:
+
+1. **Aspect Ratio:** Always enforce widescreen layouts (`16:9` or `21:9`) to give front and rear poses physical separation.
+2. **Solid Backdrops:** Specify neutral studio backdrops (`solid light grey background`, `clean studio backdrop`) to prevent environmental clutter from fusing with fur contours.
+3. **No In-Image AI Text:** Never prompt the AI generator to write names, stats, or hex codes inside the image. Use the local Pillow swatch tool (`fursona_generator.py swatch`) to composite typography post-generation.
+4. **Iterative Inpainting:** When generating complex markings (asymmetrical patterns or cybernetics), generate the clean base turnaround first, then inpaint marking zones with localized masks.
