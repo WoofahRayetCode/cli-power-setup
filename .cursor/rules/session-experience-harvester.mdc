@@ -1,0 +1,76 @@
+---
+description: Mines completed long-running agent session transcripts (.jsonl), tracks cumulative multi-billion token prompt cache savings (~/.cli_power_setup/token_ledger.json), and distills solved bug resolutions and engine gotchas into project memory banks to prevent redundant trial-and-error discovery across all models.
+globs: 
+alwaysApply: false
+---
+
+# Session Experience Harvester (`session-experience-harvester`)
+
+Long-running autonomous agent sessions generate massive engineering breakthroughs—such as resolving elusive 64-bit engine memory crashes, fixing DirectX 11 shader cbuffer alignments, and discovering critical platform quirks. However, once a session terminates, that accumulated experience is often trapped in a multi-hundred-megabyte `.jsonl` log file, forcing new sessions to re-debug identical issues.
+
+This skill automatically parses completed session transcripts, records cumulative billion-token savings into a persistent global ledger (`~/.cli_power_setup/token_ledger.json`), and distills verified solutions into `.agents/memory/learnings.md`.
+
+---
+
+## 1. Global Token & Experience Ledger
+
+The harvester maintains a lifetime savings ledger at `~/.cli_power_setup/token_ledger.json`:
+
+```json
+{
+  "lifetime_summary": {
+    "total_cached_tokens_saved": 1535189521,
+    "cache_hit_rate_pct": 99.50,
+    "total_turns_executed": 3325,
+    "last_updated": "2026-10-16T16:00:00Z"
+  }
+}
+```
+
+- **Statusline Telemetry Integration:** Feeds lifetime tokens saved (e.g. `💾 Saved: 1.5B tok (99.5% cache)`) into `claude-statusline` and `agy-quota-statusline`.
+- **Cross-Session Persistence:** Even if an individual terminal session closes, your cumulative billion-token savings are never lost.
+
+---
+
+## 2. Autonomous Transcript Harvesting Workflow
+
+When invoked or after completing a milestone run:
+
+```mermaid
+flowchart TD
+    A["Scan Transcripts (~/.claude/projects/*.jsonl)"] --> B["Compute Cached & Uncached Token Volume"]
+    B --> C["Update Global Ledger (~/.cli_power_setup/token_ledger.json)"]
+    C --> D["Extract Solved Bugs, CTD Fixes & ADRs"]
+    D --> E["Append Distilled Solutions to .agents/memory/learnings.md"]
+    E --> F["Future Sessions Read Learnings in <350 Tokens!"]
+```
+
+### Extraction Protocol:
+1. **Locate Large Session Logs:** Scans `~/.claude/projects/` and `~/.gemini/antigravity/` for `.jsonl` logs $> 5\text{MB}$.
+2. **Filter High-Value Signals:**
+   - Lines with `[✓]` completion marks
+   - Root-cause diagnoses (`root cause`, `fixed`, `crash`, `workaround`)
+   - Platform-specific gotchas (Wine, DX11, LuaJIT, CMake)
+3. **Format High-Density Bullet Points:** Writes concise entries into `.agents/memory/learnings.md` (< 80 lines total).
+4. **Hydrate New Sessions:** Any new session on **Claude Fable**, **Sonnet**, or **Gemini** reads `learnings.md` at startup, instantly inheriting all prior solutions in under 350 tokens.
+
+---
+
+## 3. Practical Usage Commands
+
+```bash
+# Audit lifetime token savings and active transcripts
+python3 -c "import json; d=json.load(open('$HOME/.cli_power_setup/token_ledger.json')); print(f'Lifetime Tokens Saved: {d[\"lifetime_summary\"][\"total_cached_tokens_saved\"]:,} ({d[\"lifetime_summary\"][\"cache_hit_rate_pct\"]}% hit rate)')"
+
+# Harvest new learnings from active session transcript
+stage learnings
+```
+
+---
+
+## 4. Integration with Existing Skills
+
+- **`project-memory-bank`:** Houses the harvested `.agents/memory/learnings.md`.
+- **`session-episodic-memory`:** Links multi-thousand-turn transcripts to compact episodic summaries.
+- **`local-vector-rag-engine`:** Indexes harvested lessons for 10ms semantic retrieval across future workspaces.
+- **`claude-statusline` / `agy-quota-statusline`:** Displays persistent lifetime token savings on your CLI terminal bar.

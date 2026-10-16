@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (216 Specialized Capabilities)
+## Complete Skills Catalog (217 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -327,6 +327,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`self-healing-test-automation`** | Resilient UI test automation, semantic locator auto-repair, visual OCR fallback, and dynamic flakiness mitigation for Web, Mobile, and Desktop GUI testing. |
 | **`semantic-codebase-indexing`** | Cursor and Windsurf-style AST symbol indexing, call-graph tracing, and ctags/tree-sitter repository mapping for instant token-efficient code navigation. |
 | **`session-episodic-memory`** | Multi-session milestone checkpointing, chronological episode logging (.agents/episodes/), decision rationales, and seamless restoration across /compact events. Use during long-running tasks to prevent conversational amnesia and maintain an audit trail of engineering decisions. |
+| **`session-experience-harvester`** | Mines completed long-running agent session transcripts (.jsonl), tracks cumulative multi-billion token prompt cache savings (~/.cli_power_setup/token_ledger.json), and distills solved bug resolutions and engine gotchas into project memory banks to prevent redundant trial-and-error discovery across all models. |
 | **`shader-cross-compilation`** | Cross-compilation, translation, and validation of game shaders across HLSL, GLSL, SPIR-V, WGSL, and MSL. Use when porting game shaders between engines (DirectX to Vulkan/OpenGL/WebGPU), modernizing legacy Shader Model 3.0/4.0/5.0 code to SM 6.x, or resolving cross-platform graphics API discrepancies. |
 | **`skills-updater-and-auditor`** | Automated health auditing, synchronization, and upstream updates for all installed agent skills. Verifies YAML frontmatter integrity, helper script syntax/permissions, host CLI dependencies, and cross-CLI parity across Antigravity and Claude Code. |
 | **`smart-context-packer`** | Compresses multi-file codebases into interface-only AST skeletons (stripping function bodies, comments, and blank lines), reducing context consumption by 85-90%. |

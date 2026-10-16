@@ -50,7 +50,9 @@ def make_bar(pct, width=6):
     return "█" * filled + "░" * empty
 
 def fmt_tok(n):
-    if n >= 1_000_000:
+    if n >= 1_000_000_000:
+        return f"{n / 1_000_000_000:.2f}B"
+    elif n >= 1_000_000:
         return f"{n / 1_000_000:.1f}M"
     elif n >= 1_000:
         return f"{n / 1_000:.0f}k"
@@ -218,10 +220,26 @@ def main():
 
     # 4. Prompt Cache Token Savings
     transcript_path = data.get("transcript_path")
+    cached_tok = None
+    hit_pct = None
     if transcript_path:
         cached_tok, hit_pct = get_cache_savings(transcript_path)
-        if cached_tok:
-            parts.append(f"💾 Saved: {fmt_tok(cached_tok)} tok ({hit_pct}% cache)")
+    if cached_tok:
+        parts.append(f"💾 Saved: {fmt_tok(cached_tok)} tok ({hit_pct}% cache)")
+    else:
+        # Fall back to persistent lifetime token ledger if available
+        ledger_path = os.path.expanduser("~/.cli_power_setup/token_ledger.json")
+        if os.path.exists(ledger_path):
+            try:
+                with open(ledger_path, "r") as lf:
+                    ld = json.load(lf)
+                    ls = ld.get("lifetime_summary", {})
+                    lt_tok = ls.get("total_cached_tokens_saved", 0)
+                    lt_hit = ls.get("cache_hit_rate_pct", 0)
+                    if lt_tok > 0:
+                        parts.append(f"💾 Lifetime: {fmt_tok(lt_tok)} tok ({lt_hit:.1f}% cache)")
+            except Exception:
+                pass
 
     # 5. Session Cost & Lines Changed
     cost_info = data.get("cost", {})
