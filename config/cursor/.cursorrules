@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (176 Specialized Capabilities)
+## Complete Skills Catalog (179 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -211,6 +211,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`executing-plans`** | Step-by-step execution of approved implementation plans. Use when executing a multi-step plan to track progress, verify checkpoints, and ensure safe rollbacks. |
 | **`executive-business-communications`** | Professional executive business correspondence, BLUF email structuring, client proposals, Scope of Work (SOW) drafting, invoice generation, and anti-jargon filters. |
 | **`first-principles-reasoning`** | First-principles decomposition, Chain-of-Verification (CoVe), adversarial red-teaming, and Ockham's Razor hypothesis ranking. Eliminates logical fallacies, confirmation bias, and cognitive overburn in complex engineering tasks. |
+| **`flash-context-compactor`** | Prevents Gemini 3.8 Flash context window inflation through targeted line-slice reading, AST interface skeletons, and proactive state compaction below the 100k-token ceiling. |
 | **`frontier-image-studio`** | Frontier AI image generation, prompt translation for ChatGPT (DALL-E 3) and Gemini (Imagen 3) styles, multi-backend API dispatch (OpenAI, Gemini Imagen, Flux.1, ComfyUI), and local SVG/texture generation with Pillow. |
 | **`furry-fursona-art-design`** | Specialized design and generation pipeline for furry and fursona character art, multi-view turnaround reference sheets (refsheets), species taxonomy, digitigrade anatomy, color palette swatches, and 3D VRChat avatar specifications. |
 | **`game-ai-agent-play`** | Autonomous game-playing agent engineering and reinforcement learning (Gymnasium, OpenCV computer vision, reward modeling, and low-latency input simulation via uinput/evdev/pyautogui). |
@@ -249,6 +250,8 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`game-weapon-ballistics-mechanics`** | Game weapon configuration, ballistics physics, firing cycles, projectile damage radii, underbarrel launchers, durability, and anti-jamming mechanics (S.T.A.L.K.E.R. LTX & shooter engines). |
 | **`game-weather-lighting-fx`** | Dynamic game weather cycles, HDR tonemapping, sun shafts/god rays, skybox balance, and blinding glare/light-bleed suppression (S.T.A.L.K.E.R. X-Ray/OGSR & RPG engines). |
 | **`gamemaker-gml-engineering`** | Modern GameMaker (2024+) game development workflows in GML Code. Covers lightweight constructors/structs, state machines, delta-timing, surface memory management, texture page optimization, sound emitter hierarchies, and YYP project architecture. |
+| **`gemini-5h-quota-governor`** | Real-time telemetry governor for Gemini 3.8 Flash rolling 5-hour quota windows. Throttles tool verbosity and paces autonomous execution to guarantee uninterrupted workflow between rollover cycles. |
+| **`gemini-flash-cache-aligner`** | Maximizes Gemini 3.8 Flash prompt caching discounts (>90% savings) through strict prefix stabilization, 4,096-token floor anchoring, and dynamic variable isolation. |
 | **`generative-visual-artifacts`** | Generates self-contained interactive HTML/SVG widgets, KaTeX mathematical formulas, and live browser previews directly from Claude Code CLI. |
 | **`github-actions-cicd`** | Multi-OS GitHub Actions matrix builds (Linux, Windows, macOS), automated release packaging, semantic versioning, and compilation caching. |
 | **`godot-game-dev`** | Game development workflows for Godot Engine (GDScript 2.0 & C#). Use when designing game systems, scene trees, custom nodes, signals, UI layouts, or running headless Godot CLI builds and GUT tests. |
