@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
 
-This repository organizes a curated set of **210 autonomous agent skills**, 210 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **211 autonomous agent skills**, 211 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
  
  ---
  
@@ -38,7 +38,7 @@ This repository organizes a curated set of **210 autonomous agent skills**, 210 
  
  ### What the Installer Does:
  1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
- 2. **Tri-Environment Sync:** Deploys all 210 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+ 2. **Tri-Environment Sync:** Deploys all 211 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
  3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
  4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
  5. **Turbo Mode Launchers:** Installs `agy-turbo`, `claude-turbo`, and autonomous YOLO shortcuts (`agy-yolo`, `claude-yolo`) into `~/.local/bin/`.
@@ -54,7 +54,7 @@ This repository organizes a curated set of **210 autonomous agent skills**, 210 
  ├── README.md                   # Comprehensive documentation & skill reference
  ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
  ├── .cursor/
- │   └── rules/                  # 210 modular Cursor Rules (.mdc) with semantic metadata
+ │   └── rules/                  # 211 modular Cursor Rules (.mdc) with semantic metadata
 
 
 ├── bin/
@@ -78,14 +78,14 @@ This repository organizes a curated set of **210 autonomous agent skills**, 210 
     ├── GEMINI.md               # Global engineering discipline, quota governance & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
     ├── cursor/                 # Cursor reference templates and rules
-    └── skills/                 # 210 specialized skills
+    └── skills/                 # 211 specialized skills
 ```
 
 ---
 
 ## 🎯 Where Skills Perform Best: CLI vs. Cursor IDE (Division of Labor)
 
-While all 210 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
+While all 211 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
 
 ### 1. Skills That Excel in the CLI (Headless & Unattended)
 *Best launched via `claude-turbo`, `agy-turbo`, or standalone terminal scripts*
@@ -272,7 +272,7 @@ While all 210 skills and CLI utilities are shared identically between environmen
 | **`interactive-data-visualization-web`** | Web/Vis | Zero-build D3.js force-directed networks, Vis.js timelines & dynamic entity stat matrices |
 | **`task-velocity-governor`** | Governance/Speed | Task completion velocity, 5-step targeted rule, anti-thrashing loops & diminishing returns bounds |
 | **`first-principles-reasoning`** | Reasoning/Core | First-principles decomposition, Chain-of-Verification (CoVe), red-teaming & Ockham's razor ranking |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 210 skills |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 211 skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`hierarchical-memory-retrieval`** | Memory/Recall | Multi-tiered query-driven BM25 search across `.agents/memory/`, episodes & git history |
 | **`context-window-governor`** | Context/Budget | Turn-by-turn token budgeting (20/35/25/20%), pre-flight size estimation & hard output clamping |
@@ -304,7 +304,7 @@ While all 210 skills and CLI utilities are shared identically between environmen
 | **`claude-opus-conciseness-enforcer`** | Token/Opus | Enforces <=200 token outputs, strict BLUF, zero code repetition in chat, saving up to 75% Opus output tokens |
 | **`fable-virtual-context-manager`** | Context/Fable | Virtualizes 1M-token context by paging 30k subsystem slices from a disk knowledge graph into working memory |
 | **`argon-effort-auto-calibrator`** | Token/Argon | Dynamically scales Argon thinking effort (--effort low/med/high) turn-by-turn to slash reasoning tokens by 85% |
-| **`universal-token-containment-protocol`** | Token/Global | Enforces zero chat code duplication, artifact offloading, and strict tool caps across all 210 skills |
+| **`universal-token-containment-protocol`** | Token/Global | Enforces zero chat code duplication, artifact offloading, and strict tool caps across all 211 skills |
 | **`model-optimal-state-serializer`** | Token/State | Tokenizer-native state serialization (XML-KV for Claude BPE, Pipe-TSV for Gemini SentencePiece, symbol URIs) |
 | **`multi-model-cache-harmonizer`** | Cache/Multi | Static prefix anchoring and boundary alignment across Claude, Gemini, OpenAI, and Grok for 90-95% cache discounts |
 | **`git-diff-token-compressor`** | Git/Token | Zero-context hunks (-U0) and coordinate patches (<file>#L<num>:+added|-removed) slashing diff tokens by 70-85% |
@@ -314,6 +314,7 @@ While all 210 skills and CLI utilities are shared identically between environmen
 | **`game-config-delta-extractor`** | Game/Config | Inheritance delta extractor for S.T.A.L.K.E.R. LTX, Godot TSCN, and YAML, slashing config context by 80-85% |
 | **`network-packet-stream-condenser`** | Net/Token | Compresses verbose tshark/tcpdump packet dissections into high-density 1-line TSV telemetry tuples |
 | **`sql-schema-query-condenser`** | DB/Token | Serializes verbose DDL and EXPLAIN query plan trees into compact type-bracket notation and operator pipelines |
+| **`cross-model-switch-pruner`** | Switch/Token | Pre-switch state compaction and zero-history handoffs to eliminate 80k-150k token re-reads when switching to Fable |
 
 ---
 
@@ -1697,6 +1698,12 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Serializes verbose DDL migrations into compact type-bracket notation (`tbl[id:INT*, user:STR!(idx)]`) and flattens query trees into operator pipelines.
 * **Why It Saves Quota:** Slashes database context footprint by 65%–75%.
 
+#### 211. `cross-model-switch-pruner`
+* **In Simple Terms:** Pre-switch state compaction and history virtualization engine when switching models (Sonnet to Fable, Opus, or Gemini).
+* **When It Kicks In:** Mid-session model switches (`/model fable-5.1`) or cross-model handoffs.
+* **How It Works:** Intercepts model switching to snapshot diffs, stage model-optimal state (<300 tokens), and run pre-switch compaction or launch zero-history fresh handoff sessions.
+* **Why It Saves Quota:** Slashes model switch re-read billing by 98% (reducing 80k–150k token un-cached re-reads down to ~1.5k compacted tokens).
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1865,7 +1872,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │  Core Discipline: .cursor/rules/000-cursor-global-discipline.mdc                                    │
 │  Universal Model Adaptation Matrix: .cursor/rules/001-multi-model-optimization.mdc                  │
-│  210 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
+│  211 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
 │  Unified Root Fallback: ~/.cursorrules                                                              │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -1883,7 +1890,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 210 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 211 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
 
 

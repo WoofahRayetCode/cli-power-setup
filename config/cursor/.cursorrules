@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (210 Specialized Capabilities)
+## Complete Skills Catalog (211 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -207,6 +207,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`creative-web-design-archetypes`** | Advanced web styling archetypes and visual design systems. Covers Neo-Brutalism, Mythic/Fantasy Parchment, Cyberpunk/Terminal HUD, Editorial/Academic Journal, Swiss Modernism, and Glassmorphic aesthetics with responsive CSS and typography pairings. |
 | **`cross-browser-extensions`** | Cross-browser web extension development in Manifest V3, supporting Chrome, Firefox, and Safari with webextension-polyfill, background service workers, and declarativeNetRequest. |
 | **`cross-cli-session-handoff`** | Seamless zero-context-loss session handoff protocol between Antigravity CLI, Claude Code CLI, and Cursor IDE. Exports and imports structured handover packets (.agents/handoff.json) containing active git diffs, verified milestones, blockers, and next steps in under 300 tokens. |
+| **`cross-model-switch-pruner`** | Pre-switch state compaction and history virtualization engine when switching models (Sonnet to Fable, Opus, or Gemini). Eliminates 80k-150k uncached token re-reads by snapshotting state, staging model-optimal memory, and executing pre-switch compaction to slash model transition costs by 98%. |
 | **`cross-platform-game-compatibility`** | Diagnosing and repairing legacy and modern PC games to run smoothly across Windows and Linux. Covers DirectX legacy wrappers (dgVoodoo2, DDrawCompat, DXVK), 4GB LAA memory patching, high-refresh rate frame limiters, aspect ratio / widescreen fixes, and anti-crash shims. |
 | **`cryptographic-security-engineering`** | Applied modern cryptography and secure protocol implementations. Covers Ed25519 digital signatures (Discord interaction webhooks, Git commit signing), AES-256-GCM / ChaCha20-Poly1305 authenticated encryption, HKDF key derivation, constant-time comparison discipline, and hardware security module (TPM2/Keystore) integration. |
 | **`csharp-dotnet-engineering`** | Modern C# and .NET 8/9 engineering standards. Use when writing C# applications, Unity/Godot C# logic, memory optimization with Span and Memory, async/await cancellation patterns, or running dotnet test and Roslyn analyzers. |
