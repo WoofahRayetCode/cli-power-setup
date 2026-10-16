@@ -91,6 +91,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record target console platform (PS1/PS2/PS3/Xbox/Xbox360), executable format, base RAM load address, identified compiler toolchain (e.g. GCC 2.7.2, CodeWarrior GC), and active `splat.yaml` configuration in `systemPatterns.md`.
 * **Game Screen Telemetry & Anomaly Logging Bindings (`game-screen-telemetry-monitor`):**
   Record target game window title, display capture backend (`spectacle` Wayland / X11), active telemetry session output directory (`.agents/telemetry/` or `/tmp/`), known missing texture false positives, and OCR crash pattern signatures in `systemPatterns.md` and `learnings.md`.
+* **Autonomous Goal Contract & Circuit Breaker Bindings (`autonomous-goal-governor`):**
+  Record active goal contract ID, verification command, current phase number (1/2/3), active task strike counts, and circuit breaker trip state in `.agents/goals/current_goal.json` and `activeContext.md`.
 
 ---
 

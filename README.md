@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **135 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **136 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 135 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 136 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -196,7 +196,8 @@ cli-power-setup/
 | **`coderabbit-ai-review`** | Review/PR | CodeRabbit-grade PR reviews, architectural Mermaid sequence diagrams, defect triage & GitHub suggestion diffs |
 | **`console-game-decompilation`** | Console/Decomp | PS1, PS2, PS3, Xbox, Xbox 360 matching decompilations, splat binary splitting & objdiff |
 | **`game-screen-telemetry-monitor`** | Gaming/Vision | Real-time in-game screen monitoring, visual anomaly detection (magenta textures, freezes) & crash OCR |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 135+ skills |
+| **`autonomous-goal-governor`** | Goal/Quota | Machine-verifiable contract formulation, 3-strike circuit breaker & phased `/compact` milestones for `/goal` |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 136+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`hierarchical-memory-retrieval`** | Memory/Recall | Multi-tiered query-driven BM25 search across `.agents/memory/`, episodes & git history |
 | **`context-window-governor`** | Context/Budget | Turn-by-turn token budgeting (20/35/25/20%), pre-flight size estimation & hard output clamping |
@@ -1128,6 +1129,12 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Uses local headless screen capture (`spectacle` on KDE Wayland, X11/Pillow fallback) downscaled to 1280px to protect quotas, scans pixel histograms for unmapped missing textures (`#FF00FF`) or GPU hangs, and executes local OCR (`tesseract`) to transcribe fatal error dialogs and stack traces.
 * **Why It Saves Quota:** Eliminates manual screenshot cropping and typing out crash logs by autonomously extracting the exact engine crash code directly into structured logs.
 
+#### 136. `autonomous-goal-governor`
+* **In Simple Terms:** Autonomous supervisor and quota protector for long-running `/goal` commands and overnight agent tasks that prevents infinite error loops and token runaway.
+* **When It Kicks In:** Running `/goal <description>`, launching overnight autonomous builds, formulating testable completion contracts, or handling recurring compile/test failures.
+* **How It Works:** Turns open-ended prompts into machine-verifiable exit criteria (`goal_governor.py formulate`), enforces an automated 3-strike circuit breaker that rolls back code via `working-memory-checkpointing` after 3 consecutive failures, and divides long tasks into phases with milestone commits and `/compact` prompts to reset context volume.
+* **Why It Saves Quota:** Stops the agent from burning 50,000+ tokens in trial-and-error doom loops on a single test, eliminates 100k+ token per-turn accumulation, and keeps prompt caching discounts intact.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1258,7 +1265,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 135 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 136 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
