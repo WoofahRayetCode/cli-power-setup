@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **77 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **79 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 77 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 79 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launcher:** Installs `agy-turbo` into `~/.local/bin/`.
@@ -57,7 +57,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 77 specialized skills
+    └── skills/                 # 79 specialized skills
 ```
 
 ---
@@ -140,6 +140,8 @@ cli-power-setup/
 | **`csharp-dotnet-engineering`** | Language | .NET 8/9, Span/Memory allocation-free patterns, async |
 | **`human-crafted-web-design`** | Frontend/Web | Production tactile dark UI, anti-AI heuristics, Geist typography, responsive Tailwind CSS v4 |
 | **`executive-business-communications`** | Business | BLUF executive emails, anti-jargon filter, high-conversion proposals, SOWs, invoice generation |
+| **`intelligent-interactive-ui`** | Frontier/UI | Reactive single-file micro-apps, forms & live calculators (Astra Intelligent UI) |
+| **`screen-vision-inspector`** | Frontier/Vision | Autonomous screen/window capture & visual layout debugging (Project Astra Vision) |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
 | **`project-memory-bank`** | Memory | Persistent `.agents/memory/` context to prevent re-hydration |
@@ -695,6 +697,18 @@ To provide maximum flexibility without losing precision, this suite employs a **
   - **Deterministic Output Capping:** Mandates diffs, checklists, or file links instead of 500-word explanations.
 * **Why It Saves Quota:** Slashes expensive output reasoning tokens by **75%–90%** and stops prompts from compounding into multi-thousand-token history bloat.
 
+#### 78. `intelligent-interactive-ui`
+* **In Simple Terms:** Brings GPT-6 Astra's "Intelligent UI" to your CLI—generating live, reactive mini-apps, calculators, and interactive forms that open in your browser instead of dumping static text tables.
+* **When It Kicks In:** Requesting pricing tier estimators, ROI calculators, filterable data tables, or parameter tuning tools.
+* **How It Works:** Builds zero-build reactive single-file HTML5 widgets powered by Alpine.js and tactile dark Tailwind CSS. Supports real-time math, dynamic sliders, and one-click JSON/CSV data export buttons.
+* **Why It Saves Quota:** Completely replaces back-and-forth conversational calculations with an interactive micro-app you can use indefinitely without burning another API token.
+
+#### 79. `screen-vision-inspector`
+* **In Simple Terms:** Gives the AI eyes on your computer screen—autonomously capturing and inspecting your desktop or specific application windows (Project Astra / GPT-6 Astra Vision parity).
+* **When It Kicks In:** Diagnosing visual layout bugs, CSS misalignment, broken fonts, game HUD glitches, or terminal rendering issues.
+* **How It Works:** Uses local capture utilities (`PIL.ImageGrab`, ImageMagick `import`, `grim`) to grab full screens or bounding boxes (`--bbox`), automatically downscales to 1280px to preserve vision tokens, and stores captures privately in `/tmp/`.
+* **Why It Saves Quota:** Eliminates having to manually take screenshots, crop them, upload them to external tools, or guess pixel offsets.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -822,7 +836,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`claude`** | Launches standard Claude Code | When you need full deep reasoning for hard bugs or major refactors. |
 | **`agy`** | Launches standard Antigravity CLI | When you need standard multi-model escalation (Flash to Argon). |
 | **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context gauge crosses 50%–60%. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 77 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 79 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
