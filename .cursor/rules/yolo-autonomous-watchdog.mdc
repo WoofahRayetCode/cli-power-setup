@@ -1,0 +1,71 @@
+---
+description: Autonomous execution watchdog and quota protector for YOLO modes (claude-yolo, agy-yolo). Prevents infinite retry loops, terminal stdout flooding, oscillating file churn, and runaway context inflation during unattended operation.
+globs: 
+alwaysApply: false
+---
+
+# YOLO Autonomous Watchdog (`yolo-autonomous-watchdog`)
+
+When operating in **YOLO mode** (`--dangerously-skip-permissions`, unattended goal runs, or hands-free execution), the agent acts without interactive user confirmation. Without active governance, unattended runs risk catastrophic token exhaustion, context overflow, and quota depletion.
+
+This skill provides deterministic safeguards that keep autonomous YOLO execution fast, safe, and token-efficient.
+
+---
+
+## 1. Terminal Output Clamping (Anti-Flood Guard)
+
+Unattended commands must never dump thousands of lines of terminal output into the agent's context.
+
+### Hard Command Constraints
+- **Discovery Commands:** Always limit broad discovery queries:
+  ```bash
+  # Prohibited:
+  find . -type f
+  git log
+  grep -rn "pattern" .
+
+  # Enforced:
+  find . -maxdepth 3 -not -path '*/.*' | head -n 40
+  git log -n 10 --oneline
+  grep -rn --exclude-dir={.git,node_modules,target,build} "pattern" . | head -n 30
+  ```
+- **Bulk Output Redirection:** When a command is expected to produce voluminous output (e.g. full build logs, dependency installations):
+  ```bash
+  # Redirect full stdout to scratch, capture exit code and tail
+  npm install > /tmp/yolo_install.log 2>&1 || tail -n 30 /tmp/yolo_install.log
+  ```
+
+---
+
+## 2. Flap & Churn Detector (Oscillation Circuit Breaker)
+
+In unattended debugging, agents often get trapped in "flapping loops" (editing `file A` to fix a test, which breaks `file B`, then editing `file B`, breaking `file A`).
+
+- **Rule of 3:** If the same file is modified **3 consecutive times** without unit tests passing:
+  1. **HALT** all further edits immediately.
+  2. Do not attempt a 4th speculative fix.
+  3. Write a diagnostic hypothesis artifact to `.agents/memory/activeContext.md` detailing:
+     - The conflicting constraints between both attempts.
+     - Root cause why the previous two fixes were mutually exclusive.
+     - A unified resolution plan before making another edit.
+
+---
+
+## 3. Autonomous Turn Budgeting & State Checkpointing
+
+- **12-Turn Milestone Budget:** After **12 autonomous execution turns** on a single sub-task without resolution:
+  - Snapshot the current git diff: `git diff > .agents/checkpoints/milestone_$(date +%s).diff`
+  - Update `.agents/memory/activeContext.md` with:
+    - What has been verified so far.
+    - What failed.
+    - Current working hypothesis.
+  - Trigger prompt compaction (`/compact`) or flush conversational bloat.
+
+---
+
+## 4. Prompt Cache Protection (Prefix Invariance)
+
+To sustain **>90% prompt caching discounts** during continuous autonomous runs:
+- **Never modify global system files or project root guidelines mid-run** unless explicitly required.
+- Keep prompt prefixes deterministic.
+- Perform **surgical chunk edits** (`replace_file_content`) instead of full file rewrites to minimize diff churn in the KV cache.

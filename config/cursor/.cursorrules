@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (173 Specialized Capabilities)
+## Complete Skills Catalog (176 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -204,6 +204,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`devsecops-supply-chain-security`** | DevSecOps build-time security hardening, Software Bill of Materials (SBOM), dependency vulnerability auditing, binary compiler hardening checks (checksec for RELRO, Canaries, NX, PIE), Git secret leak prevention, and rootless container isolation. Use when preparing releases, securing CI/CD pipelines, or auditing compiled binaries. |
 | **`discord-bot-engineering`** | Production Discord bot development across Python (discord.py) and TypeScript (discord.js). Covers modern Discord API v10, slash commands, interactive UI components (Buttons, Select Menus, Modals), Gateway intent discipline, rate-limit bucket management, Voice Gateway audio streaming, and high-availability sharded deployment. |
 | **`documentation-site-generator`** | Static documentation site generation using VitePress and MkDocs Material, automated API reference extraction, and GitHub Pages deployment. |
+| **`dynamic-model-downshifter`** | Autonomous multi-tier model downshifting for CLI sessions. Enforces the 'Frontier Brain, Fast Hands' pattern by offloading mechanical bash tasks, file moves, and git operations to lightweight models (Flash/Haiku), reserving frontier reasoning (Argon/Opus) exclusively for architectural design and complex debugging. |
 | **`dynamic-skill-router`** | High-performance semantic intent matching and capability indexing across 100+ installed skills. Use to instantly discover, rank, and activate the exact 2-3 optimal skills for any complex prompt, eliminating skill choice paralysis and context bloat. |
 | **`electron-desktop-dev`** | Electron desktop application engineering, IPC security, context isolation, preload scripts, multi-window lifecycles, and cross-platform packaging with electron-builder. |
 | **`emulator-development-engineering`** | Video game console emulation architecture, CPU interpreter & JIT dynamic binary translation, cycle-accurate timing, memory-mapped I/O (MMU), Vulkan/OpenGL graphics rendering backends, APU sound emulation, and contributions to open-source emulators (Dolphin, RPCS3, PCSX2, Ryujinx, RetroArch). |
@@ -255,6 +256,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`hardware-tool-engineering`** | Architect, build, and update hardware management tools, system daemons, sensors, and thermal controllers with cross-architecture portability (x86_64 Zen/Intel, ARM64, NVIDIA, AMD). |
 | **`headless-browser-automation`** | Headless browser automation via Playwright and Puppeteer, executing dynamic JavaScript on SPAs, capturing screenshots, form interactions, and bypass techniques. |
 | **`headless-game-ci-automation`** | Automated headless game compilation, asset baking, CLI test execution, and packaging across Godot, Unity, Unreal Engine 5, and custom C++/Rust engines. |
+| **`headless-test-condenser`** | Test suite output condenser and noise filter for autonomous CLI runs. Strips thousands of lines of passing test output from pytest, cargo test, npm/vitest, and ctest, surfacing only actionable failures, stack traces, and lines to slash context token consumption by up to 95%. |
 | **`hierarchical-memory-retrieval`** | Multi-tiered query-driven memory retrieval across working context, episodic logs (.agents/episodes/), semantic project patterns (.agents/memory/), and archival records with BM25 ranking. |
 | **`high-density-prompting`** | Compresses verbose prompts into surgical, quota-saving directives, eliminates speculative reasoning tokens, and enforces deterministic, zero-waste agent outputs. |
 | **`homelab-docker-devops`** | Self-hosted infrastructure, Docker Compose multi-service stacks, Samba network storage permissions, Nextcloud optimization, and systemd automation timers. |
@@ -326,4 +328,5 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`working-memory-checkpointing`** | Atomic snapshotting and 1-command rollback of in-flight git diffs, hypotheses, and active working state to safeguard complex multi-step refactors against dead-end debugging loops. |
 | **`writing-plans`** | Breaks down complex engineering tasks, refactors, and mod implementations into granular, dependency-ordered, verifiable task lists. Use when planning multi-step work. |
 | **`xray-lua-scripting`** | S.T.A.L.K.E.R. X-Ray Engine Lua scripting guidelines and safeguards. Use when writing, modifying, or debugging game scripts, quest logic, callbacks, inventory hooks, or AI logic in S.T.A.L.K.E.R. EE. |
+| **`yolo-autonomous-watchdog`** | Autonomous execution watchdog and quota protector for YOLO modes (claude-yolo, agy-yolo). Prevents infinite retry loops, terminal stdout flooding, oscillating file churn, and runaway context inflation during unattended operation. |
 | **`youtube-shorts-video-automation`** | Automated creation of viral YouTube Shorts, TikToks, and long-form YouTube edits with 9:16 vertical re-framing, hook-first pacing, kinetic word-by-word subtitles, silence trimming jump cuts, split-screen layouts, and audio ducking. |
