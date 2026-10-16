@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **74 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **76 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 74 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 76 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launcher:** Installs `agy-turbo` into `~/.local/bin/`.
@@ -57,7 +57,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 74 specialized skills
+    └── skills/                 # 76 specialized skills
 ```
 
 ---
@@ -138,6 +138,8 @@ cli-power-setup/
 | **`rust-engineering`** | Language | Compiler-first Rust, zero-cost abstractions, Clippy |
 | **`modern-cpp-engineering`** | Language | Modern C++20/C++23, RAII, Concepts, CMake |
 | **`csharp-dotnet-engineering`** | Language | .NET 8/9, Span/Memory allocation-free patterns, async |
+| **`human-crafted-web-design`** | Frontend/Web | Production tactile dark UI, anti-AI heuristics, Geist typography, responsive Tailwind CSS v4 |
+| **`executive-business-communications`** | Business | BLUF executive emails, anti-jargon filter, high-conversion proposals, SOWs, invoice generation |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
 | **`project-memory-bank`** | Memory | Persistent `.agents/memory/` context to prevent re-hydration |
 
@@ -600,6 +602,30 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 ---
 
+### 💼 Web Design & Executive Business Communications
+
+#### 73. `human-crafted-web-design`
+* **In Simple Terms:** Creates realistic, handcrafted web applications and landing pages that look and feel like they were built by a top-tier design agency, completely avoiding the tacky "AI-generated" aesthetic.
+* **When It Kicks In:** Designing web frontends, landing pages, interactive apps, UI dashboards, and responsive portfolios.
+* **How It Works:**
+  - **Bans Generic AI Tropes:** Enforces strict bans against purple-to-blue neon gradient blur spheres, cheesy floating 3D clay figures, buzzword soup headings (*"Empowering the Future of Synergy"*), and unformatted generic cards.
+  - **Tactile Dark Polish:** Uses stacked dark neutral surfaces (`#09090b` canvas, `#121215` cards), 1px subtle borders (`border-neutral-800`), and restrained micro-glow accents (`ring-1 ring-white/10`).
+  - **Modern Typography:** Implements clean, modern type scales using Geist Sans or Inter paired with JetBrains Mono for metrics and technical badges.
+  - **Ready-to-Use Artifacts:** Includes a responsive Tailwind CSS v4 landing page template ready for production deployment.
+* **Why It Saves Quota:** Eliminates endless back-and-forth prompt revisions trying to fix ugly, generic AI layouts.
+
+#### 74. `executive-business-communications`
+* **In Simple Terms:** Writes crisp, persuasive business emails, client proposals, contracts, and invoices that sound like a seasoned executive rather than a chatbot.
+* **When It Kicks In:** Writing client outreach, business emails, project proposals, Scope of Work (SOW) agreements, payment reminders, or invoices.
+* **How It Works:**
+  - **BLUF Protocol:** Enforces "Bottom Line Up Front"—delivering the key ask, timeline, and dollar impact in the first 2 sentences.
+  - **Anti-Jargon Filter:** Automatically catches and eliminates 50+ robotic corporate clichés (*"I hope this email finds you well"*, *"delve"*, *"tapestry"*, *"game-changer"*, *"testament to"*).
+  - **Bulletproof SOWs & Proposals:** Establishes explicit deliverable boundaries, milestone schedules, and strict 2-round revision caps to prevent scope creep.
+  - **Printable Invoices:** Ships with a clean, print-optimized HTML invoice template complete with itemized billing, bank wire/SWIFT fields, and tax breakdowns.
+* **Why It Saves Quota:** Generates professional, send-ready communications on the first turn without requiring manual prompt engineering to sound human.
+
+---
+
 ### 💰 Quota, Memory & Context Engineering
 
 #### 70. `log-output-sanitizer`
@@ -620,7 +646,7 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Monitors active context consumption in real-time. When context crosses the 60% threshold, it automatically writes your completed tasks, blockers, and next steps into `.agents/memory/activeContext.md` and advises running `/compact`.
 * **Why It Saves Quota:** Prevents hitting the expensive rolling 5-hour quota ceiling and resets context to <2,000 tokens with zero loss of progress.
 
-#### 73. `token-economy`
+#### 75. `token-economy`
 * **In Simple Terms:** The ultimate quota-saving protocol that eliminates robotic fluff, stops the AI from repeating itself, and stretches your daily AI usage limits by 2x to 3x.
 * **When It Kicks In:** Always active in every conversation across Antigravity and Claude Code.
 * **How It Works:**
@@ -645,7 +671,7 @@ To provide maximum flexibility without losing precision, this suite employs a **
 
 * **Compounding Context Multiplier:** Because past conversation output tokens are re-ingested as input prompt tokens on every subsequent turn, saving 6,500 output tokens in early turns prevents re-reading **~35,000–60,000 cumulative prompt tokens** across a 15-turn session, extending rolling 5-hour quota limits by **2x to 3x**.
 
-#### 74. `project-memory-bank`
+#### 76. `project-memory-bank`
 * **In Simple Terms:** A smart project notebook that stores your project's architecture and lessons learned, so the AI never forgets what you're working on across restarts.
 * **When It Kicks In:** Starting work on a repository, resuming multi-session tasks, or before running `/compact`.
 * **How It Works:**
@@ -730,7 +756,7 @@ Even if you aren't an AI researcher or senior software engineer, this setup is d
 2. **Watch Your Context Fuel Gauge:**
    * Look at the statusline at the bottom of your terminal: `🧠 Ctx: [█░░░░░] 22%`.
    * Think of this like a car's fuel tank. When it reaches **60%**, the AI will warn you. Simply type **`/compact`** and press Enter.
-   * *Why:* The [`project-memory-bank`](#62-project-memory-bank) automatically saves your progress, completed checklist, and next steps into `.agents/memory/activeContext.md` before compacting, so `/compact` wipes away chat clutter with **zero loss of progress**.
+   * *Why:* The [`project-memory-bank`](#76-project-memory-bank) automatically saves your progress, completed checklist, and next steps into `.agents/memory/activeContext.md` before compacting, so `/compact` wipes away chat clutter with **zero loss of progress**.
 3. **Let the AI Plan Big Changes First:**
    * When building a new app or rewriting multiple files, let the AI create a plan first (using `writing-plans` or `/plan`).
    * *Why:* It's 10x cheaper to fix a mistake on a 1-page checklist than to let the AI write 500 lines of broken code and spend an hour trying to patch it.
@@ -739,7 +765,7 @@ Even if you aren't an AI researcher or senior software engineer, this setup is d
 
 ### 2. Generating Images: How It Works
 
-With the new [`frontier-image-studio`](#45-frontier-image-studio) skill, you can ask for images in the exact styles of ChatGPT and Gemini:
+With the new [`frontier-image-studio`](#47-frontier-image-studio) skill, you can ask for images in the exact styles of ChatGPT and Gemini:
 
 * **Want a ChatGPT (DALL-E 3) Style Image?**
   * Say: *"Generate an image of a cybernetic cat in DALL-E 3 style."*
@@ -783,7 +809,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`claude`** | Launches standard Claude Code | When you need full deep reasoning for hard bugs or major refactors. |
 | **`agy`** | Launches standard Antigravity CLI | When you need standard multi-model escalation (Flash to Argon). |
 | **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context gauge crosses 50%–60%. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 62 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 76 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

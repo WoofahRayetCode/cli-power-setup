@@ -1,0 +1,72 @@
+---
+name: executive-business-communications
+description: Professional executive business correspondence, BLUF email structuring, client proposals, Scope of Work (SOW) drafting, invoice generation, and anti-jargon filters.
+---
+
+# Executive Business Communications & Professional Deliverables
+
+This skill governs high-impact business communication, professional client proposals, Scope of Work (SOW) documents, payment negotiations, and client de-escalation, actively eliminating robotic AI phrasing and corporate jargon.
+
+---
+
+## 🚫 1. The Anti-Jargon Rulebook
+
+Never include dead-giveaway AI clichés in business emails or documents:
+* **Banned Openers:** *"I hope this email finds you well"*, *"I am reaching out to you today to"*, *"Allow me to introduce myself"*.
+* **Banned Buzzwords:** *"Delve"*, *"Tapestry"*, *"Synergistic"*, *"Game-changer"*, *"Testament to"*, *"In today's fast-paced digital world"*, *"Revolutionary"*.
+* **Banned Passive Sign-offs:** *"Please do not hesitate to contact me if you have any questions or concerns."*
+* **The Rule:** Lead immediately with the core ask, decision, or status (BLUF protocol).
+
+---
+
+## ⚡ 2. The BLUF Protocol (Bottom Line Up Front)
+
+Executives and busy clients spend an average of 6 seconds per email. Structure every message with BLUF:
+
+```text
+Subject: [Project Name] — Decision Required: API Release Date
+
+Hi Alex,
+
+BLUF: We recommend pushing the v2.4 API release from Friday to Tuesday (Oct 20) to complete the security audit. 
+
+Why:
+- The core endpoints are 100% functional and passing unit tests.
+- Our penetration test identified one edge case in the rate limiter that needs 48 hours to patch cleanly.
+- Releasing Tuesday avoids risky Friday afternoon deployments.
+
+Next Steps:
+If you approve Tuesday Oct 20 at 10:00 AM EDT, reply with "Approved" and we will notify the integration team.
+
+Best,
+Eric
+```
+
+---
+
+## 📄 3. Scope of Work (SOW) & Project Proposals
+
+When drafting client contracts or project scopes, enforce non-negotiable boundaries:
+1. **Defined Deliverables:** Bulleted list of exact concrete outputs (e.g. *"Native Linux C++ kernel module with systemd service"*).
+2. **Exclusions / Out-of-Scope:** Explicitly declare what is NOT included (e.g. *"iOS mobile application development is excluded"*).
+3. **Revision Caps:** Always limit revisions (e.g. *"Includes up to 2 rounds of UI revisions; subsequent changes billed at $X/hour"*).
+4. **Milestone Payment Structure:**
+   * 40% upfront deposit upon contract signing.
+   * 30% upon delivery of milestone 1 testable prototype.
+   * 30% upon final acceptance and source code transfer.
+
+---
+
+## 🧾 4. Professional Invoice Standard
+
+A printable, zero-dependency HTML invoice template is provided in `templates/invoice.html`:
+* Clear invoice number, issue date, and Net-15/Net-30 payment due date.
+* Itemized service table with hours/quantities and line totals.
+* Explicit remittance details (Bank ACH/Wire, Stripe, PayPal).
+
+---
+
+## 🔄 Interoperability & Handoffs
+
+* **Pairing with `token-economy`:** Guarantees zero fluff and maximum density in executive summaries.
+* **Pairing with `generative-visual-artifacts`:** To view or print generated invoices in the browser.
