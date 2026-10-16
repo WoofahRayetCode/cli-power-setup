@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **139 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **143 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 139 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 143 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -200,7 +200,11 @@ cli-power-setup/
 | **`furry-fursona-art-design`** | Creative/Art | Fursona character design, multi-view turnaround refsheets, digitigrade anatomy & palette swatches |
 | **`android-rom-os-engineering`** | Mobile/ROM | AOSP & LineageOS device trees, vendor blob extraction, dynamic super partitions & SELinux sepolicy |
 | **`game-qa-playtest-controller`** | Gaming/QA | Autonomous multi-axis locomotion (orbit, sweep, wander, stress transitions, action cycles) via uinput |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 139+ skills |
+| **`computer-vision-deep-learning`** | Vision/AI | Neural detection (YOLOv8/v11), instance segmentation (SAM 2), ONNX/CUDA & ByteTrack |
+| **`industrial-machine-vision-inspection`** | Vision/Metrology | Camera calibration, GD&T sub-pixel dimensioning, Otsu/Sauvola & template matching |
+| **`visual-document-ocr-intelligence`** | Vision/DocAI | Multi-engine OCR (Tesseract/Paddle/Surya), deskewing, Sauvola & table extraction |
+| **`agentic-visual-perception`** | Vision/Agent | SAHI 4K/8K tiling, natural language visual grounding coordinates & SSIM diffing |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 143+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`hierarchical-memory-retrieval`** | Memory/Recall | Multi-tiered query-driven BM25 search across `.agents/memory/`, episodes & git history |
 | **`context-window-governor`** | Context/Budget | Turn-by-turn token budgeting (20/35/25/20%), pre-flight size estimation & hard output clamping |
@@ -1156,6 +1160,30 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Generates hardware-level relative mouse motion (`REL_X`/`REL_Y`) and DirectInput/RawInput keyboard scan codes via Linux `evdev`/`uinput`, executing smooth orbit maneuvers around landmarks, continuous panoramic sky/ground sweeps with vertical pitch oscillation, frontier wandering with obstacle turnarounds, and rapid action cycles (weapon fire/reload/inventory).
 * **Why It Saves Quota:** Automates tedious manual game locomotion during testing and reproduces physics clipping or rendering faults predictably in repeatable CLI batches.
 
+#### 140. `computer-vision-deep-learning`
+* **In Simple Terms:** Modern neural computer vision and high-performance inference engine for real-time object detection, segmentation, and multi-object tracking.
+* **When It Kicks In:** Deploying YOLOv8/v11 models, running Segment Anything 2 (SAM 2) zero-shot masks, exporting models to ONNX/TensorRT with FP16 quantization, or tracking moving objects across video feeds with ByteTrack.
+* **How It Works:** Orchestrates ONNX Runtime with CUDA/TensorRT execution providers, runs high-throughput batching, performs non-maximum suppression (NMS) bounding box consolidation, and outputs normalized spatial coordinates $[ymin, xmin, ymax, xmax]$.
+* **Why It Saves Quota:** Replaces bulky unoptimized PyTorch scripts with pre-compiled ONNX/TensorRT engines running at 60–140 FPS with minimal GPU memory consumption.
+
+#### 141. `industrial-machine-vision-inspection`
+* **In Simple Terms:** Classical, deterministic computer vision for pinhole camera calibration, high-precision dimensional metrology, and surface defect inspection.
+* **When It Kicks In:** Calibrating camera lenses and removing optical barrel distortion, measuring physical part dimensions down to sub-pixel accuracy, matching templates with normalized cross-correlation, or detecting scratches and voids on surfaces.
+* **How It Works:** Computes camera intrinsic matrices ($f_x, f_y, c_x, c_y$) and distortion vectors ($k_1, k_2$) from checkerboards, applies sub-pixel Canny edge detection and minimum bounding rotated rectangles (`minAreaRect`), and converts pixel units directly to calibrated millimeters.
+* **Why It Saves Quota:** Delivers mathematically exact measurements and defect triage without burning millions of tokens on heavy generative vision models.
+
+#### 142. `visual-document-ocr-intelligence`
+* **In Simple Terms:** Document AI pipeline that straightens crooked scans, removes background shadows, reads text in 100+ languages, and turns tables into clean Markdown or JSON.
+* **When It Kicks In:** Digitizing scanned documents, forms, receipts, and invoices; deskewing crooked page images; binarizing yellowed/degraded documents; or parsing multi-column reading orders.
+* **How It Works:** Detects orientation skew via Radon/Hough transforms, applies local adaptive Sauvola binarization to eliminate illumination gradients, orchestrates multi-engine OCR (Tesseract, PaddleOCR, Surya), and reconstructs table grid cell boundaries into Markdown tables.
+* **Why It Saves Quota:** Solves OCR failure loops caused by poor image quality before feeding clean text into agent context.
+
+#### 143. `agentic-visual-perception`
+* **In Simple Terms:** Autonomous AI agent visual reasoning engine that tiles huge 4K/8K images (SAHI) so tiny buttons don't get lost, and translates natural language into exact screen click coordinates.
+* **When It Kicks In:** Navigating high-resolution desktops, locating small UI icons without downsampling blur, grounding instructions (*"click the gear icon"*) into screen pixel coordinates, or confirming UI mutations with visual diffs.
+* **How It Works:** Implements Slicing Aided Hyper Inference (SAHI) to slice ultra-high-resolution canvases into overlapping tiles, calculates click centroids $(\bar{x}, \bar{y})$ and normalized bounding boxes, and performs structural similarity (SSIM) frame diffing to verify button clicks.
+* **Why It Saves Quota:** Prevents missed clicks and hallucinated UI element coordinates on 2K/4K/Retina displays by inspecting full-resolution tiles rather than blurred downscaled images.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1286,7 +1314,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 139 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 143 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

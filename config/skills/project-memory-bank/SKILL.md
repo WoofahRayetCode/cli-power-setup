@@ -99,6 +99,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record target OEM vendor, device codename, SoC architecture, `BOARD_SUPER_PARTITION_SIZE` budget, kernel branch/commit, and active device tree path (`device/<vendor>/<codename>/`) in `systemPatterns.md` and `learnings.md`.
 * **Game QA Playtest Locomotion & Profile Bindings (`game-qa-playtest-controller`):**
   Record active playtest locomotion pattern (`orbit`, `sweep`, `wander`, `stress-locomotion`, `action-cycle`), mouse yaw sensitivity deltas, uinput device capability state, and test replay logs in `.agents/playtest/` and `systemPatterns.md`.
+* **Machine Vision Suite & Calibration Bindings (`computer-vision-deep-learning`, `industrial-machine-vision-inspection`, `visual-document-ocr-intelligence`, `agentic-visual-perception`):**
+  Record active vision model weights (ONNX/PyTorch path), inference execution provider (`CUDAExecutionProvider` / TensorRT), camera intrinsic matrix JSON path, optical scale ratio ($px/mm$), OCR language dictionary (`eng`), and SAHI slice dimensions ($640\times640$, 20% overlap) in `systemPatterns.md`.
 
 ---
 

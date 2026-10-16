@@ -35,13 +35,13 @@ TOOL_DEPENDENCIES = {
     "cargo": ["rust-engineering", "tauri-multiplatform-dev"],
     "cmake": ["cmake-cross-platform", "modern-cpp-engineering"],
     "tshark": ["network-protocol-engineering", "binary-re-workflows"],
-    "python3": ["python-engineering", "sandbox-code-interpreter", "game-texture-material-pipeline", "autonomous-goal-governor", "furry-fursona-art-design", "android-rom-os-engineering", "game-qa-playtest-controller"],
+    "python3": ["python-engineering", "sandbox-code-interpreter", "game-texture-material-pipeline", "autonomous-goal-governor", "furry-fursona-art-design", "android-rom-os-engineering", "game-qa-playtest-controller", "computer-vision-deep-learning", "industrial-machine-vision-inspection", "agentic-visual-perception"],
     "objdiff": ["console-game-decompilation"],
     "splat": ["console-game-decompilation"],
     "rizin": ["console-game-decompilation", "binary-re-workflows"],
     "m2c": ["console-game-decompilation"],
     "spectacle": ["game-screen-telemetry-monitor"],
-    "tesseract": ["game-screen-telemetry-monitor"],
+    "tesseract": ["game-screen-telemetry-monitor", "visual-document-ocr-intelligence"],
 }
 
 def parse_frontmatter(skill_file: Path) -> dict:
