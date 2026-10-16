@@ -101,198 +101,232 @@ cli-power-setup/
 
 ---
 
+## 🧩 Architectural Design: Generalist vs. Specialist Skills
+
+To provide maximum flexibility without losing precision, this suite employs a **two-tier skill hierarchy**:
+1. **Generalist Blueprints:** Skills like `game-engine-migration` give the AI the universal, battle-tested 5-stage blueprint for porting *any* game or engine from 32-bit to 64-bit and legacy DirectX to modern Vulkan/DX11.
+2. **Specialist Experts:** Skills like `stalker-ogsr-migration` handle the exact proprietary quirks, crash signatures, and custom toolchains of specific game engines.
+*This ensures the AI never gets stuck when tackling unfamiliar engines, while retaining pinpoint mastery on specialized environments.*
+
+---
+
 ## 📖 Detailed Skill Reference
 
 ### 🧠 Core Engineering & Cognitive Methodology
 
 #### 1. `adaptive-reasoning`
-* **Trigger:** Complex refactors, architectural planning, ambiguous bugs, or high-volume rote tasks.
-* **Mechanism:** Evaluates user prompt complexity against cognitive heuristics. Directs simple searches, file reads, and template edits to high-speed Flash, while automatically routing architectural breakdowns, debugging, and multi-file diffs to Argon.
-* **Quota Advantage:** Eliminates the waste of high-tier reasoning tokens on routine lookups while ensuring difficult tasks receive full reasoning depth.
+* **In Simple Terms:** Automatically balances speed and thinking depth so you don't burn through your daily AI quota on easy tasks.
+* **When It Kicks In:** On every request—from quick file searches to complex multi-file architectural refactors.
+* **How It Works:** Routes simple lookups and quick edits to ultra-fast models (like Flash), while automatically reserving deep reasoning models (like Argon or Claude Extended Thinking) for hard bugs and architectural plans.
+* **Why It Saves Quota:** Saves expensive thinking compute for problems that truly require it, keeping routine interactions instantaneous.
 
 #### 2. `superpowers`
-* **Trigger:** Starting non-trivial engineering tasks, refactors, or new architectures.
-* **Mechanism:** Acts as the executive controller for engineering discipline. Evaluates whether a prompt requires brainstorming, structured planning, test-driven development, or systematic debugging before any production code is touched.
-* **Quota Advantage:** Prevents costly "vibe coding" loops where models write speculative, broken code and spend 10 turns trying to patch runtime errors.
+* **In Simple Terms:** Acts as a senior staff engineer that stops the AI from recklessly rushing into code before it has thought through the plan and tests.
+* **When It Kicks In:** At the start of any new feature, bug fix, or project change.
+* **How It Works:** Evaluates whether a prompt requires brainstorming, a structured checklist, a test-first approach, or systematic root-cause debugging before any file is touched.
+* **Why It Saves Quota:** Prevents chaotic "vibe coding" loops where an AI writes speculative, broken code and wastes 10 turns trying to patch its own mistakes.
 
 #### 3. `writing-plans`
-* **Trigger:** Multi-file features, complex system refactors, mod architectures.
-* **Mechanism:** Deconstructs high-level objectives into self-contained, bite-sized tasks. Each task specifies: exact files modified, expected code diff, verification commands (tests, builds), and rollback checkpoints.
-* **Quota Advantage:** Eliminates ambiguous instructions that cause agents to wander, overwrite incorrect files, or thrash between different approaches.
+* **In Simple Terms:** Breaks down massive, overwhelming coding projects into small, bite-sized checklists where each step takes only 2–5 minutes.
+* **When It Kicks In:** Whenever a task touches multiple files, requires a refactor, or introduces a new system.
+* **How It Works:** Prepares a detailed roadmap listing the exact files to edit, the expected code changes, and the exact commands needed to verify success before writing a single line of production code.
+* **Why It Saves Quota:** Prevents the AI from wandering off track, overwriting incorrect files, or thrashing between different designs.
 
 #### 4. `executing-plans`
-* **Trigger:** Executing an approved implementation plan.
-* **Mechanism:** Enforces step-by-step progress through task plans. Validates each step with concrete evidence (terminal output, compiler status) before advancing. Halts immediately upon failure rather than compounding errors.
-* **Quota Advantage:** Guarantees that errors are caught at Step N rather than discovering a foundational failure at Step N+10.
+* **In Simple Terms:** Walks through an approved checklist step-by-step, proving that each step works before moving to the next.
+* **When It Kicks In:** Whenever you tell the AI to execute an approved implementation plan.
+* **How It Works:** Runs tests or compiler checks after each individual step. If a step fails, it halts immediately and fixes the issue instead of digging a deeper hole.
+* **Why It Saves Quota:** Catches mistakes at Step 1 rather than discovering everything is broken at Step 10.
 
 #### 5. `brainstorming`
-* **Trigger:** Early-stage project design, architectural choices, feature scoping.
-* **Mechanism:** Structured interactive interview protocol. Explores technical trade-offs, constraints, dependencies, and alternatives before committing to an implementation path.
-* **Quota Advantage:** Prevents implementing the wrong architecture, saving 100% of the rework token cost.
+* **In Simple Terms:** An interactive design interview that asks helpful clarifying questions to ensure the AI builds exactly what you want.
+* **When It Kicks In:** Early project planning, when ideas are still loose, or when there are multiple architectural paths.
+* **How It Works:** Proposes options, weighs pros and cons, and confirms your preferences before committing to code.
+* **Why It Saves Quota:** Prevents building the wrong architecture, saving 100% of the token cost required to tear down and rewrite incorrect work.
 
 #### 6. `systematic-debugging`
-* **Trigger:** Compiler errors, test failures, runtime crashes, engine fatal exceptions.
-* **Mechanism:** Hypothesis-driven debugging protocol:
-  1. Capture raw crash logs, stack traces, and environment state.
-  2. Formulate a testable root-cause hypothesis.
-  3. Create a minimal reproducible test case.
-  4. Fix the root cause and verify with tests. **Prohibits speculative value tweaking.**
-* **Quota Advantage:** Cuts debugging cycles from 10–15 rambling turns down to 2–3 deterministic turns.
+* **In Simple Terms:** A scientific detective method for finding bugs using real evidence instead of random guessing.
+* **When It Kicks In:** Whenever code crashes, tests fail, or an engine throws an error.
+* **How It Works:** Reads the error log, forms a clear hypothesis of the root cause, proves it with a minimal test case, and verifies the fix with tests. Random value-tweaking is strictly forbidden.
+* **Why It Saves Quota:** Solves bugs in 2–3 targeted turns instead of 15 rambling rounds of trial-and-error.
 
 #### 7. `test-driven-development`
-* **Trigger:** Authoring parsers, business logic, algorithmic routines, API endpoints, bug fixes.
-* **Mechanism:** Enforces strict Red-Green-Refactor:
-  1. Author a failing unit test that exercises the expected behavior.
-  2. Implement the minimum production code required to turn the test green.
-  3. Refactor with test coverage protection.
-* **Quota Advantage:** Provides an automated, deterministic verification harness that prevents regression bugs and prompt thrashing.
+* **In Simple Terms:** Writes an automated test that proves what the code should do *before* writing the actual code.
+* **When It Kicks In:** Writing new functions, business logic, game mechanics, parsers, or bug fixes.
+* **How It Works:** Follows the Red-Green-Refactor cycle: (1) write a failing test, (2) write the minimal code to make it pass, (3) clean up the code with confidence that the test will catch any regressions.
+* **Why It Saves Quota:** Guarantees code works on the first try and prevents future edits from silently breaking existing features.
 
 #### 8. `verification-before-completion`
-* **Trigger:** Prior to declaring any task, PR, or mod ready.
-* **Mechanism:** Quality gate requiring verifiable evidence: compiler clean passes (`cargo check`, `dotnet build`), full test suite execution, asset syntax checks, and file existence confirmation.
-* **Quota Advantage:** Guarantees the agent does not declare victory prematurely, avoiding follow-up user correction prompts.
+* **In Simple Terms:** A mandatory quality gate that double-checks that everything actually compiles and passes tests before declaring "I'm done!"
+* **When It Kicks In:** Right before the AI finishes a task or tells you work is complete.
+* **How It Works:** Runs real terminal commands (builds, linters, test suites) and inspects output logs to confirm success.
+* **Why It Saves Quota:** Eliminates premature victory claims where the AI says a job is finished, but the code won't even compile.
 
 #### 9. `subagent-code-reviewer`
-* **Trigger:** Prior to merging large PRs, committing sensitive security changes, or publishing mods.
-* **Mechanism:** Spawns an isolated reviewer subagent that receives only the git diff and review rubric. Analyzes logic bugs, edge cases, memory leaks, and style violations.
-* **Quota Advantage:** Audits extensive diffs in an isolated conversation, keeping your primary session transcript clean and compact.
+* **In Simple Terms:** Calls in a fresh, objective AI reviewer to inspect code changes from an independent perspective.
+* **When It Kicks In:** Before committing major code changes or publishing mods.
+* **How It Works:** Dispatches the code diff to an isolated reviewer subagent that checks for security flaws, memory leaks, and logic bugs without cluttering your main chat.
+* **Why It Saves Quota:** Audits large diffs in a separate lightweight sandbox, keeping your primary session transcript small and fast.
 
 #### 10. `using-git-worktrees`
-* **Trigger:** Testing risky changes, running concurrent mod branches, verifying clean builds.
-* **Mechanism:** Automates `git worktree add`, directory branching, and cleanup. Keeps experiments fully sandboxed from your working tree.
-* **Quota Advantage:** Avoids messy stash/checkout cycles that dirty git index state and force repository re-exploration.
+* **In Simple Terms:** Creates a private sandbox folder for risky experiments without messing up your main project files.
+* **When It Kicks In:** Testing experimental changes, comparing versions, or working on multiple mod branches simultaneously.
+* **How It Works:** Uses Git's built-in worktree feature to check out separate branches into distinct folders side-by-side.
+* **Why It Saves Quota:** Avoids messy stash/checkout cycles that dirty git state and force the AI to re-scan the whole repository.
 
 ---
 
 ### 🎮 Game Engines & 3D Asset Engineering
 
 #### 11. `godot-game-dev`
-* **Trigger:** Godot Engine 4.x game logic, UI systems, physics, scene trees.
-* **Mechanism:** Enforces strict GDScript 2.0 static typing (`var x: int = 10`), "signals up, functions down" scene tree decoupling, data-driven custom `Resource` definitions, and headless CLI unit testing with the GUT framework.
-* **Quota Advantage:** Static typing and headless checks catch script errors via CLI before running the full game window.
+* **In Simple Terms:** Expert guide for building games with the Godot Engine using clean, error-free GDScript 2.0.
+* **When It Kicks In:** Writing Godot 4.x game logic, player controllers, UI menus, physics, or scene trees.
+* **How It Works:** Enforces strict type safety (`var speed: float = 5.0`), clean signal connections between nodes ("signals up, functions down"), custom `Resource` files for game data, and fast headless testing with the GUT framework.
+* **Why It Saves Quota:** Catches typos and script errors instantly via the command line without launching the full game window.
 
 #### 12. `unreal-engine-dev`
-* **Trigger:** Unreal Engine 5 C++ classes, Gameplay Framework, Subsystems, Blueprints.
-* **Mechanism:** Governs UObject lifecycle, `UPROPERTY` garbage collection semantics, Subsystems for persistent game logic, Enhanced Input actions, and headless build compilation.
-* **Quota Advantage:** Prevents UE5 GC pointer corruption and dangling references that cause engine crashes and lengthy log analysis.
+* **In Simple Terms:** Best practices for Unreal Engine 5 C++ and Blueprints that prevent game crashes and memory leaks.
+* **When It Kicks In:** Developing UE5 games, gameplay actors, user interfaces, or gameplay abilities.
+* **How It Works:** Enforces Unreal's memory management rules (`UPROPERTY()`), subsystem architectures, and Enhanced Input systems so the game engine doesn't crash from lost or dangling pointers.
+* **Why It Saves Quota:** Prevents cryptic Unreal crashes that usually require digging through massive 100MB log files.
 
 #### 13. `unity-game-dev`
-* **Trigger:** Unity Engine C# scripts, MonoBehaviours, ScriptableObjects, UI Toolkit.
-* **Mechanism:** Enforces zero-allocation patterns (avoiding runtime GC spikes), `Span<T>` and `Memory<T>` for buffers, ScriptableObject architectures, and decoupled EventChannel systems.
-* **Quota Advantage:** Eliminates garbage collection churn and memory leak debugging cycles.
+* **In Simple Terms:** High-performance C# guidelines for Unity that keep your game running at a smooth 60+ FPS without lag spikes.
+* **When It Kicks In:** Writing Unity scripts, MonoBehaviours, ScriptableObjects, or UI Toolkit components.
+* **How It Works:** Eliminates hidden memory allocations that trigger Unity's garbage collector, uses ScriptableObjects for modular data, and decouples game events with EventChannels.
+* **Why It Saves Quota:** Prevents performance stutter and memory leaks before they ever reach the game engine.
 
 #### 14. `game-engine-migration`
-* **Trigger:** Porting legacy game engines, source ports, custom forks, and mods across architectures (32-to-64 bit), graphics APIs (DX9/OpenGL to DX11/DX12/Vulkan), or modern scripting runtimes.
-* **Mechanism:** Executes the universal 5-stage migration lifecycle: dependency audit, bitness transition & pointer math (`uintptr_t`, `#pragma pack`, unified 64-bit ABI calling conventions), graphics pipeline modernization (constant buffer 16-byte alignment, PSO state), script runtime modernizations (Lua 5.1 to LuaJIT, Mono to modern .NET), VFS case-normalization, and differential regression diffing.
-* **Quota Advantage:** Eliminates speculative crash debugging (`0xC0000005`, memory corruption, broken vertex strides) with a standardized architectural protocol.
+* **In Simple Terms:** The universal master blueprint for upgrading older games and mods to modern 64-bit systems, new graphics APIs (DirectX 11/Vulkan), and updated engines.
+* **When It Kicks In:** Upgrading any 32-bit legacy game or mod to 64-bit, switching rendering pipelines, or modernizing older game engines.
+* **How It Works:** Follows a 5-step checklist: checks dependencies, updates memory pointers and data alignment (so memory doesn't get corrupted), modernizes shader code, updates scripting bridges (like Lua), and runs side-by-side comparison tests.
+* **Why It Saves Quota:** Replaces weeks of trial-and-error game crashes (`0xC0000005` memory errors) with a reliable, structured conversion recipe.
 
 #### 15. `blender-3d-engineering`
-* **Trigger:** Creating 3D models, procedural geometry, hard-surface props, game asset exports.
-* **Mechanism:** Headless Python execution via `/usr/bin/blender -b -P script.py`. Constructs assets using parameter-driven primitives and non-destructive modifier stacks (Boolean, Bevel, Mirror, Array, Subsurf). Validates manifold topology in-script and exports clean glTF/FBX.
-* **Quota Advantage:** Eliminates the disaster of emitting thousands of raw vertex coordinates into chat, saving 20,000+ tokens per asset while producing clean, manifold meshes.
+* **In Simple Terms:** Creates 3D game models and props in Blender behind the scenes using automated Python scripts.
+* **When It Kicks In:** Generating 3D props, weapons, buildings, or exporting assets to glTF or FBX format.
+* **How It Works:** Runs Blender in "headless mode" (no graphic window needed) using Python math and modifiers (like bevel, mirror, and boolean cuts) to produce clean, watertight 3D models.
+* **Why It Saves Quota:** Instead of typing out 50,000 raw 3D vertex numbers into the chat (which drains tokens in seconds), it generates a clean 30-line script that builds the mesh in seconds.
 
 ---
 
 ### ☢️ Game Modding (S.T.A.L.K.E.R. Ecosystem)
 
 #### 16. `game-modding`
-* **Trigger:** S.T.A.L.K.E.R. Legends of the Zone Trilogy Enhanced Edition (EE) modding.
-* **Mechanism:** Operates ZoneForge asset workflows. Enforces read-only baseline protection for unpacked vanilla archives, strict LTX section header and inheritance syntax, DXT1/DXT5 texture standards, and engine-safe OGG audio chunk preservation.
-* **Quota Advantage:** Eliminates fatal X-Ray engine crashes caused by missing LTX parent sections or corrupted audio comment headers.
+* **In Simple Terms:** Safety guardrails for modding games like S.T.A.L.K.E.R. Enhanced Edition, making sure configurations and textures don't break the game.
+* **When It Kicks In:** Modding weapons, items, UI menus, textures, or game configurations.
+* **How It Works:** Protects original game files by keeping them read-only, checks game configuration text files (LTX) for missing sections, ensures textures use the right compression (DXT1/DXT5), and preserves special audio headers.
+* **Why It Saves Quota:** Stops the game engine from crashing on startup due to a single missing bracket or corrupted audio file.
 
 #### 17. `xray-lua-scripting`
-* **Trigger:** S.T.A.L.K.E.R. X-Ray Engine Lua scripts, quest logic, inventory hooks, callbacks.
-* **Mechanism:** Enforces safe engine callback bindings, memory leak prevention in global Lua states, safe game save serialization, and strict nil-checking on game objects.
-* **Quota Advantage:** Prevents silent script freezes and corrupt savegame states.
+* **In Simple Terms:** Specialized scripting rules for the S.T.A.L.K.E.R. X-Ray game engine that prevent savegame corruption and game freezes.
+* **When It Kicks In:** Writing quest scripts, inventory logic, NPC behaviors, or custom game mechanics in S.T.A.L.K.E.R.
+* **How It Works:** Enforces strict nil-checks (verifying an enemy or item still exists before talking to it), prevents memory leaks in Lua, and ensures game saves stay clean.
+* **Why It Saves Quota:** Avoids silent script freezes and prevents corrupted save files that ruin hours of playthroughs.
 
 #### 18. `stalker2-modding`
-* **Trigger:** S.T.A.L.K.E.R. 2 Heart of Chornobyl modding (Unreal Engine 5).
-* **Mechanism:** Governs UE5 IoStore container packaging (`.pak`, `.ucas`, `.utoc`) using `repak`, RE-UE4SS C++ and Lua hooking workflows, and game asset extraction.
-* **Quota Advantage:** Eliminates trial-and-error container packing errors and mismatched compression flags.
+* **In Simple Terms:** Modding toolkit for S.T.A.L.K.E.R. 2 Heart of Chornobyl (Unreal Engine 5).
+* **When It Kicks In:** Creating mods for S.T.A.L.K.E.R. 2, packing game archives, or adding custom C++ and Lua gameplay hooks.
+* **How It Works:** Automates packaging UE5 game containers (`.pak`, `.ucas`, `.utoc`) with proper compression using `repak` and sets up RE-UE4SS scripting hooks.
+* **Why It Saves Quota:** Eliminates failed container packing and wrong compression settings that cause the game to ignore mods.
 
 #### 19. `stalker-ogsr-migration`
-* **Trigger:** Porting legacy 32-bit S.T.A.L.K.E.R. Shadow of Chernobyl mods (e.g., S.T.A.L.K.E.R. Complete 2009) to modern 64-bit OGSR Engine.
-* **Mechanism:** Handles 64-bit binary layout migration (`bin_x64/`), purging incompatible 32-bit native libraries (`complete_blood_pools.dll`), stripping legacy DX9 shaders causing DX11 crashes (`shaders/r2/`), migrating Lua callbacks to LuaJIT engine signals, universal ACDC spawn decomposition/recompilation, and diagnosing `_appdata_/logs/*.log` crash signatures.
-* **Quota Advantage:** Eliminates fatal runtime engine crashes (`FATAL ERROR: Expression: !failed()`, `0xC0000005` access violations) and avoids speculative shader debugging.
+* **In Simple Terms:** The expert specialist for porting older S.T.A.L.K.E.R. mods (like S.T.A.L.K.E.R. Complete 2009) to the modern, 64-bit OGSR Engine.
+* **When It Kicks In:** Upgrading 32-bit Shadow of Chernobyl mods to the modern 64-bit OGSR engine.
+* **How It Works:** Removes incompatible 32-bit DLL files, removes old DirectX 9 shaders that crash the modern DX11 renderer, updates script callbacks to LuaJIT, and converts level spawn files using ACDC.
+* **Why It Saves Quota:** Directly solves the known causes of fatal startup crashes (`FATAL ERROR: Expression: !failed()`) without endless guesswork.
 
 ---
 
 ### 💻 Systems, Reverse Engineering & Languages
 
 #### 20. `cachyos-arch-packaging`
-* **Trigger:** CachyOS and Arch Linux PKGBUILD authoring, DKMS modules, systemd services.
-* **Mechanism:** Enforces Arch packaging standards, safe DKMS kernel hooks (e.g. `omen-acpi`), systemd unit authoring, `makepkg` verification, and package integrity checks.
-* **Quota Advantage:** Prevents broken build chroots and dirty package installations.
+* **In Simple Terms:** Builds and packages Linux software, kernel drivers, and background services specifically for Arch Linux and CachyOS.
+* **When It Kicks In:** Creating Arch/CachyOS packages (`PKGBUILD`), installing kernel drivers (like `omen-acpi`), or setting up systemd background services.
+* **How It Works:** Enforces Arch packaging standards, checks integrity hashes, validates build dependencies in isolated chroots, and verifies systemd service files.
+* **Why It Saves Quota:** Prevents broken package builds and keeps your Linux system clean, stable, and conflict-free.
 
 #### 21. `reverse-engineer-anything`
-* **Trigger:** Reverse engineering native binaries, managed code, Electron apps, APKs, firmware.
-* **Mechanism:** Deep integration with REA MCP. Handles static disassembly, decompilation, memory reconstruction, control-flow graphing, and evidence ledger maintenance.
-* **Quota Advantage:** Focuses analysis strictly on evidence ledgers rather than dumping raw assembly dumps into chat.
+* **In Simple Terms:** A deep inspection engine for understanding closed-source software, compiled games, and applications when no source code is available.
+* **When It Kicks In:** Analyzing compiled binaries, Windows/Linux executables, Android packages, or web apps.
+* **How It Works:** Deeply integrates with REA MCP to perform static disassembly, decompile code, reconstruct data structures, and keep an evidence ledger.
+* **Why It Saves Quota:** Tracks findings in structured evidence summaries rather than dumping thousands of lines of raw, unreadable assembly into chat.
 
 #### 22. `binary-re-workflows`
-* **Trigger:** Inspecting compiled binaries, game DLLs, network packets, executables.
-* **Mechanism:** Orchestrates REA, Ghidra, JADX, TShark, `objdump`, and hex analysis tools under Superpowers verification standards.
-* **Quota Advantage:** Converts opaque binary debugging into deterministic, hypothesis-driven investigation.
+* **In Simple Terms:** Coordinates professional reverse engineering tools (like Ghidra, JADX, and network packet analyzers) under a strict scientific process.
+* **When It Kicks In:** Inspecting unfamiliar game DLLs, network packets, or complex binary executables.
+* **How It Works:** Combines static analysis and runtime tracing to test hypotheses about how closed-source binaries function.
+* **Why It Saves Quota:** Turns confusing binary mysteries into deterministic, step-by-step discoveries.
 
 #### 23. `standalone-binary-re`
-* **Trigger:** Reverse engineering binaries when REA MCP is offline, unavailable, or for fast zero-overhead CLI inspection.
-* **Mechanism:** Direct execution of native Linux utilities (`objdump`, `readelf`, `nm`, `jadx`, `gdb`, `strings`, `xxd`) and Python `pefile`. Handles Linux ELF relocations/symbols, Windows PE export/import directories, Android APK Java decompilation, and custom binary formats without MCP dependencies.
-* **Quota Advantage:** Zero MCP startup latency; avoids large token-heavy disassembly dumps through targeted function filters.
+* **In Simple Terms:** A fast, zero-setup toolkit for peeking inside binary files using standard Linux terminal tools—no heavy servers required.
+* **When It Kicks In:** Inspecting executables, DLLs, or Android APKs when external MCP servers are offline or when you need answers in seconds.
+* **How It Works:** Uses built-in Linux tools (`objdump`, `readelf`, `nm`, `strings`, `jadx`, `gdb`) and Python scripts to quickly inspect exported functions, headers, and text.
+* **Why It Saves Quota:** Starts up instantly with zero overhead and filters out noise so you only see the functions you care about.
 
 #### 24. `open-apk`
-* **Trigger:** Opening, decompiling, or inspecting Android APK, XAPK, DEX, or JAR files.
-* **Mechanism:** Streamlines loading Android packages into JADX headless static analysis, extracting package metadata, searching classes/methods, resolving xrefs, and exporting readable Java source. Supports downloading from APKPure via `apkeep`.
-* **Quota Advantage:** Extracts targeted classes rather than dumping hundreds of decompiled Java files into context.
+* **In Simple Terms:** Automatically opens, inspects, and decompiles Android mobile app packages (APKs) into readable Java code.
+* **When It Kicks In:** Reverse engineering Android apps, mobile games, or APK packages.
+* **How It Works:** Unpacks APK and DEX files directly into JADX headless analysis, searches classes and methods, and can download APKs directly via `apkeep`.
+* **Why It Saves Quota:** Extracts only the exact Java classes you need instead of dumping hundreds of decompiled files into the chat context.
 
 #### 25. `wakaru`
-* **Trigger:** Auditing minified production JavaScript, Webpack/Vite/Rollup bundles, Electron apps, or compiled Vue 3 artifacts.
-* **Mechanism:** JavaScript bundle unpacker and decompiler. Splits bundled assets into original module structures, reverses transpiler helpers (async/await, classes, JSX, optional chaining), and un-minifies structure deterministically.
-* **Quota Advantage:** Turns unreadable single-line 2MB bundles into isolated, readable modules with zero hallucination.
+* **In Simple Terms:** Unpacks and unscrambles messy, minified JavaScript bundles (like from Webpack, Vite, or Electron) back into clean, organized files.
+* **When It Kicks In:** Auditing modern web apps, Electron desktop software, or production JavaScript bundles.
+* **How It Works:** Separates bundled web assets back into individual source files and translates minified shortcuts back into readable classes, async functions, and JSX.
+* **Why It Saves Quota:** Turns a gigantic, unreadable 2MB single-line JavaScript file into clean, modular source files with zero hallucination.
 
 #### 26. `lowlevel-dll-internals`
-* **Trigger:** Analyzing Windows PE/DLL binaries, ASI plugins, C++ engine classes, vtables, crash dumps, or writing native detour hooks.
-* **Mechanism:** Applies compiler-grade binary heuristics: RVA-to-file offset conversion, 32-bit calling convention stack alignment (`__thiscall` in `ecx`, `__stdcall`, `__cdecl`), 64-bit ABI shadow space rules, virtual method table (VTable) slot indexing, 5-byte relative jump detour blueprints, and memory protection patching.
-* **Quota Advantage:** Eliminates trial-and-error memory patching and prevents cryptic `0xC0000005` access violations before code execution.
+* **In Simple Terms:** A low-level guide for safely modifying Windows DLLs, game engine classes, and memory patches without crashing the game.
+* **When It Kicks In:** Writing game mod plugins (like ASI plugins), hooking engine functions, or analyzing crash dumps.
+* **How It Works:** Calculates computer memory offsets, 32-bit calling conventions (`__thiscall` in `ecx`), 64-bit ABI shadow space, and virtual function tables so memory patches don't cause instant crashes.
+* **Why It Saves Quota:** Prevents dreaded `0xC0000005` "Access Violation" crashes by calculating memory addresses and calling conventions correctly the first time.
 
 #### 27. `steamcmd-workshop-pipeline`
-* **Trigger:** Publishing, updating, or managing Steam Workshop items via SteamCMD.
-* **Mechanism:** Generates valid VDF workshop manifests, manages content depots, sets item visibility, handles preview images, and publishes automated changelogs.
-* **Quota Advantage:** Replaces error-prone manual SteamCMD commands with automated, verified scripts.
+* **In Simple Terms:** Automates publishing and updating mods on the Steam Workshop from the command line without clicking through confusing web forms.
+* **When It Kicks In:** Uploading new mods, pushing updates, setting preview images, or writing changelogs on Steam Workshop.
+* **How It Works:** Generates valid Steam VDF configuration manifests, manages content depots, and executes SteamCMD commands automatically.
+* **Why It Saves Quota:** Replaces error-prone manual upload attempts with an automated, verified deployment script.
 
 #### 28. `python-engineering`
-* **Trigger:** Python development, API building, test suites, automation scripts.
-* **Mechanism:** Enforces Python 3.10+ modern idioms: strict type annotations (`mypy`), fast linting and formatting (`ruff`), pytest test suites with fixtures, and hot-path memory profiling.
-* **Quota Advantage:** Static type checks catch bugs instantly before runtime.
+* **In Simple Terms:** Best practices for writing clean, fast, and bug-free modern Python code (Python 3.10+).
+* **When It Kicks In:** Writing Python scripts, web APIs, automation tools, or test suites.
+* **How It Works:** Enforces strict type hints (`mypy`), lightning-fast code formatting and linting (`ruff`), and comprehensive test suites (`pytest`).
+* **Why It Saves Quota:** Catches bugs before code ever runs, saving countless turns of debugging runtime errors.
 
 #### 29. `rust-engineering`
-* **Trigger:** Rust systems development, game tools, CLI applications.
-* **Mechanism:** Enforces compiler-first workflows: zero-cost abstractions, idiomatic error handling with `Result` and `Option`, strict borrow checker compliance, and Clippy lint audits.
-* **Quota Advantage:** Zero runtime crashes; compiler errors are solved systematically.
+* **In Simple Terms:** Writes reliable, blazing-fast Rust code by working harmoniously with the Rust compiler.
+* **When It Kicks In:** Writing systems software, game tools, performance-critical modules, or CLI utilities in Rust.
+* **How It Works:** Follows Rust best practices for memory ownership, zero-cost abstractions, error handling with `Result` and `Option`, and strict Clippy lint checks.
+* **Why It Saves Quota:** Eliminates runtime crashes completely—if it compiles cleanly in Rust, it works.
 
 #### 30. `modern-cpp-engineering`
-* **Trigger:** C++ systems programming, game engine modules, native libraries.
-* **Mechanism:** Modern C++20/C++23 standards: RAII memory management, smart pointers (`unique_ptr`, `shared_ptr`), Concepts for template constraints, and CMake modular targets.
-* **Quota Advantage:** Eliminates memory leaks, buffer overflows, and undefined behavior debugging.
+* **In Simple Terms:** Modern C++ (C++20/C++23) standards that eliminate old-school memory bugs, buffer overflows, and crashes.
+* **When It Kicks In:** Writing game engine code, native libraries, or performance-critical C++ applications.
+* **How It Works:** Uses smart pointers (`unique_ptr`, `shared_ptr`), RAII (automatic cleanup of resources), modern Concepts, and clean CMake build files.
+* **Why It Saves Quota:** Prevents memory leaks, buffer overflows, and segmentation faults before they happen.
 
 #### 31. `csharp-dotnet-engineering`
-* **Trigger:** Modern .NET 8/9 applications, C# utilities, engine plugins.
-* **Mechanism:** Emphasizes memory optimization using `Span<T>` and `Memory<T>`, strict `CancellationToken` propagation across async chains, pattern matching, and Roslyn analyzer enforcement.
-* **Quota Advantage:** Guarantees efficient, allocation-conscious code that minimizes GC pauses.
+* **In Simple Terms:** High-performance modern C# and .NET (8/9) guidelines focused on zero-allocation and responsive async code.
+* **When It Kicks In:** Writing C# backend services, desktop utilities, game plugins, or tools.
+* **How It Works:** Uses memory-efficient types (`Span<T>`, `Memory<T>`), proper async cancellation tokens, and Roslyn code analyzers to keep apps fast.
+* **Why It Saves Quota:** Prevents memory bloat and keeps background operations responsive and leak-free.
 
 ---
 
 ### 💰 Quota, Memory & Context Engineering
 
 #### 32. `token-economy`
-* **Trigger:** Active in all conversations via `GEMINI.md`, `CLAUDE.md`, and on-demand skill.
-* **Mechanism:**
-  - **Zero Conversational Fluff:** Drops conversational preambles ("Sure, I can help with that"), fillers, and sign-offs.
-  - **Zero Prompt Restatement:** Never echoes, paraphrases, or summarizes the user's prompt; leads immediately with actionable technical data.
-  - **Zero Code Duplication in Chat:** Once code is created or modified via tools (`replace_file_content`, `write_to_file`, `Edit`), never re-pastes code blocks into chat text. Uses file links, line ranges, and a 1-sentence rationale.
+* **In Simple Terms:** The ultimate quota-saving protocol that eliminates robotic fluff, stops the AI from repeating itself, and stretches your daily AI usage limits by 2x to 3x.
+* **When It Kicks In:** Always active in every conversation across Antigravity and Claude Code.
+* **How It Works:**
+  - **Zero Conversational Fluff:** Drops conversational preambles ("Sure, I can help with that!"), robotic fillers, and sign-offs.
+  - **Zero Prompt Restatement:** Never echoes, paraphrases, or summarizes your prompt back to you; leads immediately with actionable technical data.
+  - **Zero Code Duplication in Chat:** Once code is created or modified on disk, never re-pastes large code blocks into chat text. Uses file links, line ranges, and a 1-sentence rationale.
   - **High-Density Status:** Uses single-line checklist indicators (`[✓]`, `[→]`, `[!]`) instead of multi-paragraph narratives.
-  - **Silent Tool Success:** Suppresses echoing successful terminal outputs; surfaces only errors, diffs, and metrics.
-  - **Surgical Edits:** Enforces targeted chunk replacements (`replace_file_content`) over full-file overwrites.
-  - **Artifact Offloading:** Offloads extensive plans, logs, and designs to files/artifacts referenced by 1-line clickable links.
+  - **Silent Tool Success:** Suppresses echoing successful terminal outputs; surfaces only actionable errors, diffs, and metrics.
+  - **Surgical Edits:** Enforces targeted chunk replacements over full-file rewrites.
+  - **Artifact Offloading:** Offloads extensive plans, logs, and designs to separate files referenced by 1-line clickable links.
   - **Token Economy Visibility:** Concludes multi-step workflows with a single high-density token savings metric line (`📉 Token Economy: ~<N> tokens saved (<breakdown>)`).
 * **Measured Savings Breakdown (per 10-turn engineering session):**
 
@@ -308,16 +342,17 @@ cli-power-setup/
 * **Compounding Context Multiplier:** Because past conversation output tokens are re-ingested as input prompt tokens on every subsequent turn, saving 6,500 output tokens in early turns prevents re-reading **~35,000–60,000 cumulative prompt tokens** across a 15-turn session, extending rolling 5-hour quota limits by **2x to 3x**.
 
 #### 33. `project-memory-bank`
-* **Trigger:** Starting work on a repository, multi-session tasks, before running `/compact`.
-* **Mechanism:**
-  - Maintains persistent markdown files in `.agents/memory/`:
-    - `projectBrief.md`: Scope, tech stack, boundaries (<300 tokens).
-    - `systemPatterns.md`: Architecture, directory conventions (<400 tokens).
-    - `activeContext.md`: Current objective, recent changes, immediate next steps (<300 tokens).
-    - `learnings.md`: Solved engine gotchas, compiler traps, environment fixes (<500 tokens).
-  - **Instant Hydration:** Reads `activeContext.md` upon session start instead of scanning 30 files.
-  - **Lossless Compaction:** Saves state before `/compact`, wiping 100k-token conversation histories while retaining 100% working context.
-* **Quota Advantage:** Saves 15,000–50,000 exploration tokens on every new session and eliminates re-debugging known issues.
+* **In Simple Terms:** A smart project notebook that stores your project's architecture and lessons learned, so the AI never forgets what you're working on across restarts.
+* **When It Kicks In:** Starting work on a repository, resuming multi-session tasks, or before running `/compact`.
+* **How It Works:**
+  - Maintains concise, persistent markdown files in `.agents/memory/`:
+    - `projectBrief.md`: Project scope, tech stack, and goals (<300 tokens).
+    - `systemPatterns.md`: Code architecture and directory conventions (<400 tokens).
+    - `activeContext.md`: Current objective, recent changes, and immediate next steps (<300 tokens).
+    - `learnings.md`: Solved engine gotchas, compiler traps, and environment fixes (<500 tokens).
+  - **Instant Hydration:** Reads `activeContext.md` upon session start instead of scanning 30 source files.
+  - **Lossless Compaction:** Saves state before `/compact`, clearing out 100k-token conversation histories while retaining 100% working context.
+* **Why It Saves Quota:** Saves 15,000–50,000 exploration tokens on every new session and prevents the AI from re-debugging known issues.
 
 ---
 
