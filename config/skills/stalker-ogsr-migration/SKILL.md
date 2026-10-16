@@ -169,7 +169,16 @@ python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controll
 
 # 5. Combat & UI action cycle (weapon swap, aim, fire, reload, interact with KEY_F, and toggle inventory KEY_TAB)
 python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controller.py action-cycle --cycles 3
+
+# 6. Inject testing cheats & immunities (God Mode & Unlimited Ammo)
+python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controller.py enable-cheats --god-mode --infinite-ammo
 ```
+
+#### Step 3b: Testing Immunities & God Mode Configuration
+To prevent player death from halting autonomous QA during level transitions, shader testing, or combat AI loops:
+1. **Engine CVars (`_appdata_/user.ltx`):** Ensure `g_god on` and `g_unlimitedammo on` are present before launching.
+2. **Actor LTX Immunities:** In `gamedata/config/creatures/actor.ltx`, set all damage multipliers under `[actor_immunities_gd_master]` to `0.0` (zero damage from bullets, claws, radiation, fire, chemical burn, and falling).
+3. **All-in-One CLI Execution:** Use `stalker-playtest-runner --god-mode --infinite-ammo --adaptive` to automatically configure immunities, inject console cheats, monitor screen telemetry, and recover from unexpected deaths.
 
 #### Step 4: Verify Visual Mutation & UI State (`agentic-visual-perception`)
 Verify that injected actions actually mutated game state rather than hanging on silent freezes:

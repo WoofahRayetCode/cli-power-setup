@@ -30,6 +30,10 @@ def main():
     parser.add_argument("--fuzz-duration", type=float, default=5.0, help="Duration for evolutionary action mutation")
     parser.add_argument("--max-deaths", type=int, default=3, help="Max tolerated player deaths before flagging a hazard loop")
     parser.add_argument("--no-auto-reload", action="store_true", help="Disable automatic quickload/respawn on player death")
+    parser.add_argument("--god-mode", action="store_true", default=True, help="Enable invulnerability god mode for uninterrupted testing (default: True)")
+    parser.add_argument("--no-god-mode", action="store_false", dest="god_mode", help="Disable invulnerability god mode")
+    parser.add_argument("--infinite-ammo", action="store_true", default=True, help="Enable infinite weapon ammunition for combat testing (default: True)")
+    parser.add_argument("--no-infinite-ammo", action="store_false", dest="infinite_ammo", help="Disable infinite ammunition")
     parser.add_argument("--dry-run", action="store_true", help="Simulate playtesting without launching actual game binary")
 
     args = parser.parse_args()
@@ -41,6 +45,7 @@ def main():
     print(f"Log File:         {args.log_file}")
     print(f"Telemetry Dir:    {args.telemetry_dir}")
     print(f"Test Duration:    {args.duration}s | Adaptive Fuzz: {args.adaptive} | Dry Run: {args.dry_run}")
+    print(f"Cheats & QA Aids: God Mode: {args.god_mode} | Infinite Ammo: {args.infinite_ammo}")
     print("-----------------------------------------------------------------------\n")
 
     # Resolve skill script paths dynamically across Claude, Gemini, and Repo
@@ -77,6 +82,35 @@ def main():
     # Step 2: Initialize Telemetry Directory
     os.makedirs(args.telemetry_dir, exist_ok=True)
     print(f"[Step 2/5] Initialized visual telemetry sink in: {args.telemetry_dir}")
+
+    # Step 2b: Configure Testing Cheats (God Mode & Infinite Ammo)
+    dry_flag = ["--dry-run"] if args.dry_run else []
+    if args.god_mode or args.infinite_ammo:
+        print("[Step 2b] Configuring Autonomous Testing Immunities & Cheats...")
+        user_ltx = Path("_appdata_/user.ltx")
+        if user_ltx.exists():
+            try:
+                ltx_content = user_ltx.read_text(encoding="utf-8", errors="ignore")
+                lines = [l for l in ltx_content.splitlines() if not any(l.startswith(k) for k in ["g_god", "g_unlimitedammo"])]
+                if args.god_mode:
+                    lines.append("g_god on")
+                if args.infinite_ammo:
+                    lines.append("g_unlimitedammo on")
+                user_ltx.write_text("\n".join(lines) + "\n")
+                print("  -> Updated _appdata_/user.ltx with persistent CVars (g_god, g_unlimitedammo).")
+            except Exception as e:
+                print(f"  -> Warning updating user.ltx: {e}")
+        
+        # Inject console commands via QA controller
+        if qa_controller.exists():
+            cheat_flags = []
+            if args.god_mode:
+                cheat_flags.append("--god-mode")
+            if args.infinite_ammo:
+                cheat_flags.append("--infinite-ammo")
+            cheat_cmd = [sys.executable, str(qa_controller), "enable-cheats"] + cheat_flags + dry_flag
+            subprocess.run(cheat_cmd, capture_output=True, check=False)
+            print(f"  -> Injected engine cheats: God Mode={'ON' if args.god_mode else 'OFF'} | Infinite Ammo={'ON' if args.infinite_ammo else 'OFF'}")
 
     # Step 3: Launch Background Visual Surveillance
     monitor_proc = None

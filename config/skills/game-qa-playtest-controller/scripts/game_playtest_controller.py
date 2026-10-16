@@ -29,16 +29,19 @@ class VirtualGamepad:
         
         if not dry_run and HAVE_EVDEV:
             try:
+                all_keys = [
+                    getattr(ecodes, f"KEY_{c}") for c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                    if hasattr(ecodes, f"KEY_{c}")
+                ]
+                special_keys = [
+                    ecodes.KEY_LEFTSHIFT, ecodes.KEY_SPACE, ecodes.KEY_LEFTCTRL,
+                    ecodes.KEY_TAB, ecodes.KEY_ESC, ecodes.KEY_ENTER, ecodes.KEY_BACKSPACE,
+                    ecodes.KEY_GRAVE, ecodes.KEY_MINUS, ecodes.KEY_EQUAL,
+                    ecodes.KEY_F1, ecodes.KEY_F5, ecodes.KEY_F9, ecodes.KEY_F12,
+                    ecodes.BTN_LEFT, ecodes.BTN_RIGHT, ecodes.BTN_MIDDLE
+                ]
                 cap = {
-                    ecodes.EV_KEY: [
-                        ecodes.KEY_W, ecodes.KEY_A, ecodes.KEY_S, ecodes.KEY_D,
-                        ecodes.KEY_LEFTSHIFT, ecodes.KEY_SPACE, ecodes.KEY_LEFTCTRL,
-                        ecodes.KEY_C, ecodes.KEY_R, ecodes.KEY_F, ecodes.KEY_E,
-                        ecodes.KEY_1, ecodes.KEY_2, ecodes.KEY_3, ecodes.KEY_TAB,
-                        ecodes.KEY_I, ecodes.KEY_ESC, ecodes.KEY_F5, ecodes.KEY_F9,
-                        ecodes.KEY_ENTER,
-                        ecodes.BTN_LEFT, ecodes.BTN_RIGHT, ecodes.BTN_MIDDLE
-                    ],
+                    ecodes.EV_KEY: list(set(all_keys + special_keys)),
                     ecodes.EV_REL: [
                         ecodes.REL_X, ecodes.REL_Y, ecodes.REL_WHEEL
                     ]
@@ -50,12 +53,35 @@ class VirtualGamepad:
 
     def key(self, key_code, press=True):
         if self.dry_run:
-            status = "PRESS" if press else "RELEASE"
-            # print(f"[Sim] Key {key_code}: {status}")
             return
-        if self.uinput and HAVE_EVDEV:
+        if self.uinput and HAVE_EVDEV and key_code is not None:
             self.uinput.write(ecodes.EV_KEY, key_code, 1 if press else 0)
             self.uinput.syn()
+
+    def type_text(self, text, delay=0.03):
+        if self.dry_run:
+            print(f"  [Sim Type]: '{text}'")
+            return
+        if not HAVE_EVDEV:
+            return
+        for ch in text:
+            upper = ch.upper()
+            if ch == "\n":
+                kc = ecodes.KEY_ENTER
+            elif ch == " ":
+                kc = ecodes.KEY_SPACE
+            elif ch in ("-", "_"):
+                kc = ecodes.KEY_MINUS
+            elif ch in ("`", "~"):
+                kc = ecodes.KEY_GRAVE
+            elif hasattr(ecodes, f"KEY_{upper}"):
+                kc = getattr(ecodes, f"KEY_{upper}")
+            else:
+                continue
+            self.key(kc, True)
+            time.sleep(delay)
+            self.key(kc, False)
+            time.sleep(delay)
 
     def mouse_move(self, dx, dy):
         if self.dry_run:
@@ -291,6 +317,65 @@ def cmd_respawn_reload(args, pad):
     time.sleep(args.wait_time if not pad.dry_run else 0.5)
     print("[✓] Player death recovery sequence injected.")
 
+def cmd_console_command(args, pad):
+    print("=======================================================================")
+    print(" ⌨️  In-Game Console Command Injection")
+    print("=======================================================================")
+    print(f"Command:          {args.cmd}")
+    print(f"Console Key:      {args.console_key} | Dry Run: {pad.dry_run}")
+    print("-----------------------------------------------------------------------\n")
+    
+    console_key = ecodes.KEY_GRAVE if HAVE_EVDEV else None
+    if args.console_key.upper() == "TAB" and HAVE_EVDEV:
+        console_key = ecodes.KEY_TAB
+
+    print(f"  -> Opening game console ({args.console_key})...")
+    pad.key(console_key, True)
+    time.sleep(0.1)
+    pad.key(console_key, False)
+    time.sleep(0.3)
+    
+    print(f"  -> Typing console command: '{args.cmd}'...")
+    pad.type_text(args.cmd + "\n", delay=0.02)
+    time.sleep(0.2)
+    
+    print(f"  -> Closing game console...")
+    pad.key(console_key, True)
+    time.sleep(0.1)
+    pad.key(console_key, False)
+    time.sleep(0.2)
+    print(f"[✓] Console command '{args.cmd}' dispatched successfully.")
+
+def cmd_enable_cheats(args, pad):
+    print("=======================================================================")
+    print(" 🛡️  Testing Cheats Injection (God Mode & Infinite Ammo)")
+    print("=======================================================================")
+    print(f"God Mode:         {args.god_mode}")
+    print(f"Infinite Ammo:    {args.infinite_ammo} | Dry Run: {pad.dry_run}")
+    print("-----------------------------------------------------------------------\n")
+    
+    console_key = ecodes.KEY_GRAVE if HAVE_EVDEV else None
+    pad.key(console_key, True)
+    time.sleep(0.1)
+    pad.key(console_key, False)
+    time.sleep(0.3)
+    
+    if args.god_mode:
+        print("  -> Injecting 'g_god on'...")
+        pad.type_text("g_god on\n", delay=0.02)
+        time.sleep(0.15)
+        
+    if args.infinite_ammo:
+        print("  -> Injecting 'g_unlimitedammo on'...")
+        pad.type_text("g_unlimitedammo on\n", delay=0.02)
+        time.sleep(0.15)
+        
+    pad.key(console_key, True)
+    time.sleep(0.1)
+    pad.key(console_key, False)
+    time.sleep(0.2)
+    print("[✓] Testing cheats enabled.")
+
 def main():
     common_parser = argparse.ArgumentParser(add_help=False)
     common_parser.add_argument("--dry-run", action="store_true", help="Simulate input without accessing /dev/uinput")
@@ -326,6 +411,16 @@ def main():
     p_respawn = subparsers.add_parser("respawn-reload", parents=[common_parser], help="Inject death recovery and save reload keys")
     p_respawn.add_argument("--key", type=str, default="SPACE", help="Dismissal key (SPACE, F9, ENTER)")
     p_respawn.add_argument("--wait-time", type=float, default=3.0, help="Wait time after reload")
+
+    # console-command
+    p_cc = subparsers.add_parser("console-command", parents=[common_parser], help="Open console, type command, and submit")
+    p_cc.add_argument("--cmd", type=str, required=True, help="Console command string")
+    p_cc.add_argument("--console-key", type=str, default="GRAVE", help="Console activation key (GRAVE, TAB)")
+
+    # enable-cheats
+    p_cheat = subparsers.add_parser("enable-cheats", parents=[common_parser], help="Inject god mode and unlimited ammo commands")
+    p_cheat.add_argument("--god-mode", action="store_true", default=True, help="Enable god mode")
+    p_cheat.add_argument("--infinite-ammo", action="store_true", default=True, help="Enable unlimited ammo")
     
     args = parser.parse_args()
     pad = VirtualGamepad(dry_run=args.dry_run)
@@ -343,6 +438,10 @@ def main():
             cmd_action_cycle(args, pad)
         elif args.command == "respawn-reload":
             cmd_respawn_reload(args, pad)
+        elif args.command == "console-command":
+            cmd_console_command(args, pad)
+        elif args.command == "enable-cheats":
+            cmd_enable_cheats(args, pad)
     finally:
         pad.close()
 
