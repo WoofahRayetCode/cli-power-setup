@@ -1,0 +1,61 @@
+---
+name: high-density-prompting
+description: Compresses verbose prompts into surgical, quota-saving directives, eliminates speculative reasoning tokens, and enforces deterministic, zero-waste agent outputs.
+---
+
+# High-Density Prompting & Quota-Optimized Directives
+
+This skill optimizes prompt construction to minimize both **input token compounding** and **expensive output reasoning token generation** across Claude Code and Google Antigravity.
+
+---
+
+## 🎯 The Quota Economics of Prompting
+
+1. **Output Reasoning Multiplier:** Extended thinking tokens (Claude 3.7 Sonnet / Gemini Argon) cost **4x to 5x more** than input tokens. Vague prompts trigger thousands of speculative reasoning tokens.
+2. **Compounding Context Burden:** Every word in your prompt and every sentence in the AI's reply remains in the conversation history and is billed on **every subsequent turn**.
+3. **Cache Prefix Preservation:** Concise, structured prompts prevent breaking Anthropic's **90% prompt caching discount**.
+
+---
+
+## 📐 The 4-Part High-Density Prompt Formula
+
+Instead of paragraph-length conversational prompts, structure requests using the **Surgical Directive Formula**:
+
+```text
+[Target File / Symbol:Line] + [Specific Action / Function] + [Explicit Constraint / Edge Case] + [Verification Command]
+```
+
+### Examples: Before vs. After
+
+| Conversational Prompt (Quota Burner) | High-Density Directive (90% Quota Savings) |
+| :--- | :--- |
+| *"Hey, could you please take a look at our authentication system? Users are having issues logging in when their session expires, and I think there's a bug in the token refresh logic. Can you explain what's wrong and fix it?"* | `src/auth/session.ts:84: In refreshToken(), handle 401 error by clearing session cookie and redirecting to /login without throwing unhandled rejection. Verify with: npm test auth.` |
+| *"Can you build a landing page for our new developer tool? Make it look modern, dark mode, really clean and high end, and explain all your design choices."* | `Create landing page in dist/index.html using human-crafted-web-design. Hero + 3-feature bento grid + pricing table. Dark slate palette (#09090b), Geist typography, 1px neutral borders. Output file link only; zero chat prose.` |
+| *"Why is this test failing? Walk me through what's happening."* | `tests/test_parser.py::test_malformed_xml: Diagnose root cause from stack trace. Apply surgical patch to parser.py. Run pytest -q.` |
+
+---
+
+## 🛡️ Core Rules for Quota-Saving Prompting
+
+1. **Omit Pleasantries & Fillers:**
+   * Strip *"Hi"*, *"Could you please"*, *"I was wondering if"*, *"Thanks!"*.
+   * LLMs do not require politeness tokens; they burn quota and dilute instruction attention.
+2. **Ban Requests for Explanations:**
+   * Never append *"Explain everything you do"* or *"Walk me through your thought process"*.
+   * If an explanation is genuinely required, ask *"Summarize in 1 bullet point"*.
+3. **Provide Exact Anchor Paths:**
+   * Specifying `config/settings.json:14` prevents the agent from running broad file searches or reading 20 files to find where a key is defined.
+4. **Demand Deterministic Outputs:**
+   * Append constraint flags to heavy requests:
+     * `Output: diff only`
+     * `Output: file link + 1-line headline`
+     * `Output: compact checklist`
+
+---
+
+## 🔄 Prompt Distillation Service
+
+When requested to **"distill"**, **"compress"**, or **"optimize"** a user prompt:
+1. Strip all conversational filler, preambles, and speculative language.
+2. Identify the core entity, operation, constraints, and test command.
+3. Return the compressed directive in a code block ready to copy or execute, alongside the estimated token reduction percentage.

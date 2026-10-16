@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **76 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **77 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 76 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 77 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launcher:** Installs `agy-turbo` into `~/.local/bin/`.
@@ -57,7 +57,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 76 specialized skills
+    └── skills/                 # 77 specialized skills
 ```
 
 ---
@@ -140,6 +140,7 @@ cli-power-setup/
 | **`csharp-dotnet-engineering`** | Language | .NET 8/9, Span/Memory allocation-free patterns, async |
 | **`human-crafted-web-design`** | Frontend/Web | Production tactile dark UI, anti-AI heuristics, Geist typography, responsive Tailwind CSS v4 |
 | **`executive-business-communications`** | Business | BLUF executive emails, anti-jargon filter, high-conversion proposals, SOWs, invoice generation |
+| **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
 | **`project-memory-bank`** | Memory | Persistent `.agents/memory/` context to prevent re-hydration |
 
@@ -684,6 +685,16 @@ To provide maximum flexibility without losing precision, this suite employs a **
   - **Lossless Compaction:** Saves state before `/compact`, clearing out 100k-token conversation histories while retaining 100% working context.
 * **Why It Saves Quota:** Saves 15,000–50,000 exploration tokens on every new session and prevents the AI from re-debugging known issues.
 
+#### 77. `high-density-prompting`
+* **In Simple Terms:** A prompt compression engine that turns long, wordy requests into sharp, surgical instructions—stopping the AI from burning thousands of expensive thinking tokens on simple tasks.
+* **When It Kicks In:** Whenever you type a prompt, or when you explicitly ask the AI to "distill", "compress", or "optimize" a request.
+* **How It Works:**
+  - **The 4-Part Directive Formula:** Restructures prompts into `[Target File/Line] + [Action] + [Constraints] + [Verification Command]`.
+  - **Suppresses Runaway Thinking Tokens:** Explicitly scopes boundaries so reasoning models (Claude 3.7 Extended Thinking / Gemini Argon) don't speculate across 20 unrelated files or generate 5,000 thinking tokens.
+  - **Strips Conversational Overhead:** Eliminates conversational preambles, pleasantries, and requests for conversational walk-throughs that permanently bloat chat history.
+  - **Deterministic Output Capping:** Mandates diffs, checklists, or file links instead of 500-word explanations.
+* **Why It Saves Quota:** Slashes expensive output reasoning tokens by **75%–90%** and stops prompts from compounding into multi-thousand-token history bloat.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -811,7 +822,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`claude`** | Launches standard Claude Code | When you need full deep reasoning for hard bugs or major refactors. |
 | **`agy`** | Launches standard Antigravity CLI | When you need standard multi-model escalation (Flash to Argon). |
 | **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context gauge crosses 50%–60%. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 76 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 77 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
