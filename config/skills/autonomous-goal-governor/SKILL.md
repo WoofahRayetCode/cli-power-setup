@@ -72,6 +72,17 @@ Autonomous goals degrade when context reaches 100k+ tokens because each subseque
 * **Max Concurrency:** Never spawn more than 2 parallel subagents simultaneously.
 * **Zero Nested Subagents:** Subagents are forbidden from spawning recursive subagents during `/goal` runs to prevent exponential token branching.
 
+### 6. Quota Reserve Watchdog (5-Hour & Weekly Safe Reserves)
+Autonomous background processes and test runs actively verify available quota reserves:
+```bash
+python3 config/skills/autonomous-goal-governor/scripts/goal_governor.py quota-guard --min-5h 15 --min-weekly 10
+```
+* **Real-Time Telemetry:** Inspects live quota windows (`5h: <rem>% (reset HH:MM)` and `Wk: <rem>%`) across Claude Code (`/tmp/claude_quota_state.json`) and Antigravity (`/tmp/agy_quota_cache.txt`).
+* **Emergency Circuit Breaker:** When 5-hour or weekly remaining quota drops to or below safe reserve thresholds:
+  1. Halts execution loops immediately (exit code `2`).
+  2. Auto-stages active progress to `.agents/memory/activeContext.md`.
+  3. Preserves remaining quota for the user, preventing exhaustion before they return.
+
 ---
 
 ## 🛠️ CLI Reference (`goal_governor.py`)
@@ -82,4 +93,5 @@ Autonomous goals degrade when context reaches 100k+ tokens because each subseque
 | `strike --task "..."` | Logs attempt failure; trips at 3 strikes | Halts trial-and-error doom loops |
 | `success --task "..."` | Clears strikes on passing tests | Maintains accurate error budgets |
 | `phase-gate` | Completes phase and advises `/compact` | Eliminates 100k+ token per-turn overhead |
+| `quota-guard` | Enforces 5-hour & weekly safe reserve thresholds | Prevents quota exhaustion when user is away |
 | `status` | Reports active goal, phase, and strikes | Instant statusline visibility |

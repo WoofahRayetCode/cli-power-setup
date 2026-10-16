@@ -8,6 +8,7 @@ and phased milestone compaction advice during long-running `/goal` execution.
 import argparse
 import json
 import os
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -188,6 +189,122 @@ def cmd_status(args):
         print(f"Active Strikes:  0 (All tasks clean)")
     print(f"=======================================================\n")
 
+def get_live_quota() -> dict:
+    """Reads live quota telemetry across Claude Code and Antigravity."""
+    quota = {
+        "platform": "Unknown",
+        "five_hour_remaining": None,
+        "five_hour_resets_at": "",
+        "weekly_remaining": None
+    }
+    
+    # 1. Check Claude Code state
+    claude_state = Path("/tmp/claude_quota_state.json")
+    if claude_state.exists():
+        try:
+            d = json.loads(claude_state.read_text())
+            quota["platform"] = "Claude Code"
+            quota["five_hour_remaining"] = d.get("five_hour_remaining")
+            quota["five_hour_resets_at"] = d.get("five_hour_resets_at") or ""
+            quota["weekly_remaining"] = d.get("weekly_remaining")
+            if quota["five_hour_remaining"] is not None:
+                return quota
+        except Exception:
+            pass
+
+    # 2. Check Antigravity JSON state
+    agy_state = Path("/tmp/agy_quota_state.json")
+    if agy_state.exists():
+        try:
+            d = json.loads(agy_state.read_text())
+            quota["platform"] = "Antigravity (Gemini)"
+            quota["five_hour_remaining"] = d.get("five_hour_remaining")
+            quota["five_hour_resets_at"] = d.get("five_hour_resets_at") or ""
+            quota["weekly_remaining"] = d.get("weekly_remaining")
+            if quota["five_hour_remaining"] is not None:
+                return quota
+        except Exception:
+            pass
+
+    # 3. Check Antigravity Text Cache
+    agy_cache = Path("/tmp/agy_quota_cache.txt")
+    if agy_cache.exists():
+        try:
+            txt = agy_cache.read_text()
+            quota["platform"] = "Antigravity (Gemini)"
+            m5 = re.search(r"5h:\s*(\d+)%", txt)
+            if m5:
+                quota["five_hour_remaining"] = int(m5.group(1))
+            mr = re.search(r"\(reset\s*([^)]+)\)", txt)
+            if mr:
+                quota["five_hour_resets_at"] = mr.group(1)
+            mw = re.search(r"Wk:\s*(\d+)%", txt)
+            if mw:
+                quota["weekly_remaining"] = int(mw.group(1))
+            return quota
+        except Exception:
+            pass
+
+    return quota
+
+def cmd_quota_guard(args):
+    q = get_live_quota()
+    p_5h = q["five_hour_remaining"]
+    p_wk = q["weekly_remaining"]
+    resets = q["five_hour_resets_at"] or "N/A"
+    platform = q["platform"]
+    
+    print("\n=======================================================")
+    print(" 🛡️  Autonomous Quota Watchdog & Circuit Breaker       ")
+    print("=======================================================")
+    print(f"Platform:         {platform}")
+    print(f"5-Hour Quota:     {p_5h if p_5h is not None else '--'}% remaining (Resets at: {resets})")
+    print(f"Weekly Quota:     {p_wk if p_wk is not None else '--'}% remaining")
+    print(f"Safe Reserves:    Min 5-Hour: {args.min_5h}% | Min Weekly: {args.min_weekly}%")
+    print("-------------------------------------------------------")
+    
+    breached = False
+    reasons = []
+    
+    if p_5h is not None and p_5h <= args.min_5h:
+        breached = True
+        reasons.append(f"5-hour quota ({p_5h}%) is at or below safe reserve threshold ({args.min_5h}%)")
+        
+    if p_wk is not None and p_wk <= args.min_weekly:
+        breached = True
+        reasons.append(f"Weekly quota ({p_wk}%) is at or below safe reserve threshold ({args.min_weekly}%)")
+        
+    if breached:
+        print("🚨 [QUOTA CIRCUIT BREAKER TRIPPED!]")
+        for r in reasons:
+            print(f"  ❌ {r}")
+        print("\n[ACTION TAKEN TO SAFEGUARD USER QUOTA]:")
+        print("  1. Ceasing autonomous execution loop immediately.")
+        print("  2. Preserving remaining quota so user can resume work safely.")
+        print(f"  3. Automatic resume safe after quota reset: {resets}")
+        
+        try:
+            mem_file = Path(".agents/memory/activeContext.md")
+            mem_file.parent.mkdir(parents=True, exist_ok=True)
+            mem_file.write_text(
+                f"# Quota Guard Circuit Breaker Tripped\n"
+                f"- Timestamp: {datetime.now().isoformat()}\n"
+                f"- 5-Hour Quota: {p_5h}%\n"
+                f"- Weekly Quota: {p_wk}%\n"
+                f"- Quota Reset: {resets}\n"
+                f"- Reason: {'; '.join(reasons)}\n",
+                encoding="utf-8"
+            )
+            print(f"  4. Current execution state checkpointed into {mem_file}")
+        except Exception:
+            pass
+        print("=======================================================\n")
+        sys.exit(2)
+    else:
+        print("[✓] Quota reserves are HEALTHY. Safe to proceed with autonomous execution.")
+        print("=======================================================\n")
+        sys.exit(0)
+
 def main():
     parser = argparse.ArgumentParser(description="Autonomous Goal Governor & Quota Protector")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -221,6 +338,11 @@ def main():
     # status
     p_stat = subparsers.add_parser("status", help="Show current goal contract status")
     p_stat.add_argument("--state-file", help="Path to goal state file")
+
+    # quota-guard
+    p_qg = subparsers.add_parser("quota-guard", help="Verify that 5-hour and weekly quotas remain above safe reserve thresholds")
+    p_qg.add_argument("--min-5h", type=int, default=15, help="Minimum 5-hour quota remaining percentage before tripping breaker (default: 15)")
+    p_qg.add_argument("--min-weekly", type=int, default=10, help="Minimum weekly quota remaining percentage before tripping breaker (default: 10)")
     
     args = parser.parse_args()
     
@@ -236,6 +358,8 @@ def main():
         cmd_phase_gate(args)
     elif args.command == "status":
         cmd_status(args)
+    elif args.command == "quota-guard":
+        cmd_quota_guard(args)
 
 if __name__ == "__main__":
     main()

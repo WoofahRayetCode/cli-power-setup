@@ -76,26 +76,42 @@ def main():
     # 2. Rate Limits (5-Hour & 7-Day Rolling Windows)
     rate_limits = data.get("rate_limits", {})
     five_h = rate_limits.get("five_hour", {})
+    rem_5h = None
+    reset_5h = None
+    rem_wk = None
     if five_h:
         used = five_h.get("used_percentage")
         resets_at = five_h.get("resets_at")
         if used is not None:
-            rem = max(0, 100 - int(round(used)))
+            rem_5h = max(0, 100 - int(round(used)))
             reset_str = ""
             if resets_at:
                 try:
                     dt = datetime.fromtimestamp(resets_at).astimezone()
-                    reset_str = f" (reset {dt.strftime('%H:%M')})"
+                    reset_5h = dt.strftime('%H:%M')
+                    reset_str = f" (reset {reset_5h})"
                 except Exception:
                     pass
-            parts.append(f"5h: {rem}%{reset_str}")
+            parts.append(f"5h: {rem_5h}%{reset_str}")
 
     seven_d = rate_limits.get("seven_day", {})
     if seven_d:
         used = seven_d.get("used_percentage")
         if used is not None:
-            rem = max(0, 100 - int(round(used)))
-            parts.append(f"Wk: {rem}%")
+            rem_wk = max(0, 100 - int(round(used)))
+            parts.append(f"Wk: {rem_wk}%")
+
+    if rem_5h is not None or rem_wk is not None:
+        try:
+            with open("/tmp/claude_quota_state.json", "w") as f:
+                json.dump({
+                    "updated_at": datetime.now().isoformat(),
+                    "five_hour_remaining": rem_5h,
+                    "five_hour_resets_at": reset_5h,
+                    "weekly_remaining": rem_wk
+                }, f, indent=2)
+        except Exception:
+            pass
 
     # 3. Context Window Usage with Visual Progress Bar & Compact Advisory
     ctx = data.get("context_window", {})

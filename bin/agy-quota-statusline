@@ -186,6 +186,19 @@ def refresh_now():
             formatted = f"⚡ Gemini: 5h: {g_5h}{reset_str} | Wk: {g_wk}"
             with open(CACHE_FILE, "w") as f:
                 f.write(formatted)
+            try:
+                def parse_pct(s):
+                    m = re.search(r"(\d+)%", str(s))
+                    return int(m.group(1)) if m else None
+                with open("/tmp/agy_quota_state.json", "w") as jf:
+                    json.dump({
+                        "updated_at": datetime.now().isoformat(),
+                        "five_hour_remaining": parse_pct(g_5h),
+                        "five_hour_resets_at": reset_str.strip(" ()"),
+                        "weekly_remaining": parse_pct(g_wk)
+                    }, jf, indent=2)
+            except Exception:
+                pass
             return formatted
     except Exception:
         pass

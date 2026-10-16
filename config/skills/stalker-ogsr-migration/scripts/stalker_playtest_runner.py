@@ -38,6 +38,9 @@ def main():
     parser.add_argument("--no-auto-dismiss-loading", action="store_false", dest="auto_dismiss_loading", help="Disable auto-dismissing loading screens")
     parser.add_argument("--skip-intro", action="store_true", default=True, help="Automatically bypass game intro videos with -nointro and ESC/SPACE pulse (default: True)")
     parser.add_argument("--no-skip-intro", action="store_false", dest="skip_intro", help="Do not bypass intro videos")
+    parser.add_argument("--min-5h", type=int, default=15, help="Minimum 5-hour quota remaining percentage before halting test (default: 15)")
+    parser.add_argument("--min-weekly", type=int, default=10, help="Minimum weekly quota remaining percentage before halting test (default: 10)")
+    parser.add_argument("--no-quota-guard", action="store_true", help="Bypass quota circuit breaker checks")
     parser.add_argument("--dry-run", action="store_true", help="Simulate playtesting without launching actual game binary")
 
     args = parser.parse_args()
@@ -71,6 +74,19 @@ def main():
     coproc_tool = find_tool("local-model-coprocessor/scripts/local_model_coprocessor.py")
     grounding_tool = find_tool("agentic-visual-perception/scripts/agent_visual_grounding.py")
     fuzzer_tool = find_tool("game-exploratory-fuzzing/scripts/game_exploratory_fuzzer.py")
+    governor_tool = find_tool("autonomous-goal-governor/scripts/goal_governor.py")
+
+    # Step 0: Quota Reserve Safety Check
+    if not args.no_quota_guard and governor_tool.exists() and not args.dry_run:
+        q_res = subprocess.run([sys.executable, str(governor_tool), "quota-guard", "--min-5h", str(args.min_5h), "--min-weekly", str(args.min_weekly)], capture_output=True, text=True)
+        if q_res.returncode == 2:
+            print("\n[🚨 QUOTA BREAKER TRIPPED]: Available quota is below safe reserve threshold. Halting playtest to protect quota.", file=sys.stderr)
+            print(q_res.stdout)
+            sys.exit(3)
+        else:
+            print("[Step 0/5] Quota Reserve Check: [Healthy - Safe to Proceed]")
+    else:
+        print("[Step 0/5] Quota Reserve Check: [Bypassed or Dry-Run]")
 
     # Step 1: Pre-flight AST Syntax Check
     if not args.skip_lint and os.path.exists(args.scripts_dir) and ast_tool.exists():
