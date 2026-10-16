@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+"""
+Terminal Output Token Guard
+Wraps shell command executions, enforcing a strict line ceiling (default 30 lines)
+to prevent accidental multi-thousand-line stdout context floods.
+"""
+import sys
+import subprocess
+import os
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: token-guard <command> [args...]", file=sys.stderr)
+        print("Enforces hard output ceilings to protect agent context windows.", file=sys.stderr)
+        sys.exit(1)
+
+    max_lines = 30
+    cmd_args = sys.argv[1:]
+
+    # Check for custom line cap
+    if cmd_args[0] == "--max-lines" and len(cmd_args) >= 3:
+        try:
+            max_lines = int(cmd_args[1])
+            cmd_args = cmd_args[2:]
+        except ValueError:
+            pass
+
+    cmd_str = " ".join(cmd_args) if len(cmd_args) > 1 else cmd_args[0]
+
+    try:
+        proc = subprocess.Popen(
+            cmd_args if len(cmd_args) > 1 else cmd_str,
+            shell=(len(cmd_args) == 1),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            errors="replace"
+        )
+    except Exception as e:
+        print(f"token-guard execution error: {e}", file=sys.stderr)
+        sys.exit(1)
+
+    head_lines = []
+    total_lines = 0
+    tail_buffer = []
+
+    for line in proc.stdout:
+        total_lines += 1
+        if len(head_lines) < (max_lines - 5):
+            head_lines.append(line)
+        else:
+            tail_buffer.append(line)
+            if len(tail_buffer) > 5:
+                tail_buffer.pop(0)
+
+    proc.wait()
+
+    # Print head lines
+    for hl in head_lines:
+        sys.stdout.write(hl)
+
+    # If truncated, print summary banner and tail
+    if total_lines > max_lines:
+        omitted = total_lines - len(head_lines) - len(tail_buffer)
+        saved_tokens = omitted * 8  # approx 8 tokens per log line
+        print(f"\n[⚠️ token-guard: {omitted} lines truncated | ~{saved_tokens} tokens saved from context]")
+        for tl in tail_buffer:
+            sys.stdout.write(tl)
+
+    sys.exit(proc.returncode)
+
+if __name__ == "__main__":
+    main()

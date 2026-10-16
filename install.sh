@@ -205,6 +205,12 @@ install_binaries() {
         log_done "Installed executable: ${BIN_DEST}/game-dll-proxy-gen"
     fi
 
+    if [ -f "${SCRIPT_DIR}/bin/token-guard" ]; then
+        cp "${SCRIPT_DIR}/bin/token-guard" "${BIN_DEST}/token-guard"
+        chmod +x "${BIN_DEST}/token-guard"
+        log_done "Installed executable: ${BIN_DEST}/token-guard"
+    fi
+
     # Initialize universal lifetime token ledger
     mkdir -p "${HOME}/.cli_power_setup"
     if [ ! -f "${HOME}/.cli_power_setup/token_ledger.json" ] && [ -f "${SCRIPT_DIR}/config/token_ledger.json" ]; then
