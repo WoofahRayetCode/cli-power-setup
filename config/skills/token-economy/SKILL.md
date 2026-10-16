@@ -47,6 +47,10 @@ To ensure the new frontier efficiency tools are always utilized:
   Crop screenshots to relevant bounding boxes and downscale to 1280px max dimension before vision ingestion to prevent vision token bloat.
 * **Surgical Directive Formatting (`high-density-prompting`):**
   Format instructions with target file, line, exact action, and verification command, suppressing 75%–90% of reasoning token burn.
+* **Dynamic Skill Routing Over Catalog Scanning (`dynamic-skill-router`):**
+  When tackling complex or multi-domain tasks, query `skill_router.py` to identify the exact 2–3 expert skills rather than reading or injecting dozens of unrelated skill files into prompt context.
+* **Episodic Checkpointing Across Compaction (`session-episodic-memory`):**
+  Capture decision rationale and active hypotheses in `.agents/episodes/` before running `/compact`, ensuring zero token-cost amnesia upon conversation resumption.
 
 ---
 

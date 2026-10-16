@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **98 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **100 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 98 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 100 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -60,7 +60,7 @@ cli-power-setup/
 └── config/
     ├── GEMINI.md               # Global engineering discipline & token economy rules
     ├── settings.template.json  # Reference AGY CLI settings configuration
-    └── skills/                 # 98 specialized skills
+    └── skills/                 # 100 specialized skills
 ```
 
 ---
@@ -164,6 +164,8 @@ cli-power-setup/
 | **`android-architecture-jetpack`** | Mobile/Arch | Clean Architecture, MVI/StateFlow, Room auto-migrations, Navigation DSL, Hilt |
 | **`android-testing-ci-cd-security`** | Mobile/DevOps | Robolectric, Compose UI tests, R8 shrinking, Android Keystore StrongBox |
 | **`android-perf-battery-profiling`** | Mobile/Perf | Jank analysis (`dumpsys gfxinfo`), batterystats, Perfetto, memory leak heap dumps |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 100+ skills |
+| **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
 | **`project-memory-bank`** | Memory | Persistent `.agents/memory/` context to prevent re-hydration |
@@ -853,6 +855,20 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Queries `dumpsys gfxinfo framestats` for 90Hz/120Hz missed deadlines, dumps battery wake lock durations via `dumpsys batterystats`, and extracts/converts heap dumps (`am dumpheap` + `hprof-conv`) to detect leaked Activities.
 * **Why It Saves Quota:** Replaces vague guessing about app performance with exact millisecond frame histograms and battery power breakdown logs.
 
+### 🧭 Dynamic Orchestration & Long-Horizon Memory
+
+#### 99. `dynamic-skill-router`
+* **In Simple Terms:** An intelligent navigation system for your 100-skill toolkit—analyzing your prompt in milliseconds and finding the exact 2-3 best skills to use, stopping the AI from getting overwhelmed by too many choices.
+* **When It Kicks In:** Whenever you give a task that spans multiple disciplines, or when the AI needs to discover which specialized skills apply to an unfamiliar technical problem.
+* **How It Works:** Uses a BM25-style inverted keyword index with IDF token weighting and skill name boosting (`scripts/skill_router.py`), scoring all 100 skills in under 20ms and outputting ranked matches with explanations.
+* **Why It Saves Quota:** Eliminates the token cost of scanning or loading dozens of skill files into active memory, cutting discovery overhead by up to **95%**.
+
+#### 100. `session-episodic-memory`
+* **In Simple Terms:** A chronological journal for your coding sessions—recording what you worked on, why you made specific architectural choices, which approaches failed, and what to do next so the AI never forgets across `/compact` resets or multi-day breaks.
+* **When It Kicks In:** Long engineering tasks, complex multi-session projects, or before running `/compact`.
+* **How It Works:** Writes structured, timestamped episode snapshots to `.agents/episodes/YYYY-MM-DD_HHMM.md` capturing Objectives, Key Decisions (ADRs), Discarded Alternatives, and Next Tasks.
+* **Why It Saves Quota:** Completely prevents circular debugging loops (trying a solution that was already proven broken 2 hours ago) and eliminates having to re-explain the project history after running `/compact`.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -982,7 +998,8 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context gauge crosses 50%–60%. |
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 98 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 100 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

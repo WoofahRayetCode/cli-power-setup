@@ -55,6 +55,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record last-audited skill count, missing host dependencies, and upstream commit sha in `systemPatterns.md` to prevent repetitive dependency rediscovery across sessions.
 * **Android Engineering & NDK Stack Binding (`android-app-engineering`, `android-compose-ui-ux`, `android-architecture-jetpack`, `android-ndk-jni-engineering`):**
   Record target Android SDK version (e.g. API 35), minimum SDK, NDK ABI filters (`arm64-v8a`, `armeabi-v7a`), Room database schema version, and Compose compiler metrics in `systemPatterns.md`.
+* **Episodic Narrative & Milestone Checkpoints (`session-episodic-memory`):**
+  Link active chronological episode logs (`.agents/episodes/<timestamp>_<task>.md`) inside `activeContext.md` before `/compact` to preserve the reasoning trail across compaction cycles.
 
 ---
 

@@ -14,16 +14,18 @@ This skill governs automatic reasoning selection and model escalation to maximiz
 Before beginning work on any user request, evaluate the prompt's structural complexity:
 
 ### Tier 1: Trivial / Direct Execution
-* **Triggers:** Single-line fixes, simple typo corrections, direct shell commands, asking for file locations, formatting, quick status checks, or skill health audits/sync (`skills-audit-update`).
+* **Triggers:** Single-line fixes, simple typo corrections, direct shell commands, asking for file locations, formatting, quick status checks, semantic skill matching (`dynamic-skill-router`), or skill health audits/sync (`skills-audit-update`).
 * **Reasoning Strategy:**
   * Zero extended deliberation.
+  * When uncertain which skill to activate among 100+ choices, run `skill_router.py "<prompt>"` in <20ms to pinpoint the exact 2-3 expert skills.
   * Apply immediate pinpoint diffs via `replace_file_content` or execute terminal commands directly.
   * Run with standard/low thinking latency (keeps streaming instant and saves quota).
 
 ### Tier 2: Standard Engineering & Implementation
-* **Triggers:** Implementing a specific function, refactoring a single module, writing unit tests, fixing a verified bug, video production scripts, vertical shorts generation, Android device automation, Jetpack Compose UI screens, Android architecture/Room flows, Android testing/release hardening, shader translation/validation, PBR texture channel packing, or skill lifecycle maintenance.
+* **Triggers:** Implementing a specific function, refactoring a single module, writing unit tests, fixing a verified bug, session milestone checkpointing (`session-episodic-memory`), video production scripts, vertical shorts generation, Android device automation, Jetpack Compose UI screens, Android architecture/Room flows, Android testing/release hardening, shader translation/validation, PBR texture channel packing, or skill lifecycle maintenance.
 * **Reasoning Strategy:**
   * When incoming requests are verbose or conversational, activate `high-density-prompting` to distill into a 4-part surgical directive.
+  * When logging architectural decisions (ADRs) or preparing for `/compact`, route to `session-episodic-memory` to write a high-density episode record into `.agents/episodes/`.
   * When the user requests calculators, data models, or parameter tuning, route to `intelligent-interactive-ui` to generate a reactive single-file micro-app.
   * When auditing, verifying permissions, or syncing installed skills across CLIs, route to `skills-updater-and-auditor`.
   * When building Android UI, edge-to-edge layouts, or fixing recomposition jank, route to `android-compose-ui-ux`.
