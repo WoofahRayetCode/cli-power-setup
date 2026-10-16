@@ -67,6 +67,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record target output sample rate (default $48\text{kHz}$), target integrated loudness ($-14\text{ LUFS}$ YouTube / $-16\text{ LUFS}$ Mobile / $-24\text{ LUFS}$ Game Engine), and procedural SFX preset directories in `systemPatterns.md`.
 * **Security, Anti-Tamper & Cryptographic Bindings (`game-security-anti-tamper`, `cryptographic-security-engineering`, `devsecops-supply-chain-security`):**
   Record binary checksec audit status (RELRO, Canaries, NX, PIE), HMAC signing key rotation cycles, Ed25519 public keys, and GitHub Actions SHA pins in `systemPatterns.md`.
+* **Game Compatibility & Proton Tuning Bindings (`cross-platform-game-compatibility`, `linux-gaming-proton-optimization`, `game-patching-binary-repair`):**
+  Record target Steam AppID, wineprefix path, LAA 4GB PE header status, `dxvk.conf` flags (e.g. `enableAsync`, `maxFrameLatency`), required DLL overrides (`WINEDLLOVERRIDES`), and custom binary patches in `systemPatterns.md` and `learnings.md`.
 
 ---
 

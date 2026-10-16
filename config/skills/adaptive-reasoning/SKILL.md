@@ -14,15 +14,15 @@ This skill governs automatic reasoning selection and model escalation to maximiz
 Before beginning work on any user request, evaluate the prompt's structural complexity:
 
 ### Tier 1: Trivial / Direct Execution
-* **Triggers:** Single-line fixes, simple typo corrections, direct shell commands, asking for file locations, formatting, quick status checks, semantic skill matching (`dynamic-skill-router`), or skill health audits/sync (`skills-audit-update`).
+* **Triggers:** Single-line fixes, simple typo corrections, direct shell commands, asking for file locations, formatting, quick status checks, inspecting LAA 4GB PE flags (`laa_pe_patcher.py`), semantic skill matching (`dynamic-skill-router`), or skill health audits/sync (`skills-audit-update`).
 * **Reasoning Strategy:**
   * Zero extended deliberation.
-  * When uncertain which skill to activate among 115+ choices, run `skill_router.py "<prompt>"` in <20ms to pinpoint the exact 2-3 expert skills.
+  * When uncertain which skill to activate among 118+ choices, run `skill_router.py "<prompt>"` in <20ms to pinpoint the exact 2-3 expert skills.
   * Apply immediate pinpoint diffs via `replace_file_content` or execute terminal commands directly.
   * Run with standard/low thinking latency (keeps streaming instant and saves quota).
 
 ### Tier 2: Standard Engineering & Implementation
-* **Triggers:** Implementing a specific function, refactoring a single module, writing unit tests, fixing a verified bug, session milestone checkpointing (`session-episodic-memory`), video production scripts, vertical shorts generation, Android device automation, Jetpack Compose UI screens, Android architecture/Room flows, Android testing/release hardening, shader translation/validation, PBR texture channel packing, cross-platform input mapping (`game-input-system-abstraction`), VFS container asset packing (`game-asset-pack-archive-engineering`), save state serialization & inspection (`game-save-state-serialization`), in-engine debug UI / CVars (`game-debug-ui-tools`), Discord bot slash commands / UI modals (`discord-bot-engineering`), procedural SFX synthesis & audio normalization (`ai-procedural-audio-generation`), binary hardening checksec audits (`devsecops-supply-chain-security`), cryptographic HMAC signing/verification (`cryptographic-security-engineering`), save file tamper sealing (`game-security-anti-tamper`), or skill lifecycle maintenance.
+* **Triggers:** Implementing a specific function, refactoring a single module, writing unit tests, fixing a verified bug, session milestone checkpointing (`session-episodic-memory`), video production scripts, vertical shorts generation, Android device automation, Jetpack Compose UI screens, Android architecture/Room flows, Android testing/release hardening, shader translation/validation, PBR texture channel packing, cross-platform input mapping (`game-input-system-abstraction`), VFS container asset packing (`game-asset-pack-archive-engineering`), save state serialization & inspection (`game-save-state-serialization`), in-engine debug UI / CVars (`game-debug-ui-tools`), Discord bot slash commands / UI modals (`discord-bot-engineering`), procedural SFX synthesis & audio normalization (`ai-procedural-audio-generation`), binary hardening checksec audits (`devsecops-supply-chain-security`), cryptographic HMAC signing/verification (`cryptographic-security-engineering`), save file tamper sealing (`game-security-anti-tamper`), game 4GB LAA patching & DirectX legacy wrapping (`cross-platform-game-compatibility`), Proton/Wine prefix repair & dxvk.conf tuning (`linux-gaming-proton-optimization`), binary dependency checking (`game-patching-binary-repair`), or skill lifecycle maintenance.
 * **Reasoning Strategy:**
   * When incoming requests are verbose or conversational, activate `high-density-prompting` to distill into a 4-part surgical directive.
   * When logging architectural decisions (ADRs) or preparing for `/compact`, route to `session-episodic-memory` to write a high-density episode record into `.agents/episodes/`.
@@ -43,6 +43,9 @@ Before beginning work on any user request, evaluate the prompt's structural comp
   * When auditing binary compiler hardening (RELRO, Canaries, NX, PIE) or scanning dependencies (SBOM), route to `devsecops-supply-chain-security`.
   * When generating secure entropy keys, verifying HMAC-SHA256 signatures, or deriving subkeys with HKDF, route to `cryptographic-security-engineering`.
   * When sealing save files with HMACs, mitigating DLL hijacking, or checking anti-tamper integrity, route to `game-security-anti-tamper`.
+  * When patching 32-bit game PE headers with Large Address Aware, resolving legacy DirectX wrappers, or constraining multi-core thread affinities, route to `cross-platform-game-compatibility`.
+  * When repairing Wine prefixes, tuning dxvk.conf, switching to GE-Proton for media codecs, or configuring Gamescope/GameMode, route to `linux-gaming-proton-optimization`.
+  * When resolving missing DLL imports, analyzing crash offsets, or applying surgical binary byte patches, route to `game-patching-binary-repair`.
   * Follow Test-Driven Development (`test-driven-development`) or targeted debugging (`systematic-debugging`).
   * Sanitize tool outputs using `log-output-sanitizer`.
   * Rely on compiler/linter feedback (e.g. `cargo check`, `ruff`, `clang-tidy`, `pytest`, `spirv-val`).

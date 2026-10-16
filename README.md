@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)** and **Claude Code CLI (`claude`)**.
 
-This repository organizes a curated set of **115 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **118 autonomous agent skills**, global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-CLI skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Dual-CLI Sync:** Deploys all 115 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
+2. **Dual-CLI Sync:** Deploys all 118 skills to `~/.gemini/config/skills/` and `~/.claude/skills/`.
 3. **Global Discipline Rules:** Installs engineering safeguards and the **Output Token Economy** to `~/.gemini/config/GEMINI.md` and `~/.claude/CLAUDE.md`.
 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, context gauges, and token savings.
 5. **Turbo Mode Launchers:** Installs `agy-turbo` and `claude-turbo` into `~/.local/bin/`.
@@ -179,7 +179,10 @@ cli-power-setup/
 | **`android-architecture-jetpack`** | Mobile/Arch | Clean Architecture, MVI/StateFlow, Room auto-migrations, Navigation DSL, Hilt |
 | **`android-testing-ci-cd-security`** | Mobile/DevOps | Robolectric, Compose UI tests, R8 shrinking, Android Keystore StrongBox |
 | **`android-perf-battery-profiling`** | Mobile/Perf | Jank analysis (`dumpsys gfxinfo`), batterystats, Perfetto, memory leak heap dumps |
-| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 115+ skills |
+| **`cross-platform-game-compatibility`** | Gaming/Compat | 4GB LAA memory patching, legacy DirectX wrappers (DXVK/dgVoodoo2), thread affinity & frame rate caps |
+| **`linux-gaming-proton-optimization`** | Gaming/Linux | Steam Proton/Wine prefix repair, GE-Proton cutscene codecs, dxvk.conf tuning, Gamescope & GameMode |
+| **`game-patching-binary-repair`** | Gaming/Binary | PE import analysis, crash offset disassembly, missing DLL stubs & surgical byte-level patching |
+| **`dynamic-skill-router`** | Context/Router | Semantic intent matching, capability indexing, and sub-second skill activation across 118+ skills |
 | **`session-episodic-memory`** | Context/Memory | Multi-session milestone checkpointing, chronological episode logging (`.agents/episodes/`), ADR tracking |
 | **`high-density-prompting`** | Quota | Compresses verbose prompts into surgical, zero-waste agent directives |
 | **`token-economy`** | Quota | Eliminates conversational fluff & echoes; compact status |
@@ -982,6 +985,26 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Inspects ELF binary headers for RELRO, canary symbols, and non-executable stacks (`scripts/binary_hardening_check.py`), audits dependency vulnerability databases, and enforces least-privilege CI/CD execution.
 * **Why It Saves Quota:** Catches missing compiler security flags and vulnerable dependencies automatically at build time before deployment to end users.
 
+### 🎮 Game Compatibility, Portability & Binary Repair
+
+#### 116. `cross-platform-game-compatibility`
+* **In Simple Terms:** The universal repair protocol for getting legacy and modern PC games to run smoothly on modern Windows 10/11 and Linux without crashing.
+* **When It Kicks In:** 32-bit games running out of RAM (CTD at 2GB), legacy DirectX 1–9 titles stuttering or black-screening, physics going crazy on >60Hz monitors, or games freezing on modern high-core CPUs.
+* **How It Works:** Applies 4GB Large Address Aware (LAA) patches to 32-bit PE headers (`scripts/laa_pe_patcher.py`), configures legacy DirectX translation layers (dgVoodoo2, d3d8to9, DXVK), clamps CPU thread affinity to physical performance cores, and sets frame limits.
+* **Why It Saves Quota:** Solves 90% of legacy PC game launch failures systematically in 1 turn instead of blindly tweaking random Windows compatibility flags.
+
+#### 117. `linux-gaming-proton-optimization`
+* **In Simple Terms:** Dedicated tuning and troubleshooting guide for running Windows games on Linux distributions (CachyOS, Arch, Fedora) and the Steam Deck via Valve's Proton and Wine.
+* **When It Kicks In:** Steam games showing black cutscenes or test screens (Media Foundation missing), shader compilation stuttering, prefix dependency corruption, or configuring Gamescope and GameMode.
+* **How It Works:** Tunes `dxvk.conf` for asynchronous shader compilation, switches to GE-Proton for proprietary video codecs, repairs broken wineprefixes with non-destructive `protontricks`, and crafts optimized launch commands (`gamemoderun mangohud gamescope`).
+* **Why It Saves Quota:** Diagnoses Proton launch failures from log signatures directly rather than deleting and re-downloading entire 50GB game prefixes.
+
+#### 118. `game-patching-binary-repair`
+* **In Simple Terms:** Diagnosing and surgically repairing broken, crashing, or abandoned PC game binaries when source code is completely unavailable.
+* **When It Kicks In:** Games failing to launch with `0xC0000135` (missing DLL) or `0xC0000139` (entry point not found), opaque crashes at specific memory offsets, or legacy disc checks failing on modern OS.
+* **How It Works:** Inspects the executable's Import Address Table (`scripts/pe_dependency_check.py`), disassembles instructions around crash offsets with `objdump`, authors proxy DLL shims (`dinput8.dll`, `version.dll`), and applies safe byte-level hex patches.
+* **Why It Saves Quota:** Resolves binary engine crashes through pinpoint offset disassembly and minimal shims rather than trial-and-error mod guessing.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1112,7 +1135,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits skill health, YAML frontmatter & tool dependencies | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
 | **`python3 config/skills/dynamic-skill-router/scripts/skill_router.py "<prompt>"`** | Discovers and ranks top 3 expert skills for any prompt | When starting an ambiguous or multi-system task. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 115 skills | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 118 skills | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 

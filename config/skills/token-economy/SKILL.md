@@ -65,6 +65,7 @@ To ensure the new frontier efficiency tools are always utilized:
 * **Discord API Payloads & Gateway Event Logs:** When querying large Discord API endpoints (guild member lists, audit logs, role hierarchies) or capturing raw WebSocket Gateway dispatch JSON, stream them to temporary `.json` files, presenting only counts, user tags, or permission flags in chat.
 * **Audio Waveform Arrays & Loudness Tables:** When generating procedural audio or running FFmpeg loudness filter analysis (`ebur128`), write raw sample arrays and multi-pass JSON logs to disk, outputting only target integrated LUFS, True Peak dB, and file paths in chat.
 * **Security Audits, SBOM Manifests & Binary Disassembly:** When generating multi-thousand-line CycloneDX/SPDX SBOM manifests, full `cargo-audit` dependency advisory trees, or native binary disassembly dumps, write them to disk/artifacts, presenting only the vulnerability count, severity breakdown, and `checksec` status table in chat.
+* **Proton Logs, Crash Traces & PE Import Tables:** When capturing verbose `PROTON_LOG=1` traces (often 10,000+ lines), Windows Event ID 1000 crash dumps, or extensive PE Import Address Tables, redirect stdout to disk log files, surfacing only the faulting module, exception offset, or missing DLL names in chat.
 * Provide a single clickable file link and a 1-sentence headline rather than dumping large blocks of markdown or HTML into the chat transcript.
 
 ---
