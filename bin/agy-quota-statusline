@@ -370,29 +370,16 @@ def main():
         else:
             ctx_seg = f"🧠 Ctx: [{bar}] {ctx_pct:.0f}% ({tok_str})"
 
-        # Cumulative cache savings
+        # Cumulative cache savings (Active Session)
         tot_c = telem["total_cached"]
         hit_pct = telem["hit_pct"]
         mod_c = telem["model_cached"]
         if tot_c > 0:
             if len(mod_c) > 1:
                 breakdown = " / ".join(f"{m} {fmt_tok(c)}" for m, c in sorted(mod_c.items(), key=lambda x: -x[1]))
-                save_seg = f"💾 Saved: {fmt_tok(tot_c)} tok ({hit_pct}% cache • {breakdown})"
+                save_seg = f"💾 Session: {fmt_tok(tot_c)} tok ({hit_pct}% cache • {breakdown})"
             else:
-                save_seg = f"💾 Saved: {fmt_tok(tot_c)} tok ({hit_pct}% cache)"
-        else:
-            ledger_path = os.path.expanduser("~/.cli_power_setup/token_ledger.json")
-            if os.path.exists(ledger_path):
-                try:
-                    with open(ledger_path, "r") as lf:
-                        ld = json.load(lf)
-                        ls = ld.get("lifetime_summary", {})
-                        lt_tok = ls.get("total_cached_tokens_saved", 0)
-                        lt_hit = ls.get("cache_hit_rate_pct", 0)
-                        if lt_tok > 0:
-                            save_seg = f"💾 Lifetime: {fmt_tok(lt_tok)} tok ({lt_hit:.1f}% cache)"
-                except Exception:
-                    pass
+                save_seg = f"💾 Session: {fmt_tok(tot_c)} tok ({hit_pct}% cache)"
 
         # Last turn token velocity
         l_in = telem["last_in"]
@@ -400,17 +387,33 @@ def main():
         if l_in > 0 or l_out > 0:
             turn_seg = f"Turn: In {fmt_tok(l_in)} | Out {fmt_tok(l_out)}"
 
-    # 6. Workspace & Git
+    # 6. Global Lifetime Token Ledger
+    global_saved_seg = None
+    ledger_path = os.path.expanduser("~/.cli_power_setup/token_ledger.json")
+    if os.path.exists(ledger_path):
+        try:
+            with open(ledger_path, "r") as lf:
+                ld = json.load(lf)
+                ls = ld.get("lifetime_summary", {})
+                lt_tok = ls.get("total_cached_tokens_saved", 0)
+                lt_hit = ls.get("cache_hit_rate_pct", 0)
+                if lt_tok > 0:
+                    global_saved_seg = f"🌐 Global Saved: {fmt_tok(lt_tok)} ({lt_hit:.1f}% cache)"
+        except Exception:
+            pass
+
+    # 7. Workspace & Git
     cwd = payload.get("current_dir") or payload.get("project_dir") or os.getcwd()
     git_seg = get_git_info(cwd)
 
-    # 7. Assemble segments in priority order
+    # 8. Assemble segments in priority order
     segments = [
         model_seg,
         quota_5h_seg,
         quota_wk_seg,
         ctx_seg,
         save_seg,
+        global_saved_seg,
         turn_seg,
         git_seg
     ]
