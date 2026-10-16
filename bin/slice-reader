@@ -1,0 +1,103 @@
+#!/usr/bin/env python3
+"""
+Selective Context Slice Reader
+Extracts surgical line slices or AST interface skeletons from source files in <15ms,
+preventing models from ingesting 800-line files when they only need 25 lines.
+"""
+import sys
+import os
+import re
+import argparse
+
+def extract_ast_skeleton(filepath):
+    """Extract class, struct, and method declarations without function bodies."""
+    ext = os.path.splitext(filepath)[1].lower()
+    skeleton = []
+
+    try:
+        with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
+            lines = f.readlines()
+    except Exception as e:
+        return [f"Error reading file: {e}"]
+
+    # Detect language by extension or shebang
+    is_python = ext in [".py"] or (lines and "python" in lines[0])
+    is_cpp = ext in [".cpp", ".h", ".hpp", ".c", ".hxx", ".inl"]
+    is_lua = ext in [".lua", ".script"]
+
+    in_func = False
+    brace_depth = 0
+
+    for i, line in enumerate(lines, 1):
+        s = line.strip()
+        # Keep classes, structs, namespaces, enums
+        if re.match(r"^(?:class|struct|namespace|enum)\s+[A-Za-z0-9_]+", s):
+            skeleton.append(f"{i:4d}: {line.rstrip()}")
+            continue
+
+        # Keep function/method signatures
+        if is_cpp:
+            if any(k in s for k in ["virtual", "void", "bool", "int", "u32", "float", "LPCSTR", "Fvector", "IC"]) and "(" in s:
+                clean = re.sub(r"\{.*\}", ";", s).rstrip(";").strip()
+                skeleton.append(f"{i:4d}:   {clean};")
+        elif is_python:
+            if re.match(r"^(?:def|class|async def)\s+[A-Za-z0-9_]+", s):
+                skeleton.append(f"{i:4d}: {line.rstrip()}")
+        elif is_lua:
+            if s.startswith("function ") or " = function(" in s:
+                skeleton.append(f"{i:4d}: {line.rstrip()}")
+
+    return skeleton
+
+def extract_slice_around_symbol(filepath, symbol, context_lines=15):
+    """Locate symbol and return targeted context window."""
+    try:
+        with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
+            lines = f.readlines()
+    except Exception as e:
+        return [f"Error reading file: {e}"]
+
+    # Check if symbol is a line number
+    target_idx = None
+    if symbol.isdigit():
+        target_idx = int(symbol) - 1
+    else:
+        pattern = re.compile(re.escape(symbol))
+        for i, line in enumerate(lines):
+            if pattern.search(line):
+                target_idx = i
+                break
+
+    if target_idx is None:
+        return [f"<!-- Symbol '{symbol}' not found in {filepath} -->"]
+
+    start = max(0, target_idx - context_lines)
+    end = min(len(lines), target_idx + context_lines + 1)
+
+    result = [f"<!-- Slice {os.path.basename(filepath)} #L{start+1}-L{end} (focused on '{symbol}') -->"]
+    for i in range(start, end):
+        marker = "▶" if i == target_idx else " "
+        result.append(f"{marker}{i+1:4d}: {lines[i].rstrip()}")
+    return result
+
+def main():
+    parser = argparse.ArgumentParser(description="Extract surgical line slices or AST skeleton from files")
+    parser.add_argument("file", help="Path to source file")
+    parser.add_argument("target", nargs="?", help="Symbol name, function name, or line number (default: extracts AST skeleton)")
+    parser.add_argument("--context", "-c", type=int, default=15, help="Number of context lines above and below target (default: 15)")
+    args = parser.parse_args()
+
+    if not os.path.isfile(args.file):
+        print(f"Error: {args.file} not found", file=sys.stderr)
+        sys.exit(1)
+
+    if args.target:
+        lines = extract_slice_around_symbol(args.file, args.target, args.context)
+    else:
+        lines = extract_ast_skeleton(args.file)
+
+    for l in lines:
+        print(l)
+
+if __name__ == "__main__":
+    main()

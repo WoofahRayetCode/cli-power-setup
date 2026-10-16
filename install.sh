@@ -211,6 +211,12 @@ install_binaries() {
         log_done "Installed executable: ${BIN_DEST}/token-guard"
     fi
 
+    if [ -f "${SCRIPT_DIR}/bin/slice-reader" ]; then
+        cp "${SCRIPT_DIR}/bin/slice-reader" "${BIN_DEST}/slice-reader"
+        chmod +x "${BIN_DEST}/slice-reader"
+        log_done "Installed executable: ${BIN_DEST}/slice-reader"
+    fi
+
     # Initialize universal lifetime token ledger
     mkdir -p "${HOME}/.cli_power_setup"
     if [ ! -f "${HOME}/.cli_power_setup/token_ledger.json" ] && [ -f "${SCRIPT_DIR}/config/token_ledger.json" ]; then

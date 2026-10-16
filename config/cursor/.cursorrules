@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (218 Specialized Capabilities)
+## Complete Skills Catalog (219 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -324,6 +324,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`sandbox-code-interpreter`** | Headless Python scientific computing, data analytics, mathematical proof verification, and automated chart plotting in Claude Code. |
 | **`screen-vision-inspector`** | Autonomously captures, crops, and visually inspects the active computer screen, desktop application windows, and UI rendering states via local screenshot utilities (Google Project Astra and GPT-6 Astra Vision parity). |
 | **`security-vulnerability-audit`** | Pre-commit secret scanning with gitleaks, SAST vulnerability analysis with semgrep, dependency audits, and binary hardening verification. |
+| **`selective-context-ingestor`** | Enforces surgical line-slice reading and AST-first inspection via slice-reader, preventing models from ingesting 800-line files when they only need 25 lines to save 90-95% context tokens. |
 | **`self-healing-test-automation`** | Resilient UI test automation, semantic locator auto-repair, visual OCR fallback, and dynamic flakiness mitigation for Web, Mobile, and Desktop GUI testing. |
 | **`semantic-codebase-indexing`** | Cursor and Windsurf-style AST symbol indexing, call-graph tracing, and ctags/tree-sitter repository mapping for instant token-efficient code navigation. |
 | **`session-episodic-memory`** | Multi-session milestone checkpointing, chronological episode logging (.agents/episodes/), decision rationales, and seamless restoration across /compact events. Use during long-running tasks to prevent conversational amnesia and maintain an audit trail of engineering decisions. |

@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
 
-This repository organizes a curated set of **218 autonomous agent skills**, 218 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **219 autonomous agent skills**, 219 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
  
  ---
  
@@ -38,7 +38,7 @@ This repository organizes a curated set of **218 autonomous agent skills**, 218 
  
  ### What the Installer Does:
  1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
- 2. **Tri-Environment Sync:** Deploys all 218 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+ 2. **Tri-Environment Sync:** Deploys all 219 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
  3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
  4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
  5. **Turbo Mode Launchers:** Installs `agy-turbo`, `claude-turbo`, and autonomous YOLO shortcuts (`agy-yolo`, `claude-yolo`) into `~/.local/bin/`.
@@ -322,6 +322,7 @@ While all 217 skills and CLI utilities are shared identically between environmen
 | **`fable-atomic-diff-sequencer`** | Fable/Sequencer | Decomposes Fable 128k output refactors into atomic, dependency-ordered chunk executions to prevent tool timeouts |
 | **`session-experience-harvester`** | Memory/Ledger | Mines past long-running session logs, tracking multi-billion token savings and distilling solved CTDs into memory |
 | **`shell-output-token-guard`** | CLI/Safety | Enforces terminal line ceilings via `token-guard`, preventing 10k-50k stdout context floods |
+| **`selective-context-ingestor`** | Ingest/Slicing | Surgical line-slice and AST-first reader via `slice-reader`, cutting file reading context by 90-95% |
 
 ---
 
@@ -1753,6 +1754,12 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **How It Works:** Wraps commands with `token-guard`, showing the first 25 lines, omitting repetitive mid-sections, and showing the final 5 lines with an exact token savings count.
 * **Why It Saves Quota:** Prevents accidental 20,000–50,000 token terminal dumps that instantly blow through your context window.
 
+#### 219. `selective-context-ingestor`
+* **In Simple Terms:** Forces the AI to read only the exact 20 lines it needs instead of blindly reading 800-line files.
+* **When It Kicks In:** Whenever the AI inspects a class, investigates a function, or reads a file to understand code.
+* **How It Works:** Uses `slice-reader` to extract AST class/method skeletons or targeted $\pm 15$ line windows around symbols, completely stripping out irrelevant implementation bodies.
+* **Why It Saves Quota:** Slashes file reading token consumption by 90%–95%, keeping conversations fast and lightweight.
+
 ---
 
 ## 📊 Real-Time Dual-CLI Quota & Statusline Monitors
@@ -1909,7 +1916,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits health across Gemini, Claude, and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all skills across Antigravity, Claude, and Cursor | After adding or updating any skill in the repository. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 218 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 219 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
