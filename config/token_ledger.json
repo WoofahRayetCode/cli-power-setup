@@ -1,0 +1,28 @@
+{
+  "lifetime_summary": {
+    "total_cached_tokens_saved": 1535189521,
+    "total_sessions_tracked": 1,
+    "cache_hit_rate_pct": 99.50,
+    "total_uncached_input_tokens": 7639197,
+    "total_output_tokens": 2710396,
+    "total_turns_executed": 3325,
+    "last_updated": "2026-10-16T16:00:00Z"
+  },
+  "sessions": [
+    {
+      "session_id": "ab582043-06df-437b-984b-366fa4554caf",
+      "environment": "claude-code-cli",
+      "model": "Claude 3.7 Sonnet / Turbo",
+      "transcript_path": "/home/ericparsley/.claude/projects/-home-ericparsley/ab582043-06df-437b-984b-366fa4554caf.jsonl",
+      "cached_tokens_saved": 1535189521,
+      "cache_hit_rate_pct": 99.50,
+      "turns": 3325,
+      "primary_tasks": [
+        "S.T.A.L.K.E.R. Complete 2009 to 64-bit OGSR Engine Migration",
+        "Autonomous Wine/Proton QA playtest execution via /dev/uinput",
+        "DX11 constant buffer alignment and shader modernization",
+        "LuaJIT 64-bit callback repair and alife transit triage"
+      ]
+    }
+  ]
+}

@@ -26,7 +26,9 @@ def make_bar(pct, width=6):
     return "█" * filled + "░" * empty
 
 def fmt_tok(n):
-    if n >= 1_000_000:
+    if n >= 1_000_000_000:
+        return f"{n / 1_000_000_000:.2f}B"
+    elif n >= 1_000_000:
         return f"{n / 1_000_000:.1f}M"
     elif n >= 1_000:
         return f"{n / 1_000:.0f}k"
@@ -378,6 +380,19 @@ def main():
                 save_seg = f"💾 Saved: {fmt_tok(tot_c)} tok ({hit_pct}% cache • {breakdown})"
             else:
                 save_seg = f"💾 Saved: {fmt_tok(tot_c)} tok ({hit_pct}% cache)"
+        else:
+            ledger_path = os.path.expanduser("~/.cli_power_setup/token_ledger.json")
+            if os.path.exists(ledger_path):
+                try:
+                    with open(ledger_path, "r") as lf:
+                        ld = json.load(lf)
+                        ls = ld.get("lifetime_summary", {})
+                        lt_tok = ls.get("total_cached_tokens_saved", 0)
+                        lt_hit = ls.get("cache_hit_rate_pct", 0)
+                        if lt_tok > 0:
+                            save_seg = f"💾 Lifetime: {fmt_tok(lt_tok)} tok ({lt_hit:.1f}% cache)"
+                except Exception:
+                    pass
 
         # Last turn token velocity
         l_in = telem["last_in"]

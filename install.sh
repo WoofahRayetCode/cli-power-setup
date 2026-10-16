@@ -205,6 +205,13 @@ install_binaries() {
         log_done "Installed executable: ${BIN_DEST}/game-dll-proxy-gen"
     fi
 
+    # Initialize universal lifetime token ledger
+    mkdir -p "${HOME}/.cli_power_setup"
+    if [ ! -f "${HOME}/.cli_power_setup/token_ledger.json" ] && [ -f "${SCRIPT_DIR}/config/token_ledger.json" ]; then
+        cp "${SCRIPT_DIR}/config/token_ledger.json" "${HOME}/.cli_power_setup/token_ledger.json"
+        log_done "Initialized global token ledger: ${HOME}/.cli_power_setup/token_ledger.json"
+    fi
+
     # Configure YOLO mode aliases in bash and fish
     if [ -f "$HOME/.bashrc" ] && ! grep -q "claude-yolo" "$HOME/.bashrc"; then
         echo "alias claude-yolo='claude --dangerously-skip-permissions'" >> "$HOME/.bashrc"

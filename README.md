@@ -1773,10 +1773,17 @@ In multi-model sessions (e.g. adaptive escalation between Flash and Argon):
 ⚡ Gemini: 5h: 78% | Wk: 72% | 💾 Saved: 23.4M tok (Argon: 12.0M | Flash: 11.4M)
 ```
 * **Context Cache Token Telemetry:** Correlates active session step tokens from `transcript.jsonl` with turn models in `gen_metadata` to display exact prompt tokens saved by context caching.
+* **Universal Lifetime Fallback:** When active session cache savings are clean, seamlessly falls back to `~/.cli_power_setup/token_ledger.json` to render the persistent lifetime token benchmark (`1.54B tok`).
 * **Asynchronous & Non-Blocking Quota:** Queries `agy -p /usage` and caches the result in `/tmp/agy_quota_cache.txt` with a 2-minute TTL.
 * **Zero CLI Lag:** Subprocesses are detached with PID lockfile protection (`/tmp/agy_quota_refresh.lock`), guaranteeing instantaneous prompt rendering (<2ms).
 
-### 3. Quota Governance & Uninterrupted Execution (`goal_governor.py`)
+### 3. Universal Lifetime Token Ledger (`~/.cli_power_setup/token_ledger.json`)
+The suite maintains a **universal, multi-environment token ledger** that survives session compaction, model switches, and terminal restarts:
+* **Cross-CLI Universal Architecture:** Both `claude-statusline` and `agy-quota-statusline` read from this single source of truth. It records sessions from Google Antigravity, Claude Code CLI, and Cursor Agent.
+* **Continual Automated Accumulation:** As autonomous tasks complete, [`session-experience-harvester`](#217-session-experience-harvester) mines `.jsonl` transcripts, appending newly cached, uncached, and output tokens to the running lifetime total.
+* **Repository Benchmark Backup:** Seeded via `config/token_ledger.json` in the git repository, allowing cloned installations to immediately inherit verified historical benchmarks (e.g. 1.535B tokens saved at 99.5% cache hit rate).
+
+### 4. Quota Governance & Uninterrupted Execution (`goal_governor.py`)
 To prevent autonomous tasks, test runners, or overnight builds from abandoning progress prematurely:
 * **Never Quit on Available Quota:** Quota numbers (e.g. `5h: 86%`, `Wk: 96%`) represent available headroom. Agents are strictly forbidden from halting when quota is available (> safe reserve limits).
 * **5-Hour Exhaustion Wait-for-Refresh:** If rolling 5-hour quota hits safe reserve during an autonomous `/goal` or playtest run, the governor stages active memory to `.agents/memory/activeContext.md`, sleeps until the recorded reset timestamp passes, verifies quota replenishment, and seamlessly resumes execution.
@@ -1895,7 +1902,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits health across Gemini, Claude, and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all skills across Antigravity, Claude, and Cursor | After adding or updating any skill in the repository. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 172 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 217 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
