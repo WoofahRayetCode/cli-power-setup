@@ -113,6 +113,14 @@ python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controll
 python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controller.py click-target --x 960 --y 540
 ```
 
+#### 7. NPC Character Dialogue & Talk UI Interaction (`interact-character`)
+Triggers the USE action (`KEY_F`), pauses for character dialogue window presentation (`talk.xml`), navigates conversation response choices via numbered hotkeys and mouse targeting, tests Trade UI toggling, and cleanly exits dialogue.
+```bash
+# Interact with character, navigate 2 dialogue options, test trade, and exit cleanly
+python3 config/skills/game-qa-playtest-controller/scripts/game_playtest_controller.py \
+  interact-character --key F --choices 2 --trade
+```
+
 ---
 
 ## 3. Autonomous QA Playtesting Symbiosis

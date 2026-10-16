@@ -532,6 +532,59 @@ def cmd_click_target(args, pad: VirtualGamepad):
     pad.key(btn, False)
     print(f"[✓] Visual target click dispatched at ({x}, {y}).")
 
+def cmd_interact_character(args, pad: VirtualGamepad):
+    print("=======================================================================")
+    print(" 🗣️  NPC Character Dialogue & Talk UI Interaction")
+    print("=======================================================================")
+    print(f"Talk Key:       KEY_{args.key.upper()} | Choices to Navigate: {args.choices}")
+    print(f"Test Trade:     {args.trade} | Dry Run: {pad.dry_run}")
+    print("-----------------------------------------------------------------------\n")
+
+    key_use = getattr(ecodes, f"KEY_{args.key.upper()}", ecodes.KEY_F if HAVE_EVDEV else 33) if HAVE_EVDEV else None
+    key_esc = ecodes.KEY_ESC if HAVE_EVDEV else None
+    btn_l = ecodes.BTN_LEFT if HAVE_EVDEV else None
+
+    # 1. Approach / Trigger Dialogue via USE key
+    print("  -> Step 1: Pressing and holding USE key to open Character Talk UI...")
+    pad.key(key_use, True)
+    time.sleep(0.15)
+    pad.key(key_use, False)
+    time.sleep(0.8 if not pad.dry_run else 0.05)
+
+    # 2. Cycle through dialogue choices
+    for choice in range(1, args.choices + 1):
+        num_key = getattr(ecodes, f"KEY_{choice}", ecodes.KEY_1 if HAVE_EVDEV else 2) if HAVE_EVDEV else None
+        print(f"  -> Step 2.{choice}: Selecting dialogue branch {choice} (KEY_{choice} & mouse click)...")
+        # Click on dialogue question area
+        pad.mouse_move(0, 10)
+        pad.mouse_click(btn_l, duration=0.08)
+        time.sleep(0.1)
+        # Also press number key to support keyboard navigation
+        pad.key(num_key, True)
+        time.sleep(0.1)
+        pad.key(num_key, False)
+        time.sleep(0.6 if not pad.dry_run else 0.05)
+
+    # 3. Test Trade UI if requested
+    if args.trade:
+        print("  -> Step 3: Triggering Trade UI transition (Trade button click)...")
+        pad.mouse_move(0, 20)
+        pad.mouse_click(btn_l, duration=0.08)
+        time.sleep(0.8 if not pad.dry_run else 0.05)
+        # Close trade window back to dialogue
+        pad.key(key_esc, True)
+        time.sleep(0.1)
+        pad.key(key_esc, False)
+        time.sleep(0.4 if not pad.dry_run else 0.05)
+
+    # 4. Exit Dialogue Cleanly
+    print("  -> Step 4: Exiting Character Talk UI cleanly (KEY_ESC / Farewell)...")
+    pad.key(key_esc, True)
+    time.sleep(0.1)
+    pad.key(key_esc, False)
+    time.sleep(0.3 if not pad.dry_run else 0.05)
+    print("[✓] Character talk UI interaction completed successfully.")
+
 def main():
     common_parser = argparse.ArgumentParser(add_help=False)
     common_parser.add_argument("--dry-run", action="store_true", help="Simulate input without accessing /dev/uinput")
@@ -598,6 +651,12 @@ def main():
     p_click.add_argument("--x", type=int, default=960, help="Screen X coordinate")
     p_click.add_argument("--y", type=int, default=540, help="Screen Y coordinate")
     p_click.add_argument("--grounding-json", type=str, help="Path to visual grounding JSON output")
+
+    # interact-character
+    p_talk = subparsers.add_parser("interact-character", parents=[common_parser], help="Interact with NPC character dialogue and talk UI")
+    p_talk.add_argument("--key", type=str, default="F", help="Key bound to USE (default: F)")
+    p_talk.add_argument("--choices", type=int, default=2, help="Number of dialogue response choices to navigate (default: 2)")
+    p_talk.add_argument("--trade", action="store_true", help="Test opening and closing trade UI from dialogue")
     
     args = parser.parse_args()
     pad = VirtualGamepad(dry_run=args.dry_run)
@@ -627,6 +686,8 @@ def main():
             cmd_hybrid_stress(args, pad)
         elif args.command == "click-target":
             cmd_click_target(args, pad)
+        elif args.command == "interact-character":
+            cmd_interact_character(args, pad)
     finally:
         pad.close()
 

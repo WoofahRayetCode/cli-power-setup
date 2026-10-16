@@ -40,6 +40,8 @@ def main():
     parser.add_argument("--no-skip-intro", action="store_false", dest="skip_intro", help="Do not bypass intro videos")
     parser.add_argument("--auto-close-crash-logs", action="store_true", default=True, help="Auto-read and close Wine notepad crash logs that pop up (default: True)")
     parser.add_argument("--no-auto-close-crash-logs", action="store_false", dest="auto_close_crash_logs", help="Disable automatic dismissal of crash log windows")
+    parser.add_argument("--test-dialogue", action="store_true", default=True, help="Test NPC character dialogue and talk UI interaction (default: True)")
+    parser.add_argument("--no-test-dialogue", action="store_false", dest="test_dialogue", help="Disable character dialogue interaction test")
     parser.add_argument("--min-5h", type=int, default=15, help="Minimum 5-hour quota remaining percentage before halting test (default: 15)")
     parser.add_argument("--min-weekly", type=int, default=10, help="Minimum weekly quota remaining percentage before halting test (default: 10)")
     parser.add_argument("--no-quota-guard", action="store_true", help="Bypass quota circuit breaker checks")
@@ -188,6 +190,11 @@ def main():
         ("Combat & UI Action Cycle (Weapon / Reload / Inventory)", ["action-cycle", "--cycles", "2"] + dry_flag),
         ("Hybrid Dual-Input Stress (Gamepad Analog + KBM Cross-Pollination)", ["hybrid-stress", "--duration", "4.0", "--cycles", "2"] + dry_flag)
     ]
+
+    if args.test_dialogue:
+        locomotion_steps.append(
+            ("NPC Character Dialogue & Talk UI Interaction (talk.xml / trade.xml)", ["interact-character", "--choices", "2", "--trade"] + dry_flag)
+        )
 
     for label, cmd_args in locomotion_steps:
         print(f"  -> Executing: {label}...")
