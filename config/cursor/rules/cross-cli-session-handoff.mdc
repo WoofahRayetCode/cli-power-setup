@@ -48,8 +48,8 @@ Before terminating or switching sessions, the active agent generates `.agents/ha
 When transitioning away from the current CLI:
 1. Snapshot in-flight working diff:
    `git diff > .agents/checkpoints/handoff_$(date +%s).diff`
-2. Write `.agents/handoff.json` following the schema above.
-3. Mirror a condensed summary (< 30 lines) into `.agents/memory/activeContext.md`.
+2. Write `.agents/handoff.json` following the schema above, using symbol coordinate paths (`<file>#L<line>:<sig>`) via `model-optimal-state-serializer`.
+3. Mirror a condensed summary (< 30 lines) into `.agents/memory/activeContext.md` formatted in the target model's optimal tokenizer layout (XML-KV for Claude BPE, Pipe-TSV for Gemini SentencePiece).
 4. State in final turn:
    `"Handoff packet staged to .agents/handoff.json. Run 'resume handoff' in your next session to continue seamlessly."`
 

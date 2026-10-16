@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (201 Specialized Capabilities)
+## Complete Skills Catalog (202 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -296,6 +296,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`local-vector-rag-engine`** | Local vector embeddings and dense semantic search engine running on host CPU/GPU/RAM. Replaces context-stuffing (50k+ tokens) by retrieving only the top-k relevant 15-line snippets into LLM prompts, slashing context consumption by 80-95%. |
 | **`log-output-sanitizer`** | Intercepts noisy compiler, package manager, and test suite terminal output (cargo, pytest, npm, cmake), passing only actionable errors and compact summaries to preserve context. |
 | **`lowlevel-dll-internals`** | Windows PE/DLL internals, assembly-level disassembly, vtable reconstruction, calling convention alignment (__thiscall, __stdcall, __cdecl, x64 ABI), and native detour hooks (MinHook, MS Detours, trampoline patching). Use when analyzing or modifying game DLLs, ASI plugins, C++ engine classes, crash dumps, or writing native binary patches. |
+| **`model-optimal-state-serializer`** | Model-optimal structured session state serialization engine. Compresses in-flight memory, active hypotheses, and file state into tokenizer-native formats (XML/YAML for Claude BPE, Pipe/TSV for Gemini SentencePiece, compact symbol skeletons) to slash context consumption by 60-80%. |
 | **`modern-cpp-engineering`** | Modern C++ standards (C++20/C++23) and systems engineering. Use when authoring or debugging C++ code, game engine plugins, DLLs, memory management with RAII, smart pointers, Concepts, or managing CMake builds. |
 | **`network-protocol-engineering`** | Packet inspection with tshark and tcpdump, binary serialization with Protobuf and FlatBuffers, custom TCP/UDP client-servers, and Linux TUN/TAP network routing. |
 | **`nix-reproducible-environments`** | Hermetic developer environments using Nix Flakes (flake.nix), declarative dependencies, reproducible devShells, and cross-platform isolation. |

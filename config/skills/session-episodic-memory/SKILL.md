@@ -42,13 +42,14 @@ Each episode file is a compact, high-density record (<40 lines) structured as:
 ---
 
 ## 2. Pre-Compaction Checkpointing Protocol
-
-When context consumption crosses **50%–60%** and `context-pruning-watchdog` prompts for `/compact`:
-
-1. **Write Episode Snapshot:** Create `.agents/episodes/<timestamp>_<task>.md` summarizing the recent turns.
-2. **Update `activeContext.md`:** Reference the latest episode file link.
-3. **Execute `/compact`:** The chat transcript is cleared.
-4. **Instant Hydration:** Upon resumption, the agent reads the last episode file in <200 tokens and continues with **zero loss of mental state or reasoning history**.
+ 
+ When context consumption crosses **50%–60%** and `context-pruning-watchdog` prompts for `/compact`:
+ 
+ 1. **Write Episode Snapshot:** Create `.agents/episodes/<timestamp>_<task>.md` summarizing recent decisions and dead ends.
+ 2. **Model-Optimal Serialization (`model-optimal-state-serializer`):** Format `current_milestone.json` or `.agents/memory/activeContext.md` into the target model's optimal token layout (XML-KV for Claude BPE, Pipe-TSV for Gemini SentencePiece) using compact symbol coordinate paths (`<file>#L<line>:<sig>`).
+ 3. **Update `activeContext.md`:** Reference the latest episode file link.
+ 4. **Execute `/compact`:** The chat transcript is cleared.
+ 5. **Instant Hydration:** Upon resumption, the agent reads the last episode file in <200 tokens and continues with **zero loss of mental state or reasoning history**.
 
 ---
 

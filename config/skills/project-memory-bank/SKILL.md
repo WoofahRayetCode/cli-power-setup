@@ -111,6 +111,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record active omit manifest path (`.agents/audit/omit_manifest.txt`), excluded build targets, and unreferenced translation units in `systemPatterns.md` to prevent dead-code porting.
 * **Autonomous Error Recovery & Crash Archive Bindings (`agent-error-recovery-sentinel`):**
   Record active crash logs (`.agents/crashes/`), modal dismissal counts, cleared lock files, and zombie process recovery metrics in `learnings.md`.
+* **Model-Optimal State Serialization Bindings (`model-optimal-state-serializer`):**
+  Format `activeContext.md` and compaction snapshots using target tokenizer layouts (XML-KV for Claude BPE, Pipe-TSV for Gemini SentencePiece, compact symbol coordinates `<file>#L<line>:<sig>`) to compress state size by 60–80% (<350 tokens).
 
 ---
 

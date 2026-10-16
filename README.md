@@ -2,59 +2,59 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
 
-This repository organizes a curated set of **201 autonomous agent skills**, 201 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
-
----
-
-## ⚡ Quick Start
-
-Clone this repository to your machine and run the installer:
-
-```bash
-git clone https://github.com/WoofahRayetCode/cli-power-setup.git
-cd cli-power-setup
-./install.sh
-```
-
-### 📋 Interactive Installer Menu
-Running `./install.sh` displays an interactive target menu:
-```text
-CLI Power Setup Installer
-Select target environment:
-  1) Tri-Environment (Antigravity, Claude Code, & Cursor) [Recommended]
-  2) Antigravity only (~/.gemini)
-  3) Claude Code only (~/.claude)
-  4) Cursor only (~/.cursor, ~/.cursorrules)
-  5) Exit
-```
-
-Or pass flags non-interactively in automated scripts:
-```bash
-./install.sh --all     # Install for Antigravity, Claude Code, and Cursor IDE
-./install.sh --agy     # Install for Google Antigravity only
-./install.sh --claude  # Install for Claude Code only
-./install.sh --cursor  # Install for Cursor IDE only
-```
-
-### What the Installer Does:
-1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Tri-Environment Sync:** Deploys all 201 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
-3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
-4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
-5. **Turbo Mode Launchers:** Installs `agy-turbo`, `claude-turbo`, and autonomous YOLO shortcuts (`agy-yolo`, `claude-yolo`) into `~/.local/bin/`.
-6. **Skills Auditor & Auto-Updater:** Installs `skills-audit-update` and `cursor-rules-sync` into `~/.local/bin/` for one-command health audits, permissions repair, and 3-way synchronization.
-
----
-
-## 📂 Repository Structure
-
-```text
-cli-power-setup/
-├── install.sh                  # Interactive tri-environment installer with backup & menu
-├── README.md                   # Comprehensive documentation & skill reference
-├── .cursorrules                # Root-level unified Cursor AI rules & skill index
-├── .cursor/
-│   └── rules/                  # 201 modular Cursor Rules (.mdc) with semantic metadata
+This repository organizes a curated set of **202 autonomous agent skills**, 202 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+ 
+ ---
+ 
+ ## ⚡ Quick Start
+ 
+ Clone this repository to your machine and run the installer:
+ 
+ ```bash
+ git clone https://github.com/WoofahRayetCode/cli-power-setup.git
+ cd cli-power-setup
+ ./install.sh
+ ```
+ 
+ ### 📋 Interactive Installer Menu
+ Running `./install.sh` displays an interactive target menu:
+ ```text
+ CLI Power Setup Installer
+ Select target environment:
+   1) Tri-Environment (Antigravity, Claude Code, & Cursor) [Recommended]
+   2) Antigravity only (~/.gemini)
+   3) Claude Code only (~/.claude)
+   4) Cursor only (~/.cursor, ~/.cursorrules)
+   5) Exit
+ ```
+ 
+ Or pass flags non-interactively in automated scripts:
+ ```bash
+ ./install.sh --all     # Install for Antigravity, Claude Code, and Cursor IDE
+ ./install.sh --agy     # Install for Google Antigravity only
+ ./install.sh --claude  # Install for Claude Code only
+ ./install.sh --cursor  # Install for Cursor IDE only
+ ```
+ 
+ ### What the Installer Does:
+ 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
+ 2. **Tri-Environment Sync:** Deploys all 202 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+ 3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
+ 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
+ 5. **Turbo Mode Launchers:** Installs `agy-turbo`, `claude-turbo`, and autonomous YOLO shortcuts (`agy-yolo`, `claude-yolo`) into `~/.local/bin/`.
+ 6. **Skills Auditor & Auto-Updater:** Installs `skills-audit-update` and `cursor-rules-sync` into `~/.local/bin/` for one-command health audits, permissions repair, and 3-way synchronization.
+ 
+ ---
+ 
+ ## 📂 Repository Structure
+ 
+ ```text
+ cli-power-setup/
+ ├── install.sh                  # Interactive tri-environment installer with backup & menu
+ ├── README.md                   # Comprehensive documentation & skill reference
+ ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
+ ├── .cursor/
+ │   └── rules/                  # 202 modular Cursor Rules (.mdc) with semantic metadata
 
 
 ├── bin/
@@ -1619,10 +1619,16 @@ To provide maximum flexibility without losing precision, this suite employs a **
 * **Why It Saves Quota:** Eliminates 4,000 to 12,000 internal thinking tokens per turn on routine mechanical steps, cutting Argon session burn by 85%.
 
 #### 201. `universal-token-containment-protocol`
-* **In Simple Terms:** Universal cross-model and cross-domain token containment protocol across all 201 skills.
+* **In Simple Terms:** Universal cross-model and cross-domain token containment protocol across all 202 skills.
 * **When It Kicks In:** Running any engineering task across 3D modeling, reverse engineering, web design, game modding, and test suites.
 * **How It Works:** Enforces strict domain rules: caps disassembly dumps to 30 lines, offloads HTML/docs to files/artifacts, mandates surgical chunk diffs, and enforces quiet flags (`pytest -q`, `cargo test -q`).
 * **Why It Saves Quota:** Eliminates chat transcript pollution and ensures all large data blocks exist exclusively in tools and disk files.
+
+#### 202. `model-optimal-state-serializer`
+* **In Simple Terms:** Tokenizer-native structured state serialization for Claude, Gemini, and Cursor.
+* **When It Kicks In:** Saving session state, writing `.agents/memory/activeContext.*`, staging cross-CLI handoffs, or preparing for `/compact`.
+* **How It Works:** Serializes memory into tokenizer-optimal layouts: concise XML-KV tags for Claude BPE, flat pipe-delimited TSV tables for Gemini SentencePiece, and compact symbol coordinates (`<file>#L<line>:<sig>`).
+* **Why It Saves Quota:** Slashes state hydration token costs by 60%–80% (compressing 500-token verbose JSON blocks into <130 tokens) without losing structural fidelity.
 
 ---
 
@@ -1792,7 +1798,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │  Core Discipline: .cursor/rules/000-cursor-global-discipline.mdc                                    │
 │  Universal Model Adaptation Matrix: .cursor/rules/001-multi-model-optimization.mdc                  │
-│  201 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
+│  202 Modular Skill Rules (.cursor/rules/*.mdc with semantic activation)                             │
 │  Unified Root Fallback: ~/.cursorrules                                                              │
 └─────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -1810,7 +1816,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 201 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 202 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
 
 
