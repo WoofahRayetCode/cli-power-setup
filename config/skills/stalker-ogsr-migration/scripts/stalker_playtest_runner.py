@@ -75,6 +75,7 @@ def main():
     grounding_tool = find_tool("agentic-visual-perception/scripts/agent_visual_grounding.py")
     fuzzer_tool = find_tool("game-exploratory-fuzzing/scripts/game_exploratory_fuzzer.py")
     governor_tool = find_tool("autonomous-goal-governor/scripts/goal_governor.py")
+    audio_tool = find_tool("game-audio-engine-engineering/scripts/silent_audio_tester.py")
 
     # Step 0: Quota Reserve Safety Check
     if not args.no_quota_guard and governor_tool.exists() and not args.dry_run:
@@ -157,6 +158,11 @@ def main():
         dismiss_cmd = [sys.executable, str(qa_controller), "press-any-key", "--key", "SPACE"] + dry_flag
         subprocess.run(dismiss_cmd, capture_output=True, check=False)
         print("  -> Loading screen prompt dismissed; active gameplay reached.")
+
+    # Step 3c: Autonomous Silent Audio Verification
+    if audio_tool.exists() and not args.dry_run:
+        print("\n[Step 3c] Executing Autonomous Silent Audio Verification...")
+        subprocess.run([sys.executable, str(audio_tool), "verify", "--duration", "1.5", "--log-file", args.log_file], check=False)
 
     # Step 4: Inject Multi-Axis Kinematic Locomotion & Actions
     print("\n[Step 4/5] Injecting Autonomous Multi-Axis Character Locomotion & Actions...")

@@ -49,3 +49,16 @@ Preserves total perceived acoustic power ($G_{\text{left}}^2 + G_{\text{right}}^
 
 * **Dynamic Ducking:** Duck Music and SFX buses by -4dB to -6dB when dialogue voices are active.
 * **Voice Stealing Priority:** Rank active voices by $\text{Priority} = \text{Volume} \times \text{CategoryWeight} / \text{Distance}$. Evict lowest priority voices when hardware voice limits (e.g. 64 or 128 voices) are saturated.
+
+---
+
+## 4. Headless & Silent Audio Verification (`silent_audio_tester.py`)
+
+When running automated game QA or porting builds while physical speakers must remain silent (e.g., overnight or while resting):
+```bash
+python3 config/skills/game-audio-engine-engineering/scripts/silent_audio_tester.py verify --duration 2.0
+```
+* **Hardware Mute Guardian:** Verifies and enforces that physical master hardware sinks (`@DEFAULT_AUDIO_SINK@`) remain strictly `[MUTED]` to prevent acoustic noise in the room.
+* **Software Monitor Capture:** Samples live audio waveform buffers directly from PipeWire / PulseAudio software sinks (`easyeffects_sink.monitor`), calculating RMS mean volume (dB), peak amplitude, and dynamic range.
+* **Engine Log Auditing:** Parses game engine logs for OpenAL context status, sound cache lines, and missing sound asset errors.
+
