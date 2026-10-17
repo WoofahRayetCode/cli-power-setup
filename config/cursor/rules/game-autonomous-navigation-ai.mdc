@@ -106,3 +106,9 @@ In X-Ray/OGSR, camera/actor pitch sign is inverted relative to standard math: po
 ## Promoted Executable Tool (`walkcoach.py`)
 - **Location:** `~/.gemini/config/skills/game-autonomous-navigation-ai/scripts/walkcoach.py`
 - **Invocation:** `~/.gemini/config/skills/game-autonomous-navigation-ai/scripts/walkcoach.py`
+
+---
+
+## Promoted Executable Tool (`navplan.py`)
+- **Location:** `~/.gemini/config/skills/game-autonomous-navigation-ai/scripts/navplan.py`
+- **Invocation:** `~/.gemini/config/skills/game-autonomous-navigation-ai/scripts/navplan.py`
