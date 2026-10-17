@@ -146,7 +146,7 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
             if cand in installed:
                 return cand
     elif task in ("math", "physics", "ballistics", "quaternion"):
-        for cand in ("phi4:14b", "deepseek-r1:8b", "qwen2.5-coder:7b"):
+        for cand in ("mathstral:7b", "wizard-math:7b", "phi4:14b", "deepseek-r1:8b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task == "reason" and free_mb >= 5200:
