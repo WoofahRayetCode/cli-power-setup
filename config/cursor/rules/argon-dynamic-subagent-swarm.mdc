@@ -1,0 +1,71 @@
+---
+description: Spawns and coordinates parallel Gemini Flash worker subagents to execute high-volume asset conversion, audio processing, and test sweeps simultaneously, slashing porting turnaround time by 80%.
+globs: 
+alwaysApply: false
+---
+
+# Argon Dynamic Subagent Swarm (`argon-dynamic-subagent-swarm`)
+
+When executing massive game mod migrations (e.g. converting 50,000 Wwise audio events, hundreds of weapon ballistic curves, and high-resolution textures from S.T.A.L.K.E.R. 2 to OGSR), running tasks serially in a single conversational thread burns hours of wall-clock time and clutters the orchestrator's context window.
+
+This skill equips Gemini 4 Argon with **Parallel Subagent Swarm Orchestration**, allowing Argon to dispatch concurrent Flash worker agents to tackle distinct tasks simultaneously.
+
+---
+
+## 1. Hierarchical Swarm Architecture
+
+```
++-------------------------------------------------------------+
+|               ORCHESTRATOR: GEMINI 4 ARGON                  |
+| - High-level plan decomposition                             |
+| - Invariant & architecture enforcement                      |
+| - Final verification & integration assembly                 |
++-------------------------------------------------------------+
+               /                      |                      \
+              v                       v                       v
++-------------------+   +-------------------+   +-------------------+
+| WORKER 1 (Flash)  |   | WORKER 2 (Flash)  |   | WORKER 3 (Flash)  |
+| Audio Transcoder  |   | Texture Converter |   | Curve Transpiler  |
+| - Wwise .wem ->   |   | - TGA/PNG -> DDS  |   | - Parse curves -> |
+|   Ogg GSC headers |   |   BC7/DXT5 + THM  |   |   weapons.ltx     |
++-------------------+   +-------------------+   +-------------------+
+```
+
+---
+
+## 2. Parallel Swarm Dispatch Directive
+
+Argon dispatches all 3 workers in a single parallel tool invocation using `invoke_subagent`:
+
+```json
+{
+  "Subagents": [
+    {
+      "TypeName": "self",
+      "Role": "Audio Transcoding Worker",
+      "Model": "flash",
+      "Prompt": "Convert intermediate Wwise audio in /tmp/s2_audio to Ogg Vorbis using game-audio-ogg-gsc-encoder and place in gamedata/sounds/."
+    },
+    {
+      "TypeName": "self",
+      "Role": "Texture Baking Worker",
+      "Model": "flash",
+      "Prompt": "Batch compress diffuse and normal textures in /tmp/s2_textures to DDS BC7 and BC5 with .thm headers in gamedata/textures/."
+    },
+    {
+      "TypeName": "self",
+      "Role": "Ballistics Curve Transpiler",
+      "Model": "flash",
+      "Prompt": "Parse extracted pakchunk16 AimingWeapon curves and map dispersion parameters into gamedata/config/weapons/."
+    }
+  ]
+}
+```
+
+---
+
+## 3. Quota & Velocity Multipliers
+
+1. **Wall-Clock Acceleration:** Running 3 workers simultaneously cuts multi-hour batch asset conversions down to minutes.
+2. **Context Isolation:** Hundreds of repetitive command lines stay contained within the Flash workers' isolated contexts.
+3. **Argon Quota Preservation:** Argon burns zero weekly quota during the heavy conversion passes, receiving only the final pass/fail tallies from each worker.

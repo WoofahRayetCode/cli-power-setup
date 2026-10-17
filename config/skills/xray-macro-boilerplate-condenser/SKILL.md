@@ -11,7 +11,7 @@ The GSC X-Ray Engine codebase was authored in the early 2000s and relies heavily
 - `luabind::class_<T>("class_name").def(...)`
 - `xr_new`, `xr_delete`, `xr_free`, `xr_malloc`
 
-When ingesting legacy headers and scripts into Claude Fable 5.1, these boilerplate macro sequences consume **up to 70% of the token volume** without adding semantic architectural value.
+When ingesting legacy headers and scripts into Gemini 4 Argon or Claude Fable 5.1, these boilerplate macro sequences consume **up to 70% of the token volume** without adding semantic architectural value.
 
 This skill strips macro overhead and presents clean, standardized C++ signatures to the model.
 
