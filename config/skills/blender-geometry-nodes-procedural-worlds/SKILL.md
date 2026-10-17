@@ -1,0 +1,71 @@
+---
+name: blender-geometry-nodes-procedural-worlds
+description: Headless Blender 5.2+ Geometry Nodes (bpy.types.GeometryNodeTree) procedural worldbuilding, spline generators (roads, pipes, cables, fences), modular building assembly, Poisson-disk biome foliage scattering, and Realize Instances game export.
+---
+
+# Blender 5.2+ Geometry Nodes & Procedural Worlds (`blender-geometry-nodes-procedural-worlds`)
+
+## When to Use
+- Generating procedural environments, modular buildings, ruins, roads, trenches, pipes, powerlines, fences, or scattered biome foliage in headless Blender 5.2+ (`bpy`).
+- Converting procedural `GeometryNodeTree` setups with instances into real, UV-mapped, game-ready meshes (`GeometryNodeRealizeInstances`) for S.T.A.L.K.E.R. OGSR, Unreal Engine 5, Godot 4, or Unity.
+
+---
+
+## 1. Programmatic `GeometryNodeTree` Construction (Blender 5.2+ API)
+In Blender 4.0+/5.2+, Geometry Node inputs/outputs use `node_tree.interface.new_socket()` instead of legacy `node_tree.inputs.new()`:
+
+```python
+import bpy
+
+def create_geonodes_modifier(obj: bpy.types.Object, name: str = "ProceduralGen") -> bpy.types.NodeTree:
+    mod = obj.modifiers.new(name=name, type='NODES')
+    tree = bpy.data.node_groups.new(name=f"{name}_Tree", type='GeometryNodeTree')
+    mod.node_group = tree
+
+    # Blender 5.2 Interface Sockets
+    tree.interface.new_socket(name="Geometry", in_out='INPUT', socket_type='NodeSocketGeometry')
+    tree.interface.new_socket(name="Geometry", in_out='OUTPUT', socket_type='NodeSocketGeometry')
+
+    nodes = tree.nodes
+    links = tree.links
+    n_in = nodes.new('NodeGroupInput')
+    n_out = nodes.new('NodeGroupOutput')
+    n_in.location = (-400, 0)
+    n_out.location = (400, 0)
+    links.new(n_in.outputs["Geometry"], n_out.inputs["Geometry"])
+    return tree
+```
+
+---
+
+## 2. Core Procedural Archetypes
+
+### A. Spline-Driven Cables, Pipes, Roads & Fences (`Curve to Mesh`)
+1. Create a `CURVE` object with `POLY` or `BEZIER` splines representing the path.
+2. Inside Geometry Nodes:
+   - `GeometryNodeResampleCurve` (`mode='LENGTH'`, `length=0.5m`) for uniform vertex spacing.
+   - `GeometryNodeCurveToMesh` with a profile (`GeometryNodeCurvePrimitiveCircle` for pipes/cables, or a custom cross-section for roads/trenches) and `fill_caps=False`.
+   - **UV Preservation:** Capture `Spline Parameter -> Factor` as `U` and profile `Factor` as `V` via `GeometryNodeStoreNamedAttribute` (`data_type='FLOAT2'`, `domain='CORNER'`, `name="UVMap"`).
+
+### B. Poisson-Disk Biome & Debris Scattering
+1. `GeometryNodeDistributePointsOnFaces` (`distribute_method='POISSON'`, `distance_min=1.2`, `density_max=5.0`).
+2. Modulate density via vertex weight proximity or slope angle (`Normal.z > 0.75` via `ShaderNodeVectorMath` dot product with `(0, 0, 1)`).
+3. `GeometryNodeInstanceOnPoints` with randomized Z rotation (`0` to `2*pi`) and uniform scale (`0.8` to `1.25`).
+
+### C. Repeat Zones & Simulation Loops (Blender 5.2+)
+- Use **Repeat Zones** (`GeometryNodeRepeatInput` / `GeometryNodeRepeatOutput`) for iterative architectural stacking (e.g., multi-story building floors, brick walls, procedural ivy growth, or erosion steps).
+
+---
+
+## 3. Mandatory Game-Engine Export Rules (Realizing Instances & UVs)
+Game engines (`.fbx`, `.glb`, `.ogf`) will ignore unrealized Geometry Node instances or lose their UVs unless you finalize the graph before export:
+1. **Always Append `GeometryNodeRealizeInstances`** right before `NodeGroupOutput` when exporting static combined meshes.
+2. **Convert Named UV Attributes to Active UV Maps:**
+   After applying the Geometry Nodes modifier (`bpy.ops.object.modifier_apply(modifier=mod.name)`), convert any stored `FLOAT2` corner attribute into a formal UV map:
+   ```python
+   bpy.context.view_layer.objects.active = obj
+   attr = obj.data.attributes.get("UVMap")
+   if attr and attr.domain == 'CORNER':
+       obj.data.attributes.active = attr
+       bpy.ops.geometry.attribute_convert(mode='UV_MAP')
+   ```

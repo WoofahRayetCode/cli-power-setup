@@ -1,0 +1,74 @@
+---
+description: Automated headless UV unwrapping in Blender 5.2+ (SLIM Minimum Stretch, Angle-Based, Conformal), texel density normalization, Trim Sheets, UDIM multi-tile arrays (1001-1008), and non-overlapping UV2 Lightmap generation.
+globs: 
+alwaysApply: false
+---
+
+# Blender UV, UDIM & Lightmap Architect (`blender-uv-udim-lightmap-architect`)
+
+## When to Use
+- Unwrapping procedural or sculpted 3D meshes in headless Blender 5.2+ (`bpy`) without manual GUI seam selection.
+- Generating a second non-overlapping **Lightmap UV channel (`UVMap_Lightmap`)** for Unreal Engine 5, Unity, or Godot 4 baked global illumination.
+- Organizing multi-tile **UDIM (`1001–1008`)** layouts for hero characters or aligning environment meshes to modular **Trim Sheets**.
+
+---
+
+## 1. Automated Seam Marking & Blender 5.2+ Unwrapping
+Never rely on `Smart UV Project` alone for organic or curved models—it fragments islands into hundreds of micro-charts that ruin normal map mipmaps. Instead, mark sharp dihedral edges + cylinder caps and unwrap cleanly:
+
+```python
+import bpy
+
+def auto_seam_and_unwrap(obj: bpy.types.Object, angle_deg: float = 62.0, margin: float = 0.008):
+    bpy.context.view_layer.objects.active = obj
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.select_all(action='SELECT')
+
+    # Clear existing seams and mark seams by sharp dihedral angle
+    bpy.ops.mesh.mark_seam(clear=True)
+    bpy.ops.mesh.select_all(action='DESELECT')
+    bpy.ops.mesh.edges_select_sharp(sharpness=angle_deg * 3.14159 / 180.0)
+    bpy.ops.mesh.mark_seam(clear=False)
+
+    # Select all and unwrap with island margin padding
+    bpy.ops.mesh.select_all(action='SELECT')
+    bpy.ops.uv.unwrap(method='ANGLE_BASED', margin=margin)
+    bpy.ops.uv.average_islands_scale()
+    bpy.ops.uv.pack_islands(rotate=True, margin=margin)
+    bpy.ops.object.mode_set(mode='OBJECT')
+```
+
+---
+
+## 2. Engine Lightmap UV2 Channel (`UVMap_Lightmap`)
+Unreal Engine 5 (Lightmass/Lumen fallback), Unity, and Godot 4 require a **strictly non-overlapping `[0, 1]` UV2 channel** with sufficient texel gutter padding so shadowmaps never bleed across adjacent faces:
+
+```python
+def generate_lightmap_uv2(obj: bpy.types.Object, lightmap_res: int = 256):
+    mesh = obj.data
+    uv_lm = mesh.uv_layers.get("UVMap_Lightmap") or mesh.uv_layers.new(name="UVMap_Lightmap")
+    mesh.uv_layers.active = uv_lm
+
+    # Minimum 2-pixel gutter padding between UV islands: margin = 2.0 / lightmap_res
+    gutter = max(0.01, 2.5 / float(lightmap_res))
+    bpy.context.view_layer.objects.active = obj
+    bpy.ops.object.mode_set(mode='EDIT')
+    bpy.ops.mesh.select_all(action='SELECT')
+    bpy.ops.uv.smart_project(angle_limit=1.1519, island_margin=gutter, correct_aspect=True)
+    bpy.ops.uv.pack_islands(rotate=False, margin=gutter)
+    bpy.ops.object.mode_set(mode='OBJECT')
+    # Restore primary texture UV0 as active render layer
+    mesh.uv_layers.active_index = 0
+```
+
+---
+
+## 3. Texel Density & UDIM Multi-Tile Standards
+1. **Texel Density Targets ($px/m$):**
+   - **First-Person Weapons / Hero Faces:** `2048 px/m` (`20.48 px/cm`).
+   - **Characters / Vehicles / Props:** `1024 px/m` (`10.24 px/cm`).
+   - **Large Architecture / Terrain Cliffs:** `512 px/m` (`5.12 px/cm`, supplemented with detail normal maps or trim sheets).
+2. **UDIM Tile Indexing (`1001 + U + 10*V`):**
+   - Tile `1001` = Head/Face (`U: 0..1, V: 0..1`), Tile `1002` = Torso/Limbs (`U: 1..2, V: 0..1`), Tile `1003` = Armor/Gear (`U: 2..3, V: 0..1`).
+   - Create UDIM tiled images in `bpy` via `img = bpy.data.images.new(name, 2048, 2048, tiled=True)` and add tiles via `img.tiles.new(tile_number=1002)`.
+3. **Hard Edge = UV Seam Law:** Every mesh edge marked `use_edge_sharp = True` **must** also be a UV seam (`use_seam = True`) with separated UV islands; otherwise tangent-space normal maps will bake black seam artifacts along the hard edge.

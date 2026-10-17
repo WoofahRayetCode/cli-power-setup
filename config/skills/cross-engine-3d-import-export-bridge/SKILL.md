@@ -1,0 +1,62 @@
+---
+name: cross-engine-3d-import-export-bridge
+description: Unified Blender 5.2+ to Game Engine 3D export matrix covering Unreal Engine 5 (Nanite/UCX), Godot 4.x (.glb/-col/-loop), Unity (Humanoid/bake_space_transform), S.T.A.L.K.E.R. X-Ray/OGSR (.ogf/.dm), and Three.js/WebGPU (Meshopt/Draco/KTX2).
+---
+
+# Cross-Engine 3D Import/Export Bridge (`cross-engine-3d-import-export-bridge`)
+
+## When to Use
+- Exporting 3D characters, weapons, props, or environments from Blender 5.2+ (`bpy`) to **Unreal Engine 5**, **Godot 4.x**, **Unity**, **S.T.A.L.K.E.R. X-Ray / OGSR**, or **Three.js / WebGPU** without scale, axis rotation, or bone orientation bugs.
+- Automating engine-specific collision hull naming (`UCX_`, `-col`, `-convcol`) and animation loop markers (`-loop`).
+
+---
+
+## 1. Master Cross-Engine Coordinate, Scale & Axis Matrix
+
+| Target Engine | Handedness & Up Axis | Unit Scale (`scale_length`) | Preferred Format | Blender Export Axis Flags | Collision Naming Convention |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Godot 4.x** | Right-Handed, `+Y Up, -Z Forward` | `1.0` (`1m`) | `.glb` / `.blend` | glTF auto-converts `+Z Up -> +Y Up` | Suffix `-col` (trimesh), `-convcol` (convex), `-colonly` |
+| **Unreal Engine 5** | Left-Handed, `+Z Up, +X Forward` | `0.01` (`1cm`) or `1.0` (`apply_unit_scale=True`) | `.fbx` / `.glb` | `axis_forward='-Y'`, `axis_up='Z'` (or `+X`/`+Z` for skeletal) | Prefix `UCX_<MeshName>_00` (convex), `UBX_` (box), `USP_` (sphere) |
+| **Unity 6 / 2022+** | Left-Handed, `+Y Up, +Z Forward` | `1.0` (`1m`) | `.fbx` | `axis_forward='-Z'`, `axis_up='Y'`, `bake_space_transform=True` | Separate child mesh or Unity `MeshCollider` / `BoxCollider` |
+| **S.T.A.L.K.E.R. OGSR** | Left-Handed, `+Y Up, +Z Forward` | `1.0` (`1m`) | `.ogf` v4 / `.dm` | Swap `(x, y, z) -> (x, z, y)`, flip `V = 1 - V`, reverse tri winding | Built into `.ogf` Chunk `0x0010` (`SBoneShape` OBB/box/sphere) |
+| **Three.js / WebGPU** | Right-Handed, `+Y Up, +Z Forward` | `1.0` (`1m`) | `.glb` (`Meshopt` + `KTX2`) | Standard glTF 2.0 (`+Y Up`) | Separate simplified `.glb` or analytical BVH |
+
+---
+
+## 2. Engine-Specific Export Recipes (`bpy`)
+
+### A. Godot 4.x Zero-Click `.glb` Export
+Rename objects/actions in Blender before calling `bpy.ops.export_scene.gltf()`:
+- Append `-col` to static architecture meshes requiring exact trimesh collision, or `-convcol` to props requiring fast convex collision.
+- Append `-loop` to cyclic Blender Action names (e.g., `Walk-loop`, `Idle-loop`) so Godot 4 automatically sets `Animation.LOOP_LINEAR` on import.
+```python
+bpy.ops.export_scene.gltf(
+    filepath=out_glb,
+    export_format='GLB',
+    use_selection=True,
+    export_apply=True,
+    export_tangents=True,
+    export_yup=True,
+    export_animations=True
+)
+```
+
+### B. Unreal Engine 5 Skeletal & Static `.fbx` Export (Zero Root-Scale Trap)
+**Critical Trap:** If your Blender Armature object is named `"Armature"`, Unreal strips it on import or creates a `100x` scale mismatch between root bone and mesh. Always name the Armature object `"root"` (or the character name) with scale `(1.0, 1.0, 1.0)` applied:
+```python
+bpy.ops.export_scene.fbx(
+    filepath=out_fbx,
+    use_selection=True,
+    apply_scale_options='FBX_SCALE_NONE',
+    axis_forward='-Y',
+    axis_up='Z',
+    mesh_smooth_type='FACE',
+    use_tspace=True,
+    add_leaf_bones=False,
+    primary_bone_axis='Y',
+    secondary_bone_axis='X'
+)
+```
+
+### C. Unity `.fbx` Export (Eliminating the `-89.98°` X-Rotation Bug)
+Always enable `bake_space_transform=True` and `apply_scale_options='FBX_SCALE_UNITS'` so Unity Prefabs instantiate at `(0, 0, 0)` rotation and `(1, 1, 1)` scale.
