@@ -1,12 +1,12 @@
 {
   "lifetime_summary": {
-    "total_cached_tokens_saved": 1416490747,
+    "total_cached_tokens_saved": 1420971713,
     "total_sessions_tracked": 28,
-    "cache_hit_rate_pct": 93.87,
-    "total_uncached_input_tokens": 92520077,
+    "cache_hit_rate_pct": 93.88,
+    "total_uncached_input_tokens": 92591544,
     "total_output_tokens": 7064938,
-    "total_turns_executed": 10986,
-    "last_updated": "2026-10-17T11:28:26.936065"
+    "total_turns_executed": 11006,
+    "last_updated": "2026-10-17T11:30:42.994881"
   },
   "sessions": [
     {
@@ -25,12 +25,12 @@
     }
   ],
   "local_llm_savings": {
-    "total_calls": 5,
-    "total_local_tokens": 8702,
-    "total_cloud_tokens_saved": 17602,
-    "last_model": "deepseek-coder:6.7b-instruct",
-    "last_saved_tokens": 3419,
-    "last_updated": "2026-10-17T11:17:20",
+    "total_calls": 6,
+    "total_local_tokens": 8774,
+    "total_cloud_tokens_saved": 18874,
+    "last_model": "aya:8b",
+    "last_saved_tokens": 1272,
+    "last_updated": "2026-10-17T11:32:34",
     "by_model": {
       "blender-architect": {
         "calls": 1,
@@ -56,6 +56,11 @@
         "calls": 1,
         "local_tokens": 2219,
         "cloud_tokens_saved": 3419
+      },
+      "aya:8b": {
+        "calls": 1,
+        "local_tokens": 72,
+        "cloud_tokens_saved": 1272
       }
     }
   }

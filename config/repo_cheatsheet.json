@@ -1,17 +1,15 @@
 {
-  "updated_at": "2026-10-17T11:29:47.090085",
+  "updated_at": "2026-10-17T11:32:40.345682",
   "total_repos": 33,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792261776.5807366,
-      "age_str": "10s ago",
-      "dirty_count": 4,
-      "dirty_exts": {
-        ".py": 1
-      },
+      "activity_ts": 1792261787.0,
+      "age_str": "2m ago",
+      "dirty_count": 2,
+      "dirty_exts": {},
       "recent_exts": [
         ".py",
         ".mdc"
@@ -21,7 +19,7 @@
         ".md",
         ".py"
       ],
-      "last_commit": "feat(stalker): wire local deepseek-r1/coder and co",
+      "last_commit": "feat(coprocessor,statusline): add task routing and",
       "stack": "AI Skills / Python / Bash",
       "work_now": "CLI Daemons & Skills",
       "plan_short": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",
@@ -41,7 +39,7 @@
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
       "activity_ts": 1792261770.6921947,
-      "age_str": "16s ago",
+      "age_str": "3m ago",
       "dirty_count": 198,
       "dirty_exts": {
         ".ogf": 3,
@@ -122,7 +120,7 @@
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
       "activity_ts": 1792261706.630222,
-      "age_str": "1m ago",
+      "age_str": "4m ago",
       "dirty_count": 30,
       "dirty_exts": {
         ".cpp": 22,
@@ -160,7 +158,7 @@
       "path": "~/Documents/GitHub/FifineControlDeck",
       "is_git": true,
       "activity_ts": 1792261601.8510442,
-      "age_str": "3m ago",
+      "age_str": "5m ago",
       "dirty_count": 1,
       "dirty_exts": {
         ".exe": 1
