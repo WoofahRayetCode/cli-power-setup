@@ -21,6 +21,7 @@ Jump directly to any section of the documentation:
 * [🧠 Zero-Quota Local Language Model Fleet (34 Models)](#-zero-quota-local-language-model-fleet-34-models-0-cloud-tokens)
   * [Key Benefits & Token Savings](#-key-benefits--overall-usage-savings)
   * [Local Fleet Matrix (Collapsible Table)](#-complete-34-model-local-fleet-matrix)
+  * [1-Click Copy-Paste Model Reference](#-1-click-copy-paste-model-reference)
   * [Secondary Drive Ultra-Large Model Repository (`ultra-model-manager`)](#-secondary-drive-ultra-large-model-repository--hardware-optimizer)
 * [🚀 Dynamic AGY Omni-Auto Mode (`agy-omni-mode`)](#-dynamic-agy-omni-auto-mode-agy-omni-mode)
 * [🔎 Zero-Quota Local Research Scout (`local-research-scout`)](#-zero-quota-local-research-scout-local-research-scout)
@@ -117,32 +118,139 @@ A production-grade fleet of **34 specialized open-weights models**—including *
 
 ### 📋 Complete 34-Model Local Fleet Matrix
 
-<details>
-<summary><b>🔍 Click to View Complete 34-Model Local Fleet Specifications & Memory Footprint</b></summary>
+<details open>
+<summary><b>🔍 Click to Expand/Collapse Complete 34-Model Local Fleet Specifications & Hardware Footprint</b></summary>
 
-| Functional Tier | Primary Model | Fallback | Memory | Specialization & Capabilities |
+| Model Tag | Disk Size | Parameter Tier | Hardware Offload | Primary Specialization & Use Case |
 | :--- | :--- | :--- | :--- | :--- |
-| **`ultra-reasoning`** | **`deepseek-r1:70b-iq2`** | `deepseek-r1:32b` | ~21.2 GB VRAM+RAM | **Titan 70B Formal Chain-of-Thought.** Struct padding, invariant verification, 64-bit memory proofs (`--task reason`) |
-| **`ultra-systems`** | **`qwen2.5:72b-iq2`** | `qwen2.5-coder:32b` | ~25.5 GB VRAM+RAM | **Titan 72B Systems Architect.** C++20 refactoring, engine porting, large codebase logic, and 3D geometry (`--task plan`) |
-| **`ultra-agent`** | **`llama3.3:70b-iq2`** | `qwen2.5:32b` | ~21.5 GB VRAM+RAM | **Titan 70B Generalist.** Multi-turn tool calling, complex instruction execution, and structured extraction (`--task tool`) |
-| **`decompile-re`** | **`llm4decompile:22b-q4`** | `deepseek-coder-v2:16b` | ~12.4 GB VRAM+RAM | **Binary Reverse Engineering.** Assembly-to-C decompilation for REA MCP, Ghidra & x64dbg (`--task re`) |
-| **`blender-cad`** | **`blenderllm:7b-q4`** | `blender-architect:latest` | ~4.7 GB VRAM | **CAD & Procedural 3D Mesh Scripting.** Trained on `BlendNet` for instant natural language $\rightarrow$ `bpy` scripts (`--task blender`) |
-| **`engine-porting`** | **`deepseek-coder-v2:16b`** | `qwen2.5-coder:32b` | ~6.0 GB VRAM + RAM | **#1 Game Engine Porting.** 32-to-64-bit pointer math, struct alignment, HLSL/GLSL shaders (`--task port`) |
-| **`frontier-planners`** | **`qwen2.5-coder:32b`** | `deepseek-r1:32b` | ~7.5 GB VRAM + RAM | **Heavyweight 32B Code Planner.** SWE-bench leader, large refactors, C++20 modernizations (`--task plan`) |
-| **`reasoning`** | **`deepseek-r1:32b`** | `deepseek-r1:14b` / `8b` | ~5.2–7.5 GB VRAM | **32B Deep Chain-of-Thought.** Architectural verification, invariant proofs, root-cause triage (`--task reason`) |
-| **`generalist`** | **`qwen2.5:32b`** | `mistral-nemo:12b` | ~7.1–7.5 GB VRAM | **32B Large Context Generalist.** Repo analysis, modern web architectures, enterprise copy (`--task long`) |
-| **`mid-code`** | **`qwen2.5-coder:14b`** | `qwen2.5-coder:7b` | ~4.7–7.0 GB VRAM | **14B Dense Code Architect.** Multi-file dependency tracking and C++20 modernizations (`--task code`) |
-| **`stem-math`** | **`mathstral:7b`** | `wizard-math:7b` / `phi4` | ~4.1 GB VRAM | Physics ODEs, Open Dynamics Engine (ODE) ERP/CFM stability, quaternion SLERP (`--task math`) |
-| **`dialogue-i18n`** | **`aya:8b`** | `qwen2.5:7b` | ~4.8 GB VRAM | Cohere 101-language translation, Slavic/CJK/FIGS game dialogue trees, XML repair (`--task translate`) |
-| **`web-frontend`** | **`qwen2.5:7b`** | `gemma2:9b` | ~4.7 GB VRAM | Modern Tailwind CSS card grids, responsive UI components, semantic HTML (`--task web`) |
-| **`business-copy`** | **`gemma2:9b`** | `qwen2.5:7b` | ~5.4 GB VRAM | Google Gemma 2 anti-jargon business copy, BLUF proposals, SOWs (`--task business`) |
-| **`database-sql`** | **`sqlcoder:7b`** | `granite-code:8b` | ~4.1 GB VRAM | Defog SQLCoder state-of-the-art DDL schema design & SQLite WAL optimization (`--task sql`) |
-| **`agentic-tools`** | **`hermes3:8b`** | `llama3.1:8b` | ~4.7 GB VRAM | Agentic function calling, tool use, strict JSON schema adherence (`--task tool`) |
-| **`fast-boilerplate`**| **`qwen2.5-coder:1.5b`**| `llama3.2:3b` | ~1.0 GB VRAM | Sub-second regex, docstrings, commit messages, and unit test boilerplate (`--task fast`) |
-| **`vision-ocr`** | **`minicpm-v:8b`** | `moondream:latest` | ~5.5 GB VRAM | Multimodal UI and HUD visual inspection, screen diffing, and local OCR (`--task vision`) |
-| **`embeddings`** | **`bge-m3:latest`** | `nomic-embed-text` | ~1.2 GB VRAM | 8192-token dense multilingual vector embeddings for zero-quota local RAG |
-| **`blender-3d`** | **`blender-architect:latest`** | `qwen2.5-coder:7b` | ~4.7 GB VRAM | Custom Modelfile fused with Blender 5.2 API & organic SDF voxel remeshing rules (`--task blender`) |
+| **`qwen2.5:72b-iq2`** | 25 GB | Ultra-Large Titan (72B) | RTX 5060 + 32-Thr CPU | Systems architecture, C++20 refactoring, 3D geometry & spatial layout, large codebase reasoning |
+| **`deepseek-r1:70b-iq2`** | 19 GB | Ultra-Large Titan (70B) | RTX 5060 + 32-Thr CPU | Formal chain-of-thought proofs, 64-bit struct padding, invariant & memory alignment verification |
+| **`llama3.3:70b-iq2`** | 19 GB | Ultra-Large Titan (70B) | RTX 5060 + 32-Thr CPU | Complex multi-turn agentic tool calling, function orchestration, structured JSON schema extraction |
+| **`llm4decompile:22b-q4`** | 13 GB | Reverse Engineering (22B) | RTX 5060 + 32-Thr CPU | Assembly-to-C decompilation for REA MCP, Ghidra & x64dbg binary DLL analysis |
+| **`blenderllm:7b-q4`** | 4.7 GB | 3D CAD & Procedural (7B) | Full RTX 5060 VRAM | Dedicated `BlendNet` CAD & procedural `bpy` mesh modeling from natural language |
+| **`blender-architect:latest`** | 4.7 GB | 3D Engine & Mesh (7B) | Full RTX 5060 VRAM | Blender 5.2 API, organic SDF voxel remeshing, and S.T.A.L.K.E.R. OGSR `.ogf` v4 constraints |
+| **`qwen2.5-coder:32b`** | 19 GB | Frontier Heavy Coder (32B) | RTX 5060 + 32-Thr CPU | Heavyweight 32B code planning, complex multi-file refactoring, C++20 modernizations |
+| **`deepseek-r1:32b`** | 19 GB | Frontier Reasoning (32B) | RTX 5060 + 32-Thr CPU | 32B deep chain-of-thought reasoning, root-cause crash triage, algorithm design |
+| **`qwen2.5:32b`** | 19 GB | Frontier Generalist (32B) | RTX 5060 + 32-Thr CPU | 32B large-context generalist, repository-wide analysis, multi-file code review |
+| **`deepseek-coder-v2:16b`** | 8.9 GB | #1 Engine Porting (MoE) | Full RTX 5060 VRAM | #1 Game engine porting engine (2.4B active compute), 338 languages, 64-bit pointer math, HLSL/GLSL shaders |
+| **`phi4:14b`** | 9.1 GB | Frontier Reasoning (14B) | RTX 5060 + 32-Thr CPU | Advanced mathematical reasoning, synthetic data generation, logical deduction |
+| **`qwen2.5-coder:14b`** | 9.0 GB | Dense Code Architect (14B) | RTX 5060 + 32-Thr CPU | 14B dense code architect, multi-file dependency tracking, systems programming |
+| **`deepseek-r1:14b`** | 9.0 GB | Fast Reasoning (14B) | RTX 5060 + 32-Thr CPU | Fast chain-of-thought reasoning, mathematical proofs, invariant verification |
+| **`mistral-nemo:12b`** | 7.1 GB | Long Context Generalist (12B) | Full RTX 5060 VRAM | 128k context generalist, technical writing, log summarization, documentation |
+| **`gemma2:9b`** | 5.4 GB | Precision Business (9B) | Full RTX 5060 VRAM | Google Gemma 2 high-precision instruction following, anti-jargon business copy, BLUF proposals |
+| **`hermes3:8b`** | 4.7 GB | Agentic Tool Calling (8B) | Full RTX 5060 VRAM | Advanced agentic function calling, tool use, strict JSON schema adherence |
+| **`aya:8b`** | 4.8 GB | Multilingual Dialogue (8B) | Full RTX 5060 VRAM | Cohere 101-language translation, game dialogue tree localization, string-table XML repair |
+| **`llama3.1:8b`** | 4.9 GB | Generalist Instruction (8B) | Full RTX 5060 VRAM | Generalist reasoning, versatile instruction following, agent orchestration fallback |
+| **`granite-code:8b`** | 4.6 GB | Enterprise Systems (8B) | Full RTX 5060 VRAM | Enterprise code generation, SQL optimization, software maintenance |
+| **`minicpm-v:8b`** | 5.5 GB | Multimodal Vision (8B) | Full RTX 5060 VRAM | Multimodal vision inspection, UI/HUD telemetry OCR, visual artifact detection |
+| **`deepseek-r1:8b`** | 5.2 GB | Lightweight CoT (8B) | Full RTX 5060 VRAM | Lightweight chain-of-thought reasoning, quick mathematical checks, logic triage |
+| **`qwen2.5:7b`** | 4.7 GB | Web & Frontend UI (7B) | Full RTX 5060 VRAM | Responsive frontend web design, Tailwind CSS components, semantic HTML |
+| **`qwen2.5-coder:7b`** | 4.7 GB | Workhorse Coder (7B) | Full RTX 5060 VRAM | Mid-tier C++, Python, and Bash engineering, unit test authoring |
+| **`wizard-math:7b`** | 4.1 GB | Competition Math (7B) | Full RTX 5060 VRAM | Math competitions, step-by-step algebraic derivations, physics ODEs |
+| **`mathstral:7b`** | 4.1 GB | Physics & DSP Math (7B) | Full RTX 5060 VRAM | Physics ODE solvers, ERP/CFM stability, quaternion SLERP, matrix math |
+| **`sqlcoder:7b`** | 4.1 GB | Database & SQL (7B) | Full RTX 5060 VRAM | Defog SQLCoder DDL schema design, query plan analysis, SQLite WAL optimization |
+| **`codellama:7b-python`** | 3.8 GB | Python Specialist (7B) | Full RTX 5060 VRAM | Python software engineering, pytest suites, data science pipelines |
+| **`starcoder2:7b`** | 4.0 GB | Polyglot Infilling (7B) | Full RTX 5060 VRAM | Multi-language code completion, syntax validation, code infilling |
+| **`deepseek-coder:6.7b-instruct`** | 3.8 GB | Fast Code Synthesis (6.7B) | Full RTX 5060 VRAM | Fast code synthesis, bug patching, legacy C/C++ maintenance |
+| **`llama3.2:3b`** | 2.0 GB | Ultra-Fast Utility (3B) | Full RTX 5060 VRAM | Ultra-fast local summarization, quick drafting, conversational routing |
+| **`moondream:latest`** | 1.7 GB | Fast Vision & BBox (1.8B) | Full RTX 5060 VRAM | Lightweight visual inspection, instant screen verification, bounding box analysis |
+| **`qwen2.5-coder:1.5b`** | 986 MB | Sub-Second Boilerplate (1.5B) | Full RTX 5060 VRAM | Sub-second docstrings, regex generation, commit messages, git diff summaries |
+| **`bge-m3:latest`** | 1.2 GB | Dense Multilingual Embed | Full RTX 5060 VRAM | Dense 8192-token multilingual vector embeddings for zero-quota local RAG |
+| **`nomic-embed-text:latest`** | 274 MB | Text Embeddings | Full RTX 5060 VRAM | Fast text embeddings for codebase semantic search and local retrieval |
 
+</details>
+
+### 📋 1-Click Copy-Paste Model Reference
+
+<details>
+<summary><b>📋 Click to Expand 1-Click Copy-Paste Categorized Breakdown & Raw Tags</b></summary>
+
+#### Categorized Fleet Reference
+```markdown
+### 1. Ultra-Large Titans (70B–72B) & Deep Reasoning
+- qwen2.5:72b-iq2 (25 GB) — Systems architecture, C++20 refactoring, 3D geometry & spatial layout, large codebase reasoning.
+- deepseek-r1:70b-iq2 (19 GB) — Formal chain-of-thought proofs, 64-bit struct padding, invariant & memory alignment verification.
+- llama3.3:70b-iq2 (19 GB) — Complex multi-turn agentic tool calling, function orchestration, structured JSON extraction.
+
+### 2. Reverse Engineering & 3D CAD Specialists
+- llm4decompile:22b-q4 (13 GB) — Assembly-to-C decompilation for REA MCP, Ghidra & x64dbg binary DLL analysis.
+- blenderllm:7b-q4 (4.7 GB) — Dedicated BlendNet CAD & procedural bpy mesh modeling from natural language.
+- blender-architect:latest (4.7 GB) — Custom Blender 5.2 API modelfile, organic SDF voxel remeshing, and S.T.A.L.K.E.R. OGSR .ogf v4 constraints.
+
+### 3. Frontier Planners & Heavy Coders (12B–32B)
+- qwen2.5-coder:32b (19 GB) — Heavyweight 32B code planning, complex multi-file refactoring, C++20 modernization.
+- deepseek-r1:32b (19 GB) — 32B deep chain-of-thought reasoning, root-cause crash triage, algorithm design.
+- qwen2.5:32b (19 GB) — 32B large-context generalist, repository-wide analysis, multi-file code review.
+- deepseek-coder-v2:16b (8.9 GB) — #1 Game engine porting engine (MoE 2.4B active compute), 338-language coverage, 64-bit pointer math, HLSL/GLSL shaders.
+- phi4:14b (9.1 GB) — Advanced mathematical reasoning, synthetic data generation, logical deduction.
+- qwen2.5-coder:14b (9.0 GB) — 14B dense code architect, multi-file dependency tracking, systems programming.
+- deepseek-r1:14b (9.0 GB) — Fast chain-of-thought reasoning, mathematical proofs, invariant verification.
+- mistral-nemo:12b (7.1 GB) — 128k context generalist, technical writing, log summarization, documentation.
+
+### 4. Domain Specialists & Task Experts (6.7B–9B)
+- gemma2:9b (5.4 GB) — Google Gemma 2 high-precision instruction following, anti-jargon business copy, BLUF proposals.
+- hermes3:8b (4.7 GB) — Advanced agentic function calling, tool use, strict JSON schema adherence.
+- aya:8b (4.8 GB) — Cohere 101-language translation, game dialogue tree localization, string-table XML repair.
+- llama3.1:8b (4.9 GB) — Generalist reasoning, versatile instruction following, agent orchestration fallback.
+- granite-code:8b (4.6 GB) — Enterprise code generation, SQL optimization, software maintenance.
+- minicpm-v:8b (5.5 GB) — Multimodal vision inspection, UI/HUD telemetry OCR, visual artifact detection.
+- deepseek-r1:8b (5.2 GB) — Lightweight chain-of-thought reasoning, quick mathematical checks, logic triage.
+- qwen2.5:7b (4.7 GB) — Responsive frontend web design, Tailwind CSS components, semantic HTML.
+- qwen2.5-coder:7b (4.7 GB) — Mid-tier C++, Python, and Bash engineering, unit test authoring.
+- wizard-math:7b (4.1 GB) — Math competitions, step-by-step algebraic derivations, physics ODEs.
+- mathstral:7b (4.1 GB) — Physics ODE solvers, ERP/CFM stability, quaternion SLERP, matrix math.
+- sqlcoder:7b (4.1 GB) — Defog SQLCoder DDL schema design, query plan analysis, SQLite WAL optimization.
+- codellama:7b-python (3.8 GB) — Python software engineering, pytest suites, data science pipelines.
+- starcoder2:7b (4.0 GB) — Multi-language code completion, syntax validation, code infilling.
+- deepseek-coder:6.7b-instruct (3.8 GB) — Fast code synthesis, bug patching, legacy C/C++ maintenance.
+
+### 5. Sub-Second Fast Utilities & Vision (1.5B–3B)
+- llama3.2:3b (2.0 GB) — Ultra-fast local summarization, quick drafting, conversational routing.
+- moondream:latest (1.7 GB) — Lightweight visual inspection, instant screen verification, bounding box analysis.
+- qwen2.5-coder:1.5b (986 MB) — Sub-second docstrings, regex generation, commit messages, git diff summaries.
+
+### 6. Multilingual Vector Embeddings
+- bge-m3:latest (1.2 GB) — Dense 8192-token multilingual vector embeddings for zero-quota local RAG.
+- nomic-embed-text:latest (274 MB) — Fast text embeddings for codebase semantic search and local retrieval.
+```
+
+#### Raw Ollama Model Tags (Single-Click Copy)
+```text
+qwen2.5:72b-iq2
+deepseek-r1:70b-iq2
+llama3.3:70b-iq2
+llm4decompile:22b-q4
+blenderllm:7b-q4
+blender-architect:latest
+qwen2.5-coder:32b
+deepseek-r1:32b
+qwen2.5:32b
+deepseek-coder-v2:16b
+phi4:14b
+qwen2.5-coder:14b
+deepseek-r1:14b
+mistral-nemo:12b
+gemma2:9b
+hermes3:8b
+aya:8b
+llama3.1:8b
+granite-code:8b
+minicpm-v:8b
+deepseek-r1:8b
+qwen2.5:7b
+qwen2.5-coder:7b
+wizard-math:7b
+mathstral:7b
+sqlcoder:7b
+codellama:7b-python
+starcoder2:7b
+deepseek-coder:6.7b-instruct
+llama3.2:3b
+moondream:latest
+qwen2.5-coder:1.5b
+bge-m3:latest
+nomic-embed-text:latest
+```
 </details>
 
 ### 🛠️ Fleet Management & Local Coprocessor CLI

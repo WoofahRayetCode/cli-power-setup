@@ -1,17 +1,16 @@
 {
-  "updated_at": "2026-10-17T13:51:59.756567",
+  "updated_at": "2026-10-17T14:25:21.722438",
   "total_repos": 33,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792270301.880154,
-      "age_str": "17s ago",
-      "dirty_count": 9,
+      "activity_ts": 1792272306.5846858,
+      "age_str": "15s ago",
+      "dirty_count": 3,
       "dirty_exts": {
-        ".md": 3,
-        ".py": 2
+        ".md": 1
       },
       "recent_exts": [
         ".md",
@@ -22,7 +21,7 @@
         ".mdc",
         ".py"
       ],
-      "last_commit": "docs(readme): synchronize 316 skills, 34-model fle",
+      "last_commit": "feat(telemetry): update token context and prompt s",
       "stack": "AI Skills / Python / Bash",
       "work_now": "CLI Daemons & Skills",
       "plan_short": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",
@@ -41,8 +40,8 @@
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792265834.2053857,
-      "age_str": "1h ago",
+      "activity_ts": 1792272271.4294972,
+      "age_str": "50s ago",
       "dirty_count": 205,
       "dirty_exts": {
         ".ogf": 3,
@@ -95,8 +94,8 @@
       },
       "recent_exts": [
         ".script",
-        ".xml",
-        ".ltx"
+        ".ltx",
+        ".xml"
       ],
       "top_exts": [
         ".ps",
@@ -194,7 +193,7 @@
       "path": "~/Documents/GitHub/AegisVault",
       "is_git": true,
       "activity_ts": 1792198538.3066192,
-      "age_str": "19h ago",
+      "age_str": "20h ago",
       "dirty_count": 36,
       "dirty_exts": {
         ".md": 1,
@@ -735,7 +734,7 @@
       "path": "~/Documents/GitHub/ModernizedSites",
       "is_git": true,
       "activity_ts": 1791665969.0,
-      "age_str": "6d ago",
+      "age_str": "7d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
