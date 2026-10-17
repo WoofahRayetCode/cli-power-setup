@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (274 Specialized Capabilities)
+## Complete Skills Catalog (278 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -252,6 +252,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`discord-bot-engineering`** | Production Discord bot development across Python (discord.py) and TypeScript (discord.js). Covers modern Discord API v10, slash commands, interactive UI components (Buttons, Select Menus, Modals), Gateway intent discipline, rate-limit bucket management, Voice Gateway audio streaming, and high-availability sharded deployment. |
 | **`documentation-site-generator`** | Static documentation site generation using VitePress and MkDocs Material, automated API reference extraction, and GitHub Pages deployment. |
 | **`dual-engine-quota-balancer`** | Dynamic telemetry coordination across Google Gemini and Anthropic Claude rate limits, balancing task allocation to guarantee uninterrupted execution without hitting provider quotas. |
+| **`dxvk-vkd3d-proton-pipeline-profiler`** | Diagnoses and eliminates DXVK and VKD3D-Proton shader compilation stutter, descriptor heap stalls, and VRAM staging bottlenecks for DX11/DX12 games running on Linux. |
 | **`dynamic-model-downshifter`** | Autonomous multi-tier model downshifting for CLI sessions. Enforces the 'Frontier Brain, Fast Hands' pattern by offloading mechanical bash tasks, file moves, and git operations to lightweight models (Flash/Haiku), reserving frontier reasoning (Argon/Opus) exclusively for architectural design and complex debugging. |
 | **`dynamic-skill-router`** | High-performance semantic intent matching and capability indexing across 100+ installed skills. Use to instantly discover, rank, and activate the exact 2-3 optimal skills for any complex prompt, eliminating skill choice paralysis and context bloat. |
 | **`electron-desktop-dev`** | Electron desktop application engineering, IPC security, context isolation, preload scripts, multi-window lifecycles, and cross-platform packaging with electron-builder. |
@@ -332,6 +333,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`linux-game-window-input-capture`** | Linux game window containment, mouse grab/confinement, focus isolation, and dual-monitor multitasking under Wine/Proton, Gamescope, Wayland, and X11. |
 | **`linux-gaming-proton-optimization`** | Optimizing and fixing games under Linux, Wine, Steam Proton, and Steam Deck. Covers GE-Proton switching, dxvk.conf tuning, async shader compilation, GameMode, Gamescope micro-compositing, Winetricks prefix repair, Media Foundation cutscene codec fixes, and anti-cheat compatibility triage. |
 | **`linux-hardware-acpi`** | Linux kernel ACPI module development, DSDT/SSDT table analysis, hwmon sensor interfaces, thermal fan curves, and systemd D-Bus daemons. |
+| **`linux-perf-flamegraph-bottleneck-triage`** | Hardware performance counter profiling (perf record/report) and folded stack Flamegraph bottleneck triage for native Linux and Wine/Proton games. Pinpoints exact C++ functions causing severe FPS drops in seconds without blind bisecting. |
 | **`linux-systems-engineering`** | Linux systems programming in C/C++/Rust, POSIX APIs, asynchronous I/O (epoll, io_uring), process/signal management, systemd service units, and diagnostics (strace, gdb, perf, sanitizers). |
 | **`local-ast-compiler-engine`** | High-performance multithreaded AST analysis, symbol table scanning, and structural linting running across all host CPU cores (nproc). Detects syntax errors and extracts symbol trees in milliseconds locally, eliminating trial-and-error reasoning turns. |
 | **`local-model-coprocessor`** | Offloads low-complexity tasks (docstrings, commit messages, log summarization, regex, boilerplate) to local SLMs/LLMs running in GPU VRAM or system RAM via Ollama or llama.cpp, saving 100% of cloud quota for hard architectural reasoning. |
@@ -358,6 +360,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`proton-game-dev-linux`** | Engineering and validating PC games and engines to target Valve Proton seamlessly from day one. Covers cross-platform Win32/POSIX case-sensitivity bugs, Steamworks SDK integration under Wine/Proton, headless Proton CLI test runners, and anti-cheat runtime packaging. |
 | **`python-engineering`** | Python software engineering and performance standards (Python 3.10+). Use when authoring or refactoring Python code, adding type annotations, writing pytest suites, optimizing hot paths, or using Ruff and Mypy. |
 | **`qwen-polyglot-ast-cartographer`** | Emulates Qwen 2.5 Coder polyglot AST cartography. Generates instant symbol call-graphs, inheritance trees, and signatures across C++, Python, Lua, and Rust in under 500 tokens. |
+| **`rea-mcp-obligation-ledger-orchestrator`** | Orchestrates the Reverse Engineer Anything (REA) MCP server obligation ledger, binary function diffing, and static-to-runtime correlation to formally verify decompiled or ported C++ game engine binaries. |
 | **`real-time-rendering-pipeline`** | Architecture, modern paradigms, and debugging for real-time game renderers (DirectX 12, Vulkan 1.3+, WebGPU). Use when designing render graphs, implementing bindless descriptors, configuring reverse-Z depth buffers, managing transient memory aliasing, or capturing frames with RenderDoc. |
 | **`reverse-engineer-anything`** | Reverse engineer native, managed, Electron/JavaScript, packaged, firmware, and browser targets with REA. Use shipped-artifact or requested runtime evidence to explain features, compare versions, decompile code, or guide a reconstruction. Skip REA for ordinary source-repository architecture analysis. |
 | **`rigging-weight-painting-pipeline`** | Character, creature, and animal rigging and skinning in Blender (bpy). Armature hierarchies, bone limits for game engines, automated weight painting normalization, IK/FK solvers, and deformation testing. |
@@ -402,6 +405,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`tauri-multiplatform-dev`** | Lightweight cross-platform desktop and mobile engineering with Tauri 2.0, Rust backend, web frontend, secure IPC commands, low RAM usage, and native system integration. |
 | **`test-driven-development`** | Test-Driven Development (TDD) workflow. Use when developing testable features, parsers, codecs, utilities, or bug fixes to write tests before implementation. |
 | **`threejs-webgl-engineering`** | Interactive 3D WebGL and WebGPU development using Three.js, OrbitControls, GLTFLoader, PBR lighting rigs, procedural geometry, and zero-build browser previews. |
+| **`time-travel-deterministic-replay-debug`** | Deterministic record-and-replay time-travel debugging using Mozilla rr and GDB reverse execution. Steps backwards from segfaults and corrupted pointers to the exact instruction that mutated memory. |
 | **`token-economy`** | Output token optimization and high-density communication protocol. Use to minimize output token consumption, prevent transcript context bloat, and maintain concise progress visibility during long engineering workflows. |
 | **`unity-game-dev`** | Game development workflows for Unity Engine (C#). Use when developing MonoBehaviours, ScriptableObjects, physics interactions, UI Toolkit/UGUI, shader integrations, or optimizing memory allocations and garbage collection. |
 | **`universal-token-containment-protocol`** | Universal cross-model and cross-domain token containment protocol across all 197 skills (Sonnet, Opus, Fable, Flash, Argon). Mandates zero chat duplication, strict file/artifact offloading, and output clamping across 3D modeling, binary reverse engineering, web design, and game modding. |
