@@ -64,9 +64,9 @@ Autonomous goals degrade when context reaches 100k+ tokens because each subseque
   ```
 * The governor verifies phase assertions, creates a milestone git commit, writes active state to `.agents/memory/activeContext.md`, and prompts for `/compact` to reset token overhead before Phase 2 begins.
 
-### 4. Model Tiering Discipline
-* **Phase 1 (Decomposition & Planning):** Escalate to deep reasoning (`Argon` / `pro`) to create the architecture and verifiable contract.
-* **Phase 2 & 3 (Execution & Fix Loops):** Confine execution to fast, low-cost models (`Flash` / `Turbo`) using surgical chunk replacements (`replace_file_content`).
+### 4. Model Tiering & Local Titan Offloading Discipline
+* **Phase 1 (Decomposition & Planning):** Escalate to deep reasoning (`Argon` / `pro` or local Titan models `deepseek-r1:70b-iq2` / `qwen2.5:72b-iq2` via `local-coprocessor --task plan`) to create the architecture and verifiable contract.
+* **Phase 2 & 3 (Execution & Fix Loops):** Confine execution to fast, low-cost models (`Flash` / `Turbo`) using surgical chunk replacements (`replace_file_content`), offloading specialized tasks (3D CAD, binary decompilation, 64-bit struct proofs) to local models (`blenderllm:7b-q4`, `llm4decompile:22b-q4`, `deepseek-r1:70b-iq2`) to preserve 100% of cloud quota during long overnight runs.
 
 ### 5. Subagent Depth & Concurrency Caps
 * **Max Concurrency:** Never spawn more than 2 parallel subagents simultaneously.

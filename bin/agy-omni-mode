@@ -34,16 +34,19 @@ QUOTA_CACHE_FILE = Path(tempfile.gettempdir()) / "agy_quota_cache.json"
 
 # Local models mapped to specialized domains
 DOMAIN_LOCAL_MODELS = {
-    "game-engine-porting": "deepseek-coder-v2:16b",
-    "systems-cxx": "qwen2.5-coder:32b",
-    "modern-web": "qwen2.5-coder:14b",
+    "game-engine-porting": "qwen2.5:72b-iq2",
+    "systems-cxx": "qwen2.5:72b-iq2",
+    "modern-web": "qwen2.5:32b",
     "python-automation": "granite-code:8b",
     "math-physics-ballistics": "mathstral:7b",
     "localization-dialogue": "aya:8b",
     "database-sql": "sqlcoder:7b",
-    "deep-reasoning-plan": "deepseek-r1:32b",
+    "deep-reasoning-plan": "deepseek-r1:70b-iq2",
     "fast-summary-commit": "mistral-nemo:12b",
-    "research-search": "deepseek-coder-v2:16b"
+    "research-search": "deepseek-coder-v2:16b",
+    "reverse-engineering": "llm4decompile:22b-q4",
+    "blender-3d": "blenderllm:7b-q4",
+    "agent-tool-calling": "llama3.3:70b-iq2",
 }
 
 
@@ -159,13 +162,35 @@ def evaluate_routing(prompt: str = "", step: str = "", domain: str = "", quota: 
         }
 
     # Reverse Engineering & Binary Decompilation (REA MCP synergy)
-    if any(k in p_low for k in ["reverse engineer", "decompile", "disasm", "ghidra", "hopper", "rizin", "vtable", "rva", "rea", "obligation ledger"]):
+    if re.search(r"\b(reverse engineer|decompile|disassembly|disasm|ghidra|hopper|rizin|vtable|rva|rea|obligation ledger)\b", p_low):
         return {
             "tier": 0,
             "engine": "LOCAL_OLLAMA",
-            "model": "deepseek-coder-v2:16b (or qwen2.5-coder:32b)",
+            "model": DOMAIN_LOCAL_MODELS["reverse-engineering"],
             "command": f"bin/local-coprocessor --task re --prompt '{prompt}'",
-            "rationale": "Reverse engineering & binary decompilation routed to local MoE DeepSeek Coder V2 16B with REA skill context (0 Cloud Tokens)."
+            "rationale": "Reverse engineering & binary decompilation routed to local LLM4Decompile 22B with REA skill context (0 Cloud Tokens)."
+        }
+
+    # Blender 3D Procedural Modeling & CAD (BlenderLLM & Titan Qwen 72B)
+    is_3d_task = any(k in p_low for k in ["bpy", "3d mesh", "3d model", ".blend", "retopology", "subdivision", "sdf remesh", "uv unwrap", "lightmap", "cad"]) or ("blender" in p_low and not any(x in p_low for x in ["port", "ogsr", "x-ray", "shader", "engine"]))
+    if is_3d_task:
+        model = "qwen2.5:72b-iq2" if any(k in p_low for k in ["complex", "architecture", "multi-part", "rigging", "hierarchy"]) else DOMAIN_LOCAL_MODELS["blender-3d"]
+        return {
+            "tier": 0,
+            "engine": "LOCAL_OLLAMA",
+            "model": model,
+            "command": f"bin/local-coprocessor --task blender --prompt '{prompt}'",
+            "rationale": f"3D procedural modeling routed to local {model} with Blender 5.2 bpy rules (0 Cloud Tokens)."
+        }
+
+    # Formal Reasoning & Struct Padding Proofs
+    if any(k in p_low for k in ["struct padding", "memory alignment", "pragma pack", "vtable alignment", "chain of thought", "proof"]):
+        return {
+            "tier": 0,
+            "engine": "LOCAL_OLLAMA",
+            "model": DOMAIN_LOCAL_MODELS["deep-reasoning-plan"],
+            "command": f"bin/local-coprocessor --task reason --prompt '{prompt}'",
+            "rationale": "Formal verification and 64-bit alignment proofs routed to local DeepSeek-R1 70B (0 Cloud Tokens)."
         }
 
     # 2. Check for step lifecycle: intake, verify, docs, commit
@@ -214,7 +239,7 @@ def evaluate_routing(prompt: str = "", step: str = "", domain: str = "", quota: 
                 "engine": "LOCAL_OLLAMA",
                 "model": DOMAIN_LOCAL_MODELS["game-engine-porting"],
                 "command": f"bin/local-coprocessor --task port --prompt '{prompt}'",
-                "rationale": "Game engine porting and LTX/C++ code generation routed to local DeepSeek Coder V2 16B (0 Cloud Tokens)."
+                "rationale": "Game engine porting and LTX/C++ code generation routed to local Titan Qwen 2.5 72B (0 Cloud Tokens)."
             }
         else:
             return {
@@ -234,7 +259,7 @@ def evaluate_routing(prompt: str = "", step: str = "", domain: str = "", quota: 
                 "engine": "LOCAL_OLLAMA",
                 "model": DOMAIN_LOCAL_MODELS["deep-reasoning-plan"],
                 "command": f"bin/local-coprocessor --task plan --prompt '{prompt}'",
-                "rationale": "Quota constrained (<40%): Complex planning routed to local DeepSeek-R1 32B (0 Cloud Tokens)."
+                "rationale": "Quota constrained (<40%): Complex planning routed to local DeepSeek-R1 70B (0 Cloud Tokens)."
             }
         else:
             return {
@@ -252,7 +277,7 @@ def evaluate_routing(prompt: str = "", step: str = "", domain: str = "", quota: 
             "engine": "LOCAL_OLLAMA",
             "model": DOMAIN_LOCAL_MODELS["systems-cxx"],
             "command": f"bin/local-coprocessor --task code --prompt '{prompt}'",
-            "rationale": "Quota protection active: general code editing routed to local Qwen 2.5 Coder 32B."
+            "rationale": "Quota protection active: general code editing routed to local Titan Qwen 2.5 72B."
         }
 
     return {

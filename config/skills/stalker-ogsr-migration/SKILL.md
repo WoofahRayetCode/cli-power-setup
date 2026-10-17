@@ -251,12 +251,15 @@ self-improving-qa run --target ogsr --telemetry-dir /tmp/ogsr_telemetry --auto-h
 For deep technical sub-problems during migration, delegate directly to the specialized domain skills:
 
 * **Dead-Code Pruning (`legacy-codebase-cartographer`):** Map call graphs and generate `.agents/audit/omit_manifest.txt` to avoid porting obsolete DX8/multiplayer files.
-* **64-bit Memory & Struct Alignment (`cpp-64bit-engine-port-sanitizer`):** Audit `uintptr_t` conversions, 64-bit vtable alignments, and `#pragma pack(1)` save structure padding.
+* **64-bit Memory & Struct Alignment (`cpp-64bit-engine-port-sanitizer`):** Audit `uintptr_t` conversions, 64-bit vtable alignments, and `#pragma pack(1)` save structure padding. Offload formal alignment proofs to `deepseek-r1:70b-iq2` (`local-coprocessor --task reason`).
+* **Ultra-Large Local Model Offloading (`local-model-coprocessor`, `ultra-model-manager`):**
+  - **C++20 Modernization & HLSL Shaders:** Offload massive multi-file C++ refactors and SM 3.0 $\rightarrow$ SM 5.0 HLSL transpilation to Titan `qwen2.5:72b-iq2` via `local-coprocessor --task port` (0 Cloud Tokens).
+  - **Legacy DLL Decompilation:** Decompile closed-source legacy 32-bit DLLs (`complete_blood_pools.dll`, modded `xrGame.dll`) into clean C++ with `llm4decompile:22b-q4` via `local-coprocessor --task re`.
 * **Level AI Navmesh & Vertex Crashes (`stalker-level-ai-graph-triage`):** Resolve `! Cannot find level vertex` CTDs, validate `all.spawn` `level_changer` sections, and verify `level.ai` connectivity.
 * **LuaJIT 64-bit & FFI Callbacks (`stalker-luajit-ffi-migration`):** Trap nil-pointer dereferences in Luabind exports and enforce safe FFI pointer lifetimes.
 * **DirectX 11 Shader Modernization (`xray-dx11-shader-modernization`):** Modernize SM 3.0 to SM 5.0, enforce 16-byte `cbuffer` boundaries, and calibrate dynamic lighting/bloom.
 * **Autonomous Error Sentinel (`agent-error-recovery-sentinel`):** Auto-dismiss modal crash windows, release grabbed input focus, clear stale lock files, and resume unattended test runs.
-* **Custom 3D Companions, Mutants & `.ogf`/`.dm` Export (`xray-ogf-dm-blender-pipeline`, `blender-sdf-organic-remeshing`, `concept-art-sketch-to-3d-sculptor`):** Sculpt organic/hard-surface models in Blender 5.2+, verify `Silhouette IoU >= 0.80` via `silhouette-iou-profiler`, and compile directly to `.ogf` v4 / `.dm` via `write_ogf.py`.
+* **Custom 3D Companions, Mutants & `.ogf`/`.dm` Export (`xray-ogf-dm-blender-pipeline`, `blender-sdf-organic-remeshing`, `concept-art-sketch-to-3d-sculptor`):** Sculpt organic/hard-surface models in Blender 5.2+ with `blenderllm:7b-q4` / `qwen2.5:72b-iq2`, verify `Silhouette IoU >= 0.80` via `silhouette-iou-profiler`, and compile directly to `.ogf` v4 / `.dm` via `write_ogf.py`.
 * **S.T.A.L.K.E.R. 2 UE5 Trees & Assets to OGSR (`ue5-foliage-mesh-to-ogsr-transpiler`, `stalker2-to-ogsr-asset-transpiler`):** Extract UE5 IoStore foliage/audio/textures into `/dev/shm` (`ramdisk-tmpfs-build-bake-accelerator`), decimate below `65,535` `uint16` indices, boost mipmap alpha coverage, and export to OGSR.
 * **Milestone Git Sync & Self-Evolving Skills (`autonomous-git-repo-sync-governor`, `self-evolving-skill-synthesizer`):** Auto-commit/push verified milestones via `repo-auto-sync --checkpoint --push` and persist new engine fixes via `skill-evolve`.
 * **Release Packaging & Hardening (`game-mod-release-packager`):** Strip binary debug symbols, pack `.xdb` archives with zstd compression, and generate SHA-256 release manifests.

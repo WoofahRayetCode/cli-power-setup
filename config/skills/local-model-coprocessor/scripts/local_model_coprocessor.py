@@ -107,19 +107,19 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
 
     free_mb = get_free_vram_mb()
     if task in ("re", "decompile", "reverse", "disasm", "rea", "binary"):
-        for cand in ("deepseek-coder-v2:16b", "qwen2.5-coder:32b", "deepseek-r1:32b", "qwen2.5-coder:14b", "deepseek-r1:14b", "deepseek-coder:6.7b-instruct"):
+        for cand in ("llm4decompile:22b-q4", "deepseek-coder-v2:16b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "deepseek-r1:70b-iq2", "deepseek-r1:32b", "qwen2.5-coder:14b", "deepseek-r1:14b", "deepseek-coder:6.7b-instruct"):
             if cand in installed:
                 return cand
     elif task in ("port", "engine", "migration", "transpile"):
-        for cand in ("deepseek-coder-v2:16b", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b"):
+        for cand in ("qwen2.5:72b-iq2", "deepseek-r1:70b-iq2", "deepseek-coder-v2:16b", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task in ("plan", "architect", "roadmap", "decompose"):
-        for cand in ("qwen2.5-coder:32b", "deepseek-r1:32b", "qwen2.5:32b", "deepseek-coder-v2:16b", "qwen2.5-coder:14b", "deepseek-r1:14b", "phi4:14b", "qwen2.5-coder:7b"):
+        for cand in ("deepseek-r1:70b-iq2", "qwen2.5:72b-iq2", "llama3.3:70b-iq2", "qwen2.5-coder:32b", "deepseek-r1:32b", "qwen2.5:32b", "deepseek-coder-v2:16b", "qwen2.5-coder:14b", "deepseek-r1:14b", "phi4:14b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task == "blender":
-        for cand in ("blender-architect:latest", "qwen2.5-coder:7b", "deepseek-r1:8b"):
+        for cand in ("blenderllm:7b-q4", "blender-architect:latest", "qwen2.5:72b-iq2", "qwen2.5-coder:7b", "deepseek-r1:8b"):
             if cand in installed:
                 return cand
     elif task == "vision":
@@ -127,15 +127,15 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
             if cand in installed:
                 return cand
     elif task in ("csharp", "cs", "dotnet"):
-        for cand in ("granite-code:8b", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "qwen2.5-coder:7b"):
+        for cand in ("granite-code:8b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task in ("cpp", "c++", "xray", "shader"):
-        for cand in ("deepseek-coder-v2:16b", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b"):
+        for cand in ("qwen2.5:72b-iq2", "deepseek-r1:70b-iq2", "deepseek-coder-v2:16b", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task == "rust":
-        for cand in ("starcoder2:7b", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
+        for cand in ("starcoder2:7b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task in ("python", "py"):

@@ -5,7 +5,7 @@ description: Dynamic model & fleet orchestrator for Google Antigravity. Dynamica
 
 # AGY Omni-Auto Mode (`agy-omni-mode`)
 
-Autonomous dynamic routing and execution orchestrator. Seamlessly switches between Cloud Gemini models (`gemini-4-pro`, `gemini-3.8-flash`) and host-local Ollama models (`deepseek-coder-v2:16b`, `deepseek-r1:32b`, `qwen2.5-coder:32b`, `bge-m3`) with zero manual toggling.
+Autonomous dynamic routing and execution orchestrator. Seamlessly switches between Cloud Gemini models (`gemini-4-pro`, `gemini-3.8-flash`) and host-local Ollama models (34 installed models including Titan 70B/72B models: `qwen2.5:72b-iq2`, `deepseek-r1:70b-iq2`, `llama3.3:70b-iq2`, `llm4decompile:22b-q4`, and `blenderllm:7b-q4`) with zero manual toggling.
 
 ## Architecture & Tier Hierarchy
 
@@ -16,26 +16,33 @@ Autonomous dynamic routing and execution orchestrator. Seamlessly switches betwe
                                    │
        ┌───────────────────────────┴───────────────────────────┐
        ▼                                                       ▼
- [Tier 0: Local Host & Ollama]                       [Cloud Gemini API]
+ [Tier 0: Local Host & Ollama (34 Models)]           [Cloud Gemini API]
  (0 Cloud Tokens • Free Host Compute)                (Argon Brain & Flash Hands)
-  • Intake & AST: local-ast-compiler                  • Tier 1: Flash Low Effort
-  • Search & RAG: local-research-scout (bge-m3)       • Tier 2: Flash Subagents
-  • Engine Porting: deepseek-coder-v2:16b             • Tier 3: Gemini 4 Pro (High)
-  • Deep Logic / Math: deepseek-r1:14b / mathstral
+  • Titan 72B Architect: qwen2.5:72b-iq2              • Tier 1: Flash Low Effort
+  • Titan 70B Reasoner: deepseek-r1:70b-iq2           • Tier 2: Flash Subagents
+  • Titan 70B Tool Caller: llama3.3:70b-iq2           • Tier 3: Gemini 4 Pro (High)
+  • 22B Decompiler: llm4decompile:22b-q4
+  • 3D CAD & bpy: blenderllm:7b-q4 / qwen2.5:72b
+  • Intake & AST: local-ast-compiler / slice-reader
+  • Search & RAG: local-research-scout (bge-m3)
+  • Math & Physics: mathstral:7b / game-math-solver
   • Docs / Commits: mistral-nemo:12b / llama3.2
 ```
 
 ## Step Lifecycle Routing Matrix
 
-| Workflow Step | Engine | Model | Reasoning / Tool | Cloud Cost |
+| Workflow Step / Task | Engine | Model | Reasoning / Tool | Cloud Cost |
 | :--- | :--- | :--- | :--- | :--- |
-| **Intake / Scan** | Local CPU | `slice-reader` / `local-ast-compiler` | Symbol indexing | **0 tokens** |
+| **Intake / Scan** | Local CPU | `slice-reader` / `local-ast-compiler` | Symbol indexing & AST slice | **0 tokens** |
 | **Web Research** | Local Ollama | `local-research-scout` (`deepseek-coder-v2:16b` + `bge-m3`) | Multi-source RAG search | **0 tokens** |
-| **Architecture / Plan** | Cloud Pro / Local | `gemini-4-pro` (or `deepseek-r1:32b` if quota < 40%) | `--effort high` | Minimal |
-| **Code / Porting** | Local / Cloud Flash | `deepseek-coder-v2:16b` / `qwen2.5-coder:32b` / `flash` | `--effort low` | **0 to minimal** |
-| **Math / Physics** | Local RTX 5060 | `mathstral:7b` / `phi4:14b` / `game-math-solver` | CUDA / AVX-512 | **0 tokens** |
+| **Architecture / Plan** | Local Titan / Cloud Pro | `deepseek-r1:70b-iq2` / `qwen2.5:72b-iq2` / `gemini-4-pro` | Chain-of-thought proofs | Minimal / **0 tokens** |
+| **Reverse Engineering** | Local Ollama | `llm4decompile:22b-q4` | REA MCP assembly-to-C | **0 tokens** |
+| **Blender 3D / CAD** | Local Ollama | `blenderllm:7b-q4` / `qwen2.5:72b-iq2` | Procedural `bpy` scripts | **0 tokens** |
+| **Game Engine Porting** | Local Titan / Flash | `qwen2.5:72b-iq2` / `deepseek-coder-v2:16b` / `flash` | C++20, 64-bit pointers, HLSL | **0 to minimal** |
+| **64-bit Struct Alignment** | Local Titan Reasoner | `deepseek-r1:70b-iq2` | Static asserts & memory math | **0 tokens** |
+| **Math / Physics / Ballistics** | Local RTX 5060 | `mathstral:7b` / `game-math-solver` | CUDA / AVX-512 | **0 tokens** |
 | **Verification / Tests** | Host CPU/GPU | `pytest` / `cargo test` / `local-preflight-syntax-gate` | Native execution | **0 tokens** |
-| **Docs / Commits** | Local Ollama | `mistral-nemo:12b` / `llama3.2:3b` | `local-coprocessor` | **0 tokens** |
+| **Docs / Commits** | Local Ollama | `mistral-nemo:12b` / `llama3.2:3b` | `local-coprocessor --task fast` | **0 tokens** |
 
 ## CLI Usage
 
@@ -44,7 +51,10 @@ Autonomous dynamic routing and execution orchestrator. Seamlessly switches betwe
 agy-omni-mode
 
 # Evaluate specific prompt routing with rationale
-agy-omni-mode "port X-Ray legacy blenders to DX11 hlsl"
+agy-omni-mode "port legacy X-Ray blenders to OGSR DX11"
+agy-omni-mode "write a bpy script for an organic creature"
+agy-omni-mode "decompile this DLL function using REA"
+agy-omni-mode "verify struct padding and memory alignment"
 
 # Return machine-readable JSON for integration into statuslines and scripts
 agy-omni-mode --json
@@ -58,5 +68,5 @@ agy-omni-mode --exec "calculate quaternion slerp for camera trajectory"
 ```
 
 ## Quota Self-Protection Circuit Breaker
-- When rolling 5-hour quota is $\ge 40\%$, routine execution uses Gemini 3.8 Flash for instant turnaround and Gemini 4 Argon for high-complexity architecture.
-- When rolling 5-hour quota drops $< 40\%$, the orchestrator automatically clamps cloud dispatches and routes code generation, architecture planning, and debugging to local 32B/16B models (`deepseek-r1:32b`, `qwen2.5-coder:32b`, `deepseek-coder-v2:16b`), guaranteeing **uninterrupted execution without quota lockouts**.
+- When rolling 5-hour quota is $\ge 40\%$, routine execution uses Gemini 3.8 Flash for instant turnaround and Gemini 4 Argon for high-complexity architecture, while continuously offloading specialized tasks (Blender, Decompilation, Math) to Tier 0 local models.
+- When rolling 5-hour quota drops $< 40\%$, the orchestrator automatically clamps cloud dispatches and routes code generation, architecture planning, and debugging to local 70B–72B Titan models (`deepseek-r1:70b-iq2`, `qwen2.5:72b-iq2`), guaranteeing **uninterrupted execution without quota lockouts**.
