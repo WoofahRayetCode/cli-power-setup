@@ -278,6 +278,7 @@ def install_symlinks():
         "agy-omni-mode": REPO_ROOT / "bin" / "agy-omni-mode",
         "local-research-scout": REPO_ROOT / "bin" / "local-research-scout",
         "gemini-reasoning-tuner": REPO_ROOT / "bin" / "gemini-reasoning-tuner",
+        "voice-prompt-optimizer": REPO_ROOT / "bin" / "voice-prompt-optimizer",
     }
 
     installed = []

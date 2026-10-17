@@ -8,7 +8,7 @@
 
 A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)** and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
 
-This repository organizes **314 autonomous agent skills**, 314 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a 29-model zero-quota local LLM fleet, an Omni-Auto dynamic routing engine, a floating voice dictation pill (`agy-mic-button`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
+This repository organizes **315 autonomous agent skills**, 315 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a 29-model zero-quota local LLM fleet, an Omni-Auto dynamic routing engine, a floating voice dictation pill (`agy-mic-button`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
 
 ---
 
@@ -74,7 +74,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Environment Sync:** Deploys all 314 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Environment Sync:** Deploys all 315 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Voice Command Routing:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, Zero-Quota Local CPU/GPU Math Offload rules, and Natural-Language Spoken Command Routing (*"Set a goal..."*, *"Make a plan..."*, *"Use boost..."*) to `~/.gemini/config/GEMINI.md` and `~/.cursorrules`.
 4. **Live Multi-Row Telemetry Statusline (`agy-quota-statusline`):** Tracks real-time 5h/weekly quota, 250k compaction gate countdown (`🧹`), active skills in real time (`🛠️ Skills [Live]`), CPU/GPU temperatures & fan RPM (`🌡️`), lid-closed lock state (`🔒Lid-Safe`), RTX 5060 VRAM & `/dev/shm` RAM-disk usage (`🚀`), and active background workloads (`⚙️ 🎨Blender+🔨Build+🎮OGSR/Wine`).
 5. **Floating Voice Dictation Pill (`agy-mic-button`):** Launches a draggable, pinnable (`📌`/`📍`) floating `[🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin]` overlay that triggers `/voice` (`F5`) without keyboard shortcuts and auto-closes when `agy` exits.
@@ -223,12 +223,13 @@ A dedicated suite of executable utilities installed directly into `~/.local/bin/
 | **`skill-evolve`** | Skill Evolution | Closed-loop runtime skill synthesizer, script promoter, and hot-patcher. |
 | **`slice-reader`** | Context Guard | Surgical line-slice reader and AST skeleton extractor (slashes input tokens by 95%). |
 | **`token-guard`** | Context Guard | Intercepts noisy shell output, enforcing hard 30-line ceilings to prevent context floods. |
+| **`voice-prompt-optimizer`**| Voice / Context | Cleans conversational filler, normalizes phonetic jargon (C++, OGSR, LTX), saves 50–85% tokens. |
 
 ---
 
 ## 🎯 Division of Labor: `agy` CLI vs. Cursor IDE
 
-While all 314 skills and CLI utilities are shared across environments, they divide into distinct operational sweet spots:
+While all 315 skills and CLI utilities are shared across environments, they divide into distinct operational sweet spots:
 
 ### 1. Skills That Excel in `agy` CLI (Headless, Voice-Driven & Unattended)
 *Best launched via `agy-yolo`, `agy-turbo`, or spoken *"Set a goal..."* via `agy-mic-button`*
@@ -738,7 +739,7 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & categorized reference
 ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
 ├── .cursor/
-│   └── rules/                  # 314 modular Cursor rules (.mdc) with semantic metadata
+│   └── rules/                  # 315 modular Cursor rules (.mdc) with semantic metadata
 ├── bin/
 │   ├── agy-omni-mode           # Dynamic Gemini & local Ollama model orchestrator
 │   ├── local-research-scout    # Zero-quota multi-source search (DDG, GitHub, SO) + RAG
@@ -769,7 +770,7 @@ cli-power-setup/
 ---
 
 <!-- AUTO-SYNC-CATALOG:START -->
-## 🔄 Auto-Synchronized Skill & CLI Inventory (314 Total Active Skills)
+## 🔄 Auto-Synchronized Skill & CLI Inventory (315 Total Active Skills)
 
 ### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)
 | CLI Tool | Purpose |
@@ -789,7 +790,7 @@ cli-power-setup/
 | **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |
 | **`local-coprocessor` / `local-rag` / `local-ast-compiler`** | Zero-quota local CPU/GPU/RAM offload engines for AST syntax checks, BM25/vector RAG, and local LLM summarization. |
 
-### Recently Evolved & SOTA Skills (19 Indexed Automatically)
+### Recently Evolved & SOTA Skills (20 Indexed Automatically)
 | Skill Name | Description |
 | :--- | :--- |
 | **`ai-procedural-audio-generation`** | AI-powered and procedural audio generation for game development, content creation, and applications. Covers procedural DSP synthesis (oscillators, envelopes, noise bursts, chiptune/sfxr), text-to-sound-effect (SFX) models, adaptive game soundtrack layering, UI sound design, and loudness normalization. |
@@ -809,6 +810,7 @@ cli-power-setup/
 | **`high-density-prompting`** | Compresses verbose prompts into surgical, quota-saving directives, eliminates speculative reasoning tokens, and enforces deterministic, zero-waste agent outputs. |
 | **`speculative-multi-step-drafting`** | Bundles predictable consecutive edits and multi-file modifications into single-turn atomic dispatches, slashing multi-turn reasoning overhead and saving up to 75% input tokens. |
 | **`stalker2-modding`** | Modding workflows and tools for S.T.A.L.K.E.R. 2 Heart of Chornobyl (Unreal Engine 5). Use when packaging UE5 IoStore containers (pak, ucas, utoc) with repak, authoring RE-UE4SS C++ and Lua hooks, inspecting assets via FModel, or organizing mod distributions. |
+| **`voice-prompt-context-optimizer`** | Autonomous voice-to-text prompt normalizer and context token saver. Eliminates conversational filler, corrects phonetic developer jargon (C++, OGSR, LTX, JSON), translates spoken commands into slash commands, and prevents compounding context bloat across voice-driven AI workflows. |
 | **`xray-dx11-shader-modernization`** | Modernizes and adapts legacy DirectX 9 Shader Model 3.0 shaders to DirectX 11 Shader Model 5.0 in S.T.A.L.K.E.R. / OGSR Engine. Enforces 16-byte constant buffer (cbuffer) alignment, registers texture sampler splits, and fixes blown-out dynamic lighting/reflections. |
 | **`yolo-autonomous-watchdog`** | Autonomous execution watchdog and quota protector for YOLO modes (claude-yolo, agy-yolo). Prevents infinite retry loops, terminal stdout flooding, oscillating file churn, and runaway context inflation during unattended operation. |
 
