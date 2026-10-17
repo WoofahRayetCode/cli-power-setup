@@ -33,16 +33,20 @@ flowchart LR
 | :--- | :--- |
 | `repo-auto-sync --status [repo]` | Shows branch, ahead/behind remote counts, and dirty file tally. |
 | `repo-auto-sync --pull [repo]` | Safely runs `git fetch` + `git pull --rebase --autostash` if behind `origin`. |
-| `repo-auto-sync --checkpoint [repo] -m "feat: ..." --push` | Filters out `>50MB` binaries/temp files, stages verified changes, commits with conventional message, and pushes to `origin`. |
+| `repo-auto-sync --checkpoint [repo] -m "feat: ..." --push` | Creates/updates `.gitignore`, synchronizes `README.md` skill/tool tables, filters `>50MB` binaries, commits, and pushes to `origin`. |
+| `repo-auto-sync --ensure-gitignore [repo]` | Creates or updates `.gitignore` with Python, Blender (`*.blend1`), `.env`, and `>50MB` exclusions. |
+| `repo-auto-sync --update-readme [repo]` | Updates `README.md` live skill counts (`301`), CLI tool tables, and auto-indexed skill catalog. |
 | `repo-auto-sync --fleet-status` | Scans all 30 repositories in `~/Documents/GitHub/` in parallel (`<0.5s`) showing branch, dirty count, and ahead/behind status. |
 | `repo-auto-sync --fleet-pull` | Fast-forwards all clean repositories in `~/Documents/GitHub/` that have upstream updates waiting on GitHub. |
 
 ---
 
-## 3. Mandatory Safety & Hygiene Guardrails
-1. **Large Binary & Build Artifact Shield (`50 MB` Hard Cap):**
-   - `repo-auto-sync --checkpoint` automatically unstages any accidental file `> 50 MB` (e.g., unpacked `.db`, `.pak`, `.utoc`, `.vpk`, core dumps, or raw `.blend1` backups) so GitHub's `100 MB` blob limit is never violated.
-2. **Verify Before Pushing:**
-   - Only run `--checkpoint --push` after syntax checks (`local-ast-compiler` / `luac -p` / `py_compile`) or build/test checks succeed. If mid-debug with broken code, use `working-memory-checkpointing` (`git stash` / local checkpoint branch) instead of pushing broken state to `main`.
-3. **Detached HEAD Protection:**
-   - If a repository is in `detached HEAD` state (e.g., `ogsr-complete-merge` root while worktrees `-argon` and `-fable` hold the active branches), `repo-auto-sync` warns and skips blind pushing so worktree branches remain authoritative.
+## 3. Mandatory Safety, `.gitignore` & `README.md` Guardrails
+1. **Automatic `.gitignore` Creation & Oversized File Shield (`50 MB` Hard Cap):**
+   - `repo-auto-sync --checkpoint` automatically creates or updates `.gitignore` (`__pycache__/`, `*.py[cod]`, `*.blend1`, `.env`, `.DS_Store`, `.agents/`), unstages any accidental file `> 50 MB` (e.g., `.db`, `.pak`, `.utoc`), and appends its relative path directly to `.gitignore` so it never pollutes `git status` again.
+2. **Automatic `README.md` Synchronization:**
+   - Every `--checkpoint` automatically updates `README.md` so skill counts (`301`), Cursor rule counts, CLI tool tables, and newly evolved skills are always documented on GitHub without manual editing.
+3. **Verify Before Pushing:**
+   - Only run `--checkpoint --push` after syntax checks (`local-ast-compiler` / `luac -p` / `py_compile`) or build/test checks succeed.
+4. **Detached HEAD Protection:**
+   - If a repository is in `detached HEAD` state, `repo-auto-sync` warns and skips blind pushing so worktree branches remain authoritative.

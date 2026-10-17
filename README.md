@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
 
-This repository organizes a curated set of **219 autonomous agent skills**, 219 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **301 autonomous agent skills**, 301 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
  
  ---
  
@@ -38,7 +38,7 @@ This repository organizes a curated set of **219 autonomous agent skills**, 219 
  
  ### What the Installer Does:
  1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
- 2. **Tri-Environment Sync:** Deploys all 219 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+ 2. **Tri-Environment Sync:** Deploys all 301 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
  3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
  4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
  5. **Turbo Mode Launchers:** Installs `agy-turbo`, `claude-turbo`, and autonomous YOLO shortcuts (`agy-yolo`, `claude-yolo`) into `~/.local/bin/`.
@@ -54,7 +54,7 @@ This repository organizes a curated set of **219 autonomous agent skills**, 219 
  ├── README.md                   # Comprehensive documentation & skill reference
  ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
  ├── .cursor/
- │   └── rules/                  # 217 modular Cursor Rules (.mdc) with semantic metadata
+ │   └── rules/                  # 301 modular Cursor rules (.mdc) with semantic metadata
 
 
 ├── bin/
@@ -82,14 +82,14 @@ This repository organizes a curated set of **219 autonomous agent skills**, 219 
     ├── settings.template.json  # Reference AGY CLI settings configuration
     ├── token_ledger.json       # Universal lifetime token ledger benchmark (1.535B tokens recorded)
     ├── cursor/                 # Cursor reference templates and rules
-    └── skills/                 # 219 specialized skills
+    └── skills/                 # 301 specialized skills
 ```
 
 ---
 
 ## 🎯 Where Skills Perform Best: CLI vs. Cursor IDE (Division of Labor)
 
-While all 217 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
+While all 301 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
 
 ### 1. Skills That Excel in the CLI (Headless & Unattended)
 *Best launched via `claude-turbo`, `agy-turbo`, or standalone terminal scripts*
@@ -1975,7 +1975,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits health across Gemini, Claude, and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all skills across Antigravity, Claude, and Cursor | After adding or updating any skill in the repository. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 219 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 301 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
@@ -2012,12 +2012,115 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 217 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 301 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
 
 
 3. **Unified Global Fallback (`~/.cursorrules`):**
    * Deployed directly to `$HOME/.cursorrules` and project roots so any folder opened in Cursor inherits this entire suite immediately.
+
+---
+
+<!-- AUTO-SYNC-CATALOG:START -->
+## 🔄 Auto-Synchronized Skill & CLI Inventory (301 Total Active Skills)
+
+### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)
+| CLI Tool | Purpose |
+| :--- | :--- |
+| **`skill-evolve`** | Closed-loop runtime skill scaffolder, Voyager script promoter, and `<50ms` 3-CLI hot-patcher with auto GitHub push. |
+| **`repo-auto-sync`** | Autonomous git repo puller, `.gitignore` hardener, `README.md` updater, milestone committer, and 30-repo fleet manager. |
+| **`steam-mod-scanner`** | Fingerprints installed Steam games (`/mnt/games/SteamLibrary`) by engine & archive format and maps to modding skills. |
+| **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |
+| **`tandem-yolo` / `tandem-dispatch`** | 3-column side-by-side Gemini 4 Argon + Claude Fable autonomous split-worktree launcher & live command dispatcher. |
+| **`local-coprocessor` / `local-rag` / `local-ast-compiler`** | Zero-quota local CPU/GPU/RAM offload engines for AST syntax checks, BM25/vector RAG, and local LLM summarization. |
+
+### Recently Evolved & SOTA Skills (82 Indexed Automatically)
+| Skill Name | Description |
+| :--- | :--- |
+| **`amd-igpu-nvidia-dgpu-hybrid-offload`** | Dual-GPU workload splitter for AMD Radeon 610M iGPU (/dev/dri/renderD129, RADV Vulkan + VA-API VCN + 30GB shared DDR5 RAM) and NVIDIA GeForce RTX 5060 dGPU (/dev/dri/renderD128, 8GB GDDR7 CUDA/OptiX). Prevents background agent tasks from stealing game VRAM. |
+| **`android-game-ndk-vulkan`** | Native Android game development using C++20, Android NDK (GameActivity / NativeActivity), Vulkan mobile rendering, touch gesture queues, and pipeline cache serialization. |
+| **`android-mobile-3d-asset-optimizer`** | Android NDK, Vulkan, and OpenGL ES 3.2 mobile 3D asset optimization in Blender 5.2+. Enforces Adreno/Mali Tile-Based Deferred Rendering (TBDR) triangle budgets, <=4 bone skinning weights, fp16 vertex quantization, and ASTC/KTX2 BasisU texture compression. |
+| **`android-monetization-iap-ads`** | Google Play Billing (BillingClient 7.x), In-App Purchases, server-side receipt cryptographic verification, Play Integrity API, and AdMob/AppLovin mediation. |
+| **`argon-adversarial-verification-gate`** | Harnesses Gemini 4 Argon's deep reasoning capacity for formal adversarial self-critique, boundary-condition proofing, and confirmation-bias elimination prior to declaring tasks complete. |
+| **`argon-ast-syntax-gate`** | Pre-flight local compiler and AST syntax verification gate for Gemini 4 Argon. Catches syntax, typing, and parsing errors locally in milliseconds before committing changes. |
+| **`argon-atomic-diff-sequencer`** | Enforces Claude-grade atomic chunk editing on Gemini 4 Argon. Restricts all code changes to surgical <= 30-line replacements, eliminating full-file rewrites and accidental regressions. |
+| **`argon-context-cache-guard`** | Anchors and stabilizes Gemini 4 Argon context to ensure sessions cross and maintain the 32,768-token cache threshold for maximum 95% KV prompt caching discounts. |
+| **`argon-deep-memory-allocator-sanitizer`** | Mathematical 64-bit pointer, struct padding, and memory alignment sanitizer for Gemini 4 Argon. Eliminates pointer truncation and alignment faults in legacy C++ game engine ports. |
+| **`argon-dynamic-subagent-swarm`** | Spawns and coordinates parallel Gemini Flash worker subagents to execute high-volume asset conversion, audio processing, and test sweeps simultaneously, slashing porting turnaround time by 80%. |
+| **`argon-hierarchical-worktree-isolator`** | Sandboxes concurrent subagent file modifications into isolated git worktrees, preventing file lock collisions and allowing atomic integration by Argon. |
+| **`argon-long-context-retrieval-anchor`** | Enforces boundary-edge semantic anchoring across Gemini 4 Argon's 1M-token context window to prevent attention dilution and lost-in-the-middle degradation during massive engineering tasks. |
+| **`argon-long-haul-context-compaction-gate`** | Monitors context consumption during long-running Argon YOLO porting runs, triggering atomic milestone compaction at 250k tokens to maintain sub-second latency and 95% cache discounts. |
+| **`argon-multimodal-vision-grounding`** | Directs Gemini 4 Argon's native multimodal vision capabilities toward game screen telemetry, UI layout audits, rendering artifact triage, and graphical glitch diagnosis. |
+| **`argon-self-contained-autonomous-driver`** | Comprehensive single-driver engineering workflow for Gemini 4 Argon. Unifies planning, asset transpilation, C++ precision refactoring, compilation, and autonomous QA playtesting in a single agent. |
+| **`argon-sentencepiece-serializer`** | Formats tabular data, state serializations, and symbol skeletons to optimize token density under Google's SentencePiece tokenizer used by Gemini 4 Argon. |
+| **`argon-structured-json-schema-enforcer`** | Leverages Gemini 4 Argon's native constrained decoding to emit deterministic, schema-compliant JSON payloads for automated CLI pipelines and test harnesses. |
+| **`argon-subagent-dispatch-routing`** | Implements the 'Argon Brain, Flash Hands' subagent swarm dispatch pattern to offload high-volume read, search, and execution tasks to Gemini Flash while conserving Argon quota. |
+| **`argon-subagent-lifecycle-governor`** | Prevents zombie hangs, infinite loops, and interactive prompt blocking in Gemini subagents with deterministic timeouts and automated process cleanup. |
+| **`argon-subagent-payload-compressor`** | Enforces high-density structured return envelopes on Gemini subagent messages, eliminating conversational fluff and reducing parent context inflation by up to 80%. |
+| **`argon-tool-calling-densifier`** | Enforces compact parallel tool invocation and parameter density on Gemini 4 Argon to minimize output token generation costs and round-trip latency. |
+| **`argon-yolo-quota-pacing-watchdog`** | Telemetry governor that paces Gemini 4 Argon autonomous YOLO execution, preventing 5-hour quota exhaustion by staging state and safely sleeping until window refresh. |
+| **`autogen-adversarial-redteam-critic`** | Emulates Microsoft AutoGen multi-persona red-teaming. Executes an internal Devil's Advocate audit to aggressively attack candidate fixes before committing code. |
+| **`autonomous-3d-reference-researcher`** | Autonomous online anatomical, mechanical blueprint, and Blender bpy technique researcher. Searches the web for real-world proportions, skeletal joint ratios, and shader recipes before/during 3D modeling and crystallizes findings into skills via skill-evolve. |
+| **`autonomous-git-repo-sync-governor`** | Autonomous git repository synchronization, upstream pull/rebase, milestone auto-commit, large-binary/secret pre-commit filtering, and multi-repo fleet updates across ~/Documents/GitHub during long sessions and general development. |
+| **`bethesda-creation-engine-nif-modding`** | Modding pipeline for Bethesda Creation Engine & Gamebryo games owned in Steam library (Morrowind, Oblivion, Skyrim/SE, Fallout 3, Fallout New Vegas, Fallout 4, Starfield). Covers ESM/ESP/ESL binary plugin records, BSA/BA2 archives, NIF 3D meshes, Papyrus scripting, and SKSE/F4SE/NVSE C++ DLLs. |
+| **`blender-3d-printing-cad-manifold-prep`** | General 3D engineering in Blender 5.2+ for 3D printing (FDM/SLA), CNC machining, watertight manifold repair, wall thickness solidification, mechanical snap-fit clearance tolerances (0.15-0.25mm), overhang analysis, and precision STL/3MF export. |
+| **`blender-animation-nla-retargeting-vat`** | Headless Blender 5.2+ animation authoring, NLA action baking, skeletal retargeting, cyclic loop quaternion continuity, S.T.A.L.K.E.R. .skl/.omf motion export, and Vertex Animation Textures (VAT) for GPU crowd/physics rendering. |
+| **`blender-gaussian-splatting-photogrammetry-cleanup`** | Converts raw 3D Gaussian Splatting (.ply), NeRF, photogrammetry scans, and AI-generated 3D meshes (Tripo3D/Hunyuan3D/Trellis) into clean, delighted, quad-retopologized, game-ready PBR assets in headless Blender 5.2+. |
+| **`blender-geometry-nodes-procedural-worlds`** | Headless Blender 5.2+ Geometry Nodes (bpy.types.GeometryNodeTree) procedural worldbuilding, spline generators (roads, pipes, cables, fences), modular building assembly, Poisson-disk biome foliage scattering, and Realize Instances game export. |
+| **`blender-hard-surface-cad-weapons-props`** | Non-destructive hard-surface 3D modeling in Blender 5.2+ for weapons, firearms, vehicles, mechs, and sci-fi props using Boolean + Bevel + Weighted Normals, MikkTSpace tangents, and FPS kinematic weapon bone rigging. |
+| **`blender-sdf-organic-remeshing`** | Eliminates the 'cartoony balloon-animal' look in procedural Blender 5.x organic modeling using Voxel SDF Remeshing, Volume-Preserving Laplacian Smoothing, Anatomical Plane Flattening, and QuadriFlow Retopology. |
+| **`blender-uv-udim-lightmap-architect`** | Automated headless UV unwrapping in Blender 5.2+ (SLIM Minimum Stretch, Angle-Based, Conformal), texel density normalization, Trim Sheets, UDIM multi-tile arrays (1001-1008), and non-overlapping UV2 Lightmap generation. |
+| **`chatgpt-o1-hypothesis-tree`** | Emulates ChatGPT o1/o3-mini Tree-of-Thought deliberation on Gemini 4 Argon. Branches into 3 competing hypotheses, explores execution paths, and backtracks upon contradiction. |
+| **`codestral-fill-in-the-middle`** | Emulates Mistral Codestral Fill-in-the-Middle (FIM) surgical infilling. Anchors prefix and suffix code boundaries to generate exact bridge logic with zero indentation drift or hallucination. |
+| **`cohere-provenance-grounding-ledger`** | Emulates Cohere Command R+ grounded provenance citations. Traces every game config parameter and C++ modification to its exact vanilla baseline coordinate to eliminate hallucinated parameters. |
+| **`concept-art-sketch-to-3d-sculptor`** | Converts 2D drawn images, character concept art, and reference sketches into high-detail 3D models in Blender 5.2+ using OpenCV/Pillow contour slice profiling, silhouette-locked 3D lofting, iterative Silhouette IoU verification, and camera-projected displacement/texture baking. |
+| **`cross-agent-context-deduplicator`** | Eliminates redundant transcript ingestion and context pollution between concurrent Argon and Fable agents by clamping sync payloads to strict 15-line symbol diff abstracts. |
+| **`cross-agent-git-rebase-guard`** | Automated git worktree synchronization, non-interactive rebasing, and conflict-free merging between concurrent AI agent feature branches. |
+| **`cross-agent-hot-reload-watcher`** | Real-time file system observer using inotifywait to trigger instant hot-reloading of modified scripts, configs, and textures in running game instances. |
+| **`cross-engine-3d-import-export-bridge`** | Unified Blender 5.2+ to Game Engine 3D export matrix covering Unreal Engine 5 (Nanite/UCX), Godot 4.x (.glb/-col/-loop), Unity (Humanoid/bake_space_transform), S.T.A.L.K.E.R. X-Ray/OGSR (.ogf/.dm), and Three.js/WebGPU (Meshopt/Draco/KTX2). |
+| **`cross-engine-shader-transpiler`** | Universal shader authoring and transpilation using Slang and SPIRV-Cross, converting single-source shaders to Vulkan SPIR-V, DX12 HLSL, Metal MSL, and OpenGL GLSL. |
+| **`cuda-numpy-batch-texture-dsp-processor`** | Saturates all 32 host CPU threads (ProcessPoolExecutor), 30 GB RAM, and NVIDIA CUDA/NumPy SIMD vectorization for massively parallel batch processing of .dds textures, normal map swizzling, alpha-coverage mipmaps, and .ogg audio files. |
+| **`cursor-inline-diff-lens`** | Emulates Cursor IDE ghost-text and surgical multi-line inline diff previews in Antigravity CLI, giving instant visual clarity on code additions and deletions. |
+| **`deepseek-r1-math-verification`** | Emulates DeepSeek-R1 chain-of-verification and self-correcting mathematical proofs in Gemini 4 Argon reasoning tokens for memory layouts, offsets, and timing. |
+| **`devin-environment-self-healer`** | Emulates Cognition Devin autonomous environment self-healing. Automatically diagnoses missing host dependencies, dynamic libraries (.so), and compiler toolchains on Linux (CachyOS/Arch). |
+| **`dual-engine-quota-balancer`** | Dynamic telemetry coordination across Google Gemini and Anthropic Claude rate limits, balancing task allocation to guarantee uninterrupted execution without hitting provider quotas. |
+| **`dxvk-vkd3d-proton-pipeline-profiler`** | Diagnoses and eliminates DXVK and VKD3D-Proton shader compilation stutter, descriptor heap stalls, and VRAM staging bottlenecks for DX11/DX12 games running on Linux. |
+| **`game-asset-streaming-lod-governor`** | Real-time asynchronous asset streaming, distance-based LOD hierarchies (LOD0-LOD3), virtual texturing, and LRU memory cache eviction. |
+| **`game-audio-ogg-gsc-encoder`** | Converts and encodes game audio to Ogg Vorbis while injecting and preserving proprietary GSC binary engine comment chunks (min/max distance, volume, AI perception) required by S.T.A.L.K.E.R. engines. |
+| **`grok-realtime-telemetry-scout`** | Emulates xAI Grok real-time live search on Gemini 4 Argon. Scouts bleeding-edge git commits, pull requests, issue trackers, and package feeds for undocumented Linux and game fixes. |
+| **`headless-gameplay-testing-bot`** | Autonomous cross-platform gameplay testing bot, synthetic input replay (uinput, adb input), regression fuzzing, and telemetry invariant assertions. |
+| **`linux-perf-flamegraph-bottleneck-triage`** | Hardware performance counter profiling (perf record/report) and folded stack Flamegraph bottleneck triage for native Linux and Wine/Proton games. Pinpoints exact C++ functions causing severe FPS drops in seconds without blind bisecting. |
+| **`local-gpu-vision-ocr-preprocessor`** | Pre-processes game screenshots, desktop captures, and 3D renders locally on host CPU/GPU using Pillow/NumPy perceptual frame-diffing and local Tesseract OCR, cutting cloud multimodal vision token consumption by 85-95%. |
+| **`meta-llama-kv-prefix-stabilizer`** | Emulates Meta Llama 3.3 KV-cache alignment. Enforces strict token-boundary block padding to prevent prompt cache fragmentation and lock in 95% cache discounts. |
+| **`mobile-gpu-texture-compression`** | Multi-platform GPU texture compression pipeline covering mobile ASTC/ETC2 and PC BC1-BC7, runtime format negotiation, and mipmap generation. |
+| **`mobile-thermal-frame-pacing`** | Mobile thermal management, Android Swappy frame pacing, dynamic resolution scaling (DRS), and battery efficiency algorithms for Android and PC games. |
+| **`pc-cross-platform-graphics-api`** | Modern C++ graphics Hardware Abstraction Layer (HAL) supporting DirectX 12, Vulkan, and DirectX 11, Valve Proton compatibility, and RenderDoc telemetry. |
+| **`qwen-polyglot-ast-cartographer`** | Emulates Qwen 2.5 Coder polyglot AST cartography. Generates instant symbol call-graphs, inheritance trees, and signatures across C++, Python, Lua, and Rust in under 500 tokens. |
+| **`ramdisk-tmpfs-build-bake-accelerator`** | Exploits 30 GB system RAM via Linux /dev/shm tmpfs RAM-disk (~40 GB/s bandwidth, zero SSD I/O wear) for ultra-fast Blender texture baking, S.T.A.L.K.E.R./UE5 archive extraction, CMake object compilation, and test staging. |
+| **`rea-mcp-obligation-ledger-orchestrator`** | Orchestrates the Reverse Engineer Anything (REA) MCP server obligation ledger, binary function diffing, and static-to-runtime correlation to formally verify decompiled or ported C++ game engine binaries. |
+| **`rtx-optix-gpu-baker-denoiser`** | Accelerates headless Blender 5.2+ Cycles texture baking (Normals, AO, Lightmaps, Curvature) and 2x2 contact sheet renders by 10x-20x using NVIDIA RTX 5060 Hardware Ray-Tracing (OptiX) and AI Denoising at 16-32 samples. |
+| **`self-evolving-skill-synthesizer`** | Closed-loop in-flight skill synthesis, Voyager-style script promotion, and Reflexion self-healing. Automatically creates missing skills, promotes verified one-off scripts into reusable skill tools, and patches stale skill instructions mid-task across Gemini, Claude, and Cursor. |
+| **`source-idtech-kex-engine-modding`** | Modding pipeline for Valve Source/Source 2, GoldSrc, id Tech (Quake II/III, DOOM 3), and Nightdive KEX Engine games in your Steam library (SiN Reloaded, Half-Life 1/2, Black Mesa, Garry's Mod, Left 4 Dead 1/2, Portal 1/2, CS2, TF2). |
+| **`speculative-multi-step-drafting`** | Bundles predictable consecutive edits and multi-file modifications into single-turn atomic dispatches, slashing multi-turn reasoning overhead and saving up to 75% input tokens. |
+| **`stalker2-to-ogsr-asset-transpiler`** | Converts and adapts S.T.A.L.K.E.R. 2 Heart of Chornobyl UE5 IoStore assets (textures, audio, ballistics curves, weather) into 64-bit S.T.A.L.K.E.R. OGSR/X-Ray formats. |
+| **`tandem-asynchronous-compaction-gate`** | Synchronizes compaction boundaries between Argon and Fable, staging active peer state to .agents/handoff.json before /compact to lock 90-95% cache discounts without amnesia. |
+| **`tandem-circuit-breaker-guard`** | Prevents oscillating retry loops, ping-pong file thrashing, and runaway token burn between concurrent Argon and Fable agents using an automated 3-strike circuit breaker. |
+| **`tandem-conflict-resolution-arbiter`** | Semantic AST-aware merge conflict resolver that reconciles concurrent modifications in game configs (LTX), CMakeLists, and JSON without halting execution. |
+| **`tandem-continuous-integration-pipeline`** | Automated pre-merge staging pipeline that compiles and smoke-tests unified Argon and Fable branches before merging into main. |
+| **`tandem-cross-agent-code-review`** | Peer code review protocol between Gemini 4 Argon and Claude Fable. Allows each model to audit the other's diffs before milestone merging to eliminate bugs and regressions. |
+| **`tandem-multi-agent-orchestrator`** | Coordinates concurrent execution between Gemini 4 Argon and Claude Fable across isolated git worktrees, preventing file collisions and synchronizing milestones via .agents/handoff.json. |
+| **`tandem-shared-build-cache-lock`** | Manages shared CCache, CMake binary caches, and atomic build lockfiles between concurrent Argon and Fable worktrees to prevent redundant compilation and race conditions. |
+| **`tandem-terminal-output-coexistence`** | Prevents runaway terminal scrolling, stdout floods, and pane noise in the 3-column tandem layout using token-guard and compact statuslines. |
+| **`time-travel-deterministic-replay-debug`** | Deterministic record-and-replay time-travel debugging using Mozilla rr and GDB reverse execution. Steps backwards from segfaults and corrupted pointers to the exact instruction that mutated memory. |
+| **`ue5-foliage-mesh-to-ogsr-transpiler`** | Extracts S.T.A.L.K.E.R. 2 (UE5 IoStore) 3D trees, bushes, and grass meshes and transpiles them into 64-bit S.T.A.L.K.E.R. OGSR (.ogf and .dm) formats with uint16 submesh partitioning and alpha-coverage mipmaps. |
+| **`ue5-redengine-rage-library-modding`** | Multi-engine modding workflows for your installed and owned UE5 IoStore games (Borderlands 4, Assetto Corsa Rally, S.T.A.L.K.E.R. 2), Rockstar GTA (GTA I/III/VC/SA/IV/V), CDPR REDengine (Cyberpunk 2077, Witcher 3), Baldur's Gate 3, Project Zomboid, and No Man's Sky. |
+| **`windsurf-cascade-flow-tracker`** | Emulates Codeium Windsurf Cascade Flow on Gemini 4 Argon. Tracks multi-file dependency ripple effects, symbol references, and cascading changes across C++, Lua, and LTX configurations. |
+| **`xray-crash-interceptor-daemon`** | Background sweep daemon that intercepts and dismisses Wine/Proton crash modals (BugTrap, Notepad log windows) during unattended S.T.A.L.K.E.R./OGSR YOLO runs. |
+| **`xray-crash-log-diagnostician`** | Triages and diagnoses S.T.A.L.K.E.R. X-Ray and OGSR engine crashes, BugTrap logs, and Wine/Proton stack traces into exact source file coordinates and root-cause fixes. |
+| **`xray-ogf-dm-blender-pipeline`** | Direct binary compilation and export of S.T.A.L.K.E.R. X-Ray and OGSR 3D meshes (.ogf v4 rigid/skinned models and .dm Detail Model grass/flora) from Blender 5.2+ without third-party plugins. |
+| **`zoneforge-cloud-sync-governor`** | Governs ZoneForge Google Drive and cloud asset synchronization, OAuth2 token refreshment, chunked resumable transfers, and local cache validation for large game mod distributions. |
+
+<!-- AUTO-SYNC-CATALOG:END -->
 
 ---
 

@@ -75,16 +75,159 @@ def auto_generate_commit_message(repo: Path) -> str:
     return f"chore(sync): milestone update for {', '.join(top_files)}{more}"
 
 
+BASELINE_GITIGNORE = [
+    "# Python & Cache",
+    "__pycache__/",
+    "*.py[cod]",
+    "*.tmp",
+    "*.lock",
+    ".cache/",
+    "# Blender & 3D Backups",
+    "*.blend1",
+    "*.blend2",
+    "# Secrets & Env",
+    ".env",
+    ".env.*",
+    "*.pem",
+    "# OS & Agent Scratch",
+    ".DS_Store",
+    "Thumbs.db",
+    ".qa_corpus/",
+    "*.patch",
+    ".agents/",
+]
+
+
+def ensure_gitignore(repo: Path, extra_entries: list[str] | None = None) -> bool:
+    gi_path = repo / ".gitignore"
+    existing_lines = gi_path.read_text(encoding="utf-8", errors="ignore").splitlines() if gi_path.is_file() else []
+    existing_set = {line.strip() for line in existing_lines if line.strip() and not line.strip().startswith("#")}
+    changed = False
+
+    if not gi_path.is_file():
+        existing_lines = list(BASELINE_GITIGNORE)
+        existing_set = {line.strip() for line in existing_lines if line.strip() and not line.strip().startswith("#")}
+        changed = True
+    else:
+        for rule in ("__pycache__/", "*.py[cod]", "*.blend1", ".env", ".DS_Store"):
+            if rule not in existing_set:
+                existing_lines.append(rule)
+                existing_set.add(rule)
+                changed = True
+
+    for entry in (extra_entries or []):
+        clean = entry.strip()
+        if clean and clean not in existing_set:
+            if "# Auto-Excluded Oversized / Generated Files (>50MB)" not in existing_lines:
+                existing_lines.append("\n# Auto-Excluded Oversized / Generated Files (>50MB)")
+            existing_lines.append(clean)
+            existing_set.add(clean)
+            changed = True
+
+    if changed:
+        gi_path.write_text("\n".join(existing_lines).rstrip() + "\n", encoding="utf-8")
+        print(f"[✓] {repo.name}: Updated .gitignore")
+    return changed
+
+
+def sync_readme(repo: Path) -> bool:
+    import re
+    readme = repo / "README.md"
+    if repo.resolve() == (GITHUB_ROOT / "cli-power-setup").resolve() and readme.is_file():
+        skills_dir = repo / "config" / "skills"
+        skill_mds = sorted(skills_dir.glob("*/SKILL.md"))
+        count = len(skill_mds)
+        text = readme.read_text(encoding="utf-8")
+        orig = text
+
+        # Update skill/rule counts dynamically
+        text = re.sub(r"\*\*\d+ autonomous agent skills\*\*", f"**{count} autonomous agent skills**", text)
+        text = re.sub(r"\b\d+ modular Cursor [Rr]ules\b", f"{count} modular Cursor rules", text)
+        text = re.sub(r"Deploys all \d+ skills", f"Deploys all {count} skills", text)
+        text = re.sub(r"# \d+ specialized skills", f"# {count} specialized skills", text)
+        text = re.sub(r"While all \d+ skills", f"While all {count} skills", text)
+        text = re.sub(r"All \d+ skills are compiled", f"All {count} skills are compiled", text)
+        text = re.sub(r"backs up all \d+ skills", f"backs up all {count} skills", text)
+
+        # Find any skills not yet mentioned by name in README outside the auto-catalog block
+        marker_start = "<!-- AUTO-SYNC-CATALOG:START -->"
+        marker_end = "<!-- AUTO-SYNC-CATALOG:END -->"
+        base_text = re.sub(f"{re.escape(marker_start)}.*?{re.escape(marker_end)}", "", text, flags=re.S)
+
+        unlisted = []
+        for smd in skill_mds:
+            sname = smd.parent.name
+            if f"`{sname}`" not in base_text:
+                sbody = smd.read_text(encoding="utf-8", errors="ignore")
+                m = re.search(r"^description:\s*(.+)$", sbody, re.M)
+                desc = m.group(1).strip() if m else sname
+                unlisted.append((sname, desc))
+
+        catalog_lines = [
+            marker_start,
+            f"## 🔄 Auto-Synchronized Skill & CLI Inventory ({count} Total Active Skills)",
+            "",
+            "### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)",
+            "| CLI Tool | Purpose |",
+            "| :--- | :--- |",
+            "| **`skill-evolve`** | Closed-loop runtime skill scaffolder, Voyager script promoter, and `<50ms` 3-CLI hot-patcher with auto GitHub push. |",
+            "| **`repo-auto-sync`** | Autonomous git repo puller, `.gitignore` hardener, `README.md` updater, milestone committer, and 30-repo fleet manager. |",
+            "| **`steam-mod-scanner`** | Fingerprints installed Steam games (`/mnt/games/SteamLibrary`) by engine & archive format and maps to modding skills. |",
+            "| **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |",
+            "| **`tandem-yolo` / `tandem-dispatch`** | 3-column side-by-side Gemini 4 Argon + Claude Fable autonomous split-worktree launcher & live command dispatcher. |",
+            "| **`local-coprocessor` / `local-rag` / `local-ast-compiler`** | Zero-quota local CPU/GPU/RAM offload engines for AST syntax checks, BM25/vector RAG, and local LLM summarization. |",
+            "",
+        ]
+        if unlisted:
+            catalog_lines.extend([
+                f"### Recently Evolved & SOTA Skills ({len(unlisted)} Indexed Automatically)",
+                "| Skill Name | Description |",
+                "| :--- | :--- |",
+            ])
+            for sname, desc in unlisted:
+                catalog_lines.append(f"| **`{sname}`** | {desc} |")
+            catalog_lines.append("")
+        catalog_lines.append(marker_end)
+        block = "\n".join(catalog_lines)
+
+        if marker_start in text and marker_end in text:
+            text = re.sub(f"{re.escape(marker_start)}.*?{re.escape(marker_end)}", block, text, flags=re.S)
+        else:
+            text = text.replace("## 🛠️ Maintenance & Adding New Skills", block + "\n\n---\n\n## 🛠️ Maintenance & Adding New Skills")
+
+        if text != orig:
+            readme.write_text(text, encoding="utf-8")
+            print(f"[✓] {repo.name}: Synchronized README.md ({count} active skills, {len(unlisted)} auto-indexed).")
+            return True
+        return False
+
+    if not readme.is_file():
+        st = get_repo_status(repo, fetch=False)
+        readme.write_text(
+            f"# {repo.name}\n\n"
+            f"<!-- AUTO-SYNC-STATUS:START -->\n"
+            f"- **Active Branch:** `{st['branch']}`\n"
+            f"<!-- AUTO-SYNC-STATUS:END -->\n",
+            encoding="utf-8",
+        )
+        print(f"[✓] {repo.name}: Created initial README.md")
+        return True
+    return False
+
+
 def cmd_checkpoint(repo: Path, message: str | None, push: bool) -> None:
     st = get_repo_status(repo, fetch=False)
     if st["branch"] == "HEAD":
         print(f"[!] {repo.name}: Repository is in detached HEAD state. Checkout a branch before checkpointing.", file=sys.stderr)
         sys.exit(1)
 
+    ensure_gitignore(repo)
+    sync_readme(repo)
     run_git(repo, "add", "-A")
 
-    # Safety Filter: Unstage any file > 50 MB or matching temp patterns
+    # Safety Filter: Unstage any file > 50 MB or matching temp patterns & append >50MB files to .gitignore
     staged = run_git(repo, "diff", "--cached", "--name-only").stdout.splitlines()
+    oversized_paths = []
     for rel in staged:
         fpath = repo / rel
         if any(pat in rel for pat in IGNORE_PATTERNS):
@@ -93,8 +236,13 @@ def cmd_checkpoint(repo: Path, message: str | None, push: bool) -> None:
         if fpath.is_file() and not fpath.is_symlink():
             if fpath.stat().st_size > MAX_FILE_BYTES:
                 mb = fpath.stat().st_size / (1024 * 1024)
-                print(f"[!] Safety Shield: Unstaged '{rel}' ({mb:.1f} MB > 50 MB limit)")
+                print(f"[!] Safety Shield: Unstaged '{rel}' ({mb:.1f} MB > 50 MB limit) and added to .gitignore")
                 run_git(repo, "reset", "HEAD", "--", rel)
+                oversized_paths.append(rel)
+
+    if oversized_paths:
+        ensure_gitignore(repo, extra_entries=oversized_paths)
+        run_git(repo, "add", ".gitignore")
 
     remaining = run_git(repo, "diff", "--cached", "--name-only").stdout.splitlines()
     if not remaining:
@@ -172,9 +320,18 @@ def main() -> None:
     parser.add_argument("--push", action="store_true", help="Push committed milestone to origin/<branch>")
     parser.add_argument("--fleet-status", action="store_true", help="Parallel status scan of all repos in ~/Documents/GitHub")
     parser.add_argument("--fleet-pull", action="store_true", help="Fetch and autostash-pull all repos in ~/Documents/GitHub")
+    parser.add_argument("--ensure-gitignore", action="store_true", help="Create or update .gitignore with standard and oversized file exclusions")
+    parser.add_argument("--update-readme", action="store_true", help="Synchronize README.md skill counts, CLI utility tables, and project docs")
 
     args = parser.parse_args()
     repo_path = Path(args.repo).resolve()
+
+    if args.ensure_gitignore:
+        added = ensure_gitignore(repo_path)
+        print(f"[✓] .gitignore verified for {repo_path.name} ({len(added)} rules added).")
+    if args.update_readme:
+        changed = sync_readme(repo_path)
+        print(f"[✓] README.md verified for {repo_path.name} (updated={changed}).")
 
     if args.fleet_status:
         cmd_fleet_status(fetch=False)
@@ -184,10 +341,11 @@ def main() -> None:
         cmd_pull(repo_path)
     elif args.checkpoint:
         cmd_checkpoint(repo_path, args.message, args.push)
-    else:
+    elif not (args.ensure_gitignore or args.update_readme):
         st = get_repo_status(repo_path, fetch=False)
         print(f"[Repo Status] {st['name']} | Branch: {st['branch']} | Dirty: {st['dirty']} | Ahead: +{st['ahead']} / Behind: -{st['behind']}")
 
 
 if __name__ == "__main__":
     main()
+
