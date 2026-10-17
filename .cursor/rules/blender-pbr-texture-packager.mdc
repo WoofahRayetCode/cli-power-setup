@@ -70,3 +70,16 @@ To prevent visual jarring where a weapon has crisp 4K pixels next to a muddy 512
 - **Hero First-Person Props:** $20.48\text{ px/cm}$ ($2048\text{ px/m}$)
 - **Characters / Third-Person Props:** $10.24\text{ px/cm}$ ($1024\text{ px/m}$)
 - **Large World Architecture:** $5.12\text{ px/cm}$ ($512\text{ px/m}$)
+
+---
+
+## 4. Steam Library Engine Texture Packing & Normal Swizzle Matrix
+
+| Engine / Steam Games | Normal Map Orientation & Format | Packed Material / Specular / PBR Map Layout |
+| :--- | :--- | :--- |
+| **S.T.A.L.K.E.R. X-Ray / EE / OGSR** | Swizzled `_bump.dds` (`BC3/DXT5`): `G = DirectX Norm Y-`, `A = Norm X` | `_bump.dds` packs `R = Specular/Gloss`, `B = Parallax Height`; `_bump#.dds` packs detail error |
+| **UE5 IoStore** (*S.T.A.L.K.E.R. 2*, *Borderlands 4*, *AC Rally*) | DirectX `Y-` (`BC5` 2-channel RG normal) | `ORM` (`BC1/BC7`): `R = Ambient Occlusion`, `G = Roughness`, `B = Metallic` |
+| **Bethesda Creation Engine** (*Skyrim SE*, *FO3/NV*) | DirectX `Y-` `_n.dds` (`BC3/BC7`): `RGB = Normal` | Alpha channel of `_n.dds` (`A = Specular Intensity`); `_m.dds` = Environment reflection mask |
+| **Bethesda Fallout 4 & Starfield** | DirectX `Y-` `_n.dds` (`BC5`) | Fallout 4 `_s.dds` (`BC5`): `R = Smoothness (1 - Roughness)`, `G = Metallic`; Starfield separate `_rough`, `_metal`, `_ao` |
+| **Valve Source** (*HL2*, *Black Mesa*, *GMod*, *L4D2*, *CS2*) | DirectX `Y-` `.vtf` (`BGRA8888` / `DXT5`) | `$bumpmap` Alpha = `$envmapmask` or `$basemapalphaphongmask`; `$phongexponenttexture` (`R = Exp, G = Albedo Tint`) |
+| **Rockstar GTA** (*GTA III/VC/SA* `.txd`, *GTA IV/V* `.ytd`) | DirectX `Y-` (`DXT1/DXT5`) | GTA V `_s.dds`: `R = Specular Intensity`, `G = Glossiness`, `B = Fresnel` |

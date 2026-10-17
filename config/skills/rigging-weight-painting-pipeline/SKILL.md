@@ -70,3 +70,16 @@ def bind_and_normalize_skin(mesh_name, armature_name):
 Before export, test extreme poses to verify joint integrity:
 - Elbow / Knee 120° flexion: ensure no volume collapse or self-intersecting quads.
 - Shoulder 90° abduction: ensure armpit does not stretch or collapse inwards.
+
+---
+
+## 5. Steam Library Engine Skeleton & Skinning Limits
+
+| Target Engine (Steam Games) | Max Bone Count | Max Weights / Vertex | Critical Root / Naming Conventions |
+| :--- | :--- | :--- | :--- |
+| **S.T.A.L.K.E.R. X-Ray / EE / OGSR** | `64` bones (`uint16` bone IDs) | `1` (`0x12071980`), `2` (`0x240e3300`), or `4` links | NPC biped root `bip01` $\rightarrow$ `bip01_pelvis`; Mutant root `root_stalker` / `bip01`; HUD hands `lead_gun` |
+| **UE5 IoStore** (*S.T.A.L.K.E.R. 2*, *Borderlands 4*, *AC Rally*) | `<= 256` per section | `4` (standard) or `8` (hero) | Root bone must be named `root` at `(0,0,0)` with `(1,1,1)` scale; never name object `Armature` |
+| **Bethesda Creation Engine** (*Skyrim SE*, *FO3/NV/4*, *Oblivion*) | `<= 80` per `BSDismemberSkinInstance` partition | `4` | Biped root `NPC Root [Root]` $\rightarrow$ `NPC COM [COM ]` $\rightarrow$ `NPC Pelvis [Pelv]`; requires body dismemberment vertex groups (`SBP_32_BODY`) |
+| **Valve Source & KEX** (*HL2*, *Black Mesa*, *GMod*, *L4D2*, *SiN*) | `128` (`studiomdl` hard limit) | `3` (`studiomdl` clamps `>3` weights) | Prefix `ValveBiped.Bip01_Pelvis`, `ValveBiped.Bip01_Spine`, `ValveBiped.Bip01_R_Hand` |
+| **Project Zomboid & Rockstar GTA** | `<= 64` | `4` | Zomboid `Dummy01` $\rightarrow$ `Bip01` $\rightarrow$ `Bip01_Pelvis`; GTA SA/V bone tags (`0 = Root`, `24818 = Head`) |
+

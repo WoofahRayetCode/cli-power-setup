@@ -66,3 +66,11 @@ Every interactive firearm or mechanical prop must separate moving sub-parts by v
 ## 4. Material & Edge-Wear Realism
 - Combine baked **Curvature (`Pointiness`)** and **Ambient Occlusion** masks in the shader tree to drive exposed metallic edge wear along `HS_Bevel` chamfers (`Metallic = 1.0, Roughness = 0.25` on worn edges vs `Roughness = 0.55` on anodized/parkerized flat receiver body).
 - Keep total weapon triangle counts within **8,000–22,000 tris** for first-person hero views and **1,500–3,500 tris** for third-person / world pickup LODs.
+
+---
+
+## 5. Steam Library Engine Weapon & Vehicle Socket Standards
+- **S.T.A.L.K.E.R. X-Ray / EE / OGSR Weapons (`wpn_*.ogf`):** Separate HUD mesh (`wpn_*_hud.ogf`, bound to `lead_gun` + `wpn_body`, `wpn_mag`, `wpn_bolt`, `wpn_scope`, `wpn_silencer`, `wpn_launcher`) and world pickup mesh (`wpn_*.ogf`). Configure `fire_point`, `shell_point`, and `strap_bone0`/`strap_bone1` coordinates in the weapon's `.ltx` section.
+- **Borderlands 4 & S.T.A.L.K.E.R. 2 (UE5 Modular Weapons):** Modular receiver/barrel/grip/magazine/sight meshes snap via named `USkeletalMeshSocket` nodes (`Socket_Barrel`, `Socket_Mag`, `Socket_Optic`, `Muzzle`, `ShellEject`).
+- **Assetto Corsa Rally & Rockstar GTA Vehicles:** Separate wheel/caliper/steering hierarchies (`WHEEL_LF`, `WHEEL_RF`, `WHEEL_LR`, `WHEEL_RR`, `SUSP_LF`, `STEER_HR` in AC; `wheel_lf_dummy`, `chassis_dummy`, `boot_dummy`, `bonnet_dummy`, `door_lf_dummy` in GTA `.dff`/`.yft`).
+- **Valve Source Viewmodels (`v_*.mdl`) & Worldmodels (`w_*.mdl`):** Include `$attachment "muzzle"` and `$attachment "1"` (brass eject) in the `.qc` manifest.

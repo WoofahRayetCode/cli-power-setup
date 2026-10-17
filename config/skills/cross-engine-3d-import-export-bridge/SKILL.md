@@ -13,13 +13,17 @@ description: Unified Blender 5.2+ to Game Engine 3D export matrix covering Unrea
 
 ## 1. Master Cross-Engine Coordinate, Scale & Axis Matrix
 
-| Target Engine | Handedness & Up Axis | Unit Scale (`scale_length`) | Preferred Format | Blender Export Axis Flags | Collision Naming Convention |
+| Target Engine (Steam Library Games) | Handedness & Up Axis | Unit Scale (`scale_length`) | Preferred Format | Blender Export Axis Flags | Collision Naming Convention |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Godot 4.x** | Right-Handed, `+Y Up, -Z Forward` | `1.0` (`1m`) | `.glb` / `.blend` | glTF auto-converts `+Z Up -> +Y Up` | Suffix `-col` (trimesh), `-convcol` (convex), `-colonly` |
-| **Unreal Engine 5** | Left-Handed, `+Z Up, +X Forward` | `0.01` (`1cm`) or `1.0` (`apply_unit_scale=True`) | `.fbx` / `.glb` | `axis_forward='-Y'`, `axis_up='Z'` (or `+X`/`+Z` for skeletal) | Prefix `UCX_<MeshName>_00` (convex), `UBX_` (box), `USP_` (sphere) |
-| **Unity 6 / 2022+** | Left-Handed, `+Y Up, +Z Forward` | `1.0` (`1m`) | `.fbx` | `axis_forward='-Z'`, `axis_up='Y'`, `bake_space_transform=True` | Separate child mesh or Unity `MeshCollider` / `BoxCollider` |
-| **S.T.A.L.K.E.R. OGSR** | Left-Handed, `+Y Up, +Z Forward` | `1.0` (`1m`) | `.ogf` v4 / `.dm` | Swap `(x, y, z) -> (x, z, y)`, flip `V = 1 - V`, reverse tri winding | Built into `.ogf` Chunk `0x0010` (`SBoneShape` OBB/box/sphere) |
-| **Three.js / WebGPU** | Right-Handed, `+Y Up, +Z Forward` | `1.0` (`1m`) | `.glb` (`Meshopt` + `KTX2`) | Standard glTF 2.0 (`+Y Up`) | Separate simplified `.glb` or analytical BVH |
+| **S.T.A.L.K.E.R. X-Ray / EE / OGSR** (*SoC*, *CS*, *CoP*) | Left-Handed, `+Y Up, +Z Forward` | `1.0` (`1m`) | `.ogf` v4 / `.dm` | Swap `(x, y, z) -> (x, z, y)`, flip `V = 1 - V`, reverse tri winding | `.ogf` Chunk `0x0010` (`SBoneShape` OBB/box/sphere) |
+| **Unreal Engine 5 IoStore** (*S.T.A.L.K.E.R. 2*, *Borderlands 4*, *AC Rally*) | Left-Handed, `+Z Up, +X Forward` | `0.01` (`1cm`) or `1.0` | `.fbx` / `.glb` / `.psk` | `axis_forward='-Y'`, `axis_up='Z'` | Prefix `UCX_<MeshName>_00` (convex), `UBX_`, `USP_` |
+| **Bethesda Creation Engine** (*Morrowind*, *Oblivion*, *Skyrim SE*, *FO3/NV/4*, *Starfield*) | Right-Handed, `+Z Up, +Y Forward` | `1m = 69.9912 units` (`1.428cm/u`) | `.nif` / Starfield `.mesh` | Native Blender `+Z Up, +Y Forward` | `bhkCollisionObject` / `bhkConvexVerticesShape` (`<=64` verts) |
+| **Valve Source / Source 2** (*HL1/2*, *Black Mesa*, *GMod*, *L4D2*, *Portal 2*, *CS2*, *TF2*) | Right-Handed, `+Z Up, +Y Forward` | `1m = 39.37 Hammer u` (`52.49` char) | `.smd` / `.dmx` $\rightarrow$ `.mdl` | Native `+Z Up` via `studiomdl` `.qc` | `$collisionmodel` (`<=32` VPhysics convex hulls) |
+| **Nightdive KEX & id Tech** (*SiN Reloaded*, *Quake II/III*, *DOOM 3*) | Right-Handed, `+Z Up` | `1m = 32` or `39.37 units` | `.md2` / `.md3` / `.md5mesh` | Native `+Z Up` inside `.kpf`/`.pk3`/`.pk4` | BSP brush clip / AABB mins-maxs |
+| **Rockstar RenderWare & RAGE** (*GTA III/VC/SA*, *GTA IV/V*) | Right-Handed, `+Z Up` | `1.0` (`1m`) | `.dff` (RW) / `.ydr`/`.yft` (RAGE) | Native `+Z Up, -Y Forward` | `.col` (`ColSphere`/`ColBox`/`ColMesh`) or `.ybn` bounds |
+| **CDPR REDengine & BG3** (*Cyberpunk 2077*, *Witcher 3*, *Baldur's Gate 3*) | `+Z Up` (RED) / `+Y Up` (BG3) | `1.0` (`1m`) | `.glb` $\rightarrow$ `.mesh` / `.GR2` | WolvenKit `.glb` / `lslib` `.GR2` | PhysX convex hull submesh |
+| **Project Zomboid** (`108600`) | Right-Handed, `+Y Up` | `1.0` (`1m`, `800–2500 tris`) | `.fbx` / `.x` | `axis_forward='-Z'`, `axis_up='Y'` | Tile/grid ISO bounds in `media/scripts/*.txt` |
+| **Godot 4.x & Unity & Three.js** | Right (`+Y`) / Left (`+Y`) | `1.0` (`1m`) | `.glb` / `.fbx` | `export_yup=True` / `bake_space_transform=True` | Godot `-col`/`-convcol`; Unity `MeshCollider` |
 
 ---
 

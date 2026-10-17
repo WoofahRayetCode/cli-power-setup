@@ -58,3 +58,16 @@ For complex destruction, waving tentacles, cloth flags, or massive mobile/PC cro
   vec3 final_pos = POSITION + vat_offset;
   ```
 - **Performance Impact:** Cuts CPU animation time to `0.00 ms` and draws 5,000 animated instances in a single GPU instanced draw call.
+
+---
+
+## 4. Steam Library Engine Animation Formats & Framerates
+
+| Target Engine (Steam Games) | Animation File Format | Standard FPS | Key Export Rules & Motion Tags |
+| :--- | :--- | :--- | :--- |
+| **S.T.A.L.K.E.R. X-Ray / EE / OGSR** | `.skl` (single clip) / `.omf` (motion library) or embedded `.ogf` Chunk `0x000E` | `30 FPS` | Left-Handed Y-Up bone transforms; state animations (`idle`, `walk_fwd`, `run_fwd`, `attack_0`, `die_0`) |
+| **UE5 IoStore** (*S.T.A.L.K.E.R. 2*, *Borderlands 4*, *AC Rally*) | `.fbx` / `.glb` $\rightarrow$ `UAnimSequence` | `30` or `60 FPS` | Bake root motion onto `root` bone at `(0,0,0)`; set `bForceRootLock` or `RootMotionRootLock = RefPose` |
+| **Bethesda Creation Engine** (*Skyrim SE*, *FO3/NV/4*, *Oblivion*) | Havok `.hkx` (`hkxcmd` / `ck-cmd` from `.fbx`/`.kf`) | `30 FPS` | Embed `NiTextKeyExtraData` annotation tracks (`start`, `Hit`, `SoundPlay.xxx`, `end`) |
+| **Valve Source & KEX** (*HL2*, *Black Mesa*, *GMod*, *L4D2*, *SiN*) | `.smd` / `.dmx` $\rightarrow$ `studiomdl` `.mdl` | `30 FPS` | Define `$sequence "reload" "anims/reload.smd" fps 30 { event AE_CL_PLAYSOUND 12 "Weapon.ClipOut" }` |
+| **id Tech 4** (*DOOM 3*) | `.md5anim` (ASCII quaternion keyframes) | `24 FPS` | Hierarchy and bone flags must match `.md5mesh` joint order 1:1 |
+

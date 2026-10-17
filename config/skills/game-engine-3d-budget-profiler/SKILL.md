@@ -91,3 +91,16 @@ def apply_weighted_normals(obj):
     mod.weight = 50
     obj.data.use_auto_smooth = True
 ```
+
+---
+
+## 5. Steam Library Per-Engine Polygon & Index Buffer Ceilings
+
+| Engine / Steam Games | Hard Index Buffer Limit per Submesh | Recommended Hero Character / Weapon Tris | Recommended Prop / Foliage Tris |
+| :--- | :--- | :--- | :--- |
+| **S.T.A.L.K.E.R. X-Ray / EE / OGSR** | **`65,535` verts (`uint16`)** per `.ogf` child or `.dm` | `12,000 – 28,000 tris` | `4,000 – 12,000` (tree `.ogf`), `12 – 64` (grass `.dm`) |
+| **UE5 IoStore** (*S.T.A.L.K.E.R. 2*, *Borderlands 4*, *AC Rally*) | `uint32` (Nanite static) / `65k` per skeletal LOD section | `35,000 – 85,000 tris` (Skeletal LOD0) | `5,000 – 50,000 tris` (Nanite handles LODs) |
+| **Bethesda Creation Engine** (*Skyrim SE*, *FO3/NV/4*, *Starfield*) | **`65,535` verts (`uint16`)** per `BSTriShape` (`Starfield` uses meshlets) | `15,000 – 35,000 tris` | `500 – 8,000 tris` (`bhkCollisionObject <= 64` verts) |
+| **Valve Source & KEX** (*HL2*, *Black Mesa*, *GMod*, *L4D2*, *SiN*) | **`32,767`–`65,535` verts** per `.mdl` bodygroup | `8,000 – 20,000 tris` | `300 – 4,500 tris` (`<=32` VPhysics convex pieces) |
+| **Project Zomboid & Classic GTA** (*Zomboid* `108600`, *GTA III/VC/SA*) | `uint16` | `800 – 2,500 tris` (Zomboid/GTA III-SA) | `100 – 1,200 tris` |
+
