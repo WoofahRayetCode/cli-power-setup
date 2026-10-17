@@ -77,3 +77,9 @@ voice-prompt-optimizer "long rambling multi-sentence voice dictation..." --slm
 # Subshell pipe directly into agy or bash command
 agy "$(voice-prompt-optimizer 'set a goal to port shaders and run tests' --exec)"
 ```
+
+---
+
+## Token Context Savings Ledger Integration
+Every invocation of `voice-prompt-optimizer` automatically calculates the token delta (`orig_tokens - clean_tokens`) and logs cumulative prompt savings directly to `token_ledger.json` under `prompt_context_savings_by_technique["voice_prompt_context_optimizer"]`, feeding live token telemetry directly into `agy-quota-statusline`.
+

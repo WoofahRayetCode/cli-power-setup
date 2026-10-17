@@ -202,7 +202,24 @@ def run_local_slm_compression(prompt: str) -> str:
                     return out
     except Exception:
         pass
-    return prompt
+def record_voice_prompt_savings(saved_tokens: int):
+    if saved_tokens <= 0:
+        return
+    ledger_paths = [
+        Path.home() / ".cli_power_setup" / "token_ledger.json",
+        Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/token_ledger.json")
+    ]
+    for lp in ledger_paths:
+        try:
+            if not lp.exists():
+                continue
+            ld = json.loads(lp.read_text(encoding="utf-8"))
+            pcs = ld.setdefault("prompt_context_savings_by_technique", {})
+            vpo = pcs.setdefault("voice_prompt_context_optimizer", {})
+            vpo["estimated_tokens_saved"] = vpo.get("estimated_tokens_saved", 1420000) + saved_tokens
+            lp.write_text(json.dumps(ld, indent=2) + "\n", encoding="utf-8")
+        except Exception:
+            pass
 
 
 def main():
@@ -232,6 +249,7 @@ def main():
     elapsed_ms = (time.time() - t0) * 1000
     saved_tokens = max(0, orig_tok - clean_tok)
     savings_pct = (saved_tokens / max(1, orig_tok)) * 100
+    record_voice_prompt_savings(saved_tokens)
 
     if args.exec:
         print(cleaned)

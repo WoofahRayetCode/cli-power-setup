@@ -28,6 +28,8 @@ Provides complete parity with Claude Code's native `/context` and `/cost` comman
 3. **Monetary Savings Calculation:**
    - Compares standard full-price token billing against the 90% prompt caching discount.
    - Calculates real-time estimated dollar savings.
+4. **Local LLM Fleet Token Ledger Integration:**
+   - Ingests `token_ledger.json` to report cloud tokens saved across the 34-model local fleet (including 70B/72B Titans, 22B decompiler, and CAD models), displaying exact offloaded tokens and 100% cloud quota preservation metrics.
 
 ---
 

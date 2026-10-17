@@ -198,34 +198,61 @@ def _write_local_state(model: str, active: bool, last_saved: int = 0) -> None:
 
 
 def record_local_llm_savings(model: str, prompt_eval: int, eval_count: int, has_image: bool = False) -> tuple[int, int]:
-    """Persists per-model local LLM token savings to ~/.cli_power_setup/token_ledger.json."""
+    """Persists per-model local LLM token savings to ~/.cli_power_setup/token_ledger.json and config/token_ledger.json."""
     clean_m = model.replace(":latest", "")
     local_tok = max(1, prompt_eval + eval_count)
-    # Cloud equivalent includes avoided multimodal vision tokens, Argon CoT thinking (3x output), and context growth
-    cloud_saved = local_tok + (3200 if has_image else max(1200, eval_count * 3))
-    try:
-        ledger_p = Path.home() / ".cli_power_setup" / "token_ledger.json"
-        ld = json.loads(ledger_p.read_text(encoding="utf-8")) if ledger_p.exists() else {}
-        lls = ld.get("local_llm_savings", {})
-        lls["total_calls"] = lls.get("total_calls", 0) + 1
-        lls["total_local_tokens"] = lls.get("total_local_tokens", 0) + local_tok
-        lls["total_cloud_tokens_saved"] = lls.get("total_cloud_tokens_saved", 0) + cloud_saved
-        lls["last_model"] = clean_m
-        lls["last_saved_tokens"] = cloud_saved
-        lls["last_updated"] = time.strftime("%Y-%m-%dT%H:%M:%S")
-        by_m = lls.get("by_model", {})
-        m_entry = by_m.get(clean_m, {"calls": 0, "local_tokens": 0, "cloud_tokens_saved": 0})
-        m_entry["calls"] = m_entry.get("calls", 0) + 1
-        m_entry["local_tokens"] = m_entry.get("local_tokens", 0) + local_tok
-        m_entry["cloud_tokens_saved"] = m_entry.get("cloud_tokens_saved", 0) + cloud_saved
-        by_m[clean_m] = m_entry
-        lls["by_model"] = by_m
-        ld["local_llm_savings"] = lls
-        ledger_p.parent.mkdir(parents=True, exist_ok=True)
-        ledger_p.write_text(json.dumps(ld, indent=2), encoding="utf-8")
-        return cloud_saved, lls["total_cloud_tokens_saved"]
-    except Exception:
-        return cloud_saved, cloud_saved
+    
+    # Tier-specific cloud equivalent calculation:
+    # 1. Ultra-Large Reasoners (DeepSeek-R1 70B/32B): replaces Argon High / Claude Extended Thinking (6x-8x reasoning token burn)
+    if "deepseek-r1" in clean_m:
+        reason_mult = 6 if ("70b" in clean_m or "72b" in clean_m) else 4
+        cloud_saved = prompt_eval + (eval_count * reason_mult) + 3500
+    # 2. Ultra-Large Systems Architects & Tool Callers (Qwen 72B, Llama 3.3 70B):
+    elif any(k in clean_m for k in ["72b", "70b", "llama3.3"]):
+        cloud_saved = prompt_eval + (eval_count * 4) + 2500
+    # 3. Neural Decompiler (LLM4Decompile 22B): eliminates large assembly code dumps from cloud context
+    elif "llm4decompile" in clean_m or "decompile" in clean_m:
+        cloud_saved = (prompt_eval * 2) + (eval_count * 3) + 2000
+    # 4. Dedicated CAD / Blender models: avoids iterative syntax debugging in cloud context
+    elif "blender" in clean_m:
+        cloud_saved = prompt_eval + (eval_count * 3) + 2000
+    # 5. Multimodal Vision Models: avoids 2500+ vision tokens per image
+    elif has_image or "minicpm" in clean_m or "moondream" in clean_m:
+        cloud_saved = prompt_eval + (eval_count * 2) + 3200
+    # 6. Standard code & fast utilities:
+    else:
+        cloud_saved = local_tok + max(1200, eval_count * 2)
+
+    tot_saved = cloud_saved
+    ledger_paths = [
+        Path.home() / ".cli_power_setup" / "token_ledger.json",
+        Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/token_ledger.json")
+    ]
+    for ledger_p in ledger_paths:
+        try:
+            if not ledger_p.parent.exists():
+                ledger_p.parent.mkdir(parents=True, exist_ok=True)
+            ld = json.loads(ledger_p.read_text(encoding="utf-8")) if ledger_p.exists() else {}
+            lls = ld.get("local_llm_savings", {})
+            lls["total_calls"] = lls.get("total_calls", 0) + 1
+            lls["total_local_tokens"] = lls.get("total_local_tokens", 0) + local_tok
+            lls["total_cloud_tokens_saved"] = lls.get("total_cloud_tokens_saved", 0) + cloud_saved
+            lls["last_model"] = clean_m
+            lls["last_saved_tokens"] = cloud_saved
+            lls["last_updated"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+            by_m = lls.get("by_model", {})
+            m_entry = by_m.get(clean_m, {"calls": 0, "local_tokens": 0, "cloud_tokens_saved": 0})
+            m_entry["calls"] = m_entry.get("calls", 0) + 1
+            m_entry["local_tokens"] = m_entry.get("local_tokens", 0) + local_tok
+            m_entry["cloud_tokens_saved"] = m_entry.get("cloud_tokens_saved", 0) + cloud_saved
+            by_m[clean_m] = m_entry
+            lls["by_model"] = by_m
+            ld["local_llm_savings"] = lls
+            ledger_p.write_text(json.dumps(ld, indent=2), encoding="utf-8")
+            tot_saved = lls["total_cloud_tokens_saved"]
+        except Exception:
+            pass
+    return cloud_saved, tot_saved
 
 
 def query_local_ollama(endpoint, model, prompt, system_prompt="", image_path="", timeout=35.0):

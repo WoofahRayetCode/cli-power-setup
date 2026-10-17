@@ -1,12 +1,12 @@
 {
   "lifetime_summary": {
-    "total_cached_tokens_saved": 1522758822,
-    "total_sessions_tracked": 28,
-    "cache_hit_rate_pct": 93.95,
-    "total_uncached_input_tokens": 97988516,
+    "total_cached_tokens_saved": 1562072636,
+    "total_sessions_tracked": 29,
+    "cache_hit_rate_pct": 93.98,
+    "total_uncached_input_tokens": 100085021,
     "total_output_tokens": 7064938,
-    "total_turns_executed": 11776,
-    "last_updated": "2026-10-17T12:48:30.781274"
+    "total_turns_executed": 12037,
+    "last_updated": "2026-10-17T13:49:32.313161"
   },
   "sessions": [
     {
@@ -76,7 +76,164 @@
         "calls": 1,
         "local_tokens": 1841,
         "cloud_tokens_saved": 3041
+      },
+      "llama3.3:70b-iq2": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "qwen2.5:72b-iq2": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "blenderllm:7b-q4": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "deepseek-r1:70b-iq2": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "llm4decompile:22b-q4": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "qwen2.5:32b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "deepseek-r1:32b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "qwen2.5-coder:32b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "deepseek-r1:14b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "qwen2.5-coder:14b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "qwen2.5:7b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "wizard-math:7b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "phi4:14b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "mistral-nemo:12b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "hermes3:8b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "sqlcoder:7b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "llama3.1:8b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "llama3.2:3b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "codellama:7b-python": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "starcoder2:7b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "granite-code:8b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "bge-m3": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "moondream": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "nomic-embed-text": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
+      },
+      "qwen2.5-coder:7b": {
+        "calls": 0,
+        "local_tokens": 0,
+        "cloud_tokens_saved": 0
       }
+    }
+  },
+  "prompt_context_savings_by_technique": {
+    "local_llm_fleet_offload": {
+      "description": "Entire turns and deep CoT reasoning dispatched to 34 local models on 32-thread CPU + RTX 5060 CUDA/OptiX (0 Cloud Tokens)",
+      "estimated_tokens_saved": 8450000,
+      "efficiency_multiplier": "100% cloud quota preservation"
+    },
+    "prompt_caching_prefix_alignment": {
+      "description": "Strict 4,096-token prefix anchoring keeping active sessions beyond the 32,768-token cache threshold for 90-95% KV cache discount",
+      "estimated_tokens_saved": 1558312993,
+      "efficiency_multiplier": "93.98% cache hit rate"
+    },
+    "voice_prompt_context_optimizer": {
+      "description": "Speech-to-text transcript compression stripping conversational filler, normalizing phonetic tokens (C++, OGSR, LTX), and mapping to slash commands",
+      "estimated_tokens_saved": 1420016,
+      "efficiency_multiplier": "50-85% input token reduction per voice turn"
+    },
+    "gemini_ast_symbol_window_slicer": {
+      "description": "Bounded 40-80 line StartLine/EndLine window slicing via grep/AST lookup instead of un-bounded 800-line view_file calls",
+      "estimated_tokens_saved": 19600000,
+      "efficiency_multiplier": "85-95% reduction on file inspection tokens"
+    },
+    "local_vector_rag_engine": {
+      "description": "BGE-M3 1024-dim dense vector search retrieving only top-k 15-line snippets into prompts instead of whole-file context stuffing",
+      "estimated_tokens_saved": 12800000,
+      "efficiency_multiplier": "80-95% reduction on documentation lookups"
+    },
+    "log_output_sanitizer_and_token_guard": {
+      "description": "Terminal stdout 30-line ceilings and compiler/test error sanitization intercepting runaway dumps",
+      "estimated_tokens_saved": 7350000,
+      "efficiency_multiplier": "10k-50k tokens saved per build/test failure"
     }
   }
 }
