@@ -100,3 +100,9 @@ python3 config/skills/game-autonomous-navigation-ai/scripts/nav_graph_recorder.p
 
 ## X-Ray/OGSR Engine Pitch Sign Convention & Overhead Obstacle Detour
 In X-Ray/OGSR, camera/actor pitch sign is inverted relative to standard math: positive pitch = looking DOWN, while vector:getP() for a downward vector is negative. Always negate vector:getP() when aiming at low/prone targets (e.g. spine bone of wounded NPCs or downhill enemies). In tight stairwells (e.g. Cordon Sid bunker), add overhead clearance checks for hanging lamps.
+
+---
+
+## Promoted Executable Tool (`walkcoach.py`)
+- **Location:** `~/.gemini/config/skills/game-autonomous-navigation-ai/scripts/walkcoach.py`
+- **Invocation:** `~/.gemini/config/skills/game-autonomous-navigation-ai/scripts/walkcoach.py`
