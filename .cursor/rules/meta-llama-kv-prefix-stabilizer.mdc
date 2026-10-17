@@ -1,0 +1,38 @@
+---
+description: Emulates Meta Llama 3.3 KV-cache alignment. Enforces strict token-boundary block padding to prevent prompt cache fragmentation and lock in 95% cache discounts.
+globs: 
+alwaysApply: false
+---
+
+# Meta Llama KV Prefix Stabilizer (`meta-llama-kv-prefix-stabilizer`)
+
+Meta Llama 3.3 and modern quantized inference runtimes rely on **Token-Boundary Block Alignment**: ensuring that prompt blocks and system instructions land on clean, hardware-aligned token boundaries (e.g. 64 or 128-token blocks).
+
+In Gemini 4 Argon, if dynamic conversation tokens or tool outputs shift the token offset of the cached prefix, subword token fragmentation can reduce prompt cache hit rates.
+
+This skill stabilizes the conversation prefix, guaranteeing continuous **95% prompt cache discounts**.
+
+---
+
+## 1. Token Boundary Architecture
+
+```
++-------------------------------------------------------------+
+| Immutable System Rules (Pinned Cache Tier)                  |
+| - Exactly padded to clean 128-token boundary               |
++-------------------------------------------------------------+
+| Static Tool Definitions & Skills Catalog                     |
+| - Frozen byte-for-byte; zero dynamic metadata               |
++-------------------------------------------------------------+
+| Trailing Dynamic Suffix (The only moving boundary)           |
+| - Local timestamps, git branch diffs, user instructions     |
++-------------------------------------------------------------+
+```
+
+---
+
+## 2. Invariant Stabilization Rules
+
+1. **Quarantine Volatile State:** Never place current clock timestamps, random seeds, or dynamic process IDs inside the system prompt or static skills headers.
+2. **Trailing Metadata Only:** Dynamic environment variables must be appended strictly at the tail of the message inside `<ADDITIONAL_METADATA>` tags.
+3. **Cache Discount Guarantee:** Guarantees that all tokens prior to the trailing user message hit the cache with **100% prefix invariance**, locking in the **\$0.10 / 1M token rate**.

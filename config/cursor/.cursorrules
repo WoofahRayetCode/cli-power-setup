@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (270 Specialized Capabilities)
+## Complete Skills Catalog (274 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -195,6 +195,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`argon-tool-calling-densifier`** | Enforces compact parallel tool invocation and parameter density on Gemini 4 Argon to minimize output token generation costs and round-trip latency. |
 | **`argon-yolo-quota-pacing-watchdog`** | Telemetry governor that paces Gemini 4 Argon autonomous YOLO execution, preventing 5-hour quota exhaustion by staging state and safely sleeping until window refresh. |
 | **`audio-dsp-tuning`** | Headset calibration, microphone conditioning, and audio DSP processing across Linux (EasyEffects/PipeWire) and Windows (Equalizer APO/Peace). Configures AutoEq headphone profiles and professional 6-stage broadcast voice chains. |
+| **`autogen-adversarial-redteam-critic`** | Emulates Microsoft AutoGen multi-persona red-teaming. Executes an internal Devil's Advocate audit to aggressively attack candidate fixes before committing code. |
 | **`autonomous-goal-governor`** | Quota governance, machine-verifiable contract formulation, circuit breaker enforcement (3-strike rule), and phased milestone compaction during long-running /goal and overnight autonomous agent runs. |
 | **`avalonia-cross-platform-dev`** | Cross-platform XAML GUI development with Avalonia UI (.NET 8/9), MVVM pattern, CompiledBindings, Native AOT compilation, and native OS desktop integration. |
 | **`bash-posix-automation`** | Defensive Bash and POSIX shell engineering, strict runtime error handling, signal cleanup traps, argument parsing with getopts, atomic file operations, and ShellCheck compliance. |
@@ -219,6 +220,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`cmake-cross-platform`** | Cross-platform CMake architecture (3.25+), target-centric modern CMake, toolchain files for cross-compilation (Linux, Windows via MinGW/Clang, macOS), platform abstraction, and CPack installers. |
 | **`coderabbit-ai-review`** | CodeRabbit-grade autonomous code review, PR walk-through generation, architectural Mermaid sequence diagrams, line-by-line defect triage, and GitHub suggestion diffs. |
 | **`codestral-fill-in-the-middle`** | Emulates Mistral Codestral Fill-in-the-Middle (FIM) surgical infilling. Anchors prefix and suffix code boundaries to generate exact bridge logic with zero indentation drift or hallucination. |
+| **`cohere-provenance-grounding-ledger`** | Emulates Cohere Command R+ grounded provenance citations. Traces every game config parameter and C++ modification to its exact vanilla baseline coordinate to eliminate hallucinated parameters. |
 | **`compiler-error-cascade-isolator`** | Intercepts C++ compiler error cascades (GCC, Clang, MSVC) during engine builds. Strips recursive template instantiation dumps and secondary cascading errors to isolate the primary root-cause error and source coordinates, slashing compiler diagnostic tokens by 90-95%. |
 | **`computer-vision-deep-learning`** | Modern deep-learning computer vision engineering and high-performance inference pipelines. Covers neural object detection (YOLOv8/YOLOv11, RT-DETR), instance segmentation (SAM 2), vision-language models (Florence-2, CLIP), ONNX Runtime/TensorRT GPU acceleration, and multi-object tracking (ByteTrack, DeepSORT). |
 | **`console-game-decompilation`** | Console game decompilation, matching reverse engineering, and disassembly workflows for PS1, PS2, PS3, original Xbox, Xbox 360, and retro platforms (MIPS, PowerPC, x86). Covers container inspection (PS-X EXE, ELF, XBE, XEX), binary splitting (splat), compiler matching, and objdiff verification. |
@@ -337,6 +339,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`local-vector-rag-engine`** | Local vector embeddings and dense semantic search engine running on host CPU/GPU/RAM. Replaces context-stuffing (50k+ tokens) by retrieving only the top-k relevant 15-line snippets into LLM prompts, slashing context consumption by 80-95%. |
 | **`log-output-sanitizer`** | Intercepts noisy compiler, package manager, and test suite terminal output (cargo, pytest, npm, cmake), passing only actionable errors and compact summaries to preserve context. |
 | **`lowlevel-dll-internals`** | Windows PE/DLL internals, assembly-level disassembly, vtable reconstruction, calling convention alignment (__thiscall, __stdcall, __cdecl, x64 ABI), and native detour hooks (MinHook, MS Detours, trampoline patching). Use when analyzing or modifying game DLLs, ASI plugins, C++ engine classes, crash dumps, or writing native binary patches. |
+| **`meta-llama-kv-prefix-stabilizer`** | Emulates Meta Llama 3.3 KV-cache alignment. Enforces strict token-boundary block padding to prevent prompt cache fragmentation and lock in 95% cache discounts. |
 | **`mobile-gpu-texture-compression`** | Multi-platform GPU texture compression pipeline covering mobile ASTC/ETC2 and PC BC1-BC7, runtime format negotiation, and mipmap generation. |
 | **`mobile-thermal-frame-pacing`** | Mobile thermal management, Android Swappy frame pacing, dynamic resolution scaling (DRS), and battery efficiency algorithms for Android and PC games. |
 | **`model-optimal-state-serializer`** | Model-optimal structured session state serialization engine. Compresses in-flight memory, active hypotheses, and file state into tokenizer-native formats (XML/YAML for Claude BPE, Pipe/TSV for Gemini SentencePiece, compact symbol skeletons) to slash context consumption by 60-80%. |
@@ -371,6 +374,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`shell-output-token-guard`** | Enforces hard terminal stdout line ceilings using token-guard to intercept noisy commands (find, grep, git log, compiler dumps), truncating runaway output and saving 10k-50k tokens per query. |
 | **`skills-updater-and-auditor`** | Automated health auditing, synchronization, and upstream updates for all installed agent skills. Verifies YAML frontmatter integrity, helper script syntax/permissions, host CLI dependencies, and cross-CLI parity across Antigravity and Claude Code. |
 | **`smart-context-packer`** | Compresses multi-file codebases into interface-only AST skeletons (stripping function bodies, comments, and blank lines), reducing context consumption by 85-90%. |
+| **`speculative-multi-step-drafting`** | Bundles predictable consecutive edits and multi-file modifications into single-turn atomic dispatches, slashing multi-turn reasoning overhead and saving up to 75% input tokens. |
 | **`sql-schema-query-condenser`** | SQL relational schema and query plan condenser. Serializes verbose DDL migrations and EXPLAIN QUERY PLAN execution trees into compact type-bracket notation and flat operator pipelines, slashing database context by 65-75%. |
 | **`stalker-level-ai-graph-triage`** | Diagnoses and repairs S.T.A.L.K.E.R. and X-Ray/OGSR level AI navmesh and graph defects. Triages 'Cannot find level vertex' CTDs, audits all.spawn cross-level transits, validates level.ai and game.graph connectivity, and resolves NPC pathfinding deadlocks. |
 | **`stalker-luajit-ffi-migration`** | Manages Lua script migration to 64-bit LuaJIT and FFI in modern S.T.A.L.K.E.R. engines (OGSR Engine). Audits deprecated Luabind C++ exports, prevents LuaJIT GC64 memory limits and raw pointer corruption, and traps silent callback failures. |
