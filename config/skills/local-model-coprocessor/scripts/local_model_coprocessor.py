@@ -71,6 +71,7 @@ def load_skill_context(skill_names: str = "", auto_skill: bool = False, prompt_t
             (("ogg", "audio", "sound", "meow", "voice", "tts"), ["game-audio-ogg-gsc-encoder", "creature-animal-bioacoustic-audio"]),
             (("ltx", "stalker", "ogsr", "xray", "crash"), ["game-modding", "xray-crash-log-diagnostician"]),
             (("64-bit", "pointer", "cpp", "c++"), ["cpp-64bit-engine-port-sanitizer", "modern-cpp-engineering"]),
+            (("re", "decompile", "disasm", "reverse engineer", "ghidra", "hopper", "rizin", "vtable", "rva"), ["reverse-engineer-anything", "binary-re-workflows", "rea-mcp-obligation-ledger-orchestrator"]),
         ]
         for kws, sks in keyword_map:
             if any(k in p_low for k in kws):
@@ -105,7 +106,11 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
         return requested_model
 
     free_mb = get_free_vram_mb()
-    if task in ("port", "engine", "migration", "transpile"):
+    if task in ("re", "decompile", "reverse", "disasm", "rea", "binary"):
+        for cand in ("deepseek-coder-v2:16b", "qwen2.5-coder:32b", "deepseek-r1:32b", "qwen2.5-coder:14b", "deepseek-r1:14b", "deepseek-coder:6.7b-instruct"):
+            if cand in installed:
+                return cand
+    elif task in ("port", "engine", "migration", "transpile"):
         for cand in ("deepseek-coder-v2:16b", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
@@ -412,7 +417,7 @@ def main():
     common_parser.add_argument("--dry-run", action="store_true", help="Simulate generation without active local server")
     common_parser.add_argument("--endpoint", type=str, default="http://localhost:11434", help="Local server URL")
     common_parser.add_argument("--model", type=str, default="auto", help="Local model name (default: auto-detect based on VRAM & task)")
-    common_parser.add_argument("--task", type=str, default="auto", choices=["auto", "fast", "code", "reason", "vision", "blender", "csharp", "cpp", "rust", "python", "translate", "sql", "tool", "long", "math", "web", "business", "port", "plan"], help="Task routing mode")
+    common_parser.add_argument("--task", type=str, default="auto", choices=["auto", "fast", "code", "reason", "vision", "blender", "csharp", "cpp", "rust", "python", "translate", "sql", "tool", "long", "math", "web", "business", "port", "plan", "re", "decompile"], help="Task routing mode")
     common_parser.add_argument("--skill", type=str, default="", help="Comma-separated skill names to inject into local model system prompt")
     common_parser.add_argument("--auto-skill", action="store_true", default=True, help="Automatically match and inject relevant SKILL.md rules")
 

@@ -158,6 +158,16 @@ def evaluate_routing(prompt: str = "", step: str = "", domain: str = "", quota: 
             "rationale": "Research query offloaded to local multi-source scout with RAG embeddings (0 Cloud Tokens)."
         }
 
+    # Reverse Engineering & Binary Decompilation (REA MCP synergy)
+    if any(k in p_low for k in ["reverse engineer", "decompile", "disasm", "ghidra", "hopper", "rizin", "vtable", "rva", "rea", "obligation ledger"]):
+        return {
+            "tier": 0,
+            "engine": "LOCAL_OLLAMA",
+            "model": "deepseek-coder-v2:16b (or qwen2.5-coder:32b)",
+            "command": f"bin/local-coprocessor --task re --prompt '{prompt}'",
+            "rationale": "Reverse engineering & binary decompilation routed to local MoE DeepSeek Coder V2 16B with REA skill context (0 Cloud Tokens)."
+        }
+
     # 2. Check for step lifecycle: intake, verify, docs, commit
     if step in ["intake", "scan"] or any(k in p_low for k in ["find symbol", "list files", "ast map"]):
         return {
