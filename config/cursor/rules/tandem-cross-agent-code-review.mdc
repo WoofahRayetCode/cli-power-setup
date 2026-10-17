@@ -1,0 +1,47 @@
+---
+description: Peer code review protocol between Gemini 4 Argon and Claude Fable. Allows each model to audit the other's diffs before milestone merging to eliminate bugs and regressions.
+globs: 
+alwaysApply: false
+---
+
+# Tandem Cross-Agent Code Review (`tandem-cross-agent-code-review`)
+
+Having two state-of-the-art reasoning models running simultaneously enables continuous peer review. Before merging feature branches (`feat/argon-work` or `feat/fable-work`) back to `main`, each model conducts an automated peer audit on the other's code.
+
+---
+
+## 1. Review Matrix & Division of Strengths
+
+| Model Conducting Review | Target Code Under Review | Review Focus | Key Strengths Leveraged |
+| :--- | :--- | :--- | :--- |
+| **Argon Audits Fable** | C++ 64-bit diffs, Engine memory allocators | Architectural soundness, memory leaks, boundary conditions, edge cases | Deep deliberative reasoning, SentencePiece density |
+| **Fable Audits Argon** | LTX configs, Lua scripts, Shader declarations | Syntax precision, AST compliance, missing brackets, parameter typos | High token density, strict linting gates, surgical diff checks |
+
+---
+
+## 2. Peer Review Workflow
+
+```mermaid
+sequenceDiagram
+    participant A as Argon (Pane 0)
+    participant S as .agents/handoff.json
+    participant F as Fable (Pane 1)
+    
+    F->>S: 1. Post C++ diff to .agents/handoff.json (Status: Review_Requested)
+    A->>S: 2. Read diff; perform adversarial self-critique
+    A->>S: 3. Post Approval or Surgical Suggestions
+    F->>F: 4. Apply suggestions & proceed to clean merge
+```
+
+---
+
+## 3. High-Density Review Template
+
+Peer reviews must be compact (< 20 lines) to avoid context bloat:
+
+```text
+[PEER_AUDIT from Argon to Fable]
+- Target: xrGame/weapon_ak74.cpp#L214
+- Status: APPROVED with 1 warning
+- Note: Casting to uint32_t on line 214 truncates 64-bit pointers on OGSR Linux; replace with uintptr_t.
+```
