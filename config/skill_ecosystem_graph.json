@@ -787,8 +787,8 @@
     "coverage-guided-mutation-testing": {
       "description": "AST-based fault injection, mutant survival analysis, and automated test synthesis to self-improve test suite detection power across Lua, Python, C++, and Rust.",
       "related": [
-        "game-exploratory-fuzzing",
         "test-driven-development",
+        "game-exploratory-fuzzing",
         "systematic-debugging",
         "game-self-improving-qa-pipeline"
       ]
@@ -2004,8 +2004,8 @@
       "related": [
         "rust-engineering",
         "adaptive-reasoning",
-        "argon-ast-syntax-gate",
-        "csharp-dotnet-engineering"
+        "executing-plans",
+        "argon-ast-syntax-gate"
       ]
     },
     "qwen-polyglot-ast-cartographer": {
@@ -2211,8 +2211,8 @@
       "related": [
         "argon-tool-calling-densifier",
         "local-vector-rag-engine",
-        "executing-plans",
-        "argon-thinking-governor"
+        "argon-thinking-governor",
+        "argon-atomic-diff-sequencer"
       ]
     },
     "sql-schema-query-condenser": {
@@ -2302,7 +2302,7 @@
         "game-modding",
         "game-mod-release-packager",
         "electron-desktop-dev",
-        "rust-engineering"
+        "verification-before-completion"
       ]
     },
     "steamdeck-proton-hardware-tuning": {
@@ -2337,8 +2337,8 @@
       "related": [
         "executing-plans",
         "systematic-debugging",
-        "verification-before-completion",
-        "task-velocity-governor"
+        "task-velocity-governor",
+        "verification-before-completion"
       ]
     },
     "systematic-debugging": {
@@ -2353,9 +2353,9 @@
     "task-velocity-governor": {
       "description": "Enforces task completion velocity, strict timeboxing, step budgeting, anti-thrashing loops, and diminishing returns boundaries. Prevents tasks from taking longer than necessary and halts iterative wheel-spinning.",
       "related": [
+        "test-driven-development",
         "superpowers",
         "argon-atomic-diff-sequencer",
-        "executing-plans",
         "python-engineering"
       ]
     },
@@ -2374,7 +2374,7 @@
         "task-velocity-governor",
         "coverage-guided-mutation-testing",
         "writing-plans",
-        "systematic-debugging"
+        "superpowers"
       ]
     },
     "threejs-webgl-engineering": {
@@ -2390,9 +2390,9 @@
       "description": "Deterministic record-and-replay time-travel debugging using Mozilla rr and GDB reverse execution. Steps backwards from segfaults and corrupted pointers to the exact instruction that mutated memory.",
       "related": [
         "xray-lua-scripting",
+        "executing-plans",
         "game-exploratory-fuzzing",
-        "argon-subagent-lifecycle-governor",
-        "chatgpt-o1-hypothesis-tree"
+        "argon-subagent-lifecycle-governor"
       ]
     },
     "token-economy": {
@@ -2464,7 +2464,7 @@
         "superpowers",
         "systematic-debugging",
         "writing-plans",
-        "executing-plans"
+        "proton-game-dev-linux"
       ]
     },
     "video-production-automation": {
@@ -2570,9 +2570,9 @@
       "description": "Breaks down complex engineering tasks, refactors, and mod implementations into granular, dependency-ordered, verifiable task lists. Use when planning multi-step work.",
       "related": [
         "executing-plans",
-        "verification-before-completion",
         "superpowers",
-        "brainstorming"
+        "verification-before-completion",
+        "test-driven-development"
       ]
     },
     "xray-crash-interceptor-daemon": {

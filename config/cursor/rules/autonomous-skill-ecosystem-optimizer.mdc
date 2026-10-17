@@ -1,6 +1,6 @@
 ---
 description: Closed-loop auto-optimizing skill ecosystem harmonizer (skill-optimize). Automatically invoked by skill-evolve whenever skills are created or updated to cross-link related skills, enforce Windows/Linux & hardware offload rules, prune dead references, compact tokens, and rebuild the capability graph.
-globs: 
+globs: *
 alwaysApply: false
 ---
 
