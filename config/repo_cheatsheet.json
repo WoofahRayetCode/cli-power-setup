@@ -1,25 +1,23 @@
 {
-  "updated_at": "2026-10-16T22:31:21.400333",
+  "updated_at": "2026-10-16T22:31:48.392015",
   "total_repos": 32,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792215081.0493429,
+      "activity_ts": 1792215107.956224,
       "age_str": "0s ago",
-      "dirty_count": 8,
+      "dirty_count": 2,
       "dirty_exts": {
-        ".mdc": 2,
-        ".md": 3,
-        ".json": 2
+        ".mdc": 2
       },
       "top_exts": [
         ".mdc",
         ".md",
         ".py"
       ],
-      "last_commit": "feat(statusline): hot-load dual dGPU (RTX 5060) + ",
+      "last_commit": "feat(skill-evolve): auto-sync 'game-audio-ogg-gsc-",
       "stack": "AI Skills / Python / Bash",
       "routine": "Flash \u2022 Low (Sync/Docs)",
       "deep": "Argon \u2022 High (Orchestration)",
@@ -31,7 +29,7 @@
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792215080.6230743,
+      "activity_ts": 1792215107.8902235,
       "age_str": "0s ago",
       "dirty_count": 16,
       "dirty_exts": {
