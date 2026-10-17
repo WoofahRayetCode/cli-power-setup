@@ -1,18 +1,42 @@
 {
-  "updated_at": "2026-10-16T21:58:58.305284",
+  "updated_at": "2026-10-16T22:07:15.921262",
   "total_repos": 32,
   "repos": [
+    {
+      "name": "cli-power-setup",
+      "path": "~/Documents/GitHub/cli-power-setup",
+      "is_git": true,
+      "activity_ts": 1792213635.5786214,
+      "age_str": "0s ago",
+      "dirty_count": 3,
+      "dirty_exts": {
+        ".md": 1,
+        ".json": 1
+      },
+      "top_exts": [
+        ".mdc",
+        ".md",
+        ".py"
+      ],
+      "last_commit": "perf(math): add RTX 5060 CUDA 13.4 + 32-thread CPU",
+      "stack": "AI Skills / Python / Bash",
+      "routine": "Flash \u2022 Low (Sync/Docs)",
+      "deep": "Argon \u2022 High (Orchestration)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Skill edits & repo sync",
+      "hw": "Local AST/RAG + 32-Thr"
+    },
     {
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792213137.6292589,
+      "activity_ts": 1792213635.3501012,
       "age_str": "0s ago",
       "dirty_count": 16,
       "dirty_exts": {
         ".json": 78,
         ".md": 14,
-        ".png": 125,
+        ".png": 129,
         ".blend1": 1,
         ".blend": 1,
         ".ogf": 4,
@@ -60,7 +84,7 @@
         ".ini": 1,
         ".tsv": 1,
         ".sh": 17,
-        ".py": 27,
+        ".py": 28,
         ".js": 3,
         ".pyc": 2
       },
@@ -78,35 +102,11 @@
       "hw": "32-Thr CMake + /dev/shm"
     },
     {
-      "name": "cli-power-setup",
-      "path": "~/Documents/GitHub/cli-power-setup",
-      "is_git": true,
-      "activity_ts": 1792213123.5181763,
-      "age_str": "14s ago",
-      "dirty_count": 3,
-      "dirty_exts": {
-        ".md": 1,
-        ".json": 1
-      },
-      "top_exts": [
-        ".mdc",
-        ".md",
-        ".py"
-      ],
-      "last_commit": "feat(math): add 4 engine/3D/physics/PBR math skill",
-      "stack": "AI Skills / Python / Bash",
-      "routine": "Flash \u2022 Low (Sync/Docs)",
-      "deep": "Argon \u2022 High (Orchestration)",
-      "live_rec": "Flash \u2022 Low",
-      "live_reason": "Skill edits & repo sync",
-      "hw": "Local AST/RAG + 32-Thr"
-    },
-    {
       "name": "OGSR-Engine",
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
       "activity_ts": 1792213021.776576,
-      "age_str": "1m ago",
+      "age_str": "10m ago",
       "dirty_count": 30,
       "dirty_exts": {
         ".hpp": 1,

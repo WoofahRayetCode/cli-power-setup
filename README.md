@@ -1,67 +1,69 @@
 # CLI Power Setup (`cli-power-setup`)
 
-A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
+A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)** and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
 
-This repository organizes a curated set of **300 autonomous agent skills**, 300 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
- 
- ---
- 
- ## ⚡ Quick Start
- 
- Clone this repository to your machine and run the installer:
- 
- ```bash
- git clone https://github.com/WoofahRayetCode/cli-power-setup.git
- cd cli-power-setup
- ./install.sh
- ```
- 
- ### 📋 Interactive Installer Menu
- Running `./install.sh` displays an interactive target menu:
- ```text
- CLI Power Setup Installer
- Select target environment:
-   1) Tri-Environment (Antigravity, Claude Code, & Cursor) [Recommended]
-   2) Antigravity only (~/.gemini)
-   3) Claude Code only (~/.claude)
-   4) Cursor only (~/.cursor, ~/.cursorrules)
-   5) Exit
- ```
- 
- Or pass flags non-interactively in automated scripts:
- ```bash
- ./install.sh --all     # Install for Antigravity, Claude Code, and Cursor IDE
- ./install.sh --agy     # Install for Google Antigravity only
- ./install.sh --claude  # Install for Claude Code only
- ./install.sh --cursor  # Install for Cursor IDE only
- ```
- 
- ### What the Installer Does:
- 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
- 2. **Tri-Environment Sync:** Deploys all 300 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
- 3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
- 4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
- 5. **Turbo Mode Launchers:** Installs `agy-turbo`, `claude-turbo`, and autonomous YOLO shortcuts (`agy-yolo`, `claude-yolo`) into `~/.local/bin/`.
- 6. **Skills Auditor & Auto-Updater:** Installs `skills-audit-update` and `cursor-rules-sync` into `~/.local/bin/` for one-command health audits, permissions repair, and 3-way synchronization.
- 
- ---
- 
- ## 📂 Repository Structure
- 
- ```text
- cli-power-setup/
- ├── install.sh                  # Interactive tri-environment installer with backup & menu
- ├── README.md                   # Comprehensive documentation & skill reference
- ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
- ├── .cursor/
- │   └── rules/                  # 300 modular Cursor rules (.mdc) with semantic metadata
+This repository organizes **300 autonomous agent skills**, 300 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a clickable floating voice dictation pill (`agy-mic-button`), a zero-quota CPU/GPU math & physics solver (`game-math-solver`), an auto-optimizing skill ecosystem engine (`skill-optimize`), a clamshell 3D thermal governor (`laptop-perf`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
 
+---
 
+## ⚡ Quick Start
+
+Clone this repository to your machine and run the installer:
+
+```bash
+git clone https://github.com/WoofahRayetCode/cli-power-setup.git
+cd cli-power-setup
+./install.sh
+```
+
+### 📋 Interactive Installer Menu
+Running `./install.sh` displays an interactive target menu:
+```text
+CLI Power Setup Installer
+Select target environment:
+  1) Full Setup (Antigravity & Cursor) [Recommended]
+  2) Antigravity only (~/.gemini)
+  3) Cursor only (~/.cursor, ~/.cursorrules)
+  4) Exit
+```
+
+Or pass flags non-interactively in automated scripts:
+```bash
+./install.sh --all     # Install for Google Antigravity and Cursor IDE
+./install.sh --agy     # Install for Google Antigravity only
+./install.sh --cursor  # Install for Cursor IDE only
+```
+
+### What the Installer Does:
+1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
+2. **Environment Sync:** Deploys all 300 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+3. **Global Discipline & Voice Command Routing:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, Zero-Quota Local CPU/GPU Math Offload rules, and Natural-Language Spoken Command Routing (*"Set a goal..."*, *"Make a plan..."*, *"Use boost..."*) to `~/.gemini/config/GEMINI.md` and `~/.cursorrules`.
+4. **Live Multi-Row Telemetry Statusline (`agy-quota-statusline`):** Tracks real-time 5h/weekly quota, 250k compaction gate countdown (`🧹`), active skills in real time (`🛠️ Skills [Live]`), CPU/GPU temperatures & fan RPM (`🌡️`), lid-closed lock state (`🔒Lid-Safe`), RTX 5060 VRAM & `/dev/shm` RAM-disk usage (`🚀`), and active background workloads (`⚙️ 🎨Blender+🔨Build+🎮OGSR/Wine`).
+5. **Floating Voice Dictation Pill (`agy-mic-button`):** Launches a draggable, pinnable (`📌`/`📍`) floating `[🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin]` overlay that triggers `/voice` (`F5`) without keyboard shortcuts and auto-closes when `agy` exits.
+6. **Launchers & Self-Optimizing Ecosystem Tools:** Installs `agy-yolo`, `agy-turbo`, `game-math-solver`, `skill-evolve`, `skill-optimize`, `laptop-perf`, `repo-auto-sync`, and `skills-audit-update` into `~/.local/bin/`.
+
+---
+
+## 📂 Repository Structure
+
+```text
+cli-power-setup/
+├── install.sh                  # Interactive Linux installer with backup & menu
+├── install.ps1                 # Native Windows 10/11 PowerShell installer
+├── README.md                   # Comprehensive documentation & skill reference
+├── .cursorrules                # Root-level unified Cursor AI rules & skill index
+├── .cursor/
+│   └── rules/                  # 300 modular Cursor rules (.mdc) with semantic metadata
 ├── bin/
-│   ├── agy-quota-statusline    # Asynchronous real-time quota & token savings tracker (Gemini)
-│   ├── claude-statusline       # Dedicated real-time telemetry, weekly resets & context monitor (Claude Code)
-│   ├── agy-turbo               # High-speed Turbo mode launcher script (Gemini)
-│   ├── claude-turbo            # Low-effort thinking Turbo launcher script (Claude Code)
+│   ├── agy-quota-statusline    # Live multi-row quota, skills, thermal, VRAM & git statusline
+│   ├── agy-mic-button          # Floating draggable/pinnable voice dictation pill for agy
+│   ├── agy-yolo                # Autonomous hands-free YOLO mode launcher (Argon + Flash)
+│   ├── agy-turbo               # High-speed Flash low-effort Turbo mode launcher
+│   ├── agy-cheatsheet          # Dynamic repo-aware model, effort & hardware offload recommender
+│   ├── game-math-solver        # 32-thread CPU + RTX 5060 CUDA 13.4 math, physics & SymPy solver
+│   ├── skill-evolve            # Closed-loop runtime skill scaffolder & Voyager script promoter
+│   ├── skill-optimize          # Auto-optimizing skill ecosystem graph harmonizer (300 skills)
+│   ├── repo-auto-sync          # Autonomous git pull/checkpoint/push & README fleet manager
 │   ├── stalker-playtest-runner # Autonomous hands-free game QA, dialogue & locomotion runner
 │   ├── context-watchdog        # Automated background context monitor & pre-compact memory stager
 │   ├── game-test-watchdog      # Autonomous anti-stuck, freeze & infinite loop supervisor for game QA
@@ -78,47 +80,42 @@ This repository organizes a curated set of **300 autonomous agent skills**, 300 
 │   ├── android-dev-runner      # Android 2D/3D development doctor, scrcpy mirror & jank analyzer
 │   └── skills-audit-update     # Health auditor, permissions fixer & multi-environment synchronizer
 └── config/
-    ├── GEMINI.md               # Global engineering discipline, quota governance & token economy rules
-    ├── settings.template.json  # Reference AGY CLI settings configuration
-    ├── token_ledger.json       # Universal lifetime token ledger benchmark (1.535B tokens recorded)
-    ├── cursor/                 # Cursor reference templates and rules
-    └── skills/                 # 300 specialized skills
+    ├── GEMINI.md                    # Global engineering discipline, quota governance & voice routing rules
+    ├── skill_ecosystem_graph.json   # Auto-optimized capability & synergy graph across all 300 skills
+    ├── settings.template.json       # Reference AGY CLI settings configuration
+    ├── token_ledger.json            # Pure Antigravity (agy) lifetime token savings ledger (1.28B cached tokens)
+    ├── cursor/                      # Cursor reference templates and rules
+    └── skills/                      # 300 specialized skills
 ```
 
 ---
 
-## 🎯 Where Skills Perform Best: CLI vs. Cursor IDE (Division of Labor)
+## 🎯 Where Skills Perform Best: `agy` CLI vs. Cursor IDE (Division of Labor)
 
-While all 300 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
+While all 300 skills and CLI utilities are shared across environments, they naturally divide into distinct operational sweet spots:
 
-### 1. Skills That Excel in the CLI (Headless & Unattended)
-*Best launched via `claude-turbo`, `agy-turbo`, or standalone terminal scripts*
+### 1. Skills That Excel in `agy` CLI (Headless, Voice-Driven & Unattended)
+*Best launched via `agy-yolo`, `agy-turbo`, or spoken *"Set a goal..."* via `agy-mic-button`*
 
-* **Autonomous Long-Running Goals:** `stalker-ogsr-migration`, `autonomous-goal-governor`, `task-velocity-governor`. The CLI operates uninterrupted over multi-hour runs, manages 5-hour quota reset sleep loops without manual supervision, and executes automated compaction.
-* **Game QA & System Watchdogs:** `game-qa-playtest-controller`, `game-test-watchdog`, `stalker-playtest-runner`. Direct access to `/dev/uinput` input injection, headless Wine/Proton processes, and X-Ray crash log window dismissals without UI interference.
-* **Batch Asset & Texture Pipelines:** `game-texture-editing` (`game-texture-editor`), `video-production-automation` (FFmpeg), `audio-dsp-tuning`. Maximum CPU/GPU thread saturation (`-j$(nproc)`) with zero GUI re-render overhead.
-* **Quota & Cache Optimization:** `prompt-cache-context-optimizer`, `claude-silent-dispatch`. Achieves the **99% prompt cache hit rate** and sub-second tool turns by eliminating IDE rendering lag.
+* **Autonomous Long-Running Goals & Porting Swarms:** `stalker-ogsr-migration`, `autonomous-goal-governor`, `argon-dynamic-subagent-swarm`. Gemini 4 Argon (`High`) orchestrates architecture while dispatching parallel Gemini 3.8 Flash worker subagents for 85%+ quota savings.
+* **Lid-Closed Clamshell 3D Rendering & Baking:** `laptop-performance-profile` (`laptop-perf clamshell-3d`), `rtx-optix-gpu-baker-denoiser`, `ramdisk-tmpfs-build-bake-accelerator`. Blocks systemd lid-suspend while capping CPU boost so headless Blender 5.2+ OptiX GPU renders run safely while you sleep.
+* **Zero-Quota Local CPU/GPU Math & Asset Offloading:** `game-3d-linear-algebra-quaternions`, `computational-geometry-mesh-bvh-math`, `physics-ballistics-ode-numerical-math`, `pbr-radiometry-color-dsp-math` (`game-math-solver` on 32-thread AVX-512 CPU + RTX 5060 CUDA 13.4).
+* **Game QA & System Watchdogs:** `game-qa-playtest-controller`, `game-test-watchdog`, `stalker-playtest-runner`. Direct access to `/dev/uinput` input injection, headless Wine/Proton processes, and X-Ray crash log window dismissals.
 
 ### 2. Skills That Excel in Cursor IDE (Interactive & Visual)
-*Best used via Cursor Agent or Composer using `grok-4.7`, `claude-3-7-sonnet`, or `o3-mini`*
+*Best used via Cursor Agent or Composer*
 
-* **Web, UI & Data Visualization:** `creative-web-design-archetypes`, `human-crafted-web-design`, `interactive-data-visualization-web`, `generative_ui`. Cursor provides integrated browser previews, live DOM inspection, and real-time CSS rendering.
-* **Side-by-Side Code Review & Triage:** `coderabbit-ai-review`, `canvas-interactive-workspace`. Cursor’s split-pane diff viewer allows cherry-picking surgical chunk replacements visually before committing.
-* **Instant Multi-Model Switching:** Toggle on-the-fly between Grok 4.7 (rapid multi-file logic), o3-mini (complex math/RNM derivations), and Claude 3.7 (refactors) within the same active file.
-
-### 3. Skills That Perform Universally (100% Identical)
-* **Core Engineering & Planning:** `writing-plans`, `executing-plans`, `first-principles-reasoning`, `test-driven-development`.
-* **Language & Engine Systems:** `modern-cpp-engineering`, `rust-engineering`, `python-engineering`, `godot-game-dev`, `xray-lua-scripting`.
-* **Reverse Engineering & Metrology:** `binary-re-workflows`, `console-game-decompilation`, `industrial-machine-vision-inspection`.
+* **Web, UI & Data Visualization:** `creative-web-design-archetypes`, `human-crafted-web-design`, `interactive-data-visualization-web`, `generative_ui`.
+* **Side-by-Side Code Review & Triage:** `coderabbit-ai-review`, `canvas-interactive-workspace`.
 
 ### Recommended Division of Labor
 
-| Workflow | Recommended Tool | Model |
+| Workflow | Recommended Tool | Model & Hardware Routing |
 | :--- | :--- | :--- |
-| **Overnight mod porting & autonomous QA** | **CLI (`claude-turbo`)** | Claude 3.5 / 3.7 Sonnet |
-| **Batch texture processing & asset conversions** | **CLI (`~/.local/bin/`)** | Local CLI tools |
-| **Interactive UI styling, websites & visual apps** | **Cursor IDE** | Grok 4.7 / Claude 3.7 |
-| **Surgical code editing & pair-programming** | **Cursor IDE** | Grok 4.7 Fast / o3-mini |
+| **Overnight engine porting, 3D baking & autonomous QA** | **`agy-yolo`** | **Gemini 4 Argon (High) + Flash Swarm** |
+| **Routine edits, repository sync & quick commands** | **`agy-turbo`** | **Gemini 3.8 Flash (Low Effort)** |
+| **3D coordinates, ODE physics, ballistics & symbolic proofs** | **`game-math-solver`** | **Local 32-Thread CPU + RTX 5060 CUDA (`0` tokens)** |
+| **Interactive UI styling, websites & visual apps** | **Cursor IDE** | **Grok 4.7 / Gemini / o3-mini** |
 
 ---
 
@@ -1861,102 +1858,38 @@ Installed to `~/.local/bin/android-dev-runner`:
 
 ---
 
-## 🚀 Dual-CLI Turbo Launchers & Thinking Quota Savers
+## 🚀 Antigravity Launchers, Voice Dictation Pill & Hardware Offload Savers
 
-Thinking/reasoning tokens are billed as **output tokens** (typically 4x to 5x the cost of input tokens) and are the fastest way to exhaust 5-hour rolling quotas. This repository provides dedicated low-effort Turbo launchers for both CLIs:
+### 1. Antigravity YOLO (`agy-yolo` / `yolo`) & Turbo (`agy-turbo`)
+* **`agy-yolo` (`yolo`):** Launches Antigravity in hands-free autonomous mode (`--dangerously-skip-permissions --mode auto`) with the dynamic repo-aware cheat sheet banner (`Argon•High+Flash` swarm routing).
+* **`agy-turbo`:** Launches Antigravity with `--model gemini-3.8-flash-low --effort low --dangerously-skip-permissions --mode auto` for instantaneous, low-quota execution on routine tasks.
 
-### 1. Claude Code Turbo (`claude-turbo`)
-Installed to `~/.local/bin/claude-turbo`. Launches Claude Code with low thinking effort and capped reasoning tokens:
-```bash
-claude-turbo
-```
-* **Configuration:** Sets `MAX_THINKING_TOKENS=1024` and `--effort low`.
-* **Savings:** Slashes thinking token generation by **75%–85%**, reserving deep extended thinking only when explicitly escalated for Tier 3 architectural tasks.
+### 2. Floating Voice Dictation Pill (`agy-mic-button`)
+Automatically launched alongside `agy` (and automatically closed when all `agy` terminals exit):
+* **Controls:** `[⋮⋮ AGY | 🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin | ×]`
+* **Smooth XWayland Drag & Pin (`📌`/`📍`):** Left-drag `⋮⋮ AGY` (or right-drag anywhere) to position; left-click `📌` to lock/pin position on top of the terminal (`🔒 AGY`); right-click `📌` to snap directly to the active terminal's top-right corner and pin.
+* **Natural-Language Spoken Command Routing:** Speak *"Set a goal to..."* ($\rightarrow$ `/goal` via `autonomous-goal-governor`), *"Make a plan to..."* ($\rightarrow$ `/plan`), *"Use boost to..."* ($\rightarrow$ `/boost`), or *"Clamshell 3D mode"* ($\rightarrow$ `laptop-perf clamshell-3d`).
 
-### 2. Antigravity Turbo (`agy-turbo`)
-Installed to `~/.local/bin/agy-turbo`. Activates hands-free auto-execution with minimal chain-of-thought latency:
-```bash
-agy-turbo
-```
-* **Configuration Flags:**
-  * `--model gemini-3.8-flash-low`: Dispatches the ultra-fast low-latency Flash variant.
-  * `--effort low`: Minimizes chain-of-thought reasoning pauses for instantaneous token streaming.
-  * `--dangerously-skip-permissions`: Auto-approves tool actions and shell commands without modal stops.
-  * `--mode auto`: Automatically applies and accepts validated code edits.
-
-> [!TIP]
-> **Desktop Shortcuts:** On Linux systems, `.desktop` shortcuts (`agy-turbo.desktop` and `claude-turbo.desktop`) can be created in `~/Desktop/` to launch high-speed sessions with a single click.
+### 3. Local 32-Thread CPU + RTX 5060 CUDA 13.4 Math Solver (`game-math-solver`)
+Eliminates cloud reasoning token burn on 3D coordinate/quaternion basis transforms (`UE5 <-> X-Ray/OGSR <-> Blender`), ODE `ERP`/`CFM` physics step rescaling, external ballistics trajectories, X-Ray `level.ai` 5-byte `NodePosition` quantization, and SymPy symbolic proofs (`1,000,000` 3D vertices transformed in `16.8 ms` on RTX 5060 CUDA 13.4 with `0` cloud tokens).
 
 ---
 
-## 💡 Plain-English Guide: Getting the Most Out of Your Setup
+## 💡 Plain-English Guide & Everyday Command Quick Reference
 
-Even if you aren't an AI researcher or senior software engineer, this setup is designed to make your daily coding fast, cheap, and frustration-free. Here is what you need to know in everyday terms:
-
----
-
-### 1. The 3 Golden Rules for Everyday Work
-
-1. **Use Turbo for Routine Work:**
-   * When doing everyday coding, fixing bugs, asking questions, or running tests, launch with **`claude-turbo`** or **`agy-turbo`**.
-   * *Why:* Standard AI models waste thousands of "thinking tokens" over-analyzing simple tasks. Turbo mode caps thinking, saving you **75%–85% of your quota** and responding in seconds.
-2. **Watch Your Context Fuel Gauge:**
-   * Look at the statusline at the bottom of your terminal: `🧠 Ctx: [█░░░░░] 22%`.
-   * Think of this like a car's fuel tank. When it reaches **60%**, the AI will warn you. Simply type **`/compact`** and press Enter.
-   * *Why:* The [`project-memory-bank`](#76-project-memory-bank) automatically saves your progress, completed checklist, and next steps into `.agents/memory/activeContext.md` before compacting, so `/compact` wipes away chat clutter with **zero loss of progress**.
-3. **Let the AI Plan Big Changes First:**
-   * When building a new app or rewriting multiple files, let the AI create a plan first (using `writing-plans` or `/plan`).
-   * *Why:* It's 10x cheaper to fix a mistake on a 1-page checklist than to let the AI write 500 lines of broken code and spend an hour trying to patch it.
-
----
-
-### 2. Generating Images: How It Works
-
-With the new [`frontier-image-studio`](#47-frontier-image-studio) skill, you can ask for images in the exact styles of ChatGPT and Gemini:
-
-* **Want a ChatGPT (DALL-E 3) Style Image?**
-  * Say: *"Generate an image of a cybernetic cat in DALL-E 3 style."*
-  * *What it does:* The AI automatically crafts a prompt with 3D Pixar/Disney claymation textures, whimsical lighting, and isometric angles.
-* **Want a Gemini (Imagen 3) Style Image?**
-  * Say: *"Generate a photorealistic portrait of an astronaut with a 85mm lens in Imagen 3 style."*
-  * *What it does:* The AI applies professional photography parameters: camera bodies (Hasselblad), aperture, natural lighting, and sharp embedded text banners.
-* **No API Key? Generate Free Local Graphics:**
-  * Say: *"Create a local SVG vector logo for my app"* or *"Generate a procedural noise texture."*
-  * *What it does:* The AI runs local Python scripts using Pillow to generate crisp `.svg` and `.png` files directly on your computer—**100% free, 100% offline, zero API keys required**.
-  * The image immediately opens in your web browser for you to see.
-
----
-
-### 3. Understanding the "Snowball Effect" of AI Chat
-
-Why do your daily AI limits sometimes run out so fast?
-
-```
-Turn 1: AI reads your message (1,000 tokens)
-Turn 2: AI re-reads Turn 1 + Turn 2 (2,500 tokens)
-Turn 5: AI re-reads Turns 1, 2, 3, 4 + Turn 5 (15,000 tokens)
-Turn 15: AI re-reads the entire massive chat history (80,000+ tokens!)
-```
-
-This is called **Compounding Context**. Every time you say "okay, now change this line", the AI has to re-read the entire conversation from the very beginning.
-
-* **How this setup protects you:**
-  * **Muffles noisy commands (`log-output-sanitizer`):** When you run a build, it hides 500 lines of junk so it doesn't get glued into your chat history.
-  * **Uses an X-Ray Skeleton (`smart-context-packer`):** Reads only function names and signatures instead of loading 50 heavy source files.
-  * **Surgical Edits (`token-economy`):** Changes only the 3 lines that need fixing instead of re-typing entire 400-line files into the chat.
-
----
-
-### 4. Everyday Command Quick Reference
+### Everyday Command Quick Reference
 
 | Command | What It Does | When to Use It |
 | :--- | :--- | :--- |
-| **`claude-turbo`** | Launches Claude Code with low-effort thinking | Your default daily driver for fast, quota-saving Claude coding. |
-| **`agy-turbo`** | Launches Antigravity with Gemini Flash + low effort | Your default daily driver for fast, quota-saving Gemini coding. |
-| **`agy-yolo`** / **`yolo`** | Launches Antigravity in hands-free YOLO mode (`--dangerously-skip-permissions --mode auto`) | Runs without prompting to accept tool calls or command executions. |
-| **`claude`** | Launches standard Claude Code | When you need full deep reasoning for hard bugs or major refactors. |
-| **`agy`** | Launches standard Antigravity CLI | When you need standard multi-model escalation (Flash to Argon). |
-| **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context gauge crosses 50%–60%. |
+| **`agy-yolo`** / **`yolo`** | Launches Antigravity in hands-free YOLO mode (`--dangerously-skip-permissions --mode auto`) | Autonomous multi-step engineering, 3D asset porting, and overnight `/goal` runs. |
+| **`agy-turbo`** | Launches Antigravity with Gemini Flash + low effort | Your fast, quota-saving daily driver for quick edits, syncs, and lookups. |
+| **`agy`** | Launches standard Antigravity CLI | Standard interactive sessions with Flash-to-Argon escalation. |
+| **`agy-mic-button`** | Launches/manages the floating `[🎙️ Talk \| ⏎ Send \| ⚡Auto \| 📌Pin]` voice pill (`--pin`, `--unpin`, `--stop`) | Click-to-talk voice dictation in `agy` without touching keyboard shortcuts. |
+| **`game-math-solver`** | Local 32-thread CPU + RTX 5060 CUDA 13.4 math solver (`coord`, `ode`, `ballistics`, `ai-node`, `prove`, `hw-bench`) | Instant, zero-quota 3D coordinate conversions, ODE physics rescaling, and SymPy proofs. |
+| **`laptop-perf`** | Thermal & acoustic governor (`clamshell-3d`, `sleep-mode`, `wake-mode`, `boost-exec`, `status`) | Run `laptop-perf clamshell-3d` to close the laptop lid while 3D rendering/baking continues safely. |
+| **`skill-optimize`** | Harmonizes all 300 skills, cross-links synergies, and updates `skill_ecosystem_graph.json` | Automatically run by `skill-evolve` (or manually) to keep all skills working together. |
+| **`agy-cheatsheet`** (`cs`) | Scans all GitHub repos and prints live model + effort + hardware recommendations | Anytime you switch repos or want optimal quota/hardware routing advice. |
+| **`/compact`** | Compresses long chat history into fresh memory | Whenever the statusline context countdown (`🧹`) reaches the 250k Argon compaction gate. |
 | **`game-texture-editor`** | Procedural normal gen, RNM blend, seamless tiles & DDS | Texture repairs, sharpening, alpha bleeding, and bump map generation. |
 | **`game-dialogue-tool`** | S.T.A.L.K.E.R. & RPG conversation UI repair, string cross-ref & encoding | When fixing dialogue clipping, missing string IDs, or mojibake in game text. |
 | **`game-test-watchdog`** | Autonomous QA supervisor detecting freezes and crashes | Wrap any long-running test to prevent hung processes. |
@@ -1972,10 +1905,9 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`slice-reader`** | Extracts AST skeletons or $\pm 15$ line slices around symbols | When reading code to view only the target function or class definition. |
 | **`android-dev-runner`** | Android 2D/3D development doctor, scrcpy mirror & jank analyzer | Diagnosing Android toolchains, launching 120fps live mirroring, or auditing frame drops. |
 | **`cursor-rules-sync`** | Converts all skills to Cursor `.mdc` rules and syncs `.cursorrules` | After modifying skills or when syncing Cursor configuration. |
-| **`skills-audit-update --audit`** | Audits health across Gemini, Claude, and Cursor | Periodically or when diagnosing missing tools/scripts. |
-| **`skills-audit-update --sync`** | Synchronizes all skills across Antigravity, Claude, and Cursor | After adding or updating any skill in the repository. |
-| **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 300 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`skills-audit-update --audit`** | Audits health across Antigravity and Cursor | Periodically or when diagnosing missing tools/scripts. |
+| **`skills-audit-update --sync`** | Synchronizes all 300 skills across Antigravity and Cursor | After adding or updating any skill in the repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 300 skills across Antigravity and Cursor | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
@@ -2027,14 +1959,17 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)
 | CLI Tool | Purpose |
 | :--- | :--- |
+| **`agy-mic-button`** | Floating XWayland voice dictation pill (`[🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin]`) with drag memory, terminal snap-pin, and auto-close on `agy` exit. |
+| **`game-math-solver`** | Zero-quota 32-thread AVX-512 CPU + RTX 5060 CUDA 13.4 GPU math solver (`coord`, `ode`, `ballistics`, `ai-node`, `prove`, `hw-bench`). |
+| **`laptop-perf`** | Hardware acoustic & thermal governor (`clamshell-3d` lid-closed 3D render lock, `sleep-mode`, `wake-mode`, `boost-exec`). |
 | **`agy-cheatsheet` (`cs`)** | Dynamic repo-aware model, reasoning effort, and hardware offload cheat sheet + live statusline recommender (`~/Documents/GitHub`). |
-| **`skill-evolve` & `skill-optimize`** | Closed-loop runtime skill scaffolder, Voyager script promoter, `<50ms` 3-CLI hot-patcher, and automatic ecosystem mesh optimizer (`skill_ecosystem_graph.json`). |
-| **`repo-auto-sync`** | Autonomous git repo puller, `.gitignore` hardener, `README.md` updater, milestone committer, and 34-repo fleet manager. |
+| **`skill-evolve` & `skill-optimize`** | Closed-loop runtime skill scaffolder, Voyager script promoter, `<50ms` hot-patcher, and automatic ecosystem mesh optimizer (`skill_ecosystem_graph.json`). |
+| **`repo-auto-sync`** | Autonomous git repo puller, `.gitignore` hardener, `README.md` updater, milestone committer, and 32-repo fleet manager. |
 | **`steam-mod-scanner`** | Fingerprints installed Steam games (`/mnt/games/SteamLibrary`) by engine & archive format and maps to modding skills. |
 | **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |
 | **`local-coprocessor` / `local-rag` / `local-ast-compiler`** | Zero-quota local CPU/GPU/RAM offload engines for AST syntax checks, BM25/vector RAG, and local LLM summarization. |
 
-### Recently Evolved & SOTA Skills (81 Indexed Automatically)
+### Recently Evolved & SOTA Skills (74 Indexed Automatically)
 | Skill Name | Description |
 | :--- | :--- |
 | **`amd-igpu-nvidia-dgpu-hybrid-offload`** | Dual-GPU workload splitter for AMD Radeon 610M iGPU (/dev/dri/renderD129, RADV Vulkan + VA-API VCN + 30GB shared DDR5 RAM) and NVIDIA GeForce RTX 5060 dGPU (/dev/dri/renderD128, 8GB GDDR7 CUDA/OptiX). Prevents background agent tasks from stealing game VRAM. |
@@ -2046,7 +1981,6 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 | **`argon-atomic-diff-sequencer`** | Enforces Claude-grade atomic chunk editing on Gemini 4 Argon. Restricts all code changes to surgical <= 30-line replacements, eliminating full-file rewrites and accidental regressions. |
 | **`argon-context-cache-guard`** | Anchors and stabilizes Gemini 4 Argon context to ensure sessions cross and maintain the 32,768-token cache threshold for maximum 95% KV prompt caching discounts. |
 | **`argon-deep-memory-allocator-sanitizer`** | Mathematical 64-bit pointer, struct padding, and memory alignment sanitizer for Gemini 4 Argon. Eliminates pointer truncation and alignment faults in legacy C++ game engine ports. |
-| **`argon-dynamic-subagent-swarm`** | Spawns and coordinates parallel Gemini Flash worker subagents to execute high-volume asset conversion, audio processing, and test sweeps simultaneously, slashing porting turnaround time by 80%. |
 | **`argon-hierarchical-worktree-isolator`** | Sandboxes concurrent subagent file modifications into isolated git worktrees, preventing file lock collisions and allowing atomic integration by Argon. |
 | **`argon-long-context-retrieval-anchor`** | Enforces boundary-edge semantic anchoring across Gemini 4 Argon's 1M-token context window to prevent attention dilution and lost-in-the-middle degradation during massive engineering tasks. |
 | **`argon-long-haul-context-compaction-gate`** | Monitors context consumption during long-running Argon YOLO porting runs, triggering atomic milestone compaction at 250k tokens to maintain sub-second latency and 95% cache discounts. |
@@ -2074,7 +2008,6 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 | **`chatgpt-o1-hypothesis-tree`** | Emulates ChatGPT o1/o3-mini Tree-of-Thought deliberation on Gemini 4 Argon. Branches into 3 competing hypotheses, explores execution paths, and backtracks upon contradiction. |
 | **`codestral-fill-in-the-middle`** | Emulates Mistral Codestral Fill-in-the-Middle (FIM) surgical infilling. Anchors prefix and suffix code boundaries to generate exact bridge logic with zero indentation drift or hallucination. |
 | **`cohere-provenance-grounding-ledger`** | Emulates Cohere Command R+ grounded provenance citations. Traces every game config parameter and C++ modification to its exact vanilla baseline coordinate to eliminate hallucinated parameters. |
-| **`computational-geometry-mesh-bvh-math`** | Computational geometry, Garland-Heckbert QEM mesh decimation, X-Ray AI level_graph 24-bit/16-bit spatial quantization, SAH BVH trees, Möller-Trumbore raycasting, and discrete differential geometry (cotangent Laplacian, SDFs, SLIM UVs). |
 | **`concept-art-sketch-to-3d-sculptor`** | Converts 2D drawn images, character concept art, and reference sketches into high-detail 3D models in Blender 5.2+ using OpenCV/Pillow contour slice profiling, silhouette-locked 3D lofting, iterative Silhouette IoU verification, and camera-projected displacement/texture baking. |
 | **`cross-agent-context-deduplicator`** | Eliminates redundant transcript ingestion and context pollution between Argon orchestrators and Flash subagents by clamping sync payloads to strict 15-line symbol diff abstracts. |
 | **`cross-agent-git-rebase-guard`** | Automated git worktree synchronization, non-interactive rebasing, and conflict-free merging between concurrent AI agent feature branches. |
@@ -2088,7 +2021,6 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 | **`dual-engine-quota-balancer`** | Dynamic telemetry coordination across Gemini 4 Argon, Gemini 3.8 Flash subagents, and local CPU/GPU offloads, balancing task allocation to guarantee uninterrupted execution without hitting rolling quota limits. |
 | **`dxvk-vkd3d-proton-pipeline-profiler`** | Diagnoses and eliminates DXVK and VKD3D-Proton shader compilation stutter, descriptor heap stalls, and VRAM staging bottlenecks for DX11/DX12 games running on Linux. |
 | **`dynamic-repo-model-cheatsheet`** | Dynamic terminal cheat sheet (agy-cheatsheet / cs) and live statusline recommender that scans ~/Documents/GitHub repositories, uncommitted diffs, recent commits, and error states to recommend the optimal Model + Reasoning Effort + Local Hardware Offload. |
-| **`game-3d-linear-algebra-quaternions`** | 3D/4D linear algebra, change-of-basis similarity transforms (UE5 <-> X-Ray/OGSR <-> Blender), quaternion SLERP/dual-quaternions, Euler HPB/PYR conversions, and MikkTSpace tangent handedness math. |
 | **`game-asset-streaming-lod-governor`** | Real-time asynchronous asset streaming, distance-based LOD hierarchies (LOD0-LOD3), virtual texturing, and LRU memory cache eviction. |
 | **`game-audio-ogg-gsc-encoder`** | Converts and encodes game audio to Ogg Vorbis while injecting and preserving proprietary GSC binary engine comment chunks (min/max distance, volume, AI perception) required by S.T.A.L.K.E.R. engines. |
 | **`grok-realtime-telemetry-scout`** | Emulates xAI Grok real-time live search on Gemini 4 Argon. Scouts bleeding-edge git commits, pull requests, issue trackers, and package feeds for undocumented Linux and game fixes. |
@@ -2098,13 +2030,9 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 | **`meta-llama-kv-prefix-stabilizer`** | Emulates Meta Llama 3.3 KV-cache alignment. Enforces strict token-boundary block padding to prevent prompt cache fragmentation and lock in 95% cache discounts. |
 | **`mobile-gpu-texture-compression`** | Multi-platform GPU texture compression pipeline covering mobile ASTC/ETC2 and PC BC1-BC7, runtime format negotiation, and mipmap generation. |
 | **`mobile-thermal-frame-pacing`** | Mobile thermal management, Android Swappy frame pacing, dynamic resolution scaling (DRS), and battery efficiency algorithms for Android and PC games. |
-| **`pbr-radiometry-color-dsp-math`** | Physically Based Rendering (Cook-Torrance GGX BRDF), legacy X-Ray gloss-to-PBR roughness bijective mapping, IEC 61966-2-1 sRGB/Linear colorimetry, ACES Filmic tonemapping, Spherical Harmonics irradiance, and audio/texture DSP math. |
 | **`pc-cross-platform-graphics-api`** | Modern C++ graphics Hardware Abstraction Layer (HAL) supporting DirectX 12, Vulkan, and DirectX 11, Valve Proton compatibility, and RenderDoc telemetry. |
-| **`physics-ballistics-ode-numerical-math`** | Game physics mathematics, Open Dynamics Engine (ODE) ERP/CFM LCP constraint solver equations (X-Ray/OGSR xrPhysics), frame-rate independent exponential damping, external ballistics ODEs, and RK4/Symplectic Euler integration. |
 | **`qwen-polyglot-ast-cartographer`** | Emulates Qwen 2.5 Coder polyglot AST cartography. Generates instant symbol call-graphs, inheritance trees, and signatures across C++, Python, Lua, and Rust in under 500 tokens. |
-| **`ramdisk-tmpfs-build-bake-accelerator`** | Exploits 30 GB system RAM via Linux /dev/shm tmpfs RAM-disk (~40 GB/s bandwidth, zero SSD I/O wear) for ultra-fast Blender texture baking, S.T.A.L.K.E.R./UE5 archive extraction, CMake object compilation, and test staging. |
 | **`rea-mcp-obligation-ledger-orchestrator`** | Orchestrates the Reverse Engineer Anything (REA) MCP server obligation ledger, binary function diffing, and static-to-runtime correlation to formally verify decompiled or ported C++ game engine binaries. |
-| **`rtx-optix-gpu-baker-denoiser`** | Accelerates headless Blender 5.2+ Cycles texture baking (Normals, AO, Lightmaps, Curvature) and 2x2 contact sheet renders by 10x-20x using NVIDIA RTX 5060 Hardware Ray-Tracing (OptiX) and AI Denoising at 16-32 samples. |
 | **`self-evolving-skill-synthesizer`** | Closed-loop in-flight skill synthesis, Voyager-style script promotion, and Reflexion self-healing. Automatically creates missing skills, promotes verified one-off scripts into reusable skill tools, and patches stale skill instructions mid-task across Gemini, Claude, and Cursor. |
 | **`source-idtech-kex-engine-modding`** | Modding pipeline for Valve Source/Source 2, GoldSrc, id Tech (Quake II/III, DOOM 3), and Nightdive KEX Engine games in your Steam library (SiN Reloaded, Half-Life 1/2, Black Mesa, Garry's Mod, Left 4 Dead 1/2, Portal 1/2, CS2, TF2). |
 | **`speculative-multi-step-drafting`** | Bundles predictable consecutive edits and multi-file modifications into single-turn atomic dispatches, slashing multi-turn reasoning overhead and saving up to 75% input tokens. |
