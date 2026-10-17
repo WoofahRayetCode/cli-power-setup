@@ -1,12 +1,12 @@
 {
   "lifetime_summary": {
-    "total_cached_tokens_saved": 1426252088,
+    "total_cached_tokens_saved": 1431762777,
     "total_sessions_tracked": 28,
-    "cache_hit_rate_pct": 93.89,
-    "total_uncached_input_tokens": 92769492,
+    "cache_hit_rate_pct": 93.91,
+    "total_uncached_input_tokens": 92894807,
     "total_output_tokens": 7064938,
-    "total_turns_executed": 11042,
-    "last_updated": "2026-10-17T11:34:56.943899"
+    "total_turns_executed": 11074,
+    "last_updated": "2026-10-17T11:37:14.886464"
   },
   "sessions": [
     {
@@ -25,12 +25,12 @@
     }
   ],
   "local_llm_savings": {
-    "total_calls": 7,
-    "total_local_tokens": 9113,
-    "total_cloud_tokens_saved": 20413,
-    "last_model": "mathstral:7b",
-    "last_saved_tokens": 1539,
-    "last_updated": "2026-10-17T11:34:46",
+    "total_calls": 8,
+    "total_local_tokens": 9180,
+    "total_cloud_tokens_saved": 21680,
+    "last_model": "gemma2:9b",
+    "last_saved_tokens": 1267,
+    "last_updated": "2026-10-17T11:38:04",
     "by_model": {
       "blender-architect": {
         "calls": 1,
@@ -66,6 +66,11 @@
         "calls": 1,
         "local_tokens": 339,
         "cloud_tokens_saved": 1539
+      },
+      "gemma2:9b": {
+        "calls": 1,
+        "local_tokens": 67,
+        "cloud_tokens_saved": 1267
       }
     }
   }
