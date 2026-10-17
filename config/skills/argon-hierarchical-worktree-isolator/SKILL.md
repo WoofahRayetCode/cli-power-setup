@@ -1,0 +1,73 @@
+---
+name: argon-hierarchical-worktree-isolator
+description: Sandboxes concurrent subagent file modifications into isolated git worktrees, preventing file lock collisions and allowing atomic integration by Argon.
+---
+
+# Argon Hierarchical Worktree Isolator (`argon-hierarchical-worktree-isolator`)
+
+When Gemini 4 Argon dispatches parallel subagents to apply edits or compile assets simultaneously, executing in the shared root repository causes:
+- File-write race conditions (subagents clobbering each other's edits).
+- Build directory locks (`CMakeCache.txt`, `build.ninja` lock contention).
+- Dirty git working trees that prevent clean rollbacks.
+
+This skill governs the automatic provisioning of ephemeral git worktrees for subagents.
+
+---
+
+## 1. Subagent Workspace Architecture
+
+```
++-------------------------------------------------------------+
+| Primary Workspace: Argon Orchestrator                       |
++-------------------------------------------------------------+
+                 /                           \
+(Workspace="branch")                       (Workspace="branch")
+               v                               v
++-----------------------------+ +-----------------------------+
+| Subagent Workspace A        | | Subagent Workspace B        |
+| - Branch: subagent/task-1   | | - Branch: subagent/task-2   |
+| - Isolated build/ directory | | - Isolated build/ directory |
+| - Independent file edits    | | - Independent file edits    |
++-----------------------------+ +-----------------------------+
+                 \                           /
+                  \                         /
+                   v                       v
++-------------------------------------------------------------+
+| Atomic Merge into Orchestrator Branch upon Verification     |
++-------------------------------------------------------------+
+```
+
+---
+
+## 2. Invocation Directives
+
+When launching code-modifying subagents via `invoke_subagent`:
+
+```json
+{
+  "Subagents": [
+    {
+      "TypeName": "self",
+      "Role": "Shader Modernizer",
+      "Model": "flash",
+      "Workspace": "branch",
+      "Prompt": "Port legacy DX9 shaders to DX11 in your isolated branch and verify with spirv-val."
+    }
+  ]
+}
+```
+
+- **`Workspace="branch"`:** Creates an isolated git worktree cloned from the parent's current commit.
+- **`Workspace="share"`:** Shares repository object storage without duplicating disk space (similar to `git-worktree`), allowing fast branch creation in < 100ms.
+
+---
+
+## 3. Integration & Teardown
+
+1. When the subagent succeeds, it returns the commit hash or diff coordinates in its compressed return envelope.
+2. Argon reviews the diff via `argon-adversarial-verification-gate`.
+3. Argon performs a fast-forward merge into the primary working tree:
+   ```bash
+   git merge subagent/task-1 --ff-only
+   ```
+4. The subagent workspace is deleted automatically upon task completion.

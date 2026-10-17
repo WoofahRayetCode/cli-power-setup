@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (259 Specialized Capabilities)
+## Complete Skills Catalog (262 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -181,6 +181,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`argon-deep-memory-allocator-sanitizer`** | Mathematical 64-bit pointer, struct padding, and memory alignment sanitizer for Gemini 4 Argon. Eliminates pointer truncation and alignment faults in legacy C++ game engine ports. |
 | **`argon-dynamic-subagent-swarm`** | Spawns and coordinates parallel Gemini Flash worker subagents to execute high-volume asset conversion, audio processing, and test sweeps simultaneously, slashing porting turnaround time by 80%. |
 | **`argon-effort-auto-calibrator`** | Dynamically calibrates Gemini 4 Argon reasoning effort (--effort low/medium/high) turn-by-turn based on cognitive task complexity, slashing thinking token burn by up to 85% on routine tool execution. |
+| **`argon-hierarchical-worktree-isolator`** | Sandboxes concurrent subagent file modifications into isolated git worktrees, preventing file lock collisions and allowing atomic integration by Argon. |
 | **`argon-long-context-retrieval-anchor`** | Enforces boundary-edge semantic anchoring across Gemini 4 Argon's 1M-token context window to prevent attention dilution and lost-in-the-middle degradation during massive engineering tasks. |
 | **`argon-long-haul-context-compaction-gate`** | Monitors context consumption during long-running Argon YOLO porting runs, triggering atomic milestone compaction at 250k tokens to maintain sub-second latency and 95% cache discounts. |
 | **`argon-multimodal-vision-grounding`** | Directs Gemini 4 Argon's native multimodal vision capabilities toward game screen telemetry, UI layout audits, rendering artifact triage, and graphical glitch diagnosis. |
@@ -188,6 +189,8 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`argon-sentencepiece-serializer`** | Formats tabular data, state serializations, and symbol skeletons to optimize token density under Google's SentencePiece tokenizer used by Gemini 4 Argon. |
 | **`argon-structured-json-schema-enforcer`** | Leverages Gemini 4 Argon's native constrained decoding to emit deterministic, schema-compliant JSON payloads for automated CLI pipelines and test harnesses. |
 | **`argon-subagent-dispatch-routing`** | Implements the 'Argon Brain, Flash Hands' subagent swarm dispatch pattern to offload high-volume read, search, and execution tasks to Gemini Flash while conserving Argon quota. |
+| **`argon-subagent-lifecycle-governor`** | Prevents zombie hangs, infinite loops, and interactive prompt blocking in Gemini subagents with deterministic timeouts and automated process cleanup. |
+| **`argon-subagent-payload-compressor`** | Enforces high-density structured return envelopes on Gemini subagent messages, eliminating conversational fluff and reducing parent context inflation by up to 80%. |
 | **`argon-thinking-governor`** | Gemini 4 Argon internal chain-of-thought (CoT) and reasoning token governor. Clamps speculative reasoning bloat during routine tool execution and enforces the hybrid 'Argon Brain, Flash Hands' dispatch pattern. |
 | **`argon-tool-calling-densifier`** | Enforces compact parallel tool invocation and parameter density on Gemini 4 Argon to minimize output token generation costs and round-trip latency. |
 | **`argon-yolo-quota-pacing-watchdog`** | Telemetry governor that paces Gemini 4 Argon autonomous YOLO execution, preventing 5-hour quota exhaustion by staging state and safely sleeping until window refresh. |
