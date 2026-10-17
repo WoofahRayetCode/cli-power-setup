@@ -54,3 +54,5 @@ Before starting multi-step tasks or when uncertain which specialized skill appli
 1. **Never guess:** Run `python3 scripts/skill_router.py "<user_prompt>"`.
 2. **Read only the top 2-3 skills:** Inspect only the specific `SKILL.md` files recommended by the router.
 3. **Saves Quota:** Avoids loading dozens of unrelated skills into the active conversation context, preserving up to **95% of discovery tokens**.
+4. **Closed-Loop Gap & Self-Healing (`self-evolving-skill-synthesizer`):** If no skill matches a complex recurring workflow, or if an existing skill instruction needs a workaround, immediately invoke `skill-evolve --scaffold`, `skill-evolve --promote`, or `skill-evolve --hot-patch` to evolve the skill library in-flight.
+

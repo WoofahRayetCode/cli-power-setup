@@ -78,3 +78,9 @@ OGF v4 files use sequential little-endian chunks (`struct.pack("<II", chunk_id, 
 1. **uint16 Vertex Buffer Ceiling:** Always verify `len(vertices) <= 65535` per material slot/child. If higher, either decimate or partition into multiple `OGF_CHILDREN` sub-chunks.
 2. **Bone Weight Normalization:** Every vertex must have valid bone index assignments (`0 <= bone_id < num_bones`) and non-NaN tangents (`mesh.calc_tangents()`).
 3. **Binary Magic Verification:** Run a quick Python unpack verify script on the written `.ogf` or `.dm` file to assert chunk lengths sum exactly to `os.path.getsize(path)`.
+
+---
+
+## Promoted Executable Tool (`write_ogf.py`)
+- **Location:** `~/.gemini/config/skills/xray-ogf-dm-blender-pipeline/scripts/write_ogf.py`
+- **Invocation:** `~/.gemini/config/skills/xray-ogf-dm-blender-pipeline/scripts/write_ogf.py`

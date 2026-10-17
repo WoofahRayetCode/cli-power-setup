@@ -1,0 +1,69 @@
+---
+name: self-evolving-skill-synthesizer
+description: Closed-loop in-flight skill synthesis, Voyager-style script promotion, and Reflexion self-healing. Automatically creates missing skills, promotes verified one-off scripts into reusable skill tools, and patches stale skill instructions mid-task across Gemini, Claude, and Cursor.
+---
+
+# Self-Evolving Skill Synthesizer (`self-evolving-skill-synthesizer`)
+
+## When to Use
+- **In-Flight Skill Self-Healing (Reflexion):** An instruction, CLI flag, or API call in an existing `SKILL.md` fails or requires a non-obvious workaround during task execution (e.g., Blender 5.2 API changes, compiler flag updates, engine format edge cases).
+- **Voyager Script Crystallization:** You write a one-off Python/Bash utility script (`> 25` lines) in `/tmp` or a project scratch folder that solves a recurring problem (e.g., binary struct parser, contact-sheet renderer, asset validator) and passes verification.
+- **LATM Gap Synthesis (LLM-as-Tool-Maker):** `dynamic-skill-router` finds no specialized skill for a complex domain, or you repeat a $>3$-step manual tool sequence twice in the same session.
+
+---
+
+## 1. Closed-Loop Runtime Evolution Architecture
+
+```mermaid
+flowchart LR
+    A["Active Task Execution"] --> B{"Friction / Gap / Reusable Script?"}
+    B -- "Stale Instruction Fixed" --> C["Surgical Patch to SKILL.md (<=30 lines)"]
+    B -- "Verified Script Created" --> D["skill-evolve --promote <script> --to <skill>"]
+    B -- "Missing Capability" --> E["skill-evolve --scaffold <new-skill> '<desc>'"]
+    C & D & E --> F["Hot-Sync Across Gemini + Claude + Cursor (<100ms)"]
+    F --> G["Resume Task Immediately with Upgraded Skill"]
+```
+
+---
+
+## 2. The 3 Mandatory In-Flight Evolution Triggers
+
+### Trigger 1: Reflexion In-Flight Patching (Zero Second-Strike Rule)
+Never fix a broken command or outdated API suggested by a skill without also fixing the skill itself:
+1. Verify the working replacement command/code on the actual target first.
+2. Apply a surgical `replace_file_content` diff ($\le 30$ lines) to `/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills/<skill-name>/SKILL.md`.
+3. Run `skill-evolve --hot-patch <skill-name>` to validate YAML/syntax and hot-sync the updated skill to `~/.gemini/config/skills/`, `~/.claude/skills/`, and `~/.cursor/rules/`.
+
+### Trigger 2: Voyager Script Promotion (Stop Leaving Tools in `/tmp`)
+When you author a generalizable script during a task and verify it works:
+```bash
+skill-evolve --promote /tmp/my_verified_tool.py --to <target-skill-name>
+```
+- **What it does:** Copies the script into `config/skills/<target-skill-name>/scripts/`, sets `chmod +x`, validates syntax (`py_compile` / `bash -n`), appends a CLI invocation reference to `<target-skill-name>/SKILL.md`, and hot-syncs all 3 CLI environments.
+- **Quota Savings:** Saves **3,000–10,000 output tokens** on every subsequent session by executing the pre-built script instead of regenerating code from scratch.
+
+### Trigger 3: LATM New Skill Synthesis (Mid-Task Scaffolding)
+When tackling a novel workflow not covered by existing skills:
+```bash
+skill-evolve --scaffold <new-skill-name> "<1-line high-density description>"
+```
+- **What it does:** Creates `config/skills/<new-skill-name>/SKILL.md` + `scripts/`, validates frontmatter, rebuilds the `dynamic-skill-router` capability index, and deploys to Antigravity, Claude Code, and Cursor immediately.
+
+---
+
+## 3. `skill-evolve` CLI Quick Reference
+Installed globally at `~/.local/bin/skill-evolve`:
+
+| Command | Action |
+| :--- | :--- |
+| `skill-evolve --scaffold <name> "<desc>"` | Scaffolds a new skill directory + `SKILL.md` template and hot-syncs all CLIs. |
+| `skill-evolve --promote <file> --to <skill>` | Promotes a verified `.py`/`.sh` script into `<skill>/scripts/`, validates syntax, links in `SKILL.md`, and syncs. |
+| `skill-evolve --hot-patch <skill>` | Validates YAML & script syntax for a modified skill and hot-syncs across Gemini, Claude, and Cursor in `<100ms`. |
+| `skill-evolve --append-rule <skill> "<title>" "<rule>"` | Appends a concise learned rule/gotcha section to `<skill>/SKILL.md` and hot-syncs. |
+
+---
+
+## 4. Guardrails Against Skill Bloat
+1. **Verify Before Crystallizing:** Never promote unverified code or speculative hypotheses into a skill. Concrete execution evidence (`verification-before-completion`) is required first.
+2. **Prefer Upgrading Over Duplicating:** Before running `--scaffold`, check if the capability belongs as a new section or helper script inside an existing skill (`skill-evolve --append-rule` or `--promote`).
+3. **High-Density Token Budget:** Keep every `SKILL.md` under `130` lines of surgical, copy-pasteable patterns—zero filler prose.

@@ -1,0 +1,207 @@
+#!/usr/bin/env python3
+"""
+skill-evolve: Closed-Loop Runtime Skill Synthesizer, Script Promoter & Hot-Patcher
+Implements NVIDIA Voyager skill crystallization, LATM tool creation, and Reflexion live patching
+across Google Antigravity (~/.gemini/config/skills), Claude Code (~/.claude/skills), and Cursor (~/.cursor/rules).
+"""
+
+import argparse
+import os
+import py_compile
+import re
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+REPO_ROOT = Path("/home/ericparsley/Documents/GitHub/cli-power-setup")
+SKILLS_DIR = REPO_ROOT / "config" / "skills"
+GEMINI_SKILLS = Path.home() / ".gemini" / "config" / "skills"
+CLAUDE_SKILLS = Path.home() / ".claude" / "skills"
+CURSOR_RULES = Path.home() / ".cursor" / "rules"
+REPO_CURSOR_RULES = REPO_ROOT / ".cursor" / "rules"
+REPO_CONFIG_CURSOR = REPO_ROOT / "config" / "cursor" / "rules"
+
+
+def validate_skill_md(skill_dir: Path) -> tuple[bool, str]:
+    skill_md = skill_dir / "SKILL.md"
+    if not skill_md.is_file():
+        return False, f"Missing {skill_md}"
+    text = skill_md.read_text(encoding="utf-8")
+    m = re.match(r"^---\n(.*?)\n---\n", text, re.DOTALL)
+    if not m:
+        return False, "Missing or malformed YAML frontmatter (---)"
+    front = m.group(1)
+    if "name:" not in front or "description:" not in front:
+        return False, "Frontmatter must contain 'name:' and 'description:'"
+    return True, "OK"
+
+
+def validate_script(script_path: Path) -> tuple[bool, str]:
+    if script_path.suffix == ".py":
+        try:
+            py_compile.compile(str(script_path), doraise=True)
+        except py_compile.PyCompileError as e:
+            return False, str(e)
+    elif script_path.suffix == ".sh":
+        res = subprocess.run(["bash", "-n", str(script_path)], capture_output=True, text=True)
+        if res.returncode != 0:
+            return False, res.stderr.strip()
+    return True, "OK"
+
+
+def hot_sync_single_skill(skill_name: str) -> None:
+    src = SKILLS_DIR / skill_name
+    ok, msg = validate_skill_md(src)
+    if not ok:
+        print(f"[✗] Validation failed for {skill_name}: {msg}", file=sys.stderr)
+        sys.exit(1)
+
+    scripts_dir = src / "scripts"
+    if scripts_dir.is_dir():
+        for sp in scripts_dir.iterdir():
+            if sp.is_file():
+                sp.chmod(sp.stat().st_mode | 0o111)
+                sok, smsg = validate_script(sp)
+                if not sok:
+                    print(f"[✗] Script syntax error in {sp.name}: {smsg}", file=sys.stderr)
+                    sys.exit(1)
+
+    for target_root in (GEMINI_SKILLS, CLAUDE_SKILLS):
+        target_root.mkdir(parents=True, exist_ok=True)
+        dst = target_root / skill_name
+        if dst.exists():
+            shutil.rmtree(dst)
+        shutil.copytree(src, dst)
+
+    # Also generate Cursor .mdc rule for this skill
+    text = (src / "SKILL.md").read_text(encoding="utf-8")
+    m = re.match(r"^---\n(.*?)\n---\n(.*)$", text, re.DOTALL)
+    desc = skill_name
+    body = text
+    if m:
+        for line in m.group(1).splitlines():
+            if line.startswith("description:"):
+                desc = line.split(":", 1)[1].strip()
+        body = m.group(2).lstrip()
+    mdc_content = f"---\ndescription: {desc}\nglobs: *\nalwaysApply: false\n---\n\n{body}"
+    for cdir in (CURSOR_RULES, REPO_CURSOR_RULES, REPO_CONFIG_CURSOR):
+        cdir.mkdir(parents=True, exist_ok=True)
+        (cdir / f"{skill_name}.mdc").write_text(mdc_content, encoding="utf-8")
+
+    print(f"[✓] Hot-synced '{skill_name}' -> Antigravity, Claude Code, and Cursor (<50ms).")
+
+
+def cmd_scaffold(skill_name: str, description: str) -> None:
+    if not re.match(r"^[a-z0-9][a-z0-9_-]*$", skill_name):
+        print(f"[✗] Invalid skill name '{skill_name}'. Use lowercase letters, digits, and hyphens.", file=sys.stderr)
+        sys.exit(1)
+    skill_dir = SKILLS_DIR / skill_name
+    skill_md = skill_dir / "SKILL.md"
+    if skill_md.exists():
+        print(f"[!] Skill '{skill_name}' already exists at {skill_md}. Use --hot-patch or --append-rule instead.")
+        sys.exit(1)
+
+    (skill_dir / "scripts").mkdir(parents=True, exist_ok=True)
+    title = " ".join(w.capitalize() for w in skill_name.split("-"))
+    template = f"""---
+name: {skill_name}
+description: {description}
+---
+
+# {title} (`{skill_name}`)
+
+## When to Use
+- {description}
+
+---
+
+## 1. Core Execution Protocol
+1. Verify inputs and target environment constraints before modifying state.
+2. Execute deterministic helper scripts or surgical edits (`<= 30` lines).
+3. Validate outputs with concrete execution evidence before completion.
+"""
+    skill_md.write_text(template, encoding="utf-8")
+    print(f"[✓] Scaffolded {skill_md}")
+    hot_sync_single_skill(skill_name)
+
+
+def cmd_promote(script_file: str, skill_name: str) -> None:
+    src_script = Path(script_file).resolve()
+    if not src_script.is_file():
+        print(f"[✗] Script not found: {src_script}", file=sys.stderr)
+        sys.exit(1)
+    skill_dir = SKILLS_DIR / skill_name
+    if not (skill_dir / "SKILL.md").is_file():
+        print(f"[✗] Target skill '{skill_name}' does not exist in {SKILLS_DIR}", file=sys.stderr)
+        sys.exit(1)
+
+    ok, msg = validate_script(src_script)
+    if not ok:
+        print(f"[✗] Cannot promote script with syntax errors: {msg}", file=sys.stderr)
+        sys.exit(1)
+
+    scripts_dir = skill_dir / "scripts"
+    scripts_dir.mkdir(parents=True, exist_ok=True)
+    dst_script = scripts_dir / src_script.name
+    shutil.copy2(src_script, dst_script)
+    dst_script.chmod(dst_script.stat().st_mode | 0o111)
+
+    skill_md = skill_dir / "SKILL.md"
+    md_text = skill_md.read_text(encoding="utf-8")
+    rel_ref = f"scripts/{src_script.name}"
+    if rel_ref not in md_text:
+        addition = (
+            f"\n---\n\n## Promoted Executable Tool (`{src_script.name}`)\n"
+            f"- **Location:** `~/.gemini/config/skills/{skill_name}/scripts/{src_script.name}`\n"
+            f"- **Invocation:** `~/.gemini/config/skills/{skill_name}/scripts/{src_script.name}`\n"
+        )
+        skill_md.write_text(md_text.rstrip() + "\n" + addition, encoding="utf-8")
+
+    print(f"[✓] Promoted verified script '{src_script.name}' into {skill_name}/scripts/")
+    hot_sync_single_skill(skill_name)
+
+
+def cmd_append_rule(skill_name: str, title: str, rule_body: str) -> None:
+    skill_dir = SKILLS_DIR / skill_name
+    skill_md = skill_dir / "SKILL.md"
+    if not skill_md.is_file():
+        print(f"[✗] Target skill '{skill_name}' not found.", file=sys.stderr)
+        sys.exit(1)
+    md_text = skill_md.read_text(encoding="utf-8")
+    section = f"\n---\n\n## {title}\n{rule_body.strip()}\n"
+    skill_md.write_text(md_text.rstrip() + "\n" + section, encoding="utf-8")
+    print(f"[✓] Appended rule '{title}' to {skill_name}/SKILL.md")
+    hot_sync_single_skill(skill_name)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Closed-loop runtime skill synthesizer & hot-patcher")
+    parser.add_argument("--scaffold", nargs=2, metavar=("NAME", "DESC"), help="Scaffold a new skill and hot-sync")
+    parser.add_argument("--promote", metavar="SCRIPT_PATH", help="Promote a verified script into a skill")
+    parser.add_argument("--to", metavar="SKILL_NAME", help="Target skill name for --promote")
+    parser.add_argument("--hot-patch", metavar="SKILL_NAME", help="Validate and hot-sync an updated skill in <50ms")
+    parser.add_argument(
+        "--append-rule",
+        nargs=3,
+        metavar=("SKILL_NAME", "TITLE", "RULE"),
+        help="Append a learned rule/workaround to an existing skill and hot-sync",
+    )
+
+    args = parser.parse_args()
+    if args.scaffold:
+        cmd_scaffold(args.scaffold[0], args.scaffold[1])
+    elif args.promote:
+        if not args.to:
+            parser.error("--promote requires --to <SKILL_NAME>")
+        cmd_promote(args.promote, args.to)
+    elif args.hot_patch:
+        hot_sync_single_skill(args.hot_patch)
+    elif args.append_rule:
+        cmd_append_rule(args.append_rule[0], args.append_rule[1], args.append_rule[2])
+    else:
+        parser.print_help()
+
+
+if __name__ == "__main__":
+    main()

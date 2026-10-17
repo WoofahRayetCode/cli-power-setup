@@ -77,3 +77,4 @@ Emits a structured JSON payload for autonomous subagent verification or statusli
 1. **Pre-Session Verification:** Run `skills-audit-update` when starting large multi-step projects to ensure all toolchain dependencies are available on the host.
 2. **Post-Git Pull:** Always run `skills-audit-update --sync` or `./install.sh --all` after merging changes or pulling from GitHub.
 3. **Adding New Skills:** After creating a new skill folder in `config/skills/<skill-name>`, run `skills-audit-update --fix --sync` to validate frontmatter and immediately deploy it to both active CLIs.
+4. **In-Flight Evolution & Script Promotion (`self-evolving-skill-synthesizer`):** Use `skill-evolve --hot-patch <skill>`, `skill-evolve --promote <script> --to <skill>`, or `skill-evolve --scaffold <name> "<desc>"` during active tasks to update stale instructions or crystallize verified `/tmp` scripts into permanent skill tools in `<50ms`.
