@@ -1,6 +1,6 @@
 ---
 description: Closed-loop in-flight skill synthesis, Voyager-style script promotion, and Reflexion self-healing. Automatically creates missing skills, promotes verified one-off scripts into reusable skill tools, and patches stale skill instructions mid-task across Gemini, Claude, and Cursor.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

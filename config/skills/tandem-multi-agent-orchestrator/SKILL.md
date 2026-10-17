@@ -36,10 +36,16 @@ This skill governs the dual-agent concurrent architecture where **Gemini 4 Argon
 - **Fable Domain:** `src/`, `include/`, `xrGame/`, `xrEngine/`, `CMakeLists.txt`, `scripts/`.
 - If an agent identifies a bug belonging to the other's domain, it writes the coordinate and recommended fix into `.agents/handoff.json` instead of editing cross-domain files.
 
-### 3. Automatic Milestone Broadcasting
+### 3. Automatic Milestone Broadcasting & GitHub Sync
 Upon completing any milestone or passing a test suite:
 ```bash
-tandem-agent-sync sync --agent argon   # Run by Argon
-tandem-agent-sync sync --agent fable   # Run by Fable
+tandem-agent-sync sync --agent argon && repo-auto-sync . --checkpoint -m "feat(argon): milestone" --push
+tandem-agent-sync sync --agent fable && repo-auto-sync . --checkpoint -m "feat(fable): milestone" --push
 ```
-This updates `.agents/handoff.json` across all worktrees, keeping both models aware of system state.
+This updates `.agents/handoff.json` across all worktrees and pushes each worktree's branch (`feat/argon-work` / `feat/fable-work`) to GitHub.
+
+### 4. Dual-GPU & 30 GB RAM-Disk Contention Prevention
+- **Argon (Assets, Blender 3D, Playtesting):** Uses **NVIDIA RTX 5060 (`GPU1`)** (`rtx-optix-gpu-baker-denoiser`) for Blender Cycles OptiX bakes and game execution, while offloading video capture (`ffmpeg -vaapi_device /dev/dri/renderD129`) to **AMD Radeon 610M (`GPU0`)** (`amd-igpu-nvidia-dgpu-hybrid-offload`).
+- **Fable (C++ Compilation, AST/RAG):** Stages CMake/Ninja build objects in `/dev/shm` (`ramdisk-tmpfs-build-bake-accelerator`) and runs `local-ast-compiler` / `local-rag` on CPU/RAM.
+- **Shared Skill Evolution:** Either agent discovering a reusable script or domain rule invokes `skill-evolve` (`self-evolving-skill-synthesizer`), which immediately hot-syncs the upgraded skill to both Argon and Fable in `<50ms` and auto-pushes to `cli-power-setup`.
+

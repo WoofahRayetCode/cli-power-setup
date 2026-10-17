@@ -70,3 +70,10 @@ target_link_libraries(native_game
     ${log-lib}
 )
 ```
+
+---
+
+## 4. Mobile 3D Asset & TBDR GPU Optimization Interoperability
+- **Blender 5.2+ Mobile 3D Optimizer (`android-mobile-3d-asset-optimizer`):** Prune micro-triangles (`<4px`) for Adreno/Mali Tile-Based Deferred Renderers, clamp skinning weights to `<=4` bones/vert (`<=64` bones/cluster), quantize vertex attributes to `fp16`/`int16` (`EXT_mesh_quantization`), and pack ORM textures into ASTC 4x4/6x6 `.ktx2` (`mobile-gpu-texture-compression`).
+- **Zero-CPU Crowd & Physics Animation (`blender-animation-nla-retargeting-vat`):** Replace expensive mobile skeletal bone hierarchies on crowds/destruction with `float16 EXR/KTX2` Vertex Animation Textures (VAT) sampled directly in the Vulkan vertex shader.
+

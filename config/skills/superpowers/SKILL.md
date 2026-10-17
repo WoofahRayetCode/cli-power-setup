@@ -30,5 +30,10 @@ This skill governs engineering discipline across all tasks. It ensures that the 
    - **Editing C++, Lua, or config files?** $\rightarrow$ Activate `argon-atomic-diff-sequencer` and `argon-ast-syntax-gate`.
    - **Encountering a bug or unexpected crash?** $\rightarrow$ Activate `systematic-debugging` and `xray-crash-log-diagnostician`.
    - **Building testable logic or utilities?** $\rightarrow$ Activate `test-driven-development`.
-   - **Modding S.T.A.L.K.E.R. or game assets?** $\rightarrow$ Activate `stalker2-to-ogsr-asset-transpiler` and `game-modding`.
+   - **Modding S.T.A.L.K.E.R. or game assets?** $\rightarrow$ Activate `steam-mod-scanner`, `game-modding`, `stalker2-to-ogsr-asset-transpiler`, `bethesda-creation-engine-nif-modding`, `source-idtech-kex-engine-modding`, or `ue5-redengine-rage-library-modding`.
+   - **3D modeling, 2D-drawing-to-3D, or Blender 5.2+ `bpy`?** $\rightarrow$ Activate `blender-3d-engineering`, `concept-art-sketch-to-3d-sculptor` (`silhouette-iou-profiler`), `autonomous-3d-reference-researcher`, `blender-sdf-organic-remeshing`, and `cross-engine-3d-import-export-bridge`.
+   - **Heavy builds, texture/audio batching, or Blender baking?** $\rightarrow$ Offload to 30 GB RAM (`/dev/shm` via `ramdisk-tmpfs-build-bake-accelerator`), RTX 5060 (`rtx-optix-gpu-baker-denoiser`), AMD 610M iGPU (`amd-igpu-nvidia-dgpu-hybrid-offload`), and 32 CPU threads (`cuda-numpy-batch-texture-dsp-processor`).
+   - **Discovered a workaround, domain ratio, or reusable script?** $\rightarrow$ Immediately crystallize and push via `self-evolving-skill-synthesizer` (`skill-evolve`).
+   - **Starting a task or completing a milestone?** $\rightarrow$ Sync and push repository state via `autonomous-git-repo-sync-governor` (`repo-auto-sync --pull` / `repo-auto-sync --checkpoint --push`).
    - **About to declare a task complete?** $\rightarrow$ Activate `argon-adversarial-verification-gate` and `verification-before-completion`.
+

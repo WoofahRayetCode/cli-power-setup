@@ -103,5 +103,9 @@ The goal governor directly coordinates with supporting autonomous guardrails:
 
 * **Unattended Command Clamping (`yolo-autonomous-watchdog`):** Limits broad bash commands to `head -n 40` and redirects heavy build logs to `/tmp/`.
 * **Runtime Process Freeze Recovery (`agent-error-recovery-sentinel`):** Automatically sweeps hanging Wine/Notepad/BugTrap modals, terminates dead processes, and unlocks resources during unattended playtests.
+* **Automatic Milestone Repo Sync (`autonomous-git-repo-sync-governor`):** At every verified phase gate or milestone, invoke `repo-auto-sync <repo> --checkpoint -m "feat: ..." --push` so autonomous progress is continuously backed up to GitHub.
+* **In-Flight Skill Self-Evolution (`self-evolving-skill-synthesizer`):** Whenever a workaround or reusable helper script is created during an autonomous run, immediately invoke `skill-evolve` to upgrade the skill library and auto-push to `cli-power-setup`.
+* **Hybrid CPU / AMD 610M iGPU / RTX 5060 dGPU / 30GB RAM Offload (`ramdisk-tmpfs-build-bake-accelerator`, `amd-igpu-nvidia-dgpu-hybrid-offload`, `rtx-optix-gpu-baker-denoiser`):** Stage heavy builds/bakes in `/dev/shm` and pin background video/compute to the AMD iGPU (`GPU0`) while reserving the RTX 5060 (`GPU1`) for game execution and Cycles OptiX.
 * **Seamless Cross-CLI Handoff (`cross-cli-session-handoff`):** When approaching quota thresholds, the governor writes `.agents/handoff.json` and updates `activeContext.md`, enabling an instant switch to another CLI environment in < 300 tokens.
+
 
