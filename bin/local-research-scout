@@ -1,0 +1,375 @@
+#!/usr/bin/env python3
+"""
+local-research-scout (bin/local-research-scout)
+Autonomous Zero-Quota Multi-Source Web Search, RAG Scraping, and Technical Query Synthesis.
+Sources across DuckDuckGo HTML, GitHub API, StackExchange API, and direct page scraping,
+ranking evidence with local embeddings (bge-m3) and synthesizing answers using local LLMs.
+Zero cloud API costs. Zero tokens billed.
+"""
+
+from __future__ import annotations
+import argparse
+import hashlib
+import json
+import math
+import os
+import re
+import sys
+import time
+import urllib.parse
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+try:
+    import requests
+    from bs4 import BeautifulSoup
+except ImportError:
+    requests = None
+    BeautifulSoup = None
+
+BOLD = "\033[1m"
+GREEN = "\033[32m"
+CYAN = "\033[36m"
+YELLOW = "\033[33m"
+RED = "\033[31m"
+MAGENTA = "\033[35m"
+DIM = "\033[2m"
+RESET = "\033[0m"
+
+OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+DEFAULT_EMBED_MODEL = "bge-m3"
+DEFAULT_SYNTHESIS_MODEL = "deepseek-coder-v2:16b"
+
+
+def log(msg: str, color: str = ""):
+    sys.stderr.write(f"{color}{msg}{RESET}\n")
+    sys.stderr.flush()
+
+
+def search_duckduckgo(query: str, max_results: int = 5) -> list[dict[str, str]]:
+    """Searches DuckDuckGo HTML endpoint cleanly without external API keys."""
+    if not requests or not BeautifulSoup:
+        return []
+
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+    url = "https://html.duckduckgo.com/html/"
+    results = []
+
+    try:
+        resp = requests.post(url, data={"q": query}, headers=headers, timeout=10)
+        if resp.status_code == 200:
+            soup = BeautifulSoup(resp.text, "html.parser")
+            for body in soup.select(".result__body")[:max_results]:
+                title_elem = body.select_one(".result__title")
+                snippet_elem = body.select_one(".result__snippet")
+                url_elem = body.select_one(".result__url")
+
+                title = title_elem.get_text(strip=True) if title_elem else ""
+                snippet = snippet_elem.get_text(strip=True) if snippet_elem else ""
+
+                raw_href = ""
+                if title_elem:
+                    a_tag = title_elem.find("a")
+                    if a_tag and "href" in a_tag.attrs:
+                        raw_href = a_tag["href"]
+                        parsed = urllib.parse.urlparse(raw_href)
+                        qs = urllib.parse.parse_qs(parsed.query)
+                        if "uddg" in qs:
+                            raw_href = qs["uddg"][0]
+
+                if not raw_href and url_elem:
+                    raw_href = url_elem.get_text(strip=True)
+                    if not raw_href.startswith("http"):
+                        raw_href = "https://" + raw_href
+
+                if title and raw_href:
+                    results.append({
+                        "source": "Web",
+                        "title": title,
+                        "url": raw_href,
+                        "snippet": snippet
+                    })
+    except Exception as e:
+        log(f"DDG search warning: {e}", DIM)
+
+    return results
+
+
+def search_github(query: str, max_results: int = 3) -> list[dict[str, str]]:
+    """Queries GitHub Repositories API for open-source engines, tools, and code."""
+    if not requests:
+        return []
+    headers = {"User-Agent": "Mozilla/5.0"}
+    clean_q = re.sub(r"[^\w\s-]", " ", query).strip()
+    results = []
+    try:
+        resp = requests.get(
+            "https://api.github.com/search/repositories",
+            params={"q": clean_q, "sort": "stars", "order": "desc", "per_page": max_results},
+            headers=headers,
+            timeout=8
+        )
+        if resp.status_code == 200:
+            items = resp.json().get("items", [])
+            for it in items[:max_results]:
+                desc = it.get("description") or "No description provided."
+                stars = it.get("stargazers_count", 0)
+                lang = it.get("language") or "General"
+                results.append({
+                    "source": "GitHub",
+                    "title": f"{it.get('full_name')} (★ {stars}, {lang})",
+                    "url": it.get("html_url"),
+                    "snippet": f"{desc} | Topics: {', '.join(it.get('topics', [])[:4])}"
+                })
+    except Exception as e:
+        log(f"GitHub search warning: {e}", DIM)
+    return results
+
+
+def search_stackoverflow(query: str, max_results: int = 3) -> list[dict[str, str]]:
+    """Queries StackExchange API for code answers, compiler errors, and technical fixes."""
+    if not requests:
+        return []
+    headers = {"User-Agent": "Mozilla/5.0"}
+    clean_q = re.sub(r"[^\w\s-]", " ", query).strip()
+    results = []
+    try:
+        resp = requests.get(
+            "https://api.stackexchange.com/2.3/search/advanced",
+            params={"order": "desc", "sort": "relevance", "q": clean_q, "site": "stackoverflow", "pagesize": max_results},
+            headers=headers,
+            timeout=8
+        )
+        if resp.status_code == 200:
+            items = resp.json().get("items", [])
+            for it in items[:max_results]:
+                tags = ", ".join(it.get("tags", [])[:4])
+                results.append({
+                    "source": "StackOverflow",
+                    "title": it.get("title", ""),
+                    "url": it.get("link", ""),
+                    "snippet": f"Score: {it.get('score', 0)} | Tags: [{tags}] | Answered: {it.get('is_answered', False)}"
+                })
+    except Exception as e:
+        log(f"StackOverflow search warning: {e}", DIM)
+    return results
+
+
+def scrape_page_content(url: str, max_chars: int = 5000) -> str:
+    """Scrapes and extracts clean readable text from target webpage."""
+    if not requests or not BeautifulSoup:
+        return ""
+
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+    try:
+        resp = requests.get(url, headers=headers, timeout=8)
+        if resp.status_code == 200:
+            soup = BeautifulSoup(resp.text, "html.parser")
+            for tag in soup(["script", "style", "nav", "footer", "header", "noscript", "svg", "aside"]):
+                tag.decompose()
+            text = soup.get_text(separator="\n", strip=True)
+            lines = [l.strip() for l in text.splitlines() if l.strip()]
+            return "\n".join(lines)[:max_chars]
+    except Exception as e:
+        log(f"Page scrape warning ({url}): {e}", DIM)
+    return ""
+
+
+def get_embedding(text: str, model: str = DEFAULT_EMBED_MODEL) -> list[float]:
+    """Generates embedding vector from local Ollama model."""
+    if not requests:
+        return []
+    try:
+        resp = requests.post(
+            f"{OLLAMA_HOST}/api/embeddings",
+            json={"model": model, "prompt": text[:2000]},
+            timeout=15
+        )
+        if resp.status_code == 200:
+            return resp.json().get("embedding", [])
+    except Exception:
+        pass
+    return []
+
+
+def cosine_similarity(v1: list[float], v2: list[float]) -> float:
+    if not v1 or not v2 or len(v1) != len(v2):
+        return 0.0
+    dot = sum(a * b for a, b in zip(v1, v2))
+    norm_a = math.sqrt(sum(a * a for a in v1))
+    norm_b = math.sqrt(sum(b * b for b in v2))
+    if norm_a == 0 or norm_b == 0:
+        return 0.0
+    return dot / (norm_a * norm_b)
+
+
+def rank_snippets_with_rag(query: str, items: list[dict[str, Any]], top_k: int = 5) -> list[dict[str, Any]]:
+    """Embeds query and snippets using local bge-m3 to select most relevant snippets."""
+    q_emb = get_embedding(query)
+    if not q_emb:
+        return items[:top_k]
+
+    scored = []
+    for item in items:
+        text = f"{item['title']}\n{item.get('snippet', '')}\n{item.get('content', '')[:500]}"
+        i_emb = get_embedding(text)
+        sim = cosine_similarity(q_emb, i_emb)
+        scored.append((sim, item))
+
+    scored.sort(key=lambda x: x[0], reverse=True)
+    return [item for _, item in scored[:top_k]]
+
+
+def call_local_llm(model: str, system_prompt: str, user_prompt: str) -> str:
+    """Invokes local Ollama model for technical synthesis."""
+    if not requests:
+        return "requests module missing"
+    try:
+        resp = requests.post(
+            f"{OLLAMA_HOST}/api/generate",
+            json={
+                "model": model,
+                "system": system_prompt,
+                "prompt": user_prompt,
+                "stream": False,
+                "options": {
+                    "temperature": 0.2,
+                    "num_ctx": 8192
+                }
+            },
+            timeout=180
+        )
+        if resp.status_code == 200:
+            return resp.json().get("response", "").strip()
+    except Exception as e:
+        return f"Error contacting local model {model}: {e}"
+    return "No response from local model"
+
+
+def select_best_model_for_topic(query: str) -> str:
+    q = query.lower()
+    if any(k in q for k in ["port", "engine", "ogsr", "xray", "x-ray", "c++", "cpp", "pointer", "hlsl", "shader", "glsl"]):
+        return "deepseek-coder-v2:16b"
+    elif any(k in q for k in ["why", "how", "math", "physics", "ballistics", "ode", "quaternion", "root cause", "verify"]):
+        return "deepseek-r1:14b"
+    elif any(k in q for k in ["web", "tailwind", "html", "css", "vue", "react", "astro", "vite"]):
+        return "qwen2.5-coder:14b"
+    elif any(k in q for k in ["translate", "russian", "ukrainian", "dialogue", "german"]):
+        return "aya:8b"
+    return "qwen2.5:32b"
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Local Research Scout - Zero-Quota Multi-Source Search & Technical RAG")
+    parser.add_argument("query", nargs="*", help="Search terms or technical research query")
+    parser.add_argument("--scrape", "-s", action="store_true", help="Scrape full content of top search results")
+    parser.add_argument("--rag", "-r", action="store_true", help="Use local embeddings (bge-m3) to rank evidence")
+    parser.add_argument("--model", "-m", help="Override local synthesis model")
+    parser.add_argument("--raw-search", action="store_true", help="Only output raw search results without LLM synthesis")
+    parser.add_argument("--github-only", action="store_true", help="Search only GitHub repositories")
+    parser.add_argument("--so-only", action="store_true", help="Search only StackOverflow")
+    parser.add_argument("--max-results", "-n", type=int, default=5, help="Number of search results to inspect")
+    parser.add_argument("--save-artifact", action="store_true", help="Save synthesized report to .agents/research/")
+
+    args = parser.parse_args()
+    raw_query = " ".join(args.query).strip()
+    if not raw_query:
+        parser.print_help()
+        sys.exit(1)
+
+    log(f"🔎 {BOLD}Multi-Source Research Scout:{RESET} {CYAN}{raw_query}{RESET}")
+
+    all_results = []
+    if args.github_only:
+        all_results = search_github(raw_query, max_results=args.max_results)
+    elif args.so_only:
+        all_results = search_stackoverflow(raw_query, max_results=args.max_results)
+    else:
+        # Multi-source federated search
+        ddg_results = search_duckduckgo(raw_query, max_results=args.max_results)
+        all_results.extend(ddg_results)
+        if any(k in raw_query.lower() for k in ["github", "repo", "source", "engine", "mod", "tool", "release"]):
+            gh_results = search_github(raw_query, max_results=2)
+            all_results.extend(gh_results)
+        if any(k in raw_query.lower() for k in ["error", "fix", "c++", "python", "bug", "exception", "compile", "failed"]):
+            so_results = search_stackoverflow(raw_query, max_results=2)
+            all_results.extend(so_results)
+
+    if not all_results:
+        log("No search results found.", RED)
+        sys.exit(1)
+
+    log(f"✓ Found {len(all_results)} search results across sources.", GREEN)
+
+    if args.scrape:
+        log("🌐 Deep scraping top pages for technical documentation...", CYAN)
+        for i, item in enumerate(all_results[:3]):
+            log(f"  [{i+1}/{min(3, len(all_results))}] Scraping {item['url']}...", DIM)
+            content = scrape_page_content(item["url"], max_chars=4000)
+            item["content"] = content
+
+    if args.rag:
+        log("⚡ Ranking evidence with local bge-m3 embeddings...", CYAN)
+        all_results = rank_snippets_with_rag(raw_query, all_results, top_k=min(5, len(all_results)))
+
+    if args.raw_search:
+        print(f"\n{BOLD}Search Results for:{RESET} {raw_query}\n")
+        for i, res in enumerate(all_results):
+            print(f"[{i+1}] [{res.get('source', 'Web')}] {BOLD}{res['title']}{RESET}")
+            print(f"    URL: {CYAN}{res['url']}{RESET}")
+            print(f"    Snippet: {res['snippet']}\n")
+        return
+
+    # Choose model
+    model = args.model or select_best_model_for_topic(raw_query)
+    log(f"🧠 Synthesizing with local model: {MAGENTA}{model}{RESET} (0 Cloud Tokens)...")
+
+    # Build context prompt
+    evidence_blocks = []
+    for i, res in enumerate(all_results):
+        block = f"[{i+1}] [{res.get('source', 'Web')}] Title: {res['title']}\nURL: {res['url']}\nSnippet: {res['snippet']}"
+        if "content" in res and res["content"]:
+            block += f"\nDetailed Content:\n{res['content'][:1500]}"
+        evidence_blocks.append(block)
+
+    system_prompt = (
+        "You are an expert technical research synthesizer. Synthesize the provided search results and documentation "
+        "to directly, concisely, and accurately answer the user's technical question. "
+        "Preserve exact C++/LTX/code syntax, configuration parameters, and exact URLs as citations. "
+        "Omit conversational fluff, preambles, and repetitive disclaimers."
+    )
+
+    user_prompt = (
+        f"Technical Question: {raw_query}\n\n"
+        f"Retrieved Multi-Source Documentation Evidence:\n"
+        + "\n---\n".join(evidence_blocks) + "\n\n"
+        "Please provide a high-density, structured answer with code/config examples and exact URL citations."
+    )
+
+    synthesis = call_local_llm(model, system_prompt, user_prompt)
+
+    output = []
+    output.append(f"# Technical Research: {raw_query}\n")
+    output.append(f"**Synthesized by:** Local `{model}` via `local-research-scout` (0 Cloud Tokens)")
+    output.append(f"**Date:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+    output.append("## Synthesized Findings\n")
+    output.append(synthesis)
+    output.append("\n## Sources & Citations\n")
+    for i, res in enumerate(all_results):
+        output.append(f"- [{i+1}] [{res.get('source', 'Web')}] [{res['title']}]({res['url']})")
+
+    final_text = "\n".join(output)
+    print(final_text)
+
+    if args.save_artifact:
+        save_dir = Path(".agents/research")
+        save_dir.mkdir(parents=True, exist_ok=True)
+        slug = re.sub(r"[^a-zA-Z0-9_-]", "_", raw_query[:40].lower()).strip("_")
+        out_file = save_dir / f"{slug}_{int(time.time())}.md"
+        out_file.write_text(final_text, encoding="utf-8")
+        log(f"\n✓ Saved report to {CYAN}{out_file}{RESET}", GREEN)
+
+
+if __name__ == "__main__":
+    main()

@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)** and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
 
-This repository organizes **312 autonomous agent skills**, 312 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a clickable floating voice dictation pill (`agy-mic-button`), a zero-quota CPU/GPU math & physics solver (`game-math-solver`), an auto-optimizing skill ecosystem engine (`skill-optimize`), a clamshell 3D thermal governor (`laptop-perf`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
+This repository organizes **314 autonomous agent skills**, 314 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a clickable floating voice dictation pill (`agy-mic-button`), a zero-quota CPU/GPU math & physics solver (`game-math-solver`), an auto-optimizing skill ecosystem engine (`skill-optimize`), a clamshell 3D thermal governor (`laptop-perf`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Environment Sync:** Deploys all 312 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Environment Sync:** Deploys all 314 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Voice Command Routing:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, Zero-Quota Local CPU/GPU Math Offload rules, and Natural-Language Spoken Command Routing (*"Set a goal..."*, *"Make a plan..."*, *"Use boost..."*) to `~/.gemini/config/GEMINI.md` and `~/.cursorrules`.
 4. **Live Multi-Row Telemetry Statusline (`agy-quota-statusline`):** Tracks real-time 5h/weekly quota, 250k compaction gate countdown (`🧹`), active skills in real time (`🛠️ Skills [Live]`), CPU/GPU temperatures & fan RPM (`🌡️`), lid-closed lock state (`🔒Lid-Safe`), RTX 5060 VRAM & `/dev/shm` RAM-disk usage (`🚀`), and active background workloads (`⚙️ 🎨Blender+🔨Build+🎮OGSR/Wine`).
 5. **Floating Voice Dictation Pill (`agy-mic-button`):** Launches a draggable, pinnable (`📌`/`📍`) floating `[🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin]` overlay that triggers `/voice` (`F5`) without keyboard shortcuts and auto-closes when `agy` exits.
@@ -107,6 +107,47 @@ local-coprocessor generate --task plan --prompt "Decompose game engine porting i
 local-coprocessor generate --task math --prompt "Derive critically damped spring update for fixed_step=0.01"
 ```
 
+### 🚀 Dynamic AGY Omni-Auto Mode (`agy-omni-mode`)
+
+The **Omni-Auto Mode** dynamically evaluates every user instruction, workflow lifecycle step, git dirty file types, and rolling 5-hour quota headroom to automatically switch between cloud Gemini models and local Ollama models with zero token waste:
+
+- **Step Lifecycle Intelligence:**
+  - **Intake & Scanning:** Routed to `local-ast-compiler` / `slice-reader` on CPU (**0 tokens**).
+  - **Web Research & RAG:** Routed to `local-research-scout` multi-source search (**0 tokens**).
+  - **Architecture & Planning:** Routed to `gemini-4-pro` (or local `deepseek-r1:32b` if quota < 40%).
+  - **Code Generation & Porting:** Routed to local `deepseek-coder-v2:16b` / `qwen2.5-coder:32b` or Gemini 3.8 Flash (`--effort low`).
+  - **Verification & Testing:** Routed to host native test harnesses and AST preflight syntax gates (**0 tokens**).
+  - **Summarization & Git Commits:** Routed to local `mistral-nemo:12b` (**0 tokens**).
+
+```bash
+# Evaluate active workspace domain and optimal engine routing
+agy-omni-mode
+
+# Evaluate specific prompt with routing rationale
+agy-omni-mode "port legacy blenders to DX11 hlsl"
+
+# Auto-execute on local engine if Tier 0
+agy-omni-mode --exec "calculate quaternion slerp for camera trajectory"
+```
+
+### 🔎 Zero-Quota Local Research Scout (`local-research-scout`)
+
+Autonomous multi-source web searching and technical RAG without cloud API keys or token billing:
+- **Federated Multi-Source:** DuckDuckGo HTML, GitHub API (repositories, releases), and StackOverflow (compiler errors, 64-bit porting traps).
+- **Local RAG Ranking:** Embeds query and documentation chunks with local `bge-m3` vectors (1024-dim) on RTX 5060 GPU.
+- **Offline Synthesis:** Synthesizes structured markdown reports with code examples and exact citation links using `deepseek-coder-v2:16b`, `deepseek-r1:14b`, or `qwen2.5:32b`.
+
+```bash
+# Multi-source technical search with local LLM synthesis
+local-research-scout "OGSR engine 64-bit cmake build requirements"
+
+# Deep web scraping + bge-m3 local RAG ranking
+local-research-scout "c++ pointer truncation 64-bit fix" --scrape --rag
+
+# Raw search links mode
+local-research-scout "godot compute shaders buffer sync" --raw-search
+```
+
 ---
 
 ## 📂 Repository Structure
@@ -118,7 +159,7 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & skill reference
 ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
 ├── .cursor/
-│   └── rules/                  # 312 modular Cursor rules (.mdc) with semantic metadata
+│   └── rules/                  # 314 modular Cursor rules (.mdc) with semantic metadata
 ├── bin/
 │   ├── agy-quota-statusline    # Live multi-row quota, skills, thermal, VRAM & git statusline
 │   ├── agy-mic-button          # Floating draggable/pinnable voice dictation pill for agy
@@ -152,14 +193,14 @@ cli-power-setup/
     ├── settings.template.json       # Reference AGY CLI settings configuration
     ├── token_ledger.json            # Pure Antigravity (agy) lifetime token savings ledger (1.28B cached tokens)
     ├── cursor/                      # Cursor reference templates and rules
-    └── skills/                      # 312 specialized skills
+    └── skills/                      # 314 specialized skills
 ```
 
 ---
 
 ## 🎯 Where Skills Perform Best: `agy` CLI vs. Cursor IDE (Division of Labor)
 
-While all 312 skills and CLI utilities are shared across environments, they naturally divide into distinct operational sweet spots:
+While all 314 skills and CLI utilities are shared across environments, they naturally divide into distinct operational sweet spots:
 
 ### 1. Skills That Excel in `agy` CLI (Headless, Voice-Driven & Unattended)
 *Best launched via `agy-yolo`, `agy-turbo`, or spoken *"Set a goal..."* via `agy-mic-button`*
@@ -1974,7 +2015,7 @@ Eliminates cloud reasoning token burn on 3D coordinate/quaternion basis transfor
 | **`cursor-rules-sync`** | Converts all skills to Cursor `.mdc` rules and syncs `.cursorrules` | After modifying skills or when syncing Cursor configuration. |
 | **`skills-audit-update --audit`** | Audits health across Antigravity and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all 300 skills across Antigravity and Cursor | After adding or updating any skill in the repository. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 312 skills across Antigravity and Cursor | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 314 skills across Antigravity and Cursor | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
@@ -2011,7 +2052,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 312 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 314 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
 
 
@@ -2021,7 +2062,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ---
 
 <!-- AUTO-SYNC-CATALOG:START -->
-## 🔄 Auto-Synchronized Skill & CLI Inventory (312 Total Active Skills)
+## 🔄 Auto-Synchronized Skill & CLI Inventory (314 Total Active Skills)
 
 ### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)
 | CLI Tool | Purpose |
