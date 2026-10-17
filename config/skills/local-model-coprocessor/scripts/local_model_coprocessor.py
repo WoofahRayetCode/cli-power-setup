@@ -128,8 +128,17 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
     return installed[0]
 
 
+def _write_local_state(model: str, active: bool) -> None:
+    try:
+        state_p = Path("/tmp/agy_local_model_state.json")
+        state_p.write_text(json.dumps({"model": model, "active": active, "ts": time.time()}), encoding="utf-8")
+    except Exception:
+        pass
+
+
 def query_local_ollama(endpoint, model, prompt, system_prompt="", image_path="", timeout=35.0):
     resolved_model = resolve_best_local_model(model, "vision" if image_path else "auto", endpoint)
+    _write_local_state(resolved_model, True)
     url = f"{endpoint.rstrip('/')}/api/generate"
     payload = {
         "model": resolved_model,
@@ -149,9 +158,12 @@ def query_local_ollama(endpoint, model, prompt, system_prompt="", image_path="",
         with urllib.request.urlopen(req, timeout=timeout) as response:
             if response.status == 200:
                 result = json.loads(response.read().decode("utf-8"))
+                _write_local_state(resolved_model, False)
                 return result.get("response", "").strip()
     except (urllib.error.URLError, ConnectionRefusedError, TimeoutError):
+        _write_local_state(resolved_model, False)
         return None
+    _write_local_state(resolved_model, False)
     return None
 
 

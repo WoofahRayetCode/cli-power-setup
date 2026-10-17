@@ -36,7 +36,19 @@ def load_3d_skill_rules() -> str:
     return "\n\n".join(chunks)
 
 
+def _write_local_state(model: str, active: bool) -> None:
+    try:
+        import time
+        Path("/tmp/agy_local_model_state.json").write_text(
+            json.dumps({"model": model, "active": active, "ts": time.time()}),
+            encoding="utf-8",
+        )
+    except Exception:
+        pass
+
+
 def ollama_generate(model: str, prompt: str, system: str = "", image_path: str = "", endpoint: str = "http://localhost:11434") -> str:
+    _write_local_state(model, True)
     url = f"{endpoint.rstrip('/')}/api/generate"
     payload: dict = {
         "model": model,
@@ -59,9 +71,12 @@ def ollama_generate(model: str, prompt: str, system: str = "", image_path: str =
     try:
         with urllib.request.urlopen(req, timeout=60.0) as resp:
             if resp.status == 200:
+                _write_local_state(model, False)
                 return json.loads(resp.read().decode("utf-8")).get("response", "").strip()
     except Exception as e:
+        _write_local_state(model, False)
         return f"[!] Local Ollama error ({model}): {e}"
+    _write_local_state(model, False)
     return ""
 
 

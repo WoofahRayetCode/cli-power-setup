@@ -690,7 +690,39 @@ def get_hw_and_swarm_segments() -> list[str]:
         except Exception:
             pass
 
-    # 5. Active Heavy Processes & Subagent Swarm
+    # 5. Active Local Ollama Model (/api/ps + state file) & Heavy Processes
+    local_model_str = "🤖 Local: Standby"
+    state_f = os.path.join(_TMP, "agy_local_model_state.json")
+    last_state = {}
+    if os.path.isfile(state_f):
+        try:
+            last_state = json.loads(Path(state_f).read_text(encoding="utf-8"))
+        except Exception:
+            pass
+
+    try:
+        import urllib.request
+        with urllib.request.urlopen("http://localhost:11434/api/ps", timeout=0.15) as resp:
+            if resp.status == 200:
+                ps_data = json.loads(resp.read().decode("utf-8"))
+                loaded = ps_data.get("models", [])
+                if loaded:
+                    m_info = loaded[0]
+                    m_name = m_info.get("name", "local").replace(":latest", "")
+                    v_gb = m_info.get("size_vram", m_info.get("size", 0)) / (1024 ** 3)
+                    is_running = last_state.get("active") and (now - last_state.get("ts", 0)) < 60
+                    bolt = "⚡" if is_running else ""
+                    local_model_str = f"🤖 Local: {bolt}{m_name}({v_gb:.1f}G)"
+                elif last_state.get("model"):
+                    m_name = str(last_state["model"]).replace(":latest", "")
+                    local_model_str = f"🤖 Local: Standby(last:{m_name})"
+                else:
+                    local_model_str = "🤖 Local: Standby(8)"
+    except Exception:
+        if last_state.get("model"):
+            m_name = str(last_state["model"]).replace(":latest", "")
+            local_model_str = f"🤖 Local: {m_name}"
+
     active_jobs = []
     try:
         ps_out = subprocess.check_output(["ps", "-eo", "comm"], text=True, timeout=0.4).lower().splitlines()
@@ -700,11 +732,11 @@ def get_hw_and_swarm_segments() -> list[str]:
         if pset & {"cmake", "ninja", "cc1plus", "cargo", "rustc"}:
             active_jobs.append("🔨Build")
         if pset & {"xrengine.exe", "wine64-preloader", "wineserver"}:
-            active_jobs.append("🎮OGSR/Wine")
+            active_jobs.append("🎮OGSR")
     except Exception:
         pass
 
-    job_str = f"⚙️ {'+'.join(active_jobs)}" if active_jobs else "🐝 Swarm: Ready"
+    job_str = f"{local_model_str} • ⚙️{'+'.join(active_jobs)}" if active_jobs else local_model_str
     therm_seg = f"🌡️ CPU:{cpu_temp} {dgpu_str}{igpu_str} ({prof_badge}{fan_rpm}{lid_lock_str})"
     mem_parts = [p for p in (vram_str, ivram_str, shm_str) if p]
     mem_seg = f"🚀 {' • '.join(mem_parts)}" if mem_parts else ""
