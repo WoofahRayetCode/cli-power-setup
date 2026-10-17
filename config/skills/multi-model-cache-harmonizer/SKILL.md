@@ -16,7 +16,7 @@ This skill standardizes static prefix anchoring and dynamic suffix isolation acr
 | Model Family | Minimum Cache Threshold | Incremental Block Size | TTL / Refresh Window | Cache Read Discount |
 | :--- | :--- | :--- | :--- | :--- |
 | **Anthropic Claude** (Sonnet 3.7, Opus 3, Haiku 3.5) | 1,024 tokens | 1,024-token blocks | 5 minutes (ephemeral) | **90% discount** ($0.30 vs $3.00/MTok) |
-| **Google Gemini** (Flash 3.8, Argon 4) | 4,096 tokens (Flash) / 32,768 (Pro) | 1-token sliding after floor | Explicit context caching / 1hr default | **75%–90% discount** |
+| **Google Gemini** (Flash 3.8, Argon 4) | 4,096 tokens (Flash) / 32,768 (Argon) | 1-token sliding after floor | Explicit context caching / 1hr default | **90%–95% discount** ($0.10 vs $2.00/MTok on Argon) |
 | **OpenAI / Cursor** (o1, o3-mini, GPT-4o) | 1,024 tokens | 128-token chunks | Automatic background caching | **50% discount** |
 | **xAI Grok** (Grok 4.7, Grok 2) | 2,048 tokens | 1,024-token blocks | Session-anchored | **75% discount** |
 
