@@ -13,7 +13,7 @@
       "session_id": "ab582043-06df-437b-984b-366fa4554caf",
       "environment": "claude-code-cli",
       "model": "Claude 3.7 Sonnet / Turbo",
-      "transcript_path": "/home/ericparsley/.claude/projects/-home-ericparsley/ab582043-06df-437b-984b-366fa4554caf.jsonl",
+      "transcript_path": "~/.claude/projects/ab582043-06df-437b-984b-366fa4554caf.jsonl",
       "cached_tokens_saved": 1535189521,
       "cache_hit_rate_pct": 99.50,
       "turns": 3325,
