@@ -423,18 +423,45 @@ def spawn_daemon() -> None:
         print(f"[✓] AGY Mic Button is already active on desktop (PID {existing}).")
         return
     env = os.environ.copy()
+    uid = os.getuid() if hasattr(os, "getuid") else 1000
     env.setdefault("DISPLAY", ":0")
     env.setdefault("WAYLAND_DISPLAY", "wayland-0")
-    env.setdefault("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}" if hasattr(os, "getuid") else "")
-    proc = subprocess.Popen(
-        [sys.executable, str(Path(__file__).resolve()), "--foreground"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        env=env,
-        start_new_session=True,
-    )
-    time.sleep(0.25)
-    print(f"🎙️ [AGY Mic Button Active] Floating [🎙️ Talk | ⏎ Send | ⚡Auto] pill launched (PID {proc.pid}).")
+    env.setdefault("XDG_RUNTIME_DIR", f"/run/user/{uid}")
+    env.setdefault("DBUS_SESSION_BUS_ADDRESS", f"unix:path=/run/user/{uid}/bus")
+    write_state(False, False, 0.0, closed_by_user=False)
+
+    script_path = str(Path(__file__).resolve())
+    if not IS_WINDOWS and shutil.which("systemd-run"):
+        subprocess.run(
+            [
+                "systemd-run",
+                "--user",
+                "--collect",
+                "--setenv=DISPLAY=:0",
+                "--setenv=WAYLAND_DISPLAY=wayland-0",
+                sys.executable,
+                script_path,
+                "--foreground",
+            ],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            env=env,
+            check=False,
+        )
+    else:
+        subprocess.Popen(
+            [sys.executable, script_path, "--foreground"],
+            stdin=subprocess.DEVNULL,
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            close_fds=True,
+            env=env,
+            start_new_session=True,
+        )
+    time.sleep(0.35)
+    pid = is_already_running()
+    print(f"🎙️ [AGY Mic Button Active] Floating [🎙️ Talk | ⏎ Send | ⚡Auto] pill launched (PID {pid}).")
 
 
 def main() -> None:
