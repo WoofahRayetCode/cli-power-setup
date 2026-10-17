@@ -104,8 +104,8 @@ def classify_workload(
         deep = "Argon • High (64b C++/DX11)"
         hw = "32-Thr CMake + /dev/shm"
         if "merge" in name_low and not ("argon" in name_low or "fable" in name_low):
-            live_rec = "Tandem•Arg+Fab"
-            live_reason = "Dual C++ (Argon) + LTX (Fable)"
+            live_rec = "Argon•High+Flash"
+            live_reason = "Argon (C++/64b) + Flash Swarm (LTX)"
         elif dirty_has(".cpp", ".h", ".hpp", ".c", ".ps", ".vs", ".hlsl", ".patch", ".s") or has_crash_or_retry:
             live_rec = "Argon • High"
             live_reason = "Active C++/Shader/64b work"
