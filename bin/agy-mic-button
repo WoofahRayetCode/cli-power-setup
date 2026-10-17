@@ -168,8 +168,40 @@ def stop_existing() -> bool:
     return True
 
 
+POS_FILE = Path.home() / ".cache" / "agy_mic_pos.json"
+
+
+def has_active_agy_process() -> bool:
+    """Return True if at least one `agy` CLI process is currently running."""
+    if IS_WINDOWS:
+        try:
+            out = subprocess.check_output(
+                ["tasklist", "/FI", "IMAGENAME eq agy.exe", "/NH"],
+                text=True,
+                stderr=subprocess.DEVNULL,
+            )
+            return "agy.exe" in out.lower()
+        except Exception:
+            return True
+    try:
+        res = subprocess.run(
+            ["pgrep", "-x", "agy"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        )
+        return res.returncode == 0
+    except Exception:
+        return True
+
+
 def run_gui() -> None:
-    from PySide6.QtCore import Qt, QTimer, QPoint
+    if not IS_WINDOWS:
+        # Use XCB (XWayland) on Linux/KDE Wayland so self.move(x, y), position persistence,
+        # and startSystemMove() dragging work smoothly without Wayland coordinate restrictions.
+        os.environ["QT_QPA_PLATFORM"] = "xcb"
+
+    from PySide6.QtCore import Qt, QTimer, QPoint, QEvent, QObject
     from PySide6.QtGui import QFont, QCursor
     from PySide6.QtWidgets import (
         QApplication,
@@ -189,8 +221,10 @@ def run_gui() -> None:
             self.auto_send = False
             self.record_start = 0.0
             self.drag_pos: QPoint | None = None
+            self.launch_ts = time.time()
+            self.saw_agy = has_active_agy_process()
 
-            # Frameless, always-on-top, tool window that NEVER steals keyboard focus from terminal
+            # Frameless, always-on-top window that does not steal focus from terminal
             flags = (
                 Qt.WindowType.FramelessWindowHint
                 | Qt.WindowType.WindowStaysOnTopHint
@@ -210,9 +244,9 @@ def run_gui() -> None:
             # Drag grip label
             self.grip = QLabel("⋮⋮ AGY")
             self.grip.setFont(QFont("Sans Serif", 9, QFont.Weight.Bold))
-            self.grip.setStyleSheet("color: #88c0d0; padding-right: 2px;")
+            self.grip.setStyleSheet("color: #88c0d0; padding: 4px 4px;")
             self.grip.setCursor(QCursor(Qt.CursorShape.SizeAllCursor))
-            self.grip.setToolTip("Drag to move AGY Mic Pill anywhere on screen")
+            self.grip.setToolTip("Left-drag here (or right-drag anywhere on the pill) to move")
             layout.addWidget(self.grip)
 
             # Talk / Stop Mic button
@@ -245,12 +279,17 @@ def run_gui() -> None:
             self.close_btn.setFixedWidth(22)
             self.close_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
             self.close_btn.setToolTip("Close AGY Mic Button (re-launch anytime with `agy-mic-button`)")
-            self.close_btn.clicked.connect(self.close_cleanly)
+            self.close_btn.clicked.connect(lambda: self.close_cleanly(closed_by_user=True))
             layout.addWidget(self.close_btn)
 
             outer = QHBoxLayout(self)
             outer.setContentsMargins(0, 0, 0, 0)
             outer.addWidget(self.container)
+
+            # Install event filter on grip, container, and buttons so dragging works from grip (left/right click)
+            # or right-click dragging on any button
+            for w in (self, self.container, self.grip, self.mic_btn, self.send_btn, self.auto_btn):
+                w.installEventFilter(self)
 
             self.timer = QTimer(self)
             self.timer.timeout.connect(self.tick_timer)
@@ -258,16 +297,62 @@ def run_gui() -> None:
 
             self.update_styles()
             self.adjustSize()
-            self.position_bottom_right()
-            write_state(False, False)
+            self.restore_or_position()
+            write_state(False, False, 0.0, closed_by_user=False)
 
-        def position_bottom_right(self) -> None:
+        def restore_or_position(self) -> None:
+            if POS_FILE.is_file():
+                try:
+                    pos = json.loads(POS_FILE.read_text(encoding="utf-8"))
+                    self.move(int(pos["x"]), int(pos["y"]))
+                    return
+                except Exception:
+                    pass
             screen = QApplication.primaryScreen()
             if screen:
                 geo = screen.availableGeometry()
                 x = geo.right() - self.width() - 28
                 y = geo.bottom() - self.height() - 48
                 self.move(max(20, x), max(20, y))
+
+        def save_position(self) -> None:
+            try:
+                POS_FILE.parent.mkdir(parents=True, exist_ok=True)
+                POS_FILE.write_text(
+                    json.dumps({"x": self.x(), "y": self.y()}),
+                    encoding="utf-8",
+                )
+            except Exception:
+                pass
+
+        def eventFilter(self, obj: QObject, event: QEvent) -> bool:
+             etype = event.type()
+             if etype == QEvent.Type.MouseButtonPress:
+                 btn = event.button()
+                 is_grip_or_bg = obj in (self, self.container, self.grip)
+                 if (is_grip_or_bg and btn == Qt.MouseButton.LeftButton) or btn == Qt.MouseButton.RightButton:
+                     self.drag_pos = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+                     # Also invoke window manager native move when supported
+                     wh = self.windowHandle()
+                     if wh is not None and btn == Qt.MouseButton.LeftButton and is_grip_or_bg:
+                         wh.startSystemMove()
+                     return True
+             elif etype == QEvent.Type.MouseMove:
+                 if self.drag_pos is not None and (
+                     event.buttons() & (Qt.MouseButton.LeftButton | Qt.MouseButton.RightButton)
+                 ):
+                     self.move(event.globalPosition().toPoint() - self.drag_pos)
+                     return True
+             elif etype == QEvent.Type.MouseButtonRelease:
+                 if self.drag_pos is not None:
+                     self.drag_pos = None
+                     self.save_position()
+                     return True
+             return super().eventFilter(obj, event)
+
+        def moveEvent(self, event) -> None:
+            super().moveEvent(event)
+            self.save_position()
 
         def update_styles(self) -> None:
             border_col = "#bf616a" if self.recording else "#4c566a"
@@ -361,7 +446,6 @@ def run_gui() -> None:
 
         def send_enter(self) -> None:
             if self.recording:
-                # Stop recording first, then send Enter
                 send_key_to_agy("F5")
                 self.recording = False
                 self.mic_btn.setText("🎙️ Talk")
@@ -379,37 +463,31 @@ def run_gui() -> None:
             self.adjustSize()
 
         def tick_timer(self) -> None:
+            # Auto-close when all `agy` terminal sessions have exited
+            active_now = has_active_agy_process()
+            if active_now:
+                self.saw_agy = True
+            elif self.saw_agy or (time.time() - self.launch_ts > 6.0):
+                self.close_cleanly(closed_by_user=False)
+                return
+
             if self.recording:
                 elapsed = int(time.time() - self.record_start)
-                # Auto-finalize at 3m25s before agy's 3m30s cutoff
                 if elapsed >= 205:
                     self.toggle_mic()
                     return
                 mins, secs = divmod(elapsed, 60)
                 self.mic_btn.setText(f"🔴 Stop ({mins}:{secs:02d})")
 
-        def close_cleanly(self) -> None:
+        def close_cleanly(self, closed_by_user: bool = True) -> None:
             if self.recording:
                 send_key_to_agy("F5")
-            write_state(False, False, 0.0, closed_by_user=True)
+            write_state(False, False, 0.0, closed_by_user=closed_by_user)
             try:
                 PID_FILE.unlink()
             except OSError:
                 pass
             app.quit()
-
-        def mousePressEvent(self, event) -> None:
-            if event.button() == Qt.MouseButton.LeftButton:
-                self.drag_pos = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
-                event.accept()
-
-        def mouseMoveEvent(self, event) -> None:
-            if self.drag_pos is not None and event.buttons() & Qt.MouseButton.LeftButton:
-                self.move(event.globalPosition().toPoint() - self.drag_pos)
-                event.accept()
-
-        def mouseReleaseEvent(self, event) -> None:
-            self.drag_pos = None
 
     PID_FILE.write_text(str(os.getpid()), encoding="utf-8")
     win = MicPillWindow()
@@ -426,6 +504,7 @@ def spawn_daemon() -> None:
     uid = os.getuid() if hasattr(os, "getuid") else 1000
     env.setdefault("DISPLAY", ":0")
     env.setdefault("WAYLAND_DISPLAY", "wayland-0")
+    env["QT_QPA_PLATFORM"] = "xcb"
     env.setdefault("XDG_RUNTIME_DIR", f"/run/user/{uid}")
     env.setdefault("DBUS_SESSION_BUS_ADDRESS", f"unix:path=/run/user/{uid}/bus")
     write_state(False, False, 0.0, closed_by_user=False)
@@ -439,6 +518,7 @@ def spawn_daemon() -> None:
                 "--collect",
                 "--setenv=DISPLAY=:0",
                 "--setenv=WAYLAND_DISPLAY=wayland-0",
+                "--setenv=QT_QPA_PLATFORM=xcb",
                 sys.executable,
                 script_path,
                 "--foreground",
