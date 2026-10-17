@@ -266,8 +266,11 @@ def main():
             print("\n[✂️ Delta Minimization]: Bisecting crash input delta to minimal reproduction sequence...")
             subprocess.run([sys.executable, str(fuzzer_tool), "minimize", "--trace-file", ".qa_corpus/crash_trace.json", "--out-minimal", ".qa_corpus/minimal_repro.json", "--dry-run"], check=False)
         if coproc_tool.exists():
-            print("\n[🤖 Local Coprocessor Triage]:")
-            subprocess.run([sys.executable, str(coproc_tool), "summarize-log", "--log", crash_reason, "--dry-run"])
+            print("\n[🤖 Local Coprocessor Triage via RTX 5060]:")
+            coproc_cmd = [sys.executable, str(coproc_tool), "reason", "--prompt", f"Triage this S.T.A.L.K.E.R. OGSR fatal engine crash log. Identify the root cause (LTX, C++, or asset) in 3 concise bullet points:\n```\n{crash_reason}\n```"]
+            if args.dry_run:
+                coproc_cmd.append("--dry-run")
+            subprocess.run(coproc_cmd, check=False)
         if qa_pipeline_tool.exists():
             clean_desc = crash_reason[:180].replace("\n", " ")
             subprocess.run([sys.executable, str(qa_pipeline_tool), "log-flaw", "--category", "crash", "--description", clean_desc], check=False)

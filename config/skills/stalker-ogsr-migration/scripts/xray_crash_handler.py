@@ -274,6 +274,20 @@ def sweep_and_dismiss(archive_dir: Optional[Path] = None) -> List[Dict[str, any]
             report_file = out_dir / f"crash_triage_{int(time.time())}_{pid}.json"
             report_file.write_text(json.dumps(report, indent=2), encoding="utf-8")
             print(f"  -> Saved structured triage ledger: {report_file}")
+
+            # Trigger local Coprocessor triage with deepseek-r1 on the crash report
+            try:
+                coproc_script = Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py")
+                if coproc_script.exists():
+                    desc = report.get("description") or report.get("expression") or (report.get("lua_errors")[0] if report.get("lua_errors") else "")
+                    if desc:
+                        print(f"  -> Triggering local AI crash triage (deepseek-r1:8b)...")
+                        subprocess.run([
+                            sys.executable, str(coproc_script), "reason",
+                            "--prompt", f"Triage S.T.A.L.K.E.R. OGSR crash:\nExpression: {report.get('expression')}\nDescription: {report.get('description')}\nLocation: {report.get('file')}:{report.get('line')}\nIdentify root cause in 2 bullet points."
+                        ], timeout=15.0, capture_output=True)
+            except Exception:
+                pass
         else:
             print("  -> Notice: Specific log file could not be mapped; closing modal window.")
 
