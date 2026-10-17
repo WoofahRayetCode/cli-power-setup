@@ -1,37 +1,37 @@
 {
-  "updated_at": "2026-10-16T20:55:45.122457",
+  "updated_at": "2026-10-16T20:59:21.191694",
   "total_repos": 32,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792209344.7527065,
+      "activity_ts": 1792209560.7480145,
       "age_str": "0s ago",
-      "dirty_count": 41,
+      "dirty_count": 4,
       "dirty_exts": {
-        ".mdc": 24,
-        ".md": 14,
-        ".json": 1
+        ".mdc": 2,
+        ".md": 1,
+        ".py": 1
       },
       "top_exts": [
         ".mdc",
         ".md",
         ".py"
       ],
-      "last_commit": "chore(argon): remove tandem setup and update cheat",
+      "last_commit": "feat(skills): align 12 orchestration and telemetry",
       "stack": "AI Skills / Python / Bash",
       "routine": "Flash \u2022 Low (Sync/Docs)",
       "deep": "Argon \u2022 High (Orchestration)",
-      "live_rec": "Flash \u2022 Low",
-      "live_reason": "Skill edits & repo sync",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "Multi-tool engineering",
       "hw": "Local AST/RAG + 32-Thr"
     },
     {
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792209344.144673,
+      "activity_ts": 1792209560.3257492,
       "age_str": "0s ago",
       "dirty_count": 16,
       "dirty_exts": {

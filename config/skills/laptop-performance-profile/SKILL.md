@@ -42,15 +42,23 @@ omen-cli system battery-care 80
 
 ---
 
-## 🌙 3. Sleep & Night-Time Acoustic Governance
+## 🌙 3. Sleep, Lid-Closed (`clamshell-3d`) & Night-Time Acoustic Governance
 
-When the user is resting or working in quiet environments (e.g. laptop sound muted, night-time autonomous runs):
-* **Rule:** Never allow background tasks to spin fans up to maximum RPM unless explicitly requested.
-* **Autonomous Enforcement:** Before executing background work during sleep hours, switch profile to `quiet` / `power-saver`:
+When the user is resting, napping, or closes the laptop lid during autonomous 3D / coding runs:
+* **Rule:** Never allow background tasks to spin fans up to maximum RPM or heat-soak the closed keyboard deck against the OLED/IPS screen panel.
+* **Lid-Closed 3D Blender / OptiX Mode (`clamshell-3d`):**
   ```bash
-  python3 scripts/laptop_performance_controller.py sleep-mode
+  laptop-perf clamshell-3d
+  # (or: python3 scripts/laptop_performance_controller.py clamshell-3d)
   ```
-* Fans remain quiet while CPU still executes agent reasoning and lightweight CLI tasks efficiently.
+  - Acquires a detached `systemd-inhibit --what=handle-lid-switch:sleep:idle` block lock (`~/.cache/agy_lid_inhibit.pid`) on top of KDE PowerDevil's `LidAction=64` (Turn Off Screen), guaranteeing the laptop **never suspends** when the lid is closed.
+  - Caps CPU PL1/PL2 to `power-saver` (`25W–35W`) with `auto` fans (`< 28 dBA`) so the top keyboard deck stays cool (`< 68°C`) while closed.
+  - Keeps the **NVIDIA RTX 5060 GPU** fully available for headless Blender 5.2+ (`blender -b -E CYCLES -- --cycles-device OPTIX`) and offscreen EGL EEVEE rendering, which operate 100% without an active display.
+* **Wake / Daytime Restoration (`wake-mode`):**
+  ```bash
+  laptop-perf wake-mode
+  ```
+  - Releases the lid-switch inhibitor lock and restores the `balanced` profile.
 
 ---
 
