@@ -1,0 +1,44 @@
+---
+description: Eliminates 15k-28k output token spikes on Gemini 4 Argon and Flash by forbidding full-file write_to_file regeneration when versioning, cloning, or refactoring scripts/shaders (>50 lines), enforcing shell cp + surgical replace_file_content diffs instead.
+globs: *
+alwaysApply: false
+---
+
+# Gemini Copy-Then-Patch Edit Governor (`gemini-copy-then-patch-edit-governor`)
+
+Empirical transcript telemetry from long-running Gemini 4 Argon sessions proves that **full-file `write_to_file` calls on existing or versioned files (`make_aisha_v5.py` $\rightarrow$ `make_aisha_v6.py`) are the single largest source of output token quota spikes** — burning `17,000–27,687` output tokens (and `15,000+` internal thinking tokens) in a single turn.
+
+Because output/thinking tokens carry **4x–8x higher quota weight** than input tokens, a single 900-line `write_to_file` call consumes as much rolling 5-hour quota as ~50 surgical `replace_file_content` turns.
+
+---
+
+## 1. The Copy-Then-Patch Protocol (97% Output Token Reduction)
+
+Whenever you need to create a new version of an existing script, shader, config, or source file (`v1 -> v2`, backup/variant, or template clone `> 50` lines):
+
+### ❌ Anti-Pattern (Burns `20,000–28,000` Output Tokens)
+- Calling `write_to_file(TargetFile="tools/make_model_v6.py", CodeContent="<entire 900-line file>")`.
+
+### ✅ Mandatory Copy-Then-Patch Pattern (Costs `~300` Output Tokens)
+1. **Step 1 — Clone on Host Filesystem (`~15` output tokens):**
+   ```bash
+   cp -f tools/make_model_v5.py tools/make_model_v6.py
+   ```
+2. **Step 2 — Apply Surgical `replace_file_content` Diffs (`<= 45` lines per chunk):**
+   Edit only the modified functions or constants inside `tools/make_model_v6.py`.
+
+---
+
+## 2. Large Data Table & Array Offloading
+
+When generating lookup tables, vertex arrays, UV coordinates, or binary headers (`> 40` lines of numbers):
+- **Never** type raw coordinate arrays in LLM output tokens or internal Chain-of-Thought.
+- Write a compact 15-line Python generator script executed via `run_command` (or `~/.local/bin/game-math-solver`) that computes and writes the array directly to disk using host CPU/GPU.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Use `cp -f` on Linux and `Copy-Item -Force` / `shutil.copy2` on Windows 10/11.
+
+## Related & Interoperating Skills
+- **`gemini-implicit-kv-cache-ttl-keeper`**: Prevents 160k–195k uncached input token spikes when implicit KV caches expire during long builds/playtests.
+- **`gemini-ast-symbol-window-slicer`**: Enforces strict `StartLine`/`EndLine` bounds on `view_file` to prevent 800-line context bloat.
+- **`argon-atomic-diff-sequencer`**: Restricts code edits to surgical chunks.

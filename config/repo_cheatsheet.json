@@ -1,23 +1,25 @@
 {
-  "updated_at": "2026-10-17T10:11:25.460387",
+  "updated_at": "2026-10-17T10:19:57.573462",
   "total_repos": 32,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792257045.0557344,
-      "age_str": "40s ago",
-      "dirty_count": 2,
+      "activity_ts": 1792257597.2125819,
+      "age_str": "0s ago",
+      "dirty_count": 15,
       "dirty_exts": {
-        ".json": 1
+        ".md": 5,
+        ".json": 3,
+        ".mdc": 6
       },
       "top_exts": [
         ".mdc",
         ".md",
         ".py"
       ],
-      "last_commit": "feat(rtx): add 3 NVIDIA RTX/DLSS-RR/Compute-BVH/DX",
+      "last_commit": "feat(statusline): add weekly quota reset timestamp",
       "stack": "AI Skills / Python / Bash",
       "routine": "Flash \u2022 Low (Sync/Docs)",
       "deep": "Argon \u2022 High (Orchestration)",
@@ -30,7 +32,7 @@
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
       "activity_ts": 1792255642.089617,
-      "age_str": "24m ago",
+      "age_str": "32m ago",
       "dirty_count": 193,
       "dirty_exts": {
         ".json": 78,
@@ -105,7 +107,7 @@
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
       "activity_ts": 1792255333.0,
-      "age_str": "29m ago",
+      "age_str": "37m ago",
       "dirty_count": 28,
       "dirty_exts": {
         ".hpp": 1,

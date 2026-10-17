@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)** and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
 
-This repository organizes **307 autonomous agent skills**, 307 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a clickable floating voice dictation pill (`agy-mic-button`), a zero-quota CPU/GPU math & physics solver (`game-math-solver`), an auto-optimizing skill ecosystem engine (`skill-optimize`), a clamshell 3D thermal governor (`laptop-perf`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
+This repository organizes **310 autonomous agent skills**, 310 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a clickable floating voice dictation pill (`agy-mic-button`), a zero-quota CPU/GPU math & physics solver (`game-math-solver`), an auto-optimizing skill ecosystem engine (`skill-optimize`), a clamshell 3D thermal governor (`laptop-perf`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Environment Sync:** Deploys all 307 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Environment Sync:** Deploys all 310 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Voice Command Routing:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, Zero-Quota Local CPU/GPU Math Offload rules, and Natural-Language Spoken Command Routing (*"Set a goal..."*, *"Make a plan..."*, *"Use boost..."*) to `~/.gemini/config/GEMINI.md` and `~/.cursorrules`.
 4. **Live Multi-Row Telemetry Statusline (`agy-quota-statusline`):** Tracks real-time 5h/weekly quota, 250k compaction gate countdown (`🧹`), active skills in real time (`🛠️ Skills [Live]`), CPU/GPU temperatures & fan RPM (`🌡️`), lid-closed lock state (`🔒Lid-Safe`), RTX 5060 VRAM & `/dev/shm` RAM-disk usage (`🚀`), and active background workloads (`⚙️ 🎨Blender+🔨Build+🎮OGSR/Wine`).
 5. **Floating Voice Dictation Pill (`agy-mic-button`):** Launches a draggable, pinnable (`📌`/`📍`) floating `[🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin]` overlay that triggers `/voice` (`F5`) without keyboard shortcuts and auto-closes when `agy` exits.
@@ -53,7 +53,7 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & skill reference
 ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
 ├── .cursor/
-│   └── rules/                  # 307 modular Cursor rules (.mdc) with semantic metadata
+│   └── rules/                  # 310 modular Cursor rules (.mdc) with semantic metadata
 ├── bin/
 │   ├── agy-quota-statusline    # Live multi-row quota, skills, thermal, VRAM & git statusline
 │   ├── agy-mic-button          # Floating draggable/pinnable voice dictation pill for agy
@@ -85,14 +85,14 @@ cli-power-setup/
     ├── settings.template.json       # Reference AGY CLI settings configuration
     ├── token_ledger.json            # Pure Antigravity (agy) lifetime token savings ledger (1.28B cached tokens)
     ├── cursor/                      # Cursor reference templates and rules
-    └── skills/                      # 307 specialized skills
+    └── skills/                      # 310 specialized skills
 ```
 
 ---
 
 ## 🎯 Where Skills Perform Best: `agy` CLI vs. Cursor IDE (Division of Labor)
 
-While all 307 skills and CLI utilities are shared across environments, they naturally divide into distinct operational sweet spots:
+While all 310 skills and CLI utilities are shared across environments, they naturally divide into distinct operational sweet spots:
 
 ### 1. Skills That Excel in `agy` CLI (Headless, Voice-Driven & Unattended)
 *Best launched via `agy-yolo`, `agy-turbo`, or spoken *"Set a goal..."* via `agy-mic-button`*
@@ -1907,7 +1907,7 @@ Eliminates cloud reasoning token burn on 3D coordinate/quaternion basis transfor
 | **`cursor-rules-sync`** | Converts all skills to Cursor `.mdc` rules and syncs `.cursorrules` | After modifying skills or when syncing Cursor configuration. |
 | **`skills-audit-update --audit`** | Audits health across Antigravity and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all 300 skills across Antigravity and Cursor | After adding or updating any skill in the repository. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 307 skills across Antigravity and Cursor | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 310 skills across Antigravity and Cursor | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
@@ -1944,7 +1944,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 307 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 310 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
 
 
@@ -1954,7 +1954,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ---
 
 <!-- AUTO-SYNC-CATALOG:START -->
-## 🔄 Auto-Synchronized Skill & CLI Inventory (307 Total Active Skills)
+## 🔄 Auto-Synchronized Skill & CLI Inventory (310 Total Active Skills)
 
 ### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)
 | CLI Tool | Purpose |
@@ -1974,7 +1974,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 | **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |
 | **`local-coprocessor` / `local-rag` / `local-ast-compiler`** | Zero-quota local CPU/GPU/RAM offload engines for AST syntax checks, BM25/vector RAG, and local LLM summarization. |
 
-### Recently Evolved & SOTA Skills (81 Indexed Automatically)
+### Recently Evolved & SOTA Skills (84 Indexed Automatically)
 | Skill Name | Description |
 | :--- | :--- |
 | **`amd-igpu-nvidia-dgpu-hybrid-offload`** | Dual-GPU workload splitter for AMD Radeon 610M iGPU (/dev/dri/renderD129, RADV Vulkan + VA-API VCN + 30GB shared DDR5 RAM) and NVIDIA GeForce RTX 5060 dGPU (/dev/dri/renderD128, 8GB GDDR7 CUDA/OptiX). Prevents background agent tasks from stealing game VRAM. |
@@ -2033,6 +2033,9 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 | **`elevenlabs-voice-isolator-dubbing-sfx`** | ElevenLabs feature parity for Studio Voice Isolator (STFT Wiener de-noising, UVR5/Mel-Band RoFormer/Demucs v4 vocal extraction), AI Cross-Language Game Audio Dubbing (translating Russian/Ukrainian NPC .ogg voice lines to English while preserving speaker timbre, duration, and GSC v3 headers), and Text-to-SFX (TangoFlux, Stable Audio Open, sound-web-scout). |
 | **`game-asset-streaming-lod-governor`** | Real-time asynchronous asset streaming, distance-based LOD hierarchies (LOD0-LOD3), virtual texturing, and LRU memory cache eviction. |
 | **`game-audio-ogg-gsc-encoder`** | Converts and encodes game audio to Ogg Vorbis while injecting and preserving proprietary GSC binary engine comment chunks (min/max distance, volume, AI perception) required by S.T.A.L.K.E.R. engines. |
+| **`gemini-ast-symbol-window-slicer`** | Slashes view_file uncached input token burn by 85% by prohibiting un-bounded 800-line view_file calls on files >100 lines, enforcing fast grep/AST line-number lookup followed by tight 40-80 line StartLine/EndLine windows. |
+| **`gemini-copy-then-patch-edit-governor`** | Eliminates 15k-28k output token spikes on Gemini 4 Argon and Flash by forbidding full-file write_to_file regeneration when versioning, cloning, or refactoring scripts/shaders (>50 lines), enforcing shell cp + surgical replace_file_content diffs instead. |
+| **`gemini-implicit-kv-cache-ttl-keeper`** | Prevents 150k-200k uncached input token spikes caused by Gemini implicit KV-cache TTL eviction during long playtests, C++ builds, and background tasks by enforcing pre-wait compaction gates and log-tail redirection. |
 | **`grok-realtime-telemetry-scout`** | Emulates xAI Grok real-time live search on Gemini 4 Argon. Scouts bleeding-edge git commits, pull requests, issue trackers, and package feeds for undocumented Linux and game fixes. |
 | **`headless-gameplay-testing-bot`** | Autonomous cross-platform gameplay testing bot, synthetic input replay (uinput, adb input), regression fuzzing, and telemetry invariant assertions. |
 | **`linux-perf-flamegraph-bottleneck-triage`** | Hardware performance counter profiling (perf record/report) and folded stack Flamegraph bottleneck triage for native Linux and Wine/Proton games. Pinpoints exact C++ functions causing severe FPS drops in seconds without blind bisecting. |

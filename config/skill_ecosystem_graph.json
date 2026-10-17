@@ -1,5 +1,5 @@
 {
-  "total_skills": 307,
+  "total_skills": 310,
   "skills": {
     "adaptive-reasoning": {
       "description": "Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-speed execution on Flash and deep-reasoning planning on Argon based on prompt complexity.",
@@ -905,9 +905,9 @@
       "description": "Pre-switch state compaction and history virtualization engine when switching models (Sonnet to Fable, Opus, or Gemini). Eliminates 80k-150k uncached token re-reads by snapshotting state, staging model-optimal memory, and executing pre-switch compaction to slash model transition costs by 98%.",
       "related": [
         "cross-agent-context-deduplicator",
-        "claude-context-rot-shield",
-        "high-density-prompting",
-        "cross-cli-session-handoff"
+        "gemini-implicit-kv-cache-ttl-keeper",
+        "gemini-copy-then-patch-edit-governor",
+        "claude-context-rot-shield"
       ]
     },
     "cross-platform-game-compatibility": {
@@ -1183,10 +1183,10 @@
     "flash-context-compactor": {
       "description": "Prevents Gemini 3.8 Flash context window inflation through targeted line-slice reading, AST interface skeletons, and proactive state compaction below the 100k-token ceiling.",
       "related": [
+        "gemini-ast-symbol-window-slicer",
         "selective-context-ingestor",
         "claude-context-rot-shield",
-        "fable-virtual-context-manager",
-        "prompt-cache-context-optimizer"
+        "gemini-implicit-kv-cache-ttl-keeper"
       ]
     },
     "frontier-image-studio": {
@@ -1589,9 +1589,27 @@
       "description": "Real-time telemetry governor for Gemini 3.8 Flash rolling 5-hour quota windows. Throttles tool verbosity and paces autonomous execution to guarantee uninterrupted workflow between rollover cycles.",
       "related": [
         "argon-yolo-quota-pacing-watchdog",
-        "gemini-flash-cache-aligner",
-        "context-pruning-watchdog",
-        "agy-context-telemetry"
+        "gemini-copy-then-patch-edit-governor",
+        "gemini-implicit-kv-cache-ttl-keeper",
+        "gemini-flash-cache-aligner"
+      ]
+    },
+    "gemini-ast-symbol-window-slicer": {
+      "description": "Slashes view_file uncached input token burn by 85% by prohibiting un-bounded 800-line view_file calls on files >100 lines, enforcing fast grep/AST line-number lookup followed by tight 40-80 line StartLine/EndLine windows.",
+      "related": [
+        "flash-context-compactor",
+        "gemini-copy-then-patch-edit-governor",
+        "selective-context-ingestor",
+        "gemini-implicit-kv-cache-ttl-keeper"
+      ]
+    },
+    "gemini-copy-then-patch-edit-governor": {
+      "description": "Eliminates 15k-28k output token spikes on Gemini 4 Argon and Flash by forbidding full-file write_to_file regeneration when versioning, cloning, or refactoring scripts/shaders (>50 lines), enforcing shell cp + surgical replace_file_content diffs instead.",
+      "related": [
+        "gemini-ast-symbol-window-slicer",
+        "gemini-implicit-kv-cache-ttl-keeper",
+        "argon-thinking-governor",
+        "cross-model-switch-pruner"
       ]
     },
     "gemini-flash-cache-aligner": {
@@ -1601,6 +1619,15 @@
         "argon-context-cache-guard",
         "prompt-cache-context-optimizer",
         "high-density-prompting"
+      ]
+    },
+    "gemini-implicit-kv-cache-ttl-keeper": {
+      "description": "Prevents 150k-200k uncached input token spikes caused by Gemini implicit KV-cache TTL eviction during long playtests, C++ builds, and background tasks by enforcing pre-wait compaction gates and log-tail redirection.",
+      "related": [
+        "gemini-copy-then-patch-edit-governor",
+        "cross-model-switch-pruner",
+        "gemini-ast-symbol-window-slicer",
+        "flash-context-compactor"
       ]
     },
     "generative-visual-artifacts": {
@@ -2209,10 +2236,10 @@
     "selective-context-ingestor": {
       "description": "Enforces surgical line-slice reading and AST-first inspection via slice-reader, preventing models from ingesting 800-line files when they only need 25 lines to save 90-95% context tokens.",
       "related": [
+        "gemini-ast-symbol-window-slicer",
         "flash-context-compactor",
         "argon-atomic-diff-sequencer",
-        "qwen-polyglot-ast-cartographer",
-        "polyglot-ast-interface-pruner"
+        "qwen-polyglot-ast-cartographer"
       ]
     },
     "self-evolving-skill-synthesizer": {
@@ -2239,7 +2266,7 @@
         "qwen-polyglot-ast-cartographer",
         "local-vector-rag-engine",
         "stalker-spawn-entity-indexer",
-        "flash-context-compactor"
+        "gemini-ast-symbol-window-slicer"
       ]
     },
     "session-episodic-memory": {
@@ -2310,8 +2337,8 @@
       "related": [
         "argon-tool-calling-densifier",
         "local-vector-rag-engine",
-        "argon-thinking-governor",
-        "argon-atomic-diff-sequencer"
+        "gemini-copy-then-patch-edit-governor",
+        "argon-thinking-governor"
       ]
     },
     "sql-schema-query-condenser": {
@@ -2608,7 +2635,7 @@
         "reverse-engineer-anything",
         "binary-re-workflows",
         "console-game-decompilation",
-        "standalone-binary-re"
+        "gemini-copy-then-patch-edit-governor"
       ]
     },
     "win32-systems-engineering": {

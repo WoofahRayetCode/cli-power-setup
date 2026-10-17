@@ -248,6 +248,45 @@ def refresh_now():
 
             with open(CACHE_FILE, "w") as f:
                 json.dump(quota_dict, f)
+
+            # Auto-aggregate live token_ledger.json across all CLI & IDE brains
+            try:
+                t_files = (
+                    glob.glob(os.path.expanduser("~/.gemini/antigravity-cli/brain/*/.system_generated/logs/transcript.jsonl"))
+                    + glob.glob(os.path.expanduser("~/.gemini/antigravity/brain/*/.system_generated/logs/transcript.jsonl"))
+                )
+                tot_c = tot_i = tot_o = tot_t = 0
+                for tf in t_files:
+                    with open(tf, "r", encoding="utf-8", errors="ignore") as f_tr:
+                        for ln in f_tr:
+                            if '"PLANNER_RESPONSE"' in ln:
+                                r = json.loads(ln)
+                                if r.get("type") == "PLANNER_RESPONSE":
+                                    tot_t += 1
+                                    tot_c += r.get("cache_read_tokens", 0)
+                                    tot_i += r.get("input_tokens", 0)
+                                    tot_o += r.get("output_tokens", 0)
+                if tot_c > 0:
+                    hit_rate = round(tot_c / (tot_c + tot_i) * 100.0, 2) if (tot_c + tot_i) > 0 else 0.0
+                    ledger_p = Path.home() / ".cli_power_setup" / "token_ledger.json"
+                    if ledger_p.exists():
+                        ld = json.loads(ledger_p.read_text(encoding="utf-8"))
+                    else:
+                        ld = {}
+                    ls = ld.get("lifetime_summary", {})
+                    ls["total_cached_tokens_saved"] = max(ls.get("total_cached_tokens_saved", 0), tot_c)
+                    ls["total_sessions_tracked"] = max(ls.get("total_sessions_tracked", 0), len(t_files))
+                    ls["cache_hit_rate_pct"] = hit_rate
+                    ls["total_uncached_input_tokens"] = max(ls.get("total_uncached_input_tokens", 0), tot_i)
+                    ls["total_output_tokens"] = max(ls.get("total_output_tokens", 0), tot_o)
+                    ls["total_turns_executed"] = max(ls.get("total_turns_executed", 0), tot_t)
+                    ls["last_updated"] = datetime.now().isoformat()
+                    ld["lifetime_summary"] = ls
+                    ledger_p.parent.mkdir(parents=True, exist_ok=True)
+                    ledger_p.write_text(json.dumps(ld, indent=2), encoding="utf-8")
+            except Exception:
+                pass
+
             return quota_dict
     except Exception:
         pass
