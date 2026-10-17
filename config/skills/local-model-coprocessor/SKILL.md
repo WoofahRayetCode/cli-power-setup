@@ -43,20 +43,22 @@ The local fleet is orchestrated via Ollama (`http://localhost:11434`), consuming
 
 | Domain / Task Flag | Primary Model | Fallback | VRAM | Specialization / Routing Target |
 | :--- | :--- | :--- | :--- | :--- |
-| **`--task code`** | `qwen2.5-coder:7b` | `deepseek-coder:6.7b` | ~4.7 GB | Core multi-language refactoring, AST linting, logic fixes |
+| **`--task port`** | `deepseek-coder-v2:16b` | `qwen2.5-coder:32b` | ~6.0 GB | Game engine porting, 32-to-64-bit pointers, shader dialects (HLSL/GLSL) |
+| **`--task plan`** | `qwen2.5-coder:32b` | `deepseek-r1:32b` / `14b` | ~7.5 GB | Frontier offline planning, architecture decomposition, roadmaps |
+| **`--task code`** | `qwen2.5-coder:32b` | `qwen2.5-coder:7b` | ~4.7 GB–7.5 GB | Core multi-language refactoring, AST linting, logic fixes |
 | **`--task fast`** | `qwen2.5-coder:1.5b` | `llama3.2:3b` | ~1.0 GB | Sub-second regex, docstrings, unit test boilerplate |
-| **`--task cpp`** | `deepseek-coder:6.7b-instruct` | `qwen2.5-coder:7b` | ~3.8 GB | Modern C++20, pointer safety, OGSR/X-Ray engine porting |
-| **`--task csharp`** | `granite-code:8b` | `qwen2.5-coder:7b` | ~4.6 GB | C# .NET 8/9, Avalonia, EF Core, enterprise backend |
-| **`--task rust`** | `starcoder2:7b` | `qwen2.5-coder:7b` | ~4.0 GB | Rust ownership, borrow checker proofs, zero-cost abstractions |
-| **`--task python`** | `codellama:7b-python` | `qwen2.5-coder:7b` | ~3.8 GB | Python 3.10+, scientific computing, pytest test generation |
-| **`--task math`** | `mathstral:7b` | `wizard-math:7b` / `phi4:14b` | ~4.1 GB | Physics ODEs, exponential damping, quaternion SLERP |
-| **`--task reason`** | `deepseek-r1:8b` | `phi4:14b` | ~5.2 GB | Step-by-step chain-of-thought proofs & algorithmic verification |
-| **`--task translate`** | `aya:8b` | `qwen2.5:7b` | ~4.8 GB | Cohere 101-language translation, Slavic/CJK/FIGS game dialogue |
-| **`--task web`** | `qwen2.5:7b` | `gemma2:9b` | ~4.7 GB | Web modernization, responsive Tailwind, clean semantic HTML |
-| **`--task business`** | `gemma2:9b` | `qwen2.5:7b` | ~5.4 GB | Anti-jargon client proposals, BLUF executive copy, SOWs |
+| **`--task cpp`** | `deepseek-coder-v2:16b` | `qwen2.5-coder:32b` / `14b` | ~3.8 GB–6.0 GB | Modern C++20, pointer safety, OGSR/X-Ray engine porting |
+| **`--task csharp`** | `granite-code:8b` | `qwen2.5-coder:32b` | ~4.6 GB | C# .NET 8/9, Avalonia, EF Core, enterprise backend |
+| **`--task rust`** | `starcoder2:7b` | `qwen2.5-coder:32b` | ~4.0 GB | Rust ownership, borrow checker proofs, zero-cost abstractions |
+| **`--task python`** | `codellama:7b-python` | `qwen2.5-coder:32b` | ~3.8 GB | Python 3.10+, scientific computing, pytest test generation |
+| **`--task math`** | `deepseek-r1:14b` / `32b` | `mathstral:7b` / `phi4:14b` | ~4.1 GB–7.5 GB | Physics ODEs, exponential damping, quaternion SLERP |
+| **`--task reason`** | `deepseek-r1:32b` | `deepseek-r1:14b` / `phi4` | ~5.2 GB–7.5 GB | Step-by-step chain-of-thought proofs & algorithmic verification |
+| **`--task translate`** | `aya:8b` | `qwen2.5:32b` / `7b` | ~4.8 GB | Cohere 101-language translation, Slavic/CJK/FIGS game dialogue |
+| **`--task web`** | `qwen2.5:32b` | `qwen2.5:7b` / `gemma2:9b` | ~4.7 GB–7.5 GB | Web modernization, responsive Tailwind, clean semantic HTML |
+| **`--task business`** | `gemma2:9b` | `qwen2.5:32b` / `7b` | ~5.4 GB | Anti-jargon client proposals, BLUF executive copy, SOWs |
 | **`--task sql`** | `sqlcoder:7b` | `granite-code:8b` | ~4.1 GB | State-of-the-art SQL query synthesis, SQLite WAL tuning |
 | **`--task tool`** | `hermes3:8b` | `llama3.1:8b` | ~4.7 GB | Function calling, tool use, strict JSON schema compliance |
-| **`--task long`** | `mistral-nemo:12b` | `qwen2.5:7b` | ~7.1 GB | 128k context window, long document/repo summarization |
+| **`--task long`** | `mistral-nemo:12b` | `qwen2.5:32b` / `7b` | ~7.1 GB | 128k context window, long document/repo summarization |
 | **`--task vision`** | `minicpm-v:8b` | `moondream:latest` | ~5.5 GB | Game HUD inspection, OCR triage, visual bug analysis |
 | **`--task blender`** | `blender-architect:latest` | `qwen2.5-coder:7b` | ~4.7 GB | Custom model fused with Blender 5.2 API & organic SDF rules |
 | **Embeddings** | `bge-m3:latest` | `nomic-embed-text` | ~1.2 GB | Dense multilingual vector embeddings for `local-vector-rag` |
@@ -85,16 +87,22 @@ setup-local-model-fleet --build-custom
 
 ### Coprocessor Execution Commands
 ```bash
-# 1. Code completion or refactoring via optimal engine
+# 1. Game engine porting & 32-to-64-bit pointer audit (deepseek-coder-v2:16b)
+local-coprocessor generate --task port --prompt "Audit this C++ class for 32-to-64-bit pointer truncation and modernize raw pointers to RAII"
+
+# 2. Frontier offline architecture planning (qwen2.5-coder:32b / deepseek-r1:32b)
+local-coprocessor generate --task plan --prompt "Decompose this game mod port into dependency-ordered atomic implementation steps"
+
+# 3. Code completion or refactoring via optimal engine
 local-coprocessor generate --task cpp --prompt "Refactor raw pointer into std::unique_ptr"
 
-# 2. Mathematical derivation & ODE solutions
+# 4. Mathematical derivation & ODE solutions
 local-coprocessor generate --task math --prompt "Derive critically damped spring update for fixed_step=0.01"
 
-# 3. Game dialogue translation preserving tags
+# 5. Game dialogue translation preserving tags
 local-coprocessor generate --task translate --prompt "Translate string into Russian: <text>Hello stalker</text>"
 
-# 4. Web modernization into Tailwind CSS
+# 6. Web modernization into Tailwind CSS
 local-coprocessor generate --task web --prompt "Convert this legacy HTML table to responsive cards"
 
 # 5. Executive business proposal drafting

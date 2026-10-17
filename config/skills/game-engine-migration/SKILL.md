@@ -134,10 +134,29 @@ Before altering source files or replacing engine binaries:
   - **Action Verification (`agentic-visual-perception`):** Run structural visual diffing (SSIM) between action frames to confirm character responses and UI transitions.
   - **Crash Extraction (`visual-document-ocr-intelligence`):** If a crash occurs, capture the error dialog and run local OCR to extract faulting call stacks instantly.
 
+## 🤖 Local AI Game Engine Porting Coprocessor (`deepseek-coder-v2:16b`, `qwen2.5-coder:32b` via `local-coprocessor`)
+
+To modernize legacy C++ engine classes, audit 32-to-64-bit pointer truncation, and transpile shaders without consuming cloud token quotas, route porting tasks to the local high-end engine porting models:
+
+```bash
+# 1. 32-bit to 64-bit pointer sanitization & struct alignment audit
+local-coprocessor generate --task port \
+  --prompt "Audit this legacy C++ engine class for 32-bit to 64-bit pointer truncation (e.g. DWORD casts) and struct padding mismatches across MSVC x64 vs GCC: <code snippet>"
+
+# 2. Transpile DirectX 9/11 HLSL shader to modern Vulkan SPIR-V / Slang
+local-coprocessor generate --task port \
+  --prompt "Transpile this DirectX 11 HLSL pixel shader to Vulkan GLSL/SPIR-V. Map cbuffer registers to uniform buffer objects (16-byte alignment), adapt NDC depth range [0, 1] to [-1, 1], and preserve sampler states"
+
+# 3. Modernize legacy C++98/03 OOP code to modern C++20 RAII
+local-coprocessor generate --task port --auto-skill \
+  --prompt "Refactor this legacy monolithic game engine entity manager to use C++20 std::unique_ptr, std::span, and an Entity-Component-System (ECS) pattern"
+```
+
 ---
 
 ## 🔗 Skill Composition Matrix
 
+* **Local Model Coprocessor (`local-model-coprocessor`):** Dispatches porting tasks directly to `deepseek-coder-v2:16b` and `qwen2.5-coder:32b` locally in VRAM/RAM (0 cloud tokens billed).
 * **Low-Level Binaries & VTables:** When reconstructing native C++ classes, combine with `lowlevel-dll-internals`.
 * **Zero-MCP CLI Disassembly:** Combine with `standalone-binary-re` for inspecting PE exports, symbols, and relocations.
 * **S.T.A.L.K.E.R. Specifics:** When porting to OGSR or Shadow of Chernobyl 64-bit, delegate to `stalker-ogsr-migration`.

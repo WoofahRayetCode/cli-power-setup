@@ -78,6 +78,8 @@ cli-power-setup/
 │   ├── token-guard             # Terminal command output line ceiling protector (30-line context guard)
 │   ├── slice-reader            # Surgical line-slice reader & AST skeleton extractor
 │   ├── android-dev-runner      # Android 2D/3D development doctor, scrcpy mirror & jank analyzer
+│   ├── local-coprocessor       # Zero-quota task dispatcher to local Ollama fleet (port, plan, code, math)
+│   ├── setup-local-model-fleet # Local model fleet installer, tier synchronizer & telemetry inspector
 │   └── skills-audit-update     # Health auditor, permissions fixer & multi-environment synchronizer
 └── config/
     ├── GEMINI.md                    # Global engineering discipline, quota governance & voice routing rules
@@ -116,6 +118,58 @@ While all 311 skills and CLI utilities are shared across environments, they natu
 | **Routine edits, repository sync & quick commands** | **`agy-turbo`** | **Gemini 3.8 Flash (Low Effort)** |
 | **3D coordinates, ODE physics, ballistics & symbolic proofs** | **`game-math-solver`** | **Local 32-Thread CPU + RTX 5060 CUDA (`0` tokens)** |
 | **Interactive UI styling, websites & visual apps** | **Cursor IDE** | **Grok 4.7 / Gemini / o3-mini** |
+
+---
+
+## 🧠 Zero-Quota Local Model Fleet & Game Engine Porting Coprocessor
+
+A complete fleet of **23+ specialized open-weights models** and **frontier 14B–32B planners** running directly on your laptop via Ollama with hybrid NVIDIA RTX 5060 GDDR7 VRAM and 32-thread DDR5 RAM layer offloading—billing **0 cloud tokens**.
+
+### 1. Fleet Architecture & Functional Tiers
+The local fleet is organized into functional tiers and orchestrated via `local-coprocessor` and `setup-local-model-fleet`:
+
+| Functional Tier | Target Models | Physical Footprint | Primary Specialization |
+| :--- | :--- | :--- | :--- |
+| **`--tier engine-porting`** | `deepseek-coder-v2:16b`, `qwen2.5-coder:32b`, `qwen2.5-coder:14b` | ~40 GB | **#1 Game Engine Porting.** 32-to-64-bit pointer sanitization, DirectX 9/11 HLSL to Vulkan SPIR-V shader transpilation, and C++20 modernizations. |
+| **`--tier frontier-planners`**| `qwen2.5-coder:32b`, `deepseek-r1:32b`, `deepseek-r1:14b`, `qwen2.5:32b` | ~86 GB | **Heavyweight Offline Planners.** High-level task decomposition, architecture roadmaps, and chain-of-thought verification without cloud token spend. |
+| **`--tier code`** | `qwen2.5-coder:7b`, `deepseek-coder:6.7b`, `granite-code:8b`, `starcoder2:7b`, `codellama:7b-python` | ~22 GB | Polyglot coding across C++, C# .NET 8/9, Rust, Python, and AST refactoring. |
+| **`--tier math`** | `mathstral:7b`, `wizard-math:7b`, `phi4:14b`, `deepseek-r1:8b` | ~22 GB | Game physics ODEs, Open Dynamics Engine (ODE) ERP/CFM stability, and quaternion SLERP. |
+| **`--tier dialogue-i18n`** | `aya:8b`, `qwen2.5:7b`, `mistral-nemo:12b` | ~16 GB | Multilingual game dialogue trees (101 languages), string table encoding repair, and 128k summarization. |
+| **`--tier web-business`** | `gemma2:9b`, `sqlcoder:7b`, `qwen2.5:7b` | ~14 GB | Modern Tailwind UI card modernization, state-of-the-art SQL synthesis, and BLUF client proposals. |
+| **`--tier vision`** | `minicpm-v:8b`, `moondream:latest` | ~7 GB | Multimodal UI and HUD visual inspection, screen diffing, and local OCR. |
+| **`--tier custom`** | `blender-architect:latest` | ~4.7 GB | Fine-tuned Modelfile fused with Blender 5.2 API and organic SDF voxel remeshing rules. |
+
+### 2. Fleet Management (`setup-local-model-fleet`)
+```bash
+# 1. Display fleet status, hardware telemetry, and physical storage usage
+setup-local-model-fleet --status
+
+# 2. Synchronize specific functional tiers
+setup-local-model-fleet --tier engine-porting    # Game engine migration models
+setup-local-model-fleet --tier frontier-planners # 14B-32B offline planners
+setup-local-model-fleet --tier core              # Essential daily models
+
+# 3. Download and verify all models
+setup-local-model-fleet --all
+
+# 4. Build custom domain Modelfiles (e.g. blender-architect)
+setup-local-model-fleet --build-custom
+```
+
+### 3. Execution CLI (`local-coprocessor`)
+```bash
+# Game engine porting (32-to-64-bit pointers, shader translation)
+local-coprocessor generate --task port --prompt "Audit this C++ class for 64-bit pointer truncation"
+
+# Frontier offline planning & task decomposition
+local-coprocessor generate --task plan --prompt "Create a 5-step roadmap to port legacy DX9 renderer to Vulkan"
+
+# Mathematical proofing & physics ODE solutions
+local-coprocessor generate --task math --prompt "Derive critically damped spring update for fixed_step=0.01"
+
+# Multilingual dialogue translation preserving %c[color] tags
+local-coprocessor generate --task translate --prompt "Translate string to Russian: <text>Hello Stalker</text>"
+```
 
 ---
 

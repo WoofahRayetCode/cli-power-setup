@@ -98,6 +98,27 @@ FLEET_TIERS = {
             "nomic-embed-text:latest",
         ],
     },
+    "engine-porting": {
+        "description": "Game engine porting, C++ 64-bit systems, and shader dialect translation (~40 GB)",
+        "models": [
+            "deepseek-coder-v2:16b",
+            "qwen2.5-coder:32b",
+            "qwen2.5-coder:14b",
+            "deepseek-coder:6.7b-instruct",
+            "granite-code:8b",
+        ],
+    },
+    "frontier-planners": {
+        "description": "Heavyweight 14B–32B frontier models for offline planning, verification, and architecture (~86 GB)",
+        "models": [
+            "deepseek-coder-v2:16b",
+            "qwen2.5-coder:14b",
+            "deepseek-r1:14b",
+            "qwen2.5-coder:32b",
+            "deepseek-r1:32b",
+            "qwen2.5:32b",
+        ],
+    },
     "custom": {
         "description": "Custom fine-tuned Modelfiles fused with CLI Power Setup domain skills",
         "models": [
@@ -107,6 +128,12 @@ FLEET_TIERS = {
 }
 
 ALL_MODELS = [
+    "deepseek-coder-v2:16b",
+    "qwen2.5-coder:32b",
+    "deepseek-r1:32b",
+    "qwen2.5:32b",
+    "qwen2.5-coder:14b",
+    "deepseek-r1:14b",
     "qwen2.5-coder:7b",
     "qwen2.5-coder:1.5b",
     "deepseek-coder:6.7b-instruct",
@@ -133,6 +160,12 @@ ALL_MODELS = [
 ]
 
 MODEL_SPECS = {
+    "deepseek-coder-v2:16b": ("8.9 GB", "MoE 16B (2.4B active): #1 Game engine porting, C++ systems, and shader dialect translation"),
+    "qwen2.5-coder:32b": ("19.8 GB", "32B Heavyweight frontier code planner: SWE-bench leader, large refactors, C++20 modernizations"),
+    "deepseek-r1:32b": ("19.9 GB", "32B Frontier deep reasoning: architectural verification, invariant proofs, root-cause debugging"),
+    "qwen2.5:32b": ("19.8 GB", "32B Frontier generalist: large repository analysis, complex web architecture, and enterprise copy"),
+    "qwen2.5-coder:14b": ("9.0 GB", "14B Dense code architect: multi-file dependency reasoning and C++20 modernizer"),
+    "deepseek-r1:14b": ("9.0 GB", "14B Chain-of-thought verification: physics ODE proofs, memory alignment, and bug triage"),
     "qwen2.5-coder:7b": ("4.7 GB", "Core multi-language code editing, refactoring, and AST analysis"),
     "qwen2.5-coder:1.5b": ("986 MB", "Sub-second docstring, regex, commit message & boilerplate generation"),
     "deepseek-coder:6.7b-instruct": ("3.8 GB", "C++ systems, memory pointers, X-Ray engine porting, DirectX/Vulkan"),

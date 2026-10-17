@@ -105,7 +105,15 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
         return requested_model
 
     free_mb = get_free_vram_mb()
-    if task == "blender":
+    if task in ("port", "engine", "migration", "transpile"):
+        for cand in ("deepseek-coder-v2:16b", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task in ("plan", "architect", "roadmap", "decompose"):
+        for cand in ("qwen2.5-coder:32b", "deepseek-r1:32b", "qwen2.5:32b", "deepseek-coder-v2:16b", "qwen2.5-coder:14b", "deepseek-r1:14b", "phi4:14b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task == "blender":
         for cand in ("blender-architect:latest", "qwen2.5-coder:7b", "deepseek-r1:8b"):
             if cand in installed:
                 return cand
@@ -114,23 +122,23 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
             if cand in installed:
                 return cand
     elif task in ("csharp", "cs", "dotnet"):
-        for cand in ("granite-code:8b", "qwen2.5-coder:7b"):
+        for cand in ("granite-code:8b", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task in ("cpp", "c++", "xray", "shader"):
-        for cand in ("deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b", "deepseek-r1:8b"):
+        for cand in ("deepseek-coder-v2:16b", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task == "rust":
-        for cand in ("starcoder2:7b", "qwen2.5-coder:7b"):
+        for cand in ("starcoder2:7b", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task in ("python", "py"):
-        for cand in ("codellama:7b-python", "qwen2.5-coder:7b"):
+        for cand in ("codellama:7b-python", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task in ("translate", "localization", "dialogue", "stalker-xml", "i18n"):
-        for cand in ("aya:8b", "qwen2.5:7b", "llama3.1:8b"):
+        for cand in ("aya:8b", "qwen2.5:32b", "qwen2.5:7b", "llama3.1:8b"):
             if cand in installed:
                 return cand
     elif task in ("sql", "database", "schema"):
@@ -142,23 +150,23 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
             if cand in installed:
                 return cand
     elif task in ("long", "summarize", "compact", "cartography"):
-        for cand in ("mistral-nemo:12b", "qwen2.5:7b", "llama3.1:8b"):
+        for cand in ("mistral-nemo:12b", "qwen2.5:32b", "qwen2.5:7b", "llama3.1:8b"):
             if cand in installed:
                 return cand
     elif task in ("web", "html", "modernize", "tailwind", "css", "frontend"):
-        for cand in ("qwen2.5:7b", "gemma2:9b", "qwen2.5-coder:7b"):
+        for cand in ("qwen2.5:32b", "qwen2.5:7b", "gemma2:9b", "qwen2.5-coder:32b"):
             if cand in installed:
                 return cand
     elif task in ("business", "copy", "proposal", "outreach", "editorial", "proofread"):
-        for cand in ("gemma2:9b", "qwen2.5:7b", "llama3.1:8b"):
+        for cand in ("gemma2:9b", "qwen2.5:32b", "qwen2.5:7b", "llama3.1:8b"):
             if cand in installed:
                 return cand
     elif task in ("math", "physics", "ballistics", "quaternion"):
-        for cand in ("mathstral:7b", "wizard-math:7b", "phi4:14b", "deepseek-r1:8b", "qwen2.5-coder:7b"):
+        for cand in ("mathstral:7b", "wizard-math:7b", "deepseek-r1:32b", "deepseek-r1:14b", "phi4:14b", "deepseek-r1:8b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task == "reason" and free_mb >= 5200:
-        for cand in ("deepseek-r1:8b", "phi4:14b", "qwen2.5-coder:7b"):
+        for cand in ("deepseek-r1:32b", "deepseek-r1:14b", "deepseek-r1:8b", "phi4:14b", "qwen2.5-coder:32b"):
             if cand in installed:
                 return cand
     elif task == "fast" or free_mb < 4800:
