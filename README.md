@@ -1,6 +1,6 @@
 # CLI Power Setup (`cli-power-setup`)
 
-[![Active Skills](https://img.shields.io/badge/Skills-314%20Active-brightgreen.svg)](#-categorized-skills-directory-314-skills)
+[![Active Skills](https://img.shields.io/badge/Skills-316%20Active-brightgreen.svg)](#-categorized-skills-directory-316-skills)
 [![Local Fleet](https://img.shields.io/badge/Local%20Fleet-34%20Models%20(Ollama)-blue.svg)](#-zero-quota-local-language-model-fleet-34-models-0-cloud-tokens)
 [![Fleet Disk Size](https://img.shields.io/badge/Fleet%20Disk%20Size-245%20GB%20(34%20Models)-blueviolet.svg)](#-zero-quota-local-language-model-fleet-34-models-0-cloud-tokens)
 [![Secondary NVMe](https://img.shields.io/badge/Secondary%20NVMe-1.3%20TB%20Headroom%20(/mnt/games)-success.svg)](#-secondary-drive-ultra-large-model-repository--hardware-optimizer)
@@ -9,7 +9,7 @@
 
 A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)** and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
 
-This repository organizes **316 autonomous agent skills**, 316 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a 29-model zero-quota local LLM fleet, an Omni-Auto dynamic routing engine, a floating voice dictation pill (`agy-mic-button`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
+This repository organizes **316 autonomous agent skills**, 316 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a 34-model zero-quota local LLM fleet, an Omni-Auto dynamic routing engine, a floating voice dictation pill (`agy-mic-button`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
 
 ---
 
@@ -26,7 +26,7 @@ Jump directly to any section of the documentation:
 * [🔎 Zero-Quota Local Research Scout (`local-research-scout`)](#-zero-quota-local-research-scout-local-research-scout)
 * [🛠️ CLI Power Tools & Launchers](#️-cli-power-tools--launchers)
 * [🎯 Division of Labor: `agy` CLI vs. Cursor IDE](#-division-of-labor-agy-cli-vs-cursor-ide)
-* [🧩 Categorized Skills Directory (314 Skills Dropdowns)](#-categorized-skills-directory-314-skills)
+* [🧩 Categorized Skills Directory (316 Skills Dropdowns)](#-categorized-skills-directory-316-skills)
   * [1. Cognitive Reasoning, Quota Governance & Token Containment](#1-cognitive-reasoning-quota-governance--token-containment)
   * [2. Game Engine Architecture, Porting & Diagnostics](#2-game-engine-architecture-porting--diagnostics)
   * [3. 3D Assets, Headless Blender 5.2+ & Audio DSP](#3-3d-assets-headless-blender-52--audio-dsp)
@@ -42,7 +42,7 @@ Jump directly to any section of the documentation:
 * [🛡️ Ultimate Hardening Protocols & Zero-Token Pre-Flight](#️-ultimate-hardening-protocols--zero-token-host-pre-flight)
 * [📱 Android 2D & 3D Game & App Workflows](#-android-2d--3d-game--app-development-workflows)
 * [📂 Repository Structure](#-repository-structure)
-* [🔄 Auto-Synchronized Catalog](#-auto-synchronized-skill--cli-inventory-314-total-active-skills)
+* [🔄 Auto-Synchronized Catalog](#-auto-synchronized-skill--cli-inventory-316-total-active-skills)
 
 ---
 
@@ -150,10 +150,10 @@ A production-grade fleet of **34 specialized open-weights models**—including *
 # Display live fleet status, hardware telemetry & disk usage
 setup-local-model-fleet --status
 
-# Synchronize specific functional tiers or all 29 models
+# Synchronize specific functional tiers or all 34 models
 setup-local-model-fleet --tier engine-porting    # Game engine migration models
-setup-local-model-fleet --tier frontier-planners # 14B-32B offline planners
-setup-local-model-fleet --all                   # Complete 29-model fleet
+setup-local-model-fleet --tier ultra-large       # 70B-72B Titan models and specialists
+setup-local-model-fleet --all                   # Complete 34-model fleet
 
 # Execute tasks locally (0 cloud tokens billed)
 local-coprocessor generate --task port --prompt "Audit this C++ class for 64-bit pointer truncation"
@@ -197,11 +197,13 @@ The **Omni-Auto Mode** dynamically evaluates every user instruction, workflow li
 | :--- | :--- | :--- | :--- | :--- |
 | **Intake & Scanning** | Host Local CPU | `local-ast-compiler` / `slice-reader` | AST Symbol Indexing | **0 tokens** |
 | **Internet & Web Research** | Host Local Ollama | `local-research-scout` (`deepseek-coder-v2:16b` + `bge-m3`) | Multi-Source RAG Search | **0 tokens** |
-| **Architecture & Planning** | Cloud Pro / Local | `gemini-4-pro` (or local `deepseek-r1:32b` if quota < 40%) | `--effort high` | Minimal |
-| **Code Generation & Porting**| Local / Cloud Flash | `deepseek-coder-v2:16b` / `qwen2.5-coder:32b` / `flash` | `--effort low` | **0 to minimal** |
-| **Math & Physics Derivations**| Host Local RTX 5060 | `mathstral:7b` / `phi4:14b` / `game-math-solver` | CUDA 13.4 / AVX-512 | **0 tokens** |
+| **Architecture & Planning** | Local Titan / Cloud Pro | `deepseek-r1:70b-iq2` / `qwen2.5:72b-iq2` / `gemini-4-pro` | `--effort high` / Chain-of-thought proofs | Minimal / **0 tokens** |
+| **Code Generation & Porting**| Local Titan / Cloud Flash | `qwen2.5:72b-iq2` / `deepseek-coder-v2:16b` / `flash` | C++20, 64-bit pointers, HLSL | **0 to minimal** |
+| **Reverse Engineering** | Host Local Ollama | `llm4decompile:22b-q4` | REA MCP assembly-to-C | **0 tokens** |
+| **Blender 3D Procedural CAD** | Host Local Ollama | `blenderllm:7b-q4` / `qwen2.5:72b-iq2` | Dedicated `bpy` CAD generation | **0 tokens** |
+| **Math & Physics Derivations**| Host Local RTX 5060 | `mathstral:7b` / `game-math-solver` | CUDA 13.4 / AVX-512 | **0 tokens** |
 | **Verification & Testing** | Host CPU/GPU | `pytest` / `cargo test` / `local-preflight-syntax-gate` | Native execution | **0 tokens** |
-| **Summarization & Commits** | Host Local Ollama | `mistral-nemo:12b` / `llama3.2:3b` | `local-coprocessor` | **0 tokens** |
+| **Summarization & Commits** | Host Local Ollama | `mistral-nemo:12b` / `llama3.2:3b` | `local-coprocessor --task fast` | **0 tokens** |
 
 ```bash
 # Evaluate active workspace domain and optimal engine routing
@@ -290,9 +292,9 @@ While all 316 skills and CLI utilities are shared across environments, they divi
 
 ---
 
-## 🧩 Categorized Skills Directory (314 Skills)
+## 🧩 Categorized Skills Directory (316 Skills)
 
-The full collection of 314 skills is organized into 11 functional domains. Click any category below to expand its skills and capabilities:
+The full collection of 316 skills is organized into 11 functional domains. Click any category below to expand its skills and capabilities:
 
 <details>
 <summary><b>🧠 1. Cognitive Reasoning, Quota Governance & Token Containment (38 Skills)</b></summary>
@@ -800,7 +802,7 @@ cli-power-setup/
     ├── GEMINI.md               # Global engineering discipline, quota governance & voice rules
     ├── skill_ecosystem_graph.json # Auto-optimized capability graph across all skills
     ├── token_ledger.json       # Pure Antigravity (agy) lifetime token savings ledger
-    └── skills/                 # 314 specialized skill packages
+    └── skills/                 # 316 specialized skill packages
 ```
 
 ---
