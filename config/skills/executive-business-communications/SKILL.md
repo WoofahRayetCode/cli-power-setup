@@ -64,10 +64,25 @@ A printable, zero-dependency HTML invoice template is provided in `templates/inv
 * Itemized service table with hours/quantities and line totals.
 * Explicit remittance details (Bank ACH/Wire, Stripe, PayPal).
 
+## 🤖 5. Local Executive Copy & Proposal Offload (`gemma2:9b`, `qwen2.5:7b` via `local-coprocessor`)
+
+To draft high-impact client proposals, BLUF executive summaries, or Scope of Work documents without spending cloud tokens:
+
+```bash
+# Draft a BLUF proposal with milestone payments
+local-coprocessor generate --task business \
+  --prompt "Draft a BLUF proposal for modernizing a legacy corporate web portal with 40/30/30 milestone payments and anti-jargon rules"
+
+# Review email correspondence for corporate fluff & buzzwords
+local-coprocessor generate --task business --auto-skill \
+  --prompt "Audit this client email and eliminate all banned phrases ('hope this email finds you well', 'delve', 'synergistic'): <text>..."
+```
+
 ---
 
 ## 🔄 Interoperability & Handoffs
 
+* **Pairing with `local-model-coprocessor`:** Routes business drafting to `gemma2:9b` locally (0 cloud tokens).
 * **Pairing with `token-economy`:** Guarantees zero fluff and maximum density in executive summaries.
 * **Pairing with `generative-visual-artifacts`:** To view or print generated invoices in the browser.
 

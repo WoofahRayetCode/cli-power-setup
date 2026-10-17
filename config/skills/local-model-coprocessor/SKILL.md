@@ -37,42 +37,74 @@ By delegating deterministic, low-complexity drafting tasks to local hardware, th
 
 ---
 
-## 2. Supported Local Engines & Recommended Models
+## 2. Complete 23-Model Local Fleet & Task Matrix
 
-* **Ollama** (`http://localhost:11434` default):
-  - `qwen2.5-coder:1.5b` (Blazing fast, 1.2 GB VRAM, excellent for Python/JS boilerplate).
-  - `qwen2.5-coder:7b` (High-accuracy code completions and refactoring, ~4.5 GB VRAM).
-  - `llama3.2:3b` (General text summarization and commit message generation).
-  - `deepseek-r1:1.5b` (Local step-by-step thinking for math and logic).
-* **llama.cpp** (`http://localhost:8080`):
-  - GGUF quantizations (`Q4_K_M`, `Q5_K_M`) running with full GPU layer offloading (`-ngl 99`).
+The local fleet is orchestrated via Ollama (`http://localhost:11434`), consuming **85 GB** physical disk space in `/var/lib/ollama/blobs/` on NVMe storage with zero cloud token usage:
+
+| Domain / Task Flag | Primary Model | Fallback | VRAM | Specialization / Routing Target |
+| :--- | :--- | :--- | :--- | :--- |
+| **`--task code`** | `qwen2.5-coder:7b` | `deepseek-coder:6.7b` | ~4.7 GB | Core multi-language refactoring, AST linting, logic fixes |
+| **`--task fast`** | `qwen2.5-coder:1.5b` | `llama3.2:3b` | ~1.0 GB | Sub-second regex, docstrings, unit test boilerplate |
+| **`--task cpp`** | `deepseek-coder:6.7b-instruct` | `qwen2.5-coder:7b` | ~3.8 GB | Modern C++20, pointer safety, OGSR/X-Ray engine porting |
+| **`--task csharp`** | `granite-code:8b` | `qwen2.5-coder:7b` | ~4.6 GB | C# .NET 8/9, Avalonia, EF Core, enterprise backend |
+| **`--task rust`** | `starcoder2:7b` | `qwen2.5-coder:7b` | ~4.0 GB | Rust ownership, borrow checker proofs, zero-cost abstractions |
+| **`--task python`** | `codellama:7b-python` | `qwen2.5-coder:7b` | ~3.8 GB | Python 3.10+, scientific computing, pytest test generation |
+| **`--task math`** | `mathstral:7b` | `wizard-math:7b` / `phi4:14b` | ~4.1 GB | Physics ODEs, exponential damping, quaternion SLERP |
+| **`--task reason`** | `deepseek-r1:8b` | `phi4:14b` | ~5.2 GB | Step-by-step chain-of-thought proofs & algorithmic verification |
+| **`--task translate`** | `aya:8b` | `qwen2.5:7b` | ~4.8 GB | Cohere 101-language translation, Slavic/CJK/FIGS game dialogue |
+| **`--task web`** | `qwen2.5:7b` | `gemma2:9b` | ~4.7 GB | Web modernization, responsive Tailwind, clean semantic HTML |
+| **`--task business`** | `gemma2:9b` | `qwen2.5:7b` | ~5.4 GB | Anti-jargon client proposals, BLUF executive copy, SOWs |
+| **`--task sql`** | `sqlcoder:7b` | `granite-code:8b` | ~4.1 GB | State-of-the-art SQL query synthesis, SQLite WAL tuning |
+| **`--task tool`** | `hermes3:8b` | `llama3.1:8b` | ~4.7 GB | Function calling, tool use, strict JSON schema compliance |
+| **`--task long`** | `mistral-nemo:12b` | `qwen2.5:7b` | ~7.1 GB | 128k context window, long document/repo summarization |
+| **`--task vision`** | `minicpm-v:8b` | `moondream:latest` | ~5.5 GB | Game HUD inspection, OCR triage, visual bug analysis |
+| **`--task blender`** | `blender-architect:latest` | `qwen2.5-coder:7b` | ~4.7 GB | Custom model fused with Blender 5.2 API & organic SDF rules |
+| **Embeddings** | `bge-m3:latest` | `nomic-embed-text` | ~1.2 GB | Dense multilingual vector embeddings for `local-vector-rag` |
 
 ---
 
-## 3. CLI Helper Tool Reference (`local_model_coprocessor.py`)
+## 3. CLI Helper Tool Reference (`local-coprocessor` / `setup-local-model-fleet`)
 
-Located at `config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py`.
+Installed in `~/.local/bin/local-coprocessor` and `~/.local/bin/setup-local-model-fleet`.
 
-### Commands
+### Fleet Management Commands
 ```bash
-# 1. Check local server health and model availability
-python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py status
+# 1. Inspect fleet health, hardware telemetry, and disk storage (85 GB)
+setup-local-model-fleet --status
 
-# 2. Generate function docstrings locally
-python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py \
-  docstring --file src/utils.py --model qwen2.5-coder:1.5b
+# 2. Sync or verify specific functional tiers
+setup-local-model-fleet --tier code     # Polyglot coding models
+setup-local-model-fleet --tier math     # Physics & STEM models
+setup-local-model-fleet --tier dialogue # Translation & text repair
+setup-local-model-fleet --tier web-business # Web modernization & proposals
+setup-local-model-fleet --all          # Synchronize all 23 models
 
-# 3. Generate conventional git commit message from staged diff
-git diff --staged | python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py \
-  commit-msg --model llama3.2:3b
+# 3. Build or rebuild custom Modelfiles
+setup-local-model-fleet --build-custom
+```
 
-# 4. Summarize compiler or test error logs locally
-python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py \
-  summarize-log --file /tmp/build.log --model qwen2.5-coder:1.5b
+### Coprocessor Execution Commands
+```bash
+# 1. Code completion or refactoring via optimal engine
+local-coprocessor generate --task cpp --prompt "Refactor raw pointer into std::unique_ptr"
 
-# 5. Free-form local prompt generation
-python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py \
-  generate --prompt "Write a regex that matches semver strings" --model qwen2.5-coder:1.5b
+# 2. Mathematical derivation & ODE solutions
+local-coprocessor generate --task math --prompt "Derive critically damped spring update for fixed_step=0.01"
+
+# 3. Game dialogue translation preserving tags
+local-coprocessor generate --task translate --prompt "Translate string into Russian: <text>Hello stalker</text>"
+
+# 4. Web modernization into Tailwind CSS
+local-coprocessor generate --task web --prompt "Convert this legacy HTML table to responsive cards"
+
+# 5. Executive business proposal drafting
+local-coprocessor generate --task business --prompt "Draft a BLUF proposal for 3D model asset conversion"
+
+# 6. SQL query synthesis & indexing
+local-coprocessor generate --task sql --prompt "Generate optimized SQLite schema for game savegame inventory"
+
+# 7. Auto-injecting installed skill rulebooks into local prompt
+local-coprocessor generate --auto-skill --prompt "Write a Blender 5.2 bpy script for voxel remeshing"
 ```
 
 ---

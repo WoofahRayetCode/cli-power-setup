@@ -49,15 +49,29 @@ GROUP BY u.username;
 -- Ensure output shows "USING INDEX" rather than "SCAN TABLE"
 ```
 
+## 🤖 3. Local SQL Synthesis & Query Optimization (`sqlcoder:7b` via `local-coprocessor`)
+
+Offload complex DDL schema creation, SQLite index optimization, and slow query refactoring to the local `sqlcoder:7b` engine (0 cloud tokens billed):
+
+```bash
+# Generate high-performance SQLite schema with WAL and covering indexes
+local-coprocessor generate --task sql \
+  --prompt "Write an optimized SQLite schema for a game savegame system tracking 100k items, player stats, and inventory slots with WAL mode"
+
+# Optimize a slow query plan into indexed JOINs
+local-coprocessor generate --task sql \
+  --prompt "Rewrite this query using an indexed CTE instead of a correlated subquery: SELECT * FROM telemetry WHERE id IN (SELECT MAX(id) FROM telemetry GROUP BY session_id)"
+```
+
 ---
 
 ## 🔄 Interoperability & Handoffs
 
+* **Handoff to `local-model-coprocessor`:** For routing SQL generation to `sqlcoder:7b`.
 * **Handoff to `csharp-dotnet-engineering` / `python-engineering`:** For ORM tuning (EF Core, SQLAlchemy, Tortoise).
 * **Handoff to `homelab-docker-devops`:** For PostgreSQL container multi-service deployments and persistent volume backups.
 
 ## Related & Interoperating Skills
-- **`sql-schema-query-condenser`**: SQL relational schema and query plan condenser. Serializes verbose DDL migrations and EXPLAIN QUERY PLAN execu...
-- **`electron-desktop-dev`**: Electron desktop application engineering, IPC security, context isolation, preload scripts, multi-window lifec...
-- **`game-localization-i18n`**: Internationalization (i18n) and localization (l10n) pipelines for games, desktop, and web apps. Covers ICU mes...
+- **`local-model-coprocessor`**: Dispatches SQL tasks to `sqlcoder:7b` locally in VRAM/RAM (0 cloud tokens).
+- **`sql-schema-query-condenser`**: SQL relational schema and query plan condenser.
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

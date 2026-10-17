@@ -1,12 +1,12 @@
 {
   "lifetime_summary": {
-    "total_cached_tokens_saved": 1431762777,
+    "total_cached_tokens_saved": 1438632454,
     "total_sessions_tracked": 28,
-    "cache_hit_rate_pct": 93.91,
-    "total_uncached_input_tokens": 92894807,
+    "cache_hit_rate_pct": 93.92,
+    "total_uncached_input_tokens": 93148136,
     "total_output_tokens": 7064938,
-    "total_turns_executed": 11074,
-    "last_updated": "2026-10-17T11:37:14.886464"
+    "total_turns_executed": 11140,
+    "last_updated": "2026-10-17T11:44:04.648568"
   },
   "sessions": [
     {

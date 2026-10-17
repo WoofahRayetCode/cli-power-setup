@@ -1,0 +1,419 @@
+#!/usr/bin/env python3
+"""
+setup-local-model-fleet
+Comprehensive installer, tier synchronizer, and status inspector for the local
+Ollama language model fleet powering the CLI Power Setup zero-quota offload engine.
+"""
+
+import argparse
+import json
+import os
+import shutil
+import subprocess
+import sys
+import time
+import urllib.error
+import urllib.request
+from pathlib import Path
+
+# Color styling
+BOLD = "\033[1m"
+GREEN = "\033[32m"
+CYAN = "\033[36m"
+YELLOW = "\033[33m"
+RED = "\033[31m"
+DIM = "\033[2m"
+RESET = "\033[0m"
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+MODEL_CONFIG_DIR = REPO_ROOT / "config"
+
+# Complete 23-model fleet definition grouped by tier
+FLEET_TIERS = {
+    "core": {
+        "description": "Essential zero-cloud models for daily coding, fast text, and vision (~15 GB)",
+        "models": [
+            "qwen2.5-coder:7b",
+            "llama3.2:3b",
+            "qwen2.5-coder:1.5b",
+            "aya:8b",
+            "moondream:latest",
+        ],
+    },
+    "code": {
+        "description": "Polyglot coding engines (C++, C#, Rust, Python, general code refactoring) (~22 GB)",
+        "models": [
+            "qwen2.5-coder:7b",
+            "deepseek-coder:6.7b-instruct",
+            "granite-code:8b",
+            "starcoder2:7b",
+            "codellama:7b-python",
+            "qwen2.5-coder:1.5b",
+        ],
+    },
+    "math": {
+        "description": "Physics ODEs, quaternion/transform math, and symbolic derivations (~22 GB)",
+        "models": [
+            "mathstral:7b",
+            "wizard-math:7b",
+            "phi4:14b",
+            "deepseek-r1:8b",
+        ],
+    },
+    "dialogue-i18n": {
+        "description": "Multilingual game dialogue translation, text repair, and long summarization (~16 GB)",
+        "models": [
+            "aya:8b",
+            "qwen2.5:7b",
+            "mistral-nemo:12b",
+        ],
+    },
+    "web-business": {
+        "description": "Modern web frontend, SQL synthesis, and high-impact business proposals (~14 GB)",
+        "models": [
+            "gemma2:9b",
+            "sqlcoder:7b",
+            "qwen2.5:7b",
+        ],
+    },
+    "agentic-tools": {
+        "description": "Structured JSON schema generation, tool calling, and long-context reasoning (~16 GB)",
+        "models": [
+            "hermes3:8b",
+            "llama3.1:8b",
+            "mistral-nemo:12b",
+        ],
+    },
+    "vision": {
+        "description": "Multimodal screen inspection, game UI audit, and local OCR (~7 GB)",
+        "models": [
+            "minicpm-v:8b",
+            "moondream:latest",
+        ],
+    },
+    "embeddings": {
+        "description": "Local dense vector embeddings for local-rag with zero cloud bills (~1.5 GB)",
+        "models": [
+            "bge-m3:latest",
+            "nomic-embed-text:latest",
+        ],
+    },
+    "custom": {
+        "description": "Custom fine-tuned Modelfiles fused with CLI Power Setup domain skills",
+        "models": [
+            "blender-architect:latest",
+        ],
+    },
+}
+
+ALL_MODELS = [
+    "qwen2.5-coder:7b",
+    "qwen2.5-coder:1.5b",
+    "deepseek-coder:6.7b-instruct",
+    "granite-code:8b",
+    "starcoder2:7b",
+    "codellama:7b-python",
+    "deepseek-r1:8b",
+    "phi4:14b",
+    "mathstral:7b",
+    "wizard-math:7b",
+    "aya:8b",
+    "qwen2.5:7b",
+    "gemma2:9b",
+    "sqlcoder:7b",
+    "hermes3:8b",
+    "mistral-nemo:12b",
+    "llama3.1:8b",
+    "llama3.2:3b",
+    "minicpm-v:8b",
+    "moondream:latest",
+    "bge-m3:latest",
+    "nomic-embed-text:latest",
+    "blender-architect:latest",
+]
+
+MODEL_SPECS = {
+    "qwen2.5-coder:7b": ("4.7 GB", "Core multi-language code editing, refactoring, and AST analysis"),
+    "qwen2.5-coder:1.5b": ("986 MB", "Sub-second docstring, regex, commit message & boilerplate generation"),
+    "deepseek-coder:6.7b-instruct": ("3.8 GB", "C++ systems, memory pointers, X-Ray engine porting, DirectX/Vulkan"),
+    "granite-code:8b": ("4.6 GB", "C#, .NET 8/9, EF Core, enterprise backend & SQL integration"),
+    "starcoder2:7b": ("4.0 GB", "Rust engineering, borrow-checker proofs, low-level memory safety"),
+    "codellama:7b-python": ("3.8 GB", "Python 3.10+, scientific computing, pytest test generation"),
+    "deepseek-r1:8b": ("5.2 GB", "Local chain-of-thought mathematical and algorithmic verification"),
+    "phi4:14b": ("9.1 GB", "Advanced multi-step reasoning, ODE physics, and numerical analysis"),
+    "mathstral:7b": ("4.1 GB", "Mistral STEM specialist for algebraic proofs and physical calculations"),
+    "wizard-math:7b": ("4.1 GB", "Complex algebra, quaternion SLERP, and 3D transform matrices"),
+    "aya:8b": ("4.8 GB", "Cohere multilingual translation (101 languages), Slavic/CJK/FIGS game dialogue"),
+    "qwen2.5:7b": ("4.7 GB", "Modern web HTML/CSS/Tailwind UI modernization & text repair"),
+    "gemma2:9b": ("5.4 GB", "Google Gemma 2 anti-jargon business copy, BLUF proposals, and SOWs"),
+    "sqlcoder:7b": ("4.1 GB", "Defog SQLCoder state-of-the-art SQL query & schema optimization"),
+    "hermes3:8b": ("4.7 GB", "Agentic function calling, tool use, and strict JSON schema adherence"),
+    "mistral-nemo:12b": ("7.1 GB", "128k context window for large document & repository summarization"),
+    "llama3.1:8b": ("4.9 GB", "Versatile generalist reasoning and multi-turn agent conversations"),
+    "llama3.2:3b": ("2.0 GB", "Ultra-fast low-VRAM general text summarizer & status reporter"),
+    "minicpm-v:8b": ("5.5 GB", "Local vision & OCR inspection for UI testing, HUD audits, and graphics triage"),
+    "moondream:latest": ("1.7 GB", "Ultra-lightweight fast vision for rapid screenshot presence checks"),
+    "bge-m3:latest": ("1.2 GB", "8192-token dense multilingual vector embeddings for local RAG"),
+    "nomic-embed-text:latest": ("274 MB", "High-efficiency local vector embeddings for fast code search"),
+    "blender-architect:latest": ("4.7 GB", "Custom Modelfile fused with Blender 5.2+ API & organic SDF skills"),
+}
+
+
+def check_ollama_service(endpoint: str = "http://localhost:11434") -> bool:
+    try:
+        req = urllib.request.Request(f"{endpoint.rstrip('/')}/api/tags")
+        with urllib.request.urlopen(req, timeout=1.5) as resp:
+            return resp.status == 200
+    except Exception:
+        return False
+
+
+def get_installed_models(endpoint: str = "http://localhost:11434") -> list[str]:
+    try:
+        req = urllib.request.Request(f"{endpoint.rstrip('/')}/api/tags")
+        with urllib.request.urlopen(req, timeout=2.0) as resp:
+            if resp.status == 200:
+                data = json.loads(resp.read().decode("utf-8"))
+                return [m.get("name", "") for m in data.get("models", []) if m.get("name")]
+    except Exception:
+        pass
+    return []
+
+
+def get_ollama_disk_usage() -> tuple[str, str]:
+    total_size = "Unknown"
+    avail_disk = "Unknown"
+    for cand in ("/var/lib/ollama/blobs", "/var/lib/ollama", str(Path.home() / ".ollama")):
+        p = Path(cand)
+        if p.exists():
+            try:
+                proc = subprocess.run(["du", "-sh", cand], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
+                if proc.stdout:
+                    total_size = proc.stdout.split()[0]
+                df_out = subprocess.run(["df", "-h", cand], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True)
+                lines = df_out.stdout.strip().splitlines()
+                if len(lines) >= 2:
+                    parts = lines[1].split()
+                    avail_disk = f"{parts[3]} free ({parts[4]} used of {parts[1]})"
+                if total_size != "Unknown":
+                    break
+            except Exception:
+                pass
+    return total_size, avail_disk
+
+
+def get_hardware_telemetry() -> dict[str, str]:
+    res = {
+        "cpu_threads": str(os.cpu_count() or "Unknown"),
+        "ram_gb": "Unknown",
+        "vram_mb": "Unknown",
+    }
+    # RAM
+    try:
+        with open("/proc/meminfo", "r") as f:
+            for line in f:
+                if line.startswith("MemTotal:"):
+                    kb = int(line.split()[1])
+                    res["ram_gb"] = f"{kb / (1024 * 1024):.1f} GB"
+                    break
+    except Exception:
+        pass
+
+    # VRAM via nvidia-smi
+    try:
+        out = subprocess.check_output(
+            ["nvidia-smi", "--query-gpu=memory.total,memory.free", "--format=csv,noheader,nounits"],
+            text=True,
+            stderr=subprocess.DEVNULL,
+        ).strip()
+        if out:
+            total, free = [x.strip() for x in out.splitlines()[0].split(",")]
+            res["vram_mb"] = f"{free} MB free / {total} MB total"
+    except Exception:
+        res["vram_mb"] = "N/A (CPU only)"
+
+    return res
+
+
+def install_symlinks():
+    local_bin = Path.home() / ".local" / "bin"
+    local_bin.mkdir(parents=True, exist_ok=True)
+
+    links = {
+        "local-coprocessor": REPO_ROOT / "config" / "skills" / "local-model-coprocessor" / "scripts" / "local_model_coprocessor.py",
+        "setup-local-model-fleet": REPO_ROOT / "bin" / "setup-local-model-fleet",
+    }
+
+    installed = []
+    for name, target in links.items():
+        dest = local_bin / name
+        if target.exists():
+            target.chmod(0o755)
+            if dest.is_symlink() or dest.exists():
+                try:
+                    dest.unlink()
+                except Exception:
+                    pass
+            try:
+                dest.symlink_to(target)
+                installed.append(name)
+            except Exception as e:
+                print(f"{YELLOW}[!] Failed to symlink {name}: {e}{RESET}")
+
+    if installed:
+        print(f"{GREEN}[✓]{RESET} Symlinked {', '.join(installed)} into {local_bin}")
+
+
+def build_custom_modelfiles():
+    modelfile = MODEL_CONFIG_DIR / "Modelfile.blender-architect"
+    if not modelfile.exists():
+        print(f"{RED}[✗]{RESET} Modelfile {modelfile} not found.")
+        return False
+
+    print(f"\n{CYAN}Building custom model 'blender-architect:latest'...{RESET}")
+    cmd = ["ollama", "create", "blender-architect", "-f", str(modelfile)]
+    try:
+        ret = subprocess.run(cmd, check=True)
+        if ret.returncode == 0:
+            print(f"{GREEN}[✓]{RESET} Successfully built custom model {BOLD}blender-architect:latest{RESET}")
+            return True
+    except subprocess.CalledProcessError as e:
+        print(f"{RED}[✗]{RESET} Failed to build blender-architect: {e}")
+        return False
+
+
+def pull_model(model_name: str) -> bool:
+    print(f"{CYAN}[→] Pulling {BOLD}{model_name}{RESET}...")
+    try:
+        proc = subprocess.Popen(["ollama", "pull", model_name], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+        for line in iter(proc.stdout.readline, ''):
+            if line:
+                sys.stdout.write(f"\r  {line.strip()[:75]:<75}")
+                sys.stdout.flush()
+        proc.wait()
+        sys.stdout.write("\r" + " " * 80 + "\r")
+        if proc.returncode == 0:
+            print(f"{GREEN}[✓]{RESET} {BOLD}{model_name}{RESET} successfully downloaded and ready.")
+            return True
+        else:
+            print(f"{RED}[✗]{RESET} Failed pulling {model_name} (code {proc.returncode})")
+            return False
+    except Exception as e:
+        print(f"{RED}[✗]{RESET} Error executing ollama pull {model_name}: {e}")
+        return False
+
+
+def print_status():
+    hw = get_hardware_telemetry()
+    size_str, disk_str = get_ollama_disk_usage()
+    service_ok = check_ollama_service()
+    installed = set(get_installed_models())
+
+    print(f"\n{BOLD}{CYAN}=== Local Ollama Model Fleet Telemetry ==={RESET}")
+    print(f"  • Hardware Profile : {hw['cpu_threads']} CPU Threads | {hw['ram_gb']} System RAM | {hw['vram_mb']} VRAM")
+    print(f"  • Ollama Service   : {GREEN+'Online'+RESET if service_ok else RED+'Offline (systemctl start ollama)'+RESET}")
+    print(f"  • Physical Storage : {BOLD}{size_str}{RESET} consumed on disk | {disk_str}")
+    print(f"  • Installed Models : {len(installed)} / {len(ALL_MODELS)} models ready\n")
+
+    print(f"{BOLD}{'Model':<30} {'Size':<10} {'Status':<12} {'Specialization / Role'}{RESET}")
+    print("-" * 92)
+
+    for m in ALL_MODELS:
+        size, desc = MODEL_SPECS.get(m, ("Unknown", "Specialized local coprocessor engine"))
+        is_ready = m in installed or f"{m}:latest" in installed or m.replace(":latest", "") in installed
+        status_tag = f"{GREEN}[✓ READY]{RESET}" if is_ready else f"{YELLOW}[MISSING]{RESET}"
+        print(f"{m:<30} {size:<10} {status_tag:<21} {desc}")
+
+    print("-" * 92)
+    ready_count = sum(1 for m in ALL_MODELS if m in installed or f"{m}:latest" in installed)
+    print(f"Summary: {BOLD}{ready_count}/{len(ALL_MODELS)}{RESET} models installed and active.")
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Installer, synchronizer, and status inspector for the local Ollama language model fleet."
+    )
+    parser.add_argument("--status", action="store_true", help="Display installed models, physical storage usage, and hardware profile.")
+    parser.add_argument("--tier", choices=list(FLEET_TIERS.keys()), help="Install models belonging to a specific functional tier.")
+    parser.add_argument("--all", action="store_true", help="Download and synchronize all 23 local models.")
+    parser.add_argument("--model", type=str, help="Download a specific individual model by name.")
+    parser.add_argument("--build-custom", action="store_true", help="Build custom Modelfiles (e.g. blender-architect:latest).")
+    parser.add_argument("--setup-symlinks", action="store_true", help="Ensure local-coprocessor and setup-local-model-fleet are symlinked in ~/.local/bin.")
+    parser.add_argument("--test", action="store_true", help="Execute rapid test inferences across code, math, and translation models.")
+
+    args = parser.parse_args()
+
+    # Default action if no flags provided is --status
+    if not any([args.status, args.tier, args.all, args.model, args.build_custom, args.setup_symlinks, args.test]):
+        print_status()
+        install_symlinks()
+        return
+
+    if args.setup_symlinks:
+        install_symlinks()
+
+    if args.status:
+        print_status()
+
+    if args.build_custom:
+        build_custom_modelfiles()
+
+    if args.model:
+        pull_model(args.model)
+
+    if args.tier:
+        tier_info = FLEET_TIERS[args.tier]
+        print(f"\n{BOLD}{CYAN}=== Syncing Tier: {args.tier} ==={RESET}")
+        print(f"{DIM}{tier_info['description']}{RESET}\n")
+        installed = set(get_installed_models())
+        for m in tier_info["models"]:
+            if m == "blender-architect:latest":
+                build_custom_modelfiles()
+            elif m in installed or f"{m}:latest" in installed:
+                print(f"{GREEN}[✓]{RESET} {BOLD}{m}{RESET} already installed.")
+            else:
+                pull_model(m)
+
+    if args.all:
+        print(f"\n{BOLD}{CYAN}=== Synchronizing Complete 23-Model Fleet ==={RESET}")
+        installed = set(get_installed_models())
+        for m in ALL_MODELS:
+            if m == "blender-architect:latest":
+                if m not in installed:
+                    build_custom_modelfiles()
+                else:
+                    print(f"{GREEN}[✓]{RESET} {BOLD}{m}{RESET} already built.")
+            elif m in installed or f"{m}:latest" in installed:
+                print(f"{GREEN}[✓]{RESET} {BOLD}{m}{RESET} already installed.")
+            else:
+                pull_model(m)
+        install_symlinks()
+        print(f"\n{GREEN}[✓] Full fleet synchronization complete!{RESET}")
+        print_status()
+
+    if args.test:
+        print(f"\n{BOLD}{CYAN}=== Verifying Local Model Coprocessor Inferences ==={RESET}")
+        test_tasks = [
+            ("code", "Write a 1-line Python lambda checking if an integer is a power of 2."),
+            ("math", "What is the exact derivative of e^(-lambda * t) with respect to t?"),
+            ("translate", "Translate 'Привет Сталкер' into English."),
+        ]
+        coprocessor_bin = REPO_ROOT / "config" / "skills" / "local-model-coprocessor" / "scripts" / "local_model_coprocessor.py"
+        for task, prompt in test_tasks:
+            print(f"\n{CYAN}[→] Testing task '{task}'...{RESET}")
+            t0 = time.time()
+            try:
+                res = subprocess.check_output(
+                    [sys.executable, str(coprocessor_bin), "generate", "--task", task, "--prompt", prompt],
+                    text=True,
+                    timeout=20.0,
+                    stderr=subprocess.DEVNULL,
+                ).strip()
+                elapsed = time.time() - t0
+                print(f"{GREEN}[✓ PASS]{RESET} {BOLD}{task}{RESET} ({elapsed:.2f}s):\n  {res[:160]}...")
+            except Exception as e:
+                print(f"{RED}[✗ FAIL]{RESET} {task}: {e}")
+
+
+if __name__ == "__main__":
+    main()
