@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# tandem-yolo: Launch Claude YOLO and Antigravity YOLO side by side in a split tmux session
+# Usage: tandem-yolo [/path/to/project/root]
+
+set -euo pipefail
+
+SESSION_NAME="tandem-yolo-$$"
+REPO_ROOT="${1:-$(pwd)}"
+
+# Resolve repo paths
+ARGON_DIR="${REPO_ROOT}"
+FABLE_DIR="${REPO_ROOT}"
+
+if [ -d "${REPO_ROOT}-argon" ]; then
+    ARGON_DIR="${REPO_ROOT}-argon"
+fi
+if [ -d "${REPO_ROOT}-fable" ]; then
+    FABLE_DIR="${REPO_ROOT}-fable"
+fi
+
+# Ensure tmux session starts detached
+tmux new-session -d -s "${SESSION_NAME}" -n "tandem-yolo" "cd '${ARGON_DIR}' && agy-yolo"
+
+# Split window horizontally (left/right side by side)
+tmux split-window -h -t "${SESSION_NAME}:0" "cd '${FABLE_DIR}' && claude-yolo"
+
+# Set equal 50/50 horizontal split
+tmux select-layout -t "${SESSION_NAME}:0" even-horizontal
+
+# Enable mouse support for easy pane resizing and scrolling
+tmux set-option -t "${SESSION_NAME}" mouse on
+
+# If inside a graphical terminal, attach directly
+if [ -t 0 ]; then
+    exec tmux attach-session -t "${SESSION_NAME}"
+else
+    # Launch in a new Konsole window if called from desktop launcher
+    exec konsole -e tmux attach-session -t "${SESSION_NAME}"
+fi
