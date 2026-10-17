@@ -402,39 +402,113 @@ def color_rec(rec: str) -> str:
     return f"{C_GREEN}{C_BOLD}{rec}{C_RESET}"
 
 
-def get_statusline_rec(target_dir: str | None = None) -> str:
-    """Fast (<10ms cached) statusline segment for agy-quota-statusline and claude-statusline."""
+def get_statusline_bars(target_dir: str | None = None) -> dict:
+    """Fast (<15ms cached) bottom-of-statusline cheat sheet bars for agy-quota-statusline."""
     cwd = Path(target_dir or os.getcwd()).resolve()
     now = time.time()
 
-    # Check 30-second cache keyed by directory
+    # 5-second cache keyed by directory so file edits update almost immediately
     if STATUSLINE_CACHE.exists():
         try:
             cache = json.loads(STATUSLINE_CACHE.read_text(encoding="utf-8"))
-            if cache.get("cwd") == str(cwd) and (now - cache.get("ts", 0)) < 30:
-                return cache.get("seg", "")
+            if cache.get("cwd") == str(cwd) and (now - cache.get("ts", 0)) < 5 and "active_segments" in cache:
+                return cache
         except Exception:
             pass
 
-    # Find containing git repo
+    # Load or refresh fleet index (refresh if older than 60s)
+    fleet: list[dict] = []
+    need_scan = True
+    if CONFIG_STATE_PATH.exists():
+        try:
+            if (now - CONFIG_STATE_PATH.stat().st_mtime) < 60:
+                data = json.loads(CONFIG_STATE_PATH.read_text(encoding="utf-8"))
+                fleet = data.get("repos", [])
+                need_scan = False
+        except Exception:
+            pass
+    if need_scan or not fleet:
+        fleet = scan_all_repos(save=True)
+
+    # Find containing git repo or project folder in ~/Documents/GitHub
     repo_dir = cwd
+    found_repo = False
     while repo_dir != repo_dir.parent:
-        if (repo_dir / ".git").exists():
+        if (repo_dir / ".git").exists() or repo_dir.parent == GITHUB_ROOT:
+            found_repo = True
             break
         repo_dir = repo_dir.parent
 
-    if (repo_dir / ".git").exists():
+    if found_repo and repo_dir.is_dir():
         info = analyze_repo(repo_dir)
-        rec = info["live_rec"].replace(" ", "")
-        seg = f"🎯 Rec: {rec}"
+        prefix_label = info["name"]
+    elif fleet:
+        # Fallback to most recently active repo in ~/Documents/GitHub
+        top_name = fleet[0]["name"]
+        top_path = GITHUB_ROOT / top_name
+        info = analyze_repo(top_path) if top_path.is_dir() else fleet[0]
+        prefix_label = f"Latest:{info['name']}"
     else:
-        seg = "🎯 Rec: Flash•Low"
+        info = {
+            "name": cwd.name,
+            "dirty_count": 0,
+            "dirty_exts": {},
+            "live_rec": "Flash • Low",
+            "live_reason": "Standard workflow",
+            "routine": "Flash • Low",
+            "deep": "Argon • High",
+            "hw": "32-Thr CPU + /dev/shm",
+        }
+        prefix_label = cwd.name
 
+    dirty_exts_list = list(info.get("dirty_exts", {}).keys())[:2]
+    if info.get("dirty_count", 0) > 0:
+        ext_str = ",".join(dirty_exts_list) if dirty_exts_list else "files"
+        state_tag = f"{info['dirty_count']} dirty {ext_str}"
+    else:
+        state_tag = "clean"
+
+    rec_clean = info["live_rec"].replace(" ", "")
+    routine_clean = info["routine"].replace(" • ", "•")
+    deep_clean = info["deep"].replace(" • ", "•")
+
+    active_segments = [
+        f"🧭 CS [{prefix_label} • {state_tag}]",
+        f"🎯 Use: {rec_clean} ({info['live_reason']})",
+        f"⚡ Fast: {routine_clean}",
+        f"🔬 Deep: {deep_clean}",
+        f"🚀 HW: {info['hw']}",
+    ]
+
+    # Build top active fleet strip (top 5 other active repos)
+    fleet_items = []
+    for r in fleet:
+        if r["name"] == info["name"]:
+            continue
+        short_name = r["name"].replace("ogsr-complete-", "ogsr-").replace("wlfryt-", "")[:16]
+        r_rec = r["live_rec"].replace(" ", "")
+        fleet_items.append(f"{short_name}➔{r_rec}")
+        if len(fleet_items) >= 5:
+            break
+
+    fleet_segments = ([f"📚 Repos: {fleet_items[0]}"] + fleet_items[1:]) if fleet_items else []
+
+    out = {
+        "cwd": str(cwd),
+        "ts": now,
+        "seg": f"🎯 Rec: {rec_clean}",
+        "active_segments": active_segments,
+        "fleet_segments": fleet_segments,
+    }
     try:
-        STATUSLINE_CACHE.write_text(json.dumps({"cwd": str(cwd), "ts": now, "seg": seg}), encoding="utf-8")
+        STATUSLINE_CACHE.write_text(json.dumps(out), encoding="utf-8")
     except Exception:
         pass
-    return seg
+    return out
+
+
+def get_statusline_rec(target_dir: str | None = None) -> str:
+    return get_statusline_bars(target_dir).get("seg", "🎯 Rec: Flash•Low")
 
 
 def print_banner(cwd: Path, results: list[dict], top_n: int = 5) -> None:
@@ -529,9 +603,14 @@ def main() -> None:
     parser.add_argument("--all", action="store_true", help="Show all repositories in ~/Documents/GitHub")
     parser.add_argument("--banner", action="store_true", help="Print compact startup banner for agy-yolo/agy-turbo")
     parser.add_argument("--statusline", nargs="?", const=".", help="Print compact 1-segment recommendation for statusline")
+    parser.add_argument("--statusline-bars", nargs="?", const=".", help="Output JSON cheat sheet bars for bottom of statusline")
     parser.add_argument("--update", action="store_true", help="Silently scan and update repo_cheatsheet.json")
     parser.add_argument("--json", action="store_true", help="Output full cheat sheet telemetry as JSON")
     args = parser.parse_args()
+
+    if args.statusline_bars is not None:
+        print(json.dumps(get_statusline_bars(args.statusline_bars)))
+        return
 
     if args.statusline is not None:
         print(get_statusline_rec(args.statusline))

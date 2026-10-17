@@ -24,8 +24,10 @@ Unlike a static reference table, `agy-cheatsheet` recalculates recommendations i
 
 1. **Startup Banner (`agy-yolo`, `agy-turbo`, `claude-yolo`, `claude-turbo`):**
    - Automatically prints the compact 7-line cheat sheet box showing your current workspace's live recommendation + your top 5 most recently active GitHub repositories before launching the agent.
-2. **Live Bottom Statusline (`agy-quota-statusline` & `claude-statusline`):**
-   - Displays a fast, cached segment (`🎯 Rec: Flash•Low` / `🎯 Rec: Argon•High` / `🎯 Rec: Tandem•Arg+Fab`) directly in your bottom terminal status bar that updates within 30 seconds as you edit different files.
+2. **Persistent Bottom-of-Statusline Cheat Sheet (`agy-quota-statusline`):**
+   - Renders two live, width-wrapping Cheat Sheet bars at the very bottom of your `agy` statusline that update automatically every 5 seconds as you switch repos or edit files:
+     - **Active Workspace Bar:** `🧭 CS [<repo> • <dirty files>] | 🎯 Use: <Live Model•Effort> (<Reason>) | ⚡ Fast: <Routine> | 🔬 Deep: <Deep> | 🚀 HW: <Local Offload>`
+     - **Active GitHub Fleet Bar:** `📚 Repos: <repo1>➔<Model•Effort> • <repo2>➔<Model•Effort> • ...` (your top 5 other active repos in `~/Documents/GitHub/`).
 3. **Automatic Git Sync Hook (`repo-auto-sync`):**
    - Every `repo-auto-sync --checkpoint` or `skill-evolve` run calls `agy-cheatsheet --update` to persist your latest repo telemetry into `config/repo_cheatsheet.json` (symlinked at `~/.cli_power_setup/repo_cheatsheet.json`).
 
