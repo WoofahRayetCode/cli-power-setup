@@ -24,7 +24,11 @@ STATE_FILE = TMP_DIR / "agy_mic_state.json"
 
 
 def write_state(
-    recording: bool, auto_send: bool = False, start_ts: float = 0.0, closed_by_user: bool = False
+    recording: bool,
+    auto_send: bool = False,
+    start_ts: float = 0.0,
+    closed_by_user: bool = False,
+    pinned: bool = False,
 ) -> None:
     try:
         STATE_FILE.write_text(
@@ -32,6 +36,7 @@ def write_state(
                 {
                     "recording": recording,
                     "auto_send": auto_send,
+                    "pinned": pinned,
                     "start_ts": start_ts,
                     "closed_by_user": closed_by_user,
                     "updated_at": time.time(),
@@ -219,6 +224,7 @@ def run_gui() -> None:
             super().__init__()
             self.recording = False
             self.auto_send = False
+            self.pinned = False
             self.record_start = 0.0
             self.drag_pos: QPoint | None = None
             self.launch_ts = time.time()
@@ -246,7 +252,7 @@ def run_gui() -> None:
             self.grip.setFont(QFont("Sans Serif", 9, QFont.Weight.Bold))
             self.grip.setStyleSheet("color: #88c0d0; padding: 4px 4px;")
             self.grip.setCursor(QCursor(Qt.CursorShape.SizeAllCursor))
-            self.grip.setToolTip("Left-drag here (or right-drag anywhere on the pill) to move")
+            self.grip.setToolTip("Left-drag here (or right-drag anywhere on the pill) to move when unpinned")
             layout.addWidget(self.grip)
 
             # Talk / Stop Mic button
@@ -273,6 +279,18 @@ def run_gui() -> None:
             self.auto_btn.clicked.connect(self.toggle_auto)
             layout.addWidget(self.auto_btn)
 
+            # Pin toggle button (locks position + enforces always-on-top; right-click snaps to terminal top-right)
+            self.pin_btn = QPushButton("📌")
+            self.pin_btn.setFont(QFont("Sans Serif", 9, QFont.Weight.Bold))
+            self.pin_btn.setFixedWidth(28)
+            self.pin_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+            self.pin_btn.setToolTip(
+                "Left-click: Pin/Unpin position on AGY terminal (locks dragging & stays on top)\n"
+                "Right-click: Snap to active AGY terminal top-right corner & pin"
+            )
+            self.pin_btn.clicked.connect(self.toggle_pin)
+            layout.addWidget(self.pin_btn)
+
             # Close button
             self.close_btn = QPushButton("×")
             self.close_btn.setFont(QFont("Sans Serif", 10, QFont.Weight.Bold))
@@ -286,26 +304,30 @@ def run_gui() -> None:
             outer.setContentsMargins(0, 0, 0, 0)
             outer.addWidget(self.container)
 
-            # Install event filter on grip, container, and buttons so dragging works from grip (left/right click)
-            # or right-click dragging on any button
-            for w in (self, self.container, self.grip, self.mic_btn, self.send_btn, self.auto_btn):
+            # Install event filter on grip, container, and buttons
+            for w in (self, self.container, self.grip, self.mic_btn, self.send_btn, self.auto_btn, self.pin_btn):
                 w.installEventFilter(self)
 
             self.timer = QTimer(self)
             self.timer.timeout.connect(self.tick_timer)
             self.timer.start(500)
 
+            self.restore_or_position()
+            self.apply_pin_ui()
             self.update_styles()
             self.adjustSize()
-            self.restore_or_position()
-            write_state(False, False, 0.0, closed_by_user=False)
+            write_state(False, self.auto_send, 0.0, closed_by_user=False, pinned=self.pinned)
 
         def restore_or_position(self) -> None:
             if POS_FILE.is_file():
                 try:
                     pos = json.loads(POS_FILE.read_text(encoding="utf-8"))
-                    self.move(int(pos["x"]), int(pos["y"]))
-                    return
+                    self.pinned = bool(pos.get("pinned", False))
+                    self.auto_send = bool(pos.get("auto_send", False))
+                    self.auto_btn.setText("⚡Auto:ON" if self.auto_send else "⚡Auto:OFF")
+                    if "x" in pos and "y" in pos:
+                        self.move(int(pos["x"]), int(pos["y"]))
+                        return
                 except Exception:
                     pass
             screen = QApplication.primaryScreen()
@@ -319,47 +341,119 @@ def run_gui() -> None:
             try:
                 POS_FILE.parent.mkdir(parents=True, exist_ok=True)
                 POS_FILE.write_text(
-                    json.dumps({"x": self.x(), "y": self.y()}),
+                    json.dumps(
+                        {
+                            "x": self.x(),
+                            "y": self.y(),
+                            "pinned": self.pinned,
+                            "auto_send": self.auto_send,
+                        }
+                    ),
                     encoding="utf-8",
                 )
             except Exception:
                 pass
 
+        def apply_pin_ui(self) -> None:
+            if self.pinned:
+                self.grip.setText("🔒 AGY")
+                self.grip.setCursor(QCursor(Qt.CursorShape.ArrowCursor))
+                self.pin_btn.setText("📍")
+                self.raise_()
+            else:
+                self.grip.setText("⋮⋮ AGY")
+                self.grip.setCursor(QCursor(Qt.CursorShape.SizeAllCursor))
+                self.pin_btn.setText("📌")
+
+        def toggle_pin(self) -> None:
+            self.pinned = not self.pinned
+            self.apply_pin_ui()
+            self.save_position()
+            write_state(self.recording, self.auto_send, self.record_start, pinned=self.pinned)
+            self.update_styles()
+            self.adjustSize()
+
+        def snap_to_terminal_and_pin(self) -> None:
+            """Snap pill to top-right header area of active terminal window (or screen) and pin."""
+            snapped = False
+            if not IS_WINDOWS and shutil.which("xdotool"):
+                try:
+                    out = subprocess.check_output(
+                        ["xdotool", "getactivewindow", "getwindowgeometry", "--shell"],
+                        text=True,
+                        stderr=subprocess.DEVNULL,
+                        timeout=0.5,
+                    )
+                    vals = {}
+                    for line in out.splitlines():
+                        if "=" in line:
+                            k, v = line.split("=", 1)
+                            vals[k.strip()] = int(v.strip())
+                    if "X" in vals and "Y" in vals and "WIDTH" in vals and vals["WIDTH"] > 350:
+                        tx = vals["X"] + vals["WIDTH"] - self.width() - 24
+                        ty = vals["Y"] + 12
+                        self.move(max(10, tx), max(10, ty))
+                        snapped = True
+                except Exception:
+                    pass
+            if not snapped:
+                screen = QApplication.primaryScreen()
+                if screen:
+                    geo = screen.availableGeometry()
+                    self.move(max(20, geo.right() - self.width() - 28), max(20, geo.top() + 16))
+            self.pinned = True
+            self.apply_pin_ui()
+            self.save_position()
+            write_state(self.recording, self.auto_send, self.record_start, pinned=self.pinned)
+            self.update_styles()
+            self.adjustSize()
+
         def eventFilter(self, obj: QObject, event: QEvent) -> bool:
-             etype = event.type()
-             if etype == QEvent.Type.MouseButtonPress:
-                 btn = event.button()
-                 is_grip_or_bg = obj in (self, self.container, self.grip)
-                 if (is_grip_or_bg and btn == Qt.MouseButton.LeftButton) or btn == Qt.MouseButton.RightButton:
-                     self.drag_pos = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
-                     # Also invoke window manager native move when supported
-                     wh = self.windowHandle()
-                     if wh is not None and btn == Qt.MouseButton.LeftButton and is_grip_or_bg:
-                         wh.startSystemMove()
-                     return True
-             elif etype == QEvent.Type.MouseMove:
-                 if self.drag_pos is not None and (
-                     event.buttons() & (Qt.MouseButton.LeftButton | Qt.MouseButton.RightButton)
-                 ):
-                     self.move(event.globalPosition().toPoint() - self.drag_pos)
-                     return True
-             elif etype == QEvent.Type.MouseButtonRelease:
-                 if self.drag_pos is not None:
-                     self.drag_pos = None
-                     self.save_position()
-                     return True
-             return super().eventFilter(obj, event)
+            etype = event.type()
+            if etype == QEvent.Type.MouseButtonPress:
+                btn = event.button()
+                # Right-click on Pin button snaps to terminal & pins
+                if obj == self.pin_btn and btn == Qt.MouseButton.RightButton:
+                    self.snap_to_terminal_and_pin()
+                    return True
+                # When pinned, lock position and ignore drag initiation
+                if self.pinned:
+                    return super().eventFilter(obj, event)
+                is_grip_or_bg = obj in (self, self.container, self.grip)
+                if (is_grip_or_bg and btn == Qt.MouseButton.LeftButton) or btn == Qt.MouseButton.RightButton:
+                    self.drag_pos = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+                    wh = self.windowHandle()
+                    if wh is not None and btn == Qt.MouseButton.LeftButton and is_grip_or_bg:
+                        wh.startSystemMove()
+                    return True
+            elif etype == QEvent.Type.MouseMove:
+                if not self.pinned and self.drag_pos is not None and (
+                    event.buttons() & (Qt.MouseButton.LeftButton | Qt.MouseButton.RightButton)
+                ):
+                    self.move(event.globalPosition().toPoint() - self.drag_pos)
+                    return True
+            elif etype == QEvent.Type.MouseButtonRelease:
+                if self.drag_pos is not None:
+                    self.drag_pos = None
+                    self.save_position()
+                    return True
+            return super().eventFilter(obj, event)
 
         def moveEvent(self, event) -> None:
             super().moveEvent(event)
             self.save_position()
 
         def update_styles(self) -> None:
-            border_col = "#bf616a" if self.recording else "#4c566a"
+            if self.recording:
+                border_col = "#bf616a"
+            elif self.pinned:
+                border_col = "#88c0d0"
+            else:
+                border_col = "#4c566a"
             self.container.setStyleSheet(
                 f"""
                 QWidget#pillContainer {{
-                    background-color: rgba(20, 23, 34, 240);
+                    background-color: rgba(20, 23, 34, 242);
                     border: 2px solid {border_col};
                     border-radius: 16px;
                 }}
@@ -419,6 +513,21 @@ def run_gui() -> None:
                 """
             )
 
+            pin_col = "#88c0d0" if self.pinned else "#616e88"
+            pin_bg = "#2e3440" if self.pinned else "#242933"
+            self.pin_btn.setStyleSheet(
+                f"""
+                QPushButton {{
+                    background-color: {pin_bg};
+                    color: {pin_col};
+                    border: 1px solid {pin_col};
+                    border-radius: 9px;
+                    padding: 4px 4px;
+                }}
+                QPushButton:hover {{ background-color: #3b4252; }}
+                """
+            )
+
             self.close_btn.setStyleSheet(
                 """
                 QPushButton {
@@ -440,7 +549,7 @@ def run_gui() -> None:
                 self.mic_btn.setText("🎙️ Talk")
                 if self.auto_send:
                     QTimer.singleShot(850, self.send_enter)
-            write_state(self.recording, self.auto_send, self.record_start)
+            write_state(self.recording, self.auto_send, self.record_start, pinned=self.pinned)
             self.update_styles()
             self.adjustSize()
 
@@ -449,7 +558,7 @@ def run_gui() -> None:
                 send_key_to_agy("F5")
                 self.recording = False
                 self.mic_btn.setText("🎙️ Talk")
-                write_state(False, self.auto_send, 0.0)
+                write_state(False, self.auto_send, 0.0, pinned=self.pinned)
                 self.update_styles()
                 QTimer.singleShot(700, lambda: send_key_to_agy("ENTER"))
             else:
@@ -458,7 +567,8 @@ def run_gui() -> None:
         def toggle_auto(self) -> None:
             self.auto_send = not self.auto_send
             self.auto_btn.setText("⚡Auto:ON" if self.auto_send else "⚡Auto:OFF")
-            write_state(self.recording, self.auto_send, self.record_start)
+            self.save_position()
+            write_state(self.recording, self.auto_send, self.record_start, pinned=self.pinned)
             self.update_styles()
             self.adjustSize()
 
@@ -471,6 +581,22 @@ def run_gui() -> None:
                 self.close_cleanly(closed_by_user=False)
                 return
 
+            # Sync external CLI `--pin` / `--unpin` state changes
+            if POS_FILE.is_file():
+                try:
+                    disk_pos = json.loads(POS_FILE.read_text(encoding="utf-8"))
+                    disk_pin = bool(disk_pos.get("pinned", self.pinned))
+                    if disk_pin != self.pinned:
+                        self.pinned = disk_pin
+                        self.apply_pin_ui()
+                        self.update_styles()
+                        self.adjustSize()
+                except Exception:
+                    pass
+
+            if self.pinned:
+                self.raise_()
+
             if self.recording:
                 elapsed = int(time.time() - self.record_start)
                 if elapsed >= 205:
@@ -482,7 +608,7 @@ def run_gui() -> None:
         def close_cleanly(self, closed_by_user: bool = True) -> None:
             if self.recording:
                 send_key_to_agy("F5")
-            write_state(False, False, 0.0, closed_by_user=closed_by_user)
+            write_state(False, self.auto_send, 0.0, closed_by_user=closed_by_user, pinned=self.pinned)
             try:
                 PID_FILE.unlink()
             except OSError:
@@ -507,7 +633,14 @@ def spawn_daemon() -> None:
     env["QT_QPA_PLATFORM"] = "xcb"
     env.setdefault("XDG_RUNTIME_DIR", f"/run/user/{uid}")
     env.setdefault("DBUS_SESSION_BUS_ADDRESS", f"unix:path=/run/user/{uid}/bus")
-    write_state(False, False, 0.0, closed_by_user=False)
+
+    pinned_init = False
+    if POS_FILE.is_file():
+        try:
+            pinned_init = bool(json.loads(POS_FILE.read_text(encoding="utf-8")).get("pinned", False))
+        except Exception:
+            pass
+    write_state(False, False, 0.0, closed_by_user=False, pinned=pinned_init)
 
     script_path = str(Path(__file__).resolve())
     if not IS_WINDOWS and shutil.which("systemd-run"):
@@ -541,7 +674,27 @@ def spawn_daemon() -> None:
         )
     time.sleep(0.35)
     pid = is_already_running()
-    print(f"🎙️ [AGY Mic Button Active] Floating [🎙️ Talk | ⏎ Send | ⚡Auto] pill launched (PID {pid}).")
+    print(f"🎙️ [AGY Mic Button Active] Floating [🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin] pill launched (PID {pid}).")
+
+
+def set_pin_from_cli(pin_state: bool) -> None:
+    pos = {"x": 1450, "y": 980, "pinned": pin_state, "auto_send": False}
+    if POS_FILE.is_file():
+        try:
+            pos.update(json.loads(POS_FILE.read_text(encoding="utf-8")))
+        except Exception:
+            pass
+    pos["pinned"] = pin_state
+    POS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    POS_FILE.write_text(json.dumps(pos), encoding="utf-8")
+    if STATE_FILE.is_file():
+        try:
+            st = json.loads(STATE_FILE.read_text(encoding="utf-8"))
+            st["pinned"] = pin_state
+            STATE_FILE.write_text(json.dumps(st), encoding="utf-8")
+        except Exception:
+            pass
+    print(f"[✓] AGY Mic Button pin state set to: {'📍 Pinned (Locked)' if pin_state else '📌 Unpinned (Draggable)'}")
 
 
 def main() -> None:
@@ -549,12 +702,18 @@ def main() -> None:
     parser.add_argument("--foreground", action="store_true", help="Run GUI in foreground")
     parser.add_argument("--stop", action="store_true", help="Stop running AGY Mic Button overlay")
     parser.add_argument("--toggle", action="store_true", help="Trigger F5 voice dictation toggle from CLI")
+    parser.add_argument("--pin", action="store_true", help="Pin/lock the AGY Mic Button at its current position")
+    parser.add_argument("--unpin", action="store_true", help="Unpin/unlock the AGY Mic Button so it can be dragged")
     parser.add_argument("--status", action="store_true", help="Show current AGY Mic Button status")
     args = parser.parse_args()
 
     if args.stop:
         stopped = stop_existing()
         print(f"[✓] AGY Mic Button stopped: {stopped}")
+    elif args.pin:
+        set_pin_from_cli(True)
+    elif args.unpin:
+        set_pin_from_cli(False)
     elif args.toggle:
         ok, target = send_key_to_agy("F5")
         print(f"[✓] Sent F5 (/voice toggle) -> {target} (ok={ok})")

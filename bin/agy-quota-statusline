@@ -458,8 +458,9 @@ def main():
         if mic_state.get("recording"):
             mic_seg = "🔴 MIC LIVE (Click Pill to Stop)"
         elif mic_running:
+            pin_tag = "•📌" if mic_state.get("pinned") else ""
             auto_tag = "•Auto" if mic_state.get("auto_send") else ""
-            mic_seg = f"🎙️ Mic{auto_tag}"
+            mic_seg = f"🎙️ Mic{pin_tag}{auto_tag}"
         else:
             mic_seg = ""
     except Exception:
