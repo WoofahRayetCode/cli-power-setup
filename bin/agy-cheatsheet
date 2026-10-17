@@ -103,7 +103,7 @@ def classify_workload(
         routine = "Flash • Low (LTX/DDS)"
         deep = "Argon • High (64b C++/DX11)"
         hw = "32-Thr CMake + /dev/shm"
-        if "merge" in name_low and not ("argon" in name_low or "fable" in name_low):
+        if "merge" in name_low:
             live_rec = "Argon•High+Flash"
             live_reason = "Argon (C++/64b) + Flash Swarm (LTX)"
         elif dirty_has(".cpp", ".h", ".hpp", ".c", ".ps", ".vs", ".hlsl", ".patch", ".s") or has_crash_or_retry:
@@ -393,7 +393,7 @@ def scan_all_repos(save: bool = True) -> list[dict]:
 
 
 def color_rec(rec: str) -> str:
-    if "Tandem" in rec:
+    if "Argon•High+Flash" in rec or "Swarm" in rec:
         return f"{C_YELLOW}{C_BOLD}{rec}{C_RESET}"
     if "Argon • High" in rec:
         return f"{C_MAGENTA}{C_BOLD}{rec}{C_RESET}"
@@ -592,7 +592,7 @@ def print_full_table(cwd: Path, results: list[dict], show_all: bool = False) -> 
     print(f"  • {C_GREEN}{C_BOLD}Gemini Flash (Low){C_RESET}   ➔ LTX/JSON/TOML configs, GDScript UI, HTML/CSS, git sync, batch texture/audio scripts (Saves 85% quota)")
     print(f"  • {C_CYAN}{C_BOLD}Gemini Argon (Med){C_RESET}   ➔ Blender 5.2+ 3D modeling (`bpy`), Lua quests, Kotlin/C# services, multi-file refactors")
     print(f"  • {C_MAGENTA}{C_BOLD}Gemini Argon (High){C_RESET}  ➔ 64-bit C++ engine porting (`OGSR`), DX11/Vulkan shaders, binary RE (`rea`), kernel ACPI (`omen-acpi`), crashes")
-    print(f"  • {C_YELLOW}{C_BOLD}Tandem YOLO Mode{C_RESET}     ➔ Run `tandem-yolo` on `ogsr-complete-merge` to pair Argon (C++/64b) + Claude Fable (LTX/Lua) concurrently")
+    print(f"  • {C_YELLOW}{C_BOLD}Argon + Flash Swarm{C_RESET}  ➔ Run `agy-yolo` on `ogsr-complete-merge` to pair Argon (C++/64b) + parallel Flash subagents (LTX/DDS/Audio)")
     if not show_all and len(results) > limit:
         print(f"  {C_DIM}(Showing top {limit} most active repos. Run `agy-cheatsheet --all` to view all {len(results)} repos.){C_RESET}")
     print()

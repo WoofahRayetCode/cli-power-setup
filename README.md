@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
 
-This repository organizes a curated set of **303 autonomous agent skills**, 303 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **295 autonomous agent skills**, 295 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
  
  ---
  
@@ -38,7 +38,7 @@ This repository organizes a curated set of **303 autonomous agent skills**, 303 
  
  ### What the Installer Does:
  1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
- 2. **Tri-Environment Sync:** Deploys all 303 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+ 2. **Tri-Environment Sync:** Deploys all 295 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
  3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
  4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
  5. **Turbo Mode Launchers:** Installs `agy-turbo`, `claude-turbo`, and autonomous YOLO shortcuts (`agy-yolo`, `claude-yolo`) into `~/.local/bin/`.
@@ -54,7 +54,7 @@ This repository organizes a curated set of **303 autonomous agent skills**, 303 
  ├── README.md                   # Comprehensive documentation & skill reference
  ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
  ├── .cursor/
- │   └── rules/                  # 303 modular Cursor rules (.mdc) with semantic metadata
+ │   └── rules/                  # 295 modular Cursor rules (.mdc) with semantic metadata
 
 
 ├── bin/
@@ -82,14 +82,14 @@ This repository organizes a curated set of **303 autonomous agent skills**, 303 
     ├── settings.template.json  # Reference AGY CLI settings configuration
     ├── token_ledger.json       # Universal lifetime token ledger benchmark (1.535B tokens recorded)
     ├── cursor/                 # Cursor reference templates and rules
-    └── skills/                 # 303 specialized skills
+    └── skills/                 # 295 specialized skills
 ```
 
 ---
 
 ## 🎯 Where Skills Perform Best: CLI vs. Cursor IDE (Division of Labor)
 
-While all 303 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
+While all 295 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
 
 ### 1. Skills That Excel in the CLI (Headless & Unattended)
 *Best launched via `claude-turbo`, `agy-turbo`, or standalone terminal scripts*
@@ -1975,7 +1975,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits health across Gemini, Claude, and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all skills across Antigravity, Claude, and Cursor | After adding or updating any skill in the repository. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 303 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 295 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
@@ -2012,7 +2012,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 303 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 295 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
 
 
@@ -2022,7 +2022,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ---
 
 <!-- AUTO-SYNC-CATALOG:START -->
-## 🔄 Auto-Synchronized Skill & CLI Inventory (303 Total Active Skills)
+## 🔄 Auto-Synchronized Skill & CLI Inventory (295 Total Active Skills)
 
 ### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)
 | CLI Tool | Purpose |
@@ -2032,10 +2032,9 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 | **`repo-auto-sync`** | Autonomous git repo puller, `.gitignore` hardener, `README.md` updater, milestone committer, and 34-repo fleet manager. |
 | **`steam-mod-scanner`** | Fingerprints installed Steam games (`/mnt/games/SteamLibrary`) by engine & archive format and maps to modding skills. |
 | **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |
-| **`tandem-yolo` / `tandem-dispatch`** | 3-column side-by-side Gemini 4 Argon + Claude Fable autonomous split-worktree launcher & live command dispatcher. |
 | **`local-coprocessor` / `local-rag` / `local-ast-compiler`** | Zero-quota local CPU/GPU/RAM offload engines for AST syntax checks, BM25/vector RAG, and local LLM summarization. |
 
-### Recently Evolved & SOTA Skills (84 Indexed Automatically)
+### Recently Evolved & SOTA Skills (76 Indexed Automatically)
 | Skill Name | Description |
 | :--- | :--- |
 | **`amd-igpu-nvidia-dgpu-hybrid-offload`** | Dual-GPU workload splitter for AMD Radeon 610M iGPU (/dev/dri/renderD129, RADV Vulkan + VA-API VCN + 30GB shared DDR5 RAM) and NVIDIA GeForce RTX 5060 dGPU (/dev/dri/renderD128, 8GB GDDR7 CUDA/OptiX). Prevents background agent tasks from stealing game VRAM. |
@@ -2105,14 +2104,6 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 | **`source-idtech-kex-engine-modding`** | Modding pipeline for Valve Source/Source 2, GoldSrc, id Tech (Quake II/III, DOOM 3), and Nightdive KEX Engine games in your Steam library (SiN Reloaded, Half-Life 1/2, Black Mesa, Garry's Mod, Left 4 Dead 1/2, Portal 1/2, CS2, TF2). |
 | **`speculative-multi-step-drafting`** | Bundles predictable consecutive edits and multi-file modifications into single-turn atomic dispatches, slashing multi-turn reasoning overhead and saving up to 75% input tokens. |
 | **`stalker2-to-ogsr-asset-transpiler`** | Converts and adapts S.T.A.L.K.E.R. 2 Heart of Chornobyl UE5 IoStore assets (textures, audio, ballistics curves, weather) into 64-bit S.T.A.L.K.E.R. OGSR/X-Ray formats. |
-| **`tandem-asynchronous-compaction-gate`** | Synchronizes compaction boundaries between Argon and Fable, staging active peer state to .agents/handoff.json before /compact to lock 90-95% cache discounts without amnesia. |
-| **`tandem-circuit-breaker-guard`** | Prevents oscillating retry loops, ping-pong file thrashing, and runaway token burn between concurrent Argon and Fable agents using an automated 3-strike circuit breaker. |
-| **`tandem-conflict-resolution-arbiter`** | Semantic AST-aware merge conflict resolver that reconciles concurrent modifications in game configs (LTX), CMakeLists, and JSON without halting execution. |
-| **`tandem-continuous-integration-pipeline`** | Automated pre-merge staging pipeline that compiles and smoke-tests unified Argon and Fable branches before merging into main. |
-| **`tandem-cross-agent-code-review`** | Peer code review protocol between Gemini 4 Argon and Claude Fable. Allows each model to audit the other's diffs before milestone merging to eliminate bugs and regressions. |
-| **`tandem-multi-agent-orchestrator`** | Coordinates concurrent execution between Gemini 4 Argon and Claude Fable across isolated git worktrees, preventing file collisions and synchronizing milestones via .agents/handoff.json. |
-| **`tandem-shared-build-cache-lock`** | Manages shared CCache, CMake binary caches, and atomic build lockfiles between concurrent Argon and Fable worktrees to prevent redundant compilation and race conditions. |
-| **`tandem-terminal-output-coexistence`** | Prevents runaway terminal scrolling, stdout floods, and pane noise in the 3-column tandem layout using token-guard and compact statuslines. |
 | **`time-travel-deterministic-replay-debug`** | Deterministic record-and-replay time-travel debugging using Mozilla rr and GDB reverse execution. Steps backwards from segfaults and corrupted pointers to the exact instruction that mutated memory. |
 | **`ue5-foliage-mesh-to-ogsr-transpiler`** | Extracts S.T.A.L.K.E.R. 2 (UE5 IoStore) 3D trees, bushes, and grass meshes and transpiles them into 64-bit S.T.A.L.K.E.R. OGSR (.ogf and .dm) formats with uint16 submesh partitioning and alpha-coverage mipmaps. |
 | **`ue5-redengine-rage-library-modding`** | Multi-engine modding workflows for your installed and owned UE5 IoStore games (Borderlands 4, Assetto Corsa Rally, S.T.A.L.K.E.R. 2), Rockstar GTA (GTA I/III/VC/SA/IV/V), CDPR REDengine (Cyberpunk 2077, Witcher 3), Baldur's Gate 3, Project Zomboid, and No Man's Sky. |

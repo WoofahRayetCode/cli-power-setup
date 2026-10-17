@@ -21,7 +21,7 @@ $PyTools = @(
     "agy-cheatsheet", "repo-auto-sync", "skill-evolve", "skills-audit-update",
     "steam-mod-scanner", "adaptive-model-router", "agy-doctor", "agy-init",
     "agy-context", "agy-quota-statusline", "claude-statusline", "slice-reader",
-    "token-guard", "cursor-rules-sync", "tandem-agent-sync", "tandem-dispatch"
+    "token-guard", "cursor-rules-sync"
 )
 
 foreach ($tool in $PyTools) {

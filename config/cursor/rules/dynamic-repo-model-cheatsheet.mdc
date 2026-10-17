@@ -57,7 +57,7 @@ agy-cheatsheet --update
 
 | Stack / Repository Group | Fast / Routine Mode | Deep / Architecture Mode | Local Hardware Offload |
 | :--- | :--- | :--- | :--- |
-| **64-Bit C++ Engine & Shaders** (`OGSR-Engine`, `ogsr-complete-merge*`) | `Flash • Low` (`.ltx`/`.dds` configs) | `Argon • High` / `Tandem•Arg+Fab` (`.cpp`/`.h`/`.ps`) | 32-Thread CMake + `/dev/shm` tmpfs |
+| **64-Bit C++ Engine & Shaders** (`OGSR-Engine`, `ogsr-complete-merge`) | `Flash • Low` (`.ltx`/`.dds` configs) | `Argon • High` / `Argon•High+Flash` (`.cpp`/`.h`/`.ps`) | 32-Thread CMake + `/dev/shm` tmpfs |
 | **S.T.A.L.K.E.R. Modding Suite** (`zoneforge`) | `Flash • Low` (LTX deltas, audio, DDS) | `Argon • Med` (Lua state, `.ogf`/`.xdb` codecs) | CUDA/NumPy 32-Thread + `/dev/shm` |
 | **Binary RE & Native Hooks** (`rea`, `wlfryt-organized-gta-pc-fixes`) | `Flash • Low` (TS glue, `.ini`/`.vdf`) | `Argon • High` (Decompilation, ASI hooks) | REA MCP + `CARGO_BUILD_JOBS=32` |
 | **Linux Kernel ACPI & Rust** (`omen-acpi`, `omen-space`) | `Flash • Low` (Systemd, PKGBUILD, UI) | `Argon • High` (EC registers, DKMS, Rust lifetimes) | `CARGO_BUILD_JOBS=32` |

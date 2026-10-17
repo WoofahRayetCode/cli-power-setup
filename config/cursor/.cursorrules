@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (303 Specialized Capabilities)
+## Complete Skills Catalog (295 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -414,14 +414,6 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`subagent-swarm-orchestrator`** | Coordinates autonomous parallel subagent swarms in Claude Code, leveraging isolated git worktrees, background processes, and parent-child JSON messaging pipelines. |
 | **`superpowers`** | Core engineering methodology and discipline engine. Use when starting non-trivial tasks to evaluate if brainstorming, structured planning, TDD, or systematic debugging applies before writing code. |
 | **`systematic-debugging`** | Root-cause diagnosis and hypothesis-driven debugging. Use when encountering test failures, runtime errors, game crashes, or unexpected behavior to diagnose before editing. |
-| **`tandem-asynchronous-compaction-gate`** | Synchronizes compaction boundaries between Argon and Fable, staging active peer state to .agents/handoff.json before /compact to lock 90-95% cache discounts without amnesia. |
-| **`tandem-circuit-breaker-guard`** | Prevents oscillating retry loops, ping-pong file thrashing, and runaway token burn between concurrent Argon and Fable agents using an automated 3-strike circuit breaker. |
-| **`tandem-conflict-resolution-arbiter`** | Semantic AST-aware merge conflict resolver that reconciles concurrent modifications in game configs (LTX), CMakeLists, and JSON without halting execution. |
-| **`tandem-continuous-integration-pipeline`** | Automated pre-merge staging pipeline that compiles and smoke-tests unified Argon and Fable branches before merging into main. |
-| **`tandem-cross-agent-code-review`** | Peer code review protocol between Gemini 4 Argon and Claude Fable. Allows each model to audit the other's diffs before milestone merging to eliminate bugs and regressions. |
-| **`tandem-multi-agent-orchestrator`** | Coordinates concurrent execution between Gemini 4 Argon and Claude Fable across isolated git worktrees, preventing file collisions and synchronizing milestones via .agents/handoff.json. |
-| **`tandem-shared-build-cache-lock`** | Manages shared CCache, CMake binary caches, and atomic build lockfiles between concurrent Argon and Fable worktrees to prevent redundant compilation and race conditions. |
-| **`tandem-terminal-output-coexistence`** | Prevents runaway terminal scrolling, stdout floods, and pane noise in the 3-column tandem layout using token-guard and compact statuslines. |
 | **`task-velocity-governor`** | Enforces task completion velocity, strict timeboxing, step budgeting, anti-thrashing loops, and diminishing returns boundaries. Prevents tasks from taking longer than necessary and halts iterative wheel-spinning. |
 | **`tauri-multiplatform-dev`** | Lightweight cross-platform desktop and mobile engineering with Tauri 2.0, Rust backend, web frontend, secure IPC commands, low RAM usage, and native system integration. |
 | **`test-driven-development`** | Test-Driven Development (TDD) workflow. Use when developing testable features, parsers, codecs, utilities, or bug fixes to write tests before implementation. |

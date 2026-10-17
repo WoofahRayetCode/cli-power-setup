@@ -1,12 +1,39 @@
 {
-  "updated_at": "2026-10-16T20:48:05.814316",
-  "total_repos": 34,
+  "updated_at": "2026-10-16T20:51:34.642373",
+  "total_repos": 32,
   "repos": [
+    {
+      "name": "cli-power-setup",
+      "path": "~/Documents/GitHub/cli-power-setup",
+      "is_git": true,
+      "activity_ts": 1792209094.2851593,
+      "age_str": "0s ago",
+      "dirty_count": 30,
+      "dirty_exts": {
+        ".mdc": 10,
+        ".md": 10,
+        ".json": 1,
+        ".ps1": 1,
+        ".sh": 1
+      },
+      "top_exts": [
+        ".mdc",
+        ".md",
+        ".py"
+      ],
+      "last_commit": "feat(statusline): add persistent live-updating che",
+      "stack": "AI Skills / Python / Bash",
+      "routine": "Flash \u2022 Low (Sync/Docs)",
+      "deep": "Argon \u2022 High (Orchestration)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "Multi-tool engineering",
+      "hw": "Local AST/RAG + 32-Thr"
+    },
     {
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792208885.6303377,
+      "activity_ts": 1792209093.7734098,
       "age_str": "0s ago",
       "dirty_count": 16,
       "dirty_exts": {
@@ -76,31 +103,6 @@
       "live_rec": "Argon\u2022High+Flash",
       "live_reason": "Argon (C++/64b) + Flash Swarm (LTX)",
       "hw": "32-Thr CMake + /dev/shm"
-    },
-    {
-      "name": "cli-power-setup",
-      "path": "~/Documents/GitHub/cli-power-setup",
-      "is_git": true,
-      "activity_ts": 1792208885.3677616,
-      "age_str": "0s ago",
-      "dirty_count": 6,
-      "dirty_exts": {
-        ".mdc": 2,
-        ".json": 1,
-        ".md": 1
-      },
-      "top_exts": [
-        ".md",
-        ".mdc",
-        ".py"
-      ],
-      "last_commit": "refactor(cheatsheet): default ogsr-complete-merge ",
-      "stack": "AI Skills / Python / Bash",
-      "routine": "Flash \u2022 Low (Sync/Docs)",
-      "deep": "Argon \u2022 High (Orchestration)",
-      "live_rec": "Flash \u2022 Low",
-      "live_reason": "Skill edits & repo sync",
-      "hw": "Local AST/RAG + 32-Thr"
     },
     {
       "name": "AegisVault",
@@ -297,44 +299,6 @@
       "live_rec": "Argon \u2022 High",
       "live_reason": "Rust/ACPI/Audit safety",
       "hw": "CARGO_BUILD_JOBS=32"
-    },
-    {
-      "name": "ogsr-complete-merge-argon",
-      "path": "~/Documents/GitHub/ogsr-complete-merge-argon",
-      "is_git": true,
-      "activity_ts": 1792203882.419827,
-      "age_str": "1h ago",
-      "dirty_count": 0,
-      "dirty_exts": {},
-      "top_exts": [
-        ".py"
-      ],
-      "last_commit": "chore(argon): checkpoint Aisha v4 generator + S.T.",
-      "stack": "C++20 / X-Ray 64b / DX11",
-      "routine": "Flash \u2022 Low (LTX/DDS)",
-      "deep": "Argon \u2022 High (64b C++/DX11)",
-      "live_rec": "Argon \u2022 High",
-      "live_reason": "Engine C++ / 64b safety",
-      "hw": "32-Thr CMake + /dev/shm"
-    },
-    {
-      "name": "ogsr-complete-merge-fable",
-      "path": "~/Documents/GitHub/ogsr-complete-merge-fable",
-      "is_git": true,
-      "activity_ts": 1792203612.485178,
-      "age_str": "1h ago",
-      "dirty_count": 0,
-      "dirty_exts": {},
-      "top_exts": [
-        ".sh"
-      ],
-      "last_commit": "fable: resumed-save stall root cause (NaN skeleton",
-      "stack": "C++20 / X-Ray 64b / DX11",
-      "routine": "Flash \u2022 Low (LTX/DDS)",
-      "deep": "Argon \u2022 High (64b C++/DX11)",
-      "live_rec": "Argon \u2022 High",
-      "live_reason": "Engine C++ / 64b safety",
-      "hw": "32-Thr CMake + /dev/shm"
     },
     {
       "name": "nsz",
