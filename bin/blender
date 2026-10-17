@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# NVIDIA RTX 5060 Laptop GPU PRIME Render & OptiX Wrapper for Blender 5.2+
+# Routes OpenGL/Vulkan/EEVEE viewport & Cycles compute to the discrete NVIDIA GPU
+# instead of the integrated AMD Radeon 610M iGPU on hybrid laptops.
+
+export __NV_PRIME_RENDER_OFFLOAD=1
+export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+export __VK_LAYER_NV_optimus=NVIDIA_only
+
+exec /usr/bin/blender "$@"

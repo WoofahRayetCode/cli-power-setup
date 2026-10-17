@@ -1,37 +1,13 @@
 {
-  "updated_at": "2026-10-16T22:07:15.921262",
+  "updated_at": "2026-10-16T22:13:49.611543",
   "total_repos": 32,
   "repos": [
-    {
-      "name": "cli-power-setup",
-      "path": "~/Documents/GitHub/cli-power-setup",
-      "is_git": true,
-      "activity_ts": 1792213635.5786214,
-      "age_str": "0s ago",
-      "dirty_count": 3,
-      "dirty_exts": {
-        ".md": 1,
-        ".json": 1
-      },
-      "top_exts": [
-        ".mdc",
-        ".md",
-        ".py"
-      ],
-      "last_commit": "perf(math): add RTX 5060 CUDA 13.4 + 32-thread CPU",
-      "stack": "AI Skills / Python / Bash",
-      "routine": "Flash \u2022 Low (Sync/Docs)",
-      "deep": "Argon \u2022 High (Orchestration)",
-      "live_rec": "Flash \u2022 Low",
-      "live_reason": "Skill edits & repo sync",
-      "hw": "Local AST/RAG + 32-Thr"
-    },
     {
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792213635.3501012,
-      "age_str": "0s ago",
+      "activity_ts": 1792214028.5222907,
+      "age_str": "1s ago",
       "dirty_count": 16,
       "dirty_exts": {
         ".json": 78,
@@ -47,7 +23,7 @@
         ".out": 11,
         ".conf": 3,
         ".sav": 5,
-        ".dds": 197,
+        ".dds": 199,
         ".jsonl": 1,
         ".bak": 1,
         ".patch": 1,
@@ -58,7 +34,7 @@
         ".fog_vol": 1,
         ".puddles": 1,
         ".lua": 1,
-        ".script": 34,
+        ".script": 37,
         ".script_npc_lights_on": 1,
         ".script_disabled": 3,
         ".script~": 1,
@@ -102,11 +78,34 @@
       "hw": "32-Thr CMake + /dev/shm"
     },
     {
+      "name": "cli-power-setup",
+      "path": "~/Documents/GitHub/cli-power-setup",
+      "is_git": true,
+      "activity_ts": 1792214001.3041399,
+      "age_str": "28s ago",
+      "dirty_count": 2,
+      "dirty_exts": {
+        ".json": 1
+      },
+      "top_exts": [
+        ".mdc",
+        ".md",
+        ".py"
+      ],
+      "last_commit": "docs(readme): update README for Antigravity-only a",
+      "stack": "AI Skills / Python / Bash",
+      "routine": "Flash \u2022 Low (Sync/Docs)",
+      "deep": "Argon \u2022 High (Orchestration)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Skill edits & repo sync",
+      "hw": "Local AST/RAG + 32-Thr"
+    },
+    {
       "name": "OGSR-Engine",
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
       "activity_ts": 1792213021.776576,
-      "age_str": "10m ago",
+      "age_str": "16m ago",
       "dirty_count": 30,
       "dirty_exts": {
         ".hpp": 1,
