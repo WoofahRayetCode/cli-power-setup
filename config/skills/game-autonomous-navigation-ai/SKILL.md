@@ -94,3 +94,8 @@ python3 config/skills/game-autonomous-navigation-ai/scripts/nav_graph_recorder.p
 - **`game-dynamic-stress-orchestrator`**: Dynamic in-game stress testing and entity orchestration: collision-safe multi-entity wave spawning, cross-fact...
 - **`game-qa-playtest-controller`**: Autonomous multi-axis game testing locomotion controller using Linux /dev/uinput and evdev. Injects dynamic ch...
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+
+---
+
+## X-Ray/OGSR Engine Pitch Sign Convention & Overhead Obstacle Detour
+In X-Ray/OGSR, camera/actor pitch sign is inverted relative to standard math: positive pitch = looking DOWN, while vector:getP() for a downward vector is negative. Always negate vector:getP() when aiming at low/prone targets (e.g. spine bone of wounded NPCs or downhill enemies). In tight stairwells (e.g. Cordon Sid bunker), add overhead clearance checks for hanging lamps.
