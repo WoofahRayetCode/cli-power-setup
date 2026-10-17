@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (302 Specialized Capabilities)
+## Complete Skills Catalog (303 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -442,6 +442,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`wakaru`** | >- |
 | **`win32-systems-engineering`** | Windows systems programming in C++/C#, Win32 API, Windows Registry, Windows Services (SCM), Named Pipes, Structured Exception Handling (SEH), and Windows Application Manifests. |
 | **`windows-app-engineering`** | Native Windows desktop UI engineering, WinUI 3, Windows App SDK, WPF (.NET 8/9), C#/WinRT component interop, Fluent Design, and MSIX packaging. |
+| **`windows-linux-cross-os-runtime-bridge`** | Cross-platform runtime bridge between Windows 10/11 (PowerShell 7, Win32 API, DirectX/DXGI, MSVC, ETW, ImDisk RAMDisk) and Linux (CachyOS/Arch, POSIX/Bash, Vulkan/RADV, Wine/Proton, /dev/shm, /dev/uinput) so all 300+ skills execute natively on both operating systems. |
 | **`windsurf-cascade-flow-tracker`** | Emulates Codeium Windsurf Cascade Flow on Gemini 4 Argon. Tracks multi-file dependency ripple effects, symbol references, and cascading changes across C++, Lua, and LTX configurations. |
 | **`wine-proton-native-interop`** | Native Linux and Wine/Proton interop engineering. Covers Win32-to-Linux IPC sockets, shared memory shims, Wine DLL call thunking, custom Wine builtin modules, and running hybrid native/Proton tooling. |
 | **`working-memory-checkpointing`** | Atomic snapshotting and 1-command rollback of in-flight git diffs, hypotheses, and active working state to safeguard complex multi-step refactors against dead-end debugging loops. |

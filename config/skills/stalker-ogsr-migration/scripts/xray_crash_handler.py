@@ -14,16 +14,20 @@ import json
 import os
 import re
 import signal
+import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
 SEARCH_LOG_DIRS = [
-    Path("/home/ericparsley/Documents/GitHub/ogsr-complete-merge/_appdata_/logs"),
-    Path("/home/ericparsley/Desktop/STALKER_Complete/_appdata_/logs"),
+    Path.home() / "Documents/GitHub/ogsr-complete-merge/_appdata_/logs",
+    Path.home() / "Desktop/STALKER_Complete/_appdata_/logs",
     Path("_appdata_/logs").resolve(),
-    Path.home() / ".local/share/Steam/steamapps/compatdata"
+    Path.home() / ".local/share/Steam/steamapps/compatdata",
+    Path.home() / "Documents/STALKER-SHOC/logs",
+    Path("C:/Users/Public/Documents/STALKER-SHOC/logs"),
 ]
 
 
@@ -152,10 +156,35 @@ def parse_xray_log(log_path: Path) -> Dict[str, any]:
 
 
 def scan_active_popups() -> List[Dict[str, any]]:
-    """Scan running processes for Wine/Proton Notepad or crash dialog instances."""
+    """Scan running processes for Native Windows or Wine/Proton Notepad / crash dialog instances."""
     popups = []
-    pids = [int(p) for p in os.listdir("/proc") if p.isdigit()]
+    if os.name == "nt":
+        try:
+            res = subprocess.run(
+                ["powershell", "-NoProfile", "-Command",
+                 "Get-CimInstance Win32_Process -Filter \"Name='notepad.exe' OR Name='WerFault.exe'\" | Select-Object ProcessId,CommandLine | ConvertTo-Json -Compress"],
+                capture_output=True, text=True, timeout=4
+            )
+            if res.returncode == 0 and res.stdout.strip():
+                items = json.loads(res.stdout.strip())
+                if isinstance(items, dict):
+                    items = [items]
+                for it in items:
+                    pid = int(it.get("ProcessId", 0))
+                    cmdline = str(it.get("CommandLine") or "")
+                    if pid > 0:
+                        popups.append({
+                            "pid": pid,
+                            "cmd": [cmdline],
+                            "is_notepad": "notepad" in cmdline.lower(),
+                            "is_bugtrap": "werfault" in cmdline.lower() or "bugtrap" in cmdline.lower(),
+                            "log_path": find_latest_xray_log(max_age_seconds=180.0),
+                        })
+        except Exception:
+            pass
+        return popups
 
+    pids = [int(p) for p in os.listdir("/proc") if p.isdigit()] if Path("/proc").exists() else []
     for pid in pids:
         cmdline_file = Path(f"/proc/{pid}/cmdline")
         if not cmdline_file.exists():
@@ -165,7 +194,6 @@ def scan_active_popups() -> List[Dict[str, any]]:
             cmd_args = [arg.decode("utf-8", errors="ignore") for arg in raw_cmd if arg]
             cmd_str = " ".join(cmd_args).lower()
 
-            # Identify Wine Notepad opening a crash log or BugTrap
             is_notepad = "notepad" in cmd_str
             is_bugtrap = any(k in cmd_str for k in ["bugtrap", "werfault", "winedbg"])
             is_log_target = any(".log" in arg.lower() for arg in cmd_args) or any("xray" in arg.lower() for arg in cmd_args)
@@ -180,7 +208,6 @@ def scan_active_popups() -> List[Dict[str, any]]:
                             break
 
                 if not log_file_path:
-                    # Fallback to the newest xray log created recently
                     log_file_path = find_latest_xray_log(max_age_seconds=180.0)
 
                 popups.append({
@@ -197,7 +224,10 @@ def scan_active_popups() -> List[Dict[str, any]]:
 
 
 def dismiss_process(pid: int, timeout: float = 1.0) -> bool:
-    """Terminate the process gently via SIGTERM, escalating to SIGKILL."""
+    """Terminate the process on Windows (taskkill) or Linux (SIGTERM -> SIGKILL)."""
+    if os.name == "nt":
+        res = subprocess.run(["taskkill", "/F", "/PID", str(pid)], capture_output=True)
+        return res.returncode == 0
     try:
         os.kill(pid, signal.SIGTERM)
         start = time.time()
@@ -205,7 +235,6 @@ def dismiss_process(pid: int, timeout: float = 1.0) -> bool:
             if not Path(f"/proc/{pid}").exists():
                 return True
             time.sleep(0.05)
-        # Force kill if still holding up
         os.kill(pid, signal.SIGKILL)
         return True
     except ProcessLookupError:
@@ -230,7 +259,6 @@ def sweep_and_dismiss(archive_dir: Optional[Path] = None) -> List[Dict[str, any]
             print(f"  -> Reading crash log: {log_path}")
             report = parse_xray_log(log_path)
             
-            # Print high-density triage summary
             if report.get("expression") or report.get("description"):
                 print(f"  -> Fatal Expression: {report.get('expression')}")
                 print(f"  -> Description:      {report.get('description')}")
@@ -241,8 +269,7 @@ def sweep_and_dismiss(archive_dir: Optional[Path] = None) -> List[Dict[str, any]
             else:
                 print(f"  -> Read {len(report['tail_lines'])} trailing log lines.")
 
-            # Save triage report to archive
-            out_dir = archive_dir or (log_path.parent if log_path else Path("/tmp/xray_triage"))
+            out_dir = archive_dir or (log_path.parent if log_path else Path(tempfile.gettempdir()) / "xray_triage")
             out_dir.mkdir(parents=True, exist_ok=True)
             report_file = out_dir / f"crash_triage_{int(time.time())}_{pid}.json"
             report_file.write_text(json.dumps(report, indent=2), encoding="utf-8")
@@ -250,7 +277,6 @@ def sweep_and_dismiss(archive_dir: Optional[Path] = None) -> List[Dict[str, any]
         else:
             print("  -> Notice: Specific log file could not be mapped; closing modal window.")
 
-        # Dismiss the window so it doesn't hold up tests
         success = dismiss_process(pid)
         print(f"  -> Dismissed and closed popup window (PID: {pid}): {'Success' if success else 'Failed'}")
         

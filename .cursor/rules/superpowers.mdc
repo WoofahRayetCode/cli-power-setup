@@ -37,3 +37,7 @@ This skill governs engineering discipline across all tasks. It ensures that the 
    - **Discovered a workaround, domain ratio, or reusable script?** $\rightarrow$ Immediately crystallize and push via `self-evolving-skill-synthesizer` (`skill-evolve`).
    - **Starting a task or completing a milestone?** $\rightarrow$ Sync and push repository state via `autonomous-git-repo-sync-governor` (`repo-auto-sync --pull` / `repo-auto-sync --checkpoint --push`).
    - **About to declare a task complete?** $\rightarrow$ Activate `argon-adversarial-verification-gate` and `verification-before-completion`.
+
+## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
+- **Cross-OS Deployment (`install.ps1` & `install.sh`):** All CLI tools (`agy-cheatsheet` / `cs`, `repo-auto-sync`, `skill-evolve`, `skills-audit-update`, `adaptive-model-router`) run natively on Windows 10/11 via `.cmd`/PowerShell shims in `$HOME\.local\bin` and use `Path(tempfile.gettempdir())` instead of hardcoded `/tmp`.
+- **Multi-Agent Split Terminal:** On Windows 10/11, use **Windows Terminal (`wt.exe`)** split panes (`wt -p "PowerShell" \; split-pane -V ...`) in place of Linux `tmux`/`kitty`, and `sccache` / MSVC `/MP` for shared build caching across git worktrees.

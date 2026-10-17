@@ -107,3 +107,9 @@ python3 config/skills/android-rom-os-engineering/scripts/android_rom_tools.py vi
 | **SurfaceFlinger** | `E Gralloc: failed to load gralloc HAL` | Missing graphics/EGL proprietary blobs. | Verify `vendor/lib64/hw/gralloc.*.so` exists in `proprietary-files.txt`. |
 | **SystemServer** | `VintfObject::checkCompatibility failed` | System framework requires a HAL version that vendor does not declare. | Check `manifest.xml` and update FCM compatibility matrix. |
 | **Audio/RIL** | `audioserver: AudioFlinger could not be initialized` | Missing `audio_policy_configuration.xml` or broken vendor audio HAL. | Ensure audio XML routing configs are copied in `device.mk`. |
+
+## Windows 10/11 Native Counterparts (`windows-linux-cross-os-runtime-bridge`)
+- **Packages & Toolchains:** Use `winget` / `scoop` / `choco` and `vswhere.exe` (MSVC / Clang-CL) on Windows in place of `pacman` / `yay`. For desktop packaging on Windows, target MSIX / WiX / WinGet manifests (`windows-app-engineering`).
+- **Profiling & Time-Travel Debugging:** On Windows 10/11, use **Windows Performance Recorder (`wpr -start GeneralProfile` / `wpa.exe`)** in place of Linux `perf`, and **WinDbg Preview Time-Travel Debugging (`ttd.exe -launch <app.exe>`)** in place of Mozilla `rr`.
+- **Hardware, Thermal & Power Profiles:** Query sensors via WMI/CIM (`Get-CimInstance -Namespace root/wmi MSAcpi_ThermalZoneTemperature`, `nvidia-smi`) and switch power plans via `powercfg /setactive` on Windows.
+- **File System Hot-Reload & ADB:** Use `.NET System.IO.FileSystemWatcher` (`Register-ObjectEvent`) on Windows in place of `inotifywait`, and resolve `adb.exe` from `%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe`.

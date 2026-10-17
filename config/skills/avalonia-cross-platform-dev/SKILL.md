@@ -71,4 +71,8 @@ public async Task<string?> OpenBackupFolderAsync(TopLevel topLevel)
 
 * **Handoff to `csharp-dotnet-engineering`:** For backend domain logic, thread-safe collections, and serialization.
 * **Handoff to `linux-desktop-packaging`:** For packaging Avalonia Linux binaries into Flatpaks or AppImages.
-* **Handoff to `win32-systems-engineering`:** If Windows-specific features (Registry, direct P/Invoke) are conditionally required.\n
+* **Handoff to `win32-systems-engineering`:** If Windows-specific features (Registry, direct P/Invoke) are conditionally required.
+
+## Cross-OS Windows 10/11 & Linux Runtime Bridge (`windows-linux-cross-os-runtime-bridge`)
+- **Unified Windows & Linux Execution:** Pair with `windows-linux-cross-os-runtime-bridge` for portable CPU thread saturation (`os.cpu_count()` / `$env:NUMBER_OF_PROCESSORS` / `$(nproc)`), scratch staging (`Path(tempfile.gettempdir())` / `R:\` RAMDisk / `/dev/shm`), and dual-GPU routing (Windows `UserGpuPreferences` vs Linux `DRI_PRIME`).
+- **Dynamic Cheat Sheet, Git Sync & Self-Evolution:** Consult `agy-cheatsheet` (`cs` / `dynamic-repo-model-cheatsheet`) for live per-repo model/effort selection, commit verified milestones via `repo-auto-sync <repo> --checkpoint --push` (`autonomous-git-repo-sync-governor`), and promote reusable cross-OS scripts via `skill-evolve` (`self-evolving-skill-synthesizer`).

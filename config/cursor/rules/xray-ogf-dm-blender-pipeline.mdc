@@ -85,3 +85,7 @@ OGF v4 files use sequential little-endian chunks (`struct.pack("<II", chunk_id, 
 ## Promoted Executable Tool (`write_ogf.py`)
 - **Location:** `~/.gemini/config/skills/xray-ogf-dm-blender-pipeline/scripts/write_ogf.py`
 - **Invocation:** `~/.gemini/config/skills/xray-ogf-dm-blender-pipeline/scripts/write_ogf.py`
+
+## Windows 10/11 & Cross-Platform Blender 5.2+ Parity (`windows-linux-cross-os-runtime-bridge`)
+- **Executable Discovery:** Resolve Blender via `shutil.which("blender")` or fallback on Windows to `C:\Program Files\Blender Foundation\Blender 5.2\blender.exe -b --factory-startup`.
+- **Cross-OS Scratch & OptiX Baking:** Stage intermediate `.blend`, `.png`, and `.ogf`/`.glb` exports in `Path(tempfile.gettempdir())` (`%TEMP%` on Windows, `/dev/shm` on Linux) and enable `compute_device_type = "OPTIX"` on both Windows WDDM 3.2 and Linux NVIDIA drivers.

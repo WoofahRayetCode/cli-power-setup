@@ -61,3 +61,6 @@ This skill orchestrates the entire development cycle within Antigravity CLI.
    - Stage intermediate builds and archive extractions in `/dev/shm` (`ramdisk-tmpfs-build-bake-accelerator`), split background Vulkan/video tasks onto the AMD Radeon 610M iGPU (`amd-igpu-nvidia-dgpu-hybrid-offload`), and bake 3D textures on the RTX 5060 via OptiX (`rtx-optix-gpu-baker-denoiser`).
    - Upon phase completion, run `repo-auto-sync <repo> --checkpoint --push` (updating `.gitignore`, `README.md`, and `agy-cheatsheet`) and promote reusable scripts via `skill-evolve`.
 
+## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
+- **Cross-OS Deployment (`install.ps1` & `install.sh`):** All CLI tools (`agy-cheatsheet` / `cs`, `repo-auto-sync`, `skill-evolve`, `skills-audit-update`, `adaptive-model-router`) run natively on Windows 10/11 via `.cmd`/PowerShell shims in `$HOME\.local\bin` and use `Path(tempfile.gettempdir())` instead of hardcoded `/tmp`.
+- **Multi-Agent Split Terminal:** On Windows 10/11, use **Windows Terminal (`wt.exe`)** split panes (`wt -p "PowerShell" \; split-pane -V ...`) in place of Linux `tmux`/`kitty`, and `sccache` / MSVC `/MP` for shared build caching across git worktrees.

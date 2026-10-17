@@ -65,3 +65,7 @@ Before refactoring an engine subsystem, compile `.agents/audit/omit_manifest.txt
 - Explicitly list files that can be stubbed or excluded from the build targets (`CMakeLists.txt` / project files).
 - Document why each omitted file is safe to prune (e.g. `xrRender_R1: Legacy DX8 fixed-function pipeline superseded by OGSR DX11 R4`).
 - **Token & Labor Savings:** Cuts active codebase volume by **25% to 40%**, dramatically reducing compilation time and LLM context footprint.
+
+## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
+- **Cross-OS Deployment (`install.ps1` & `install.sh`):** All CLI tools (`agy-cheatsheet` / `cs`, `repo-auto-sync`, `skill-evolve`, `skills-audit-update`, `adaptive-model-router`) run natively on Windows 10/11 via `.cmd`/PowerShell shims in `$HOME\.local\bin` and use `Path(tempfile.gettempdir())` instead of hardcoded `/tmp`.
+- **Multi-Agent Split Terminal:** On Windows 10/11, use **Windows Terminal (`wt.exe`)** split panes (`wt -p "PowerShell" \; split-pane -V ...`) in place of Linux `tmux`/`kitty`, and `sccache` / MSVC `/MP` for shared build caching across git worktrees.

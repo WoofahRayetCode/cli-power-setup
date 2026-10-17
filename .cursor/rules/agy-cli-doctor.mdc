@@ -47,3 +47,7 @@ agy-doctor
   - `~/.cli_power_setup/repo_cheatsheet.json` (`dynamic-repo-model-cheatsheet` / `cs`) and `~/.cli_power_setup/token_ledger.json` symlinks.
   - Hybrid GPU render nodes (`/dev/dri/renderD128` RTX 5060 dGPU + `/dev/dri/renderD129` Radeon 610M iGPU via `amd-igpu-nvidia-dgpu-hybrid-offload`) and `/dev/shm` tmpfs (`ramdisk-tmpfs-build-bake-accelerator`).
 - Pair with `skills-audit-update --audit` and `repo-auto-sync --fleet-status` for full workspace health verification.
+
+## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
+- **Cross-OS Deployment (`install.ps1` & `install.sh`):** All CLI tools (`agy-cheatsheet` / `cs`, `repo-auto-sync`, `skill-evolve`, `skills-audit-update`, `adaptive-model-router`) run natively on Windows 10/11 via `.cmd`/PowerShell shims in `$HOME\.local\bin` and use `Path(tempfile.gettempdir())` instead of hardcoded `/tmp`.
+- **Multi-Agent Split Terminal:** On Windows 10/11, use **Windows Terminal (`wt.exe`)** split panes (`wt -p "PowerShell" \; split-pane -V ...`) in place of Linux `tmux`/`kitty`, and `sccache` / MSVC `/MP` for shared build caching across git worktrees.

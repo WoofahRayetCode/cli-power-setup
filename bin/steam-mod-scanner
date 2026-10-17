@@ -14,14 +14,32 @@ from pathlib import Path
 
 
 def find_library_paths() -> list[Path]:
-    vdf = Path.home() / ".local/share/Steam/steamapps/libraryfolders.vdf"
-    paths = [Path.home() / ".local/share/Steam"]
-    if vdf.is_file():
-        txt = vdf.read_text(encoding="utf-8", errors="ignore")
-        for m in re.finditer(r'"path"\s+"([^"]+)"', txt):
-            p = Path(m.group(1))
-            if p.is_dir() and p not in paths:
-                paths.append(p)
+    candidates = [
+        Path.home() / ".local/share/Steam",
+        Path.home() / ".steam/steam",
+        Path("C:/Program Files (x86)/Steam"),
+        Path("D:/SteamLibrary"),
+        Path("E:/SteamLibrary"),
+        Path("/mnt/c/Program Files (x86)/Steam"),
+    ]
+    if os.name == "nt":
+        try:
+            import winreg
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\Valve\Steam") as k:
+                sp, _ = winreg.QueryValueEx(k, "SteamPath")
+                if sp:
+                    candidates.insert(0, Path(sp))
+        except Exception:
+            pass
+    paths: list[Path] = [c for c in candidates if c.is_dir()]
+    for base in list(paths):
+        vdf = base / "steamapps" / "libraryfolders.vdf"
+        if vdf.is_file():
+            txt = vdf.read_text(encoding="utf-8", errors="ignore")
+            for m in re.finditer(r'"path"\s+"([^"]+)"', txt):
+                p = Path(m.group(1).replace("\\\\", "/"))
+                if p.is_dir() and p not in paths:
+                    paths.append(p)
     return paths
 
 

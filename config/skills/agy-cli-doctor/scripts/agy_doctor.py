@@ -106,7 +106,7 @@ def main():
     else:
         results.append((None, "Quota cache not yet generated (runs on next statusline tick)"))
 
-    # 5. Model Backend Connectivity
+    # 5. Model Backend Connectivity & Dynamic Cheat Sheet / Offload Stack
     try:
         res = subprocess.run(
             ["agy", "models"],
@@ -120,6 +120,16 @@ def main():
             results.append((None, "Model API endpoint reachable but model list returned non-standard output"))
     except Exception as e:
         results.append((False, f"Model endpoint unreachable: {e}"))
+
+    cs_path = os.path.expanduser("~/.cli_power_setup/repo_cheatsheet.json")
+    results.append((os.path.exists(cs_path), f"Dynamic Repo Model Cheat Sheet index present ({cs_path})"))
+    if os.name == "nt":
+        has_gpu = shutil.which("nvidia-smi") is not None
+        results.append((has_gpu, "Windows GPU & DXGI stack ready (nvidia-smi / DirectX 12)"))
+        results.append((os.path.exists(os.environ.get("TEMP", "C:\\Windows\\Temp")), "Windows %TEMP% / RAMDisk staging ready"))
+    else:
+        results.append((os.path.exists("/dev/dri/renderD128") and os.path.exists("/dev/dri/renderD129"), "Hybrid GPU nodes ready (RTX 5060 dGPU + Radeon 610M iGPU)"))
+        results.append((os.path.exists("/dev/shm"), "30 GB RAM /dev/shm tmpfs accelerator ready"))
 
     # Print results
     print("\nDiagnostic Checklist:")

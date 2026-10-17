@@ -16,7 +16,8 @@ from pathlib import Path
 
 # Paths
 HOME = Path.home()
-REPO_DIR = Path("/home/ericparsley/Documents/GitHub/cli-power-setup")
+_CAND_REPO = Path(__file__).resolve().parent.parent
+REPO_DIR = _CAND_REPO if (_CAND_REPO / "config" / "skills").exists() else (HOME / "Documents" / "GitHub" / "cli-power-setup")
 REPO_SKILLS = REPO_DIR / "config/skills"
 GEMINI_SKILLS = HOME / ".gemini/config/skills"
 CLAUDE_SKILLS = HOME / ".claude/skills"

@@ -14,7 +14,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-REPO_ROOT = Path("/home/ericparsley/Documents/GitHub/cli-power-setup")
+_CAND_REPO = Path(__file__).resolve().parent.parent
+REPO_ROOT = _CAND_REPO if (_CAND_REPO / "config" / "skills").exists() else (Path.home() / "Documents" / "GitHub" / "cli-power-setup")
 SKILLS_DIR = REPO_ROOT / "config" / "skills"
 GEMINI_SKILLS = Path.home() / ".gemini" / "config" / "skills"
 CLAUDE_SKILLS = Path.home() / ".claude" / "skills"

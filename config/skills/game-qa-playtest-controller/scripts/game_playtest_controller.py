@@ -71,6 +71,13 @@ class VirtualGamepad:
     def key(self, key_code, press=True):
         if self.dry_run:
             return
+        if sys.platform == "win32" and key_code is not None:
+            try:
+                import ctypes
+                ctypes.windll.user32.keybd_event(int(key_code) & 0xFF, 0, 0 if press else 2, 0)
+            except Exception:
+                pass
+            return
         if self.uinput and HAVE_EVDEV and key_code is not None:
             self.uinput.write(ecodes.EV_KEY, key_code, 1 if press else 0)
             self.uinput.syn()
@@ -78,6 +85,15 @@ class VirtualGamepad:
     def type_text(self, text, delay=0.03):
         if self.dry_run:
             print(f"  [Sim Type]: '{text}'")
+            return
+        if sys.platform == "win32":
+            import ctypes
+            for ch in text:
+                vk = ctypes.windll.user32.VkKeyScanA(ord(ch)) & 0xFF
+                ctypes.windll.user32.keybd_event(vk, 0, 0, 0)
+                time.sleep(delay)
+                ctypes.windll.user32.keybd_event(vk, 0, 2, 0)
+                time.sleep(delay)
             return
         if not HAVE_EVDEV:
             return
@@ -102,7 +118,13 @@ class VirtualGamepad:
 
     def mouse_move(self, dx, dy):
         if self.dry_run:
-            # print(f"[Sim] Mouse Move dx={dx}, dy={dy}")
+            return
+        if sys.platform == "win32":
+            try:
+                import ctypes
+                ctypes.windll.user32.mouse_event(0x0001, int(dx), int(dy), 0, 0)
+            except Exception:
+                pass
             return
         if self.uinput and HAVE_EVDEV:
             self.uinput.write(ecodes.EV_REL, ecodes.REL_X, int(dx))

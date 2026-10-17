@@ -71,3 +71,7 @@ Installed globally at `~/.local/bin/skill-evolve`. Every `skill-evolve` command 
 1. **Verify Before Crystallizing:** Never promote unverified code or speculative hypotheses into a skill. Concrete execution evidence (`verification-before-completion`) is required first.
 2. **Prefer Upgrading Over Duplicating:** Before running `--scaffold`, check if the capability belongs as a new section or helper script inside an existing skill (`skill-evolve --append-rule` or `--promote`).
 3. **High-Density Token Budget:** Keep every `SKILL.md` under `130` lines of surgical, copy-pasteable patterns—zero filler prose.
+
+## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
+- **Cross-OS Deployment (`install.ps1` & `install.sh`):** All CLI tools (`agy-cheatsheet` / `cs`, `repo-auto-sync`, `skill-evolve`, `skills-audit-update`, `adaptive-model-router`) run natively on Windows 10/11 via `.cmd`/PowerShell shims in `$HOME\.local\bin` and use `Path(tempfile.gettempdir())` instead of hardcoded `/tmp`.
+- **Multi-Agent Split Terminal:** On Windows 10/11, use **Windows Terminal (`wt.exe`)** split panes (`wt -p "PowerShell" \; split-pane -V ...`) in place of Linux `tmux`/`kitty`, and `sccache` / MSVC `/MP` for shared build caching across git worktrees.

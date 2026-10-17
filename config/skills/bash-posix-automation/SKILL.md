@@ -94,4 +94,8 @@ flock -n 200 || { log_err "Another instance is already running."; exit 1; }
 
 * **Parity with `powershell-windows-automation`:** When authoring multiplatform repos, provide a matching `setup.ps1` with identical CLI parameters (`--help`, `--dry-run`, `--verbose`).
 * **Handoff to `cachyos-arch-packaging`:** For PKGBUILD `package()` and `build()` functions.
-* **Handoff to `linux-systems-engineering`:** When scripts interact with kernel parameters, D-Bus interfaces, or systemd services.\n
+* **Handoff to `linux-systems-engineering`:** When scripts interact with kernel parameters, D-Bus interfaces, or systemd services.
+
+## Cross-OS Windows 10/11 & Linux Runtime Bridge (`windows-linux-cross-os-runtime-bridge`)
+- **Unified Windows & Linux Execution:** Pair with `windows-linux-cross-os-runtime-bridge` for portable CPU thread saturation (`os.cpu_count()` / `$env:NUMBER_OF_PROCESSORS` / `$(nproc)`), scratch staging (`Path(tempfile.gettempdir())` / `R:\` RAMDisk / `/dev/shm`), and dual-GPU routing (Windows `UserGpuPreferences` vs Linux `DRI_PRIME`).
+- **Dynamic Cheat Sheet, Git Sync & Self-Evolution:** Consult `agy-cheatsheet` (`cs` / `dynamic-repo-model-cheatsheet`) for live per-repo model/effort selection, commit verified milestones via `repo-auto-sync <repo> --checkpoint --push` (`autonomous-git-repo-sync-governor`), and promote reusable cross-OS scripts via `skill-evolve` (`self-evolving-skill-synthesizer`).

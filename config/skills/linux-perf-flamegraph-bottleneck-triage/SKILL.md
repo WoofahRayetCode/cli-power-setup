@@ -55,3 +55,9 @@ samples|call_chain
 When profiling Windows PE binaries (`.exe` / `.dll`) under Wine/Proton:
 1. Ensure `.pdb` or stripped symbol maps are alongside the binaries, or enable `WINEDEBUG=+pid` map exports.
 2. If symbols appear as raw hex offsets (`xrGame.dll+0x1a4f20`), resolve the top hotspot offset immediately using `addr2line -e xrGame.dll -f -C 0x1a4f20` or `rizin`.
+
+## Windows 10/11 Native Counterparts (`windows-linux-cross-os-runtime-bridge`)
+- **Packages & Toolchains:** Use `winget` / `scoop` / `choco` and `vswhere.exe` (MSVC / Clang-CL) on Windows in place of `pacman` / `yay`. For desktop packaging on Windows, target MSIX / WiX / WinGet manifests (`windows-app-engineering`).
+- **Profiling & Time-Travel Debugging:** On Windows 10/11, use **Windows Performance Recorder (`wpr -start GeneralProfile` / `wpa.exe`)** in place of Linux `perf`, and **WinDbg Preview Time-Travel Debugging (`ttd.exe -launch <app.exe>`)** in place of Mozilla `rr`.
+- **Hardware, Thermal & Power Profiles:** Query sensors via WMI/CIM (`Get-CimInstance -Namespace root/wmi MSAcpi_ThermalZoneTemperature`, `nvidia-smi`) and switch power plans via `powercfg /setactive` on Windows.
+- **File System Hot-Reload & ADB:** Use `.NET System.IO.FileSystemWatcher` (`Register-ObjectEvent`) on Windows in place of `inotifywait`, and resolve `adb.exe` from `%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe`.

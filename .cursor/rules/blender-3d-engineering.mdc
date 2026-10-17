@@ -117,3 +117,7 @@ For advanced modeling, baking, and character workflows, route to the dedicated d
 1. **Context Override API (`bpy.context.temp_override`):** Never pass legacy dictionary overrides (`bpy.ops.object.mode_set(ctx_dict, ...)`), which raise `TypeError` in Blender 4.0+/5.2+. Always use `with bpy.context.temp_override(window=window, area=area, region=region):`.
 2. **Render Engine Identifiers:** In Blender 5.2 LTS, use `scene.render.engine = 'BLENDER_EEVEE_NEXT'` (or `'CYCLES'` with `preferences.compute_device_type = 'OPTIX'`) for headless preview renders.
 3. **Mandatory 2x2 Multi-Angle Contact Sheet (`argon-multimodal-vision-grounding`):** Before finalizing any procedural character, creature, or tree asset, render a single `1024x1024` 2x2 grid (`Front, Side, 3/4 Perspective, Clay Silhouette`) and inspect via `view_file` to catch disconnected limbs, primitive seams, or proportion errors in one vision pass.
+
+## Windows 10/11 & Cross-Platform Blender 5.2+ Parity (`windows-linux-cross-os-runtime-bridge`)
+- **Executable Discovery:** Resolve Blender via `shutil.which("blender")` or fallback on Windows to `C:\Program Files\Blender Foundation\Blender 5.2\blender.exe -b --factory-startup`.
+- **Cross-OS Scratch & OptiX Baking:** Stage intermediate `.blend`, `.png`, and `.ogf`/`.glb` exports in `Path(tempfile.gettempdir())` (`%TEMP%` on Windows, `/dev/shm` on Linux) and enable `compute_device_type = "OPTIX"` on both Windows WDDM 3.2 and Linux NVIDIA drivers.

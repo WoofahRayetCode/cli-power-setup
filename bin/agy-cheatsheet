@@ -12,15 +12,28 @@ import json
 import os
 import subprocess
 import sys
+import tempfile
 import time
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from pathlib import Path
 
-GITHUB_ROOT = Path.home() / "Documents" / "GitHub"
-CONFIG_STATE_PATH = Path.home() / "Documents" / "GitHub" / "cli-power-setup" / "config" / "repo_cheatsheet.json"
+def _resolve_github_root() -> Path:
+    candidates = [
+        Path.home() / "Documents" / "GitHub",
+        Path.home() / "source" / "repos",
+        Path("C:/GitHub"),
+        Path("D:/GitHub"),
+    ]
+    for c in candidates:
+        if c.exists():
+            return c
+    return candidates[0]
+
+GITHUB_ROOT = _resolve_github_root()
+CONFIG_STATE_PATH = GITHUB_ROOT / "cli-power-setup" / "config" / "repo_cheatsheet.json"
 USER_STATE_PATH = Path.home() / ".cli_power_setup" / "repo_cheatsheet.json"
-STATUSLINE_CACHE = Path("/tmp/agy_cheatsheet_statusline.json")
+STATUSLINE_CACHE = Path(tempfile.gettempdir()) / "agy_cheatsheet_statusline.json"
 
 # ANSI Colors
 C_RESET = "\033[0m"

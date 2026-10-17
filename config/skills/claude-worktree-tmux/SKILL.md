@@ -51,3 +51,7 @@ When a user requests a heavy, long-running task (e.g. compiling a C++ game engin
 * **Handoff to `subagent-swarm-orchestrator`:** For coordinating multi-agent JSON communication.
 * **Handoff to `using-git-worktrees`:** For low-level git worktree pruning and branch removal.
 * **Handoff to `token-economy`:** Prevents massive build logs from entering the active transcript.
+
+## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
+- **Cross-OS Deployment (`install.ps1` & `install.sh`):** All CLI tools (`agy-cheatsheet` / `cs`, `repo-auto-sync`, `skill-evolve`, `skills-audit-update`, `adaptive-model-router`) run natively on Windows 10/11 via `.cmd`/PowerShell shims in `$HOME\.local\bin` and use `Path(tempfile.gettempdir())` instead of hardcoded `/tmp`.
+- **Multi-Agent Split Terminal:** On Windows 10/11, use **Windows Terminal (`wt.exe`)** split panes (`wt -p "PowerShell" \; split-pane -V ...`) in place of Linux `tmux`/`kitty`, and `sccache` / MSVC `/MP` for shared build caching across git worktrees.

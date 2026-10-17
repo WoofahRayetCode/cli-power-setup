@@ -43,3 +43,7 @@ print(f"Status: PASS (Transforms frozen, normals recalculated)")
 - **Never render after every transform:** Do not request screenshot renders for minor rotations, extrusions, or scale adjustments.
 - **Render Policy:** Produce a clay wireframe or turntable preview render **only** when a major milestone contract is fulfilled (e.g. high-poly sculpt completed, low-poly retopology verified, or final baked material delivered).
 - **Format:** Low-resolution web-optimized preview (e.g. 512x512 PNG, 50 samples with OptiX denoiser) to minimize multimodal token ingestion.
+
+## Windows 10/11 & Cross-Platform Blender 5.2+ Parity (`windows-linux-cross-os-runtime-bridge`)
+- **Executable Discovery:** Resolve Blender via `shutil.which("blender")` or fallback on Windows to `C:\Program Files\Blender Foundation\Blender 5.2\blender.exe -b --factory-startup`.
+- **Cross-OS Scratch & OptiX Baking:** Stage intermediate `.blend`, `.png`, and `.ogf`/`.glb` exports in `Path(tempfile.gettempdir())` (`%TEMP%` on Windows, `/dev/shm` on Linux) and enable `compute_device_type = "OPTIX"` on both Windows WDDM 3.2 and Linux NVIDIA drivers.

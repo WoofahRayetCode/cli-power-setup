@@ -91,3 +91,7 @@ When games crash inside opaque binary libraries:
 * **Pinpoint Function Offsets:** Use [`lowlevel-dll-internals`](file:///home/ericparsley/Documents/GitHub/cli-power-setup/config/skills/lowlevel-dll-internals/SKILL.md) to convert the crash offset (e.g. `Game.exe + 0x2A140`) to the exact faulty function or vtable slot.
 * **Inspect Missing Imports:** Use [`standalone-binary-re`](file:///home/ericparsley/Documents/GitHub/cli-power-setup/config/skills/standalone-binary-re/SKILL.md) to inspect the Import Address Table of mod DLLs and verify that all dependent functions exist.
 * **DLL Overrides & Proxying:** Determine whether custom mod hooks (`dinput8.dll`, `version.dll`, `dxgi.dll`) require native loading in Proton or detour patches in Windows.
+
+## Cross-OS Windows 10/11 & Linux Runtime Bridge (`windows-linux-cross-os-runtime-bridge`)
+- **Unified Windows & Linux Execution:** Pair with `windows-linux-cross-os-runtime-bridge` for portable CPU thread saturation (`os.cpu_count()` / `$env:NUMBER_OF_PROCESSORS` / `$(nproc)`), scratch staging (`Path(tempfile.gettempdir())` / `R:\` RAMDisk / `/dev/shm`), and dual-GPU routing (Windows `UserGpuPreferences` vs Linux `DRI_PRIME`).
+- **Dynamic Cheat Sheet, Git Sync & Self-Evolution:** Consult `agy-cheatsheet` (`cs` / `dynamic-repo-model-cheatsheet`) for live per-repo model/effort selection, commit verified milestones via `repo-auto-sync <repo> --checkpoint --push` (`autonomous-git-repo-sync-governor`), and promote reusable cross-OS scripts via `skill-evolve` (`self-evolving-skill-synthesizer`).

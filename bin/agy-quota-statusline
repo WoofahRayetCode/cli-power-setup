@@ -13,10 +13,12 @@ import glob
 import json
 import sqlite3
 import re
+import tempfile
 from datetime import datetime
 
-CACHE_FILE = "/tmp/agy_quota_cache.txt"
-LOCK_FILE = "/tmp/agy_quota_refresh.lock"
+_TMP = tempfile.gettempdir()
+CACHE_FILE = os.path.join(_TMP, "agy_quota_cache.txt")
+LOCK_FILE = os.path.join(_TMP, "agy_quota_refresh.lock")
 CACHE_TTL = 120  # 2 minutes
 
 def make_bar(pct, width=6):

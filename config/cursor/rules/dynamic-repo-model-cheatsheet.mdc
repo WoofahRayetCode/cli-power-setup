@@ -64,3 +64,7 @@ agy-cheatsheet --update
 | **Android Kotlin & NDK** (`tetherfusenet`, `NSZ-Android`) | `Flash • Low` (XML layouts, Gradle KTS) | `Argon • Med` (VPN/Tethering services, JNI/NDK) | ADB + Radeon 610M iGPU |
 | **Crypto & Console Homebrew** (`AegisVault`, `nsz`, `switch-softmod-prep`) | `Flash • Low` (CLI wrappers, JSON feeds) | `Argon • Med` (Cryptographic verification, NSP/NSZ) | 32-Thread `ProcessPool` + `/dev/shm` |
 | **AI Skills & Orchestration** (`cli-power-setup`) | `Flash • Low` (Skill sync, docs, `.gitignore`) | `Argon • High` (Multi-agent swarm architecture) | Local AST/RAG + 32-Thread |
+
+## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
+- **Cross-OS Deployment (`install.ps1` & `install.sh`):** All CLI tools (`agy-cheatsheet` / `cs`, `repo-auto-sync`, `skill-evolve`, `skills-audit-update`, `adaptive-model-router`) run natively on Windows 10/11 via `.cmd`/PowerShell shims in `$HOME\.local\bin` and use `Path(tempfile.gettempdir())` instead of hardcoded `/tmp`.
+- **Multi-Agent Split Terminal:** On Windows 10/11, use **Windows Terminal (`wt.exe`)** split panes (`wt -p "PowerShell" \; split-pane -V ...`) in place of Linux `tmux`/`kitty`, and `sccache` / MSVC `/MP` for shared build caching across git worktrees.

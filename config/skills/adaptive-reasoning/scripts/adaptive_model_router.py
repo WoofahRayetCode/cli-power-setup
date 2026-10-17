@@ -38,8 +38,8 @@ def save_state(path: Path, state: dict):
     state["updated_at"] = datetime.now().isoformat()
     path.write_text(json.dumps(state, indent=2), encoding="utf-8")
     try:
-        import subprocess
-        Path("/tmp/agy_cheatsheet_statusline.json").unlink(missing_ok=True)
+        import subprocess, tempfile
+        (Path(tempfile.gettempdir()) / "agy_cheatsheet_statusline.json").unlink(missing_ok=True)
         subprocess.run(["agy-cheatsheet", "--update"], capture_output=True, timeout=4, check=False)
     except Exception:
         pass

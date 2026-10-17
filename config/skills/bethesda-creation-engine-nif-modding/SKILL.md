@@ -36,3 +36,10 @@ Creation Engine plugins consist of nested **Record (`TES4`, `WEAP`, `ARMO`, `NPC
    - *Fallout 4:* `_d.dds` (BC1/BC7), `_n.dds` (BC5 2-channel normal), `_s.dds` (BC5 Smoothness in Red + Metallic in Green).
    - *Starfield:* `.mat` layered material files + `_color.dds`, `_normal.dds`, `_rough.dds`, `_metal.dds`, `_ao.dds` in `DX10` `.ba2`.
 3. **Havok Collision (`bhkCollisionObject`):** Always generate a simplified convex hull (`<= 64` vertices, `blender-3d-engineering`) rather than raw high-poly `bhkNiTriStripsShape` on movable clutter props to prevent Havok physics explosions.
+
+## Windows 10/11 & Cross-Platform Game Modding Parity (`windows-linux-cross-os-runtime-bridge`)
+- **Native Windows vs. Linux Wine/Proton:** On Windows 10/11, execute `xrEngine.exe` and mod tools natively via DirectX 11/12 without Wine overhead. On Linux, route through Proton/Wine and DXVK/VKD3D.
+- **LLP64 vs. LP64 64-Bit C++ Safety:** On Windows x64 MSVC/Clang-CL (LLP64), `long` and `unsigned long` (`DWORD`) are **32-bit (4 bytes)** whereas on Linux x86_64 (LP64) `long` is 64-bit. Never cast pointers to `long` or `DWORD`—always use `uintptr_t`, `intptr_t`, or `size_t`.
+- **Crash Modal Interception & WER Dumps:** On Windows, `xray_crash_handler.py sweep` queries WMI (`Win32_Process`) and terminates lingering `notepad.exe`/`WerFault.exe` popups via `taskkill /F /PID`, reading logs from `%USERPROFILE%\Documents\STALKER-SHOC\logs` and `_appdata_\logs`.
+- **Native Win32 Playtest Input & Window Capture:** When `sys.platform == "win32"`, `game_playtest_controller.py` automatically dispatches Win32 `keybd_event` / `mouse_event` (`SendInput`), `ClipCursor`, and `PIL.ImageGrab` instead of Linux `/dev/uinput` and `spectacle`.
+- **Steam Library Auto-Discovery:** `steam-mod-scanner` automatically reads `HKCU\Software\Valve\Steam\SteamPath` and `C:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf` on Windows alongside `~/.local/share/Steam` on Linux.

@@ -55,3 +55,9 @@ Search the resulting `.dsl` files for WMI GUIDs, thermal zones (`_TZ`), and embe
 
 * **Hardware Failsafe:** Never disable kernel thermal emergency cutoffs. If communication with the embedded controller drops, default immediately to 100% fan duty cycle to protect the CPU/GPU from thermal damage.
 * **DKMS Verification:** Always test building against current kernel headers (`dkms status`) before triggering reboots.
+
+## Windows 10/11 Native Counterparts (`windows-linux-cross-os-runtime-bridge`)
+- **Packages & Toolchains:** Use `winget` / `scoop` / `choco` and `vswhere.exe` (MSVC / Clang-CL) on Windows in place of `pacman` / `yay`. For desktop packaging on Windows, target MSIX / WiX / WinGet manifests (`windows-app-engineering`).
+- **Profiling & Time-Travel Debugging:** On Windows 10/11, use **Windows Performance Recorder (`wpr -start GeneralProfile` / `wpa.exe`)** in place of Linux `perf`, and **WinDbg Preview Time-Travel Debugging (`ttd.exe -launch <app.exe>`)** in place of Mozilla `rr`.
+- **Hardware, Thermal & Power Profiles:** Query sensors via WMI/CIM (`Get-CimInstance -Namespace root/wmi MSAcpi_ThermalZoneTemperature`, `nvidia-smi`) and switch power plans via `powercfg /setactive` on Windows.
+- **File System Hot-Reload & ADB:** Use `.NET System.IO.FileSystemWatcher` (`Register-ObjectEvent`) on Windows in place of `inotifywait`, and resolve `adb.exe` from `%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe`.
