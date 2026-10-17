@@ -1,12 +1,12 @@
 {
   "lifetime_summary": {
-    "total_cached_tokens_saved": 1391760425,
+    "total_cached_tokens_saved": 1394512528,
     "total_sessions_tracked": 28,
     "cache_hit_rate_pct": 93.85,
-    "total_uncached_input_tokens": 91229660,
+    "total_uncached_input_tokens": 91412261,
     "total_output_tokens": 7064938,
-    "total_turns_executed": 10815,
-    "last_updated": "2026-10-17T10:54:22.917545"
+    "total_turns_executed": 10840,
+    "last_updated": "2026-10-17T11:00:14.779625"
   },
   "sessions": [
     {
@@ -23,5 +23,35 @@
         "Argon High + Flash Swarm Orchestration"
       ]
     }
-  ]
+  ],
+  "local_llm_savings": {
+    "total_calls": 4,
+    "total_local_tokens": 6483,
+    "total_cloud_tokens_saved": 14183,
+    "last_model": "qwen2.5-coder:1.5b",
+    "last_saved_tokens": 1293,
+    "last_updated": "2026-10-17T11:02:17",
+    "by_model": {
+      "blender-architect": {
+        "calls": 1,
+        "local_tokens": 2460,
+        "cloud_tokens_saved": 4320
+      },
+      "minicpm-v:8b": {
+        "calls": 1,
+        "local_tokens": 2330,
+        "cloud_tokens_saved": 5530
+      },
+      "deepseek-r1:8b": {
+        "calls": 1,
+        "local_tokens": 1600,
+        "cloud_tokens_saved": 3040
+      },
+      "qwen2.5-coder:1.5b": {
+        "calls": 1,
+        "local_tokens": 93,
+        "cloud_tokens_saved": 1293
+      }
+    }
+  }
 }

@@ -128,12 +128,47 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
     return installed[0]
 
 
-def _write_local_state(model: str, active: bool) -> None:
+def _write_local_state(model: str, active: bool, last_saved: int = 0) -> None:
     try:
+        clean_m = model.replace(":latest", "")
         state_p = Path("/tmp/agy_local_model_state.json")
-        state_p.write_text(json.dumps({"model": model, "active": active, "ts": time.time()}), encoding="utf-8")
+        payload = {"model": clean_m, "active": active, "ts": time.time()}
+        if last_saved > 0:
+            payload["last_saved"] = last_saved
+        state_p.write_text(json.dumps(payload), encoding="utf-8")
     except Exception:
         pass
+
+
+def record_local_llm_savings(model: str, prompt_eval: int, eval_count: int, has_image: bool = False) -> tuple[int, int]:
+    """Persists per-model local LLM token savings to ~/.cli_power_setup/token_ledger.json."""
+    clean_m = model.replace(":latest", "")
+    local_tok = max(1, prompt_eval + eval_count)
+    # Cloud equivalent includes avoided multimodal vision tokens, Argon CoT thinking (3x output), and context growth
+    cloud_saved = local_tok + (3200 if has_image else max(1200, eval_count * 3))
+    try:
+        ledger_p = Path.home() / ".cli_power_setup" / "token_ledger.json"
+        ld = json.loads(ledger_p.read_text(encoding="utf-8")) if ledger_p.exists() else {}
+        lls = ld.get("local_llm_savings", {})
+        lls["total_calls"] = lls.get("total_calls", 0) + 1
+        lls["total_local_tokens"] = lls.get("total_local_tokens", 0) + local_tok
+        lls["total_cloud_tokens_saved"] = lls.get("total_cloud_tokens_saved", 0) + cloud_saved
+        lls["last_model"] = clean_m
+        lls["last_saved_tokens"] = cloud_saved
+        lls["last_updated"] = time.strftime("%Y-%m-%dT%H:%M:%S")
+        by_m = lls.get("by_model", {})
+        m_entry = by_m.get(clean_m, {"calls": 0, "local_tokens": 0, "cloud_tokens_saved": 0})
+        m_entry["calls"] = m_entry.get("calls", 0) + 1
+        m_entry["local_tokens"] = m_entry.get("local_tokens", 0) + local_tok
+        m_entry["cloud_tokens_saved"] = m_entry.get("cloud_tokens_saved", 0) + cloud_saved
+        by_m[clean_m] = m_entry
+        lls["by_model"] = by_m
+        ld["local_llm_savings"] = lls
+        ledger_p.parent.mkdir(parents=True, exist_ok=True)
+        ledger_p.write_text(json.dumps(ld, indent=2), encoding="utf-8")
+        return cloud_saved, lls["total_cloud_tokens_saved"]
+    except Exception:
+        return cloud_saved, cloud_saved
 
 
 def query_local_ollama(endpoint, model, prompt, system_prompt="", image_path="", timeout=35.0):
@@ -148,7 +183,8 @@ def query_local_ollama(endpoint, model, prompt, system_prompt="", image_path="",
     }
     if system_prompt:
         payload["system"] = system_prompt
-    if image_path and os.path.exists(image_path):
+    has_img = bool(image_path and os.path.exists(image_path))
+    if has_img:
         with open(image_path, "rb") as img_f:
             payload["images"] = [base64.b64encode(img_f.read()).decode("utf-8")]
 
@@ -158,8 +194,13 @@ def query_local_ollama(endpoint, model, prompt, system_prompt="", image_path="",
         with urllib.request.urlopen(req, timeout=timeout) as response:
             if response.status == 200:
                 result = json.loads(response.read().decode("utf-8"))
-                _write_local_state(resolved_model, False)
-                return result.get("response", "").strip()
+                resp_text = result.get("response", "").strip()
+                p_eval = result.get("prompt_eval_count") or (len(prompt + system_prompt) // 4 + (1600 if has_img else 0))
+                e_cnt = result.get("eval_count") or max(10, len(resp_text) // 4)
+                saved, tot_saved = record_local_llm_savings(resolved_model, int(p_eval), int(e_cnt), has_img)
+                _write_local_state(resolved_model, False, saved)
+                print(f"[💰 Local Quota Shield] +{saved:,} cloud tokens saved by {resolved_model} (Lifetime Local Saved: {tot_saved:,})")
+                return resp_text
     except (urllib.error.URLError, ConnectionRefusedError, TimeoutError):
         _write_local_state(resolved_model, False)
         return None
@@ -175,6 +216,16 @@ def cmd_status(args):
         print(f"[✓] Local Ollama server active! Installed models ({len(models)}):")
         for m in models:
             print(f"  -> {m}")
+        ledger_p = Path.home() / ".cli_power_setup" / "token_ledger.json"
+        if ledger_p.exists():
+            try:
+                lls = json.loads(ledger_p.read_text(encoding="utf-8")).get("local_llm_savings", {})
+                if lls.get("total_cloud_tokens_saved", 0) > 0:
+                    print(f"\n[💰 Local LLM Token Savings] Total Saved: {lls['total_cloud_tokens_saved']:,} cloud tokens ({lls.get('total_calls', 0)} calls)")
+                    for m_k, m_v in sorted(lls.get("by_model", {}).items(), key=lambda x: -x[1].get("cloud_tokens_saved", 0)):
+                        print(f"  • {m_k:22s}: {m_v.get('cloud_tokens_saved', 0):,d} saved ({m_v.get('calls', 0)} calls, {m_v.get('local_tokens', 0):,d} raw local tok)")
+            except Exception:
+                pass
         return
 
     print("[!] Local Ollama/llama.cpp server not running on localhost:11434.")

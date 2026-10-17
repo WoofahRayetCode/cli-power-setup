@@ -470,7 +470,7 @@ def main():
         if l_in > 0 or l_out > 0:
             turn_seg = f"Turn: In {fmt_tok(l_in)} | Out {fmt_tok(l_out)}"
 
-    # 6. Global Lifetime Token Ledger
+    # 6. Global Lifetime Token Ledger (Cache + Local LLM Fleet Savings)
     global_saved_seg = None
     ledger_path = os.path.expanduser("~/.cli_power_setup/token_ledger.json")
     if os.path.exists(ledger_path):
@@ -480,8 +480,11 @@ def main():
                 ls = ld.get("lifetime_summary", {})
                 lt_tok = ls.get("total_cached_tokens_saved", 0)
                 lt_hit = ls.get("cache_hit_rate_pct", 0)
+                lls = ld.get("local_llm_savings", {})
+                loc_saved = lls.get("total_cloud_tokens_saved", 0)
                 if lt_tok > 0:
-                    global_saved_seg = f"🌐 Global Saved: {fmt_tok(lt_tok)} ({lt_hit:.1f}% cache)"
+                    loc_tag = f" • 🤖Local: {fmt_tok(loc_saved)}" if loc_saved > 0 else ""
+                    global_saved_seg = f"🌐 Global Saved: {fmt_tok(lt_tok)} ({lt_hit:.1f}% cache{loc_tag})"
         except Exception:
             pass
 
@@ -690,7 +693,7 @@ def get_hw_and_swarm_segments() -> list[str]:
         except Exception:
             pass
 
-    # 5. Active Local Ollama Model (/api/ps + state file) & Heavy Processes
+    # 5. Active Local Ollama Model (/api/ps + state file + per-model token savings) & Heavy Processes
     local_model_str = "🤖 Local: Standby"
     state_f = os.path.join(_TMP, "agy_local_model_state.json")
     last_state = {}
@@ -699,6 +702,16 @@ def get_hw_and_swarm_segments() -> list[str]:
             last_state = json.loads(Path(state_f).read_text(encoding="utf-8"))
         except Exception:
             pass
+
+    lls = {}
+    ledger_p = Path.home() / ".cli_power_setup" / "token_ledger.json"
+    if ledger_p.exists():
+        try:
+            lls = json.loads(ledger_p.read_text(encoding="utf-8")).get("local_llm_savings", {})
+        except Exception:
+            pass
+
+    last_m_name = last_state.get("model") or lls.get("last_model") or ""
 
     try:
         import urllib.request
@@ -713,15 +726,47 @@ def get_hw_and_swarm_segments() -> list[str]:
                     is_running = last_state.get("active") and (now - last_state.get("ts", 0)) < 60
                     bolt = "⚡" if is_running else ""
                     local_model_str = f"🤖 Local: {bolt}{m_name}({v_gb:.1f}G)"
-                elif last_state.get("model"):
-                    m_name = str(last_state["model"]).replace(":latest", "")
+                elif last_m_name:
+                    m_name = str(last_m_name).replace(":latest", "")
                     local_model_str = f"🤖 Local: Standby(last:{m_name})"
                 else:
                     local_model_str = "🤖 Local: Standby(8)"
     except Exception:
-        if last_state.get("model"):
-            m_name = str(last_state["model"]).replace(":latest", "")
+        if last_m_name:
+            m_name = str(last_m_name).replace(":latest", "")
             local_model_str = f"🤖 Local: {m_name}"
+
+    tot_loc_saved = lls.get("total_cloud_tokens_saved", 0)
+    if tot_loc_saved > 0:
+        def _fmt_loc(v: int) -> str:
+            if v >= 1_000_000:
+                return f"{v / 1_000_000:.1f}M"
+            if v >= 100_000:
+                return f"{v / 1_000:.0f}k"
+            if v >= 1_000:
+                return f"{v / 1_000:.1f}k"
+            return str(v)
+
+        short_map = {
+            "blender-architect": "blender-arch",
+            "minicpm-v:8b": "minicpm-v",
+            "deepseek-r1:8b": "r1:8b",
+            "qwen2.5-coder:7b": "qwen7b",
+            "qwen2.5-coder:1.5b": "qwen1.5b",
+            "moondream": "moondream",
+            "bge-m3": "bge-m3",
+            "nomic-embed-text": "nomic",
+        }
+        by_m = lls.get("by_model", {})
+        sorted_m = sorted(by_m.items(), key=lambda x: -x[1].get("cloud_tokens_saved", 0))
+        top_parts = []
+        for mk, mv in sorted_m[:3]:
+            ms = mv.get("cloud_tokens_saved", 0)
+            if ms > 0:
+                s_lbl = short_map.get(mk, mk.split(":")[0])
+                top_parts.append(f"{s_lbl}:{_fmt_loc(ms)}")
+        bk_str = f" [{'•'.join(top_parts)}]" if top_parts else ""
+        local_model_str = f"{local_model_str} • 💰{_fmt_loc(tot_loc_saved)} saved{bk_str}"
 
     active_jobs = []
     try:
