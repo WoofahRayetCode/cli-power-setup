@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (248 Specialized Capabilities)
+## Complete Skills Catalog (251 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -216,6 +216,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`coverage-guided-mutation-testing`** | AST-based fault injection, mutant survival analysis, and automated test synthesis to self-improve test suite detection power across Lua, Python, C++, and Rust. |
 | **`cpp-64bit-engine-port-sanitizer`** | Detects and repairs 64-bit bitness porting defects in C++ game engines (e.g. X-Ray/OGSR). Audits pointer-to-integer truncations, #pragma pack(1) struct padding discrepancies, 64-bit ABI calling convention drift, and virtual method table alignment. |
 | **`creative-web-design-archetypes`** | Advanced web styling archetypes and visual design systems. Covers Neo-Brutalism, Mythic/Fantasy Parchment, Cyberpunk/Terminal HUD, Editorial/Academic Journal, Swiss Modernism, and Glassmorphic aesthetics with responsive CSS and typography pairings. |
+| **`cross-agent-context-deduplicator`** | Eliminates redundant transcript ingestion and context pollution between concurrent Argon and Fable agents by clamping sync payloads to strict 15-line symbol diff abstracts. |
 | **`cross-agent-git-rebase-guard`** | Automated git worktree synchronization, non-interactive rebasing, and conflict-free merging between concurrent AI agent feature branches. |
 | **`cross-agent-hot-reload-watcher`** | Real-time file system observer using inotifywait to trigger instant hot-reloading of modified scripts, configs, and textures in running game instances. |
 | **`cross-browser-extensions`** | Cross-browser web extension development in Manifest V3, supporting Chrome, Firefox, and Safari with webextension-polyfill, background service workers, and declarativeNetRequest. |
@@ -368,6 +369,8 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`subagent-swarm-orchestrator`** | Coordinates autonomous parallel subagent swarms in Claude Code, leveraging isolated git worktrees, background processes, and parent-child JSON messaging pipelines. |
 | **`superpowers`** | Core engineering methodology and discipline engine. Use when starting non-trivial tasks to evaluate if brainstorming, structured planning, TDD, or systematic debugging applies before writing code. |
 | **`systematic-debugging`** | Root-cause diagnosis and hypothesis-driven debugging. Use when encountering test failures, runtime errors, game crashes, or unexpected behavior to diagnose before editing. |
+| **`tandem-asynchronous-compaction-gate`** | Synchronizes compaction boundaries between Argon and Fable, staging active peer state to .agents/handoff.json before /compact to lock 90-95% cache discounts without amnesia. |
+| **`tandem-circuit-breaker-guard`** | Prevents oscillating retry loops, ping-pong file thrashing, and runaway token burn between concurrent Argon and Fable agents using an automated 3-strike circuit breaker. |
 | **`tandem-conflict-resolution-arbiter`** | Semantic AST-aware merge conflict resolver that reconciles concurrent modifications in game configs (LTX), CMakeLists, and JSON without halting execution. |
 | **`tandem-continuous-integration-pipeline`** | Automated pre-merge staging pipeline that compiles and smoke-tests unified Argon and Fable branches before merging into main. |
 | **`tandem-cross-agent-code-review`** | Peer code review protocol between Gemini 4 Argon and Claude Fable. Allows each model to audit the other's diffs before milestone merging to eliminate bugs and regressions. |

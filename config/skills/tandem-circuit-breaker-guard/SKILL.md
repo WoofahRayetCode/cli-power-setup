@@ -1,0 +1,66 @@
+---
+name: tandem-circuit-breaker-guard
+description: Prevents oscillating retry loops, ping-pong file thrashing, and runaway token burn between concurrent Argon and Fable agents using an automated 3-strike circuit breaker.
+---
+
+# Tandem Circuit Breaker Guard (`tandem-circuit-breaker-guard`)
+
+When two autonomous models operate simultaneously in YOLO mode, a subtle bug can trigger an **oscillating retry loop**:
+1. Fable applies a C++ fix that causes a secondary assertion failure.
+2. Argon's automated playtest triages the crash and asks Fable to revise the code.
+3. Fable applies another partial fix, triggering a different crash.
+
+Without a circuit breaker, this cross-agent ping-pong loop can cycle 10 to 20 times unattended, burning 300,000+ tokens and exhausting daily quota within an hour.
+
+This skill establishes a strict **3-Strike Circuit Breaker** across the tandem architecture.
+
+---
+
+## 1. The 3-Strike Invariant Rules
+
+```
+Strike 1: First Test Failure
+  -> Standard retry: Escalate diagnostic depth, inspect error logs.
+Strike 2: Second Consecutive Failure on Same Subsystem
+  -> Branch freeze: Switch from heuristic guessing to formal verification (First Principles / CoVe).
+Strike 3: Third Consecutive Failure
+  -> CIRCUIT BREAKER TRIPPED!
+  -> 1. Instantly freeze execution loop.
+  -> 2. Snapshot current git diff to .agents/checkpoints/circuit_breaker_<timestamp>.diff.
+  -> 3. Emit concise root-cause alert to Pane 3 (Command Console).
+```
+
+---
+
+## 2. Detection & State Tracking
+
+The circuit breaker tracks failures in `.agents/handoff.json`:
+
+```json
+{
+  "circuit_breaker": {
+    "target_subsystem": "xrGame/alife_simulator.cpp",
+    "consecutive_failures": 3,
+    "status": "TRIPPED",
+    "last_error": "Assertion failed: pVertex != nullptr at level_graph.cpp:142",
+    "checkpoint": ".agents/checkpoints/circuit_breaker_1792135000.diff"
+  }
+}
+```
+
+---
+
+## 3. Post-Trip Protocol
+
+When the circuit breaker trips:
+1. **Never Continue Looping:** Both agents halt active tool modification calls immediately.
+2. **Display BLUF in Console:**
+   ```text
+   🛑 CIRCUIT BREAKER TRIPPED on xrGame/alife_simulator.cpp (3 consecutive failures).
+   Diff saved to .agents/checkpoints/circuit_breaker_1792135000.diff.
+   Awaiting user direction or hypothesis reset via tandem-dispatch.
+   ```
+3. To reset after manual inspection:
+   ```bash
+   tandem-dispatch "Reset circuit breaker and test hypothesis: Vertex ID overflow"
+   ```
