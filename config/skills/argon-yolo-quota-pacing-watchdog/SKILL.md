@@ -1,0 +1,36 @@
+---
+name: argon-yolo-quota-pacing-watchdog
+description: Telemetry governor that paces Gemini 4 Argon autonomous YOLO execution, preventing 5-hour quota exhaustion by staging state and safely sleeping until window refresh.
+---
+
+# Argon YOLO Quota Pacing Watchdog (`argon-yolo-quota-pacing-watchdog`)
+
+In continuous YOLO mode (`agy-yolo`), an agent running without human pacing can execute 100+ turns per hour. If Argon runs continuously at maximum speed, it can exhaust Google's rolling 5-hour quota window within 3–4 hours, causing sudden API exhaustion errors.
+
+This skill implements an intelligent **Pacing and Sleep-for-Refresh Gate** to guarantee 100% uninterrupted autonomous execution.
+
+---
+
+## 1. Rolling Quota Thresholds
+
+| Available 5-Hour Headroom | Operational Mode | Action Taken |
+| :--- | :--- | :--- |
+| **> 30% available** | Full Throttle | Normal uninterrupted execution |
+| **15% – 30% available** | Conservative Pacing | Drop to `--effort low`, delegate mechanical tasks to Flash subagents |
+| **< 15% available** | Sleep-for-Refresh Gate | Stage state to checkpoint, sleep until reset timestamp, wake up automatically |
+
+---
+
+## 2. Safe Sleep-for-Refresh Protocol
+
+When available 5-hour quota drops below **15%**:
+
+1. **Never Fail the Run:** Do not abort or terminate the active goal.
+2. **Snapshot In-Flight State:**
+   - Write uncommitted diffs to `.agents/checkpoints/quota_pacing_$(date +%s).diff`.
+   - Update `.agents/memory/activeContext.md` with active hypothesis and next resumption step.
+3. **Calculate Time to Reset:**
+   - Read the reset timestamp from `agy-quota-statusline` (e.g. `reset 19:59`).
+4. **Sleep & Auto-Resume:**
+   - Sleep until the reset timestamp passes.
+   - Upon replenishment, verify quota has returned to > 80% and seamlessly resume execution from `.agents/memory/activeContext.md`.
