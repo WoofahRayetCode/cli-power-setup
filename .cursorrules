@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (245 Specialized Capabilities)
+## Complete Skills Catalog (248 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -217,6 +217,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`cpp-64bit-engine-port-sanitizer`** | Detects and repairs 64-bit bitness porting defects in C++ game engines (e.g. X-Ray/OGSR). Audits pointer-to-integer truncations, #pragma pack(1) struct padding discrepancies, 64-bit ABI calling convention drift, and virtual method table alignment. |
 | **`creative-web-design-archetypes`** | Advanced web styling archetypes and visual design systems. Covers Neo-Brutalism, Mythic/Fantasy Parchment, Cyberpunk/Terminal HUD, Editorial/Academic Journal, Swiss Modernism, and Glassmorphic aesthetics with responsive CSS and typography pairings. |
 | **`cross-agent-git-rebase-guard`** | Automated git worktree synchronization, non-interactive rebasing, and conflict-free merging between concurrent AI agent feature branches. |
+| **`cross-agent-hot-reload-watcher`** | Real-time file system observer using inotifywait to trigger instant hot-reloading of modified scripts, configs, and textures in running game instances. |
 | **`cross-browser-extensions`** | Cross-browser web extension development in Manifest V3, supporting Chrome, Firefox, and Safari with webextension-polyfill, background service workers, and declarativeNetRequest. |
 | **`cross-cli-session-handoff`** | Seamless zero-context-loss session handoff protocol between Antigravity CLI, Claude Code CLI, and Cursor IDE. Exports and imports structured handover packets (.agents/handoff.json) containing active git diffs, verified milestones, blockers, and next steps in under 300 tokens. |
 | **`cross-engine-shader-transpiler`** | Universal shader authoring and transpilation using Slang and SPIRV-Cross, converting single-source shaders to Vulkan SPIR-V, DX12 HLSL, Metal MSL, and OpenGL GLSL. |
@@ -367,6 +368,8 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`subagent-swarm-orchestrator`** | Coordinates autonomous parallel subagent swarms in Claude Code, leveraging isolated git worktrees, background processes, and parent-child JSON messaging pipelines. |
 | **`superpowers`** | Core engineering methodology and discipline engine. Use when starting non-trivial tasks to evaluate if brainstorming, structured planning, TDD, or systematic debugging applies before writing code. |
 | **`systematic-debugging`** | Root-cause diagnosis and hypothesis-driven debugging. Use when encountering test failures, runtime errors, game crashes, or unexpected behavior to diagnose before editing. |
+| **`tandem-conflict-resolution-arbiter`** | Semantic AST-aware merge conflict resolver that reconciles concurrent modifications in game configs (LTX), CMakeLists, and JSON without halting execution. |
+| **`tandem-continuous-integration-pipeline`** | Automated pre-merge staging pipeline that compiles and smoke-tests unified Argon and Fable branches before merging into main. |
 | **`tandem-cross-agent-code-review`** | Peer code review protocol between Gemini 4 Argon and Claude Fable. Allows each model to audit the other's diffs before milestone merging to eliminate bugs and regressions. |
 | **`tandem-multi-agent-orchestrator`** | Coordinates concurrent execution between Gemini 4 Argon and Claude Fable across isolated git worktrees, preventing file collisions and synchronizing milestones via .agents/handoff.json. |
 | **`tandem-shared-build-cache-lock`** | Manages shared CCache, CMake binary caches, and atomic build lockfiles between concurrent Argon and Fable worktrees to prevent redundant compilation and race conditions. |

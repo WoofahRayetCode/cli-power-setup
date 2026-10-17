@@ -1,0 +1,55 @@
+---
+name: cross-agent-hot-reload-watcher
+description: Real-time file system observer using inotifywait to trigger instant hot-reloading of modified scripts, configs, and textures in running game instances.
+---
+
+# Cross-Agent Hot Reload Watcher (`cross-agent-hot-reload-watcher`)
+
+Restarting a game engine every time an agent modifies an LTX configuration, Lua script, shader, or texture takes 30 to 90 seconds per test cycle. In a tandem setup where Argon and Fable make rapid incremental changes, restarting wastes substantial time and compute.
+
+This skill integrates Linux kernel `inotifywait` filesystem event monitoring with engine hot-reload hooks to inject modified assets on-the-fly.
+
+---
+
+## 1. Hot Reload Architecture
+
+```
+[ Argon Worktree ] --+
+                     |---> inotifywait (Event: modify/create) ---> Engine IPC / Socket / Signal
+[ Fable Worktree ] --+                                            - Reload Lua VM
+                                                                  - Flush LTX section cache
+                                                                  - Invalidate shader cache
+```
+
+---
+
+## 2. Real-Time Watcher Daemon Script
+
+```bash
+#!/usr/bin/env bash
+# Watch target gamedata directories for modifications
+inotifywait -m -r -e close_write --format '%w%f' \
+  "${REPO_ROOT}/gamedata/scripts/" \
+  "${REPO_ROOT}/gamedata/config/" \
+  "${REPO_ROOT}/gamedata/shaders/" | while read -r modified_file; do
+
+    echo "[*] Detected file change: ${modified_file}"
+
+    # Hot reload Lua scripts if engine supports IPC or named pipe
+    if [[ "${modified_file}" == *.script || "${modified_file}" == *.lua ]]; then
+        echo "reload_scripts" > /tmp/game_engine_cmd_pipe 2>/dev/null || true
+    fi
+
+    # Hot reload textures / shaders
+    if [[ "${modified_file}" == *.hlsl || "${modified_file}" == *.spv ]]; then
+        echo "reload_shaders" > /tmp/game_engine_cmd_pipe 2>/dev/null || true
+    fi
+done
+```
+
+---
+
+## 3. Benefits to Multi-Agent Velocity
+
+1. **Instant Feedback:** Test assertions can observe new gameplay parameters in the live game window without dropping framerate or closing Wine/Proton.
+2. **Zero Context Loss:** Running game state (player position, active level coordinates, memory allocations) remains intact across script edits.
