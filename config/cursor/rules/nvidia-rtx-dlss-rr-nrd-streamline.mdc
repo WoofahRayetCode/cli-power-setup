@@ -1,0 +1,58 @@
+---
+description: NVIDIA RTX NGX & Streamline SDK engineering for DX11, DX12, and Vulkan game engines (including S.T.A.L.K.E.R. OGSR xrRender_R4). Covers DLSS 4 Transformer Presets (J/K/L/M), DLSS-D Ray Reconstruction (G-Buffer Albedo/Normal/Roughness binding), AutoExposure & Reactive Transparency Masks, NVIDIA NRD (REBLUR/RELAX denoisers), and NVIDIA Reflex Low Latency.
+globs: *
+alwaysApply: false
+---
+
+# NVIDIA RTX DLSS 4, Ray Reconstruction, NRD & Streamline (`nvidia-rtx-dlss-rr-nrd-streamline`)
+
+Governs the integration, auditing, and optimization of **NVIDIA NGX, Streamline SDK, DLSS 4 Super Resolution / DLAA (Transformer Presets `J/K/L/M`), DLSS-D Ray Reconstruction (`nvngx_dlssd.dll`), NVIDIA Real-Time Denoisers (NRD `REBLUR`/`RELAX`), and NVIDIA Reflex** across DirectX 11 (`OGSR-Engine`), DirectX 12, and Vulkan renderers.
+
+---
+
+## 1. Instant Engine Audit & Patch Generation (`~/.local/bin/rtx-engine-toolkit`)
+
+```bash
+# 1. Audit an engine repository (e.g. OGSR-Engine / ogsr-complete-merge) for NGX/DLSS defects & DLLs:
+~/.local/bin/rtx-engine-toolkit audit /home/ericparsley/Documents/GitHub/ogsr-complete-merge
+
+# 2. Generate C++ patch for OGSR's NGXWrapper (AutoExposure, Sharpening, ReactiveMask, DLSS-RR G-Buffer):
+~/.local/bin/rtx-engine-toolkit gen-dlss-patch
+```
+
+---
+
+## 2. Critical OGSR (`RenderTargetPhaseAA.cpp`) DLSS 4 & Ray Reconstruction Fixes
+
+Auditing `OGSR-Engine/ogsr_engine/Layers/xrRender/RenderTargetPhaseAA.cpp` (`NGXWrapper`) reveals four high-impact upgrades for RTX GPUs:
+
+1. **Enable `NVSDK_NGX_DLSS_Feature_Flags_AutoExposure` (Eliminates Underground X-Lab Ghosting):**
+   - Without `AutoExposure` (or an explicit `1x1` `pInExposure` luminance texture), toggling flashlights or night-vision in dark underground labs (`X-18`, `X-16`, `Agroprom Underground`) causes temporal history clamping failures (ghosting trails and bright fireflies).
+2. **Uncomment `NVSDK_NGX_DLSS_Feature_Flags_DoSharpening` & Pass `InSharpness`:**
+   - In `RenderTargetPhaseAA.cpp:332`, `DoSharpening` is commented out, causing `NGX_D3D11_EVALUATE_DLSS_EXT` to ignore the `0.350` sharpness returned by `QueryOptimalSettings`.
+3. **Bind a Reactive / Transparency Mask (`pInBiasCurrentColorMask`):**
+   - HUD scope reticles, visor raindrops (`ssfx_hud_raindrops`), particle sparks, and alpha-blended grass lack valid motion vectors in `rt_Velocity`. Writing a `R8_UNORM` reactive mask (`alpha * 0.85`) forces DLSS to favor current-frame samples on particles/raindrops.
+4. **Wire DLSS-D Ray Reconstruction (`NGX_D3D11_CREATE_DLSSD_EXT`):**
+   - Replaces separate hand-tuned SSAO/reflection denoisers with NVIDIA's unified AI transformer denoiser by binding OGSR's existing deferred G-Buffer targets:
+     - `DiffuseAlbedo` $\rightarrow$ `RImplementation.Target->rt_Color->pSurface` (`RGB`)
+     - `Normals` $\rightarrow$ `RImplementation.Target->rt_Normal->pSurface` (`XYZ` view-space normal)
+     - `Roughness` $\rightarrow$ `1.0f - rt_Color.a` (converted from X-Ray gloss in `rt_Color` alpha)
+     - `Depth` $\rightarrow$ `RImplementation.Target->rt_zbuffer->pSurface`
+     - `MotionVectors` $\rightarrow$ `RImplementation.Target->rt_Velocity->pSurface` (scaled by `{-0.5f * renderW, +0.5f * renderH}`)
+
+---
+
+## 3. Sub-Pixel Halton Jitter & Motion Vector Rules
+
+- **Halton `(2, 3)` Sequence Length:** Scale phase count by the upscaling ratio:
+  $$N_{\text{phases}} = \text{round}\left(8 \cdot \left(\frac{W_{\text{display}}}{W_{\text{render}}}\right)^2\right)$$
+  (e.g., `8` phases at Native DLAA, `18` at Quality `1.5x`, `32` at Performance `2.0x`).
+- **History Reset (`InReset = 1`):** Always assert `RequestHistoryReset()` on camera cuts, level loads, save loads, and binocular/scope zoom transitions.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- On Linux (Wine/Proton + DXVK-NVAPI), verify `/usr/lib/nvidia/wine/_nvngx.dll` and `nvngx_dlss.dll` (`310.7.0+`) are exposed with `PROTON_ENABLE_NVAPI=1 DXVK_ENABLE_NVAPI=1`.
+
+## Related & Interoperating Skills
+- **`rtx-compute-bvh-raytracing-ssgi`**: DirectCompute SM 5.0 Hi-Z SSGI, puddle ray-tracing, and `CDB::MODEL` GPU BVH traversal.
+- **`dx11-dx12-vulkan-rtx-bridge`**: Zero-copy D3D11-to-D3D12 shared NT-handle sidecar for hardware RT Core `RayQuery` & DLSS Frame Generation.
+- **`pc-cross-platform-graphics-api`**: DirectX 11/12 and Vulkan HAL architecture.

@@ -1,5 +1,5 @@
 {
-  "total_skills": 304,
+  "total_skills": 307,
   "skills": {
     "adaptive-reasoning": {
       "description": "Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-speed execution on Flash and deep-reasoning planning on Argon based on prompt complexity.",
@@ -942,8 +942,8 @@
       "related": [
         "vulkan-gpu-compute",
         "rtx-optix-gpu-baker-denoiser",
-        "computer-vision-deep-learning",
-        "godot-shader-vfx"
+        "rtx-compute-bvh-raytracing-ssgi",
+        "dx11-dx12-vulkan-rtx-bridge"
       ]
     },
     "cuda-numpy-batch-texture-dsp-processor": {
@@ -1052,6 +1052,15 @@
         "local-model-coprocessor",
         "cross-agent-hot-reload-watcher",
         "local-vector-rag-engine"
+      ]
+    },
+    "dx11-dx12-vulkan-rtx-bridge": {
+      "description": "Zero-copy DirectX 11 to DirectX 12 / Vulkan hardware ray-tracing sidecar architecture (shared NT handles, ID3D12Fence synchronization, DXR 1.1 Inline RayQuery on RT Cores, DLSS 3/4 Frame Generation nvngx_dlssg.dll) and NVIDIA RTX Remix / legacy X-Ray bump-to-PBR material modernization.",
+      "related": [
+        "nvidia-rtx-dlss-rr-nrd-streamline",
+        "rtx-compute-bvh-raytracing-ssgi",
+        "cuda-gpu-acceleration",
+        "pbr-radiometry-color-dsp-math"
       ]
     },
     "dxvk-vkd3d-proton-pipeline-profiler": {
@@ -1981,6 +1990,15 @@
         "documentation-site-generator"
       ]
     },
+    "nvidia-rtx-dlss-rr-nrd-streamline": {
+      "description": "NVIDIA RTX NGX & Streamline SDK engineering for DX11, DX12, and Vulkan game engines (including S.T.A.L.K.E.R. OGSR xrRender_R4). Covers DLSS 4 Transformer Presets (J/K/L/M), DLSS-D Ray Reconstruction (G-Buffer Albedo/Normal/Roughness binding), AutoExposure & Reactive Transparency Masks, NVIDIA NRD (REBLUR/RELAX denoisers), and NVIDIA Reflex Low Latency.",
+      "related": [
+        "rtx-compute-bvh-raytracing-ssgi",
+        "dx11-dx12-vulkan-rtx-bridge",
+        "cross-cli-session-handoff",
+        "cuda-gpu-acceleration"
+      ]
+    },
     "open-apk": {
       "description": "Load an Android APK / XAPK / DEX / JAR into the jadx-headless MCP for static analysis. Accepts a local file path, or a package name to fetch from APKPure via apkeep. Use when the user asks to open/load an APK in jadx (e.g. \"open com.example.app in jadx\", \"load ./demo.xapk\", \"/jadx-headless:open-apk <path|package>\").",
       "related": [
@@ -2031,8 +2049,8 @@
       "related": [
         "xray-dx11-shader-modernization",
         "pbr-radiometry-color-dsp-math",
-        "godot-shader-vfx",
-        "real-time-rendering-pipeline"
+        "rtx-compute-bvh-raytracing-ssgi",
+        "godot-shader-vfx"
       ]
     },
     "powershell-windows-automation": {
@@ -2134,13 +2152,22 @@
         "headless-gameplay-testing-bot"
       ]
     },
+    "rtx-compute-bvh-raytracing-ssgi": {
+      "description": "Implements real-time Ray-Traced Global Illumination (SSGI/SDFGI), Ray-Traced Wet Puddle & Water Reflections, Ray-Traced Ambient Occlusion (RTAO), and World-Space GPU BVH Ray Traversal inside DirectX 11 (HLSL SM 5.0 DirectCompute), DirectX 12, and Vulkan game engines (including S.T.A.L.K.E.R. OGSR xrRender_R4).",
+      "related": [
+        "nvidia-rtx-dlss-rr-nrd-streamline",
+        "dx11-dx12-vulkan-rtx-bridge",
+        "rtx-optix-gpu-baker-denoiser",
+        "cuda-gpu-acceleration"
+      ]
+    },
     "rtx-optix-gpu-baker-denoiser": {
       "description": "Accelerates headless Blender 5.2+ Cycles texture baking (Normals, AO, Lightmaps, Curvature) and 2x2 contact sheet renders by 10x-20x using NVIDIA RTX 5060 Hardware Ray-Tracing (OptiX) and AI Denoising at 16-32 samples.",
       "related": [
         "cuda-gpu-acceleration",
         "amd-igpu-nvidia-dgpu-hybrid-offload",
-        "ramdisk-tmpfs-build-bake-accelerator",
-        "blender-hard-surface-cad-weapons-props"
+        "rtx-compute-bvh-raytracing-ssgi",
+        "ramdisk-tmpfs-build-bake-accelerator"
       ]
     },
     "rust-engineering": {
@@ -2238,8 +2265,8 @@
       "related": [
         "cross-engine-shader-transpiler",
         "vulkan-gpu-compute",
-        "game-engine-migration",
-        "real-time-rendering-pipeline"
+        "rtx-compute-bvh-raytracing-ssgi",
+        "game-engine-migration"
       ]
     },
     "shell-output-token-guard": {

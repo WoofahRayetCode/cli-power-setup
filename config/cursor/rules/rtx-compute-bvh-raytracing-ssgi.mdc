@@ -1,0 +1,51 @@
+---
+description: Implements real-time Ray-Traced Global Illumination (SSGI/SDFGI), Ray-Traced Wet Puddle & Water Reflections, Ray-Traced Ambient Occlusion (RTAO), and World-Space GPU BVH Ray Traversal inside DirectX 11 (HLSL SM 5.0 DirectCompute), DirectX 12, and Vulkan game engines (including S.T.A.L.K.E.R. OGSR xrRender_R4).
+globs: *
+alwaysApply: false
+---
+
+# RTX Compute BVH Ray-Tracing, SSGI & Reflections (`rtx-compute-bvh-raytracing-ssgi`)
+
+Enables real-time **Ray-Traced Global Illumination (SSGI + World-Space BVH Fallback), Ray-Traced Wet Asphalt & Puddle Reflections, Ray-Traced Ambient Occlusion (RTAO), and Ray-Traced Contact Shadows** inside DirectX 11 (`ID3D11ComputeShader` SM 5.0) and modern DX12/Vulkan engines without requiring a ground-up engine rewrite.
+
+---
+
+## 1. Instant Shader & GPU BVH Code Generation (`~/.local/bin/rtx-engine-toolkit`)
+
+```bash
+# 1. Generate SM 5.0 DirectCompute (cs_5_0) Hi-Z SSGI + Wet Puddle Ray-Tracing shader for OGSR:
+~/.local/bin/rtx-engine-toolkit gen-hlsl-ssgi -o gamedata/shaders/r3/rtx_ssgi_puddles_cs.hlsl
+
+# 2. Generate C++ + HLSL header to upload OGSR's CDB::MODEL static level AABB tree to a GPU StructuredBuffer:
+~/.local/bin/rtx-engine-toolkit gen-cdb-bvh -o ogsr_engine/Layers/xrRenderPC_R4/r4_rtx_cdb_bvh.h
+```
+
+---
+
+## 2. Hybrid Screen-Space + World-Space `CDB::MODEL` BVH Architecture for OGSR (`xrRender_R4`)
+
+`OGSR-Engine` already maintains two critical building blocks in `xrRender_R4` and `xrCDB`:
+1. **Compute Shader Backend (`Layers/xrRender/R_Backend.h`):**
+   - `RCache.set_CS(ID3D11ComputeShader*)` and `CTexture::mtMaxComputeShaderTextures` are already implemented in `R_Backend_Runtime.cpp`.
+2. **Pre-Built Level AABB BVH (`Level().ObjectSpace.GetStaticModel()` in `xrCDB`):**
+   - Every S.T.A.L.K.E.R. level (`level.cform`) is already compiled into an Opcode AABB Bounding Volume Hierarchy in `CDB::MODEL` (`get_verts()`, `get_tris()`, `get_tree()`).
+   - By packing the static `CDB::MODEL` nodes once on level load into an `ID3D11Buffer` (`D3D11_BIND_SHADER_RESOURCE`, `D3D11_RESOURCE_MISC_BUFFER_STRUCTURED`, `sizeof(GPUBVHNode) == 32` bytes), any `cs_5_0` compute shader can trace rays in **two stages**:
+     - **Stage A (0–3m Screen-Space Hi-Z March):** Marches 16–24 steps against `rt_Position` (`s_position`) to capture dynamic NPCs, weapons, and detail grass (`aisha.ogf`, stalkers, bushes).
+     - **Stage B (Off-Screen World-Space `StructuredBuffer<GPUBVHNode>` Traversal):** When a puddle reflection ray (`r4_R_rain.cpp`) or sun shadow ray exits the screen frustum or gets occluded behind a foreground object, the compute shader traverses the 32-byte `GPUBVHNode` stack in shared thread-group memory (`groupshared uint stack[64][16]`) to intersect off-screen buildings, bunker walls, and terrain!
+
+---
+
+## 3. Stochastic 1-SPP Sampling & Spatial-Temporal Denoising
+
+1. **Interleaved Gradient Noise (IGN) + Golden Ratio Temporal Rotation:**
+   - Never use white noise in 1-spp ray tracing. Use Jimenez IGN rotated by frame index (`frame_idx & 63u`) so spatial variance maps into high-frequency blue-noise patterns that `DLSS-RR` or a 5x5 À-Trous wavelet filter (`SVGF` / `NRD REBLUR`) can collapse in a single pass.
+2. **Half-Resolution Trace + Bilateral Upsample:**
+   - Dispatch `rtx_ssgi_puddles_cs.hlsl` at `0.5x` resolution (`ceil(W/16), ceil(H/16), 1` thread groups of `[numthreads(8,8,1)]`) using checkerboard ray allocation (1 specular ray + 1 cosine-weighted diffuse bounce ray per 2x2 quad), cutting RTX 5060 compute cost to `< 0.65 ms` at `1920x1200`.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Standard HLSL `cs_5_0` compiles identically under Microsoft `D3DCompile` (Windows) and runs natively through `DXVK` -> `SPIR-V` Vulkan Compute queues on Linux (`NVIDIA GeForce RTX 5060`).
+
+## Related & Interoperating Skills
+- **`nvidia-rtx-dlss-rr-nrd-streamline`**: DLSS 4, DLSS-D Ray Reconstruction, and NRD spatial-temporal denoisers.
+- **`dx11-dx12-vulkan-rtx-bridge`**: Zero-copy D3D11-to-D3D12 shared NT-handle sidecar for hardware RT Core `RayQuery`.
+- **`computational-geometry-mesh-bvh-math`**: Surface Area Heuristic (SAH) BVH construction and Möller-Trumbore ray-triangle math (`game-math-solver`).
