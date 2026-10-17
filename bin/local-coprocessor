@@ -412,7 +412,7 @@ def main():
     common_parser.add_argument("--dry-run", action="store_true", help="Simulate generation without active local server")
     common_parser.add_argument("--endpoint", type=str, default="http://localhost:11434", help="Local server URL")
     common_parser.add_argument("--model", type=str, default="auto", help="Local model name (default: auto-detect based on VRAM & task)")
-    common_parser.add_argument("--task", type=str, default="auto", choices=["auto", "fast", "code", "reason", "vision", "blender", "csharp", "cpp", "rust", "python", "translate", "sql", "tool", "long", "math", "web", "business"], help="Task routing mode")
+    common_parser.add_argument("--task", type=str, default="auto", choices=["auto", "fast", "code", "reason", "vision", "blender", "csharp", "cpp", "rust", "python", "translate", "sql", "tool", "long", "math", "web", "business", "port", "plan"], help="Task routing mode")
     common_parser.add_argument("--skill", type=str, default="", help="Comma-separated skill names to inject into local model system prompt")
     common_parser.add_argument("--auto-skill", action="store_true", default=True, help="Automatically match and inject relevant SKILL.md rules")
 

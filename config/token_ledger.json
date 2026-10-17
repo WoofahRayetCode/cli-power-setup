@@ -1,12 +1,12 @@
 {
   "lifetime_summary": {
-    "total_cached_tokens_saved": 1446403931,
+    "total_cached_tokens_saved": 1451519846,
     "total_sessions_tracked": 28,
-    "cache_hit_rate_pct": 93.91,
-    "total_uncached_input_tokens": 93737988,
+    "cache_hit_rate_pct": 93.92,
+    "total_uncached_input_tokens": 93891790,
     "total_output_tokens": 7064938,
-    "total_turns_executed": 11212,
-    "last_updated": "2026-10-17T11:48:18.256225"
+    "total_turns_executed": 11241,
+    "last_updated": "2026-10-17T11:54:51.187626"
   },
   "sessions": [
     {
@@ -25,12 +25,12 @@
     }
   ],
   "local_llm_savings": {
-    "total_calls": 8,
-    "total_local_tokens": 9180,
-    "total_cloud_tokens_saved": 21680,
-    "last_model": "gemma2:9b",
-    "last_saved_tokens": 1267,
-    "last_updated": "2026-10-17T11:38:04",
+    "total_calls": 9,
+    "total_local_tokens": 11021,
+    "total_cloud_tokens_saved": 24721,
+    "last_model": "deepseek-coder-v2:16b",
+    "last_saved_tokens": 3041,
+    "last_updated": "2026-10-17T11:56:11",
     "by_model": {
       "blender-architect": {
         "calls": 1,
@@ -71,6 +71,11 @@
         "calls": 1,
         "local_tokens": 67,
         "cloud_tokens_saved": 1267
+      },
+      "deepseek-coder-v2:16b": {
+        "calls": 1,
+        "local_tokens": 1841,
+        "cloud_tokens_saved": 3041
       }
     }
   }
