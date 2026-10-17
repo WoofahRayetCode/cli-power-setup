@@ -90,6 +90,9 @@ def score_skills(query, skills):
 
                 # Massive boost for skill name matches
                 name_boost = 6.0 if token in name.lower() else 1.0
+                # Priority boost for Gemini & Argon native skills
+                if "argon-" in name or "gemini-" in name:
+                    name_boost *= 1.35
                 score += (tf * idf * name_boost)
                 matched_terms.append(token)
 

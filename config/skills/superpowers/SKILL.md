@@ -26,8 +26,9 @@ This skill governs engineering discipline across all tasks. It ensures that the 
 4. **Progressive Skill Routing:**
    - **Exploring a new feature, architecture, or mod idea?** $\rightarrow$ Activate `brainstorming`.
    - **Breaking down a multi-step task?** $\rightarrow$ Activate `writing-plans`.
-   - **Implementing an approved plan?** $\rightarrow$ Activate `executing-plans`.
-   - **Encountering a bug or unexpected crash?** $\rightarrow$ Activate `systematic-debugging`.
+   - **Implementing an approved plan?** $\rightarrow$ Activate `executing-plans` and `argon-self-contained-autonomous-driver`.
+   - **Editing C++, Lua, or config files?** $\rightarrow$ Activate `argon-atomic-diff-sequencer` and `argon-ast-syntax-gate`.
+   - **Encountering a bug or unexpected crash?** $\rightarrow$ Activate `systematic-debugging` and `xray-crash-log-diagnostician`.
    - **Building testable logic or utilities?** $\rightarrow$ Activate `test-driven-development`.
-   - **Modding S.T.A.L.K.E.R. or game assets?** $\rightarrow$ Activate `game-modding`.
-   - **About to declare a task complete?** $\rightarrow$ Activate `verification-before-completion`.
+   - **Modding S.T.A.L.K.E.R. or game assets?** $\rightarrow$ Activate `stalker2-to-ogsr-asset-transpiler` and `game-modding`.
+   - **About to declare a task complete?** $\rightarrow$ Activate `argon-adversarial-verification-gate` and `verification-before-completion`.
