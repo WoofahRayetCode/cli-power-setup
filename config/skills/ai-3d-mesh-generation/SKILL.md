@@ -49,6 +49,10 @@ python3 scripts/generate_3d.py --backend offline-box --output sci_fi_crate.glb
 
 ## 🔄 Interoperability & Handoffs
 
+* **2D Drawn Image to High-Detail 3D (`concept-art-sketch-to-3d-sculptor`):** When starting from a 2D drawing or character refsheet, extract mathematical contour slices and verify Silhouette IoU (`>= 0.85`) via `silhouette_iou_profiler.py`.
+* **Autonomous Online Anatomy & Blueprint Research (`autonomous-3d-reference-researcher`):** Search the web for exact real-world skeletal proportions, mechanical dimensions, and Blender 5.2+ `bpy` shader recipes before sculpting.
+* **Sub-Second RTX 5060 GPU Baking (`rtx-optix-gpu-baker-denoiser`):** Accelerate normal/AO baking and 2x2 contact sheet renders via NVIDIA OptiX + AI Denoising in `/dev/shm` (`ramdisk-tmpfs-build-bake-accelerator`).
 * **Handoff to `threejs-webgl-engineering`:** Immediately loads the generated `.glb` into a live browser viewport for 360-degree orbit inspection.
-* **Handoff to `blender-3d-engineering`:** For manual retopology, LOD generation, or bone rigging.
-* **Handoff to `godot-game-dev` / `unity-game-dev`:** For binding the 3D asset into scene hierarchies and colliders.
+* **Handoff to `blender-3d-engineering` & `blender-sdf-organic-remeshing`:** For SDF voxel fusion, QuadriFlow retopology, LOD generation, or bone rigging.
+* **Handoff to `cross-engine-3d-import-export-bridge`:** Export to Godot 4, Unity, Unreal Engine 5, or S.T.A.L.K.E.R. OGSR (`.ogf`/`.dm`).
+

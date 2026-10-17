@@ -1,0 +1,54 @@
+---
+description: Exploits 30 GB system RAM via Linux /dev/shm tmpfs RAM-disk (~40 GB/s bandwidth, zero SSD I/O wear) for ultra-fast Blender texture baking, S.T.A.L.K.E.R./UE5 archive extraction, CMake object compilation, and test staging.
+globs: 
+alwaysApply: false
+---
+
+# 30 GB RAM `/dev/shm` tmpfs Build & Bake Accelerator (`ramdisk-tmpfs-build-bake-accelerator`)
+
+## When to Use
+- Unpacking or repacking multi-gigabyte game archives (S.T.A.L.K.E.R. `.db`/`.xdb`, UE5 `.pak`/`.utoc`, Android `.apk`).
+- Running headless Blender 5.2+ (`bpy`) multi-pass texture baking (`NORMAL`, `AO`, `CURVATURE`, `EXR` VATs) or contact sheet renders.
+- Compiling C++/Rust targets or running high-churn pytest/Lua test suites where disk I/O bottlenecks turnaround speed.
+
+---
+
+## 1. `/dev/shm` In-Memory Staging Architecture
+On Linux (CachyOS/Arch) with **30 GB RAM**, `/dev/shm` is a kernel `tmpfs` filesystem backed directly by DDR5 RAM (`~15 GB` capacity, `~40 GB/s` throughput, `0.00 ms` seek latency, zero NVMe write wear):
+
+```bash
+# Create an isolated in-memory workspace in RAM
+export AGY_RAMDISK="/dev/shm/agy-workspace-$$"
+mkdir -p "$AGY_RAMDISK"
+trap 'rm -rf "$AGY_RAMDISK"' EXIT
+```
+
+---
+
+## 2. High-Speed RAM-Disk Offload Patterns
+
+### A. Headless Blender Baking & Contact Sheet Renders in RAM
+Write all intermediate `.blend`, `.png`, `.exr`, and `.dds` bake passes directly to `/dev/shm/agy-bake/` and copy only the final compressed game asset (`< 2 MB`) to the git repository:
+```python
+import os, shutil
+from pathlib import Path
+
+RAM_BAKE_DIR = Path("/dev/shm/agy_blender_bake")
+RAM_BAKE_DIR.mkdir(parents=True, exist_ok=True)
+# Bake 2048x2048 float32 maps at 40 GB/s in RAM, then compress to final target path
+```
+
+### B. CMake / Ninja Out-of-Tree RAM Build Directory (`TMPDIR=/dev/shm`)
+Redirect compiler temporary `.i`/`.s`/`.o` files into RAM while keeping persistent `ccache` on disk:
+```bash
+TMPDIR=/dev/shm CCACHE_TEMPDIR=/dev/shm cmake -B /dev/shm/build-ogsr -G Ninja -DCMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
+ninja -C /dev/shm/build-ogsr -j$(nproc)
+```
+
+### C. Game Archive Extraction & Diffing in RAM
+When inspecting or transcoding assets from `.db` / `.pak` containers, extract only the filtered subset into `/dev/shm/extract/`, transpile across all CPU threads, move outputs to `gamedata/`, and purge `/dev/shm/extract/` immediately.
+
+---
+
+## 3. Memory Safety Guardrail
+- Before staging files $> 4\text{ GB}$ into `/dev/shm`, verify free RAM headroom via `df -h /dev/shm` (`Available >= 6G`). Always clean up `/dev/shm/agy-*` directories upon task completion.

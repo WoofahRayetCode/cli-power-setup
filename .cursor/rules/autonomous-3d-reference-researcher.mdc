@@ -1,0 +1,54 @@
+---
+description: Autonomous online anatomical, mechanical blueprint, and Blender bpy technique researcher. Searches the web for real-world proportions, skeletal joint ratios, and shader recipes before/during 3D modeling and crystallizes findings into skills via skill-evolve.
+globs: 
+alwaysApply: false
+---
+
+# Autonomous 3D Reference & Topology Researcher (`autonomous-3d-reference-researcher`)
+
+## When to Use
+- Before or during any 3D modeling task (characters, animals/creatures, firearms, vehicles, foliage, architecture) where guessing proportions from memory risks producing an inaccurate or "cartoony" model.
+- When encountering a complex surface material (e.g., feline tapetum lucidum eye refraction, anisotropic fur velvet, parkerized steel gunmetal, subsurface skin scattering) that benefits from verified real-world physical constants.
+
+---
+
+## 1. Closed-Loop Online Research -> 3D Sculpt -> Self-Evolve Workflow
+
+```mermaid
+flowchart LR
+    A["3D Modeling Task Started"] --> B["Web Search: Real-World Anatomy / Blueprints / bpy Recipes"]
+    B --> C["Extract Concrete Ratios & Physical Constants (IOR, Angles, Dimensions)"]
+    C --> D["Apply to Headless Blender 5.2 Script + Render 2x2 Contact Sheet"]
+    D --> E["Verify Silhouette IoU & Visual Realism"]
+    E --> F["Persist New Ratios/Recipes into Skill via skill-evolve"]
+```
+
+---
+
+## 2. Mandatory Pre-Sculpt Web Research Protocol
+Never guess anatomical or mechanical dimensions from memory. Before authoring vertex coordinates:
+1. **Query Real-World Proportions (`search_web` / `read_url_content`):**
+   - *For Animals/Creatures:* Search osteology/veterinary proportions (e.g., `"domestic cat skeletal proportions skull length to body length ratio scapula stifle hock angles"`).
+   - *For Weapons/Vehicles:* Search exact technical specifications (e.g., `"AK-74M receiver length barrel length handguard dimensions mm"`).
+   - *For Foliage/Trees:* Search botanical leaf arrangement (phyllotaxis), trunk taper ratios, and bark furrow patterns.
+2. **Query SOTA Blender 5.x `bpy` Procedural Recipes:**
+   - If a procedural part (e.g., cat ear concha helix, fur card normal transfer, procedural iris shader) needs higher realism, search for modern Blender `bpy` / Geometry Nodes / Shader Node techniques.
+
+---
+
+## 3. Verified Physical & Anatomical Reference Baseline (Built-In)
+
+| Subject / Material | Verified Real-World Proportions & Shader Constants |
+| :--- | :--- |
+| **Domestic Cat (`Felis catus`)** | Shoulder height `~24 cm`, body length (chest to ischium) `~46 cm`, skull length `~9.0 cm` (`1:5` skull-to-body), cranial width `~6.8 cm`, muzzle length `32%` of skull, hock (calcaneus) height `35%` of hind leg height, inter-ocular distance `~38%` of head width. |
+| **Cornea & Eye Optics** | Cornea `IOR = 1.376`, Roughness `= 0.01`, Clearcoat `= 1.0`, inner iris concave depth `= 1.5 mm` behind cornea dome (creates realistic parallax gaze). |
+| **Mammalian Skin / Nose / Ear Pinna** | Subsurface Weight `= 0.35`, Subsurface Radius `= (1.0, 0.35, 0.2)`, Roughness `= 0.32` (rhinarium wet nose tip `= 0.12`). |
+| **Pelted Fur (Anisotropic Rim)** | Base Roughness `= 0.55`, Sheen Weight `= 0.85`, Sheen Roughness `= 0.30` (simulates microscopic hair cuticle forward/backward grazing scatter). |
+
+---
+
+## 4. Automatic Crystallization Rule (`skill-evolve`)
+Whenever online research yields a verified proportion table or `bpy` technique that visibly improves the 3D model, **immediately persist it** before finishing the turn:
+```bash
+skill-evolve --append-rule <target-3d-skill> "<Subject> Verified Proportions" "<compact table or bpy snippet>"
+```
