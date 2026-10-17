@@ -2,6 +2,8 @@
 """
 Tandem Dispatcher CLI (tandem-dispatch)
 Sends targeted tasks, checkpoints, and workload divisions to Argon (Pane 0), Fable (Pane 1), or both.
+Includes an intelligent '--split' mode that automatically divides a high-level goal into
+specialized subtasks tailored to each model's strengths.
 """
 
 import sys
@@ -24,14 +26,13 @@ def find_tandem_session():
     return None
 
 def send_to_pane(session, pane_idx, message):
-    # Escape single quotes
     safe_msg = message.replace("'", "'\\''")
     cmd = f"tmux send-keys -t '{session}:0.{pane_idx}' '{safe_msg}' Enter"
     run_cmd(cmd)
 
 def main():
     parser = argparse.ArgumentParser(description="Dispatch tasks to tandem Argon and Fable agents")
-    parser.add_argument("--to", choices=["argon", "fable", "both", "checkpoint"], default="both", help="Target agent")
+    parser.add_argument("--to", choices=["argon", "fable", "both", "checkpoint", "split"], default="split", help="Target agent or automatic split")
     parser.add_argument("message", nargs="*", help="Task instruction or prompt to dispatch")
     
     args = parser.parse_args()
@@ -45,7 +46,6 @@ def main():
     text = " ".join(args.message).strip()
     
     if args.to == "checkpoint":
-        # Broadcast resume checkpoint instruction
         checkpoint_prompt = (
             "Resume uninterrupted execution from .agents/handoff.json and .agents/memory/activeContext.md. "
             "Ingest current milestones, check assigned role, and immediately continue the next step."
@@ -59,6 +59,26 @@ def main():
     if not text:
         print("[-] Error: Please provide an instruction to dispatch.")
         sys.exit(1)
+
+    if args.to == "split":
+        # Automatically wrap the user's high-level goal with each model's specialization directives
+        argon_instruction = (
+            f"[ROLE: ARGON - ASSETS, AUDIO & QA] Goal: {text}. "
+            "Focus strictly on: asset extraction (retoc/repak), audio Ogg GSC comments, LTX ballistic curve configs, "
+            "autonomous playtest verification, and Wine/Proton crash triage. Do not modify C++ engine code."
+        )
+        fable_instruction = (
+            f"[ROLE: FABLE - C++ & SCRIPT ENGINE] Goal: {text}. "
+            "Focus strictly on: C++ 64-bit engine code repairs, pointer alignment, LuaJIT FFI bindings, "
+            "and unit/compiler test passes. Do not unpack raw asset containers."
+        )
+        print(f"[*] Intelligently splitting workload for: \"{text}\"")
+        print(f"  -> Argon: Assets, Audio, LTX & Playtest QA")
+        send_to_pane(session, 0, argon_instruction)
+        print(f"  -> Fable: C++ 64-bit Engine Code & LuaJIT FFI")
+        send_to_pane(session, 1, fable_instruction)
+        print("[✓] Workload split and dispatched to both agents!")
+        return
         
     if args.to in ["argon", "both"]:
         print(f"[*] Dispatching to Argon (Left Pane): {text}")
