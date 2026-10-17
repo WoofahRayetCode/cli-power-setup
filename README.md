@@ -2,6 +2,7 @@
 
 [![Active Skills](https://img.shields.io/badge/Skills-314%20Active-brightgreen.svg)](#-categorized-skills-directory-314-skills)
 [![Local Models](https://img.shields.io/badge/Local%20Fleet-29%20Models%20(Ollama)-blue.svg)](#-zero-quota-local-language-model-fleet-29-models-0-cloud-tokens)
+[![Fleet Disk Size](https://img.shields.io/badge/Fleet%20Disk%20Size-166%20GB%20(29%20Models)-blueviolet.svg)](#-zero-quota-local-language-model-fleet-29-models-0-cloud-tokens)
 [![Hardware Offload](https://img.shields.io/badge/Hardware-32T%20CPU%20%2B%20RTX%205060%20CUDA-orange.svg)](#-zero-quota-local-language-model-fleet-29-models-0-cloud-tokens)
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)](#-license)
 
@@ -84,6 +85,9 @@ Or pass flags non-interactively in automated scripts:
 ## 🧠 Zero-Quota Local Language Model Fleet (29 Models, 0 Cloud Tokens)
 
 A production-grade fleet of **29 specialized open-weights models**—including **state-of-the-art Mixture-of-Experts (MoE)** and **heavyweight 14B–32B frontier planners**—running locally on your laptop via Ollama with automated **hybrid NVIDIA RTX 5060 GDDR7 VRAM + 32-thread DDR5 RAM layer offloading**.
+
+> [!IMPORTANT]
+> **💾 Total Storage Footprint: `166 GB`** physical disk consumption across all 29 models on NVMe SSD (`/var/lib/ollama/blobs/`), with **`523 GB` free headroom** remaining (46% disk used of 950 GB). Deduplicated GGUF layers are shared between model variants to minimize drive wear.
 
 ### 🌟 Key Benefits & Overall Usage Savings
 
