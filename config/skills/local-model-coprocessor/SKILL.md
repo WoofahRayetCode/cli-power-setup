@@ -66,7 +66,21 @@ The local fleet is orchestrated via Ollama (`http://localhost:11434`), consuming
 
 ---
 
-## 3. CLI Helper Tool Reference (`local-coprocessor` / `setup-local-model-fleet`)
+## 3. 50% Weekly Quota Safe Reserve Offload Protocol
+
+When the weekly quota indicator drops to **50% or below** (`weekly <= 50%`), the local model coprocessor activates **Safe Reserve Shielding**:
+1. **Direct Workload Diversion:** All routine code edits, docstring generations, and non-critical refactors are routed locally (0 cloud tokens).
+2. **Sub-4B Rapid Offload Tier:**
+   - **`deepseek-r1:1.5b` (1.1 GB):** Instant formal chain-of-thought verification & math proofs at 120+ tok/s.
+   - **`phi3.5:latest` (2.2 GB):** Microsoft 128k context mini model for multi-file logic & algorithms.
+   - **`smollm2:1.7b` (1.8 GB):** Ultra-fast instruction following, docstrings, formatting, and terminal error diagnosis.
+   - **`qwen2.5-coder:1.5b` (986 MB):** Sub-second code completion, regex, docstrings, commit messages.
+   - **`llama3.2:3b` (2.0 GB):** Fast generalist drafting and conversational summarization.
+3. **Weekly Headroom Protection:** Preserves the remaining 50% cloud headroom exclusively for difficult compiler error cascades and final verification gates until the weekly rollover.
+
+---
+
+## 4. CLI Helper Tool Reference (`local-coprocessor` / `setup-local-model-fleet`)
 
 Installed in `~/.local/bin/local-coprocessor` and `~/.local/bin/setup-local-model-fleet`.
 

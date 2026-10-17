@@ -80,6 +80,7 @@ python3 config/skills/autonomous-goal-governor/scripts/goal_governor.py quota-gu
 * **Real-Time Telemetry:** Inspects live quota windows (`5h: <rem>% (reset HH:MM)` and `Wk: <rem>% (reset ...)`) across Claude Code (`/tmp/claude_quota_state.json`) and Antigravity (`/tmp/agy_quota_cache.txt`).
 * **Continuous Execution on Available Quota:** Never halts or quits when quota is available (> reserve thresholds).
 * **5-Hour Exhaustion Wait-for-Refresh:** If 5-hour quota reaches or drops below the safe reserve (`--min-5h`, default 15%), the governor preserves active state into `.agents/memory/activeContext.md` and safely sleeps until the quota refresh timestamp arrives, automatically verifying replenishment and resuming execution seamlessly without terminating the task. Pass `--no-wait` to halt immediately if preferred.
+* **50% Weekly Quota Safe Mode:** When weekly quota reaches or drops to **50% remaining**, automatically downshifts all non-critical code generation, mechanical refactoring, and test iterations to the local model fleet (`local-coprocessor`, `qwen2.5:72b-iq2`, `deepseek-coder-v2:16b`, `phi3.5:latest`, `deepseek-r1:1.5b`), locking the remaining 50% cloud headroom safely for end-of-week milestones and final verification gates.
 * **Smart Checkpoint at 25% Weekly Quota:** When weekly quota nears 25% remaining, automatically snapshots all uncommitted git diffs, working branch, and active hypothesis context into `.agents/checkpoints/` and records a high-density alert in `.agents/memory/activeContext.md` before continuing execution.
 
 ---

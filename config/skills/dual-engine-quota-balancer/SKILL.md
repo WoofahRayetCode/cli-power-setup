@@ -30,9 +30,16 @@ Balancing workloads between **Gemini 4 Argon (`pro`)**, **Gemini 3.8 Flash (`fla
    - Use `Flash • Low` for routine config/UI edits and git synchronization.
 3. **5-Hour Rolling Window Protection (`argon-yolo-quota-pacing-watchdog`):**
    - If the rolling 5-hour quota approaches safe reserve limits during an `agy-yolo` run, stage state to `.agents/memory/activeContext.md`, shift mechanical tasks to Flash/local tools, or safely sleep until the recorded reset timestamp passes.
-4. **Live Statusline & Repo Cheat Sheet (`dynamic-repo-model-cheatsheet`):**
+4. **50% Weekly Quota Safe Reserve Balancing Protocol:**
+   - When the weekly quota reaches or drops to **50% remaining** (`weekly <= 50%`), trigger the safe quota offload protocol:
+     - Shift all architectural planning, engine porting, and C++ refactoring directly to the local model fleet (`qwen2.5:72b-iq2`, `deepseek-r1:70b-iq2`, `deepseek-coder-v2:16b`).
+     - Shift rapid verification, math derivations, and docstrings to the Sub-4B tier (`deepseek-r1:1.5b`, `phi3.5:latest`, `smollm2:1.7b`, `qwen2.5-coder:1.5b`).
+     - Reserve the remaining 50% weekly cloud quota exclusively for critical blockers, unresolvable compiler error cascades, and final release sign-offs, guaranteeing uninterrupted execution until the new week reset.
+5. **Live Statusline & Repo Cheat Sheet (`dynamic-repo-model-cheatsheet`):**
    - Consult `agy-cheatsheet` (`cs`) or the bottom of your `agy` statusline (`🧭 CS [...]`) for real-time per-repository model and hardware routing (`Argon•High+Flash` for `ogsr-complete-merge`, `Flash • Low` for config/UI repos).
    - Offload syntax validation (`local-ast-compiler`), semantic search (`local-rag`), `/dev/shm` builds (`ramdisk-tmpfs-build-bake-accelerator`), and dual-GPU workloads (`amd-igpu-nvidia-dgpu-hybrid-offload`) locally before spending cloud quota.
+
+---
 
 ## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
 - **Cross-OS Deployment (`install.ps1` & `install.sh`):** All CLI tools (`agy-cheatsheet` / `cs`, `repo-auto-sync`, `skill-evolve`, `skills-audit-update`, `adaptive-model-router`) run natively on Windows 10/11 via `.cmd`/PowerShell shims in `$HOME\.local\bin` and use `Path(tempfile.gettempdir())` instead of hardcoded `/tmp`.

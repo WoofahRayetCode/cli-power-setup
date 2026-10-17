@@ -149,7 +149,9 @@ def evaluate_routing(prompt: str = "", step: str = "", domain: str = "", quota: 
     """
     p_low = prompt.lower()
     quota_5h = quota.get("rolling_5h", 85) if quota else 85
-    is_quota_constrained = quota_5h < 40
+    quota_weekly = quota.get("weekly", 90) if quota else 90
+    is_weekly_constrained = quota_weekly <= 50
+    is_quota_constrained = (quota_5h < 40) or is_weekly_constrained
 
     # 1. Check for explicit local search or research requests
     if any(k in p_low for k in ["search", "research", "find info", "look up", "documentation"]):
@@ -254,12 +256,13 @@ def evaluate_routing(prompt: str = "", step: str = "", domain: str = "", quota: 
     # 5. Planning & Architecture
     if step == "plan" or any(k in p_low for k in ["plan", "architecture", "design", "refactor architecture", "root cause"]):
         if is_quota_constrained:
+            quota_reason = f"Weekly quota at {quota_weekly}% (<=50% safe threshold)" if is_weekly_constrained else f"5h rolling quota at {quota_5h}% (<40%)"
             return {
                 "tier": 0,
                 "engine": "LOCAL_OLLAMA",
                 "model": DOMAIN_LOCAL_MODELS["deep-reasoning-plan"],
                 "command": f"bin/local-coprocessor --task plan --prompt '{prompt}'",
-                "rationale": "Quota constrained (<40%): Complex planning routed to local DeepSeek-R1 70B (0 Cloud Tokens)."
+                "rationale": f"Quota constrained ({quota_reason}): Complex planning routed to local DeepSeek-R1 70B (0 Cloud Tokens)."
             }
         else:
             return {
@@ -272,12 +275,13 @@ def evaluate_routing(prompt: str = "", step: str = "", domain: str = "", quota: 
 
     # Default fallback
     if is_quota_constrained:
+        quota_reason = f"Weekly quota at {quota_weekly}% (<=50% safe threshold)" if is_weekly_constrained else f"5h rolling quota at {quota_5h}% (<40%)"
         return {
             "tier": 0,
             "engine": "LOCAL_OLLAMA",
             "model": DOMAIN_LOCAL_MODELS["systems-cxx"],
             "command": f"bin/local-coprocessor --task code --prompt '{prompt}'",
-            "rationale": "Quota protection active: general code editing routed to local Titan Qwen 2.5 72B."
+            "rationale": f"Quota protection active ({quota_reason}): General code editing routed to local Titan Qwen 2.5 72B (0 Cloud Tokens)."
         }
 
     return {

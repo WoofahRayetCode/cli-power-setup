@@ -106,11 +106,30 @@ def tune_gemini_settings(
             "quota_status": quota,
         }
 
-    # 2. Check for Heavy Resistance / Fatal Crash / Multi-File Architecture (Argon High)
+    # 1b. Weekly 50% Quota Preservation Threshold Rule:
+    # When weekly quota drops to <= 50%, aggressively push workloads to local models
+    weekly_pct = quota.get("weekly", 95)
+    is_weekly_50 = weekly_pct <= 50
     is_fatal_crash = any(k in err_low for k in ["segfault", "access violation", "core dumped", "nullpointer", "panic", "bugtrap"])
     is_architectural = any(k in p_low for k in ["plan", "architecture", "refactor whole", "new mod", "kernel module", "reverse engineer", "decompile"])
     has_heavy_cpp = any(ext in dirty_exts for ext in [".cpp", ".cc", ".hpp", ".h", ".rs", ".hlsl", ".cu"])
 
+    if is_weekly_50 and attempts < 2 and not is_fatal_crash:
+        target_local_task = "plan" if is_architectural else ("port" if (has_heavy_cpp or "port" in p_low or "ogsr" in p_low) else "code")
+        return {
+            "tier": 0,
+            "engine": "local_coprocessor",
+            "model_gemini": "local",
+            "reasoning_effort": "none",
+            "subagent_model": "local",
+            "local_task": target_local_task,
+            "rationale": f"Weekly quota at {weekly_pct}% (<=50% threshold): Workload automatically diverted to local model fleet for safe quota conservation (0 cloud tokens).",
+            "estimated_token_cost": 0,
+            "dirty_files": dirty_exts,
+            "quota_status": quota,
+        }
+
+    # 2. Check for Heavy Resistance / Fatal Crash / Multi-File Architecture (Argon High)
     if (attempts >= 2 or is_fatal_crash or (is_architectural and has_heavy_cpp)) and quota["rolling_5h"] > 25:
         return {
             "tier": 3,

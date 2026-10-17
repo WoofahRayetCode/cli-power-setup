@@ -125,6 +125,14 @@ FLEET_TIERS = {
             "blender-architect:latest",
         ],
     },
+    "safe-reserve": {
+        "description": "Sub-4B ultra-fast SLMs running 100% in VRAM at 100-140 tok/s for 50% weekly quota offloading (~5.1 GB)",
+        "models": [
+            "phi3.5:latest",
+            "smollm2:1.7b",
+            "deepseek-r1:1.5b",
+        ],
+    },
     "ultra-large": {
         "description": "Ultra-large & specialist models stored on secondary NVMe drive (/mnt/games/large-models) with hardware layer offload (~82 GB)",
         "models": [
@@ -167,6 +175,14 @@ ALL_MODELS = [
     "bge-m3:latest",
     "nomic-embed-text:latest",
     "blender-architect:latest",
+    "phi3.5:latest",
+    "smollm2:1.7b",
+    "deepseek-r1:1.5b",
+    "llm4decompile:22b-q4",
+    "deepseek-r1:70b-iq2",
+    "qwen2.5:72b-iq2",
+    "llama3.3:70b-iq2",
+    "blenderllm:7b-q4",
 ]
 
 MODEL_SPECS = {
@@ -199,6 +215,14 @@ MODEL_SPECS = {
     "bge-m3:latest": ("1.2 GB", "8192-token dense multilingual vector embeddings for local RAG"),
     "nomic-embed-text:latest": ("274 MB", "High-efficiency local vector embeddings for fast code search"),
     "blender-architect:latest": ("4.7 GB", "Custom Modelfile fused with Blender 5.2+ API & organic SDF skills"),
+    "phi3.5:latest": ("2.2 GB", "3.8B Microsoft 128k mini model: multi-file logic, math, and code synthesis"),
+    "smollm2:1.7b": ("1.8 GB", "1.7B Sub-second instruct SLM: instant formatting, docstrings, and error diagnosis"),
+    "deepseek-r1:1.5b": ("1.1 GB", "1.5B Distilled fast CoT: 120+ tok/s chain-of-thought, formal proofs, and invariant checks"),
+    "llm4decompile:22b-q4": ("13 GB", "Assembly-to-C decompilation for REA MCP, Ghidra & x64dbg binary DLL analysis"),
+    "deepseek-r1:70b-iq2": ("19 GB", "Formal chain-of-thought proofs, 64-bit struct padding, invariant & memory alignment"),
+    "qwen2.5:72b-iq2": ("25 GB", "Systems architecture, C++20 refactoring, 3D geometry & spatial layout, large codebase reasoning"),
+    "llama3.3:70b-iq2": ("19 GB", "Complex multi-turn agentic tool calling, function orchestration, structured JSON extraction"),
+    "blenderllm:7b-q4": ("4.7 GB", "Dedicated BlendNet CAD & procedural bpy mesh modeling from natural language"),
 }
 
 

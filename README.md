@@ -1,15 +1,15 @@
 # CLI Power Setup (`cli-power-setup`)
 
 [![Active Skills](https://img.shields.io/badge/Skills-316%20Active-brightgreen.svg)](#-categorized-skills-directory-316-skills)
-[![Local Fleet](https://img.shields.io/badge/Local%20Fleet-34%20Models%20(Ollama)-blue.svg)](#-zero-quota-local-language-model-fleet-34-models-0-cloud-tokens)
-[![Fleet Disk Size](https://img.shields.io/badge/Fleet%20Disk%20Size-245%20GB%20(34%20Models)-blueviolet.svg)](#-zero-quota-local-language-model-fleet-34-models-0-cloud-tokens)
+[![Local Fleet](https://img.shields.io/badge/Local%20Fleet-37%20Models%20(Ollama)-blue.svg)](#-zero-quota-local-language-model-fleet-37-models-0-cloud-tokens)
+[![Fleet Disk Size](https://img.shields.io/badge/Fleet%20Disk%20Size-250%20GB%20(37%20Models)-blueviolet.svg)](#-zero-quota-local-language-model-fleet-37-models-0-cloud-tokens)
 [![Secondary NVMe](https://img.shields.io/badge/Secondary%20NVMe-1.3%20TB%20Headroom%20(/mnt/games)-success.svg)](#-secondary-drive-ultra-large-model-repository--hardware-optimizer)
-[![Hardware Offload](https://img.shields.io/badge/Hardware-32T%20CPU%20%2B%20RTX%205060%20CUDA-orange.svg)](#-zero-quota-local-language-model-fleet-34-models-0-cloud-tokens)
+[![Hardware Offload](https://img.shields.io/badge/Hardware-32T%20CPU%20%2B%20RTX%205060%20CUDA-orange.svg)](#-zero-quota-local-language-model-fleet-37-models-0-cloud-tokens)
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)](#-license)
 
 A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)** and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
 
-This repository organizes **316 autonomous agent skills**, 316 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a 34-model zero-quota local LLM fleet, an Omni-Auto dynamic routing engine, a floating voice dictation pill (`agy-mic-button`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
+This repository organizes **316 autonomous agent skills**, 316 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a 37-model zero-quota local LLM fleet, an Omni-Auto dynamic routing engine, a floating voice dictation pill (`agy-mic-button`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
 
 ---
 
@@ -18,10 +18,11 @@ This repository organizes **316 autonomous agent skills**, 316 modular Cursor ru
 Jump directly to any section of the documentation:
 
 * [⚡ Quick Start & Installation](#-quick-start)
-* [🧠 Zero-Quota Local Language Model Fleet (34 Models)](#-zero-quota-local-language-model-fleet-34-models-0-cloud-tokens)
+* [🧠 Zero-Quota Local Language Model Fleet (37 Models)](#-zero-quota-local-language-model-fleet-37-models-0-cloud-tokens)
   * [Key Benefits & Token Savings](#-key-benefits--overall-usage-savings)
-  * [Local Fleet Matrix (Collapsible Table)](#-complete-34-model-local-fleet-matrix)
+  * [Local Fleet Matrix (Collapsible Table)](#-complete-37-model-local-fleet-matrix)
   * [1-Click Copy-Paste Model Reference](#-1-click-copy-paste-model-reference)
+  * [50% Weekly Quota Safe Reserve Offload Protocol](#-50-weekly-quota-safe-reserve-offload-protocol)
   * [Secondary Drive Ultra-Large Model Repository (`ultra-model-manager`)](#-secondary-drive-ultra-large-model-repository--hardware-optimizer)
 * [🚀 Dynamic AGY Omni-Auto Mode (`agy-omni-mode`)](#-dynamic-agy-omni-auto-mode-agy-omni-mode)
 * [🔎 Zero-Quota Local Research Scout (`local-research-scout`)](#-zero-quota-local-research-scout-local-research-scout)
@@ -90,15 +91,15 @@ Or pass flags non-interactively in automated scripts:
 
 ---
 
-## 🧠 Zero-Quota Local Language Model Fleet (34 Models, 0 Cloud Tokens)
+## 🧠 Zero-Quota Local Language Model Fleet (37 Models, 0 Cloud Tokens)
 
-A production-grade fleet of **34 specialized open-weights models**—including **ultra-large 70B–72B frontier planners**, **state-of-the-art Mixture-of-Experts (MoE)**, and **specialized Blender 3D and decompilation models**—running locally on your laptop via Ollama with automated **hybrid NVIDIA RTX 5060 GDDR7 VRAM + 32-thread DDR5 RAM layer offloading**.
+A production-grade fleet of **37 specialized open-weights models**—including **ultra-large 70B–72B frontier planners**, **state-of-the-art Mixture-of-Experts (MoE)**, **specialized Blender 3D and decompilation models**, and **sub-4B ultra-fast VRAM SLMs**—running locally on your laptop via Ollama with automated **hybrid NVIDIA RTX 5060 GDDR7 VRAM + 32-thread DDR5 RAM layer offloading**.
 
 > [!IMPORTANT]
-> **💾 Total Storage Footprint: `245 GB`** physical disk consumption across all 34 models:
-> • **Primary NVMe (`/var/lib/ollama/blobs/`):** `208 GB` active weights, **`444 GB` free headroom** (54% disk used of 950 GB).
+> **💾 Total Storage Footprint: `250 GB`** physical disk consumption across all 37 models:
+> • **Primary NVMe (`/var/lib/ollama/blobs/`):** `213 GB` active weights, **`422 GB` free headroom** (56% disk used of 950 GB).
 > • **Secondary High-Speed NVMe (`/mnt/games/large-models/`):** `76 GB` master GGUF archive, **`1.30 TB` free headroom** (29% disk used of 1.8 TB).
-> All ultra-large models are importance-matrix (imatrix) quantized (`IQ2_XXS`, `Q4_K_M`) and layer-split to execute within 30.4 GB RAM + 8 GB VRAM with zero out-of-memory faults.
+> All ultra-large models are importance-matrix (imatrix) quantized (`IQ2_XXS`, `Q4_K_M`) and layer-split to execute within 30.4 GB RAM + 8 GB VRAM with zero out-of-memory faults. Sub-4B models run 100% in GPU VRAM at 100–140 tok/s.
 
 <details>
 <summary><b>🌟 Click to View Key Benefits & Overall Usage Savings</b></summary>
@@ -126,10 +127,10 @@ A production-grade fleet of **34 specialized open-weights models**—including *
 
 </details>
 
-### 📋 Complete 34-Model Local Fleet Matrix
+### 📋 Complete 37-Model Local Fleet Matrix
 
 <details>
-<summary><b>🔍 Click to Expand/Collapse Complete 34-Model Local Fleet Specifications & Hardware Footprint</b></summary>
+<summary><b>🔍 Click to Expand/Collapse Complete 37-Model Local Fleet Specifications & Hardware Footprint</b></summary>
 
 | Model Tag | Disk Size | Parameter Tier | Hardware Offload | Primary Specialization & Use Case |
 | :--- | :--- | :--- | :--- | :--- |
@@ -162,8 +163,11 @@ A production-grade fleet of **34 specialized open-weights models**—including *
 | **`codellama:7b-python`** | 3.8 GB | Python Specialist (7B) | Full RTX 5060 VRAM | Python software engineering, pytest suites, data science pipelines |
 | **`starcoder2:7b`** | 4.0 GB | Polyglot Infilling (7B) | Full RTX 5060 VRAM | Multi-language code completion, syntax validation, code infilling |
 | **`deepseek-coder:6.7b-instruct`** | 3.8 GB | Fast Code Synthesis (6.7B) | Full RTX 5060 VRAM | Fast code synthesis, bug patching, legacy C/C++ maintenance |
+| **`phi3.5:latest`** | 2.2 GB | Long-Context Mini (3.8B) | Full RTX 5060 VRAM | Microsoft 128k context mini model for multi-file logic, math, and code synthesis |
 | **`llama3.2:3b`** | 2.0 GB | Ultra-Fast Utility (3B) | Full RTX 5060 VRAM | Ultra-fast local summarization, quick drafting, conversational routing |
+| **`smollm2:1.7b`** | 1.8 GB | Ultra-Fast SLM (1.7B) | Full RTX 5060 VRAM | Sub-second instruct SLM for instant formatting, docstrings, and error diagnosis |
 | **`moondream:latest`** | 1.7 GB | Fast Vision & BBox (1.8B) | Full RTX 5060 VRAM | Lightweight visual inspection, instant screen verification, bounding box analysis |
+| **`deepseek-r1:1.5b`** | 1.1 GB | Distilled Fast CoT (1.5B) | Full RTX 5060 VRAM | 120+ tok/s chain-of-thought reasoning, formal math proofs, and invariant checks |
 | **`qwen2.5-coder:1.5b`** | 986 MB | Sub-Second Boilerplate (1.5B) | Full RTX 5060 VRAM | Sub-second docstrings, regex generation, commit messages, git diff summaries |
 | **`bge-m3:latest`** | 1.2 GB | Dense Multilingual Embed | Full RTX 5060 VRAM | Dense 8192-token multilingual vector embeddings for zero-quota local RAG |
 | **`nomic-embed-text:latest`** | 274 MB | Text Embeddings | Full RTX 5060 VRAM | Fast text embeddings for codebase semantic search and local retrieval |
@@ -214,9 +218,12 @@ A production-grade fleet of **34 specialized open-weights models**—including *
 - starcoder2:7b (4.0 GB) — Multi-language code completion, syntax validation, code infilling.
 - deepseek-coder:6.7b-instruct (3.8 GB) — Fast code synthesis, bug patching, legacy C/C++ maintenance.
 
-### 5. Sub-Second Fast Utilities & Vision (1.5B–3B)
+### 5. Sub-Second Fast Utilities & Vision (1.5B–3.8B)
+- phi3.5:latest (2.2 GB) — Microsoft 128k context mini model for multi-file logic, math, and code synthesis.
 - llama3.2:3b (2.0 GB) — Ultra-fast local summarization, quick drafting, conversational routing.
+- smollm2:1.7b (1.8 GB) — Sub-second instruct SLM for instant formatting, docstrings, and error diagnosis.
 - moondream:latest (1.7 GB) — Lightweight visual inspection, instant screen verification, bounding box analysis.
+- deepseek-r1:1.5b (1.1 GB) — 120+ tok/s chain-of-thought reasoning, formal math proofs, and invariant checks.
 - qwen2.5-coder:1.5b (986 MB) — Sub-second docstrings, regex generation, commit messages, git diff summaries.
 
 ### 6. Multilingual Vector Embeddings
@@ -255,12 +262,31 @@ sqlcoder:7b
 codellama:7b-python
 starcoder2:7b
 deepseek-coder:6.7b-instruct
+phi3.5:latest
 llama3.2:3b
+smollm2:1.7b
 moondream:latest
+deepseek-r1:1.5b
 qwen2.5-coder:1.5b
 bge-m3:latest
 nomic-embed-text:latest
 ```
+</details>
+
+### 🛡️ 50% Weekly Quota Safe Reserve Offload Protocol
+
+<details>
+<summary><b>🛡️ Click to View 50% Weekly Quota Safe Reserve Offload Protocol Details</b></summary>
+
+To prevent mid-week quota exhaustion and guarantee uninterrupted autonomous operation through the weekly replenishment cycle, the system enforces a strict **50% Weekly Safe Headroom threshold**:
+
+* **Automated Telemetry Sensing:** Both `gemini-reasoning-tuner` and `agy-omni-mode` continuously read `weekly_percent` from `agy_quota_cache.json`.
+* **Proactive Model Diversion at $\le$ 50% Weekly:**
+  - **High-Density Code & Refactoring:** Automatically diverted from cloud Gemini 4 Argon to local titans (`qwen2.5:72b-iq2`, `qwen2.5-coder:32b`, `deepseek-coder-v2:16b`).
+  - **Algorithm & Formal Verification:** Diverted to local reasoning engines (`deepseek-r1:70b-iq2`, `deepseek-r1:32b`, `phi4:14b`).
+  - **Routine Code & Fast Tasks:** Diverted to sub-second VRAM models (`deepseek-r1:1.5b`, `phi3.5:latest`, `smollm2:1.7b`, `qwen2.5-coder:1.5b`), running at 100–140 tokens/sec.
+* **Reserved Cloud Capacity:** Cloud Gemini 4 Argon is strictly restricted to high-level multi-agent orchestration, complex architectural trade-offs, and critical verification gates, guaranteeing safe quota reserves until the weekly refresh.
+
 </details>
 
 <details>
@@ -271,10 +297,11 @@ nomic-embed-text:latest
 # Display live fleet status, hardware telemetry & disk usage
 setup-local-model-fleet --status
 
-# Synchronize specific functional tiers or all 34 models
+# Synchronize specific functional tiers or all 37 models
 setup-local-model-fleet --tier engine-porting    # Game engine migration models
 setup-local-model-fleet --tier ultra-large       # 70B-72B Titan models and specialists
-setup-local-model-fleet --all                   # Complete 34-model fleet
+setup-local-model-fleet --tier safe-reserve     # Sub-4B models for 50% weekly quota offload
+setup-local-model-fleet --all                   # Complete 37-model fleet
 
 # Execute tasks locally (0 cloud tokens billed)
 local-coprocessor generate --task port --prompt "Audit this C++ class for 64-bit pointer truncation"
