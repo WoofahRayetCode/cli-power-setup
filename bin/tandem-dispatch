@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 """
 Tandem Dispatcher CLI (tandem-dispatch)
-Sends targeted tasks, checkpoints, and workload divisions to Argon (Pane 0), Fable (Pane 1), or both.
-Includes an intelligent '--split' mode that automatically divides a high-level goal into
-specialized subtasks tailored to each model's strengths.
+Sends targeted tasks, checkpoints, pause commands, and workload divisions to Argon (Pane 0), Fable (Pane 1), or both.
 """
 
 import sys
@@ -32,7 +30,7 @@ def send_to_pane(session, pane_idx, message):
 
 def main():
     parser = argparse.ArgumentParser(description="Dispatch tasks to tandem Argon and Fable agents")
-    parser.add_argument("--to", choices=["argon", "fable", "both", "checkpoint", "split"], default="split", help="Target agent or automatic split")
+    parser.add_argument("--to", choices=["argon", "fable", "both", "checkpoint", "stop", "pause", "split"], default="split", help="Target agent, action, or automatic split")
     parser.add_argument("message", nargs="*", help="Task instruction or prompt to dispatch")
     
     args = parser.parse_args()
@@ -45,6 +43,18 @@ def main():
         
     text = " ".join(args.message).strip()
     
+    if args.to in ["stop", "pause"]:
+        stop_prompt = (
+            "STAGE_CHECKPOINT_AND_HALT: Snapshot all uncommitted in-flight diffs to .agents/checkpoints/, "
+            "record your completed milestones and active hypothesis into .agents/handoff.json and .agents/memory/activeContext.md, "
+            "commit any verified work to your branch, and gracefully stop all execution. Do not execute any further commands."
+        )
+        print(f"[*] Broadcasting checkpoint-and-stop command to both Argon and Fable in session {session}...")
+        send_to_pane(session, 0, stop_prompt)
+        send_to_pane(session, 1, stop_prompt)
+        print("[✓] Both agents instructed to checkpoint and stop!")
+        return
+
     if args.to == "checkpoint":
         checkpoint_prompt = (
             "Resume uninterrupted execution from .agents/handoff.json and .agents/memory/activeContext.md. "
@@ -61,7 +71,6 @@ def main():
         sys.exit(1)
 
     if args.to == "split":
-        # Automatically wrap the user's high-level goal with each model's specialization directives
         argon_instruction = (
             f"[ROLE: ARGON - ASSETS, AUDIO & QA] Goal: {text}. "
             "Focus strictly on: asset extraction (retoc/repak), audio Ogg GSC comments, LTX ballistic curve configs, "
