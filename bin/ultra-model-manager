@@ -29,6 +29,7 @@ MODELS = {
         "quant": "IQ2_XXS",
         "size_gb": 19.10,
         "ram_gb": 21.2,
+        "total_layers": 80,
         "vram_layers": 18,
         "num_ctx": 32768,
         "temp": 0.6,
@@ -45,6 +46,7 @@ MODELS = {
         "quant": "IQ2_XXS",
         "size_gb": 25.49,
         "ram_gb": 27.5,
+        "total_layers": 80,
         "vram_layers": 16,
         "num_ctx": 32768,
         "temp": 0.2,
@@ -61,6 +63,7 @@ MODELS = {
         "quant": "IQ2_XXS",
         "size_gb": 19.10,
         "ram_gb": 21.5,
+        "total_layers": 80,
         "vram_layers": 18,
         "num_ctx": 32768,
         "temp": 0.2,
@@ -77,6 +80,7 @@ MODELS = {
         "quant": "Q4_K_M (imatrix)",
         "size_gb": 13.34,
         "ram_gb": 15.2,
+        "total_layers": 40,
         "vram_layers": 24,
         "num_ctx": 16384,
         "temp": 0.1,
@@ -93,6 +97,7 @@ MODELS = {
         "quant": "Q4_K_M",
         "size_gb": 4.68,
         "ram_gb": 5.2,
+        "total_layers": 33,
         "vram_layers": 33,
         "num_ctx": 16384,
         "temp": 0.2,
@@ -101,12 +106,211 @@ MODELS = {
     }
 }
 
+
+def detect_system_hardware() -> dict:
+    import platform
+    hw = {
+        "os": platform.system(),
+        "platform": platform.platform(),
+        "machine": platform.machine(),
+        "cpu_threads": os.cpu_count() or 8,
+        "cpu_model": "Unknown",
+        "ram_gb": 16.0,
+        "ram_available_gb": 8.0,
+        "gpu_vendor": "None",
+        "gpu_name": "CPU Only",
+        "vram_mb": 0,
+        "vram_free_mb": 0,
+        "cuda_version": "N/A",
+        "storage_root": STORAGE_ROOT,
+        "storage_free_gb": 0.0,
+        "storage_total_gb": 0.0,
+    }
+
+    # 1. CPU Model
+    if hw["os"] == "Linux":
+        try:
+            with open("/proc/cpuinfo") as f:
+                for line in f:
+                    if "model name" in line:
+                        hw["cpu_model"] = line.split(":", 1)[1].strip()
+                        break
+        except Exception:
+            pass
+    elif hw["os"] == "Darwin":
+        try:
+            hw["cpu_model"] = subprocess.check_output(["sysctl", "-n", "machdep.cpu.brand_string"], text=True).strip()
+        except Exception:
+            pass
+    elif hw["os"] == "Windows":
+        hw["cpu_model"] = os.environ.get("PROCESSOR_IDENTIFIER", "x86_64")
+
+    # 2. System RAM
+    if hw["os"] == "Linux":
+        try:
+            with open("/proc/meminfo") as f:
+                for line in f:
+                    if line.startswith("MemTotal:"):
+                        hw["ram_gb"] = round(int(line.split()[1]) / (1024 * 1024), 1)
+                    elif line.startswith("MemAvailable:"):
+                        hw["ram_available_gb"] = round(int(line.split()[1]) / (1024 * 1024), 1)
+        except Exception:
+            pass
+    elif hw["os"] == "Darwin":
+        try:
+            mem_b = int(subprocess.check_output(["sysctl", "-n", "hw.memsize"], text=True).strip())
+            hw["ram_gb"] = round(mem_b / (1024**3), 1)
+        except Exception:
+            pass
+
+    # 3. GPU Detection (NVIDIA / AMD / Apple / Intel)
+    try:
+        nvsmi = subprocess.check_output(
+            ["nvidia-smi", "--query-gpu=name,memory.total,memory.free,driver_version", "--format=csv,noheader,nounits"],
+            text=True, stderr=subprocess.DEVNULL
+        ).strip()
+        if nvsmi:
+            parts = [p.strip() for p in nvsmi.splitlines()[0].split(",")]
+            hw["gpu_vendor"] = "NVIDIA"
+            hw["gpu_name"] = parts[0]
+            hw["vram_mb"] = int(float(parts[1]))
+            hw["vram_free_mb"] = int(float(parts[2]))
+            if len(parts) > 3:
+                hw["cuda_version"] = parts[3]
+    except Exception:
+        if shutil.which("rocm-smi"):
+            try:
+                subprocess.check_output(["rocm-smi"], stderr=subprocess.DEVNULL)
+                hw["gpu_vendor"] = "AMD"
+                hw["gpu_name"] = "AMD ROCm GPU"
+            except Exception:
+                pass
+        if hw["os"] == "Darwin" and hw["machine"] == "arm64":
+            hw["gpu_vendor"] = "Apple"
+            hw["gpu_name"] = "Apple Metal GPU (Unified Memory)"
+            hw["vram_mb"] = int(hw["ram_gb"] * 1024 * 0.75)
+
+    # 4. Storage Detection: Find best storage location for ultra-large models
+    candidate_roots = [
+        "/mnt/games/large-models",
+        "/mnt/storage/large-models",
+        "/mnt/data/large-models",
+        os.path.expanduser("~/.local/share/large-models"),
+        "/var/lib/ollama/large-models",
+    ]
+    for search_dir in ["/mnt", "/media", "/run/media"]:
+        if os.path.isdir(search_dir):
+            try:
+                for entry in os.listdir(search_dir):
+                    full = os.path.join(search_dir, entry)
+                    if os.path.isdir(full):
+                        candidate_roots.insert(1, os.path.join(full, "large-models"))
+            except Exception:
+                pass
+
+    best_root = None
+    best_free_gb = -1
+    best_total_gb = 0
+
+    for cand in candidate_roots:
+        parent = os.path.dirname(cand)
+        check_path = parent if os.path.exists(parent) else "/"
+        try:
+            st = shutil.disk_usage(check_path)
+            free_gb = st.free / (1024**3)
+            total_gb = st.total / (1024**3)
+            if free_gb >= 30.0 and free_gb > best_free_gb:
+                best_free_gb = free_gb
+                best_total_gb = total_gb
+                best_root = cand
+        except Exception:
+            continue
+
+    if not best_root:
+        best_root = os.path.expanduser("~/.local/share/large-models")
+        try:
+            st = shutil.disk_usage(os.path.expanduser("~"))
+            best_free_gb = st.free / (1024**3)
+            best_total_gb = st.total / (1024**3)
+        except Exception:
+            best_free_gb = 10.0
+            best_total_gb = 100.0
+
+    hw["storage_root"] = best_root
+    hw["storage_free_gb"] = round(best_free_gb, 1)
+    hw["storage_total_gb"] = round(best_total_gb, 1)
+
+    return hw
+
+
+def update_storage_paths():
+    global STORAGE_ROOT, GGUF_DIR, MODELFILE_DIR, AIRLLM_DIR
+    hw = detect_system_hardware()
+    STORAGE_ROOT = hw["storage_root"]
+    GGUF_DIR = os.path.join(STORAGE_ROOT, "gguf")
+    MODELFILE_DIR = os.path.join(STORAGE_ROOT, "modelfiles")
+    AIRLLM_DIR = os.path.join(STORAGE_ROOT, "airllm")
+
+
+def calculate_model_hardware_params(model_key: str, hw: dict) -> dict:
+    m = MODELS[model_key]
+    total_layers = m.get("total_layers", 80)
+
+    # 1. Thread count
+    threads = hw["cpu_threads"]
+    if threads >= 24:
+        opt_threads = threads - 2
+    elif threads >= 8:
+        opt_threads = threads - 1
+    else:
+        opt_threads = max(1, threads)
+
+    # 2. VRAM Layer Offload
+    vram_mb = hw["vram_mb"]
+    if vram_mb <= 0:
+        opt_gpu_layers = 0
+    else:
+        reserved_vram_mb = 1800 if vram_mb >= 6000 else 800
+        available_vram_mb = max(0, vram_mb - reserved_vram_mb)
+        layer_size_mb = (m["size_gb"] * 1024) / total_layers
+        if (m["size_gb"] * 1024) <= available_vram_mb:
+            opt_gpu_layers = total_layers
+        else:
+            opt_gpu_layers = min(total_layers, max(0, int(available_vram_mb / layer_size_mb)))
+
+    # 3. Context Length
+    ram_gb = hw["ram_gb"]
+    if ram_gb >= 30.0:
+        opt_ctx = m.get("num_ctx", 32768)
+    elif ram_gb >= 16.0:
+        opt_ctx = min(16384, m.get("num_ctx", 16384))
+    elif ram_gb >= 12.0:
+        opt_ctx = 8192
+    else:
+        opt_ctx = 4096
+
+    # 4. Batch size
+    opt_batch = 512 if vram_mb >= 6000 else 256
+
+    return {
+        "num_thread": opt_threads,
+        "num_gpu": opt_gpu_layers,
+        "num_ctx": opt_ctx,
+        "num_batch": opt_batch,
+        "temperature": m.get("temp", 0.2),
+        "total_layers": total_layers,
+    }
+
+
 def ensure_dirs():
+    update_storage_paths()
     for d in [GGUF_DIR, MODELFILE_DIR, AIRLLM_DIR]:
         os.makedirs(d, exist_ok=True)
 
+
 def get_disk_info():
-    stat = shutil.disk_usage("/mnt/games")
+    update_storage_paths()
+    stat = shutil.disk_usage(os.path.dirname(STORAGE_ROOT) if os.path.exists(os.path.dirname(STORAGE_ROOT)) else "/")
     return {
         "total_gb": stat.total / (1024**3),
         "used_gb": stat.used / (1024**3),
@@ -114,13 +318,15 @@ def get_disk_info():
         "percent_used": (stat.used / stat.total) * 100
     }
 
+
 def is_downloaded(model_info):
+    ensure_dirs()
     path = os.path.join(GGUF_DIR, model_info["filename"])
     if os.path.exists(path):
         size = os.path.getsize(path) / (1024**3)
-        # Check if at least 95% of expected size
         return size >= (model_info["size_gb"] * 0.95), size
     return False, 0.0
+
 
 def is_ollama_registered(model_info):
     try:
@@ -129,49 +335,78 @@ def is_ollama_registered(model_info):
     except Exception:
         return False
 
+
+def cmd_detect(args=None):
+    hw = detect_system_hardware()
+    print("\n═══════════════════════════════════════════════════════════════════════════")
+    print("  🔍 SYSTEM HARDWARE DETECTION & DYNAMIC MODEL PROFILER")
+    print("═══════════════════════════════════════════════════════════════════════════")
+    print(f"  • Operating System   : {hw['platform']}")
+    print(f"  • CPU Specification  : {hw['cpu_threads']} Threads | {hw['cpu_model']}")
+    print(f"  • System RAM         : {hw['ram_gb']} GB Total ({hw['ram_available_gb']} GB Available)")
+    print(f"  • GPU / Accelerator  : {hw['gpu_name']} ({hw['gpu_vendor']})")
+    print(f"  • GPU VRAM           : {hw['vram_free_mb']} MB Free / {hw['vram_mb']} MB Total")
+    print(f"  • Active Storage     : {hw['storage_root']} ({hw['storage_free_gb']} GB Free / {hw['storage_total_gb']} GB Total)")
+    print("───────────────────────────────────────────────────────────────────────────")
+    print(f"{'Model Key':<20} {'CPU Thr':<9} {'GPU Layers':<14} {'Context':<9} {'RAM Req':<9} {'Strategy'}")
+    print("─" * 75)
+    for k in MODELS.keys():
+        m = MODELS[k]
+        params = calculate_model_hardware_params(k, hw)
+        lyr_str = f"{params['num_gpu']}/{params['total_layers']}"
+        strat = "100% VRAM" if params['num_gpu'] == params['total_layers'] else f"{params['num_gpu']} VRAM + {params['total_layers']-params['num_gpu']} CPU"
+        print(f"{k:<20} {params['num_thread']:<9} {lyr_str:<14} {params['num_ctx']:<9} {m['ram_gb']}G     {strat}")
+    print("═══════════════════════════════════════════════════════════════════════════\n")
+
+
 def cmd_list(args):
     ensure_dirs()
     disk = get_disk_info()
+    hw = detect_system_hardware()
     print("\n═══════════════════════════════════════════════════════════════════════════")
     print("  🚀 ULTRA-LARGE MODEL REPOSITORY & HARDWARE OPTIMIZER")
     print("═══════════════════════════════════════════════════════════════════════════")
-    print(f"  📂 Storage Directory : {STORAGE_ROOT} (Secondary Drive)")
-    print(f"  💾 Secondary Drive   : {disk['free_gb']:.1f} GB Free / {disk['total_gb']:.1f} GB Total ({disk['percent_used']:.1f}% used)")
-    print("  ⚡ Host Hardware     : 32 CPU Threads | 30.4 GB DDR5 RAM | 8 GB GDDR7 RTX 5060")
+    print(f"  📂 Storage Directory : {STORAGE_ROOT}")
+    print(f"  💾 Staging Storage   : {disk['free_gb']:.1f} GB Free / {disk['total_gb']:.1f} GB Total ({disk['percent_used']:.1f}% used)")
+    print(f"  ⚡ Detected Hardware : {hw['cpu_threads']} CPU Threads | {hw['ram_gb']} GB RAM | {hw['gpu_name']} ({hw['vram_mb']} MB VRAM)")
     print("───────────────────────────────────────────────────────────────────────────\n")
 
     for key, m in MODELS.items():
         downloaded, cur_size = is_downloaded(m)
         registered = is_ollama_registered(m)
+        params = calculate_model_hardware_params(key, hw)
 
         status_str = ""
         if registered:
             status_str = "🟢 Active in Ollama"
         elif downloaded:
-            status_str = f"🟡 Downloaded ({cur_size:.1f} GB) - Needs Optimization"
+            status_str = f"🟡 Downloaded ({cur_size:.1f} GB) - Ready to Optimize"
         else:
             status_str = f"⚪ Ready to Download ({m['size_gb']:.1f} GB)"
 
         print(f"  📦 [{key}] {m['name']} ({m['params']})")
         print(f"     • Role         : {m['role']}")
         print(f"     • Quantization : {m['quant']} | Memory Footprint: ~{m['ram_gb']:.1f} GB")
-        print(f"     • Offload      : {m['vram_layers']} layers to 8GB GDDR7 VRAM + 32-thread AVX-512 RAM")
+        print(f"     • Hardware Fit : {params['num_gpu']}/{params['total_layers']} layers to VRAM + {params['num_thread']} CPU threads (ctx: {params['num_ctx']})")
         print(f"     • Status       : {status_str}")
-        print(f"     • Action       : ./bin/ultra-model-manager --download {key} --optimize\n")
+        print(f"     • Action       : ultra-model-manager download {key} --optimize\n")
 
     print("───────────────────────────────────────────────────────────────────────────")
-    print("💡 Additional Ultra-Large Architecture Options:")
-    print("  • DeepSeek-Coder-V2-236B MoE (21B active weights per token):")
-    print("    Fastest inference speed per parameter; requires 68GB storage, streams weights.")
-    print("  • Meta-Llama-3.1-405B Instruct via AirLLM:")
-    print("    Streams 405B transformer layers into 8GB GDDR7 VRAM block-by-block from NVMe.")
+    print("💡 Batch Optimization Commands:")
+    print("  • ultra-model-manager download-all --optimize : Downloads and configures all ultra-models")
+    print("  • ultra-model-manager optimize-all            : Re-tunes all Modelfiles for current hardware")
     print("═══════════════════════════════════════════════════════════════════════════\n")
+
 
 def cmd_download(args):
     ensure_dirs()
     key = args.model
+    if key == "all":
+        cmd_download_all(args)
+        return
+
     if key not in MODELS:
-        print(f"❌ Error: Model '{key}' not recognized. Choose from: {list(MODELS.keys())}")
+        print(f"❌ Error: Model '{key}' not recognized. Choose from: {list(MODELS.keys()) + ['all']}")
         sys.exit(1)
 
     m = MODELS[key]
@@ -179,9 +414,9 @@ def cmd_download(args):
     url = f"https://huggingface.co/{m['repo']}/resolve/main/{m['filename']}"
 
     downloaded, cur_size = is_downloaded(m)
-    if downloaded and not args.force:
+    if downloaded and not getattr(args, "force", False):
         print(f"✅ Model '{key}' already downloaded at {dest_path} ({cur_size:.1f} GB).")
-        if args.optimize:
+        if getattr(args, "optimize", False):
             cmd_optimize(args)
         return
 
@@ -189,9 +424,7 @@ def cmd_download(args):
     print(f"   Target Location: {dest_path}")
     print(f"   Source URL     : {url}")
 
-    # Check for aria2c
     has_aria2 = shutil.which("aria2c") is not None
-
     start_time = time.time()
     if has_aria2:
         cmd = [
@@ -231,41 +464,59 @@ def cmd_download(args):
     avg_speed = (file_size_gb * 1024) / max(1, elapsed)
     print(f"✅ Download complete: {dest_path} ({file_size_gb:.2f} GB in {elapsed:.1f}s, avg {avg_speed:.1f} MB/s)")
 
-    if args.optimize:
+    if getattr(args, "optimize", False):
         cmd_optimize(args)
+
+
+def cmd_download_all(args):
+    ensure_dirs()
+    print("\n🚀 Starting Full Ultra-Large Model Download & Synchronization...")
+    for key in MODELS.keys():
+        setattr(args, "model", key)
+        cmd_download(args)
+    print("\n🎉 All ultra-large models downloaded and synchronized!")
+
 
 def cmd_optimize(args):
     ensure_dirs()
     key = args.model
+    if key == "all":
+        cmd_optimize_all(args)
+        return
+
     if key not in MODELS:
-        print(f"❌ Error: Model '{key}' not recognized. Choose from: {list(MODELS.keys())}")
+        print(f"❌ Error: Model '{key}' not recognized. Choose from: {list(MODELS.keys()) + ['all']}")
         sys.exit(1)
 
     m = MODELS[key]
     gguf_path = os.path.join(GGUF_DIR, m["filename"])
 
     if not os.path.exists(gguf_path):
-        print(f"❌ Error: GGUF file {gguf_path} not found. Run --download first.")
+        print(f"❌ Error: GGUF file {gguf_path} not found. Run download first.")
         sys.exit(1)
 
+    hw = detect_system_hardware()
+    params = calculate_model_hardware_params(key, hw)
     modelfile_path = os.path.join(MODELFILE_DIR, f"Modelfile.{key}")
 
     print(f"\n⚙️ Generating Hardware-Optimized Modelfile for {m['name']}...")
-    print(f"   CPU Threads       : 32 (Zen AVX-512 saturation)")
-    print(f"   VRAM Layer Offload: {m['vram_layers']} layers to 8GB GDDR7 RTX 5060")
-    print(f"   Context Length    : {m['num_ctx']} tokens")
-    print(f"   Temperature       : {m['temp']}")
+    print(f"   Detected System   : {hw['cpu_model']} | {hw['ram_gb']}GB RAM | {hw['gpu_name']}")
+    print(f"   CPU Threads       : {params['num_thread']} (dynamic OS-safe thread saturation)")
+    print(f"   VRAM Layer Offload: {params['num_gpu']} / {params['total_layers']} layers to {hw['gpu_name']}")
+    print(f"   Context Length    : {params['num_ctx']} tokens")
+    print(f"   Batch Size        : {params['num_batch']}")
+    print(f"   Temperature       : {params['temperature']}")
 
     modelfile_content = f"""# Hardware-Optimized Modelfile for {m['name']}
-# Generated by ultra-model-manager for 32 CPU Threads + 30.4GB RAM + 8GB RTX 5060
+# Generated dynamically by ultra-model-manager for {hw['cpu_threads']} CPU Threads + {hw['ram_gb']}GB RAM + {hw['gpu_name']}
 FROM {gguf_path}
 
 # Hardware Allocation Parameters
-PARAMETER num_thread 32
-PARAMETER num_gpu {m['vram_layers']}
-PARAMETER num_ctx {m['num_ctx']}
-PARAMETER num_batch 512
-PARAMETER temperature {m['temp']}
+PARAMETER num_thread {params['num_thread']}
+PARAMETER num_gpu {params['num_gpu']}
+PARAMETER num_ctx {params['num_ctx']}
+PARAMETER num_batch {params['num_batch']}
+PARAMETER temperature {params['temperature']}
 
 SYSTEM \"\"\"{m['system_prompt']}\"\"\"
 """
@@ -281,34 +532,48 @@ SYSTEM \"\"\"{m['system_prompt']}\"\"\"
         print(f"❌ Ollama registration failed with code {ret.returncode}")
         sys.exit(ret.returncode)
 
-    print(f"\n🎉 Successfully created and registered '{m['ollama_tag']}' in Ollama!")
-    print(f"   Run interactive test: ollama run {m['ollama_tag']}")
-    print(f"   Call via coprocessor: ./bin/local-coprocessor --model {m['ollama_tag']} --prompt 'Explain...'")
+    print(f"🎉 Successfully created and registered '{m['ollama_tag']}' in Ollama!")
+
+
+def cmd_optimize_all(args):
+    ensure_dirs()
+    print("\n⚙️ Re-Optimizing All Downloaded Ultra-Large Models for Detected System...")
+    hw = detect_system_hardware()
+    count = 0
+    for key, m in MODELS.items():
+        gguf_path = os.path.join(GGUF_DIR, m["filename"])
+        if os.path.exists(gguf_path):
+            setattr(args, "model", key)
+            cmd_optimize(args)
+            count += 1
+        else:
+            print(f"⏭️ Skipping {key} (GGUF not yet downloaded)")
+    print(f"\n🎉 Successfully optimized and registered {count} ultra-large models in Ollama!")
+
 
 def cmd_status(args):
     ensure_dirs()
     disk = get_disk_info()
+    hw = detect_system_hardware()
     print("\n═══════════════════════════════════════════════════════════════════════════")
     print("  📊 ULTRA-LARGE MODEL STATUS & HARDWARE PROFILE")
     print("═══════════════════════════════════════════════════════════════════════════")
-    print(f"  📂 Secondary Drive Path : {STORAGE_ROOT}")
-    print(f"  💾 Secondary Storage    : {disk['free_gb']:.1f} GB Free / {disk['total_gb']:.1f} GB Total ({disk['percent_used']:.1f}% used)")
+    print(f"  📂 Storage Directory : {STORAGE_ROOT}")
+    print(f"  💾 Storage Free      : {disk['free_gb']:.1f} GB Free / {disk['total_gb']:.1f} GB Total ({disk['percent_used']:.1f}% used)")
+    print(f"  ⚡ Detected Profile  : {hw['cpu_threads']} Threads | {hw['ram_gb']} GB RAM | {hw['gpu_name']} ({hw['vram_mb']} MB VRAM)")
 
-    # GGUF directory contents
     files = os.listdir(GGUF_DIR) if os.path.exists(GGUF_DIR) else []
     total_gguf_size = sum(os.path.getsize(os.path.join(GGUF_DIR, f)) for f in files) / (1024**3)
-    print(f"  📦 Stored GGUF Models   : {len(files)} files ({total_gguf_size:.2f} GB)")
+    print(f"  📦 Stored GGUF Models: {len(files)} files ({total_gguf_size:.2f} GB)")
     for f in files:
         sz = os.path.getsize(os.path.join(GGUF_DIR, f)) / (1024**3)
         print(f"     • {f} ({sz:.2f} GB)")
 
-    # Modelfiles
     mfiles = os.listdir(MODELFILE_DIR) if os.path.exists(MODELFILE_DIR) else []
-    print(f"  📝 Custom Modelfiles    : {len(mfiles)} files")
+    print(f"  📝 Custom Modelfiles : {len(mfiles)} files")
     for mf in mfiles:
         print(f"     • {mf}")
 
-    # Ollama models
     print("\n  🤖 Active Ollama Fleet (Ultra-Large Models):")
     for key, m in MODELS.items():
         reg = is_ollama_registered(m)
@@ -316,6 +581,7 @@ def cmd_status(args):
         print(f"     • {m['ollama_tag']:<25} : {status}")
 
     print("═══════════════════════════════════════════════════════════════════════════\n")
+
 
 def cmd_run(args):
     key = args.model
@@ -328,6 +594,7 @@ def cmd_run(args):
     print(f"🚀 Running {tag} with prompt: {prompt}\n")
     subprocess.run(["ollama", "run", tag, prompt])
 
+
 def main():
     parser = argparse.ArgumentParser(description="Ultra-Large Model Hardware & Quantization Manager")
     subparsers = parser.add_subparsers(dest="command", help="Command to execute")
@@ -336,17 +603,31 @@ def main():
     p_list = subparsers.add_parser("list", help="List curated ultra-large models and readiness")
     p_list.set_defaults(func=cmd_list)
 
+    # detect
+    p_detect = subparsers.add_parser("detect", help="Detect host system hardware profile and calculate optimal model settings")
+    p_detect.set_defaults(func=cmd_detect)
+
     # download
     p_down = subparsers.add_parser("download", help="Download GGUF model directly to secondary drive")
-    p_down.add_argument("model", choices=list(MODELS.keys()), help="Model key to download")
+    p_down.add_argument("model", choices=list(MODELS.keys()) + ["all"], help="Model key to download or 'all'")
     p_down.add_argument("--optimize", "-o", action="store_true", help="Automatically generate Modelfile and register in Ollama after download")
     p_down.add_argument("--force", "-f", action="store_true", help="Force re-download even if file exists")
     p_down.set_defaults(func=cmd_download)
 
+    # download-all
+    p_down_all = subparsers.add_parser("download-all", help="Download all curated ultra-large models")
+    p_down_all.add_argument("--optimize", "-o", action="store_true", help="Automatically generate Modelfiles and register in Ollama")
+    p_down_all.add_argument("--force", "-f", action="store_true", help="Force re-download even if files exist")
+    p_down_all.set_defaults(func=cmd_download_all)
+
     # optimize
     p_opt = subparsers.add_parser("optimize", help="Generate hardware-tuned Modelfile and register in Ollama")
-    p_opt.add_argument("model", choices=list(MODELS.keys()), help="Model key to optimize")
+    p_opt.add_argument("model", choices=list(MODELS.keys()) + ["all"], help="Model key to optimize or 'all'")
     p_opt.set_defaults(func=cmd_optimize)
+
+    # optimize-all
+    p_opt_all = subparsers.add_parser("optimize-all", help="Re-optimize and register all downloaded ultra-large models")
+    p_opt_all.set_defaults(func=cmd_optimize_all)
 
     # status
     p_stat = subparsers.add_parser("status", help="Show storage and model readiness status")
@@ -363,6 +644,7 @@ def main():
         cmd_list(args)
     else:
         args.func(args)
+
 
 if __name__ == "__main__":
     main()

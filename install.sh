@@ -64,132 +64,26 @@ backup_existing() {
 install_binaries() {
     log_info "Installing utility scripts into ${BIN_DEST}..."
     mkdir -p "${BIN_DEST}"
-    cp "${SCRIPT_DIR}/bin/agy-quota-statusline" "${BIN_DEST}/agy-quota-statusline"
-    chmod +x "${BIN_DEST}/agy-quota-statusline"
-    log_done "Installed executable: ${BIN_DEST}/agy-quota-statusline"
 
-    if [ -f "${SCRIPT_DIR}/bin/agy-turbo" ]; then
-        cp "${SCRIPT_DIR}/bin/agy-turbo" "${BIN_DEST}/agy-turbo"
-        chmod +x "${BIN_DEST}/agy-turbo"
-        log_done "Installed executable: ${BIN_DEST}/agy-turbo"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/agy-yolo" ]; then
-        cp "${SCRIPT_DIR}/bin/agy-yolo" "${BIN_DEST}/agy-yolo"
-        chmod +x "${BIN_DEST}/agy-yolo"
-        log_done "Installed executable: ${BIN_DEST}/agy-yolo"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/skills-audit-update" ]; then
-        cp "${SCRIPT_DIR}/bin/skills-audit-update" "${BIN_DEST}/skills-audit-update"
-        chmod +x "${BIN_DEST}/skills-audit-update"
-        log_done "Installed executable: ${BIN_DEST}/skills-audit-update"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/stalker-playtest-runner" ]; then
-        cp "${SCRIPT_DIR}/bin/stalker-playtest-runner" "${BIN_DEST}/stalker-playtest-runner"
-        chmod +x "${BIN_DEST}/stalker-playtest-runner"
-        log_done "Installed executable: ${BIN_DEST}/stalker-playtest-runner"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/context-watchdog" ]; then
-        cp "${SCRIPT_DIR}/bin/context-watchdog" "${BIN_DEST}/context-watchdog"
-        chmod +x "${BIN_DEST}/context-watchdog"
-        log_done "Installed executable: ${BIN_DEST}/context-watchdog"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/game-test-watchdog" ]; then
-        cp "${SCRIPT_DIR}/bin/game-test-watchdog" "${BIN_DEST}/game-test-watchdog"
-        chmod +x "${BIN_DEST}/game-test-watchdog"
-        log_done "Installed executable: ${BIN_DEST}/game-test-watchdog"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/game-texture-editor" ]; then
-        cp "${SCRIPT_DIR}/bin/game-texture-editor" "${BIN_DEST}/game-texture-editor"
-        chmod +x "${BIN_DEST}/game-texture-editor"
-        log_done "Installed executable: ${BIN_DEST}/game-texture-editor"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/cursor-rules-sync" ]; then
-        cp "${SCRIPT_DIR}/bin/cursor-rules-sync" "${BIN_DEST}/cursor-rules-sync"
-        chmod +x "${BIN_DEST}/cursor-rules-sync"
-        log_done "Installed executable: ${BIN_DEST}/cursor-rules-sync"
-    fi
-
-    for new_bin in agy-init agy-doctor agy-context adaptive-model-router agy-cheatsheet agy-mic-button repo-auto-sync skill-evolve skill-optimize steam-mod-scanner; do
-        if [ -f "${SCRIPT_DIR}/bin/${new_bin}" ]; then
-            cp "${SCRIPT_DIR}/bin/${new_bin}" "${BIN_DEST}/${new_bin}"
-            chmod +x "${BIN_DEST}/${new_bin}"
-            log_done "Installed executable: ${BIN_DEST}/${new_bin}"
+    local installed_count=0
+    for bin_file in "${SCRIPT_DIR}/bin/"*; do
+        if [ -f "${bin_file}" ]; then
+            local bname
+            bname="$(basename "${bin_file}")"
+            if [ -L "${BIN_DEST}/${bname}" ] || [ -f "${BIN_DEST}/${bname}" ]; then
+                rm -f "${BIN_DEST}/${bname}"
+            fi
+            cp "${bin_file}" "${BIN_DEST}/${bname}"
+            chmod +x "${BIN_DEST}/${bname}"
+            installed_count=$((installed_count + 1))
         fi
     done
+    log_done "Installed ${installed_count} CLI utilities into ${BIN_DEST}."
+
+    # Create convenient command aliases & symlinks
     ln -sf "${BIN_DEST}/agy-cheatsheet" "${BIN_DEST}/cs"
-    ln -sf "${SCRIPT_DIR}/config/skills/laptop-performance-profile/scripts/laptop_performance_controller.py" "${BIN_DEST}/laptop-perf"
-
-    if [ -f "${SCRIPT_DIR}/bin/game-dialogue-tool" ]; then
-        cp "${SCRIPT_DIR}/bin/game-dialogue-tool" "${BIN_DEST}/game-dialogue-tool"
-        chmod +x "${BIN_DEST}/game-dialogue-tool"
-        log_done "Installed executable: ${BIN_DEST}/game-dialogue-tool"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/weather-lighting-tuner" ]; then
-        cp "${SCRIPT_DIR}/bin/weather-lighting-tuner" "${BIN_DEST}/weather-lighting-tuner"
-        chmod +x "${BIN_DEST}/weather-lighting-tuner"
-        log_done "Installed executable: ${BIN_DEST}/weather-lighting-tuner"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/mangohud-configurator" ]; then
-        cp "${SCRIPT_DIR}/bin/mangohud-configurator" "${BIN_DEST}/mangohud-configurator"
-        chmod +x "${BIN_DEST}/mangohud-configurator"
-        log_done "Installed executable: ${BIN_DEST}/mangohud-configurator"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/game-window-helper" ]; then
-        cp "${SCRIPT_DIR}/bin/game-window-helper" "${BIN_DEST}/game-window-helper"
-        chmod +x "${BIN_DEST}/game-window-helper"
-        log_done "Installed executable: ${BIN_DEST}/game-window-helper"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/nav-graph-recorder" ]; then
-        cp "${SCRIPT_DIR}/bin/nav-graph-recorder" "${BIN_DEST}/nav-graph-recorder"
-        chmod +x "${BIN_DEST}/nav-graph-recorder"
-        log_done "Installed executable: ${BIN_DEST}/nav-graph-recorder"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/self-improving-qa" ]; then
-        cp "${SCRIPT_DIR}/bin/self-improving-qa" "${BIN_DEST}/self-improving-qa"
-        chmod +x "${BIN_DEST}/self-improving-qa"
-        log_done "Installed executable: ${BIN_DEST}/self-improving-qa"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/game-memory-scanner" ]; then
-        cp "${SCRIPT_DIR}/bin/game-memory-scanner" "${BIN_DEST}/game-memory-scanner"
-        chmod +x "${BIN_DEST}/game-memory-scanner"
-        log_done "Installed executable: ${BIN_DEST}/game-memory-scanner"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/game-dll-proxy-gen" ]; then
-        cp "${SCRIPT_DIR}/bin/game-dll-proxy-gen" "${BIN_DEST}/game-dll-proxy-gen"
-        chmod +x "${BIN_DEST}/game-dll-proxy-gen"
-        log_done "Installed executable: ${BIN_DEST}/game-dll-proxy-gen"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/token-guard" ]; then
-        cp "${SCRIPT_DIR}/bin/token-guard" "${BIN_DEST}/token-guard"
-        chmod +x "${BIN_DEST}/token-guard"
-        log_done "Installed executable: ${BIN_DEST}/token-guard"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/slice-reader" ]; then
-        cp "${SCRIPT_DIR}/bin/slice-reader" "${BIN_DEST}/slice-reader"
-        chmod +x "${BIN_DEST}/slice-reader"
-        log_done "Installed executable: ${BIN_DEST}/slice-reader"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/android-dev-runner" ]; then
-        cp "${SCRIPT_DIR}/bin/android-dev-runner" "${BIN_DEST}/android-dev-runner"
-        chmod +x "${BIN_DEST}/android-dev-runner"
-        log_done "Installed executable: ${BIN_DEST}/android-dev-runner"
+    if [ -f "${SCRIPT_DIR}/config/skills/laptop-performance-profile/scripts/laptop_performance_controller.py" ]; then
+        ln -sf "${SCRIPT_DIR}/config/skills/laptop-performance-profile/scripts/laptop_performance_controller.py" "${BIN_DEST}/laptop-perf"
     fi
 
     # Initialize universal lifetime token ledger
@@ -322,73 +216,130 @@ verify_installation() {
     [ -d "${GEMINI_SKILLS}" ] && agy_count="$(find "${GEMINI_SKILLS}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
     [ -d "${CURSOR_RULES}" ] && cursor_count="$(find "${CURSOR_RULES}" -name "*.mdc" | wc -l)"
 
+    local model_count=0
+    if curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then
+        model_count="$(curl -s http://localhost:11434/api/tags | grep -o '"name":' | wc -l || echo 0)"
+    fi
+
     echo ""
     echo -e "${COLOR_GREEN}======================================================${COLOR_RESET}"
     echo -e "${COLOR_GREEN} CLI Power Setup Successfully Installed!             ${COLOR_RESET}"
     echo -e "${COLOR_GREEN}======================================================${COLOR_RESET}"
     echo -e "Antigravity Skills:   ${COLOR_CYAN}${agy_count} active (${GEMINI_SKILLS})${COLOR_RESET}"
     echo -e "Cursor Rules:         ${COLOR_CYAN}${cursor_count} active (${CURSOR_RULES})${COLOR_RESET}"
+    echo -e "Local Model Fleet:    ${COLOR_CYAN}${model_count} models registered in Ollama${COLOR_RESET}"
     echo -e "Statusline monitor:   ${COLOR_CYAN}agy-quota-statusline${COLOR_RESET}"
     echo -e "Launchers:            ${COLOR_CYAN}agy-yolo & agy-turbo${COLOR_RESET}"
+    echo -e "Fleet Manager:        ${COLOR_CYAN}setup-local-model-fleet (--status, --all, --detect-system)${COLOR_RESET}"
+    echo -e "Hardware Optimizer:   ${COLOR_CYAN}ultra-model-manager (detect, status, download-all, optimize-all)${COLOR_RESET}"
     echo -e "Auditor & Updater:    ${COLOR_CYAN}skills-audit-update (--audit, --sync, --fix, --pull)${COLOR_RESET}"
     echo ""
 }
 
+install_models() {
+    echo ""
+    log_info "Detecting host system hardware and synchronizing local model fleet..."
+
+    # Ensure Ollama service is reachable
+    if ! curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then
+        log_warn "Ollama service is not responding on http://localhost:11434."
+        if command -v systemctl >/dev/null 2>&1; then
+            log_info "Attempting to start Ollama service via systemctl..."
+            sudo systemctl start ollama 2>/dev/null || systemctl --user start ollama 2>/dev/null || true
+            sleep 2
+        fi
+    fi
+
+    local fleet_runner="${BIN_DEST}/setup-local-model-fleet"
+    if [ ! -f "${fleet_runner}" ]; then
+        fleet_runner="${SCRIPT_DIR}/bin/setup-local-model-fleet"
+    fi
+
+    if curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then
+        python3 "${fleet_runner}" --all
+        log_done "Local model fleet synchronized and hardware-optimized!"
+    else
+        log_warn "Ollama is offline. Start the service ('ollama serve' or 'systemctl start ollama') and run 'setup-local-model-fleet --all' at any time."
+    fi
+}
+
 show_menu() {
     echo -e "${COLOR_BOLD}CLI Power Setup Installer${COLOR_RESET}"
-    echo "Select target environment:"
+    echo "Select target installation option:"
     echo "  1) Full Setup (Antigravity & Cursor) [Recommended]"
-    echo "  2) Antigravity only (~/.gemini)"
-    echo "  3) Cursor only (~/.cursor, ~/.cursorrules)"
-    echo "  4) Exit"
+    echo "  2) Full Setup + Local Model Fleet Download & Optimization (37 Models)"
+    echo "  3) Antigravity only (~/.gemini)"
+    echo "  4) Cursor only (~/.cursor, ~/.cursorrules)"
+    echo "  5) Local Model Fleet Only (Hardware Detection, Download & Optimization)"
+    echo "  6) Exit"
     echo ""
-    read -rp "Enter choice [1-4] (default: 1): " choice
+    read -rp "Enter choice [1-6] (default: 1): " choice
     choice="${choice:-1}"
     case "$choice" in
-        1) TARGET="all" ;;
-        2) TARGET="agy" ;;
-        3) TARGET="cursor" ;;
-        4) echo "Exiting."; exit 0 ;;
-        *) echo "Invalid option, defaulting to Full Setup."; TARGET="all" ;;
+        1) TARGET="all"; SYNC_MODELS=0 ;;
+        2) TARGET="all"; SYNC_MODELS=1 ;;
+        3) TARGET="agy"; SYNC_MODELS=0 ;;
+        4) TARGET="cursor"; SYNC_MODELS=0 ;;
+        5) TARGET="models"; SYNC_MODELS=1 ;;
+        6) echo "Exiting."; exit 0 ;;
+        *) echo "Invalid option, defaulting to Full Setup."; TARGET="all"; SYNC_MODELS=0 ;;
     esac
 }
 
 main() {
     local TARGET="all"
+    local SYNC_MODELS=0
     
     # Parse CLI flags if passed
     if [ "$#" -gt 0 ]; then
-        case "$1" in
-            --all|-a)       TARGET="all" ;;
-            --agy|-g)       TARGET="agy" ;;
-            --cursor|-u)    TARGET="cursor" ;;
-            --help|-h)
-                echo "Usage: ./install.sh [--all | --agy | --cursor]"
-                exit 0
-                ;;
-            *)
-                log_warn "Unknown option '$1', opening menu..."
-                show_menu
-                ;;
-        esac
+        while [ "$#" -gt 0 ]; do
+            case "$1" in
+                --all|-a)           TARGET="all" ;;
+                --agy|-g)           TARGET="agy" ;;
+                --cursor|-u)        TARGET="cursor" ;;
+                --models|-m)        TARGET="models"; SYNC_MODELS=1 ;;
+                --with-models)      TARGET="all"; SYNC_MODELS=1 ;;
+                --help|-h)
+                    echo "Usage: ./install.sh [--all | --agy | --cursor | --models | --with-models]"
+                    exit 0
+                    ;;
+                *)
+                    log_warn "Unknown option '$1', opening menu..."
+                    show_menu
+                    break
+                    ;;
+            esac
+            shift
+        done
     elif [ -t 0 ]; then
         show_menu
     fi
 
-    echo -e "${COLOR_CYAN}Installing CLI Power Setup (Target: ${TARGET})...${COLOR_RESET}"
-    backup_existing
-    install_binaries
-
+    echo -e "${COLOR_CYAN}Installing CLI Power Setup (Target: ${TARGET}, Models: ${SYNC_MODELS})...${COLOR_RESET}"
+    
     case "${TARGET}" in
         all)
+            backup_existing
+            install_binaries
             install_antigravity
             install_cursor
+            if [ "${SYNC_MODELS}" -eq 1 ]; then
+                install_models
+            fi
             ;;
         agy)
+            backup_existing
+            install_binaries
             install_antigravity
             ;;
         cursor)
+            backup_existing
+            install_binaries
             install_cursor
+            ;;
+        models)
+            install_binaries
+            install_models
             ;;
     esac
 

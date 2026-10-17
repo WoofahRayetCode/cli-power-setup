@@ -269,12 +269,36 @@ def get_ollama_disk_usage() -> tuple[str, str]:
     return total_size, avail_disk
 
 
+ULTRA_LARGE_MAP = {
+    "deepseek-r1:70b-iq2": "deepseek-r1-70b",
+    "qwen2.5:72b-iq2": "qwen-72b-instruct",
+    "llama3.3:70b-iq2": "llama-3.3-70b",
+    "llm4decompile:22b-q4": "llm4decompile-22b",
+    "blenderllm:7b-q4": "blenderllm-7b",
+}
+
+
 def get_hardware_telemetry() -> dict[str, str]:
+    import platform
     res = {
         "cpu_threads": str(os.cpu_count() or "Unknown"),
+        "cpu_model": "Unknown",
         "ram_gb": "Unknown",
-        "vram_mb": "Unknown",
+        "ram_avail_gb": "Unknown",
+        "gpu_name": "CPU Only",
+        "vram_mb": "N/A (CPU only)",
+        "platform": platform.platform(),
     }
+    # CPU Model
+    try:
+        with open("/proc/cpuinfo") as f:
+            for line in f:
+                if "model name" in line:
+                    res["cpu_model"] = line.split(":", 1)[1].strip()
+                    break
+    except Exception:
+        pass
+
     # RAM
     try:
         with open("/proc/meminfo", "r") as f:
@@ -282,22 +306,25 @@ def get_hardware_telemetry() -> dict[str, str]:
                 if line.startswith("MemTotal:"):
                     kb = int(line.split()[1])
                     res["ram_gb"] = f"{kb / (1024 * 1024):.1f} GB"
-                    break
+                elif line.startswith("MemAvailable:"):
+                    kb = int(line.split()[1])
+                    res["ram_avail_gb"] = f"{kb / (1024 * 1024):.1f} GB"
     except Exception:
         pass
 
     # VRAM via nvidia-smi
     try:
         out = subprocess.check_output(
-            ["nvidia-smi", "--query-gpu=memory.total,memory.free", "--format=csv,noheader,nounits"],
+            ["nvidia-smi", "--query-gpu=name,memory.total,memory.free", "--format=csv,noheader,nounits"],
             text=True,
             stderr=subprocess.DEVNULL,
         ).strip()
         if out:
-            total, free = [x.strip() for x in out.splitlines()[0].split(",")]
+            name, total, free = [x.strip() for x in out.splitlines()[0].split(",")]
+            res["gpu_name"] = name
             res["vram_mb"] = f"{free} MB free / {total} MB total"
     except Exception:
-        res["vram_mb"] = "N/A (CPU only)"
+        pass
 
     return res
 
@@ -309,6 +336,7 @@ def install_symlinks():
     links = {
         "local-coprocessor": REPO_ROOT / "config" / "skills" / "local-model-coprocessor" / "scripts" / "local_model_coprocessor.py",
         "setup-local-model-fleet": REPO_ROOT / "bin" / "setup-local-model-fleet",
+        "ultra-model-manager": REPO_ROOT / "bin" / "ultra-model-manager",
         "agy-omni-mode": REPO_ROOT / "bin" / "agy-omni-mode",
         "local-research-scout": REPO_ROOT / "bin" / "local-research-scout",
         "gemini-reasoning-tuner": REPO_ROOT / "bin" / "gemini-reasoning-tuner",
@@ -355,6 +383,15 @@ def build_custom_modelfiles():
 
 
 def pull_model(model_name: str) -> bool:
+    if model_name in ULTRA_LARGE_MAP:
+        ultra_key = ULTRA_LARGE_MAP[model_name]
+        ultra_bin = REPO_ROOT / "bin" / "ultra-model-manager"
+        print(f"\n{CYAN}[→] Downloading & optimizing ultra-large model {BOLD}{model_name}{RESET} via ultra-model-manager...{RESET}")
+        res = subprocess.run([sys.executable, str(ultra_bin), "download", ultra_key, "--optimize"])
+        return res.returncode == 0
+    elif model_name == "blender-architect:latest":
+        return build_custom_modelfiles()
+
     print(f"{CYAN}[→] Pulling {BOLD}{model_name}{RESET}...")
     try:
         proc = subprocess.Popen(["ollama", "pull", model_name], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
@@ -382,7 +419,7 @@ def print_status():
     installed = set(get_installed_models())
 
     print(f"\n{BOLD}{CYAN}=== Local Ollama Model Fleet Telemetry ==={RESET}")
-    print(f"  • Hardware Profile : {hw['cpu_threads']} CPU Threads | {hw['ram_gb']} System RAM | {hw['vram_mb']} VRAM")
+    print(f"  • Hardware Profile : {hw['cpu_threads']} CPU Threads ({hw['cpu_model']}) | {hw['ram_gb']} System RAM ({hw['ram_avail_gb']} avail) | {hw['vram_mb']} VRAM ({hw['gpu_name']})")
     print(f"  • Ollama Service   : {GREEN+'Online'+RESET if service_ok else RED+'Offline (systemctl start ollama)'+RESET}")
     print(f"  • Physical Storage : {BOLD}{size_str}{RESET} consumed on disk | {disk_str}")
     print(f"  • Installed Models : {len(installed)} / {len(ALL_MODELS)} models ready\n")
@@ -401,25 +438,51 @@ def print_status():
     print(f"Summary: {BOLD}{ready_count}/{len(ALL_MODELS)}{RESET} models installed and active.")
 
 
+def detect_system():
+    ultra_bin = REPO_ROOT / "bin" / "ultra-model-manager"
+    if ultra_bin.exists():
+        subprocess.run([sys.executable, str(ultra_bin), "detect"])
+    else:
+        hw = get_hardware_telemetry()
+        print(f"Detected: {hw['cpu_threads']} threads, {hw['ram_gb']} RAM, {hw['vram_mb']} VRAM")
+
+
+def reoptimize_models():
+    print(f"\n{BOLD}{CYAN}=== Re-Optimizing Modelfiles for Detected Hardware ==={RESET}")
+    build_custom_modelfiles()
+    ultra_bin = REPO_ROOT / "bin" / "ultra-model-manager"
+    if ultra_bin.exists():
+        subprocess.run([sys.executable, str(ultra_bin), "optimize-all"])
+    print(f"\n{GREEN}[✓] Hardware re-optimization complete!{RESET}")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Installer, synchronizer, and status inspector for the local Ollama language model fleet."
     )
     parser.add_argument("--status", action="store_true", help="Display installed models, physical storage usage, and hardware profile.")
     parser.add_argument("--tier", choices=list(FLEET_TIERS.keys()), help="Install models belonging to a specific functional tier.")
-    parser.add_argument("--all", action="store_true", help="Download and synchronize all 23 local models.")
+    parser.add_argument("--all", action="store_true", help="Download and synchronize all 37 local models.")
     parser.add_argument("--model", type=str, help="Download a specific individual model by name.")
     parser.add_argument("--build-custom", action="store_true", help="Build custom Modelfiles (e.g. blender-architect:latest).")
+    parser.add_argument("--optimize", "--reoptimize", action="store_true", dest="optimize", help="Dynamically re-optimize all Modelfiles for host CPU/GPU/RAM.")
+    parser.add_argument("--detect-system", action="store_true", help="Detect host system hardware profile and calculate optimal model allocations.")
     parser.add_argument("--setup-symlinks", action="store_true", help="Ensure local-coprocessor and setup-local-model-fleet are symlinked in ~/.local/bin.")
     parser.add_argument("--test", action="store_true", help="Execute rapid test inferences across code, math, and translation models.")
 
     args = parser.parse_args()
 
     # Default action if no flags provided is --status
-    if not any([args.status, args.tier, args.all, args.model, args.build_custom, args.setup_symlinks, args.test]):
+    if not any([args.status, args.tier, args.all, args.model, args.build_custom, args.optimize, args.detect_system, args.setup_symlinks, args.test]):
         print_status()
         install_symlinks()
         return
+
+    if args.detect_system:
+        detect_system()
+
+    if args.optimize:
+        reoptimize_models()
 
     if args.setup_symlinks:
         install_symlinks()
@@ -447,18 +510,15 @@ def main():
                 pull_model(m)
 
     if args.all:
-        print(f"\n{BOLD}{CYAN}=== Synchronizing Complete 23-Model Fleet ==={RESET}")
+        print(f"\n{BOLD}{CYAN}=== Synchronizing Complete 37-Model Fleet ==={RESET}")
+        detect_system()
         installed = set(get_installed_models())
         for m in ALL_MODELS:
-            if m == "blender-architect:latest":
-                if m not in installed:
-                    build_custom_modelfiles()
-                else:
-                    print(f"{GREEN}[✓]{RESET} {BOLD}{m}{RESET} already built.")
-            elif m in installed or f"{m}:latest" in installed:
+            if m in installed or f"{m}:latest" in installed:
                 print(f"{GREEN}[✓]{RESET} {BOLD}{m}{RESET} already installed.")
             else:
                 pull_model(m)
+        reoptimize_models()
         install_symlinks()
         print(f"\n{GREEN}[✓] Full fleet synchronization complete!{RESET}")
         print_status()

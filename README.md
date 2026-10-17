@@ -65,18 +65,22 @@ cd cli-power-setup
 Running `./install.sh` displays an interactive target menu:
 ```text
 CLI Power Setup Installer
-Select target environment:
+Select target installation option:
   1) Full Setup (Antigravity & Cursor) [Recommended]
-  2) Antigravity only (~/.gemini)
-  3) Cursor only (~/.cursor, ~/.cursorrules)
-  4) Exit
+  2) Full Setup + Local Model Fleet Download & Optimization (37 Models)
+  3) Antigravity only (~/.gemini)
+  4) Cursor only (~/.cursor, ~/.cursorrules)
+  5) Local Model Fleet Only (Hardware Detection, Download & Optimization)
+  6) Exit
 ```
 
 Or pass flags non-interactively in automated scripts:
 ```bash
-./install.sh --all     # Install for Google Antigravity and Cursor IDE
-./install.sh --agy     # Install for Google Antigravity only
-./install.sh --cursor  # Install for Cursor IDE only
+./install.sh --all          # Install for Google Antigravity and Cursor IDE
+./install.sh --with-models  # Full setup + download and hardware-optimize 37 models
+./install.sh --models       # Hardware detection, model download & dynamic optimization
+./install.sh --agy          # Install for Google Antigravity only
+./install.sh --cursor       # Install for Cursor IDE only
 ```
 
 ### What the Installer Does:
@@ -297,6 +301,12 @@ To prevent mid-week quota exhaustion and guarantee uninterrupted autonomous oper
 # Display live fleet status, hardware telemetry & disk usage
 setup-local-model-fleet --status
 
+# Detect host system hardware profile & calculate optimal model layer offloads
+setup-local-model-fleet --detect-system
+
+# Re-optimize all Modelfiles for host CPU threads, RAM, and GPU VRAM
+setup-local-model-fleet --optimize
+
 # Synchronize specific functional tiers or all 37 models
 setup-local-model-fleet --tier engine-porting    # Game engine migration models
 setup-local-model-fleet --tier ultra-large       # 70B-72B Titan models and specialists
@@ -318,21 +328,25 @@ local-coprocessor generate --task math --prompt "Derive critically damped spring
 
 Dedicated storage and hardware-layer split manager for **70B–405B parameter models** stored directly on the secondary high-speed NVMe drive (`/mnt/games/large-models/` with **1.35 TB free headroom**), completely isolating large weights from the root operating system drive:
 
-* **Hardware Optimization:** Every model is calibrated with importance-matrix (`IQ2_XXS` / `Q4_K_M`) quantization, 32-thread AMD Zen AVX-512 CPU execution, and automated GDDR7 VRAM layer offloading to the NVIDIA RTX 5060 (leaving safe headroom for desktop rendering and quantized `q4_0` KV cache).
+* **Dynamic System Detection:** Automatically inspects host CPU cores/threads, system RAM, GPU vendor (NVIDIA/AMD/Apple/Intel), total/free VRAM, and primary/secondary storage mounts.
+* **Hardware-Aware Layer Offloading:** Dynamically calculates exact VRAM layer allocations (`num_gpu`), CPU thread saturation (`num_thread`), context lengths (`num_ctx`), and batch sizes (`num_batch`) to prevent OOM errors while maximizing hardware throughput.
 * **Automated Parallel Downloader:** Leverages `aria2c` with 16 parallel connections to download ultra-large weights at over **220 MB/s** (~1.8 Gbps) with segmented resumption and SHA-256 integrity validation.
 
 ```bash
+# Detect system profile and calculate exact layer splits across CPU/GPU
+ultra-model-manager detect
+
 # Display repository status, stored GGUF files, and secondary drive headroom
 ultra-model-manager status
 
-# Download and register DeepSeek-R1 70B (IQ2_XXS) on secondary storage
+# Download and register all ultra-large models in one parallel run
+ultra-model-manager download-all --optimize
+
+# Re-optimize all Modelfiles and register in Ollama for current hardware
+ultra-model-manager optimize-all
+
+# Download and register a single model (e.g. DeepSeek-R1 70B IQ2_XXS)
 ultra-model-manager download deepseek-r1-70b --optimize
-
-# Download and register LLM4Decompile 22B for assembly-to-C reverse engineering
-ultra-model-manager download llm4decompile-22b --optimize
-
-# Download and register Qwen 2.5 72B for dense systems architecture and C++ porting
-ultra-model-manager download qwen-72b-instruct --optimize
 
 # Run an interactive prompt with any ultra-large model
 ultra-model-manager run deepseek-r1-70b --prompt "Verify 64-bit struct padding for X-Ray vertex buffer"

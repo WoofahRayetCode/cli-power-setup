@@ -4,6 +4,12 @@
     CLI Power Setup Windows 10/11 Installer (install.ps1)
     Deploys all 300+ skills, rules, statuslines, and CLI shims across Google Antigravity (agy) and Cursor IDE on Windows.
 #>
+[CmdletBinding()]
+param(
+    [switch]$WithModels,
+    [switch]$ModelsOnly
+)
+
 $ErrorActionPreference = "Stop"
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
@@ -20,7 +26,9 @@ $PyTools = @(
     "agy-cheatsheet", "agy-mic-button", "repo-auto-sync", "skill-evolve", "skill-optimize", "skills-audit-update",
     "steam-mod-scanner", "adaptive-model-router", "agy-doctor", "agy-init",
     "agy-context", "agy-quota-statusline", "slice-reader",
-    "token-guard", "cursor-rules-sync"
+    "token-guard", "cursor-rules-sync", "setup-local-model-fleet", "ultra-model-manager",
+    "model-quant-optimizer", "agy-omni-mode", "local-coprocessor", "gemini-reasoning-tuner",
+    "voice-prompt-optimizer", "local-research-scout"
 )
 
 foreach ($tool in $PyTools) {
@@ -46,8 +54,16 @@ if (Test-Path (Join-Path $ScriptDir "config\token_ledger.json")) {
 }
 
 # 3. Synchronize all skills across Antigravity and Cursor
-Write-Host "[→] Synchronizing skills and Cursor .mdc rules..." -ForegroundColor Cyan
-python (Join-Path $BinDest "skills-audit-update.py") --sync
-python (Join-Path $BinDest "agy-cheatsheet.py") --update
+if (-not $ModelsOnly) {
+    Write-Host "[→] Synchronizing skills and Cursor .mdc rules..." -ForegroundColor Cyan
+    python (Join-Path $BinDest "skills-audit-update.py") --sync
+    python (Join-Path $BinDest "agy-cheatsheet.py") --update
+}
+
+# 4. Optional: Download and hardware-optimize local model fleet
+if ($WithModels -or $ModelsOnly) {
+    Write-Host "[→] Detecting host system hardware and synchronizing local model fleet (37 models)..." -ForegroundColor Cyan
+    python (Join-Path $BinDest "setup-local-model-fleet.py") --all
+}
 
 Write-Host "[✓] CLI Power Setup installed on Windows! Ensure '$BinDest' is in your User PATH." -ForegroundColor Green
