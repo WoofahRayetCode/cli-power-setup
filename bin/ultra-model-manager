@@ -82,6 +82,22 @@ MODELS = {
         "temp": 0.1,
         "template": "raw",
         "system_prompt": "You are LLM4Decompile, a specialized reverse engineering AI. You decompile raw assembly and disassembly into clean, structured, type-safe C/C++ code."
+    },
+    "blenderllm-7b": {
+        "name": "BlenderLLM-7B",
+        "ollama_tag": "blenderllm:7b-q4",
+        "params": "7.6B",
+        "role": "CAD & Procedural 3D Mesh Scripting in Blender (BlendNet)",
+        "repo": "mradermacher/BlenderLLM-GGUF",
+        "filename": "BlenderLLM.Q4_K_M.gguf",
+        "quant": "Q4_K_M",
+        "size_gb": 4.68,
+        "ram_gb": 5.2,
+        "vram_layers": 33,
+        "num_ctx": 16384,
+        "temp": 0.2,
+        "template": "chatml",
+        "system_prompt": "You are BlenderLLM, a specialized 3D CAD modeling AI. You translate natural language prompts into executable, clean Blender Python (bpy) scripts using bmesh, modifier stacks, and material nodes."
     }
 }
 
@@ -184,6 +200,10 @@ def cmd_download(args):
             "-x", "16",
             "-s", "16",
             "-k", "2M",
+            "--max-tries=20",
+            "--retry-wait=2",
+            "--connect-timeout=15",
+            "--timeout=30",
             "--file-allocation=none",
             "-d", GGUF_DIR,
             "-o", m["filename"],

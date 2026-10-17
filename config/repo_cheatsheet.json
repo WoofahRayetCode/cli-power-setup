@@ -1,16 +1,16 @@
 {
-  "updated_at": "2026-10-17T12:46:53.569373",
+  "updated_at": "2026-10-17T13:24:18.090572",
   "total_repos": 33,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792266397.5858068,
-      "age_str": "15s ago",
-      "dirty_count": 7,
+      "activity_ts": 1792268026.1280296,
+      "age_str": "10m ago",
+      "dirty_count": 6,
       "dirty_exts": {
-        ".md": 2
+        ".md": 1
       },
       "recent_exts": [
         ".md",
@@ -21,7 +21,7 @@
         ".mdc",
         ".py"
       ],
-      "last_commit": "feat(quant): add model-quant-optimizer and ultra-l",
+      "last_commit": "feat(models): add ultra-model-manager with seconda",
       "stack": "AI Skills / Python / Bash",
       "work_now": "CLI Daemons & Skills",
       "plan_short": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",
@@ -41,7 +41,7 @@
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
       "activity_ts": 1792265834.2053857,
-      "age_str": "9m ago",
+      "age_str": "47m ago",
       "dirty_count": 205,
       "dirty_exts": {
         ".ogf": 3,
@@ -122,7 +122,7 @@
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
       "activity_ts": 1792265777.8859844,
-      "age_str": "10m ago",
+      "age_str": "48m ago",
       "dirty_count": 42,
       "dirty_exts": {
         ".cpp": 34,
@@ -193,7 +193,7 @@
       "path": "~/Documents/GitHub/AegisVault",
       "is_git": true,
       "activity_ts": 1792198538.3066192,
-      "age_str": "18h ago",
+      "age_str": "19h ago",
       "dirty_count": 36,
       "dirty_exts": {
         ".md": 1,
@@ -866,7 +866,7 @@
       "path": "~/Documents/GitHub/CargoCamp",
       "is_git": true,
       "activity_ts": 1791488951.0,
-      "age_str": "8d ago",
+      "age_str": "9d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [

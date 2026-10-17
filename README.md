@@ -1,10 +1,10 @@
 # CLI Power Setup (`cli-power-setup`)
 
 [![Active Skills](https://img.shields.io/badge/Skills-314%20Active-brightgreen.svg)](#-categorized-skills-directory-314-skills)
-[![Local Fleet](https://img.shields.io/badge/Local%20Fleet-31%20Models%20(Ollama)-blue.svg)](#-zero-quota-local-language-model-fleet-31-models-0-cloud-tokens)
-[![Fleet Disk Size](https://img.shields.io/badge/Fleet%20Disk%20Size-198%20GB%20(31%20Models)-blueviolet.svg)](#-zero-quota-local-language-model-fleet-31-models-0-cloud-tokens)
-[![Secondary NVMe](https://img.shields.io/badge/Secondary%20NVMe-1.4%20TB%20Headroom%20(/mnt/games)-success.svg)](#-secondary-drive-ultra-large-model-repository--hardware-optimizer)
-[![Hardware Offload](https://img.shields.io/badge/Hardware-32T%20CPU%20%2B%20RTX%205060%20CUDA-orange.svg)](#-zero-quota-local-language-model-fleet-31-models-0-cloud-tokens)
+[![Local Fleet](https://img.shields.io/badge/Local%20Fleet-34%20Models%20(Ollama)-blue.svg)](#-zero-quota-local-language-model-fleet-34-models-0-cloud-tokens)
+[![Fleet Disk Size](https://img.shields.io/badge/Fleet%20Disk%20Size-245%20GB%20(34%20Models)-blueviolet.svg)](#-zero-quota-local-language-model-fleet-34-models-0-cloud-tokens)
+[![Secondary NVMe](https://img.shields.io/badge/Secondary%20NVMe-1.3%20TB%20Headroom%20(/mnt/games)-success.svg)](#-secondary-drive-ultra-large-model-repository--hardware-optimizer)
+[![Hardware Offload](https://img.shields.io/badge/Hardware-32T%20CPU%20%2B%20RTX%205060%20CUDA-orange.svg)](#-zero-quota-local-language-model-fleet-34-models-0-cloud-tokens)
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)](#-license)
 
 A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)** and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
@@ -18,9 +18,9 @@ This repository organizes **316 autonomous agent skills**, 316 modular Cursor ru
 Jump directly to any section of the documentation:
 
 * [⚡ Quick Start & Installation](#-quick-start)
-* [🧠 Zero-Quota Local Language Model Fleet (31 Models)](#-zero-quota-local-language-model-fleet-31-models-0-cloud-tokens)
+* [🧠 Zero-Quota Local Language Model Fleet (34 Models)](#-zero-quota-local-language-model-fleet-34-models-0-cloud-tokens)
   * [Key Benefits & Token Savings](#-key-benefits--overall-usage-savings)
-  * [Local Fleet Matrix (Collapsible Table)](#-complete-31-model-local-fleet-matrix)
+  * [Local Fleet Matrix (Collapsible Table)](#-complete-34-model-local-fleet-matrix)
   * [Secondary Drive Ultra-Large Model Repository (`ultra-model-manager`)](#-secondary-drive-ultra-large-model-repository--hardware-optimizer)
 * [🚀 Dynamic AGY Omni-Auto Mode (`agy-omni-mode`)](#-dynamic-agy-omni-auto-mode-agy-omni-mode)
 * [🔎 Zero-Quota Local Research Scout (`local-research-scout`)](#-zero-quota-local-research-scout-local-research-scout)
@@ -84,12 +84,15 @@ Or pass flags non-interactively in automated scripts:
 
 ---
 
-## 🧠 Zero-Quota Local Language Model Fleet (29 Models, 0 Cloud Tokens)
+## 🧠 Zero-Quota Local Language Model Fleet (34 Models, 0 Cloud Tokens)
 
-A production-grade fleet of **29 specialized open-weights models**—including **state-of-the-art Mixture-of-Experts (MoE)** and **heavyweight 14B–32B frontier planners**—running locally on your laptop via Ollama with automated **hybrid NVIDIA RTX 5060 GDDR7 VRAM + 32-thread DDR5 RAM layer offloading**.
+A production-grade fleet of **34 specialized open-weights models**—including **ultra-large 70B–72B frontier planners**, **state-of-the-art Mixture-of-Experts (MoE)**, and **specialized Blender 3D and decompilation models**—running locally on your laptop via Ollama with automated **hybrid NVIDIA RTX 5060 GDDR7 VRAM + 32-thread DDR5 RAM layer offloading**.
 
 > [!IMPORTANT]
-> **💾 Total Storage Footprint: `166 GB`** physical disk consumption across all 29 models on NVMe SSD (`/var/lib/ollama/blobs/`), with **`523 GB` free headroom** remaining (46% disk used of 950 GB). Deduplicated GGUF layers are shared between model variants to minimize drive wear.
+> **💾 Total Storage Footprint: `245 GB`** physical disk consumption across all 34 models:
+> • **Primary NVMe (`/var/lib/ollama/blobs/`):** `208 GB` active weights, **`444 GB` free headroom** (54% disk used of 950 GB).
+> • **Secondary High-Speed NVMe (`/mnt/games/large-models/`):** `76 GB` master GGUF archive, **`1.30 TB` free headroom** (29% disk used of 1.8 TB).
+> All ultra-large models are importance-matrix (imatrix) quantized (`IQ2_XXS`, `Q4_K_M`) and layer-split to execute within 30.4 GB RAM + 8 GB VRAM with zero out-of-memory faults.
 
 ### 🌟 Key Benefits & Overall Usage Savings
 
@@ -112,15 +115,18 @@ A production-grade fleet of **29 specialized open-weights models**—including *
 5. **Complete Air-Gapped Privacy & Offline Autonomy:**
    - Proprietary game source code, closed-source reverse-engineering disassembly, and sensitive client documents never leave your physical machine.
 
-### 📋 Complete 31-Model Local Fleet Matrix
+### 📋 Complete 34-Model Local Fleet Matrix
 
 <details>
-<summary><b>🔍 Click to View Complete 31-Model Local Fleet Specifications & Memory Footprint</b></summary>
+<summary><b>🔍 Click to View Complete 34-Model Local Fleet Specifications & Memory Footprint</b></summary>
 
 | Functional Tier | Primary Model | Fallback | Memory | Specialization & Capabilities |
 | :--- | :--- | :--- | :--- | :--- |
-| **`ultra-large`** | **`deepseek-r1:70b-iq2`** | `llm4decompile:22b-q4` | ~19.1–22.4 GB VRAM+RAM | **Titan 70B Deep Reasoning.** Secondary NVMe storage (`/mnt/games`), 18-layer VRAM offload (`--task reason`) |
-| **`decompile-re`** | **`llm4decompile:22b-q4`** | `deepseek-coder-v2:16b` | ~12.4 GB VRAM+RAM | **Binary Reverse Engineering.** Assembly-to-C decompilation for REA MCP & Ghidra (`--task re`) |
+| **`ultra-reasoning`** | **`deepseek-r1:70b-iq2`** | `deepseek-r1:32b` | ~21.2 GB VRAM+RAM | **Titan 70B Formal Chain-of-Thought.** Struct padding, invariant verification, 64-bit memory proofs (`--task reason`) |
+| **`ultra-systems`** | **`qwen2.5:72b-iq2`** | `qwen2.5-coder:32b` | ~25.5 GB VRAM+RAM | **Titan 72B Systems Architect.** C++20 refactoring, engine porting, large codebase logic, and 3D geometry (`--task plan`) |
+| **`ultra-agent`** | **`llama3.3:70b-iq2`** | `qwen2.5:32b` | ~21.5 GB VRAM+RAM | **Titan 70B Generalist.** Multi-turn tool calling, complex instruction execution, and structured extraction (`--task tool`) |
+| **`decompile-re`** | **`llm4decompile:22b-q4`** | `deepseek-coder-v2:16b` | ~12.4 GB VRAM+RAM | **Binary Reverse Engineering.** Assembly-to-C decompilation for REA MCP, Ghidra & x64dbg (`--task re`) |
+| **`blender-cad`** | **`blenderllm:7b-q4`** | `blender-architect:latest` | ~4.7 GB VRAM | **CAD & Procedural 3D Mesh Scripting.** Trained on `BlendNet` for instant natural language $\rightarrow$ `bpy` scripts (`--task blender`) |
 | **`engine-porting`** | **`deepseek-coder-v2:16b`** | `qwen2.5-coder:32b` | ~6.0 GB VRAM + RAM | **#1 Game Engine Porting.** 32-to-64-bit pointer math, struct alignment, HLSL/GLSL shaders (`--task port`) |
 | **`frontier-planners`** | **`qwen2.5-coder:32b`** | `deepseek-r1:32b` | ~7.5 GB VRAM + RAM | **Heavyweight 32B Code Planner.** SWE-bench leader, large refactors, C++20 modernizations (`--task plan`) |
 | **`reasoning`** | **`deepseek-r1:32b`** | `deepseek-r1:14b` / `8b` | ~5.2–7.5 GB VRAM | **32B Deep Chain-of-Thought.** Architectural verification, invariant proofs, root-cause triage (`--task reason`) |

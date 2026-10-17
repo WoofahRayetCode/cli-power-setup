@@ -119,7 +119,7 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
             if cand in installed:
                 return cand
     elif task == "blender":
-        for cand in ("blender-architect:latest", "qwen2.5-coder:7b", "deepseek-r1:8b"):
+        for cand in ("blenderllm:7b-q4", "blender-architect:latest", "qwen2.5:72b-iq2", "qwen2.5-coder:7b", "deepseek-r1:8b"):
             if cand in installed:
                 return cand
     elif task == "vision":
