@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# tandem-yolo: Launch Argon, Fable, and a Control/Dispatch Pane in a 3-way layout
+# tandem-yolo: Launch Argon, Fable, and a Control/Dispatch Pane side-by-side-by-side (vertical columns)
 # Usage: tandem-yolo [/path/to/project/root]
 
 set -euo pipefail
@@ -21,21 +21,19 @@ fi
 # Kill previous session with same name if dead or dangling
 tmux kill-session -t "${SESSION_NAME}" 2>/dev/null || true
 
-# 1. Create main session with Argon in Pane 0 (Top-Left)
+# 1. Create main session with Argon in Pane 0 (Column 1 - Left)
 tmux new-session -d -s "${SESSION_NAME}" -n "tandem" "cd '${ARGON_DIR}' && agy-yolo"
 
-# 2. Split horizontally to put Fable in Pane 1 (Top-Right)
+# 2. Split vertically to put Fable in Pane 1 (Column 2 - Middle)
 tmux split-window -h -t "${SESSION_NAME}:0" "cd '${FABLE_DIR}' && claude-yolo"
 
-# 3. Split bottom across both to create Pane 2 (Control & Command Dispatcher)
-tmux split-window -v -t "${SESSION_NAME}:0.0" -p 25 "cd '${REPO_ROOT}' && echo -e '=== 🎮 TANDEM COMMAND & DISPATCH CONSOLE ===\nCommands:\n  tandem-dispatch --to checkpoint        # Resume both from active checkpoints\n  tandem-dispatch --to argon \"<prompt>\"   # Send task to Argon\n  tandem-dispatch --to fable \"<prompt>\"   # Send task to Fable\n  tandem-dispatch --to both \"<prompt>\"    # Send task to both\n===========================================' && exec bash"
+# 3. Split vertically again to put Controller in Pane 2 (Column 3 - Right)
+tmux split-window -h -t "${SESSION_NAME}:0" "cd '${REPO_ROOT}' && echo -e '=== 🎮 TANDEM DISPATCH ===\nCommands:\n  tandem-dispatch \"<task>\"\n  tandem-dispatch --to checkpoint\n  tandem-dispatch --to argon \"<prompt>\"\n  tandem-dispatch --to fable \"<prompt>\"\n==========================' && exec bash"
 
-# Set optimal layout: Top half split 50/50 (Argon | Fable), bottom strip for Controller
-tmux select-layout -t "${SESSION_NAME}:0" main-horizontal
-# Adjust pane sizes: top 75% for agents, bottom 25% for user commands
-tmux resize-pane -t "${SESSION_NAME}:0.2" -y 10
+# Set pure 33% / 33% / 33% vertical column layout (Side-by-Side-by-Side)
+tmux select-layout -t "${SESSION_NAME}:0" even-horizontal
 
-# Enable mouse support for clicking into panes and resizing
+# Enable mouse support for clicking into panes and dragging border lines
 tmux set-option -t "${SESSION_NAME}" mouse on
 
 # Attach to session
