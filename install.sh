@@ -149,7 +149,7 @@ install_binaries() {
         log_done "Installed executable: ${BIN_DEST}/cursor-rules-sync"
     fi
 
-    for new_bin in agy-init agy-doctor agy-context adaptive-model-router agy-cheatsheet repo-auto-sync skill-evolve skill-optimize steam-mod-scanner; do
+    for new_bin in agy-init agy-doctor agy-context adaptive-model-router agy-cheatsheet agy-mic-button repo-auto-sync skill-evolve skill-optimize steam-mod-scanner; do
         if [ -f "${SCRIPT_DIR}/bin/${new_bin}" ]; then
             cp "${SCRIPT_DIR}/bin/${new_bin}" "${BIN_DEST}/${new_bin}"
             chmod +x "${BIN_DEST}/${new_bin}"

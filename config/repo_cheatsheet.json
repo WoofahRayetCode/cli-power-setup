@@ -1,37 +1,12 @@
 {
-  "updated_at": "2026-10-16T21:02:29.994349",
+  "updated_at": "2026-10-16T21:08:07.364486",
   "total_repos": 32,
   "repos": [
-    {
-      "name": "cli-power-setup",
-      "path": "~/Documents/GitHub/cli-power-setup",
-      "is_git": true,
-      "activity_ts": 1792209749.5600746,
-      "age_str": "0s ago",
-      "dirty_count": 4,
-      "dirty_exts": {
-        ".mdc": 2,
-        ".json": 1,
-        ".py": 1
-      },
-      "top_exts": [
-        ".mdc",
-        ".md",
-        ".py"
-      ],
-      "last_commit": "feat(skill-optimize): add autonomous-skill-ecosyst",
-      "stack": "AI Skills / Python / Bash",
-      "routine": "Flash \u2022 Low (Sync/Docs)",
-      "deep": "Argon \u2022 High (Orchestration)",
-      "live_rec": "Argon \u2022 Med",
-      "live_reason": "Multi-tool engineering",
-      "hw": "Local AST/RAG + 32-Thr"
-    },
     {
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792209749.3636825,
+      "activity_ts": 1792210087.2158237,
       "age_str": "0s ago",
       "dirty_count": 16,
       "dirty_exts": {
@@ -101,6 +76,33 @@
       "live_rec": "Argon\u2022High+Flash",
       "live_reason": "Argon (C++/64b) + Flash Swarm (LTX)",
       "hw": "32-Thr CMake + /dev/shm"
+    },
+    {
+      "name": "cli-power-setup",
+      "path": "~/Documents/GitHub/cli-power-setup",
+      "is_git": true,
+      "activity_ts": 1792210086.9427688,
+      "age_str": "0s ago",
+      "dirty_count": 11,
+      "dirty_exts": {
+        ".mdc": 2,
+        ".json": 2,
+        ".md": 1,
+        ".ps1": 1,
+        ".sh": 1
+      },
+      "top_exts": [
+        ".mdc",
+        ".md",
+        ".py"
+      ],
+      "last_commit": "feat(skill-evolve): auto-sync 'autonomous-skill-ec",
+      "stack": "AI Skills / Python / Bash",
+      "routine": "Flash \u2022 Low (Sync/Docs)",
+      "deep": "Argon \u2022 High (Orchestration)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "Multi-tool engineering",
+      "hw": "Local AST/RAG + 32-Thr"
     },
     {
       "name": "AegisVault",

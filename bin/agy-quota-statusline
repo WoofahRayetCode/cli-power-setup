@@ -404,9 +404,44 @@ def main():
         except Exception:
             pass
 
-    # 7. Workspace, Git & Dynamic Bottom-of-Statusline Cheat Sheet
+    # 7. Workspace, Git, Mic Pill & Dynamic Bottom-of-Statusline Cheat Sheet
     cwd = payload.get("current_dir") or payload.get("project_dir") or os.getcwd()
     git_seg = get_git_info(cwd)
+
+    # Check & auto-ensure Clickable Floating Mic Button (`agy-mic-button`) is active
+    mic_seg = "🎙️ Mic: Ready"
+    try:
+        tmp_dir = Path(tempfile.gettempdir())
+        mic_pid_file = tmp_dir / "agy_mic_button.pid"
+        mic_state_file = tmp_dir / "agy_mic_state.json"
+        mic_state = {}
+        if mic_state_file.is_file():
+            mic_state = json.loads(mic_state_file.read_text(encoding="utf-8"))
+        mic_running = False
+        if mic_pid_file.is_file():
+            try:
+                os.kill(int(mic_pid_file.read_text(encoding="utf-8").strip()), 0)
+                mic_running = True
+            except Exception:
+                pass
+        if not mic_running and not mic_state.get("closed_by_user") and shutil.which("agy-mic-button"):
+            subprocess.Popen(
+                ["agy-mic-button"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                start_new_session=True,
+            )
+            mic_running = True
+        if mic_state.get("recording"):
+            mic_seg = "🔴 MIC LIVE (Click Pill to Stop)"
+        elif mic_running:
+            auto_tag = "•Auto" if mic_state.get("auto_send") else ""
+            mic_seg = f"🎙️ Mic{auto_tag}"
+        else:
+            mic_seg = ""
+    except Exception:
+        pass
+
     cs_active_segs = []
     cs_fleet_segs = []
     try:
@@ -433,6 +468,7 @@ def main():
         global_saved_seg,
         turn_seg,
         git_seg,
+        mic_seg,
     ]
     segments = [s for s in segments if s]
 

@@ -2488,10 +2488,10 @@
     "voice-speech-audio-synthesis": {
       "description": "Speech-to-text transcription via Whisper, natural voice generation using Piper/Kokoro/OpenAI TTS, game NPC dialogue synthesis, and subtitle timing.",
       "related": [
-        "ai-3d-mesh-generation",
         "stalker-spawn-entity-indexer",
+        "youtube-shorts-video-automation",
         "game-engine-3d-budget-profiler",
-        "frontier-image-studio"
+        "ai-3d-mesh-generation"
       ]
     },
     "vulkan-gpu-compute": {
@@ -2652,8 +2652,8 @@
       "related": [
         "video-production-automation",
         "game-exploratory-fuzzing",
-        "android-device-automation",
-        "game-qa-playtest-controller"
+        "voice-speech-audio-synthesis",
+        "android-device-automation"
       ]
     },
     "zoneforge-cloud-sync-governor": {

@@ -29,6 +29,16 @@ EOF
 
 ---
 
+## 🖱️ 1b. Clickable Floating AGY Terminal Mic Button (`agy-mic-button`)
+
+Instead of pressing `F5` or typing `/voice`, `agy-mic-button` (`~/.local/bin/agy-mic-button`) provides a sleek, frameless, non-focus-stealing floating pill (`[⋮⋮ AGY | 🎙️ Talk | ⏎ Send | ⚡Auto]`) docked at the bottom-right of your screen:
+- **`🎙️ Talk` / `🔴 Stop (0:00)`:** Click once to send `F5` (`\x1b[15~`) to your active `agy` Konsole/tmux/Windows Terminal session and start live `/voice` speech dictation. Click again to stop recording.
+- **`⏎ Send`:** Click to send `Enter` (`\r`) to submit the dictated prompt with the mouse.
+- **`⚡Auto:ON/OFF`:** When toggled ON, clicking `🔴 Stop` automatically submits (`Enter`) 0.85s after transcription finishes for 100% mouse-only conversation.
+- **Auto-Launch:** Automatically launched by `agy-quota-statusline`, `agy-yolo`, and `agy-turbo` (or manually via `agy-mic-button`).
+
+---
+
 ## 🗣️ 2. Offline Neural Voice Generation (Piper / Kokoro TTS)
 
 Generate natural human voices locally without external cloud API fees:

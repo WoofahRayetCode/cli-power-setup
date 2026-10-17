@@ -1,0 +1,470 @@
+#!/usr/bin/env python3
+"""
+agy-mic-button: Clickable Floating Voice Dictation Mic Pill for Antigravity (agy) Terminal
+Provides a sleek, frameless, non-focus-stealing clickable [🎙️ Talk] + [⏎ Send] + [⚡ Auto] pill
+that triggers agy's native `/voice` (F5) speech-to-text dictation in KDE Konsole, tmux, Kitty,
+and Windows 10/11 Terminal without touching the keyboard.
+"""
+
+import argparse
+import json
+import os
+from pathlib import Path
+import shutil
+import signal
+import subprocess
+import sys
+import tempfile
+import time
+
+IS_WINDOWS = os.name == "nt"
+TMP_DIR = Path(tempfile.gettempdir())
+PID_FILE = TMP_DIR / "agy_mic_button.pid"
+STATE_FILE = TMP_DIR / "agy_mic_state.json"
+
+
+def write_state(
+    recording: bool, auto_send: bool = False, start_ts: float = 0.0, closed_by_user: bool = False
+) -> None:
+    try:
+        STATE_FILE.write_text(
+            json.dumps(
+                {
+                    "recording": recording,
+                    "auto_send": auto_send,
+                    "start_ts": start_ts,
+                    "closed_by_user": closed_by_user,
+                    "updated_at": time.time(),
+                }
+            ),
+            encoding="utf-8",
+        )
+    except Exception:
+        pass
+
+
+def send_key_to_agy(key_type: str = "F5") -> tuple[bool, str]:
+    """
+    Deliver F5 (\x1b[15~) or Enter (\r) directly to the active `agy` terminal session.
+    Supports:
+    1. KDE Konsole via D-Bus (`qdbus6 org.kde.konsole-* /Sessions/N org.kde.konsole.Session.sendText`)
+    2. tmux panes running `agy` (`tmux send-keys -t <pane> F5` or `Enter`)
+    3. Kitty remote control (`kitty @ send-text`)
+    4. Windows 10/11 `keybd_event` (`VK_F5` / `VK_RETURN`)
+    """
+    seq = "\x1b[15~" if key_type == "F5" else "\r"
+    targets_hit = []
+
+    if IS_WINDOWS:
+        try:
+            import ctypes
+            vk = 0x74 if key_type == "F5" else 0x0D  # VK_F5 or VK_RETURN
+            ctypes.windll.user32.keybd_event(vk, 0, 0, 0)
+            time.sleep(0.02)
+            ctypes.windll.user32.keybd_event(vk, 0, 2, 0)
+            return True, "Win32 VK_F5"
+        except Exception as e:
+            return False, str(e)
+
+    # 1. KDE Konsole D-Bus inspection (prefer session with 'agy' in title or foreground process)
+    qdbus_bin = shutil.which("qdbus6") or shutil.which("qdbus")
+    if qdbus_bin:
+        try:
+            svcs = subprocess.check_output([qdbus_bin], text=True, stderr=subprocess.DEVNULL).splitlines()
+            konsole_svcs = [s.strip() for s in svcs if "org.kde.konsole" in s]
+            fallback_target = None
+            for svc in konsole_svcs:
+                sessions_out = subprocess.check_output(
+                    [qdbus_bin, svc], text=True, stderr=subprocess.DEVNULL
+                ).splitlines()
+                for s_path in sessions_out:
+                    s_path = s_path.strip()
+                    if not s_path.startswith("/Sessions/"):
+                        continue
+                    if fallback_target is None:
+                        fallback_target = (svc, s_path)
+                    title = subprocess.run(
+                        [qdbus_bin, svc, s_path, "org.kde.konsole.Session.title", "1"],
+                        capture_output=True,
+                        text=True,
+                    ).stdout.strip().lower()
+                    if "agy" in title or "antigravity" in title:
+                        subprocess.run(
+                            [qdbus_bin, svc, s_path, "org.kde.konsole.Session.sendText", seq],
+                            stdout=subprocess.DEVNULL,
+                            stderr=subprocess.DEVNULL,
+                            check=False,
+                        )
+                        targets_hit.append(f"Konsole({s_path})")
+            if not targets_hit and fallback_target:
+                svc, s_path = fallback_target
+                subprocess.run(
+                    [qdbus_bin, svc, s_path, "org.kde.konsole.Session.sendText", seq],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                    check=False,
+                )
+                targets_hit.append(f"Konsole({s_path})")
+        except Exception:
+            pass
+
+    # 2. If no Konsole session was hit, check tmux panes running `agy`
+    if not targets_hit and shutil.which("tmux"):
+        try:
+            panes = subprocess.check_output(
+                ["tmux", "list-panes", "-a", "-F", "#{pane_id} #{pane_current_command}"],
+                text=True,
+                stderr=subprocess.DEVNULL,
+            ).splitlines()
+            for line in panes:
+                parts = line.strip().split(None, 1)
+                if len(parts) == 2 and "agy" in parts[1].lower():
+                    tmux_key = "F5" if key_type == "F5" else "Enter"
+                    subprocess.run(
+                        ["tmux", "send-keys", "-t", parts[0], tmux_key],
+                        stdout=subprocess.DEVNULL,
+                        stderr=subprocess.DEVNULL,
+                        check=False,
+                    )
+                    targets_hit.append(f"tmux({parts[0]})")
+                    break
+        except Exception:
+            pass
+
+    if targets_hit:
+        return True, ", ".join(targets_hit)
+    return False, "No active agy terminal found"
+
+
+def is_already_running() -> int | None:
+    if not PID_FILE.is_file():
+        return None
+    try:
+        pid = int(PID_FILE.read_text(encoding="utf-8").strip())
+        os.kill(pid, 0)
+        return pid
+    except Exception:
+        try:
+            PID_FILE.unlink()
+        except OSError:
+            pass
+        return None
+
+
+def stop_existing() -> bool:
+    pid = is_already_running()
+    if not pid:
+        write_state(False, False)
+        return False
+    try:
+        os.kill(pid, signal.SIGTERM)
+    except OSError:
+        pass
+    try:
+        PID_FILE.unlink()
+    except OSError:
+        pass
+    write_state(False, False)
+    return True
+
+
+def run_gui() -> None:
+    from PySide6.QtCore import Qt, QTimer, QPoint
+    from PySide6.QtGui import QFont, QCursor
+    from PySide6.QtWidgets import (
+        QApplication,
+        QHBoxLayout,
+        QLabel,
+        QPushButton,
+        QWidget,
+    )
+
+    app = QApplication(sys.argv)
+    app.setApplicationName("AGY Mic Button")
+
+    class MicPillWindow(QWidget):
+        def __init__(self) -> None:
+            super().__init__()
+            self.recording = False
+            self.auto_send = False
+            self.record_start = 0.0
+            self.drag_pos: QPoint | None = None
+
+            # Frameless, always-on-top, tool window that NEVER steals keyboard focus from terminal
+            flags = (
+                Qt.WindowType.FramelessWindowHint
+                | Qt.WindowType.WindowStaysOnTopHint
+                | Qt.WindowType.Tool
+                | Qt.WindowType.WindowDoesNotAcceptFocus
+            )
+            self.setWindowFlags(flags)
+            self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground, True)
+            self.setAttribute(Qt.WidgetAttribute.WA_ShowWithoutActivating, True)
+
+            self.container = QWidget(self)
+            self.container.setObjectName("pillContainer")
+            layout = QHBoxLayout(self.container)
+            layout.setContentsMargins(10, 6, 10, 6)
+            layout.setSpacing(6)
+
+            # Drag grip label
+            self.grip = QLabel("⋮⋮ AGY")
+            self.grip.setFont(QFont("Sans Serif", 9, QFont.Weight.Bold))
+            self.grip.setStyleSheet("color: #88c0d0; padding-right: 2px;")
+            self.grip.setCursor(QCursor(Qt.CursorShape.SizeAllCursor))
+            self.grip.setToolTip("Drag to move AGY Mic Pill anywhere on screen")
+            layout.addWidget(self.grip)
+
+            # Talk / Stop Mic button
+            self.mic_btn = QPushButton("🎙️ Talk")
+            self.mic_btn.setFont(QFont("Sans Serif", 10, QFont.Weight.Bold))
+            self.mic_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+            self.mic_btn.setToolTip("Click to start/stop AGY voice dictation (sends F5 / /voice)")
+            self.mic_btn.clicked.connect(self.toggle_mic)
+            layout.addWidget(self.mic_btn)
+
+            # Send (Enter) button
+            self.send_btn = QPushButton("⏎ Send")
+            self.send_btn.setFont(QFont("Sans Serif", 9, QFont.Weight.Bold))
+            self.send_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+            self.send_btn.setToolTip("Click to submit prompt (sends Enter to AGY terminal)")
+            self.send_btn.clicked.connect(self.send_enter)
+            layout.addWidget(self.send_btn)
+
+            # Auto-Send toggle button
+            self.auto_btn = QPushButton("⚡Auto:OFF")
+            self.auto_btn.setFont(QFont("Sans Serif", 8, QFont.Weight.Bold))
+            self.auto_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+            self.auto_btn.setToolTip("When ON, stopping the mic automatically presses Enter after 0.8s")
+            self.auto_btn.clicked.connect(self.toggle_auto)
+            layout.addWidget(self.auto_btn)
+
+            # Close button
+            self.close_btn = QPushButton("×")
+            self.close_btn.setFont(QFont("Sans Serif", 10, QFont.Weight.Bold))
+            self.close_btn.setFixedWidth(22)
+            self.close_btn.setCursor(QCursor(Qt.CursorShape.PointingHandCursor))
+            self.close_btn.setToolTip("Close AGY Mic Button (re-launch anytime with `agy-mic-button`)")
+            self.close_btn.clicked.connect(self.close_cleanly)
+            layout.addWidget(self.close_btn)
+
+            outer = QHBoxLayout(self)
+            outer.setContentsMargins(0, 0, 0, 0)
+            outer.addWidget(self.container)
+
+            self.timer = QTimer(self)
+            self.timer.timeout.connect(self.tick_timer)
+            self.timer.start(500)
+
+            self.update_styles()
+            self.adjustSize()
+            self.position_bottom_right()
+            write_state(False, False)
+
+        def position_bottom_right(self) -> None:
+            screen = QApplication.primaryScreen()
+            if screen:
+                geo = screen.availableGeometry()
+                x = geo.right() - self.width() - 28
+                y = geo.bottom() - self.height() - 48
+                self.move(max(20, x), max(20, y))
+
+        def update_styles(self) -> None:
+            border_col = "#bf616a" if self.recording else "#4c566a"
+            self.container.setStyleSheet(
+                f"""
+                QWidget#pillContainer {{
+                    background-color: rgba(20, 23, 34, 240);
+                    border: 2px solid {border_col};
+                    border-radius: 16px;
+                }}
+                """
+            )
+            if self.recording:
+                self.mic_btn.setStyleSheet(
+                    """
+                    QPushButton {
+                        background-color: #bf616a;
+                        color: #ffffff;
+                        border: none;
+                        border-radius: 11px;
+                        padding: 5px 12px;
+                    }
+                    QPushButton:hover { background-color: #d08770; }
+                    """
+                )
+            else:
+                self.mic_btn.setStyleSheet(
+                    """
+                    QPushButton {
+                        background-color: #2e3440;
+                        color: #a3be8c;
+                        border: 1px solid #a3be8c;
+                        border-radius: 11px;
+                        padding: 5px 12px;
+                    }
+                    QPushButton:hover { background-color: #3b4252; }
+                    """
+                )
+
+            self.send_btn.setStyleSheet(
+                """
+                QPushButton {
+                    background-color: #2e3440;
+                    color: #88c0d0;
+                    border: 1px solid #5e81ac;
+                    border-radius: 10px;
+                    padding: 5px 10px;
+                }
+                QPushButton:hover { background-color: #3b4252; }
+                """
+            )
+
+            auto_col = "#ebcb8b" if self.auto_send else "#616e88"
+            self.auto_btn.setStyleSheet(
+                f"""
+                QPushButton {{
+                    background-color: #242933;
+                    color: {auto_col};
+                    border: 1px solid {auto_col};
+                    border-radius: 9px;
+                    padding: 4px 7px;
+                }}
+                QPushButton:hover {{ background-color: #2e3440; }}
+                """
+            )
+
+            self.close_btn.setStyleSheet(
+                """
+                QPushButton {
+                    background-color: transparent;
+                    color: #616e88;
+                    border: none;
+                }
+                QPushButton:hover { color: #bf616a; }
+                """
+            )
+
+        def toggle_mic(self) -> None:
+            send_key_to_agy("F5")
+            self.recording = not self.recording
+            if self.recording:
+                self.record_start = time.time()
+                self.mic_btn.setText("🔴 Stop (0:00)")
+            else:
+                self.mic_btn.setText("🎙️ Talk")
+                if self.auto_send:
+                    QTimer.singleShot(850, self.send_enter)
+            write_state(self.recording, self.auto_send, self.record_start)
+            self.update_styles()
+            self.adjustSize()
+
+        def send_enter(self) -> None:
+            if self.recording:
+                # Stop recording first, then send Enter
+                send_key_to_agy("F5")
+                self.recording = False
+                self.mic_btn.setText("🎙️ Talk")
+                write_state(False, self.auto_send, 0.0)
+                self.update_styles()
+                QTimer.singleShot(700, lambda: send_key_to_agy("ENTER"))
+            else:
+                send_key_to_agy("ENTER")
+
+        def toggle_auto(self) -> None:
+            self.auto_send = not self.auto_send
+            self.auto_btn.setText("⚡Auto:ON" if self.auto_send else "⚡Auto:OFF")
+            write_state(self.recording, self.auto_send, self.record_start)
+            self.update_styles()
+            self.adjustSize()
+
+        def tick_timer(self) -> None:
+            if self.recording:
+                elapsed = int(time.time() - self.record_start)
+                # Auto-finalize at 3m25s before agy's 3m30s cutoff
+                if elapsed >= 205:
+                    self.toggle_mic()
+                    return
+                mins, secs = divmod(elapsed, 60)
+                self.mic_btn.setText(f"🔴 Stop ({mins}:{secs:02d})")
+
+        def close_cleanly(self) -> None:
+            if self.recording:
+                send_key_to_agy("F5")
+            write_state(False, False, 0.0, closed_by_user=True)
+            try:
+                PID_FILE.unlink()
+            except OSError:
+                pass
+            app.quit()
+
+        def mousePressEvent(self, event) -> None:
+            if event.button() == Qt.MouseButton.LeftButton:
+                self.drag_pos = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+                event.accept()
+
+        def mouseMoveEvent(self, event) -> None:
+            if self.drag_pos is not None and event.buttons() & Qt.MouseButton.LeftButton:
+                self.move(event.globalPosition().toPoint() - self.drag_pos)
+                event.accept()
+
+        def mouseReleaseEvent(self, event) -> None:
+            self.drag_pos = None
+
+    PID_FILE.write_text(str(os.getpid()), encoding="utf-8")
+    win = MicPillWindow()
+    win.show()
+    sys.exit(app.exec())
+
+
+def spawn_daemon() -> None:
+    existing = is_already_running()
+    if existing:
+        print(f"[✓] AGY Mic Button is already active on desktop (PID {existing}).")
+        return
+    env = os.environ.copy()
+    env.setdefault("DISPLAY", ":0")
+    env.setdefault("WAYLAND_DISPLAY", "wayland-0")
+    env.setdefault("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}" if hasattr(os, "getuid") else "")
+    proc = subprocess.Popen(
+        [sys.executable, str(Path(__file__).resolve()), "--foreground"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        env=env,
+        start_new_session=True,
+    )
+    time.sleep(0.25)
+    print(f"🎙️ [AGY Mic Button Active] Floating [🎙️ Talk | ⏎ Send | ⚡Auto] pill launched (PID {proc.pid}).")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Clickable Floating Voice Mic Pill for Antigravity (agy)")
+    parser.add_argument("--foreground", action="store_true", help="Run GUI in foreground")
+    parser.add_argument("--stop", action="store_true", help="Stop running AGY Mic Button overlay")
+    parser.add_argument("--toggle", action="store_true", help="Trigger F5 voice dictation toggle from CLI")
+    parser.add_argument("--status", action="store_true", help="Show current AGY Mic Button status")
+    args = parser.parse_args()
+
+    if args.stop:
+        stopped = stop_existing()
+        print(f"[✓] AGY Mic Button stopped: {stopped}")
+    elif args.toggle:
+        ok, target = send_key_to_agy("F5")
+        print(f"[✓] Sent F5 (/voice toggle) -> {target} (ok={ok})")
+    elif args.status:
+        pid = is_already_running()
+        state = {}
+        if STATE_FILE.is_file():
+            try:
+                state = json.loads(STATE_FILE.read_text(encoding="utf-8"))
+            except Exception:
+                pass
+        print(f"AGY Mic Button: {'Running (PID ' + str(pid) + ')' if pid else 'Stopped'} | State: {state}")
+    elif args.foreground:
+        run_gui()
+    else:
+        spawn_daemon()
+
+
+if __name__ == "__main__":
+    main()
