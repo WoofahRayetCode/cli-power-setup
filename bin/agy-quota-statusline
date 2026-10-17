@@ -42,16 +42,37 @@ def get_git_info(target_dir):
         target_dir = os.getcwd()
     try:
         res = subprocess.run(
-            ["git", "-C", target_dir, "rev-parse", "--abbrev-ref", "HEAD"],
+            ["git", "-C", target_dir, "status", "--porcelain", "--branch"],
             capture_output=True,
             text=True,
-            timeout=1
+            timeout=1.0
         )
-        if res.returncode == 0:
-            branch = res.stdout.strip()
-            if branch:
-                folder = os.path.basename(os.path.abspath(target_dir))
-                return f"📁 {folder} 🌿 {branch}"
+        if res.returncode == 0 and res.stdout:
+            lines = res.stdout.splitlines()
+            header = lines[0] if lines else ""
+            dirty_cnt = len(lines) - 1 if len(lines) > 1 else 0
+            branch = "HEAD"
+            m_br = re.match(r"^##\s+([^\.\s]+)", header)
+            if m_br:
+                branch = m_br.group(1)
+            ahead = 0
+            behind = 0
+            m_ah = re.search(r"ahead\s+(\d+)", header)
+            if m_ah:
+                ahead = int(m_ah.group(1))
+            m_bh = re.search(r"behind\s+(\d+)", header)
+            if m_bh:
+                behind = int(m_bh.group(1))
+            badges = []
+            if dirty_cnt > 0:
+                badges.append(f"✏️{dirty_cnt}")
+            if ahead > 0:
+                badges.append(f"⬆️{ahead}")
+            if behind > 0:
+                badges.append(f"⬇️{behind}")
+            badge_str = f" ({' '.join(badges)})" if badges else " (✓)"
+            folder = os.path.basename(os.path.abspath(target_dir))
+            return f"📁 {folder} 🌿 {branch}{badge_str}"
     except Exception:
         pass
     folder = os.path.basename(os.path.abspath(target_dir))
@@ -368,10 +389,11 @@ def main():
         bar = make_bar(ctx_pct, width=6)
         tok_str = fmt_tok(cur_ctx)
         
-        if ctx_pct >= 50.0:
-            ctx_seg = f"🧠 Ctx: [{bar}] {ctx_pct:.0f}% ({tok_str} ⚠️ Staged • /compact)"
+        if cur_ctx >= 250_000:
+            ctx_seg = f"🧠 Ctx: [{bar}] {ctx_pct:.0f}% ({tok_str} ⚠️ Gate 250k • /compact)"
         else:
-            ctx_seg = f"🧠 Ctx: [{bar}] {ctx_pct:.0f}% ({tok_str})"
+            rem_gate = fmt_tok(250_000 - cur_ctx)
+            ctx_seg = f"🧠 Ctx: [{bar}] {ctx_pct:.0f}% ({tok_str} • 🧹{rem_gate} to gate)"
 
         # Cumulative cache savings (Active Session)
         tot_c = telem["total_cached"]
@@ -459,8 +481,9 @@ def main():
     except Exception:
         pass
 
-    # 7b. Detect Real-Time Active Skills from live transcript tail + active workspace
+    # 7b. Detect Real-Time Active Skills + Hardware/Swarm/VRAM/RAMDisk telemetry
     live_skills_segs = get_live_active_skills(cwd)
+    hw_swarm_segs = get_hw_and_swarm_segments()
 
     # 8. Assemble telemetry segments in priority order
     segments = [
@@ -476,8 +499,10 @@ def main():
     ]
     segments = [s for s in segments if s]
 
-    # 9. Dynamically wrap telemetry + Live Active Skills + Bottom Cheat Sheet
+    # 9. Dynamically wrap telemetry + Hardware/Swarm + Live Active Skills + Bottom Cheat Sheet
     lines = [wrap_segments(segments, max_width=term_width, sep=" | ")]
+    if hw_swarm_segs:
+        lines.append(wrap_segments(hw_swarm_segs, max_width=term_width, sep=" | "))
     if live_skills_segs:
         lines.append(wrap_segments(live_skills_segs, max_width=term_width, sep=" • "))
     if cs_active_segs:
@@ -486,6 +511,126 @@ def main():
         lines.append(wrap_segments(cs_fleet_segs, max_width=term_width, sep=" • "))
 
     print("\n".join(line for line in lines if line))
+
+
+def get_hw_and_swarm_segments() -> list[str]:
+    """
+    Fast (<1ms cached, 4s TTL) hardware thermals, fan RPM, OMEN profile, Lid-Lock badge,
+    RTX 5060 VRAM, /dev/shm RAM-disk usage, and active subagent/build process monitor.
+    """
+    cache_path = os.path.join(_TMP, "agy_hw_swarm_cache.json")
+    now = time.time()
+    try:
+        if os.path.exists(cache_path) and (now - os.path.getmtime(cache_path)) < 4.0:
+            return json.loads(Path(cache_path).read_text(encoding="utf-8")).get("segments", [])
+    except Exception:
+        pass
+
+    # 1. CPU Temp & Fan RPM from /sys/class/hwmon (<0.5ms)
+    cpu_temp = "--°C"
+    fan_rpm = ""
+    try:
+        for hdir in glob.glob("/sys/class/hwmon/hwmon*"):
+            name_f = os.path.join(hdir, "name")
+            if not os.path.isfile(name_f):
+                continue
+            hname = Path(name_f).read_text(encoding="utf-8").strip()
+            if hname in ("k10temp", "coretemp", "zenpower"):
+                t_f = os.path.join(hdir, "temp1_input")
+                if os.path.isfile(t_f):
+                    val = int(Path(t_f).read_text(encoding="utf-8").strip()) // 1000
+                    cpu_temp = f"{val}°C"
+            elif hname in ("hp", "omen"):
+                f_f = os.path.join(hdir, "fan1_input")
+                if os.path.isfile(f_f):
+                    rpm = int(Path(f_f).read_text(encoding="utf-8").strip())
+                    if rpm > 0:
+                        fan_rpm = f"•{rpm}rpm"
+    except Exception:
+        pass
+
+    # 2. Power Profile & Clamshell Lid-Lock
+    prof_badge = "⚖️Bal"
+    try:
+        pp_file = "/sys/firmware/acpi/platform_profile"
+        if os.path.isfile(pp_file):
+            pp = Path(pp_file).read_text(encoding="utf-8").strip().lower()
+            if "perf" in pp:
+                prof_badge = "⚡Perf"
+            elif "low" in pp or "quiet" in pp or "power" in pp:
+                prof_badge = "🌙Quiet"
+    except Exception:
+        pass
+
+    lid_lock_str = ""
+    inh_pid_file = os.path.expanduser("~/.cache/agy_lid_inhibit.pid")
+    if os.path.isfile(inh_pid_file):
+        try:
+            os.kill(int(Path(inh_pid_file).read_text(encoding="utf-8").strip()), 0)
+            lid_lock_str = " • 🔒Lid-Safe"
+        except Exception:
+            pass
+
+    # 3. GPU Temp & RTX 5060 VRAM via nvidia-smi
+    gpu_temp = "--°C"
+    vram_str = ""
+    if shutil.which("nvidia-smi"):
+        try:
+            res = subprocess.run(
+                ["nvidia-smi", "--query-gpu=temperature.gpu,memory.used,memory.total", "--format=csv,noheader,nounits"],
+                capture_output=True,
+                text=True,
+                timeout=0.5,
+            )
+            if res.returncode == 0 and res.stdout.strip():
+                parts = [p.strip() for p in res.stdout.strip().split(",")]
+                if len(parts) >= 3:
+                    gpu_temp = f"{parts[0]}°C"
+                    used_g = float(parts[1]) / 1024.0
+                    tot_g = float(parts[2]) / 1024.0
+                    vram_str = f"VRAM:{used_g:.1f}/{tot_g:.0f}G"
+        except Exception:
+            pass
+
+    # 4. /dev/shm RAM-Disk usage
+    shm_str = ""
+    if os.path.exists("/dev/shm"):
+        try:
+            du = shutil.disk_usage("/dev/shm")
+            used_mb = du.used / (1024 * 1024)
+            tot_gb = du.total / (1024 ** 3)
+            if used_mb >= 1024:
+                shm_str = f"/dev/shm:{used_mb / 1024:.1f}/{tot_gb:.0f}G"
+            else:
+                shm_str = f"/dev/shm:{used_mb:.0f}M/{tot_gb:.0f}G"
+        except Exception:
+            pass
+
+    # 5. Active Heavy Processes & Subagent Swarm
+    active_jobs = []
+    try:
+        ps_out = subprocess.check_output(["ps", "-eo", "comm"], text=True, timeout=0.4).lower().splitlines()
+        pset = {p.strip() for p in ps_out}
+        if "blender" in pset:
+            active_jobs.append("🎨Blender")
+        if pset & {"cmake", "ninja", "cc1plus", "cargo", "rustc"}:
+            active_jobs.append("🔨Build")
+        if pset & {"xrengine.exe", "wine64-preloader", "wineserver"}:
+            active_jobs.append("🎮OGSR/Wine")
+    except Exception:
+        pass
+
+    job_str = f"⚙️ {'+'.join(active_jobs)}" if active_jobs else "🐝 Swarm: Ready"
+    therm_seg = f"🌡️ CPU:{cpu_temp} GPU:{gpu_temp} ({prof_badge}{fan_rpm}{lid_lock_str})"
+    mem_parts = [p for p in (vram_str, shm_str) if p]
+    mem_seg = f"🚀 {' • '.join(mem_parts)}" if mem_parts else ""
+
+    segs = [s for s in (therm_seg, mem_seg, job_str) if s]
+    try:
+        Path(cache_path).write_text(json.dumps({"segments": segs}), encoding="utf-8")
+    except Exception:
+        pass
+    return segs
 
 
 CLI_TO_SKILL_MAP = {
