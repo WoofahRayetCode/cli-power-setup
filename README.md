@@ -1961,6 +1961,9 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 | :--- | :--- |
 | **`agy-mic-button`** | Floating XWayland voice dictation pill (`[🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin]`) with drag memory, terminal snap-pin, and auto-close on `agy` exit. |
 | **`game-math-solver`** | Zero-quota 32-thread AVX-512 CPU + RTX 5060 CUDA 13.4 GPU math solver (`coord`, `ode`, `ballistics`, `ai-node`, `prove`, `hw-bench`). |
+| **`creature-sound-forge`** | Real CC0 animal vocalization masterer + Klatt/Rosenberg mammalian glottal-formant DSP synth + 24-byte GSC X-Ray v3 binary Ogg header injector. |
+| **`sound-web-scout`** | Autonomous web audio & SFX researcher (Wikimedia Commons + Internet Archive) with `/dev/shm` SNR scoring, burst slicing, and GSC v3 Ogg mastering. |
+| **`blender` (RTX 5060 Wrapper)** | Forces NVIDIA GeForce RTX 5060 PRIME offload for Viewport/EEVEE/Workbench + locks Cycles to `OPTIX` GPU (`force_rtx5060_optix.py`). |
 | **`laptop-perf`** | Hardware acoustic & thermal governor (`clamshell-3d` lid-closed 3D render lock, `sleep-mode`, `wake-mode`, `boost-exec`). |
 | **`agy-cheatsheet` (`cs`)** | Dynamic repo-aware model, reasoning effort, and hardware offload cheat sheet + live statusline recommender (`~/Documents/GitHub`). |
 | **`skill-evolve` & `skill-optimize`** | Closed-loop runtime skill scaffolder, Voyager script promoter, `<50ms` hot-patcher, and automatic ecosystem mesh optimizer (`skill_ecosystem_graph.json`). |
