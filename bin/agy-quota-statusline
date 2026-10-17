@@ -15,6 +15,7 @@ import sqlite3
 import re
 import tempfile
 from datetime import datetime
+from pathlib import Path
 
 _TMP = tempfile.gettempdir()
 CACHE_FILE = os.path.join(_TMP, "agy_quota_cache.txt")
@@ -458,6 +459,9 @@ def main():
     except Exception:
         pass
 
+    # 7b. Detect Real-Time Active Skills from live transcript tail + active workspace
+    live_skills_segs = get_live_active_skills(cwd)
+
     # 8. Assemble telemetry segments in priority order
     segments = [
         model_seg,
@@ -472,14 +476,131 @@ def main():
     ]
     segments = [s for s in segments if s]
 
-    # 9. Dynamically wrap telemetry + append live Cheat Sheet at the bottom of the statusline
+    # 9. Dynamically wrap telemetry + Live Active Skills + Bottom Cheat Sheet
     lines = [wrap_segments(segments, max_width=term_width, sep=" | ")]
+    if live_skills_segs:
+        lines.append(wrap_segments(live_skills_segs, max_width=term_width, sep=" • "))
     if cs_active_segs:
         lines.append(wrap_segments(cs_active_segs, max_width=term_width, sep=" | "))
     if cs_fleet_segs:
         lines.append(wrap_segments(cs_fleet_segs, max_width=term_width, sep=" • "))
 
     print("\n".join(line for line in lines if line))
+
+
+CLI_TO_SKILL_MAP = {
+    "agy-cheatsheet": "dynamic-repo-model-cheatsheet",
+    "skill-optimize": "autonomous-skill-ecosystem-optimizer",
+    "skill-evolve": "self-evolving-skill-synthesizer",
+    "repo-auto-sync": "autonomous-git-repo-sync-governor",
+    "laptop-perf": "laptop-performance-profile",
+    "laptop_performance_controller": "laptop-performance-profile",
+    "agy-mic-button": "voice-speech-audio-synthesis",
+    "agy-context": "agy-context-telemetry",
+    "agy-doctor": "agy-cli-doctor",
+    "agy-init": "agy-codebase-init",
+    "steam-mod-scanner": "game-modding",
+    "silhouette-iou-profiler": "concept-art-sketch-to-3d-sculptor",
+    "local-ast-compiler": "argon-ast-syntax-gate",
+    "local-rag": "local-vector-rag-engine",
+    "local-coprocessor": "local-model-coprocessor",
+    "slice-reader": "selective-context-ingestor",
+    "token-guard": "shell-output-token-guard",
+    "skills-audit-update": "skills-updater-and-auditor",
+    "blender": "blender-3d-engineering",
+}
+
+
+def get_live_active_skills(cwd: str) -> list[str]:
+    """
+    Detect the top 4 skills actively being used right now in real time (<5ms cached)
+    by inspecting the tail of the most recently active transcript.jsonl + current workspace.
+    """
+    cache_path = os.path.join(_TMP, "agy_live_skills_cache.json")
+    now = time.time()
+    try:
+        if os.path.exists(cache_path) and (now - os.path.getmtime(cache_path)) < 2.0:
+            cached = json.loads(Path(cache_path).read_text(encoding="utf-8"))
+            if cached.get("cwd") == cwd and cached.get("segments"):
+                return cached["segments"]
+    except Exception:
+        pass
+
+    skills_root = os.path.expanduser("~/.gemini/config/skills")
+    valid_skills = set()
+    if os.path.isdir(skills_root):
+        try:
+            valid_skills = {d for d in os.listdir(skills_root) if not d.startswith(".")}
+        except Exception:
+            pass
+
+    found_skills: list[str] = []
+
+    def add_skill(sname: str) -> None:
+        if sname and sname in valid_skills and sname not in found_skills:
+            found_skills.append(sname)
+
+    # 1. Inspect the tail (last 40KB) of the most recently active transcript across CLI & IDE brains
+    t_candidates = (
+        glob.glob(os.path.expanduser("~/.gemini/antigravity-cli/brain/*/.system_generated/logs/transcript.jsonl"))
+        + glob.glob(os.path.expanduser("~/.gemini/antigravity/brain/*/.system_generated/logs/transcript.jsonl"))
+    )
+    if t_candidates:
+        latest_t = max(t_candidates, key=os.path.getmtime)
+        try:
+            fsize = os.path.getsize(latest_t)
+            with open(latest_t, "rb") as bf:
+                if fsize > 40960:
+                    bf.seek(fsize - 40960)
+                tail_text = bf.read().decode("utf-8", errors="ignore")
+            tail_lines = tail_text.splitlines()[-14:]
+            # Walk backwards from the newest step so the most recent skill is #1
+            for line in reversed(tail_lines):
+                # Check explicit /skills/<name>/ file paths first
+                for m in re.findall(r"/skills/([a-z0-9][a-z0-9_-]+)/", line):
+                    add_skill(m)
+                # Check CLI binary invocations mapped to skills
+                for cli_key, mapped_skill in CLI_TO_SKILL_MAP.items():
+                    if cli_key in line:
+                        add_skill(mapped_skill)
+                # Check exact skill identifiers mentioned in recent steps
+                for cand in re.findall(r"\b([a-z0-9]+(?:-[a-z0-9]+){1,6})\b", line):
+                    if cand in valid_skills:
+                        add_skill(cand)
+                if len(found_skills) >= 5:
+                    break
+        except Exception:
+            pass
+
+    # 2. Enrich with workspace-specific domain skills based on active repo
+    repo_low = os.path.basename(os.path.abspath(cwd)).lower()
+    if "ogsr" in repo_low:
+        for s in ("cpp-64bit-engine-port-sanitizer", "argon-dynamic-subagent-swarm", "game-modding"):
+            add_skill(s)
+    elif "zoneforge" in repo_low:
+        for s in ("game-modding", "xray-lua-scripting", "game-audio-ogg-gsc-encoder"):
+            add_skill(s)
+    elif "omen" in repo_low:
+        for s in ("linux-hardware-acpi", "rust-engineering", "laptop-performance-profile"):
+            add_skill(s)
+    elif "rea" in repo_low or "gta" in repo_low:
+        for s in ("binary-re-workflows", "rea-mcp-obligation-ledger-orchestrator"):
+            add_skill(s)
+    else:
+        for s in ("token-economy", "dynamic-repo-model-cheatsheet"):
+            add_skill(s)
+
+    top_skills = found_skills[:4]
+    if not top_skills:
+        return []
+
+    segs = [f"🛠️ Skills [Live]: {top_skills[0]}"] + top_skills[1:]
+    try:
+        Path(cache_path).write_text(json.dumps({"cwd": cwd, "segments": segs}), encoding="utf-8")
+    except Exception:
+        pass
+    return segs
+
 
 if __name__ == "__main__":
     main()
