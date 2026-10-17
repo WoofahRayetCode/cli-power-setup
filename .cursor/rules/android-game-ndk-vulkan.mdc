@@ -1,0 +1,73 @@
+---
+description: Native Android game development using C++20, Android NDK (GameActivity / NativeActivity), Vulkan mobile rendering, touch gesture queues, and pipeline cache serialization.
+globs: 
+alwaysApply: false
+---
+
+# Android Game NDK & Vulkan Engine (`android-game-ndk-vulkan`)
+
+High-performance Android games require bypassing the JVM garbage collector by executing the game loop, physics, audio, and graphics entirely in native C++ using the Android NDK and Vulkan.
+
+This skill governs the architecture of native Android game applications, lifecycle state machines, swapchain re-creation, touch input handling, and Vulkan pipeline caching.
+
+---
+
+## 1. Native Game Architecture
+
+```
++-------------------------------------------------------------+
+| Java / Kotlin Host (GameActivity / NativeActivity)          |
++-------------------------------------------------------------+
+                              | JNI / android_native_app_glue
+                              v
++-------------------------------------------------------------+
+| C++ Engine Core                                             |
+| - Event Loop: android_main(struct android_app* state)       |
+| - Lifecycle: APP_CMD_INIT_WINDOW, APP_CMD_TERM_WINDOW       |
+| - Input: AInputEvent / MotionEvent touch queue              |
+| - Graphics: Vulkan 1.2 / 1.3 Mobile Renderer                |
++-------------------------------------------------------------+
+```
+
+---
+
+## 2. Core Directives
+
+### 1. Window Lifecycle & Surface Recreation
+- **Android Window Changes:** When the user backgrounds the app, rotates the screen, or receives a notification, Android destroys the underlying `ANativeWindow`.
+- **The Rule:** Always intercept `APP_CMD_TERM_WINDOW` to destroy the `VkSwapchainKHR` and wait on fences (`vkDeviceWaitIdle`). Recreate swapchain, render passes, and framebuffers only upon receiving `APP_CMD_INIT_WINDOW`.
+
+### 2. Mobile Vulkan Pipeline Caching
+- Dynamic shader compilation on mobile GPUs (Adreno, Mali) causes catastrophic hitching during first gameplay.
+- **The Rule:** Initialize `VkPipelineCache` from disk (`context.getFilesDir()`). Before application shutdown, retrieve the binary cache using `vkGetPipelineCacheData` and atomically persist it to disk.
+
+### 3. Touch Input Buffering
+- Process motion events from `android_app->inputQueue` on the main game thread before ticking physics to prevent input latency and frame pacing jitter.
+
+---
+
+## 3. Sample NDK CMake Configuration
+
+```cmake
+cmake_minimum_required(VERSION 3.22.1)
+project(native_game CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+find_package(vulkan REQUIRED)
+find_library(log-lib log)
+find_library(android-lib android)
+
+add_library(native_game SHARED
+    src/main.cpp
+    src/vulkan_renderer.cpp
+    src/input_handler.cpp
+)
+
+target_link_libraries(native_game
+    Vulkan::Vulkan
+    ${android-lib}
+    ${log-lib}
+)
+```

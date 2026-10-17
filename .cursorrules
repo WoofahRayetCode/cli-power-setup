@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (231 Specialized Capabilities)
+## Complete Skills Catalog (235 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -166,6 +166,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`android-architecture-jetpack`** | Modern Android Architecture (Now in Android standard), Clean Architecture, MVI/MVVM with unidirectional data flow (UDF), Kotlin Coroutines & StateFlow, Room SQLite persistence, type-safe Navigation DSL, WorkManager background execution, and Dagger Hilt dependency injection. |
 | **`android-compose-ui-ux`** | Advanced Jetpack Compose UI/UX architecture, Material 3 design systems, edge-to-edge window insets, recomposition performance optimization, stability inference, custom Layouts/DrawModifiers, and fluid physics animations. Use when designing modern Android UI, fixing recomposition jank, or implementing edge-to-edge screens. |
 | **`android-device-automation`** | Real-time Android device control, scrcpy screen observation, mobile game bot scripting, automated app management, carrier debloating, cache cleaning, and system health diagnostics over ADB. |
+| **`android-game-ndk-vulkan`** | Native Android game development using C++20, Android NDK (GameActivity / NativeActivity), Vulkan mobile rendering, touch gesture queues, and pipeline cache serialization. |
 | **`android-ndk-jni-engineering`** | High-performance Android NDK C/C++ development, JNI bridge architecture, native Vulkan/OpenGL ES rendering, Oboe low-latency audio, NEON SIMD vectorization, and tombstone crash symbolization. Use when writing native game engines, DSP libraries, hardware-accelerated processing, or debugging native crashes in Android apps. |
 | **`android-perf-battery-profiling`** | Low-level Android performance profiling, frame rate/jank diagnosis (dumpsys gfxinfo), battery consumption analysis (dumpsys batterystats), Perfetto system tracing, memory leak detection (heap dump triage), and StrictMode violation traps. Use when diagnosing Android app slowness, frame drops, or battery drain. |
 | **`android-rom-os-engineering`** | Android custom ROM development, AOSP and LineageOS device tree bring-up, proprietary vendor blob extraction, kernel defconfigs, dynamic super partition sizing, and SELinux sepolicy denial triage. |
@@ -312,6 +313,8 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`local-vector-rag-engine`** | Local vector embeddings and dense semantic search engine running on host CPU/GPU/RAM. Replaces context-stuffing (50k+ tokens) by retrieving only the top-k relevant 15-line snippets into LLM prompts, slashing context consumption by 80-95%. |
 | **`log-output-sanitizer`** | Intercepts noisy compiler, package manager, and test suite terminal output (cargo, pytest, npm, cmake), passing only actionable errors and compact summaries to preserve context. |
 | **`lowlevel-dll-internals`** | Windows PE/DLL internals, assembly-level disassembly, vtable reconstruction, calling convention alignment (__thiscall, __stdcall, __cdecl, x64 ABI), and native detour hooks (MinHook, MS Detours, trampoline patching). Use when analyzing or modifying game DLLs, ASI plugins, C++ engine classes, crash dumps, or writing native binary patches. |
+| **`mobile-gpu-texture-compression`** | Multi-platform GPU texture compression pipeline covering mobile ASTC/ETC2 and PC BC1-BC7, runtime format negotiation, and mipmap generation. |
+| **`mobile-thermal-frame-pacing`** | Mobile thermal management, Android Swappy frame pacing, dynamic resolution scaling (DRS), and battery efficiency algorithms for Android and PC games. |
 | **`model-optimal-state-serializer`** | Model-optimal structured session state serialization engine. Compresses in-flight memory, active hypotheses, and file state into tokenizer-native formats (XML/YAML for Claude BPE, Pipe/TSV for Gemini SentencePiece, compact symbol skeletons) to slash context consumption by 60-80%. |
 | **`modern-cpp-engineering`** | Modern C++ standards (C++20/C++23) and systems engineering. Use when authoring or debugging C++ code, game engine plugins, DLLs, memory management with RAII, smart pointers, Concepts, or managing CMake builds. |
 | **`multi-model-cache-harmonizer`** | Prompt cache prefix stabilization and alignment engine across Claude, Gemini, OpenAI, and Grok. Aligns static system prefixes to model-specific cache boundaries (1,024 tokens for Claude/OpenAI, 4,096 tokens for Gemini) and isolates dynamic variables to prompt suffixes to guarantee 90-95% cache read discounts. |
@@ -319,6 +322,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`network-protocol-engineering`** | Packet inspection with tshark and tcpdump, binary serialization with Protobuf and FlatBuffers, custom TCP/UDP client-servers, and Linux TUN/TAP network routing. |
 | **`nix-reproducible-environments`** | Hermetic developer environments using Nix Flakes (flake.nix), declarative dependencies, reproducible devShells, and cross-platform isolation. |
 | **`open-apk`** | Load an Android APK / XAPK / DEX / JAR into the jadx-headless MCP for static analysis. Accepts a local file path, or a package name to fetch from APKPure via apkeep. Use when the user asks to open/load an APK in jadx (e.g. "open com.example.app in jadx", "load ./demo.xapk", "/jadx-headless:open-apk <path|package>"). |
+| **`pc-cross-platform-graphics-api`** | Modern C++ graphics Hardware Abstraction Layer (HAL) supporting DirectX 12, Vulkan, and DirectX 11, Valve Proton compatibility, and RenderDoc telemetry. |
 | **`polyglot-ast-interface-pruner`** | Polyglot AST interface pruner and header skeletonizer across C++, C#, Rust, Python, and Lua. Strips function implementation bodies, private members, comments, and boilerplate to generate ultra-dense symbol signatures, reducing codebase ingestion tokens by 85-90%. |
 | **`post-processing-visual-fx`** | Screen-space rendering, post-processing stacks, and volumetric lighting when building or porting engines. Use when implementing HDR tone mapping (ACES, AgX), progressive dual-filtering bloom, ambient occlusion (SSAO, GTAO), screen-space reflections (SSR), or cascaded shadow maps (CSM). |
 | **`powershell-windows-automation`** | Modern PowerShell 7 and Windows PowerShell automation, advanced cmdlet design, pipeline streaming, WMI/CIM querying, Task Scheduler automation, and Win32 P/Invoke. |
