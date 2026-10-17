@@ -5,20 +5,20 @@ description: Real-time file system observer using inotifywait to trigger instant
 
 # Cross-Agent Hot Reload Watcher (`cross-agent-hot-reload-watcher`)
 
-Restarting a game engine every time an agent modifies an LTX configuration, Lua script, shader, or texture takes 30 to 90 seconds per test cycle. In a tandem setup where Argon and Fable make rapid incremental changes, restarting wastes substantial time and compute.
+Restarting a game engine every time an agent modifies an LTX configuration, Lua script, shader, or texture takes 30 to 90 seconds per test cycle. When Gemini 4 Argon and parallel Gemini Flash subagents (`argon-dynamic-subagent-swarm`) make rapid incremental changes, restarting wastes substantial time and compute.
 
-This skill integrates Linux kernel `inotifywait` filesystem event monitoring with engine hot-reload hooks to inject modified assets on-the-fly.
+This skill integrates Linux kernel `inotifywait` (and Windows `FileSystemWatcher`) filesystem event monitoring with engine hot-reload hooks to inject modified assets on-the-fly.
 
 ---
 
 ## 1. Hot Reload Architecture
 
 ```
-[ Argon Worktree ] --+
-                     |---> inotifywait (Event: modify/create) ---> Engine IPC / Socket / Signal
-[ Fable Worktree ] --+                                            - Reload Lua VM
-                                                                  - Flush LTX section cache
-                                                                  - Invalidate shader cache
+[ Argon Orchestrator ] --+
+                         |---> inotifywait (Event: modify/create) ---> Engine IPC / Socket / Signal
+[ Flash Subagents ] -----+                                            - Reload Lua VM
+                                                                      - Flush LTX section cache
+                                                                      - Invalidate shader cache
 ```
 
 ---

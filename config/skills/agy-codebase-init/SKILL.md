@@ -44,6 +44,8 @@ agy-init --force
 ```
 
 ## 3. Automatic `.gitignore`, Cheat Sheet & Mod Scanner Integration
-- `agy-init` automatically invokes `repo-auto-sync <dir> --ensure-gitignore` to create/harden `.gitignore` and `agy-cheatsheet --update` (`dynamic-repo-model-cheatsheet`) so the initialized repository immediately appears in `cs` and the statusline (`🎯 Rec: ...`).
+- `agy-init` automatically invokes `repo-auto-sync <dir> --ensure-gitignore` to create/harden `.gitignore` and `agy-cheatsheet --update` (`dynamic-repo-model-cheatsheet`) so the initialized repository immediately appears in `cs` and the statusline (`🧭 CS [...]`).
 - When initializing a game mod repository, pair with `steam-mod-scanner` to link the installed Steam game's engine rules into `GEMINI.md` and `CLAUDE.md`.
 
+## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
+- **Cross-OS Deployment (`install.ps1` & `install.sh`):** `agy-init` runs natively on Windows 10/11 and Linux, detecting MSVC/Clang-CL, PowerShell, CMake, and `.venv\Scripts\pytest.exe` on Windows alongside POSIX toolchains on Linux.

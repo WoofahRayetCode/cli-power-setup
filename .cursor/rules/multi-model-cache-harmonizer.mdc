@@ -64,3 +64,8 @@ To guarantee cache hits across all turns, prompt payloads must strictly follow t
 
 4. **Cache Invalidation Avoidance:**
    - Edits to `systemPatterns.md` or `.cursorrules` should occur in bulk at milestone completion, never micro-edited on every minor file change.
+5. **Live Cache Verification (`agy-quota-statusline` & `agy-context-telemetry`):**
+   - Monitor the `💾 Session: ... (95% cache)` and `🌐 Global Saved: ... (99.5% cache)` counters in `agy-quota-statusline` or run `agy-context` to verify that Gemini 4 Argon (`>=32,768` tokens) and Flash (`>=4,096` tokens) prefixes remain locked above 90%–95% hit rates.
+
+## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
+- **Cross-OS Deployment (`install.ps1` & `install.sh`):** Prefix stabilization and `agy-context` / `agy-quota-statusline` cache telemetry operate identically on Windows 10/11 and Linux.

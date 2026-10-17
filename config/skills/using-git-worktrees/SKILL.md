@@ -41,8 +41,8 @@ git worktree prune
 ## Safety Checklist
 - Never delete a worktree directory using raw `rm -rf` without running `git worktree remove` or `git worktree prune`.
 - Do not run worktrees inside the repository's tracked folders—always place them in sibling directories or `/tmp/`.
-- **Automated Worktree Sync & Cheat Sheet Indexing (`autonomous-git-repo-sync-governor` & `dynamic-repo-model-cheatsheet`):**
-  - Use `repo-auto-sync <worktree> --checkpoint --push` inside sibling worktrees (e.g. `ogsr-complete-merge-argon` and `ogsr-complete-merge-fable`) to harden `.gitignore` against `>50 MB` build artifacts and update `agy-cheatsheet` (`cs`) with per-worktree model recommendations.
+- **Automated Worktree Sync & Subagent Isolation (`autonomous-git-repo-sync-governor`, `argon-hierarchical-worktree-isolator` & `dynamic-repo-model-cheatsheet`):**
+  - When Argon spawns parallel Flash worker subagents with `Workspace="share"` or `Workspace="branch"`, or when working in sibling feature worktrees, use `repo-auto-sync <worktree> --checkpoint --push` to harden `.gitignore` against `>50 MB` build artifacts and update `agy-cheatsheet` (`cs`) with live model recommendations.
 
 ## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
 - **Cross-OS Deployment (`install.ps1` & `install.sh`):** All CLI tools (`agy-cheatsheet` / `cs`, `repo-auto-sync`, `skill-evolve`, `skills-audit-update`, `adaptive-model-router`) run natively on Windows 10/11 via `.cmd`/PowerShell shims in `$HOME\.local\bin` and use `Path(tempfile.gettempdir())` instead of hardcoded `/tmp`.

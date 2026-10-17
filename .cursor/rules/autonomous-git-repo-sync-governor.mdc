@@ -7,7 +7,7 @@ alwaysApply: false
 # Autonomous Git Repository Sync & Milestone Governor (`autonomous-git-repo-sync-governor`)
 
 ## When to Use
-- **During Long Autonomous Sessions (`/goal`, `agy-yolo`, `claude-yolo`, `tandem-yolo`):** Automatically committing and pushing verified milestones so progress is never lost in uncommitted dirty worktrees.
+- **During Long Autonomous Sessions (`/goal`, `agy-yolo`, `agy-turbo`, `claude-yolo`):** Automatically committing and pushing verified milestones so progress is never lost in uncommitted dirty worktrees.
 - **General Development & Multi-Repo Workflows:** Keeping the active workspace and dependent repos (e.g., `cli-power-setup`, `ogsr-complete-merge`, `OGSR-Engine`, `zoneforge`, `rea`) synchronized with `origin` without manual git housekeeping.
 - **Pre-Compaction & Session Handoff:** Ensuring all verified changes are committed and pushed (or safely checkpointed) before running `/compact`.
 

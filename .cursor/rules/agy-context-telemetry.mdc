@@ -44,3 +44,10 @@ agy-context --turns 20
 # Output structured JSON for automation
 agy-context --json
 ```
+
+## Live Statusline & Cheat Sheet Integration (`dynamic-repo-model-cheatsheet`)
+- Works alongside `agy-quota-statusline`, which renders real-time token/cache metrics on top and the live 2-bar **Model & Reasoning Cheat Sheet** (`🧭 CS [...]` + `📚 Repos: ...`) at the bottom of your terminal.
+- Run `agy-cheatsheet` (or `cs`) to inspect the full 32-repository routing matrix across `~/Documents/GitHub/`.
+
+## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
+- **Cross-OS Deployment (`install.ps1` & `install.sh`):** `agy-context`, `agy-quota-statusline`, and `agy-cheatsheet` (`cs`) run natively on Windows 10/11 (`.cmd` shims in `$HOME\.local\bin`) and Linux.

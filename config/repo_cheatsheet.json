@@ -1,39 +1,37 @@
 {
-  "updated_at": "2026-10-16T20:51:34.642373",
+  "updated_at": "2026-10-16T20:55:45.122457",
   "total_repos": 32,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792209094.2851593,
+      "activity_ts": 1792209344.7527065,
       "age_str": "0s ago",
-      "dirty_count": 30,
+      "dirty_count": 41,
       "dirty_exts": {
-        ".mdc": 10,
-        ".md": 10,
-        ".json": 1,
-        ".ps1": 1,
-        ".sh": 1
+        ".mdc": 24,
+        ".md": 14,
+        ".json": 1
       },
       "top_exts": [
         ".mdc",
         ".md",
         ".py"
       ],
-      "last_commit": "feat(statusline): add persistent live-updating che",
+      "last_commit": "chore(argon): remove tandem setup and update cheat",
       "stack": "AI Skills / Python / Bash",
       "routine": "Flash \u2022 Low (Sync/Docs)",
       "deep": "Argon \u2022 High (Orchestration)",
-      "live_rec": "Argon \u2022 Med",
-      "live_reason": "Multi-tool engineering",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Skill edits & repo sync",
       "hw": "Local AST/RAG + 32-Thr"
     },
     {
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792209093.7734098,
+      "activity_ts": 1792209344.144673,
       "age_str": "0s ago",
       "dirty_count": 16,
       "dirty_exts": {
@@ -109,7 +107,7 @@
       "path": "~/Documents/GitHub/AegisVault",
       "is_git": true,
       "activity_ts": 1792198538.3066192,
-      "age_str": "2h ago",
+      "age_str": "3h ago",
       "dirty_count": 36,
       "dirty_exts": {
         ".md": 1,

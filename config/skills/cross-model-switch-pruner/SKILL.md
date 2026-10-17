@@ -73,7 +73,11 @@ Because Claude Fable features a 1-million-token context window designed for deep
 
 ## 4. Integration with Existing Skills
 
-- **`model-optimal-state-serializer`:** Formats the pre-switch state into Claude BPE-optimal XML tags (`<session-state>`), minimizing token count.
+- **`model-optimal-state-serializer` & `argon-sentencepiece-serializer`:** Formats pre-switch state into SentencePiece-optimal TSV/Markdown for Gemini 4 Argon (`activeContext.md`) or BPE-optimal XML tags (`<session-state>`) for Claude.
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`):** Automatically detects when your active file modifications shift from config/UI (`Flash • Low`) to C++/shaders (`Argon • High`) and updates the bottom of your statusline (`🧭 CS [...]`) so you know when to compact and switch tiers.
 - **`cross-cli-session-handoff`:** Manages the `.agents/handoff.json` contract for clean session detachment.
-- **`fable-virtual-context-manager`:** Pages subsystem slices once Fable is active.
-- **`claude-fable-engine-governor`:** Enforces AST skeletonization and 1M prompt cache pinning once inside Fable.
+- **`fable-virtual-context-manager` & `argon-long-haul-context-compaction-gate`:** Pages subsystem slices and enforces compaction boundaries across 1M-token context windows.
+
+## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
+- **Cross-OS Deployment (`install.ps1` & `install.sh`):** All state snapshotting, `repo-auto-sync --checkpoint`, and `agy-cheatsheet` (`cs`) commands run natively on Windows 10/11 and Linux.
+

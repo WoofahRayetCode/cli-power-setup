@@ -57,3 +57,6 @@ Before starting multi-step tasks or when uncertain which specialized skill appli
 3. **Saves Quota:** Avoids loading dozens of unrelated skills into the active conversation context, preserving up to **95% of discovery tokens**.
 4. **Closed-Loop Gap & Self-Healing (`self-evolving-skill-synthesizer`):** If no skill matches a complex recurring workflow, or if an existing skill instruction needs a workaround, immediately invoke `skill-evolve --scaffold`, `skill-evolve --promote`, or `skill-evolve --hot-patch` to evolve the skill library in-flight.
 5. **Repo-Aware & Game Library Routing (`dynamic-repo-model-cheatsheet` & `steam-mod-scanner`):** Pair `skill_router.py` with `agy-cheatsheet` (`cs`) to select the optimal model/effort for the current GitHub repo, and run `steam-mod-scanner` when routing modding tasks for installed Steam games.
+
+## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
+- **Cross-OS Deployment (`install.ps1` & `install.sh`):** `skill_router.py`, `agy-cheatsheet` (`cs`), and `steam-mod-scanner` run natively on both Windows 10/11 and Linux.
