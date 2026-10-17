@@ -1,0 +1,72 @@
+---
+name: elevenlabs-voice-isolator-dubbing-sfx
+description: ElevenLabs feature parity for Studio Voice Isolator (STFT Wiener de-noising, UVR5/Mel-Band RoFormer/Demucs v4 vocal extraction), AI Cross-Language Game Audio Dubbing (translating Russian/Ukrainian NPC .ogg voice lines to English while preserving speaker timbre, duration, and GSC v3 headers), and Text-to-SFX (TangoFlux, Stable Audio Open, sound-web-scout).
+---
+
+# ElevenLabs Voice Isolator, AI Dubbing & Text-to-SFX (`elevenlabs-voice-isolator-dubbing-sfx`)
+
+Replicates **ElevenLabs Voice Isolator, Dubbing Studio, and Text-to-Sound-Effects** locally using `~/.local/bin/eleven-studio`, `~/.local/bin/sound-web-scout`, and `/dev/shm` DSP pipelines.
+
+---
+
+## 1. Studio Voice Isolator & Vocal Stem Extraction (`eleven-studio isolate`)
+
+Before cloning a game character's voice or remastering noisy 2007 `.ogg` dialogue (which often contains background campfire guitar, rain, wind, or tape hiss), strip all non-vocal noise:
+
+```bash
+# Instant STFT Wiener Spectral Gate + 85Hz-10.8kHz Vocal Bandpass + GSC v3 Ogg export:
+~/.local/bin/eleven-studio isolate \
+  -i gamedata/sounds/characters_voice/scenario/bar/barman_noisy.ogg \
+  -o /dev/shm/barman_clean_ref.wav --no-gsc
+```
+
+### Heavy GPU Stem Separation (Music / Gunfire / Room Reverb Removal)
+- **Mel-Band RoFormer / BS-RoFormer (via `audio-separator` / UVR5 CLI):** SOTA vocal isolation (`SDR > 11.5 dB`) for stripping heavy background music or overlapping sound effects on the RTX 5060.
+- **DeepFilterNet3:** Real-time `<1ms` neural speech enhancement for removing severe static and reverb.
+
+---
+
+## 2. AI Cross-Language Game Audio Dubbing Pipeline (RU/UA $\rightarrow$ EN)
+
+To dub untranslated Russian/Ukrainian S.T.A.L.K.E.R. mod voice lines (`gamedata/sounds/characters_voice/**.ogg`) into English while **preserving the original voice actor's spectral timbre, radio/gasmask coloration, clip duration, and 24-byte GSC X-Ray v3 binary Ogg metadata**:
+
+```text
+[Original RU .ogg] ──┬──> (1) Extract 24-byte GSC v3 header (min_dist, max_dist, ai_type)
+                     ├──> (2) Isolate clean vocal reference (`eleven-studio isolate`)
+                     └──> (3) Transcribe & translate RU -> EN (`faster-whisper`)
+                                        │
+                                        ▼
+[Mastered EN .ogg] <──── (4) Synthesize EN with `--ref-audio` timbre transfer + time-stretch
+                             to match original duration + re-inject original GSC v3 header
+```
+
+```bash
+# Single-file dubbing with automatic reference timbre transfer from the original Russian .ogg:
+~/.local/bin/eleven-studio tts "Come in, Stalker. Don't just stand there!" \
+  -c duty_general \
+  --ref-audio unpacked/sounds/characters_voice/scenario/bar/bar_guard_prohodi_1.ogg \
+  -o gamedata/sounds/characters_voice/scenario/bar/bar_guard_prohodi_1.ogg
+```
+
+---
+
+## 3. Text-to-SFX & Cinematic Foley (`eleven-studio sfx`)
+
+```bash
+# 1. Local Zero-Quota Acoustic Web Search + SNR Burst Slicing + Mastering:
+~/.local/bin/eleven-studio sfx "geiger counter clicks" \
+  -o gamedata/sounds/detectors/geiger_1.ogg --duration 1.2
+
+# 2. Local RTX 5060 Diffusion/Flow-Matching Text-to-Audio Models:
+#    - TangoFlux (44.1kHz flow-matching text-to-SFX in <2.5s on RTX 5060)
+#    - Stable Audio Open Small / 1.0 (stereo environmental & mechanical foley)
+#    - MMAudio (synchronized video-to-foley & text-to-SFX)
+```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux (`/dev/shm` RAM-disk staging) and Windows 10/11 (`tempfile.gettempdir()`, standard Python `scipy`/`numpy`/`ffmpeg`).
+
+## Related & Interoperating Skills
+- **`elevenlabs-voice-cloning-sts-studio`**: Neural TTS, zero-shot voice cloning, and Speech-to-Speech voice changer.
+- **`autonomous-audio-sfx-web-researcher`**: Multi-source CC0 web audio search and SNR burst slicing (`sound-web-scout`).
+- **`creature-animal-bioacoustic-audio`**: Realistic animal & creature vocalization synthesis (`creature-sound-forge`).

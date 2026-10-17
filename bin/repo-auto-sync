@@ -171,6 +171,7 @@ def sync_readme(repo: Path) -> bool:
             "| CLI Tool | Purpose |",
             "| :--- | :--- |",
             "| **`agy-mic-button`** | Floating XWayland voice dictation pill (`[🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin]`) with drag memory, terminal snap-pin, and auto-close on `agy` exit. |",
+            "| **`eleven-studio`** | ElevenLabs feature parity CLI: expressive character neural TTS, `--ref-audio` 32-band timbre cloning, STS voice changer (`--pitch`/`--formant`), STFT Voice Isolator, S.T.A.L.K.E.R. radio/gasmask FX, and GSC v3 Ogg headers. |",
             "| **`game-math-solver`** | Zero-quota 32-thread AVX-512 CPU + RTX 5060 CUDA 13.4 GPU math solver (`coord`, `ode`, `ballistics`, `ai-node`, `prove`, `hw-bench`). |",
             "| **`creature-sound-forge`** | Real CC0 animal vocalization masterer + Klatt/Rosenberg mammalian glottal-formant DSP synth + 24-byte GSC X-Ray v3 binary Ogg header injector. |",
             "| **`sound-web-scout`** | Autonomous web audio & SFX researcher (Wikimedia Commons + Internet Archive) with `/dev/shm` SNR scoring, burst slicing, and GSC v3 Ogg mastering. |",

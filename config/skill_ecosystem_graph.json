@@ -1,5 +1,5 @@
 {
-  "total_skills": 302,
+  "total_skills": 304,
   "skills": {
     "adaptive-reasoning": {
       "description": "Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-speed execution on Flash and deep-reasoning planning on Argon based on prompt complexity.",
@@ -70,7 +70,7 @@
         "ai-3d-mesh-generation",
         "autonomous-audio-sfx-web-researcher",
         "game-audio-engine-engineering",
-        "emulator-development-engineering"
+        "elevenlabs-voice-isolator-dubbing-sfx"
       ]
     },
     "amd-igpu-nvidia-dgpu-hybrid-offload": {
@@ -410,9 +410,9 @@
       "description": "Autonomously searches open web audio repositories (Wikimedia Commons, Internet Archive) for real CC0/public-domain sound effects, foley, animal vocalizations, weapons, and ambient audio; ranks candidates acoustically by Signal-to-Noise Ratio (SNR), spectral centroid, and clipping; slices the cleanest audio event in /dev/shm; and exports mastered WAV/OGG with GSC X-Ray v3 binary headers.",
       "related": [
         "creature-animal-bioacoustic-audio",
+        "elevenlabs-voice-isolator-dubbing-sfx",
         "autonomous-3d-reference-researcher",
-        "autonomous-git-repo-sync-governor",
-        "autonomous-skill-ecosystem-optimizer"
+        "autonomous-git-repo-sync-governor"
       ]
     },
     "autonomous-git-repo-sync-governor": {
@@ -834,8 +834,8 @@
       "related": [
         "autonomous-audio-sfx-web-researcher",
         "game-audio-ogg-gsc-encoder",
-        "cuda-numpy-batch-texture-dsp-processor",
-        "game-dynamic-stress-orchestrator"
+        "elevenlabs-voice-cloning-sts-studio",
+        "elevenlabs-voice-isolator-dubbing-sfx"
       ]
     },
     "cross-agent-context-deduplicator": {
@@ -1097,6 +1097,24 @@
         "headless-browser-automation",
         "game-trainer-engineering",
         "database-sql-engineering"
+      ]
+    },
+    "elevenlabs-voice-cloning-sts-studio": {
+      "description": "ElevenLabs feature parity for expressive neural Text-to-Speech (TTS), Zero-Shot Instant Voice Cloning (F5-TTS, Chatterbox, CosyVoice 2, LTAS spectral timbre cloning), Speech-to-Speech (STS) voice conversion (Seed-VC, RVC v2, independent pitch/formant warping), character acoustic FX (PDA radio, gasmask, psy-chorus), and GSC X-Ray v3 Ogg encoding via ~/.local/bin/eleven-studio.",
+      "related": [
+        "elevenlabs-voice-isolator-dubbing-sfx",
+        "creature-animal-bioacoustic-audio",
+        "autonomous-audio-sfx-web-researcher",
+        "voice-speech-audio-synthesis"
+      ]
+    },
+    "elevenlabs-voice-isolator-dubbing-sfx": {
+      "description": "ElevenLabs feature parity for Studio Voice Isolator (STFT Wiener de-noising, UVR5/Mel-Band RoFormer/Demucs v4 vocal extraction), AI Cross-Language Game Audio Dubbing (translating Russian/Ukrainian NPC .ogg voice lines to English while preserving speaker timbre, duration, and GSC v3 headers), and Text-to-SFX (TangoFlux, Stable Audio Open, sound-web-scout).",
+      "related": [
+        "elevenlabs-voice-cloning-sts-studio",
+        "autonomous-audio-sfx-web-researcher",
+        "voice-speech-audio-synthesis",
+        "creature-animal-bioacoustic-audio"
       ]
     },
     "emulator-development-engineering": {
@@ -2542,10 +2560,10 @@
     "voice-speech-audio-synthesis": {
       "description": "Speech-to-text transcription via Whisper, natural voice generation using Piper/Kokoro/OpenAI TTS, game NPC dialogue synthesis, and subtitle timing.",
       "related": [
+        "elevenlabs-voice-isolator-dubbing-sfx",
+        "elevenlabs-voice-cloning-sts-studio",
         "stalker-spawn-entity-indexer",
-        "youtube-shorts-video-automation",
-        "game-engine-3d-budget-profiler",
-        "ai-3d-mesh-generation"
+        "youtube-shorts-video-automation"
       ]
     },
     "vulkan-gpu-compute": {
