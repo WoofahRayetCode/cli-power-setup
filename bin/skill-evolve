@@ -50,8 +50,17 @@ def validate_script(script_path: Path) -> tuple[bool, str]:
     return True, "OK"
 
 
-def hot_sync_single_skill(skill_name: str) -> None:
+def hot_sync_single_skill(skill_name: str, auto_push: bool = True) -> None:
     src = SKILLS_DIR / skill_name
+    # Bidirectional safeguard: if agent edited ~/.gemini or ~/.claude copy directly, pull into repo first
+    for ext_root in (GEMINI_SKILLS, CLAUDE_SKILLS):
+        ext_md = ext_root / skill_name / "SKILL.md"
+        repo_md = src / "SKILL.md"
+        if ext_md.is_file() and (not repo_md.is_file() or ext_md.stat().st_mtime > repo_md.stat().st_mtime + 0.5):
+            if src.exists():
+                shutil.rmtree(src)
+            shutil.copytree(ext_root / skill_name, src)
+
     ok, msg = validate_skill_md(src)
     if not ok:
         print(f"[✗] Validation failed for {skill_name}: {msg}", file=sys.stderr)
@@ -90,6 +99,13 @@ def hot_sync_single_skill(skill_name: str) -> None:
         (cdir / f"{skill_name}.mdc").write_text(mdc_content, encoding="utf-8")
 
     print(f"[✓] Hot-synced '{skill_name}' -> Antigravity, Claude Code, and Cursor (<50ms).")
+    if auto_push and os.environ.get("SKILL_EVOLVE_NO_PUSH") != "1":
+        ras = REPO_ROOT / "bin" / "repo-auto-sync"
+        if ras.is_file():
+            subprocess.run(
+                [str(ras), str(REPO_ROOT), "--checkpoint", "-m", f"feat(skill-evolve): auto-sync '{skill_name}'", "--push"],
+                check=False,
+            )
 
 
 def cmd_scaffold(skill_name: str, description: str) -> None:

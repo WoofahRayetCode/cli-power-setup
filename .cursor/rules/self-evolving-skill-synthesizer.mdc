@@ -1,6 +1,6 @@
 ---
 description: Closed-loop in-flight skill synthesis, Voyager-style script promotion, and Reflexion self-healing. Automatically creates missing skills, promotes verified one-off scripts into reusable skill tools, and patches stale skill instructions mid-task across Gemini, Claude, and Cursor.
-globs: 
+globs: *
 alwaysApply: false
 ---
 
@@ -52,15 +52,18 @@ skill-evolve --scaffold <new-skill-name> "<1-line high-density description>"
 
 ---
 
-## 3. `skill-evolve` CLI Quick Reference
-Installed globally at `~/.local/bin/skill-evolve`:
+## 3. `skill-evolve` CLI Quick Reference & Automatic GitHub Repo Backup
+Installed globally at `~/.local/bin/skill-evolve`. Every `skill-evolve` command automatically:
+1. **Bidirectionally Syncs Edits:** Detects if a skill was modified inside `~/.gemini/config/skills/` or `~/.claude/skills/` and pulls it into `/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills/` first.
+2. **Hot-Deploys Across All 3 CLIs:** Updates Antigravity, Claude Code, and Cursor `.mdc` rules in `<50ms`.
+3. **Automatically Commits & Pushes to GitHub (`origin/main`):** Invokes `repo-auto-sync /home/ericparsley/Documents/GitHub/cli-power-setup --checkpoint --push` so every new or evolved skill is immediately backed up to your `cli-power-setup` GitHub repository.
 
 | Command | Action |
 | :--- | :--- |
-| `skill-evolve --scaffold <name> "<desc>"` | Scaffolds a new skill directory + `SKILL.md` template and hot-syncs all CLIs. |
-| `skill-evolve --promote <file> --to <skill>` | Promotes a verified `.py`/`.sh` script into `<skill>/scripts/`, validates syntax, links in `SKILL.md`, and syncs. |
-| `skill-evolve --hot-patch <skill>` | Validates YAML & script syntax for a modified skill and hot-syncs across Gemini, Claude, and Cursor in `<100ms`. |
-| `skill-evolve --append-rule <skill> "<title>" "<rule>"` | Appends a concise learned rule/gotcha section to `<skill>/SKILL.md` and hot-syncs. |
+| `skill-evolve --scaffold <name> "<desc>"` | Scaffolds a new skill + `SKILL.md`, hot-syncs all CLIs, and commits/pushes to GitHub. |
+| `skill-evolve --promote <file> --to <skill>` | Promotes a verified `.py`/`.sh` script into `<skill>/scripts/`, validates syntax, links in `SKILL.md`, syncs, and pushes to GitHub. |
+| `skill-evolve --hot-patch <skill>` | Validates YAML & script syntax for a modified skill, hot-syncs all CLIs, and commits/pushes to GitHub. |
+| `skill-evolve --append-rule <skill> "<title>" "<rule>"` | Appends a concise learned rule/gotcha section to `<skill>/SKILL.md`, hot-syncs, and pushes to GitHub. |
 
 ---
 
