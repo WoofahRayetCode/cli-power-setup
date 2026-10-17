@@ -766,6 +766,8 @@ def get_hw_and_swarm_segments() -> list[str]:
             "phi4:14b": "phi4",
             "mathstral:7b": "mathstral",
             "wizard-math:7b": "wizmath",
+            "qwen2.5:7b": "qwen2.5-7b",
+            "gemma2:9b": "gemma2",
             "moondream": "moondream",
             "bge-m3": "bge-m3",
             "nomic-embed-text": "nomic",

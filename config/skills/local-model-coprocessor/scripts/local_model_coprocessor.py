@@ -145,6 +145,14 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
         for cand in ("mistral-nemo:12b", "qwen2.5:7b", "llama3.1:8b"):
             if cand in installed:
                 return cand
+    elif task in ("web", "html", "modernize", "tailwind", "css", "frontend"):
+        for cand in ("qwen2.5:7b", "gemma2:9b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task in ("business", "copy", "proposal", "outreach", "editorial", "proofread"):
+        for cand in ("gemma2:9b", "qwen2.5:7b", "llama3.1:8b"):
+            if cand in installed:
+                return cand
     elif task in ("math", "physics", "ballistics", "quaternion"):
         for cand in ("mathstral:7b", "wizard-math:7b", "phi4:14b", "deepseek-r1:8b", "qwen2.5-coder:7b"):
             if cand in installed:
@@ -396,7 +404,7 @@ def main():
     common_parser.add_argument("--dry-run", action="store_true", help="Simulate generation without active local server")
     common_parser.add_argument("--endpoint", type=str, default="http://localhost:11434", help="Local server URL")
     common_parser.add_argument("--model", type=str, default="auto", help="Local model name (default: auto-detect based on VRAM & task)")
-    common_parser.add_argument("--task", type=str, default="auto", choices=["auto", "fast", "code", "reason", "vision", "blender", "csharp", "cpp", "rust", "python", "translate", "sql", "tool", "long", "math"], help="Task routing mode")
+    common_parser.add_argument("--task", type=str, default="auto", choices=["auto", "fast", "code", "reason", "vision", "blender", "csharp", "cpp", "rust", "python", "translate", "sql", "tool", "long", "math", "web", "business"], help="Task routing mode")
     common_parser.add_argument("--skill", type=str, default="", help="Comma-separated skill names to inject into local model system prompt")
     common_parser.add_argument("--auto-skill", action="store_true", default=True, help="Automatically match and inject relevant SKILL.md rules")
 
