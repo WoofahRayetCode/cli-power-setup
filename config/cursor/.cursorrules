@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (262 Specialized Capabilities)
+## Complete Skills Catalog (266 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -207,6 +207,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`cachyos-arch-packaging`** | Arch Linux and CachyOS packaging standards, PKGBUILD authoring, DKMS kernel module builds, and systemd service units. Use when building, testing, or maintaining packages like omen-acpi on CachyOS/Arch. |
 | **`canvas-interactive-workspace`** | Emulates ChatGPT Canvas side-by-side collaborative drafting, targeted inline diff staging, and surgical change annotations in Claude Code. |
 | **`character-creature-anatomy-modeling`** | Character, creature, and animal 3D modeling in Blender. Covers organic biped and quadruped skeletal anatomy, deformation-friendly edge loop topology, automated retopology setup (bpy), and facial blendshapes. |
+| **`chatgpt-o1-hypothesis-tree`** | Emulates ChatGPT o1/o3-mini Tree-of-Thought deliberation on Gemini 4 Argon. Branches into 3 competing hypotheses, explores execution paths, and backtracks upon contradiction. |
 | **`claude-context-rot-shield`** | Mitigates Claude context window degradation and prompt cache misses. Enforces 80k-token milestone compaction boundaries, prevents attention dilution, and aligns system prompts to 1,024-token prompt caching blocks. |
 | **`claude-fable-engine-governor`** | Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engine ports (e.g. S.T.A.L.K.E.R. OGSR/X-Ray). Enforces 1M-token prompt cache pinning, C++ AST skeletonization, and surgical crash-dump extraction. |
 | **`claude-opus-conciseness-enforcer`** | Enforces extreme output conciseness, strict BLUF formatting, and hard token caps for Claude Opus. Eliminates conversational pleasantries, preambles, and code block duplication in chat transcripts to slash expensive Opus output token consumption by up to 75%. |
@@ -237,8 +238,10 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`cryptographic-security-engineering`** | Applied modern cryptography and secure protocol implementations. Covers Ed25519 digital signatures (Discord interaction webhooks, Git commit signing), AES-256-GCM / ChaCha20-Poly1305 authenticated encryption, HKDF key derivation, constant-time comparison discipline, and hardware security module (TPM2/Keystore) integration. |
 | **`csharp-dotnet-engineering`** | Modern C# and .NET 8/9 engineering standards. Use when writing C# applications, Unity/Godot C# logic, memory optimization with Span and Memory, async/await cancellation patterns, or running dotnet test and Roslyn analyzers. |
 | **`cuda-gpu-acceleration`** | High-performance NVIDIA GPU engineering, CUDA 13.4 kernel development, nvcc compilation, Tensor Core acceleration, PyTorch CUDA extensions, and OptiX ray-tracing for modern NVIDIA GPUs (RTX 5060/Blackwell). |
+| **`cursor-inline-diff-lens`** | Emulates Cursor IDE ghost-text and surgical multi-line inline diff previews in Antigravity CLI, giving instant visual clarity on code additions and deletions. |
 | **`database-sql-engineering`** | SQLite performance tuning (WAL mode, PRAGMAs, indexing), PostgreSQL/MySQL schema design, query plan analysis, and database migration architecture. |
 | **`deep-research-synthesizer`** | Autonomous multi-source web crawling, recursive citation mapping, source credibility ranking, and publication-grade technical research synthesis. |
+| **`deepseek-r1-math-verification`** | Emulates DeepSeek-R1 chain-of-verification and self-correcting mathematical proofs in Gemini 4 Argon reasoning tokens for memory layouts, offsets, and timing. |
 | **`deliberative-reasoning-tree`** | DeepSeek R1 and OpenAI o1-style Tree-of-Thought reasoning, exploring 3 branching hypothesis paths, adversarial self-critique, and formal backtracking before code modification. |
 | **`devsecops-supply-chain-security`** | DevSecOps build-time security hardening, Software Bill of Materials (SBOM), dependency vulnerability auditing, binary compiler hardening checks (checksec for RELRO, Canaries, NX, PIE), Git secret leak prevention, and rootless container isolation. Use when preparing releases, securing CI/CD pipelines, or auditing compiled binaries. |
 | **`disassembly-token-redactor`** | Reverse engineering disassembly token redactor and CFG basic-block condenser. Intercepts verbose objdump, Ghidra, and rizin disassembly dumps, stripping raw hex byte columns, instruction padding, and linear NOP sleds to slash binary reverse engineering tokens by 75-80%. |
@@ -305,6 +308,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`github-actions-cicd`** | Multi-OS GitHub Actions matrix builds (Linux, Windows, macOS), automated release packaging, semantic versioning, and compilation caching. |
 | **`godot-game-dev`** | Game development workflows for Godot Engine (GDScript 2.0 & C#). Use when designing game systems, scene trees, custom nodes, signals, UI layouts, or running headless Godot CLI builds and GUT tests. |
 | **`godot-shader-vfx`** | Authoring 2D and 3D visual shaders, canvas item shaders, spatial shaders, particle systems, and screen-reading post-processing effects in Godot Engine 4. |
+| **`grok-realtime-telemetry-scout`** | Emulates xAI Grok real-time live search on Gemini 4 Argon. Scouts bleeding-edge git commits, pull requests, issue trackers, and package feeds for undocumented Linux and game fixes. |
 | **`hardware-tool-engineering`** | Architect, build, and update hardware management tools, system daemons, sensors, and thermal controllers with cross-architecture portability (x86_64 Zen/Intel, ARM64, NVIDIA, AMD). |
 | **`headless-browser-automation`** | Headless browser automation via Playwright and Puppeteer, executing dynamic JavaScript on SPAs, capturing screenshots, form interactions, and bypass techniques. |
 | **`headless-game-ci-automation`** | Automated headless game compilation, asset baking, CLI test execution, and packaging across Godot, Unity, Unreal Engine 5, and custom C++/Rust engines. |

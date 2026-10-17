@@ -1,0 +1,34 @@
+---
+description: Emulates Cursor IDE ghost-text and surgical multi-line inline diff previews in Antigravity CLI, giving instant visual clarity on code additions and deletions.
+globs: 
+alwaysApply: false
+---
+
+# Cursor Inline Diff Lens (`cursor-inline-diff-lens`)
+
+Cursor IDE's signature developer experience is its high-density **Ghost Text & Inline Diff Lens**, where developers see exactly what lines will be added, replaced, or removed with color-coded clarity before execution.
+
+This skill equips Antigravity CLI with Cursor-style inline diff previews, standardizing compact Unified Diff notation.
+
+---
+
+## 1. Unified Diff Preview Format
+
+When proposing or verifying multi-line changes:
+
+```diff
+--- a/xrGame/weapon_ak74.cpp
++++ b/xrGame/weapon_ak74.cpp
+@@ -212,5 +212,5 @@ void CWeaponAK74::FireTrace() {
+-    u32 pOwner = (u32)H_Parent(); // Truncates 64-bit address on Linux!
++    uintptr_t pOwner = (uintptr_t)H_Parent();
+     if (!pOwner) return;
+```
+
+---
+
+## 2. Operating Directives
+
+1. **Zero Surrounding Fluff:** Only show the modified line and 1–2 surrounding context lines. Never dump 50 lines of untouched code.
+2. **Deterministic Line Coordinates:** Always specify exact line numbers (`@@ -start,count +start,count @@`).
+3. **Ghost-Text Verification:** Compare proposed diffs against git status using `git diff -U2` to ensure surgical precision before committing.
