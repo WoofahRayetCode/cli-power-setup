@@ -1,25 +1,25 @@
 {
-  "updated_at": "2026-10-16T22:34:31.027726",
+  "updated_at": "2026-10-17T08:20:03.572905",
   "total_repos": 32,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792215270.6866024,
+      "activity_ts": 1792250403.1545615,
       "age_str": "0s ago",
-      "dirty_count": 7,
+      "dirty_count": 4,
       "dirty_exts": {
-        ".md": 2,
-        ".json": 2,
-        ".mdc": 2
+        ".mdc": 2,
+        ".json": 1,
+        ".md": 1
       },
       "top_exts": [
         ".mdc",
         ".md",
         ".py"
       ],
-      "last_commit": "feat(audio): optimize creature-animal-bioacoustic-",
+      "last_commit": "feat(audio): add autonomous-audio-sfx-web-research",
       "stack": "AI Skills / Python / Bash",
       "routine": "Flash \u2022 Low (Sync/Docs)",
       "deep": "Argon \u2022 High (Orchestration)",
@@ -31,13 +31,13 @@
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792215270.6041145,
-      "age_str": "0s ago",
+      "activity_ts": 1792250401.5291119,
+      "age_str": "1s ago",
       "dirty_count": 16,
       "dirty_exts": {
         ".json": 78,
         ".md": 14,
-        ".png": 129,
+        ".png": 131,
         ".blend1": 1,
         ".blend": 1,
         ".ogf": 4,
@@ -48,7 +48,7 @@
         ".out": 11,
         ".conf": 3,
         ".sav": 5,
-        ".dds": 199,
+        ".dds": 202,
         ".jsonl": 1,
         ".bak": 1,
         ".patch": 1,
@@ -107,7 +107,7 @@
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
       "activity_ts": 1792213021.776576,
-      "age_str": "37m ago",
+      "age_str": "10h ago",
       "dirty_count": 30,
       "dirty_exts": {
         ".hpp": 1,
@@ -134,7 +134,7 @@
       "path": "~/Documents/GitHub/AegisVault",
       "is_git": true,
       "activity_ts": 1792198538.3066192,
-      "age_str": "4h ago",
+      "age_str": "14h ago",
       "dirty_count": 36,
       "dirty_exts": {
         ".md": 1,
@@ -185,7 +185,7 @@
       "path": "~/Documents/GitHub/omen-space",
       "is_git": true,
       "activity_ts": 1792069600.0371482,
-      "age_str": "1d ago",
+      "age_str": "2d ago",
       "dirty_count": 2,
       "dirty_exts": {
         ".sh": 2
@@ -208,7 +208,7 @@
       "path": "~/Documents/GitHub/Thumbprint",
       "is_git": true,
       "activity_ts": 1791641100.1808212,
-      "age_str": "6d ago",
+      "age_str": "7d ago",
       "dirty_count": 3,
       "dirty_exts": {
         ".godot": 1,
@@ -277,7 +277,7 @@
       "path": "~/Documents/GitHub/omen-acpi",
       "is_git": true,
       "activity_ts": 1791294774.0817323,
-      "age_str": "10d ago",
+      "age_str": "11d ago",
       "dirty_count": 20,
       "dirty_exts": {
         ".jsonc": 1,
@@ -303,7 +303,7 @@
       "path": "~/Documents/GitHub/nsz",
       "is_git": true,
       "activity_ts": 1792189743.6650836,
-      "age_str": "7h ago",
+      "age_str": "16h ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "top_exts": [
@@ -512,7 +512,7 @@
       "path": "~/Documents/GitHub/Warmstead",
       "is_git": true,
       "activity_ts": 1791552414.0,
-      "age_str": "7d ago",
+      "age_str": "8d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "top_exts": [
@@ -533,7 +533,7 @@
       "path": "~/Documents/GitHub/Candlepane",
       "is_git": true,
       "activity_ts": 1791537669.0,
-      "age_str": "7d ago",
+      "age_str": "8d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "top_exts": [
@@ -596,7 +596,7 @@
       "path": "~/Documents/GitHub/MobRush",
       "is_git": true,
       "activity_ts": 1791471197.0,
-      "age_str": "8d ago",
+      "age_str": "9d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "top_exts": [
@@ -617,7 +617,7 @@
       "path": "~/Documents/GitHub/BarrelBreaker",
       "is_git": true,
       "activity_ts": 1791469433.0,
-      "age_str": "8d ago",
+      "age_str": "9d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "top_exts": [
@@ -638,7 +638,7 @@
       "path": "~/Documents/GitHub/SwarmRun",
       "is_git": true,
       "activity_ts": 1791468825.0,
-      "age_str": "8d ago",
+      "age_str": "9d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "top_exts": [
@@ -659,7 +659,7 @@
       "path": "~/Documents/GitHub/RescueCollapse",
       "is_git": true,
       "activity_ts": 1791468825.0,
-      "age_str": "8d ago",
+      "age_str": "9d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "top_exts": [
@@ -680,7 +680,7 @@
       "path": "~/Documents/GitHub/BridgeBrigade",
       "is_git": true,
       "activity_ts": 1791468825.0,
-      "age_str": "8d ago",
+      "age_str": "9d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "top_exts": [
@@ -720,7 +720,7 @@
       "path": "~/Documents/GitHub/switch-softmod-prep",
       "is_git": true,
       "activity_ts": 1791297161.7472465,
-      "age_str": "10d ago",
+      "age_str": "11d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "top_exts": [
@@ -741,7 +741,7 @@
       "path": "~/Documents/GitHub/PS-Multi-Tools",
       "is_git": true,
       "activity_ts": 1791296814.7809658,
-      "age_str": "10d ago",
+      "age_str": "11d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "top_exts": [

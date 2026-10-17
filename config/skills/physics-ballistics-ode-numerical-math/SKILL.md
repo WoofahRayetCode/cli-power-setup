@@ -97,3 +97,8 @@ game-math-solver ballistics --v0 900 --drag 0.0012 --range 300
 - **`game-dynamic-stress-orchestrator`**: Dynamic in-game stress testing and entity orchestration: collision-safe multi-entity wave spawning, cross-fact...
 - **`game-physics-collision-pipeline`**: Real-time physics engine architecture, fixed timestep accumulator loops, continuous collision detection (CCD),...
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+
+---
+
+## OGSR CPHElement Zero-Mass/Volume NaN Inertia Tensor Guard (10 FPS Stall Fix)
+In X-Ray/OGSR ODE physics (PHShell.cpp / DestroyablePhysicsObject.cpp), spawned or destroyed physics elements with zero mass or zero volume produce NaN inertia tensors, causing a worker thread to spin at 100% inside CPHWorld::Step -> dcTriListCollider::CollideBox -> CDB::box_query and dropping saved-game loads to ~10 FPS. Guard dMassSetBox/dMassAdjust against mass <= EPS or volume <= EPS before computing inverse inertia tensors.
