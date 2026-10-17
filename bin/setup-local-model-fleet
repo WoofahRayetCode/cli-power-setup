@@ -279,6 +279,7 @@ def install_symlinks():
         "local-research-scout": REPO_ROOT / "bin" / "local-research-scout",
         "gemini-reasoning-tuner": REPO_ROOT / "bin" / "gemini-reasoning-tuner",
         "voice-prompt-optimizer": REPO_ROOT / "bin" / "voice-prompt-optimizer",
+        "model-quant-optimizer": REPO_ROOT / "bin" / "model-quant-optimizer",
     }
 
     installed = []
