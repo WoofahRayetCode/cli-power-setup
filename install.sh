@@ -217,6 +217,12 @@ install_binaries() {
         log_done "Installed executable: ${BIN_DEST}/slice-reader"
     fi
 
+    if [ -f "${SCRIPT_DIR}/bin/android-dev-runner" ]; then
+        cp "${SCRIPT_DIR}/bin/android-dev-runner" "${BIN_DEST}/android-dev-runner"
+        chmod +x "${BIN_DEST}/android-dev-runner"
+        log_done "Installed executable: ${BIN_DEST}/android-dev-runner"
+    fi
+
     # Initialize universal lifetime token ledger
     mkdir -p "${HOME}/.cli_power_setup"
     if [ ! -f "${HOME}/.cli_power_setup/token_ledger.json" ] && [ -f "${SCRIPT_DIR}/config/token_ledger.json" ]; then

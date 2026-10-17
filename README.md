@@ -75,6 +75,7 @@ This repository organizes a curated set of **219 autonomous agent skills**, 219 
 │   ├── cursor-rules-sync       # Converts all skills to Cursor .mdc rules and deploys .cursorrules
 │   ├── token-guard             # Terminal command output line ceiling protector (30-line context guard)
 │   ├── slice-reader            # Surgical line-slice reader & AST skeleton extractor
+│   ├── android-dev-runner      # Android 2D/3D development doctor, scrcpy mirror & jank analyzer
 │   └── skills-audit-update     # Health auditor, permissions fixer & multi-environment synchronizer
 └── config/
     ├── GEMINI.md               # Global engineering discipline, quota governance & token economy rules
@@ -1834,6 +1835,32 @@ Instead of forcing expensive LLMs to read raw, noisy files into their context wi
 
 ---
 
+## 📱 Android 2D & 3D Game & App Development Workflows
+
+The repository provides a dedicated toolchain and automation suite for high-performance 2D and 3D Android development across C++/Vulkan NDK, Godot, Unity, and Jetpack Compose:
+
+### 1. The 3 Primary Android Game & App Workflows
+
+1. **High-End 3D Native Game Architecture (C++ / Vulkan NDK):**
+   * **Skills:** `android-ndk-jni-engineering` + `vulkan-gpu-compute` + `game-texture-material-pipeline` + `android-perf-battery-profiling`.
+   * **Focus:** Direct zero-copy `DirectByteBuffer` passing across JNI, native Vulkan swapchain rendering, ASTC texture compression, Oboe low-latency audio, and `renderdoccmd` GPU frame inspection over ADB.
+
+2. **Cross-Platform Mobile Engine Pipeline (Godot / Unity 2D & 3D):**
+   * **Skills:** `godot-game-dev` (or `unity-game-dev`) + `game-physics-collision-pipeline` + `android-device-automation` + `headless-game-ci-automation`.
+   * **Focus:** Headless APK/AAB build automation, CanvasLayer multi-DPI touch scaling, fixed-timestep physics decoupling, and automated APK sideloading.
+
+3. **Modern Reactive 2D Games & UI Applications (Jetpack Compose / Canvas):**
+   * **Skills:** `android-compose-ui-ux` + `android-architecture-jetpack` + `android-testing-ci-cd-security`.
+   * **Focus:** Hardware-accelerated Compose Canvas drawing, MVI/StateFlow state management, edge-to-edge window insets, R8/ProGuard shrinking, and Keystore hardware encryption.
+
+### 2. Android Development Runner (`android-dev-runner`)
+Installed to `~/.local/bin/android-dev-runner`:
+* **Environment Diagnostics:** `android-dev-runner doctor` audits Android SDK paths, NDK compilers, CMake, Ninja, Vulkan drivers, and ADB device state.
+* **Low-Latency Screen Mirroring:** `android-dev-runner mirror` launches 120fps `scrcpy` display streaming with stay-awake flags for hands-free live playtesting.
+* **Frame Rate & Jank Triage:** `android-dev-runner jank --package <pkg>` pulls live VSYNC frame timing histograms directly over ADB.
+
+---
+
 ## 🚀 Dual-CLI Turbo Launchers & Thinking Quota Savers
 
 Thinking/reasoning tokens are billed as **output tokens** (typically 4x to 5x the cost of input tokens) and are the fastest way to exhaust 5-hour rolling quotas. This repository provides dedicated low-effort Turbo launchers for both CLIs:
@@ -1943,6 +1970,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`game-dll-proxy-gen`** | Generates proxy DLL scaffolds (dinput8, dxgi, version) with export forwarding | Injecting internal trainers, MinHook detours, and ImGui overlays into games. |
 | **`token-guard`** | Enforces 30-line terminal ceiling on command executions | Wrap commands (`token-guard <cmd>`) to prevent runaway stdout context floods. |
 | **`slice-reader`** | Extracts AST skeletons or $\pm 15$ line slices around symbols | When reading code to view only the target function or class definition. |
+| **`android-dev-runner`** | Android 2D/3D development doctor, scrcpy mirror & jank analyzer | Diagnosing Android toolchains, launching 120fps live mirroring, or auditing frame drops. |
 | **`cursor-rules-sync`** | Converts all skills to Cursor `.mdc` rules and syncs `.cursorrules` | After modifying skills or when syncing Cursor configuration. |
 | **`skills-audit-update --audit`** | Audits health across Gemini, Claude, and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all skills across Antigravity, Claude, and Cursor | After adding or updating any skill in the repository. |

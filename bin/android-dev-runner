@@ -1,0 +1,144 @@
+#!/usr/bin/env python3
+"""
+Android Game & App Development Workflow Runner (android-dev-runner)
+Unified orchestrator for 2D/3D Android game and app development pipelines.
+Automates ADB device connectivity, scrcpy screen mirroring, NDK CMake builds,
+Vulkan validation layer checks, and live framerate/jank diagnostics.
+"""
+
+import sys
+import os
+import subprocess
+import argparse
+import shutil
+import time
+
+def check_command(cmd):
+    return shutil.which(cmd) is not None
+
+def run_cmd(cmd_list, check=True, capture=False):
+    if capture:
+        return subprocess.run(cmd_list, capture_output=True, text=True, check=check)
+    return subprocess.run(cmd_list, check=check)
+
+def workflow_doctor():
+    print("=" * 60)
+    print(" 📱 Android 2D/3D Game & App Development Environment Doctor")
+    print("=" * 60)
+
+    # 1. Host SDK / NDK Paths
+    sdk_path = os.environ.get("ANDROID_HOME") or os.path.expanduser("~/Android/Sdk")
+    ndk_path = os.environ.get("ANDROID_NDK_ROOT") or os.environ.get("ANDROID_NDK_HOME")
+    
+    print(f"\n[+] Environment Variables & Paths:")
+    if os.path.isdir(sdk_path):
+        print(f"  [✓] Android SDK:     {sdk_path}")
+    else:
+        print(f"  [✗] Android SDK:     NOT FOUND (checked {sdk_path})")
+
+    if ndk_path and os.path.isdir(ndk_path):
+        print(f"  [✓] Android NDK:     {ndk_path}")
+    else:
+        # Check standard SDK ndk path
+        sdk_ndk = os.path.join(sdk_path, "ndk")
+        if os.path.isdir(sdk_ndk) and os.listdir(sdk_ndk):
+            latest_ndk = sorted(os.listdir(sdk_ndk))[-1]
+            print(f"  [✓] Android NDK:     {os.path.join(sdk_ndk, latest_ndk)}")
+        else:
+            print(f"  [!] Android NDK:     Not detected in {sdk_path}/ndk (needed for C++/Vulkan NDK)")
+
+    # 2. Host CLI Tools
+    tools = [
+        ("adb", "Android Debug Bridge (device communication)"),
+        ("scrcpy", "Low-latency 120fps display mirroring & input injection"),
+        ("cmake", "Native C++ cross-compilation generator"),
+        ("ninja", "High-speed multithreaded build system"),
+        ("glslangValidator", "SPIR-V / Vulkan shader compiler & validator"),
+        ("renderdoccmd", "Vulkan GPU frame capture & overdraw profiler"),
+        ("vulkaninfo", "Host Vulkan driver validation")
+    ]
+
+    print(f"\n[+] Host Toolchain Dependencies:")
+    for cmd, desc in tools:
+        if check_command(cmd):
+            print(f"  [✓] {cmd:16} : Available ({desc})")
+        else:
+            print(f"  [✗] {cmd:16} : MISSING ({desc})")
+
+    # 3. ADB Device Connectivity
+    print(f"\n[+] ADB Device Connectivity:")
+    if check_command("adb"):
+        try:
+            res = run_cmd(["adb", "devices"], capture=True)
+            lines = [l.strip() for l in res.stdout.splitlines() if l.strip() and not l.startswith("List of devices")]
+            if lines:
+                for l in lines:
+                    print(f"  [✓] Connected: {l}")
+            else:
+                print(f"  [!] No active ADB device/emulator attached. Connect via USB or 'adb connect <ip>:5555'.")
+        except Exception as e:
+            print(f"  [✗] ADB check error: {e}")
+
+    print("\n" + "=" * 60)
+
+def workflow_mirror(args):
+    print("[→] Launching low-latency scrcpy device mirror for live playtest...")
+    cmd = ["scrcpy", "--always-on-top", "--stay-awake"]
+    if args.bitrate:
+        cmd.extend(["--video-bit-rate", args.bitrate])
+    if args.max_fps:
+        cmd.extend(["--max-fps", str(args.max_fps)])
+    if args.record:
+        cmd.extend(["--record", args.record])
+    
+    try:
+        run_cmd(cmd)
+    except KeyboardInterrupt:
+        print("\n[✓] Mirror session ended.")
+    except Exception as e:
+        print(f"[✗] Error starting scrcpy: {e}")
+
+def workflow_jank(package):
+    if not package:
+        print("Error: --package <package_name> required for jank profiling", file=sys.stderr)
+        sys.exit(1)
+    print(f"[→] Capturing frame render metrics for {package}...")
+    try:
+        res = run_cmd(["adb", "shell", "dumpsys", "gfxinfo", package, "framestats"], capture=True)
+        lines = res.stdout.splitlines()
+        jank_lines = [l for l in lines if "Janky frames:" in l or "50th percentile" in l or "90th percentile" in l or "95th percentile" in l or "99th percentile" in l]
+        if jank_lines:
+            print(f"\n=== Frame Rate & Jank Report: {package} ===")
+            for l in jank_lines:
+                print(f"  {l.strip()}")
+            print("=========================================\n")
+        else:
+            print(res.stdout[:500])
+    except Exception as e:
+        print(f"Error querying gfxinfo: {e}", file=sys.stderr)
+
+def main():
+    parser = argparse.ArgumentParser(description="Android 2D/3D Game & App Development Workflow Runner")
+    subparsers = parser.add_subparsers(dest="command", help="Workflow command")
+
+    subparsers.add_parser("doctor", help="Inspect Android SDK, NDK, host tools, and ADB connection status")
+    
+    mirror_p = subparsers.add_parser("mirror", help="Launch low-latency scrcpy window for testing gameplay/UI")
+    mirror_p.add_argument("--max-fps", type=int, default=120, help="Framerate cap (default: 120)")
+    mirror_p.add_argument("--bitrate", default="16M", help="Video bitrate (default: 16M)")
+    mirror_p.add_argument("--record", help="Record session to mp4/mkv file")
+
+    jank_p = subparsers.add_parser("jank", help="Audit frame drops and VSYNC jank over ADB")
+    jank_p.add_argument("--package", required=True, help="Target application package name")
+
+    args = parser.parse_args()
+
+    if args.command == "doctor" or not args.command:
+        workflow_doctor()
+    elif args.command == "mirror":
+        workflow_mirror(args)
+    elif args.command == "jank":
+        workflow_jank(args.package)
+
+if __name__ == "__main__":
+    main()

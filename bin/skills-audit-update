@@ -26,7 +26,7 @@ REPO_CURSOR_RULES = REPO_DIR / ".cursor/rules"
 # Key external tool dependencies mapped to skills
 TOOL_DEPENDENCIES = {
     "ffmpeg": ["video-production-automation", "youtube-shorts-video-automation"],
-    "adb": ["android-device-automation"],
+    "adb": ["android-device-automation", "android-perf-battery-profiling", "android-ndk-jni-engineering"],
     "scrcpy": ["android-device-automation"],
     "glslangValidator": ["shader-cross-compilation", "vulkan-gpu-compute"],
     "spirv-val": ["shader-cross-compilation"],
@@ -35,7 +35,8 @@ TOOL_DEPENDENCIES = {
     "vulkaninfo": ["vulkan-gpu-compute", "emulator-development-engineering"],
     "nvcc": ["cuda-gpu-acceleration"],
     "cargo": ["rust-engineering", "tauri-multiplatform-dev"],
-    "cmake": ["cmake-cross-platform", "modern-cpp-engineering"],
+    "cmake": ["cmake-cross-platform", "modern-cpp-engineering", "android-ndk-jni-engineering"],
+    "ninja": ["android-ndk-jni-engineering"],
     "tshark": ["network-protocol-engineering", "binary-re-workflows"],
     "python3": ["python-engineering", "sandbox-code-interpreter", "game-texture-material-pipeline", "autonomous-goal-governor", "furry-fursona-art-design", "android-rom-os-engineering", "game-qa-playtest-controller", "computer-vision-deep-learning", "industrial-machine-vision-inspection", "agentic-visual-perception", "local-model-coprocessor", "local-vector-rag-engine", "local-ast-compiler-engine", "game-exploratory-fuzzing", "self-healing-test-automation", "coverage-guided-mutation-testing"],
     "objdiff": ["console-game-decompilation"],
