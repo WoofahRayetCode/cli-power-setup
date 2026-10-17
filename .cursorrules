@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (266 Specialized Capabilities)
+## Complete Skills Catalog (270 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -218,6 +218,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`client-memory-integrity-anticheat`** | In-depth client runtime security, anti-debugging, memory scanner detection, obfuscated value storage (XOR/bitwise masks), and anti-tamper heartbeat synchronization for desktop games and sensitive client apps. |
 | **`cmake-cross-platform`** | Cross-platform CMake architecture (3.25+), target-centric modern CMake, toolchain files for cross-compilation (Linux, Windows via MinGW/Clang, macOS), platform abstraction, and CPack installers. |
 | **`coderabbit-ai-review`** | CodeRabbit-grade autonomous code review, PR walk-through generation, architectural Mermaid sequence diagrams, line-by-line defect triage, and GitHub suggestion diffs. |
+| **`codestral-fill-in-the-middle`** | Emulates Mistral Codestral Fill-in-the-Middle (FIM) surgical infilling. Anchors prefix and suffix code boundaries to generate exact bridge logic with zero indentation drift or hallucination. |
 | **`compiler-error-cascade-isolator`** | Intercepts C++ compiler error cascades (GCC, Clang, MSVC) during engine builds. Strips recursive template instantiation dumps and secondary cascading errors to isolate the primary root-cause error and source coordinates, slashing compiler diagnostic tokens by 90-95%. |
 | **`computer-vision-deep-learning`** | Modern deep-learning computer vision engineering and high-performance inference pipelines. Covers neural object detection (YOLOv8/YOLOv11, RT-DETR), instance segmentation (SAM 2), vision-language models (Florence-2, CLIP), ONNX Runtime/TensorRT GPU acceleration, and multi-object tracking (ByteTrack, DeepSORT). |
 | **`console-game-decompilation`** | Console game decompilation, matching reverse engineering, and disassembly workflows for PS1, PS2, PS3, original Xbox, Xbox 360, and retro platforms (MIPS, PowerPC, x86). Covers container inspection (PS-X EXE, ELF, XBE, XEX), binary splitting (splat), compiler matching, and objdiff verification. |
@@ -243,6 +244,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`deep-research-synthesizer`** | Autonomous multi-source web crawling, recursive citation mapping, source credibility ranking, and publication-grade technical research synthesis. |
 | **`deepseek-r1-math-verification`** | Emulates DeepSeek-R1 chain-of-verification and self-correcting mathematical proofs in Gemini 4 Argon reasoning tokens for memory layouts, offsets, and timing. |
 | **`deliberative-reasoning-tree`** | DeepSeek R1 and OpenAI o1-style Tree-of-Thought reasoning, exploring 3 branching hypothesis paths, adversarial self-critique, and formal backtracking before code modification. |
+| **`devin-environment-self-healer`** | Emulates Cognition Devin autonomous environment self-healing. Automatically diagnoses missing host dependencies, dynamic libraries (.so), and compiler toolchains on Linux (CachyOS/Arch). |
 | **`devsecops-supply-chain-security`** | DevSecOps build-time security hardening, Software Bill of Materials (SBOM), dependency vulnerability auditing, binary compiler hardening checks (checksec for RELRO, Canaries, NX, PIE), Git secret leak prevention, and rootless container isolation. Use when preparing releases, securing CI/CD pipelines, or auditing compiled binaries. |
 | **`disassembly-token-redactor`** | Reverse engineering disassembly token redactor and CFG basic-block condenser. Intercepts verbose objdump, Ghidra, and rizin disassembly dumps, stripping raw hex byte columns, instruction padding, and linear NOP sleds to slash binary reverse engineering tokens by 75-80%. |
 | **`discord-bot-engineering`** | Production Discord bot development across Python (discord.py) and TypeScript (discord.js). Covers modern Discord API v10, slash commands, interactive UI components (Buttons, Select Menus, Modals), Gateway intent discipline, rate-limit bucket management, Voice Gateway audio streaming, and high-availability sharded deployment. |
@@ -352,6 +354,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`prompt-cache-context-optimizer`** | Emulates 1M+ context windows and maximizes Anthropic prompt caching discounts (>90% savings) through strict prefix ordering, hierarchical AST compression, and cache stabilization. |
 | **`proton-game-dev-linux`** | Engineering and validating PC games and engines to target Valve Proton seamlessly from day one. Covers cross-platform Win32/POSIX case-sensitivity bugs, Steamworks SDK integration under Wine/Proton, headless Proton CLI test runners, and anti-cheat runtime packaging. |
 | **`python-engineering`** | Python software engineering and performance standards (Python 3.10+). Use when authoring or refactoring Python code, adding type annotations, writing pytest suites, optimizing hot paths, or using Ruff and Mypy. |
+| **`qwen-polyglot-ast-cartographer`** | Emulates Qwen 2.5 Coder polyglot AST cartography. Generates instant symbol call-graphs, inheritance trees, and signatures across C++, Python, Lua, and Rust in under 500 tokens. |
 | **`real-time-rendering-pipeline`** | Architecture, modern paradigms, and debugging for real-time game renderers (DirectX 12, Vulkan 1.3+, WebGPU). Use when designing render graphs, implementing bindless descriptors, configuring reverse-Z depth buffers, managing transient memory aliasing, or capturing frames with RenderDoc. |
 | **`reverse-engineer-anything`** | Reverse engineer native, managed, Electron/JavaScript, packaged, firmware, and browser targets with REA. Use shipped-artifact or requested runtime evidence to explain features, compare versions, decompile code, or guide a reconstruction. Skip REA for ordinary source-repository architecture analysis. |
 | **`rigging-weight-painting-pipeline`** | Character, creature, and animal rigging and skinning in Blender (bpy). Armature hierarchies, bone limits for game engines, automated weight painting normalization, IK/FK solvers, and deformation testing. |
@@ -408,6 +411,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`wakaru`** | >- |
 | **`win32-systems-engineering`** | Windows systems programming in C++/C#, Win32 API, Windows Registry, Windows Services (SCM), Named Pipes, Structured Exception Handling (SEH), and Windows Application Manifests. |
 | **`windows-app-engineering`** | Native Windows desktop UI engineering, WinUI 3, Windows App SDK, WPF (.NET 8/9), C#/WinRT component interop, Fluent Design, and MSIX packaging. |
+| **`windsurf-cascade-flow-tracker`** | Emulates Codeium Windsurf Cascade Flow on Gemini 4 Argon. Tracks multi-file dependency ripple effects, symbol references, and cascading changes across C++, Lua, and LTX configurations. |
 | **`wine-proton-native-interop`** | Native Linux and Wine/Proton interop engineering. Covers Win32-to-Linux IPC sockets, shared memory shims, Wine DLL call thunking, custom Wine builtin modules, and running hybrid native/Proton tooling. |
 | **`working-memory-checkpointing`** | Atomic snapshotting and 1-command rollback of in-flight git diffs, hypotheses, and active working state to safeguard complex multi-step refactors against dead-end debugging loops. |
 | **`writing-plans`** | Breaks down complex engineering tasks, refactors, and mod implementations into granular, dependency-ordered, verifiable task lists. Use when planning multi-step work. |
