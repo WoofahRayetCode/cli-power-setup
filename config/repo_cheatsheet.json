@@ -1,17 +1,54 @@
 {
-  "updated_at": "2026-10-17T10:37:31.180388",
+  "updated_at": "2026-10-17T10:39:55.379041",
   "total_repos": 32,
   "repos": [
+    {
+      "name": "OGSR-Engine",
+      "path": "~/Documents/GitHub/OGSR-Engine",
+      "is_git": true,
+      "activity_ts": 1792258794.9884577,
+      "age_str": "0s ago",
+      "dirty_count": 30,
+      "dirty_exts": {
+        ".cpp": 22,
+        ".hpp": 1,
+        ".h": 6,
+        ".json": 1,
+        ".md": 1
+      },
+      "recent_exts": [
+        ".cpp",
+        ".h"
+      ],
+      "top_exts": [
+        ".h",
+        ".cpp",
+        ".c"
+      ],
+      "last_commit": "fix(xrGame): skip 0-geom fixed root bones in CPHSk",
+      "stack": "C++20 / X-Ray 64b / DX11",
+      "work_now": "64b C++ Engine & DX11",
+      "plan_short": "Argon\u2022High (64b Arch)",
+      "impl_short": "Argon\u2022High (C++20/DX11)",
+      "edit_short": "Flash\u2022Low (LTX/Diffs)",
+      "plan_full": "Argon \u2022 High (64b Memory & DX11 Render Plan)",
+      "impl_full": "Argon \u2022 High (C++20 Engine, SIMD & Shaders)",
+      "edit_full": "Flash \u2022 Low (LTX/XML/Copy-Patch Diffs)",
+      "routine": "Flash\u2022Low (LTX/Diffs)",
+      "deep": "Argon\u2022High (64b Arch)",
+      "live_rec": "Argon \u2022 High",
+      "live_reason": "Engine C++ / 64b safety",
+      "hw": "RTX 5060 + 32-Thr /dev/shm"
+    },
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792258650.4283426,
+      "activity_ts": 1792258794.9358397,
       "age_str": "0s ago",
-      "dirty_count": 53,
+      "dirty_count": 3,
       "dirty_exts": {
-        ".mdc": 24,
-        ".md": 1
+        ".py": 1
       },
       "recent_exts": [
         ".mdc"
@@ -21,9 +58,9 @@
         ".md",
         ".py"
       ],
-      "last_commit": "feat(quota): add 3 empirical Gemini Argon/Flash qu",
+      "last_commit": "feat(statusline): show explicit Plan, Implement, a",
       "stack": "AI Skills / Python / Bash",
-      "work_now": "Skills & Rules",
+      "work_now": "CLI Daemons & Skills",
       "plan_short": "Argon\u2022High (Quota/Arch)",
       "impl_short": "Argon\u2022Med (Py/Sh CLI)",
       "edit_short": "Flash\u2022Low (Skills/Sync)",
@@ -32,8 +69,8 @@
       "edit_full": "Flash \u2022 Low (SKILL.md, GEMINI.md Rules & Repo Sync)",
       "routine": "Flash\u2022Low (Skills/Sync)",
       "deep": "Argon\u2022High (Quota/Arch)",
-      "live_rec": "Flash \u2022 Low",
-      "live_reason": "Skills & Rules",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "CLI Daemons & Skills",
       "hw": "Local AST/RAG + 32-Thr"
     },
     {
@@ -41,7 +78,7 @@
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
       "activity_ts": 1792255372.0,
-      "age_str": "54m ago",
+      "age_str": "57m ago",
       "dirty_count": 193,
       "dirty_exts": {
         ".md": 13,
@@ -115,44 +152,6 @@
       "deep": "Argon\u2022High (64b/3D)",
       "live_rec": "Argon\u2022High+Flash",
       "live_reason": "3D/OGF & C++ Port (Plan:High \u2022 Impl:High/Med \u2022 Edit:Flash)",
-      "hw": "RTX 5060 + 32-Thr /dev/shm"
-    },
-    {
-      "name": "OGSR-Engine",
-      "path": "~/Documents/GitHub/OGSR-Engine",
-      "is_git": true,
-      "activity_ts": 1792255333.0,
-      "age_str": "55m ago",
-      "dirty_count": 28,
-      "dirty_exts": {
-        ".hpp": 1,
-        ".cpp": 20,
-        ".h": 6,
-        ".json": 1,
-        ".md": 1
-      },
-      "recent_exts": [
-        ".cpp",
-        ".h"
-      ],
-      "top_exts": [
-        ".h",
-        ".cpp",
-        ".c"
-      ],
-      "last_commit": "fix(xrGame): skip 0-geom fixed root bones in CPHSk",
-      "stack": "C++20 / X-Ray 64b / DX11",
-      "work_now": "64b C++ Engine & DX11",
-      "plan_short": "Argon\u2022High (64b Arch)",
-      "impl_short": "Argon\u2022High (C++20/DX11)",
-      "edit_short": "Flash\u2022Low (LTX/Diffs)",
-      "plan_full": "Argon \u2022 High (64b Memory & DX11 Render Plan)",
-      "impl_full": "Argon \u2022 High (C++20 Engine, SIMD & Shaders)",
-      "edit_full": "Flash \u2022 Low (LTX/XML/Copy-Patch Diffs)",
-      "routine": "Flash\u2022Low (LTX/Diffs)",
-      "deep": "Argon\u2022High (64b Arch)",
-      "live_rec": "Argon \u2022 High",
-      "live_reason": "Engine C++ / 64b safety",
       "hw": "RTX 5060 + 32-Thr /dev/shm"
     },
     {

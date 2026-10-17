@@ -15,15 +15,76 @@ import urllib.request
 from pathlib import Path
 
 
-def query_local_ollama(endpoint, model, prompt, system_prompt="", timeout=10.0):
+import base64
+import subprocess
+
+
+def get_installed_ollama_models(endpoint="http://localhost:11434") -> list[str]:
+    tags_url = f"{endpoint.rstrip('/')}/api/tags"
+    try:
+        with urllib.request.urlopen(urllib.request.Request(tags_url), timeout=2.0) as resp:
+            if resp.status == 200:
+                data = json.loads(resp.read().decode("utf-8"))
+                return [m.get("name", "") for m in data.get("models", []) if m.get("name")]
+    except Exception:
+        pass
+    return []
+
+
+def get_free_vram_mb() -> int:
+    try:
+        out = subprocess.check_output(
+            ["nvidia-smi", "--query-gpu=memory.free", "--format=csv,noheader,nounits"],
+            text=True,
+            stderr=subprocess.DEVNULL,
+            timeout=1.5,
+        ).strip()
+        return int(out.splitlines()[0].strip())
+    except Exception:
+        return 6000
+
+
+def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint: str = "http://localhost:11434") -> str:
+    installed = get_installed_ollama_models(endpoint)
+    if not installed:
+        return requested_model
+    if requested_model != "auto" and requested_model in installed:
+        return requested_model
+
+    free_mb = get_free_vram_mb()
+    if task == "vision":
+        for cand in ("minicpm-v:latest", "minicpm-v:8b", "qwen2.5vl:7b", "moondream:latest", "llava:latest"):
+            if cand in installed:
+                return cand
+    elif task == "reason" and free_mb >= 5200:
+        for cand in ("deepseek-r1:8b", "deepseek-r1:7b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task == "fast" or free_mb < 4800:
+        for cand in ("qwen2.5-coder:1.5b", "llama3.2:3b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+
+    for cand in ("qwen2.5-coder:7b", "qwen2.5-coder:1.5b", "deepseek-r1:8b"):
+        if cand in installed:
+            return cand
+    return installed[0]
+
+
+def query_local_ollama(endpoint, model, prompt, system_prompt="", image_path="", timeout=25.0):
+    resolved_model = resolve_best_local_model(model, "vision" if image_path else "auto", endpoint)
     url = f"{endpoint.rstrip('/')}/api/generate"
     payload = {
-        "model": model,
+        "model": resolved_model,
         "prompt": prompt,
-        "stream": False
+        "stream": False,
+        "options": {"num_ctx": 4096},
     }
     if system_prompt:
         payload["system"] = system_prompt
+    if image_path and os.path.exists(image_path):
+        with open(image_path, "rb") as img_f:
+            payload["images"] = [base64.b64encode(img_f.read()).decode("utf-8")]
 
     data = json.dumps(payload).encode("utf-8")
     req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"}, method="POST")
@@ -38,24 +99,17 @@ def query_local_ollama(endpoint, model, prompt, system_prompt="", timeout=10.0):
 
 
 def cmd_status(args):
-    print(f"[🖥️ Local Coprocessor Status] Testing endpoint: {args.endpoint}")
-    tags_url = f"{args.endpoint.rstrip('/')}/api/tags"
-    req = urllib.request.Request(tags_url)
-    try:
-        with urllib.request.urlopen(req, timeout=3.0) as resp:
-            if resp.status == 200:
-                data = json.loads(resp.read().decode("utf-8"))
-                models = [m.get("name") for m in data.get("models", [])]
-                print(f"[✓] Local server active! Available models ({len(models)}):")
-                for m in models:
-                    print(f"  -> {m}")
-                return
-    except Exception as e:
-        if not args.dry_run:
-            print(f"[!] Local endpoint unreachable ({e}).", file=sys.stderr)
-    
+    free_mb = get_free_vram_mb()
+    print(f"[🖥️ Local Coprocessor Status] Endpoint: {args.endpoint} | RTX 5060 Free VRAM: {free_mb} MB")
+    models = get_installed_ollama_models(args.endpoint)
+    if models:
+        print(f"[✓] Local Ollama server active! Installed models ({len(models)}):")
+        for m in models:
+            print(f"  -> {m}")
+        return
+
     print("[!] Local Ollama/llama.cpp server not running on localhost:11434.")
-    print("  -> Tip: Start Ollama with `ollama serve` or run `ollama run qwen2.5-coder:1.5b`.")
+    print("  -> Tip: Start Ollama with `ollama serve` or run `ollama pull qwen2.5-coder:1.5b`.")
     if args.dry_run:
         print("[✓] Dry-run simulation active: Coprocessor ready.")
 
@@ -136,7 +190,7 @@ def main():
     common_parser = argparse.ArgumentParser(add_help=False)
     common_parser.add_argument("--dry-run", action="store_true", help="Simulate generation without active local server")
     common_parser.add_argument("--endpoint", type=str, default="http://localhost:11434", help="Local server URL")
-    common_parser.add_argument("--model", type=str, default="qwen2.5-coder:1.5b", help="Local model name")
+    common_parser.add_argument("--model", type=str, default="auto", help="Local model name (default: auto-detect based on VRAM & task)")
 
     parser = argparse.ArgumentParser(parents=[common_parser], description="Local Model Coprocessor & Quota Shield")
     subparsers = parser.add_subparsers(dest="command", required=True)
