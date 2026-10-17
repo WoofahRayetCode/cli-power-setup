@@ -572,26 +572,51 @@ def get_hw_and_swarm_segments() -> list[str]:
         except Exception:
             pass
 
-    # 3. GPU Temp & RTX 5060 VRAM via nvidia-smi
-    gpu_temp = "--°C"
+    # 3. Dual GPU Telemetry: dGPU (NVIDIA RTX 5060) + iGPU (AMD Radeon 610M via sysfs)
+    dgpu_str = "dGPU:--°C"
     vram_str = ""
     if shutil.which("nvidia-smi"):
         try:
             res = subprocess.run(
-                ["nvidia-smi", "--query-gpu=temperature.gpu,memory.used,memory.total", "--format=csv,noheader,nounits"],
+                [
+                    "nvidia-smi",
+                    "--query-gpu=temperature.gpu,utilization.gpu,memory.used,memory.total",
+                    "--format=csv,noheader,nounits",
+                ],
                 capture_output=True,
                 text=True,
                 timeout=0.5,
             )
             if res.returncode == 0 and res.stdout.strip():
                 parts = [p.strip() for p in res.stdout.strip().split(",")]
-                if len(parts) >= 3:
-                    gpu_temp = f"{parts[0]}°C"
-                    used_g = float(parts[1]) / 1024.0
-                    tot_g = float(parts[2]) / 1024.0
-                    vram_str = f"VRAM:{used_g:.1f}/{tot_g:.0f}G"
+                if len(parts) >= 4:
+                    dgpu_str = f"dGPU:{parts[0]}°C({parts[1]}%)"
+                    used_g = float(parts[2]) / 1024.0
+                    tot_g = float(parts[3]) / 1024.0
+                    vram_str = f"dVRAM:{used_g:.1f}/{tot_g:.0f}G"
         except Exception:
             pass
+
+    igpu_str = ""
+    ivram_str = ""
+    try:
+        for cdev in glob.glob("/sys/class/drm/card[0-9]/device"):
+            vf = os.path.join(cdev, "vendor")
+            if os.path.isfile(vf) and Path(vf).read_text(encoding="utf-8").strip().lower() == "0x1002":
+                busy_f = os.path.join(cdev, "gpu_busy_percent")
+                busy = Path(busy_f).read_text(encoding="utf-8").strip() if os.path.isfile(busy_f) else "0"
+                itmp = "--"
+                for tf in glob.glob(os.path.join(cdev, "hwmon/hwmon*/temp1_input")):
+                    itmp = str(int(Path(tf).read_text(encoding="utf-8").strip()) // 1000)
+                    break
+                igpu_str = f" iGPU:{itmp}°C({busy}%)"
+                vu_f = os.path.join(cdev, "mem_info_vram_used")
+                if os.path.isfile(vu_f):
+                    vu_mb = int(Path(vu_f).read_text(encoding="utf-8").strip()) / (1024 * 1024)
+                    ivram_str = f"iVRAM:{vu_mb:.0f}M"
+                break
+    except Exception:
+        pass
 
     # 4. /dev/shm RAM-Disk usage
     shm_str = ""
@@ -622,8 +647,8 @@ def get_hw_and_swarm_segments() -> list[str]:
         pass
 
     job_str = f"⚙️ {'+'.join(active_jobs)}" if active_jobs else "🐝 Swarm: Ready"
-    therm_seg = f"🌡️ CPU:{cpu_temp} GPU:{gpu_temp} ({prof_badge}{fan_rpm}{lid_lock_str})"
-    mem_parts = [p for p in (vram_str, shm_str) if p]
+    therm_seg = f"🌡️ CPU:{cpu_temp} {dgpu_str}{igpu_str} ({prof_badge}{fan_rpm}{lid_lock_str})"
+    mem_parts = [p for p in (vram_str, ivram_str, shm_str) if p]
     mem_seg = f"🚀 {' • '.join(mem_parts)}" if mem_parts else ""
 
     segs = [s for s in (therm_seg, mem_seg, job_str) if s]
