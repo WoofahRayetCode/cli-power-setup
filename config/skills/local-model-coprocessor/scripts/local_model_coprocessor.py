@@ -129,8 +129,28 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
         for cand in ("codellama:7b-python", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
+    elif task in ("translate", "localization", "dialogue", "stalker-xml", "i18n"):
+        for cand in ("aya:8b", "qwen2.5:7b", "llama3.1:8b"):
+            if cand in installed:
+                return cand
+    elif task in ("sql", "database", "schema"):
+        for cand in ("sqlcoder:7b", "granite-code:8b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task in ("tool", "agent", "swarm", "json"):
+        for cand in ("hermes3:8b", "llama3.1:8b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task in ("long", "summarize", "compact", "cartography"):
+        for cand in ("mistral-nemo:12b", "qwen2.5:7b", "llama3.1:8b"):
+            if cand in installed:
+                return cand
+    elif task in ("math", "physics", "ballistics", "quaternion"):
+        for cand in ("phi4:14b", "deepseek-r1:8b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
     elif task == "reason" and free_mb >= 5200:
-        for cand in ("deepseek-r1:8b", "deepseek-r1:7b", "qwen2.5-coder:7b"):
+        for cand in ("deepseek-r1:8b", "phi4:14b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task == "fast" or free_mb < 4800:
@@ -138,7 +158,7 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
             if cand in installed:
                 return cand
 
-    for cand in ("deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b", "granite-code:8b", "blender-architect:latest", "qwen2.5-coder:1.5b"):
+    for cand in ("deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b", "granite-code:8b", "mistral-nemo:12b", "hermes3:8b", "aya:8b", "blender-architect:latest", "qwen2.5-coder:1.5b"):
         if cand in installed:
             return cand
     return installed[0]
@@ -376,7 +396,7 @@ def main():
     common_parser.add_argument("--dry-run", action="store_true", help="Simulate generation without active local server")
     common_parser.add_argument("--endpoint", type=str, default="http://localhost:11434", help="Local server URL")
     common_parser.add_argument("--model", type=str, default="auto", help="Local model name (default: auto-detect based on VRAM & task)")
-    common_parser.add_argument("--task", type=str, default="auto", choices=["auto", "fast", "code", "reason", "vision", "blender", "csharp", "cpp", "rust", "python"], help="Task routing mode")
+    common_parser.add_argument("--task", type=str, default="auto", choices=["auto", "fast", "code", "reason", "vision", "blender", "csharp", "cpp", "rust", "python", "translate", "sql", "tool", "long", "math"], help="Task routing mode")
     common_parser.add_argument("--skill", type=str, default="", help="Comma-separated skill names to inject into local model system prompt")
     common_parser.add_argument("--auto-skill", action="store_true", default=True, help="Automatically match and inject relevant SKILL.md rules")
 
