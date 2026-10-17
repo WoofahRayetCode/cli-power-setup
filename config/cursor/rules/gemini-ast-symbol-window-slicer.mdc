@@ -1,6 +1,6 @@
 ---
 description: Slashes view_file uncached input token burn by 85% by prohibiting un-bounded 800-line view_file calls on files >100 lines, enforcing fast grep/AST line-number lookup followed by tight 40-80 line StartLine/EndLine windows.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

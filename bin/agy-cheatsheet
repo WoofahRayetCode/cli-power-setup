@@ -81,194 +81,267 @@ def classify_workload(
     repo_name: str,
     ext_counts: dict[str, int],
     dirty_exts: dict[str, int],
+    recent_exts: list[str] | None = None,
     has_crash_or_retry: bool = False,
 ) -> dict[str, str]:
     """
-    Determines the stack label, Routine (fast) model/effort, Deep (complex) model/effort,
-    LIVE right-now recommendation based on dirty files, and Hardware Offload hint.
+    Determines the stack label, active work right now, and explicit model recommendations for:
+    - Planning (📐 Plan)
+    - Implementing (🔨 Implement)
+    - General File Editing (✏️ Edit Files)
+    along with Local Hardware Offload hints.
     """
     name_low = repo_name.lower()
+    recent_set = set(recent_exts or [])
     active_exts = dirty_exts if sum(dirty_exts.values()) > 0 else ext_counts
 
-    # Helper to check extension presence
     def has_ext(*exts: str) -> bool:
         return any(ext_counts.get(e, 0) > 0 for e in exts)
 
     def dirty_has(*exts: str) -> bool:
-        return any(dirty_exts.get(e, 0) > 0 for e in exts)
+        return any(dirty_exts.get(e, 0) > 0 or e in recent_set for e in exts)
 
     # 1. S.T.A.L.K.E.R. X-Ray / OGSR 64-Bit C++ Engine & Merge Worktrees
     if "ogsr" in name_low or (has_ext(".cpp", ".h") and has_ext(".ps", ".vs", ".ltx")):
         stack = "C++20 / X-Ray 64b / DX11"
-        routine = "Flash • Low (LTX/DDS)"
-        deep = "Argon • High (64b C++/DX11)"
-        hw = "32-Thr CMake + /dev/shm"
+        edit_short = "Flash•Low (LTX/Diffs)"
+        edit_full = "Flash • Low (LTX/XML/Copy-Patch Diffs)"
+        hw = "RTX 5060 + 32-Thr /dev/shm"
+
         if "merge" in name_low:
+            if dirty_has(".ogf", ".dm", ".blend", ".dds") and dirty_has(".py", ".cpp"):
+                work_now = "3D/OGF & C++ Port"
+                plan_short = "Argon•High (64b/3D)"
+                impl_short = "Argon•Med(3D)/High(C++)"
+            elif dirty_has(".ps", ".vs", ".hlsl", ".xr"):
+                work_now = "DX11/RTX Shaders"
+                plan_short = "Argon•High (RTX/Render)"
+                impl_short = "Argon•High (HLSL/C++)"
+            elif dirty_has(".ogg", ".wav"):
+                work_now = "GSC Ogg Audio & Lua"
+                plan_short = "Argon•Med (Audio Spec)"
+                impl_short = "Flash•Low(Ogg)/Med(Lua)"
+            elif dirty_has(".script", ".lua"):
+                work_now = "X-Ray Lua & Playtest"
+                plan_short = "Argon•High (Quest/Nav)"
+                impl_short = "Argon•Med(Lua)/High(C++)"
+            else:
+                work_now = "64b C++ & Mod Merge"
+                plan_short = "Argon•High (64b/Arch)"
+                impl_short = "Argon•High(C++)+Flash"
+            plan_full = "Argon • High (64b Engine, Crash & Port Plan)"
+            impl_full = "Argon • High (C++/Shaders) │ Med (3D/Lua)"
             live_rec = "Argon•High+Flash"
-            live_reason = "Argon (C++/64b) + Flash Swarm (LTX)"
-        elif dirty_has(".cpp", ".h", ".hpp", ".c", ".ps", ".vs", ".hlsl", ".patch", ".s") or has_crash_or_retry:
-            live_rec = "Argon • High"
-            live_reason = "Active C++/Shader/64b work"
-        elif dirty_has(".ltx", ".xml", ".dds", ".ogg"):
-            live_rec = "Flash • Low"
-            live_reason = "Config/Asset edits"
+            live_reason = f"{work_now} (Plan:High • Impl:High/Med • Edit:Flash)"
         else:
+            work_now = "64b C++ Engine & DX11"
+            plan_short = "Argon•High (64b Arch)"
+            impl_short = "Argon•High (C++20/DX11)"
+            plan_full = "Argon • High (64b Memory & DX11 Render Plan)"
+            impl_full = "Argon • High (C++20 Engine, SIMD & Shaders)"
             live_rec = "Argon • High"
             live_reason = "Engine C++ / 64b safety"
 
     # 2. ZoneForge / S.T.A.L.K.E.R. Modding Suite
     elif "zoneforge" in name_low or has_ext(".ltx", ".script"):
         stack = "S.T.A.L.K.E.R. LTX/Lua/Py"
-        routine = "Flash • Low (LTX/Audio/DDS)"
-        deep = "Argon • Med (Lua/OGF/XDB)"
+        work_now = "Lua/OGF Codecs" if dirty_has(".script", ".py") else "LTX/DDS Mod Assets"
+        plan_short = "Argon•Med (Mod/Parser)"
+        impl_short = "Argon•Med (Lua/Py/OGF)"
+        edit_short = "Flash•Low (LTX/DDS/XML)"
+        plan_full = "Argon • Med (Mod Architecture & Binary Formats)"
+        impl_full = "Argon • Med (Python Codecs, Lua & OGF/XDB)"
+        edit_full = "Flash • Low (LTX Configs, String XML & UI)"
         hw = "CUDA/NumPy 32-Thr + /dev/shm"
-        if dirty_has(".script", ".py") or has_crash_or_retry:
-            live_rec = "Argon • Med"
-            live_reason = "Lua/Python logic"
-        else:
-            live_rec = "Flash • Low"
-            live_reason = "LTX/DDS/Mod packaging"
+        live_rec = "Argon • Med" if dirty_has(".script", ".py") else "Flash • Low"
+        live_reason = work_now
 
     # 3. Reverse Engineering / Binary Analysis (rea, GTA ASI fixes)
     elif name_low == "rea" or "gta" in name_low or has_ext(".asi"):
         stack = "Binary RE / Rust / TS / ASI"
-        routine = "Flash • Low (TS/INI/VDF)"
-        deep = "Argon • High (Decomp/Hooks)"
+        work_now = "Binary RE & ASI Hooks" if dirty_has(".rs", ".cpp", ".c", ".asi") else "RE MCP & Tooling"
+        plan_short = "Argon•High (Decomp/RE)"
+        impl_short = "Argon•High (Rust/C++)"
+        edit_short = "Flash•Low (TS/INI/VDF)"
+        plan_full = "Argon • High (Decompilation & Memory Hook Design)"
+        impl_full = "Argon • High (Rust/C++ ASI Hooks & REA Ledger)"
+        edit_full = "Flash • Low (TypeScript Schemas, INI & VDF)"
         hw = "REA MCP + 32-Thr Cargo"
-        if dirty_has(".rs", ".cpp", ".c", ".asi", ".glsl") or has_crash_or_retry:
-            live_rec = "Argon • High"
-            live_reason = "Binary RE / Native code"
-        else:
-            live_rec = "Flash • Med"
-            live_reason = "Tooling / Scripting"
+        live_rec = "Argon • High" if dirty_has(".rs", ".cpp", ".c", ".asi") else "Argon • Med"
+        live_reason = work_now
 
     # 4. Linux Kernel ACPI / Hardware Daemons (omen-acpi, omen-space)
     elif "omen" in name_low or (has_ext(".rs") and "acpi" in name_low):
         stack = "Linux Kernel / Rust / ACPI"
-        routine = "Flash • Low (Systemd/UI)"
-        deep = "Argon • High (EC/DKMS/Rust)"
+        work_now = "EC/ACPI & Thermals" if dirty_has(".rs", ".c", ".h") else "Systemd & Packaging"
+        plan_short = "Argon•High (EC/Kernel)"
+        impl_short = "Argon•High (Rust/DKMS)"
+        edit_short = "Flash•Low (Systemd/UI)"
+        plan_full = "Argon • High (ACPI DSDT/EC & Kernel Safety Plan)"
+        impl_full = "Argon • High (Rust D-Bus Daemon & C DKMS Module)"
+        edit_full = "Flash • Low (Systemd Units, PKGBUILD & UI Config)"
         hw = "CARGO_BUILD_JOBS=32"
-        if dirty_has(".rs", ".c", ".h", ".py") or has_crash_or_retry:
-            live_rec = "Argon • High"
-            live_reason = "Rust/ACPI/Audit safety"
-        else:
-            live_rec = "Flash • Low"
-            live_reason = "Packaging/Scripts"
+        live_rec = "Argon • High" if dirty_has(".rs", ".c", ".h") else "Flash • Low"
+        live_reason = work_now
 
     # 5. Godot 4 Game Projects (.gd, .tscn, .glb)
     elif has_ext(".gd", ".godot", ".import"):
         stack = "Godot 4 (GDScript / 3D GLB)"
-        routine = "Flash • Low (GDScript/UI)"
-        deep = "Argon • Med (3D/Nav/Shaders)"
+        work_now = "3D GLB & Shaders" if dirty_has(".glb", ".blend", ".gdshader") else "GDScript & Scenes"
+        plan_short = "Argon•Med (Scene/3D)"
+        impl_short = "Argon•Med(3D)/Flash(GD)"
+        edit_short = "Flash•Low (TSCN/UI)"
+        plan_full = "Argon • Med (Scene Tree, Signals & 3D Topology)"
+        impl_full = "Argon • Med (3D Shaders/Nav) │ Flash • Low (GDScript)"
+        edit_full = "Flash • Low (TSCN/TRES Properties & UI Tweaks)"
         hw = "RTX 5060 OptiX (Blender)"
-        if dirty_has(".glb", ".blend", ".gdshader") or has_crash_or_retry:
-            live_rec = "Argon • Med"
-            live_reason = "3D Mesh / Shader pipeline"
-        else:
-            live_rec = "Flash • Low"
-            live_reason = "Fast GDScript / Scene edits"
+        live_rec = "Argon • Med" if dirty_has(".glb", ".blend", ".gdshader") else "Flash • Low"
+        live_reason = work_now
 
     # 6. Unity / C# / Avalonia Cross-Platform (SuperRCProHams, PS-Multi-Tools)
     elif has_ext(".cs", ".axaml", ".unity"):
         stack = "C# .NET / Unity / Avalonia"
-        routine = "Flash • Low (XAML/UI/Meta)"
-        deep = "Argon • Med (Async/AOT/C#)"
+        work_now = "C# Async & Logic" if dirty_has(".cs") else "AXAML UI & Assets"
+        plan_short = "Argon•Med (MVVM/Async)"
+        impl_short = "Argon•Med (C# .NET/AOT)"
+        edit_short = "Flash•Low (AXAML/UI)"
+        plan_full = "Argon • Med (MVVM Architecture & Async/AOT Plan)"
+        impl_full = "Argon • Med (C# Core Logic, Span<T> & P/Invoke)"
+        edit_full = "Flash • Low (AXAML/XAML Views, CSProj & Configs)"
         hw = "Dotnet Parallel Build"
-        if dirty_has(".cs") and has_crash_or_retry:
-            live_rec = "Argon • High"
-            live_reason = "C# Debugging"
-        elif dirty_has(".cs"):
-            live_rec = "Argon • Med"
-            live_reason = "C# Logic & Types"
-        else:
-            live_rec = "Flash • Low"
-            live_reason = "UI / Config / Assets"
+        live_rec = "Argon • Med" if dirty_has(".cs") else "Flash • Low"
+        live_reason = work_now
 
     # 7. Android Kotlin / NDK (tetherfusenet, NSZ-Android)
     elif has_ext(".kt", ".kts"):
         stack = "Android Kotlin / NDK / VPN"
-        routine = "Flash • Low (XML/Gradle)"
-        deep = "Argon • Med (Kotlin/NDK)"
+        work_now = "Kotlin/NDK Services" if dirty_has(".kt", ".cpp", ".c") else "Gradle & Manifests"
+        plan_short = "Argon•Med (Service/NDK)"
+        impl_short = "Argon•Med (Kotlin/JNI)"
+        edit_short = "Flash•Low (Gradle/XML)"
+        plan_full = "Argon • Med (Android Foreground Service & NDK Plan)"
+        impl_full = "Argon • Med (Kotlin Coroutines, VPN & JNI C++)"
+        edit_full = "Flash • Low (Gradle KTS, AndroidManifest & XML UI)"
         hw = "ADB + Radeon 610M iGPU"
-        if dirty_has(".kt", ".cpp", ".c") or has_crash_or_retry:
-            live_rec = "Argon • Med"
-            live_reason = "Kotlin/NDK services"
-        else:
-            live_rec = "Flash • Low"
-            live_reason = "Gradle/Manifest/UI"
+        live_rec = "Argon • Med" if dirty_has(".kt", ".cpp", ".c") else "Flash • Low"
+        live_reason = work_now
 
     # 8. CLI Power Setup (Skills, Multi-Agent Orchestration, Hardware Offload)
     elif "cli-power-setup" in name_low:
         stack = "AI Skills / Python / Bash"
-        routine = "Flash • Low (Sync/Docs)"
-        deep = "Argon • High (Orchestration)"
+        work_now = "CLI Daemons & Skills" if dirty_has(".py", ".sh") else "Skills & Rules"
+        plan_short = "Argon•High (Quota/Arch)"
+        impl_short = "Argon•Med (Py/Sh CLI)"
+        edit_short = "Flash•Low (Skills/Sync)"
+        plan_full = "Argon • High (Quota Forensics & Multi-Agent Design)"
+        impl_full = "Argon • Med (Python/Bash CLI Daemons & AST Tools)"
+        edit_full = "Flash • Low (SKILL.md, GEMINI.md Rules & Repo Sync)"
         hw = "Local AST/RAG + 32-Thr"
-        if dirty_has(".py", ".sh") and sum(dirty_exts.values()) > 2:
-            live_rec = "Argon • Med"
-            live_reason = "Multi-tool engineering"
-        else:
-            live_rec = "Flash • Low"
-            live_reason = "Skill edits & repo sync"
+        live_rec = "Argon • Med" if dirty_has(".py", ".sh") else "Flash • Low"
+        live_reason = work_now
 
     # 9. Homelab / NAS / Docker (raspberry-pi-nas-setup)
     elif "nas" in name_low or "docker" in name_low:
         stack = "Homelab / Docker / Samba"
-        routine = "Flash • Low (Compose/Env)"
-        deep = "Argon • Med (Systemd/RAID)"
+        work_now = "Docker & NAS Config"
+        plan_short = "Argon•Med (Storage/Net)"
+        impl_short = "Flash•Low (Compose/Sh)"
+        edit_short = "Flash•Low (Env/Samba)"
+        plan_full = "Argon • Med (RAID Storage, Network & Security Plan)"
+        impl_full = "Flash • Low (Docker Compose Stacks & Systemd Timers)"
+        edit_full = "Flash • Low (.env Variables, Samba & Shell Edits)"
         hw = "Local ShellCheck Gate"
         live_rec = "Flash • Low"
-        live_reason = "Docker/NAS config"
+        live_reason = work_now
 
     # 10. Console Homebrew & Crypto Utilities (nsz, switch-softmod-prep, BadUpdate, AegisVault, obtainium)
     elif any(k in name_low for k in ("nsz", "switch", "badupdate", "aegis", "vault", "obtainium")):
         stack = "Python / Crypto / Homebrew"
-        routine = "Flash • Low (CLI/Feeds)"
-        deep = "Argon • Med (Crypto/Binary)"
-        hw = "32-Thr ProcessPool + /dev/shm"
-        if dirty_has(".py", ".so", ".spec") and "aegis" in name_low:
-            live_rec = "Argon • Med"
-            live_reason = "Security/Crypto Python"
+        if "aegis" in name_low or "vault" in name_low:
+            work_now = "Vault Crypto & Security"
+            plan_short = "Argon•High (Crypto/Sec)"
+            plan_full = "Argon • High (Cryptographic Threat Model & KDF Spec)"
         else:
-            live_rec = "Flash • Low"
-            live_reason = "Python/Feed tooling"
+            work_now = "Homebrew & Binary Tools"
+            plan_short = "Argon•Med (Binary Spec)"
+            plan_full = "Argon • Med (Binary Container & Partition Layout Plan)"
+        impl_short = "Argon•Med (Py/Crypto)"
+        edit_short = "Flash•Low (CLI/Feeds)"
+        impl_full = "Argon • Med (Python Crypto, Binary I/O & Compression)"
+        edit_full = "Flash • Low (CLI Flags, JSON Feeds & Documentation)"
+        hw = "32-Thr ProcessPool + /dev/shm"
+        live_rec = "Argon • Med" if dirty_has(".py", ".so", ".spec") else "Flash • Low"
+        live_reason = work_now
 
     # 11. Web / Static Sites / JS / Browser Extensions (ModernizedSites, ClutterlessSocial, Wlfryt-Android-Messages)
     elif has_ext(".html", ".js", ".ts", ".tsx", ".css", ".webp"):
         stack = "Web / JS / Extension"
-        routine = "Flash • Low (HTML/CSS/JS)"
-        deep = "Argon • Med (Architecture)"
+        work_now = "Web UI & JS Components"
+        plan_short = "Argon•Med (UX/System)"
+        impl_short = "Flash•Low (JS/TS/CSS)"
+        edit_short = "Flash•Low (HTML/Styles)"
+        plan_full = "Argon • Med (UI/UX Architecture & State Flow Plan)"
+        impl_full = "Flash • Low (JS/TS Components & Tailwind/CSS)"
+        edit_full = "Flash • Low (HTML Markup, Copy & Style Tweaks)"
         hw = "Radeon 610M iGPU Preview"
         live_rec = "Flash • Low"
-        live_reason = "Fast Web/JS iteration"
+        live_reason = work_now
 
     # Default fallback for any newly created or research repo
     else:
         top_ext = next(iter(active_exts.keys()), ".md")
         stack = f"Research / Docs ({top_ext})"
-        routine = "Flash • Low (Notes/Docs)"
-        deep = "Argon • Med (Deep Research)"
+        work_now = f"Docs & Research ({top_ext})"
+        plan_short = "Argon•Med (Research)"
+        impl_short = "Flash•Low (Drafting)"
+        edit_short = "Flash•Low (Markdown)"
+        plan_full = "Argon • Med (Deep Research & Synthesis Plan)"
+        impl_full = "Flash • Low (Document Drafting & Helper Scripts)"
+        edit_full = "Flash • Low (Markdown Formatting & Fast Edits)"
         hw = "Local Vector RAG"
         live_rec = "Flash • Low"
-        live_reason = "Standard workflow"
+        live_reason = work_now
 
     if has_crash_or_retry:
+        work_now = "⚠️ Crash / Error Triage"
+        plan_short = "Argon•High (Root Cause)"
+        impl_short = "Argon•High (Crash Fix)"
         live_rec = "Argon • High"
         live_reason = "⚠️ Recent error/retry escalation"
 
     return {
         "stack": stack,
-        "routine": routine,
-        "deep": deep,
+        "work_now": work_now,
+        "plan_short": plan_short,
+        "impl_short": impl_short,
+        "edit_short": edit_short,
+        "plan_full": plan_full,
+        "impl_full": impl_full,
+        "edit_full": edit_full,
+        "routine": edit_short,
+        "deep": plan_short,
         "live_rec": live_rec,
         "live_reason": live_reason,
         "hw": hw,
     }
 
 
+SKIP_AUTHORED_DIRS = {
+    "node_modules", "target", "build", "venv", ".venv", "dist", "__pycache__",
+    "shots", "logs", "bench", "walk", "crashes", "aisha_v1_backup", "aisha_v2_backup",
+    "_appdata_", "bin_x64",
+}
+SKIP_AUTHORED_FILES = {
+    "token_ledger.json", "repo_cheatsheet.json", "skill_ecosystem_graph.json",
+    "adaptive_reasoning_state.json",
+}
+
+
 def analyze_repo(repo: Path) -> dict:
-    """Scans a single repository for file signatures, git status, recent commits, and timestamps."""
+    """Scans a single repository for file signatures, git status, recent authored files, and timestamps."""
     ext_counts: dict[str, int] = {}
     latest_mtime = 0.0
+    authored_files: list[tuple[float, str]] = []
     is_git = (repo / ".git").exists()
 
     try:
@@ -277,9 +350,12 @@ def analyze_repo(repo: Path) -> dict:
                 d
                 for d in dirs
                 if not d.startswith(".")
-                and d not in ("node_modules", "target", "build", "venv", ".venv", "dist", "__pycache__")
+                and not d.startswith("_appdata")
+                and d not in SKIP_AUTHORED_DIRS
             ]
             for f in files:
+                if f in SKIP_AUTHORED_FILES:
+                    continue
                 fp = Path(root) / f
                 ext = fp.suffix.lower()
                 if ext:
@@ -288,10 +364,20 @@ def analyze_repo(repo: Path) -> dict:
                     mt = fp.stat().st_mtime
                     if mt > latest_mtime:
                         latest_mtime = mt
+                    if ext and ext not in (".png", ".jpg", ".sav", ".log"):
+                        authored_files.append((mt, ext))
                 except OSError:
                     pass
     except Exception:
         pass
+
+    authored_files.sort(reverse=True)
+    recent_exts: list[str] = []
+    for _, ext in authored_files[:15]:
+        if ext not in recent_exts:
+            recent_exts.append(ext)
+        if len(recent_exts) >= 3:
+            break
 
     git_ts = 0.0
     last_commit_subj = ""
@@ -309,16 +395,22 @@ def analyze_repo(repo: Path) -> dict:
             if len(line) > 3:
                 rel = line[3:].strip().strip('"')
                 dirty_files.append(rel)
+                top_part = Path(rel).parts[0] if Path(rel).parts else ""
+                if top_part.startswith(".") or top_part.startswith("_appdata") or top_part in SKIP_AUTHORED_DIRS:
+                    continue
                 dp = repo / rel
                 if dp.is_dir():
-                    for r_root, _, r_files in os.walk(dp):
+                    for r_root, r_dirs, r_files in os.walk(dp):
+                        r_dirs[:] = [d for d in r_dirs if not d.startswith(".") and d not in SKIP_AUTHORED_DIRS]
                         for rf in r_files:
                             ext = Path(rf).suffix.lower()
-                            if ext:
+                            if ext and ext not in (".png", ".jpg", ".sav", ".log"):
                                 dirty_exts[ext] = dirty_exts.get(ext, 0) + 1
                 else:
+                    if dp.name in SKIP_AUTHORED_FILES:
+                        continue
                     ext = dp.suffix.lower()
-                    if ext:
+                    if ext and ext not in (".png", ".jpg", ".sav", ".log"):
                         dirty_exts[ext] = dirty_exts.get(ext, 0) + 1
 
         if not dirty_exts:
@@ -340,7 +432,7 @@ def analyze_repo(repo: Path) -> dict:
             pass
 
     effective_dirty = dirty_exts if dirty_exts else recent_commit_exts
-    profile = classify_workload(repo.name, ext_counts, effective_dirty, has_crash_or_retry)
+    profile = classify_workload(repo.name, ext_counts, effective_dirty, recent_exts, has_crash_or_retry)
 
     activity_ts = max(git_ts, latest_mtime)
     top_exts = [k for k, _ in sorted(ext_counts.items(), key=lambda x: -x[1])[:3]]
@@ -353,6 +445,7 @@ def analyze_repo(repo: Path) -> dict:
         "age_str": fmt_age(activity_ts),
         "dirty_count": len(dirty_files),
         "dirty_exts": dirty_exts,
+        "recent_exts": recent_exts,
         "top_exts": top_exts,
         "last_commit": last_commit_subj,
         **profile,
@@ -402,6 +495,14 @@ def color_rec(rec: str) -> str:
     return f"{C_GREEN}{C_BOLD}{rec}{C_RESET}"
 
 
+def _short_tier(model_str: str) -> str:
+    if "Argon•High" in model_str or "Argon • High" in model_str:
+        return "High"
+    if "Argon•Med" in model_str or "Argon • Med" in model_str:
+        return "Med"
+    return "Flash"
+
+
 def get_statusline_bars(target_dir: str | None = None) -> dict:
     """Fast (<15ms cached) bottom-of-statusline cheat sheet bars for agy-quota-statusline."""
     cwd = Path(target_dir or os.getcwd()).resolve()
@@ -411,12 +512,17 @@ def get_statusline_bars(target_dir: str | None = None) -> dict:
     if STATUSLINE_CACHE.exists():
         try:
             cache = json.loads(STATUSLINE_CACHE.read_text(encoding="utf-8"))
-            if cache.get("cwd") == str(cwd) and (now - cache.get("ts", 0)) < 5 and "active_segments" in cache:
+            if (
+                cache.get("schema_v") == 7
+                and cache.get("cwd") == str(cwd)
+                and (now - cache.get("ts", 0)) < 5
+                and "active_segments" in cache
+            ):
                 return cache
         except Exception:
             pass
 
-    # Load or refresh fleet index (refresh if older than 60s)
+    # Load or refresh fleet index (refresh if older than 60s or outdated schema)
     fleet: list[dict] = []
     need_scan = True
     if CONFIG_STATE_PATH.exists():
@@ -424,7 +530,8 @@ def get_statusline_bars(target_dir: str | None = None) -> dict:
             if (now - CONFIG_STATE_PATH.stat().st_mtime) < 60:
                 data = json.loads(CONFIG_STATE_PATH.read_text(encoding="utf-8"))
                 fleet = data.get("repos", [])
-                need_scan = False
+                if fleet and "plan_short" in fleet[0]:
+                    need_scan = False
         except Exception:
             pass
     if need_scan or not fleet:
@@ -443,7 +550,6 @@ def get_statusline_bars(target_dir: str | None = None) -> dict:
         info = analyze_repo(repo_dir)
         prefix_label = info["name"]
     elif fleet:
-        # Fallback to most recently active repo in ~/Documents/GitHub
         top_name = fleet[0]["name"]
         top_path = GITHUB_ROOT / top_name
         info = analyze_repo(top_path) if top_path.is_dir() else fleet[0]
@@ -453,50 +559,59 @@ def get_statusline_bars(target_dir: str | None = None) -> dict:
             "name": cwd.name,
             "dirty_count": 0,
             "dirty_exts": {},
+            "recent_exts": [],
+            "work_now": "Standard Workflow",
+            "plan_short": "Argon•Med (Plan)",
+            "impl_short": "Argon•Med (Code)",
+            "edit_short": "Flash•Low (Edits)",
             "live_rec": "Flash • Low",
             "live_reason": "Standard workflow",
-            "routine": "Flash • Low",
-            "deep": "Argon • High",
+            "routine": "Flash•Low",
+            "deep": "Argon•High",
             "hw": "32-Thr CPU + /dev/shm",
         }
         prefix_label = cwd.name
 
-    dirty_exts_list = list(info.get("dirty_exts", {}).keys())[:2]
-    if info.get("dirty_count", 0) > 0:
-        ext_str = ",".join(dirty_exts_list) if dirty_exts_list else "files"
-        state_tag = f"{info['dirty_count']} dirty {ext_str}"
-    else:
-        state_tag = "clean"
-
-    rec_clean = info["live_rec"].replace(" ", "")
-    routine_clean = info["routine"].replace(" • ", "•")
-    deep_clean = info["deep"].replace(" • ", "•")
+    recent_exts = info.get("recent_exts") or list(info.get("dirty_exts", {}).keys())[:2]
+    ext_badge = ",".join(recent_exts[:2]) if recent_exts else "clean"
+    short_prefix = prefix_label.replace("ogsr-complete-", "ogsr-")
+    plan_tier_only = info["plan_short"].split(" (")[0]
 
     active_segments = [
-        f"🧭 CS [{prefix_label} • {state_tag}]",
-        f"🎯 Use: {rec_clean} ({info['live_reason']})",
-        f"⚡ Fast: {routine_clean}",
-        f"🔬 Deep: {deep_clean}",
-        f"🚀 HW: {info['hw']}",
+        f"🧭 {short_prefix} ({info['work_now']} {ext_badge})",
+        f"📐 Plan: {plan_tier_only}",
+        f"🔨 Implement: {info['impl_short'].replace(' (', '(')}",
+        f"✏️ Edit Files: {info['edit_short'].replace(' (', '(')}",
     ]
 
-    # Build top active fleet strip (top 5 other active repos)
+    # Build top active fleet strip (Hardware offload + top 3 other active repos with Plan/Impl/Edit)
     fleet_items = []
     for r in fleet:
         if r["name"] == info["name"]:
             continue
-        short_name = r["name"].replace("ogsr-complete-", "ogsr-").replace("wlfryt-", "")[:16]
-        r_rec = r["live_rec"].replace(" ", "")
-        fleet_items.append(f"{short_name}➔{r_rec}")
-        if len(fleet_items) >= 5:
+        short_name = (
+            r["name"]
+            .replace("ogsr-complete-", "ogsr-")
+            .replace("cli-power-setup", "cli-power")
+            .replace("wlfryt-", "")[:14]
+        )
+        p_t = _short_tier(r.get("plan_short", "Argon•Med"))
+        i_t = _short_tier(r.get("impl_short", "Argon•Med"))
+        e_t = _short_tier(r.get("edit_short", "Flash•Low"))
+        fleet_items.append(f"{short_name}({p_t}/{i_t}/{e_t})")
+        if len(fleet_items) >= 3:
             break
 
-    fleet_segments = ([f"📚 Repos: {fleet_items[0]}"] + fleet_items[1:]) if fleet_items else []
+    fleet_segments = [f"🚀 HW: {info['hw']}"]
+    if fleet_items:
+        fleet_segments.append(f"📚 Other Repos: {fleet_items[0]}")
+        fleet_segments.extend(fleet_items[1:])
 
     out = {
+        "schema_v": 7,
         "cwd": str(cwd),
         "ts": now,
-        "seg": f"🎯 Rec: {rec_clean}",
+        "seg": f"📐Plan:{_short_tier(info['plan_short'])} 🔨Impl:{_short_tier(info['impl_short'])} ✏️Edit:{_short_tier(info['edit_short'])}",
         "active_segments": active_segments,
         "fleet_segments": fleet_segments,
     }
@@ -508,91 +623,91 @@ def get_statusline_bars(target_dir: str | None = None) -> dict:
 
 
 def get_statusline_rec(target_dir: str | None = None) -> str:
-    return get_statusline_bars(target_dir).get("seg", "🎯 Rec: Flash•Low")
+    return get_statusline_bars(target_dir).get("seg", "📐Plan:Med 🔨Impl:Med ✏️Edit:Flash")
 
 
 def print_banner(cwd: Path, results: list[dict], top_n: int = 5) -> None:
-    """Compact 7-line cheat sheet printed automatically when launching agy-yolo / agy-turbo."""
-    # Identify current repo if inside one
-    cur_repo = None
-    for r in results:
-        if str(cwd).startswith(r["path"]):
-            cur_repo = r
-            break
+    """Compact cheat sheet printed automatically when launching agy-yolo / agy-turbo."""
+    cur_repo = next((r for r in results if str(cwd).startswith(r["path"])), results[0] if results else None)
 
-    print(f"{C_CYAN}╭──────────────────────────────────────────────────────────────────────────────────────────╮{C_RESET}")
-    print(f"{C_CYAN}│{C_RESET} 🧠 {C_BOLD}AGY DYNAMIC MODEL & REASONING CHEAT SHEET{C_RESET} {C_DIM}(Auto-updated from ~/Documents/GitHub){C_RESET}      {C_CYAN}│{C_RESET}")
+    print(f"{C_CYAN}╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮{C_RESET}")
+    print(f"{C_CYAN}│{C_RESET} 🧠 {C_BOLD}AGY DYNAMIC MODEL & WORKFLOW CHEAT SHEET{C_RESET} {C_DIM}(What model to use for Planning, Implementing & File Editing){C_RESET}          {C_CYAN}│{C_RESET}")
     if cur_repo:
-        dirty_tag = f"{C_YELLOW}{cur_repo['dirty_count']} dirty{C_RESET}" if cur_repo["dirty_count"] else f"{C_DIM}clean{C_RESET}"
+        exts = ",".join(cur_repo.get("recent_exts", [])[:3]) or "clean"
         print(
-            f"{C_CYAN}│{C_RESET} 📍 {C_BOLD}Current:{C_RESET} {cur_repo['name']:<22} ({dirty_tag}) ➔ Use {color_rec(cur_repo['live_rec'])} [{cur_repo['live_reason']}]"
+            f"{C_CYAN}│{C_RESET} 📍 {C_BOLD}Active Repo:{C_RESET} {C_BOLD}{cur_repo['name']:<22}{C_RESET} │ 🔥 {C_BOLD}Current Work:{C_RESET} {C_YELLOW}{cur_repo.get('work_now', ''):<26}{C_RESET} ({exts})"
         )
         print(
-            f"{C_CYAN}│{C_RESET}    ├─ Fast/Routine: {C_GREEN}{cur_repo['routine']:<24}{C_RESET} │ Deep/Debug: {C_MAGENTA}{cur_repo['deep']}{C_RESET}"
+            f"{C_CYAN}│{C_RESET}    ├─ 📐 {C_BOLD}Use for Planning     :{C_RESET} {C_MAGENTA}{cur_repo.get('plan_full', cur_repo['plan_short'])}{C_RESET}"
         )
         print(
-            f"{C_CYAN}│{C_RESET}    └─ Hardware Offload: {C_YELLOW}{cur_repo['hw']}{C_RESET}"
+            f"{C_CYAN}│{C_RESET}    ├─ 🔨 {C_BOLD}Use for Implementing :{C_RESET} {C_CYAN}{cur_repo.get('impl_full', cur_repo['impl_short'])}{C_RESET}"
         )
-    else:
         print(
-            f"{C_CYAN}│{C_RESET} 📍 {C_BOLD}Current:{C_RESET} {cwd.name:<22} ➔ Routine: {C_GREEN}Flash • Low{C_RESET} │ Complex: {C_MAGENTA}Argon • High{C_RESET}"
+            f"{C_CYAN}│{C_RESET}    ├─ ✏️  {C_BOLD}Use for File Editing :{C_RESET} {C_GREEN}{cur_repo.get('edit_full', cur_repo['edit_short'])}{C_RESET}"
+        )
+        print(
+            f"{C_CYAN}│{C_RESET}    └─ 🚀 {C_BOLD}Local HW Offload     :{C_RESET} {C_YELLOW}{cur_repo['hw']}{C_RESET}"
         )
 
-    print(f"{C_CYAN}├──────────────────────────┬───────────────────────┬──────────────────┬────────────────────┤{C_RESET}")
-    print(f"{C_CYAN}│{C_RESET} {C_BOLD}{'Recent Active Repo':<24}{C_RESET} │ {C_BOLD}{'Stack / Activity':<21}{C_RESET} │ {C_BOLD}{'Use Right Now':<16}{C_RESET} │ {C_BOLD}{'Local HW Offload':<18}{C_RESET} {C_CYAN}│{C_RESET}")
-    print(f"{C_CYAN}├──────────────────────────┼───────────────────────┼──────────────────┼────────────────────┤{C_RESET}")
+    print(f"{C_CYAN}├────────────────────────┬──────────────────────────┬──────────────────────────┬─────────────────────────────┬──────────────────────────┤{C_RESET}")
+    print(f"{C_CYAN}│{C_RESET} {C_BOLD}{'Recent Active Repo':<22}{C_RESET} │ {C_BOLD}{'Current Work':<24}{C_RESET} │ {C_BOLD}{'📐 Plan Model':<24}{C_RESET} │ {C_BOLD}{'🔨 Implement Model':<27}{C_RESET} │ {C_BOLD}{'✏️ File Edit Model':<24}{C_RESET} {C_CYAN}│{C_RESET}")
+    print(f"{C_CYAN}├────────────────────────┼──────────────────────────┼──────────────────────────┼─────────────────────────────┼──────────────────────────┤{C_RESET}")
     for r in results[:top_n]:
-        name_col = r["name"][:24]
-        stack_col = r["stack"][:21]
-        rec_raw = r["live_rec"]
-        pad = 16 - len(rec_raw)
-        rec_col = color_rec(rec_raw) + (" " * max(0, pad))
-        hw_col = r["hw"][:18]
-        print(f"{C_CYAN}│{C_RESET} {name_col:<24} │ {stack_col:<21} │ {rec_col} │ {hw_col:<18} {C_CYAN}│{C_RESET}")
-    print(f"{C_CYAN}╰──────────────────────────┴───────────────────────┴──────────────────┴────────────────────╯{C_RESET}")
+        name_col = r["name"][:22]
+        work_col = r.get("work_now", r["stack"])[:24]
+        plan_col = r.get("plan_short", r["deep"])[:24]
+        impl_col = r.get("impl_short", r["live_rec"])[:27]
+        edit_col = r.get("edit_short", r["routine"])[:24]
+        print(
+            f"{C_CYAN}│{C_RESET} {name_col:<22} │ {work_col:<24} │ {C_MAGENTA}{plan_col:<24}{C_RESET} │ {C_CYAN}{impl_col:<27}{C_RESET} │ {C_GREEN}{edit_col:<24}{C_RESET} {C_CYAN}│{C_RESET}"
+        )
+    print(f"{C_CYAN}╰────────────────────────┴──────────────────────────┴──────────────────────────┴─────────────────────────────┴──────────────────────────╯{C_RESET}")
     print(f"{C_DIM}  Tip: Run `agy-cheatsheet` (or `cs`) anytime for full table, or `agy-cheatsheet --all` for all {len(results)} repos.{C_RESET}\n")
 
 
 def print_full_table(cwd: Path, results: list[dict], show_all: bool = False) -> None:
     limit = len(results) if show_all else min(14, len(results))
-    cur_repo = next((r for r in results if str(cwd).startswith(r["path"])), None)
+    cur_repo = next((r for r in results if str(cwd).startswith(r["path"])), results[0] if results else None)
 
-    print(f"\n{C_CYAN}================================================================================================================{C_RESET}")
-    print(f" 🧠 {C_BOLD}ANTIGRAVITY (AGY) & CLAUDE DYNAMIC MODEL + REASONING CHEAT SHEET{C_RESET} ({len(results)} GitHub Repos Indexed)")
-    print(f"{C_CYAN}================================================================================================================{C_RESET}")
+    print(f"\n{C_CYAN}========================================================================================================================================{C_RESET}")
+    print(f" 🧠 {C_BOLD}ANTIGRAVITY (AGY) & CLAUDE MODEL SELECTION CHEAT SHEET — PLAN vs. IMPLEMENT vs. EDIT FILES{C_RESET} ({len(results)} GitHub Repos Indexed)")
+    print(f"{C_CYAN}========================================================================================================================================{C_RESET}")
 
     if cur_repo:
+        exts = ", ".join(cur_repo.get("recent_exts", [])[:3]) or "clean"
         dirty_info = (
-            f"{cur_repo['dirty_count']} uncommitted files ({', '.join(cur_repo['dirty_exts'].keys())})"
+            f"{cur_repo['dirty_count']} uncommitted files (Recent active: {exts})"
             if cur_repo["dirty_count"]
-            else "Working tree clean"
+            else f"Working tree clean (Recent active: {exts})"
         )
-        print(f" 📍 {C_BOLD}ACTIVE WORKSPACE:{C_RESET} {C_BOLD}{cur_repo['name']}{C_RESET}  |  {dirty_info}")
-        print(f"    🎯 {C_BOLD}RECOMMENDED NOW:{C_RESET}  {color_rec(cur_repo['live_rec'])}  —  {cur_repo['live_reason']}")
-        print(f"    ⚡ {C_BOLD}Fast / Routine:{C_RESET}   {C_GREEN}{cur_repo['routine']}{C_RESET}   |   🔬 {C_BOLD}Deep / Architecture:{C_RESET} {C_MAGENTA}{cur_repo['deep']}{C_RESET}")
-        print(f"    🚀 {C_BOLD}HW Accelerator:{C_RESET}   {C_YELLOW}{cur_repo['hw']}{C_RESET}")
-        print(f"{C_CYAN}----------------------------------------------------------------------------------------------------------------{C_RESET}")
+        print(f" 📍 {C_BOLD}ACTIVE WORKSPACE:{C_RESET}       {C_BOLD}{cur_repo['name']}{C_RESET}  │  🔥 {C_BOLD}Current Work:{C_RESET} {C_YELLOW}{cur_repo.get('work_now', '')}{C_RESET}  │  {dirty_info}")
+        print(f"    📐 {C_BOLD}USE FOR PLANNING:{C_RESET}     {C_MAGENTA}{C_BOLD}{cur_repo.get('plan_full', cur_repo['plan_short'])}{C_RESET}")
+        print(f"    🔨 {C_BOLD}USE FOR IMPLEMENTING:{C_RESET} {C_CYAN}{C_BOLD}{cur_repo.get('impl_full', cur_repo['impl_short'])}{C_RESET}")
+        print(f"    ✏️  {C_BOLD}USE FOR FILE EDITING:{C_RESET} {C_GREEN}{C_BOLD}{cur_repo.get('edit_full', cur_repo['edit_short'])}{C_RESET}")
+        print(f"    🚀 {C_BOLD}LOCAL HW OFF-LOAD:{C_RESET}    {C_YELLOW}{cur_repo['hw']}{C_RESET}")
+        print(f"{C_CYAN}----------------------------------------------------------------------------------------------------------------------------------------{C_RESET}")
 
-    header = f" {'Repository':<26} | {'Active':<8} | {'Stack':<23} | {'Right Now':<13} | {'Routine Mode':<22} | {'Deep Mode':<25}"
+    header = f" {'Repository':<24} | {'Current Work':<23} | {'📐 Plan With':<25} | {'🔨 Implement With':<29} | {'✏️ Edit Files With':<25}"
     print(C_BOLD + header + C_RESET)
-    print(f"{C_CYAN}----------------------------------------------------------------------------------------------------------------{C_RESET}")
+    print(f"{C_CYAN}----------------------------------------------------------------------------------------------------------------------------------------{C_RESET}")
 
     for r in results[:limit]:
         marker = "▶" if (cur_repo and r["name"] == cur_repo["name"]) else ("*" if r["dirty_count"] > 0 else " ")
-        name_str = f"{marker} {r['name'][:24]}"
-        age_str = f"{r['dirty_count']} dirty" if r["dirty_count"] > 0 else r["age_str"]
-        rec_raw = r["live_rec"]
-        rec_padded = color_rec(rec_raw) + (" " * max(0, 13 - len(rec_raw)))
+        name_str = f"{marker} {r['name'][:22]}"
+        work_str = r.get("work_now", r["stack"])[:23]
+        plan_str = r.get("plan_short", r["deep"])[:25]
+        impl_str = r.get("impl_short", r["live_rec"])[:29]
+        edit_str = r.get("edit_short", r["routine"])[:25]
         print(
-            f" {name_str:<26} | {age_str:<8} | {r['stack'][:23]:<23} | {rec_padded} | {r['routine'][:22]:<22} | {r['deep'][:25]:<25}"
+            f" {name_str:<24} | {work_str:<23} | {C_MAGENTA}{plan_str:<25}{C_RESET} | {C_CYAN}{impl_str:<29}{C_RESET} | {C_GREEN}{edit_str:<25}{C_RESET}"
         )
 
-    print(f"{C_CYAN}================================================================================================================{C_RESET}")
-    print(f" {C_BOLD}QUICK RULES OF THUMB:{C_RESET}")
-    print(f"  • {C_GREEN}{C_BOLD}Gemini Flash (Low){C_RESET}   ➔ LTX/JSON/TOML configs, GDScript UI, HTML/CSS, git sync, batch texture/audio scripts (Saves 85% quota)")
-    print(f"  • {C_CYAN}{C_BOLD}Gemini Argon (Med){C_RESET}   ➔ Blender 5.2+ 3D modeling (`bpy`), Lua quests, Kotlin/C# services, multi-file refactors")
-    print(f"  • {C_MAGENTA}{C_BOLD}Gemini Argon (High){C_RESET}  ➔ 64-bit C++ engine porting (`OGSR`), DX11/Vulkan shaders, binary RE (`rea`), kernel ACPI (`omen-acpi`), crashes")
-    print(f"  • {C_YELLOW}{C_BOLD}Argon + Flash Swarm{C_RESET}  ➔ Run `agy-yolo` on `ogsr-complete-merge` to pair Argon (C++/64b) + parallel Flash subagents (LTX/DDS/Audio)")
+    print(f"{C_CYAN}========================================================================================================================================{C_RESET}")
+    print(f" {C_BOLD}HOW TO CHOOSE THE RIGHT MODEL BY WORKFLOW PHASE:{C_RESET}")
+    print(f"  • 📐 {C_MAGENTA}{C_BOLD}Planning (`/plan`, Root-Cause Triage):{C_RESET} Use {C_MAGENTA}Argon • High{C_RESET} for 64b C++/Shaders/RE/Kernel/Crypto; {C_CYAN}Argon • Med{C_RESET} for 3D/Lua/App specs.")
+    print(f"  • 🔨 {C_CYAN}{C_BOLD}Implementing (New Code, Shaders, 3D):{C_RESET}  Use {C_MAGENTA}Argon • High{C_RESET} for C++20/HLSL/Hooks; {C_CYAN}Argon • Med{C_RESET} for Blender `bpy`/Lua/Kotlin/C#/Python.")
+    print(f"  • ✏️  {C_GREEN}{C_BOLD}General File Editing (Configs, Diffs):{C_RESET} Use {C_GREEN}Flash • Low{C_RESET} for LTX/JSON/XML, Copy-Then-Patch (`cp` + `replace_file_content`), and docs.")
     if not show_all and len(results) > limit:
         print(f"  {C_DIM}(Showing top {limit} most active repos. Run `agy-cheatsheet --all` to view all {len(results)} repos.){C_RESET}")
     print()

@@ -1,6 +1,6 @@
 ---
 description: ElevenLabs feature parity for expressive neural Text-to-Speech (TTS), Zero-Shot Instant Voice Cloning (F5-TTS, Chatterbox, CosyVoice 2, LTAS spectral timbre cloning), Speech-to-Speech (STS) voice conversion (Seed-VC, RVC v2, independent pitch/formant warping), character acoustic FX (PDA radio, gasmask, psy-chorus), and GSC X-Ray v3 Ogg encoding via ~/.local/bin/eleven-studio.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

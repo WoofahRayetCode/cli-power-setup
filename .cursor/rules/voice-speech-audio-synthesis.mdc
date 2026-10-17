@@ -1,6 +1,6 @@
 ---
 description: Speech-to-text transcription via Whisper, natural voice generation using Piper/Kokoro/OpenAI TTS, game NPC dialogue synthesis, and subtitle timing.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

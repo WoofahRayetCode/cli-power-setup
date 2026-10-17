@@ -820,7 +820,7 @@ def get_live_active_skills(cwd: str) -> list[str]:
         for s in ("token-economy", "dynamic-repo-model-cheatsheet"):
             add_skill(s)
 
-    top_skills = found_skills[:4]
+    top_skills = found_skills[:3]
     if not top_skills:
         return []
 

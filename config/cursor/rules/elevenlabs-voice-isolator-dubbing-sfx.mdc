@@ -1,6 +1,6 @@
 ---
 description: ElevenLabs feature parity for Studio Voice Isolator (STFT Wiener de-noising, UVR5/Mel-Band RoFormer/Demucs v4 vocal extraction), AI Cross-Language Game Audio Dubbing (translating Russian/Ukrainian NPC .ogg voice lines to English while preserving speaker timbre, duration, and GSC v3 headers), and Text-to-SFX (TangoFlux, Stable Audio Open, sound-web-scout).
-globs: *
+globs: 
 alwaysApply: false
 ---
 

@@ -1,54 +1,57 @@
 {
-  "updated_at": "2026-10-17T10:19:57.573462",
+  "updated_at": "2026-10-17T10:37:31.180388",
   "total_repos": 32,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792257597.2125819,
+      "activity_ts": 1792258650.4283426,
       "age_str": "0s ago",
-      "dirty_count": 15,
+      "dirty_count": 53,
       "dirty_exts": {
-        ".md": 5,
-        ".json": 3,
-        ".mdc": 6
+        ".mdc": 24,
+        ".md": 1
       },
+      "recent_exts": [
+        ".mdc"
+      ],
       "top_exts": [
         ".mdc",
         ".md",
         ".py"
       ],
-      "last_commit": "feat(statusline): add weekly quota reset timestamp",
+      "last_commit": "feat(quota): add 3 empirical Gemini Argon/Flash qu",
       "stack": "AI Skills / Python / Bash",
-      "routine": "Flash \u2022 Low (Sync/Docs)",
-      "deep": "Argon \u2022 High (Orchestration)",
+      "work_now": "Skills & Rules",
+      "plan_short": "Argon\u2022High (Quota/Arch)",
+      "impl_short": "Argon\u2022Med (Py/Sh CLI)",
+      "edit_short": "Flash\u2022Low (Skills/Sync)",
+      "plan_full": "Argon \u2022 High (Quota Forensics & Multi-Agent Design)",
+      "impl_full": "Argon \u2022 Med (Python/Bash CLI Daemons & AST Tools)",
+      "edit_full": "Flash \u2022 Low (SKILL.md, GEMINI.md Rules & Repo Sync)",
+      "routine": "Flash\u2022Low (Skills/Sync)",
+      "deep": "Argon\u2022High (Quota/Arch)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Skill edits & repo sync",
+      "live_reason": "Skills & Rules",
       "hw": "Local AST/RAG + 32-Thr"
     },
     {
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792255642.089617,
-      "age_str": "32m ago",
+      "activity_ts": 1792255372.0,
+      "age_str": "54m ago",
       "dirty_count": 193,
       "dirty_exts": {
-        ".json": 78,
-        ".md": 14,
-        ".png": 124,
-        ".blend1": 1,
-        ".blend": 1,
-        ".ogf": 3,
-        ".wav": 1,
+        ".md": 13,
+        ".ogf": 2,
         ".dds": 199,
         ".txt": 12,
         ".csv": 13,
         ".out": 11,
         ".conf": 3,
-        ".log": 38,
-        ".sav": 5,
+        ".json": 4,
         ".jsonl": 1,
         ".bak": 1,
         ".patch": 1,
@@ -89,25 +92,37 @@
         ".py": 28,
         ".js": 3
       },
+      "recent_exts": [
+        ".dds",
+        ".ogf",
+        ".py"
+      ],
       "top_exts": [
         ".ps",
         ".dds",
-        ".png"
+        ".s"
       ],
       "last_commit": "feat(aisha): sculpt v6 feline anatomy with flat-pl",
       "stack": "C++20 / X-Ray 64b / DX11",
-      "routine": "Flash \u2022 Low (LTX/DDS)",
-      "deep": "Argon \u2022 High (64b C++/DX11)",
+      "work_now": "3D/OGF & C++ Port",
+      "plan_short": "Argon\u2022High (64b/3D)",
+      "impl_short": "Argon\u2022Med(3D)/High(C++)",
+      "edit_short": "Flash\u2022Low (LTX/Diffs)",
+      "plan_full": "Argon \u2022 High (64b Engine, Crash & Port Plan)",
+      "impl_full": "Argon \u2022 High (C++/Shaders) \u2502 Med (3D/Lua)",
+      "edit_full": "Flash \u2022 Low (LTX/XML/Copy-Patch Diffs)",
+      "routine": "Flash\u2022Low (LTX/Diffs)",
+      "deep": "Argon\u2022High (64b/3D)",
       "live_rec": "Argon\u2022High+Flash",
-      "live_reason": "Argon (C++/64b) + Flash Swarm (LTX)",
-      "hw": "32-Thr CMake + /dev/shm"
+      "live_reason": "3D/OGF & C++ Port (Plan:High \u2022 Impl:High/Med \u2022 Edit:Flash)",
+      "hw": "RTX 5060 + 32-Thr /dev/shm"
     },
     {
       "name": "OGSR-Engine",
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
       "activity_ts": 1792255333.0,
-      "age_str": "37m ago",
+      "age_str": "55m ago",
       "dirty_count": 28,
       "dirty_exts": {
         ".hpp": 1,
@@ -116,6 +131,10 @@
         ".json": 1,
         ".md": 1
       },
+      "recent_exts": [
+        ".cpp",
+        ".h"
+      ],
       "top_exts": [
         ".h",
         ".cpp",
@@ -123,11 +142,18 @@
       ],
       "last_commit": "fix(xrGame): skip 0-geom fixed root bones in CPHSk",
       "stack": "C++20 / X-Ray 64b / DX11",
-      "routine": "Flash \u2022 Low (LTX/DDS)",
-      "deep": "Argon \u2022 High (64b C++/DX11)",
+      "work_now": "64b C++ Engine & DX11",
+      "plan_short": "Argon\u2022High (64b Arch)",
+      "impl_short": "Argon\u2022High (C++20/DX11)",
+      "edit_short": "Flash\u2022Low (LTX/Diffs)",
+      "plan_full": "Argon \u2022 High (64b Memory & DX11 Render Plan)",
+      "impl_full": "Argon \u2022 High (C++20 Engine, SIMD & Shaders)",
+      "edit_full": "Flash \u2022 Low (LTX/XML/Copy-Patch Diffs)",
+      "routine": "Flash\u2022Low (LTX/Diffs)",
+      "deep": "Argon\u2022High (64b Arch)",
       "live_rec": "Argon \u2022 High",
-      "live_reason": "Active C++/Shader/64b work",
-      "hw": "32-Thr CMake + /dev/shm"
+      "live_reason": "Engine C++ / 64b safety",
+      "hw": "RTX 5060 + 32-Thr /dev/shm"
     },
     {
       "name": "AegisVault",
@@ -143,6 +169,11 @@
         ".py": 31,
         ".spec": 2
       },
+      "recent_exts": [
+        ".md",
+        ".spec",
+        ".py"
+      ],
       "top_exts": [
         ".py",
         ".png",
@@ -150,10 +181,17 @@
       ],
       "last_commit": "feat(companions): implement manual check for ROM u",
       "stack": "Python / Crypto / Homebrew",
-      "routine": "Flash \u2022 Low (CLI/Feeds)",
-      "deep": "Argon \u2022 Med (Crypto/Binary)",
+      "work_now": "Vault Crypto & Security",
+      "plan_short": "Argon\u2022High (Crypto/Sec)",
+      "impl_short": "Argon\u2022Med (Py/Crypto)",
+      "edit_short": "Flash\u2022Low (CLI/Feeds)",
+      "plan_full": "Argon \u2022 High (Cryptographic Threat Model & KDF Spec)",
+      "impl_full": "Argon \u2022 Med (Python Crypto, Binary I/O & Compression)",
+      "edit_full": "Flash \u2022 Low (CLI Flags, JSON Feeds & Documentation)",
+      "routine": "Flash\u2022Low (CLI/Feeds)",
+      "deep": "Argon\u2022High (Crypto/Sec)",
       "live_rec": "Argon \u2022 Med",
-      "live_reason": "Security/Crypto Python",
+      "live_reason": "Vault Crypto & Security",
       "hw": "32-Thr ProcessPool + /dev/shm"
     },
     {
@@ -167,6 +205,11 @@
         ".md": 1,
         ".py": 4
       },
+      "recent_exts": [
+        ".md",
+        ".py",
+        ".vdf"
+      ],
       "top_exts": [
         ".dds",
         ".script",
@@ -174,10 +217,17 @@
       ],
       "last_commit": "Auto Medic: disable debug HUD info display by defa",
       "stack": "S.T.A.L.K.E.R. LTX/Lua/Py",
-      "routine": "Flash \u2022 Low (LTX/Audio/DDS)",
-      "deep": "Argon \u2022 Med (Lua/OGF/XDB)",
+      "work_now": "Lua/OGF Codecs",
+      "plan_short": "Argon\u2022Med (Mod/Parser)",
+      "impl_short": "Argon\u2022Med (Lua/Py/OGF)",
+      "edit_short": "Flash\u2022Low (LTX/DDS/XML)",
+      "plan_full": "Argon \u2022 Med (Mod Architecture & Binary Formats)",
+      "impl_full": "Argon \u2022 Med (Python Codecs, Lua & OGF/XDB)",
+      "edit_full": "Flash \u2022 Low (LTX Configs, String XML & UI)",
+      "routine": "Flash\u2022Low (LTX/DDS/XML)",
+      "deep": "Argon\u2022Med (Mod/Parser)",
       "live_rec": "Argon \u2022 Med",
-      "live_reason": "Lua/Python logic",
+      "live_reason": "Lua/OGF Codecs",
       "hw": "CUDA/NumPy 32-Thr + /dev/shm"
     },
     {
@@ -190,6 +240,11 @@
       "dirty_exts": {
         ".sh": 2
       },
+      "recent_exts": [
+        ".sh",
+        ".rs",
+        ".json"
+      ],
       "top_exts": [
         ".rs",
         ".svg",
@@ -197,10 +252,17 @@
       ],
       "last_commit": "Merge pull request #298 from ManOfDiamond/main",
       "stack": "Linux Kernel / Rust / ACPI",
-      "routine": "Flash \u2022 Low (Systemd/UI)",
-      "deep": "Argon \u2022 High (EC/DKMS/Rust)",
-      "live_rec": "Flash \u2022 Low",
-      "live_reason": "Packaging/Scripts",
+      "work_now": "EC/ACPI & Thermals",
+      "plan_short": "Argon\u2022High (EC/Kernel)",
+      "impl_short": "Argon\u2022High (Rust/DKMS)",
+      "edit_short": "Flash\u2022Low (Systemd/UI)",
+      "plan_full": "Argon \u2022 High (ACPI DSDT/EC & Kernel Safety Plan)",
+      "impl_full": "Argon \u2022 High (Rust D-Bus Daemon & C DKMS Module)",
+      "edit_full": "Flash \u2022 Low (Systemd Units, PKGBUILD & UI Config)",
+      "routine": "Flash\u2022Low (Systemd/UI)",
+      "deep": "Argon\u2022High (EC/Kernel)",
+      "live_rec": "Argon \u2022 High",
+      "live_reason": "EC/ACPI & Thermals",
       "hw": "CARGO_BUILD_JOBS=32"
     },
     {
@@ -214,16 +276,27 @@
         ".godot": 1,
         ".gd": 7
       },
+      "recent_exts": [
+        ".gd",
+        ".godot"
+      ],
       "top_exts": [
         ".gd",
         ".godot"
       ],
       "last_commit": "",
       "stack": "Godot 4 (GDScript / 3D GLB)",
-      "routine": "Flash \u2022 Low (GDScript/UI)",
-      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "work_now": "GDScript & Scenes",
+      "plan_short": "Argon\u2022Med (Scene/3D)",
+      "impl_short": "Argon\u2022Med(3D)/Flash(GD)",
+      "edit_short": "Flash\u2022Low (TSCN/UI)",
+      "plan_full": "Argon \u2022 Med (Scene Tree, Signals & 3D Topology)",
+      "impl_full": "Argon \u2022 Med (3D Shaders/Nav) \u2502 Flash \u2022 Low (GDScript)",
+      "edit_full": "Flash \u2022 Low (TSCN/TRES Properties & UI Tweaks)",
+      "routine": "Flash\u2022Low (TSCN/UI)",
+      "deep": "Argon\u2022Med (Scene/3D)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Fast GDScript / Scene edits",
+      "live_reason": "GDScript & Scenes",
       "hw": "RTX 5060 OptiX (Blender)"
     },
     {
@@ -233,9 +306,12 @@
       "activity_ts": 1791416159.8010454,
       "age_str": "9d ago",
       "dirty_count": 1,
-      "dirty_exts": {
-        ".png": 1
-      },
+      "dirty_exts": {},
+      "recent_exts": [
+        ".txt",
+        ".json",
+        ".asset"
+      ],
       "top_exts": [
         ".asset",
         ".meta",
@@ -243,10 +319,17 @@
       ],
       "last_commit": "Initial check-in",
       "stack": "C# .NET / Unity / Avalonia",
-      "routine": "Flash \u2022 Low (XAML/UI/Meta)",
-      "deep": "Argon \u2022 Med (Async/AOT/C#)",
+      "work_now": "AXAML UI & Assets",
+      "plan_short": "Argon\u2022Med (MVVM/Async)",
+      "impl_short": "Argon\u2022Med (C# .NET/AOT)",
+      "edit_short": "Flash\u2022Low (AXAML/UI)",
+      "plan_full": "Argon \u2022 Med (MVVM Architecture & Async/AOT Plan)",
+      "impl_full": "Argon \u2022 Med (C# Core Logic, Span<T> & P/Invoke)",
+      "edit_full": "Flash \u2022 Low (AXAML/XAML Views, CSProj & Configs)",
+      "routine": "Flash\u2022Low (AXAML/UI)",
+      "deep": "Argon\u2022Med (MVVM/Async)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "UI / Config / Assets",
+      "live_reason": "AXAML UI & Assets",
       "hw": "Dotnet Parallel Build"
     },
     {
@@ -259,6 +342,11 @@
       "dirty_exts": {
         ".sh": 1
       },
+      "recent_exts": [
+        ".sh",
+        ".md",
+        ".kt"
+      ],
       "top_exts": [
         ".kt",
         ".xml",
@@ -266,10 +354,17 @@
       ],
       "last_commit": "Say what to do when adb refuses to install on Xiao",
       "stack": "Android Kotlin / NDK / VPN",
-      "routine": "Flash \u2022 Low (XML/Gradle)",
-      "deep": "Argon \u2022 Med (Kotlin/NDK)",
-      "live_rec": "Flash \u2022 Low",
-      "live_reason": "Gradle/Manifest/UI",
+      "work_now": "Kotlin/NDK Services",
+      "plan_short": "Argon\u2022Med (Service/NDK)",
+      "impl_short": "Argon\u2022Med (Kotlin/JNI)",
+      "edit_short": "Flash\u2022Low (Gradle/XML)",
+      "plan_full": "Argon \u2022 Med (Android Foreground Service & NDK Plan)",
+      "impl_full": "Argon \u2022 Med (Kotlin Coroutines, VPN & JNI C++)",
+      "edit_full": "Flash \u2022 Low (Gradle KTS, AndroidManifest & XML UI)",
+      "routine": "Flash\u2022Low (Gradle/XML)",
+      "deep": "Argon\u2022Med (Service/NDK)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "Kotlin/NDK Services",
       "hw": "ADB + Radeon 610M iGPU"
     },
     {
@@ -280,11 +375,15 @@
       "age_str": "11d ago",
       "dirty_count": 20,
       "dirty_exts": {
-        ".jsonc": 1,
         ".md": 4,
         ".py": 4,
         ".sh": 7
       },
+      "recent_exts": [
+        ".md",
+        ".sh",
+        ".py"
+      ],
       "top_exts": [
         ".sh",
         ".py",
@@ -292,10 +391,17 @@
       ],
       "last_commit": "Merge S5 update persistence improvements",
       "stack": "Linux Kernel / Rust / ACPI",
-      "routine": "Flash \u2022 Low (Systemd/UI)",
-      "deep": "Argon \u2022 High (EC/DKMS/Rust)",
-      "live_rec": "Argon \u2022 High",
-      "live_reason": "Rust/ACPI/Audit safety",
+      "work_now": "Systemd & Packaging",
+      "plan_short": "Argon\u2022High (EC/Kernel)",
+      "impl_short": "Argon\u2022High (Rust/DKMS)",
+      "edit_short": "Flash\u2022Low (Systemd/UI)",
+      "plan_full": "Argon \u2022 High (ACPI DSDT/EC & Kernel Safety Plan)",
+      "impl_full": "Argon \u2022 High (Rust D-Bus Daemon & C DKMS Module)",
+      "edit_full": "Flash \u2022 Low (Systemd Units, PKGBUILD & UI Config)",
+      "routine": "Flash\u2022Low (Systemd/UI)",
+      "deep": "Argon\u2022High (EC/Kernel)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Systemd & Packaging",
       "hw": "CARGO_BUILD_JOBS=32"
     },
     {
@@ -303,9 +409,14 @@
       "path": "~/Documents/GitHub/nsz",
       "is_git": true,
       "activity_ts": 1792189743.6650836,
-      "age_str": "18h ago",
+      "age_str": "19h ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".py",
+        ".cmd",
+        ".sh"
+      ],
       "top_exts": [
         ".py",
         ".sh",
@@ -313,10 +424,17 @@
       ],
       "last_commit": "Merge pull request #248 from mmozeiko/decompress-f",
       "stack": "Python / Crypto / Homebrew",
-      "routine": "Flash \u2022 Low (CLI/Feeds)",
-      "deep": "Argon \u2022 Med (Crypto/Binary)",
-      "live_rec": "Flash \u2022 Low",
-      "live_reason": "Python/Feed tooling",
+      "work_now": "Homebrew & Binary Tools",
+      "plan_short": "Argon\u2022Med (Binary Spec)",
+      "impl_short": "Argon\u2022Med (Py/Crypto)",
+      "edit_short": "Flash\u2022Low (CLI/Feeds)",
+      "plan_full": "Argon \u2022 Med (Binary Container & Partition Layout Plan)",
+      "impl_full": "Argon \u2022 Med (Python Crypto, Binary I/O & Compression)",
+      "edit_full": "Flash \u2022 Low (CLI Flags, JSON Feeds & Documentation)",
+      "routine": "Flash\u2022Low (CLI/Feeds)",
+      "deep": "Argon\u2022Med (Binary Spec)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "Homebrew & Binary Tools",
       "hw": "32-Thr ProcessPool + /dev/shm"
     },
     {
@@ -327,6 +445,11 @@
       "age_str": "1d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".md",
+        ".json",
+        ".js"
+      ],
       "top_exts": [
         ".js",
         ".json",
@@ -334,10 +457,17 @@
       ],
       "last_commit": "Improve viewing of received video messages",
       "stack": "Web / JS / Extension",
-      "routine": "Flash \u2022 Low (HTML/CSS/JS)",
-      "deep": "Argon \u2022 Med (Architecture)",
+      "work_now": "Web UI & JS Components",
+      "plan_short": "Argon\u2022Med (UX/System)",
+      "impl_short": "Flash\u2022Low (JS/TS/CSS)",
+      "edit_short": "Flash\u2022Low (HTML/Styles)",
+      "plan_full": "Argon \u2022 Med (UI/UX Architecture & State Flow Plan)",
+      "impl_full": "Flash \u2022 Low (JS/TS Components & Tailwind/CSS)",
+      "edit_full": "Flash \u2022 Low (HTML Markup, Copy & Style Tweaks)",
+      "routine": "Flash\u2022Low (HTML/Styles)",
+      "deep": "Argon\u2022Med (UX/System)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Fast Web/JS iteration",
+      "live_reason": "Web UI & JS Components",
       "hw": "Radeon 610M iGPU Preview"
     },
     {
@@ -348,6 +478,10 @@
       "age_str": "1d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".xml",
+        ".webp"
+      ],
       "top_exts": [
         ".kt",
         ".webp",
@@ -355,10 +489,17 @@
       ],
       "last_commit": "",
       "stack": "Android Kotlin / NDK / VPN",
-      "routine": "Flash \u2022 Low (XML/Gradle)",
-      "deep": "Argon \u2022 Med (Kotlin/NDK)",
+      "work_now": "Gradle & Manifests",
+      "plan_short": "Argon\u2022Med (Service/NDK)",
+      "impl_short": "Argon\u2022Med (Kotlin/JNI)",
+      "edit_short": "Flash\u2022Low (Gradle/XML)",
+      "plan_full": "Argon \u2022 Med (Android Foreground Service & NDK Plan)",
+      "impl_full": "Argon \u2022 Med (Kotlin Coroutines, VPN & JNI C++)",
+      "edit_full": "Flash \u2022 Low (Gradle KTS, AndroidManifest & XML UI)",
+      "routine": "Flash\u2022Low (Gradle/XML)",
+      "deep": "Argon\u2022Med (Service/NDK)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Gradle/Manifest/UI",
+      "live_reason": "Gradle & Manifests",
       "hw": "ADB + Radeon 610M iGPU"
     },
     {
@@ -369,6 +510,11 @@
       "age_str": "1d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".md",
+        ".sh",
+        ".amgp"
+      ],
       "top_exts": [
         ".glsl",
         ".vdf",
@@ -376,10 +522,17 @@
       ],
       "last_commit": "Add modern controller support profiles, Steam Inpu",
       "stack": "Binary RE / Rust / TS / ASI",
-      "routine": "Flash \u2022 Low (TS/INI/VDF)",
-      "deep": "Argon \u2022 High (Decomp/Hooks)",
-      "live_rec": "Flash \u2022 Med",
-      "live_reason": "Tooling / Scripting",
+      "work_now": "RE MCP & Tooling",
+      "plan_short": "Argon\u2022High (Decomp/RE)",
+      "impl_short": "Argon\u2022High (Rust/C++)",
+      "edit_short": "Flash\u2022Low (TS/INI/VDF)",
+      "plan_full": "Argon \u2022 High (Decompilation & Memory Hook Design)",
+      "impl_full": "Argon \u2022 High (Rust/C++ ASI Hooks & REA Ledger)",
+      "edit_full": "Flash \u2022 Low (TypeScript Schemas, INI & VDF)",
+      "routine": "Flash\u2022Low (TS/INI/VDF)",
+      "deep": "Argon\u2022High (Decomp/RE)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "RE MCP & Tooling",
       "hw": "REA MCP + 32-Thr Cargo"
     },
     {
@@ -390,6 +543,11 @@
       "age_str": "2d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".xml",
+        ".txt",
+        ".json"
+      ],
       "top_exts": [
         ".ts",
         ".txt",
@@ -397,10 +555,17 @@
       ],
       "last_commit": "fix(process): preserve unrelated trace comparison ",
       "stack": "Binary RE / Rust / TS / ASI",
-      "routine": "Flash \u2022 Low (TS/INI/VDF)",
-      "deep": "Argon \u2022 High (Decomp/Hooks)",
-      "live_rec": "Flash \u2022 Med",
-      "live_reason": "Tooling / Scripting",
+      "work_now": "RE MCP & Tooling",
+      "plan_short": "Argon\u2022High (Decomp/RE)",
+      "impl_short": "Argon\u2022High (Rust/C++)",
+      "edit_short": "Flash\u2022Low (TS/INI/VDF)",
+      "plan_full": "Argon \u2022 High (Decompilation & Memory Hook Design)",
+      "impl_full": "Argon \u2022 High (Rust/C++ ASI Hooks & REA Ledger)",
+      "edit_full": "Flash \u2022 Low (TypeScript Schemas, INI & VDF)",
+      "routine": "Flash\u2022Low (TS/INI/VDF)",
+      "deep": "Argon\u2022High (Decomp/RE)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "RE MCP & Tooling",
       "hw": "REA MCP + 32-Thr Cargo"
     },
     {
@@ -411,16 +576,27 @@
       "age_str": "2d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".md",
+        ".json"
+      ],
       "top_exts": [
         ".json",
         ".md"
       ],
       "last_commit": "",
       "stack": "Python / Crypto / Homebrew",
-      "routine": "Flash \u2022 Low (CLI/Feeds)",
-      "deep": "Argon \u2022 Med (Crypto/Binary)",
+      "work_now": "Homebrew & Binary Tools",
+      "plan_short": "Argon\u2022Med (Binary Spec)",
+      "impl_short": "Argon\u2022Med (Py/Crypto)",
+      "edit_short": "Flash\u2022Low (CLI/Feeds)",
+      "plan_full": "Argon \u2022 Med (Binary Container & Partition Layout Plan)",
+      "impl_full": "Argon \u2022 Med (Python Crypto, Binary I/O & Compression)",
+      "edit_full": "Flash \u2022 Low (CLI Flags, JSON Feeds & Documentation)",
+      "routine": "Flash\u2022Low (CLI/Feeds)",
+      "deep": "Argon\u2022Med (Binary Spec)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Python/Feed tooling",
+      "live_reason": "Homebrew & Binary Tools",
       "hw": "32-Thr ProcessPool + /dev/shm"
     },
     {
@@ -431,6 +607,11 @@
       "age_str": "4d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".js",
+        ".kt",
+        ".xml"
+      ],
       "top_exts": [
         ".kt",
         ".ts",
@@ -438,10 +619,17 @@
       ],
       "last_commit": "",
       "stack": "Android Kotlin / NDK / VPN",
-      "routine": "Flash \u2022 Low (XML/Gradle)",
-      "deep": "Argon \u2022 Med (Kotlin/NDK)",
-      "live_rec": "Flash \u2022 Low",
-      "live_reason": "Gradle/Manifest/UI",
+      "work_now": "Kotlin/NDK Services",
+      "plan_short": "Argon\u2022Med (Service/NDK)",
+      "impl_short": "Argon\u2022Med (Kotlin/JNI)",
+      "edit_short": "Flash\u2022Low (Gradle/XML)",
+      "plan_full": "Argon \u2022 Med (Android Foreground Service & NDK Plan)",
+      "impl_full": "Argon \u2022 Med (Kotlin Coroutines, VPN & JNI C++)",
+      "edit_full": "Flash \u2022 Low (Gradle KTS, AndroidManifest & XML UI)",
+      "routine": "Flash\u2022Low (Gradle/XML)",
+      "deep": "Argon\u2022Med (Service/NDK)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "Kotlin/NDK Services",
       "hw": "ADB + Radeon 610M iGPU"
     },
     {
@@ -452,6 +640,11 @@
       "age_str": "6d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".md",
+        ".sh",
+        ".conf"
+      ],
       "top_exts": [
         ".md",
         ".sh",
@@ -459,10 +652,17 @@
       ],
       "last_commit": "",
       "stack": "Homelab / Docker / Samba",
-      "routine": "Flash \u2022 Low (Compose/Env)",
-      "deep": "Argon \u2022 Med (Systemd/RAID)",
+      "work_now": "Docker & NAS Config",
+      "plan_short": "Argon\u2022Med (Storage/Net)",
+      "impl_short": "Flash\u2022Low (Compose/Sh)",
+      "edit_short": "Flash\u2022Low (Env/Samba)",
+      "plan_full": "Argon \u2022 Med (RAID Storage, Network & Security Plan)",
+      "impl_full": "Flash \u2022 Low (Docker Compose Stacks & Systemd Timers)",
+      "edit_full": "Flash \u2022 Low (.env Variables, Samba & Shell Edits)",
+      "routine": "Flash\u2022Low (Env/Samba)",
+      "deep": "Argon\u2022Med (Storage/Net)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Docker/NAS config",
+      "live_reason": "Docker & NAS Config",
       "hw": "Local ShellCheck Gate"
     },
     {
@@ -473,6 +673,9 @@
       "age_str": "6d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".py"
+      ],
       "top_exts": [
         ".py",
         ".md",
@@ -480,10 +683,17 @@
       ],
       "last_commit": "Merge pull request #1 from WoofahRayetCode/feature",
       "stack": "Python / Crypto / Homebrew",
-      "routine": "Flash \u2022 Low (CLI/Feeds)",
-      "deep": "Argon \u2022 Med (Crypto/Binary)",
-      "live_rec": "Flash \u2022 Low",
-      "live_reason": "Python/Feed tooling",
+      "work_now": "Homebrew & Binary Tools",
+      "plan_short": "Argon\u2022Med (Binary Spec)",
+      "impl_short": "Argon\u2022Med (Py/Crypto)",
+      "edit_short": "Flash\u2022Low (CLI/Feeds)",
+      "plan_full": "Argon \u2022 Med (Binary Container & Partition Layout Plan)",
+      "impl_full": "Argon \u2022 Med (Python Crypto, Binary I/O & Compression)",
+      "edit_full": "Flash \u2022 Low (CLI Flags, JSON Feeds & Documentation)",
+      "routine": "Flash\u2022Low (CLI/Feeds)",
+      "deep": "Argon\u2022Med (Binary Spec)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "Homebrew & Binary Tools",
       "hw": "32-Thr ProcessPool + /dev/shm"
     },
     {
@@ -494,6 +704,11 @@
       "age_str": "6d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".txt",
+        ".md",
+        ".json"
+      ],
       "top_exts": [
         ".jpg",
         ".png",
@@ -501,10 +716,17 @@
       ],
       "last_commit": "Add the prospects dashboard: build script, page te",
       "stack": "Web / JS / Extension",
-      "routine": "Flash \u2022 Low (HTML/CSS/JS)",
-      "deep": "Argon \u2022 Med (Architecture)",
+      "work_now": "Web UI & JS Components",
+      "plan_short": "Argon\u2022Med (UX/System)",
+      "impl_short": "Flash\u2022Low (JS/TS/CSS)",
+      "edit_short": "Flash\u2022Low (HTML/Styles)",
+      "plan_full": "Argon \u2022 Med (UI/UX Architecture & State Flow Plan)",
+      "impl_full": "Flash \u2022 Low (JS/TS Components & Tailwind/CSS)",
+      "edit_full": "Flash \u2022 Low (HTML Markup, Copy & Style Tweaks)",
+      "routine": "Flash\u2022Low (HTML/Styles)",
+      "deep": "Argon\u2022Med (UX/System)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Fast Web/JS iteration",
+      "live_reason": "Web UI & JS Components",
       "hw": "Radeon 610M iGPU Preview"
     },
     {
@@ -515,6 +737,11 @@
       "age_str": "8d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".md",
+        ".gd",
+        ".uid"
+      ],
       "top_exts": [
         ".import",
         ".png",
@@ -522,10 +749,17 @@
       ],
       "last_commit": "Frame cap follows the display's refresh (an even s",
       "stack": "Godot 4 (GDScript / 3D GLB)",
-      "routine": "Flash \u2022 Low (GDScript/UI)",
-      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "work_now": "GDScript & Scenes",
+      "plan_short": "Argon\u2022Med (Scene/3D)",
+      "impl_short": "Argon\u2022Med(3D)/Flash(GD)",
+      "edit_short": "Flash\u2022Low (TSCN/UI)",
+      "plan_full": "Argon \u2022 Med (Scene Tree, Signals & 3D Topology)",
+      "impl_full": "Argon \u2022 Med (3D Shaders/Nav) \u2502 Flash \u2022 Low (GDScript)",
+      "edit_full": "Flash \u2022 Low (TSCN/TRES Properties & UI Tweaks)",
+      "routine": "Flash\u2022Low (TSCN/UI)",
+      "deep": "Argon\u2022Med (Scene/3D)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Fast GDScript / Scene edits",
+      "live_reason": "GDScript & Scenes",
       "hw": "RTX 5060 OptiX (Blender)"
     },
     {
@@ -536,6 +770,11 @@
       "age_str": "8d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".gd",
+        ".md",
+        ".json"
+      ],
       "top_exts": [
         ".import",
         ".png",
@@ -543,10 +782,17 @@
       ],
       "last_commit": "Release the floating stick when a sheet opens or t",
       "stack": "Godot 4 (GDScript / 3D GLB)",
-      "routine": "Flash \u2022 Low (GDScript/UI)",
-      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "work_now": "GDScript & Scenes",
+      "plan_short": "Argon\u2022Med (Scene/3D)",
+      "impl_short": "Argon\u2022Med(3D)/Flash(GD)",
+      "edit_short": "Flash\u2022Low (TSCN/UI)",
+      "plan_full": "Argon \u2022 Med (Scene Tree, Signals & 3D Topology)",
+      "impl_full": "Argon \u2022 Med (3D Shaders/Nav) \u2502 Flash \u2022 Low (GDScript)",
+      "edit_full": "Flash \u2022 Low (TSCN/TRES Properties & UI Tweaks)",
+      "routine": "Flash\u2022Low (TSCN/UI)",
+      "deep": "Argon\u2022Med (Scene/3D)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Fast GDScript / Scene edits",
+      "live_reason": "GDScript & Scenes",
       "hw": "RTX 5060 OptiX (Blender)"
     },
     {
@@ -557,6 +803,11 @@
       "age_str": "8d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".gd",
+        ".md",
+        ".import"
+      ],
       "top_exts": [
         ".import",
         ".png",
@@ -564,10 +815,17 @@
       ],
       "last_commit": "Fix the in-game credits line: the audio is fully s",
       "stack": "Godot 4 (GDScript / 3D GLB)",
-      "routine": "Flash \u2022 Low (GDScript/UI)",
-      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "work_now": "GDScript & Scenes",
+      "plan_short": "Argon\u2022Med (Scene/3D)",
+      "impl_short": "Argon\u2022Med(3D)/Flash(GD)",
+      "edit_short": "Flash\u2022Low (TSCN/UI)",
+      "plan_full": "Argon \u2022 Med (Scene Tree, Signals & 3D Topology)",
+      "impl_full": "Argon \u2022 Med (3D Shaders/Nav) \u2502 Flash \u2022 Low (GDScript)",
+      "edit_full": "Flash \u2022 Low (TSCN/TRES Properties & UI Tweaks)",
+      "routine": "Flash\u2022Low (TSCN/UI)",
+      "deep": "Argon\u2022Med (Scene/3D)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Fast GDScript / Scene edits",
+      "live_reason": "GDScript & Scenes",
       "hw": "RTX 5060 OptiX (Blender)"
     },
     {
@@ -578,6 +836,11 @@
       "age_str": "8d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".gd",
+        ".import",
+        ".ogg"
+      ],
       "top_exts": [
         ".import",
         ".png",
@@ -585,10 +848,17 @@
       ],
       "last_commit": "Cargo Camp: migrate harness, reset income readout ",
       "stack": "Godot 4 (GDScript / 3D GLB)",
-      "routine": "Flash \u2022 Low (GDScript/UI)",
-      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "work_now": "GDScript & Scenes",
+      "plan_short": "Argon\u2022Med (Scene/3D)",
+      "impl_short": "Argon\u2022Med(3D)/Flash(GD)",
+      "edit_short": "Flash\u2022Low (TSCN/UI)",
+      "plan_full": "Argon \u2022 Med (Scene Tree, Signals & 3D Topology)",
+      "impl_full": "Argon \u2022 Med (3D Shaders/Nav) \u2502 Flash \u2022 Low (GDScript)",
+      "edit_full": "Flash \u2022 Low (TSCN/TRES Properties & UI Tweaks)",
+      "routine": "Flash\u2022Low (TSCN/UI)",
+      "deep": "Argon\u2022Med (Scene/3D)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Fast GDScript / Scene edits",
+      "live_reason": "GDScript & Scenes",
       "hw": "RTX 5060 OptiX (Blender)"
     },
     {
@@ -599,6 +869,11 @@
       "age_str": "9d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".import",
+        ".gd",
+        ".md"
+      ],
       "top_exts": [
         ".import",
         ".png",
@@ -606,10 +881,17 @@
       ],
       "last_commit": "Redesign Mob Rush UI/UX: arcade hazard / garage HQ",
       "stack": "Godot 4 (GDScript / 3D GLB)",
-      "routine": "Flash \u2022 Low (GDScript/UI)",
-      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "work_now": "3D GLB & Shaders",
+      "plan_short": "Argon\u2022Med (Scene/3D)",
+      "impl_short": "Argon\u2022Med(3D)/Flash(GD)",
+      "edit_short": "Flash\u2022Low (TSCN/UI)",
+      "plan_full": "Argon \u2022 Med (Scene Tree, Signals & 3D Topology)",
+      "impl_full": "Argon \u2022 Med (3D Shaders/Nav) \u2502 Flash \u2022 Low (GDScript)",
+      "edit_full": "Flash \u2022 Low (TSCN/TRES Properties & UI Tweaks)",
+      "routine": "Flash\u2022Low (TSCN/UI)",
+      "deep": "Argon\u2022Med (Scene/3D)",
       "live_rec": "Argon \u2022 Med",
-      "live_reason": "3D Mesh / Shader pipeline",
+      "live_reason": "3D GLB & Shaders",
       "hw": "RTX 5060 OptiX (Blender)"
     },
     {
@@ -620,6 +902,11 @@
       "age_str": "9d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".gd",
+        ".import",
+        ".md"
+      ],
       "top_exts": [
         ".import",
         ".png",
@@ -627,10 +914,17 @@
       ],
       "last_commit": "Redesign Barrel Breaker UI/UX: dockyard stencil / ",
       "stack": "Godot 4 (GDScript / 3D GLB)",
-      "routine": "Flash \u2022 Low (GDScript/UI)",
-      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "work_now": "3D GLB & Shaders",
+      "plan_short": "Argon\u2022Med (Scene/3D)",
+      "impl_short": "Argon\u2022Med(3D)/Flash(GD)",
+      "edit_short": "Flash\u2022Low (TSCN/UI)",
+      "plan_full": "Argon \u2022 Med (Scene Tree, Signals & 3D Topology)",
+      "impl_full": "Argon \u2022 Med (3D Shaders/Nav) \u2502 Flash \u2022 Low (GDScript)",
+      "edit_full": "Flash \u2022 Low (TSCN/TRES Properties & UI Tweaks)",
+      "routine": "Flash\u2022Low (TSCN/UI)",
+      "deep": "Argon\u2022Med (Scene/3D)",
       "live_rec": "Argon \u2022 Med",
-      "live_reason": "3D Mesh / Shader pipeline",
+      "live_reason": "3D GLB & Shaders",
       "hw": "RTX 5060 OptiX (Blender)"
     },
     {
@@ -641,6 +935,11 @@
       "age_str": "9d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".gd",
+        ".import",
+        ".svg"
+      ],
       "top_exts": [
         ".import",
         ".png",
@@ -648,10 +947,17 @@
       ],
       "last_commit": "Fix stage-select pages coming up empty after a pag",
       "stack": "Godot 4 (GDScript / 3D GLB)",
-      "routine": "Flash \u2022 Low (GDScript/UI)",
-      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "work_now": "GDScript & Scenes",
+      "plan_short": "Argon\u2022Med (Scene/3D)",
+      "impl_short": "Argon\u2022Med(3D)/Flash(GD)",
+      "edit_short": "Flash\u2022Low (TSCN/UI)",
+      "plan_full": "Argon \u2022 Med (Scene Tree, Signals & 3D Topology)",
+      "impl_full": "Argon \u2022 Med (3D Shaders/Nav) \u2502 Flash \u2022 Low (GDScript)",
+      "edit_full": "Flash \u2022 Low (TSCN/TRES Properties & UI Tweaks)",
+      "routine": "Flash\u2022Low (TSCN/UI)",
+      "deep": "Argon\u2022Med (Scene/3D)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Fast GDScript / Scene edits",
+      "live_reason": "GDScript & Scenes",
       "hw": "RTX 5060 OptiX (Blender)"
     },
     {
@@ -662,6 +968,11 @@
       "age_str": "9d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".gd",
+        ".sh",
+        ".import"
+      ],
       "top_exts": [
         ".import",
         ".png",
@@ -669,10 +980,17 @@
       ],
       "last_commit": "Fix stage-select pages coming up empty after a pag",
       "stack": "Godot 4 (GDScript / 3D GLB)",
-      "routine": "Flash \u2022 Low (GDScript/UI)",
-      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "work_now": "GDScript & Scenes",
+      "plan_short": "Argon\u2022Med (Scene/3D)",
+      "impl_short": "Argon\u2022Med(3D)/Flash(GD)",
+      "edit_short": "Flash\u2022Low (TSCN/UI)",
+      "plan_full": "Argon \u2022 Med (Scene Tree, Signals & 3D Topology)",
+      "impl_full": "Argon \u2022 Med (3D Shaders/Nav) \u2502 Flash \u2022 Low (GDScript)",
+      "edit_full": "Flash \u2022 Low (TSCN/TRES Properties & UI Tweaks)",
+      "routine": "Flash\u2022Low (TSCN/UI)",
+      "deep": "Argon\u2022Med (Scene/3D)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Fast GDScript / Scene edits",
+      "live_reason": "GDScript & Scenes",
       "hw": "RTX 5060 OptiX (Blender)"
     },
     {
@@ -683,6 +1001,11 @@
       "age_str": "9d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".gd",
+        ".import",
+        ".sh"
+      ],
       "top_exts": [
         ".import",
         ".png",
@@ -690,10 +1013,17 @@
       ],
       "last_commit": "Fix stage-select pages coming up empty after a pag",
       "stack": "Godot 4 (GDScript / 3D GLB)",
-      "routine": "Flash \u2022 Low (GDScript/UI)",
-      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "work_now": "GDScript & Scenes",
+      "plan_short": "Argon\u2022Med (Scene/3D)",
+      "impl_short": "Argon\u2022Med(3D)/Flash(GD)",
+      "edit_short": "Flash\u2022Low (TSCN/UI)",
+      "plan_full": "Argon \u2022 Med (Scene Tree, Signals & 3D Topology)",
+      "impl_full": "Argon \u2022 Med (3D Shaders/Nav) \u2502 Flash \u2022 Low (GDScript)",
+      "edit_full": "Flash \u2022 Low (TSCN/TRES Properties & UI Tweaks)",
+      "routine": "Flash\u2022Low (TSCN/UI)",
+      "deep": "Argon\u2022Med (Scene/3D)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Fast GDScript / Scene edits",
+      "live_reason": "GDScript & Scenes",
       "hw": "RTX 5060 OptiX (Blender)"
     },
     {
@@ -704,15 +1034,25 @@
       "age_str": "9d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".md"
+      ],
       "top_exts": [
         ".md"
       ],
       "last_commit": "Add bait-and-switch mobile game ad research",
       "stack": "Research / Docs (.md)",
-      "routine": "Flash \u2022 Low (Notes/Docs)",
-      "deep": "Argon \u2022 Med (Deep Research)",
+      "work_now": "Docs & Research (.md)",
+      "plan_short": "Argon\u2022Med (Research)",
+      "impl_short": "Flash\u2022Low (Drafting)",
+      "edit_short": "Flash\u2022Low (Markdown)",
+      "plan_full": "Argon \u2022 Med (Deep Research & Synthesis Plan)",
+      "impl_full": "Flash \u2022 Low (Document Drafting & Helper Scripts)",
+      "edit_full": "Flash \u2022 Low (Markdown Formatting & Fast Edits)",
+      "routine": "Flash\u2022Low (Markdown)",
+      "deep": "Argon\u2022Med (Research)",
       "live_rec": "Flash \u2022 Low",
-      "live_reason": "Standard workflow",
+      "live_reason": "Docs & Research (.md)",
       "hw": "Local Vector RAG"
     },
     {
@@ -723,6 +1063,11 @@
       "age_str": "11d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".py",
+        ".txt",
+        ".json"
+      ],
       "top_exts": [
         ".py",
         ".txt",
@@ -730,10 +1075,17 @@
       ],
       "last_commit": "feat(tests): add test_extract.py for testing extra",
       "stack": "Python / Crypto / Homebrew",
-      "routine": "Flash \u2022 Low (CLI/Feeds)",
-      "deep": "Argon \u2022 Med (Crypto/Binary)",
-      "live_rec": "Flash \u2022 Low",
-      "live_reason": "Python/Feed tooling",
+      "work_now": "Homebrew & Binary Tools",
+      "plan_short": "Argon\u2022Med (Binary Spec)",
+      "impl_short": "Argon\u2022Med (Py/Crypto)",
+      "edit_short": "Flash\u2022Low (CLI/Feeds)",
+      "plan_full": "Argon \u2022 Med (Binary Container & Partition Layout Plan)",
+      "impl_full": "Argon \u2022 Med (Python Crypto, Binary I/O & Compression)",
+      "edit_full": "Flash \u2022 Low (CLI Flags, JSON Feeds & Documentation)",
+      "routine": "Flash\u2022Low (CLI/Feeds)",
+      "deep": "Argon\u2022Med (Binary Spec)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "Homebrew & Binary Tools",
       "hw": "32-Thr ProcessPool + /dev/shm"
     },
     {
@@ -744,6 +1096,10 @@
       "age_str": "11d ago",
       "dirty_count": 0,
       "dirty_exts": {},
+      "recent_exts": [
+        ".zip",
+        ".exe"
+      ],
       "top_exts": [
         ".cs",
         ".axaml",
@@ -751,10 +1107,17 @@
       ],
       "last_commit": "Route merged CDR tracks to dedicated folder",
       "stack": "C# .NET / Unity / Avalonia",
-      "routine": "Flash \u2022 Low (XAML/UI/Meta)",
-      "deep": "Argon \u2022 Med (Async/AOT/C#)",
+      "work_now": "C# Async & Logic",
+      "plan_short": "Argon\u2022Med (MVVM/Async)",
+      "impl_short": "Argon\u2022Med (C# .NET/AOT)",
+      "edit_short": "Flash\u2022Low (AXAML/UI)",
+      "plan_full": "Argon \u2022 Med (MVVM Architecture & Async/AOT Plan)",
+      "impl_full": "Argon \u2022 Med (C# Core Logic, Span<T> & P/Invoke)",
+      "edit_full": "Flash \u2022 Low (AXAML/XAML Views, CSProj & Configs)",
+      "routine": "Flash\u2022Low (AXAML/UI)",
+      "deep": "Argon\u2022Med (MVVM/Async)",
       "live_rec": "Argon \u2022 Med",
-      "live_reason": "C# Logic & Types",
+      "live_reason": "C# Async & Logic",
       "hw": "Dotnet Parallel Build"
     }
   ]

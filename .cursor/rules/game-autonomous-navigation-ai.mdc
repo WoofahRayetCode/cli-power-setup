@@ -1,6 +1,6 @@
 ---
 description: Autonomous AI player navigation, level vertex/waypoint graph mapping, route recording & playback, obstacle/invisible wall avoidance, and reactive combat lock-on (aimbot steering).
-globs: *
+globs: 
 alwaysApply: false
 ---
 

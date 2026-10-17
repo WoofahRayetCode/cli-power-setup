@@ -1,6 +1,6 @@
 ---
 description: Eliminates 15k-28k output token spikes on Gemini 4 Argon and Flash by forbidding full-file write_to_file regeneration when versioning, cloning, or refactoring scripts/shaders (>50 lines), enforcing shell cp + surgical replace_file_content diffs instead.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

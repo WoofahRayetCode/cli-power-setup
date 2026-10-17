@@ -1,6 +1,6 @@
 ---
 description: Zero-copy DirectX 11 to DirectX 12 / Vulkan hardware ray-tracing sidecar architecture (shared NT handles, ID3D12Fence synchronization, DXR 1.1 Inline RayQuery on RT Cores, DLSS 3/4 Frame Generation nvngx_dlssg.dll) and NVIDIA RTX Remix / legacy X-Ray bump-to-PBR material modernization.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

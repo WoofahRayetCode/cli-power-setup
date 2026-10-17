@@ -1,6 +1,6 @@
 ---
 description: Game physics mathematics, Open Dynamics Engine (ODE) ERP/CFM LCP constraint solver equations (X-Ray/OGSR xrPhysics), frame-rate independent exponential damping, external ballistics ODEs, and RK4/Symplectic Euler integration.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

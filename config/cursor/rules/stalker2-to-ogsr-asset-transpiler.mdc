@@ -1,6 +1,6 @@
 ---
 description: Converts and adapts S.T.A.L.K.E.R. 2 Heart of Chornobyl UE5 IoStore assets (textures, audio, ballistics curves, weather) into 64-bit S.T.A.L.K.E.R. OGSR/X-Ray formats.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

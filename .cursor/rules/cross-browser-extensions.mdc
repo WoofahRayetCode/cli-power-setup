@@ -1,6 +1,6 @@
 ---
 description: Cross-browser web extension development in Manifest V3, supporting Chrome, Firefox, and Safari with webextension-polyfill, background service workers, and declarativeNetRequest.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

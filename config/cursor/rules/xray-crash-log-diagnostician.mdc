@@ -1,6 +1,6 @@
 ---
 description: Triages and diagnoses S.T.A.L.K.E.R. X-Ray and OGSR engine crashes, BugTrap logs, and Wine/Proton stack traces into exact source file coordinates and root-cause fixes.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

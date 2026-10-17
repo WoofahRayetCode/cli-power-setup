@@ -1,6 +1,6 @@
 ---
 description: Implements real-time Ray-Traced Global Illumination (SSGI/SDFGI), Ray-Traced Wet Puddle & Water Reflections, Ray-Traced Ambient Occlusion (RTAO), and World-Space GPU BVH Ray Traversal inside DirectX 11 (HLSL SM 5.0 DirectCompute), DirectX 12, and Vulkan game engines (including S.T.A.L.K.E.R. OGSR xrRender_R4).
-globs: *
+globs: 
 alwaysApply: false
 ---
 

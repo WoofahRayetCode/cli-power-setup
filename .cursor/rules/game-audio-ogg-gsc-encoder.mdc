@@ -1,6 +1,6 @@
 ---
 description: Converts and encodes game audio to Ogg Vorbis while injecting and preserving proprietary GSC binary engine comment chunks (min/max distance, volume, AI perception) required by S.T.A.L.K.E.R. engines.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

@@ -1,6 +1,6 @@
 ---
 description: Computational geometry, Garland-Heckbert QEM mesh decimation, X-Ray AI level_graph 24-bit/16-bit spatial quantization, SAH BVH trees, Möller-Trumbore raycasting, and discrete differential geometry (cotangent Laplacian, SDFs, SLIM UVs).
-globs: *
+globs: 
 alwaysApply: false
 ---
 

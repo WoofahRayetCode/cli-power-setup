@@ -23,11 +23,11 @@ Unlike a static reference table, `agy-cheatsheet` recalculates recommendations i
 ## 2. Where It Appears Automatically
 
 1. **Startup Banner (`agy-yolo`, `agy-turbo`, `claude-yolo`, `claude-turbo`):**
-   - Automatically prints the compact 7-line cheat sheet box showing your current workspace's live recommendation + your top 5 most recently active GitHub repositories before launching the agent.
+   - Automatically prints the compact cheat sheet box showing your current workspace's **Active Work** + explicit model recommendations for **📐 Planning**, **🔨 Implementing**, and **✏️ File Editing** across your top 5 most recently active GitHub repositories.
 2. **Persistent Bottom-of-Statusline Cheat Sheet (`agy-quota-statusline`):**
-   - Renders two live, width-wrapping Cheat Sheet bars at the very bottom of your `agy` statusline that update automatically every 5 seconds as you switch repos or edit files:
-     - **Active Workspace Bar:** `🧭 CS [<repo> • <dirty files>] | 🎯 Use: <Live Model•Effort> (<Reason>) | ⚡ Fast: <Routine> | 🔬 Deep: <Deep> | 🚀 HW: <Local Offload>`
-     - **Active GitHub Fleet Bar:** `📚 Repos: <repo1>➔<Model•Effort> • <repo2>➔<Model•Effort> • ...` (your top 5 other active repos in `~/Documents/GitHub/`).
+   - Renders two single-line (`<= 138` col) Cheat Sheet bars at the very bottom of your `agy` statusline that update automatically every 5 seconds as you switch repos or edit files:
+     - **Active Workspace Bar:** `🧭 <repo> (<Current Work> <recent_exts>) | 📐 Plan: <Model> | 🔨 Implement: <Model(Task)> | ✏️ Edit Files: <Model(Task)>`
+     - **Active GitHub Fleet Bar:** `🚀 HW: <Local Offload> • 📚 Other Repos: <repo1>(<Plan>/<Impl>/<Edit>) • <repo2>(<Plan>/<Impl>/<Edit>) • ...`
 3. **Automatic Git Sync Hook (`repo-auto-sync`):**
    - Every `repo-auto-sync --checkpoint` or `skill-evolve` run calls `agy-cheatsheet --update` to persist your latest repo telemetry into `config/repo_cheatsheet.json` (symlinked at `~/.cli_power_setup/repo_cheatsheet.json`).
 
@@ -39,7 +39,7 @@ agy-cheatsheet
 # (or short alias)
 cs
 
-# Show all 34+ repositories in ~/Documents/GitHub
+# Show all 32+ repositories in ~/Documents/GitHub
 agy-cheatsheet --all
 
 # Print the compact startup box banner
@@ -52,19 +52,19 @@ agy-cheatsheet --statusline
 agy-cheatsheet --update
 ```
 
-## 4. Repository Stack Routing Matrix
+## 4. Repository Stack & 3-Phase Routing Matrix (`Plan` vs. `Implement` vs. `Edit Files`)
 
-| Stack / Repository Group | Fast / Routine Mode | Deep / Architecture Mode | Local Hardware Offload |
-| :--- | :--- | :--- | :--- |
-| **64-Bit C++ Engine & Shaders** (`OGSR-Engine`, `ogsr-complete-merge`) | `Flash • Low` (`.ltx`/`.dds` configs) | `Argon • High` / `Argon•High+Flash` (`.cpp`/`.h`/`.ps`) | 32-Thread CMake + `/dev/shm` tmpfs |
-| **S.T.A.L.K.E.R. Modding Suite** (`zoneforge`) | `Flash • Low` (LTX deltas, audio, DDS) | `Argon • Med` (Lua state, `.ogf`/`.xdb` codecs) | CUDA/NumPy 32-Thread + `/dev/shm` |
-| **Binary RE & Native Hooks** (`rea`, `wlfryt-organized-gta-pc-fixes`) | `Flash • Low` (TS glue, `.ini`/`.vdf`) | `Argon • High` (Decompilation, ASI hooks) | REA MCP + `CARGO_BUILD_JOBS=32` |
-| **Linux Kernel ACPI & Rust** (`omen-acpi`, `omen-space`) | `Flash • Low` (Systemd, PKGBUILD, UI) | `Argon • High` (EC registers, DKMS, Rust lifetimes) | `CARGO_BUILD_JOBS=32` |
-| **Godot 4 Game Fleet** (`BarrelBreaker`, `CargoCamp`, `Warmstead`, etc.) | `Flash • Low` (GDScript UI, `.tscn` signals) | `Argon • Med` (Blender `.glb`, nav graphs, shaders) | RTX 5060 OptiX (`16–32` samples) |
-| **C# .NET / Unity / Avalonia** (`PS-Multi-Tools`, `SuperRCProHams`) | `Flash • Low` (AXAML UI, `.meta` configs) | `Argon • Med` (Async/AOT, C# systems) | Parallel `dotnet build` |
-| **Android Kotlin & NDK** (`tetherfusenet`, `NSZ-Android`) | `Flash • Low` (XML layouts, Gradle KTS) | `Argon • Med` (VPN/Tethering services, JNI/NDK) | ADB + Radeon 610M iGPU |
-| **Crypto & Console Homebrew** (`AegisVault`, `nsz`, `switch-softmod-prep`) | `Flash • Low` (CLI wrappers, JSON feeds) | `Argon • Med` (Cryptographic verification, NSP/NSZ) | 32-Thread `ProcessPool` + `/dev/shm` |
-| **AI Skills & Orchestration** (`cli-power-setup`) | `Flash • Low` (Skill sync, docs, `.gitignore`) | `Argon • High` (Multi-agent swarm architecture) | Local AST/RAG + 32-Thread |
+| Stack / Repository Group | 📐 Plan With (`/plan`, Arch/Triage) | 🔨 Implement With (Core Code/Assets) | ✏️ Edit Files With (Configs/Diffs) | Local Hardware Offload |
+| :--- | :--- | :--- | :--- | :--- |
+| **64-Bit C++ Engine & Total Conversion** (`ogsr-complete-merge`, `OGSR-Engine`) | `Argon • High` (64b Engine, Crash & Port Spec) | `Argon • High` (C++20/HLSL) │ `Argon • Med` (3D `bpy`/OGF/Lua) | `Flash • Low` (LTX/XML/Copy-Patch Diffs) | RTX 5060 OptiX + 32-Thr `/dev/shm` |
+| **S.T.A.L.K.E.R. Modding Suite** (`zoneforge`) | `Argon • Med` (Mod Architecture & Parsers) | `Argon • Med` (Python Codecs, Lua & OGF/XDB) | `Flash • Low` (LTX deltas, DDS, XML) | CUDA/NumPy 32-Thread + `/dev/shm` |
+| **Binary RE & Native Hooks** (`rea`, `wlfryt-organized-gta-pc-fixes`) | `Argon • High` (Decompilation & Hook Design) | `Argon • High` (Rust/C++ ASI Hooks & REA MCP) | `Flash • Low` (TS schemas, `.ini`/`.vdf`) | REA MCP + `CARGO_BUILD_JOBS=32` |
+| **Linux Kernel ACPI & Rust** (`omen-acpi`, `omen-space`) | `Argon • High` (EC Registers & Kernel Safety) | `Argon • High` (Rust D-Bus Daemon & C DKMS) | `Flash • Low` (Systemd, PKGBUILD, UI) | `CARGO_BUILD_JOBS=32` |
+| **Godot 4 Game Fleet** (`Thumbprint`, `BarrelBreaker`, etc.) | `Argon • Med` (Scene Tree & 3D Topology) | `Argon • Med` (3D/Shaders) │ `Flash • Low` (GDScript) | `Flash • Low` (TSCN/UI/Node properties) | RTX 5060 OptiX (`16–32` samples) |
+| **C# .NET / Unity / Avalonia** (`PS-Multi-Tools`, `SuperRCProHams`) | `Argon • Med` (MVVM & Async/AOT Design) | `Argon • Med` (C# Core Logic & `Span<T>`) | `Flash • Low` (AXAML UI, `.csproj`, meta) | Parallel `dotnet build` |
+| **Android Kotlin & NDK** (`tetherfusenet`, `NSZ-Android`) | `Argon • Med` (Foreground Service & NDK Plan) | `Argon • Med` (Kotlin Coroutines, VPN & JNI) | `Flash • Low` (Gradle KTS, Manifest, XML) | ADB + Radeon 610M iGPU |
+| **Crypto & Console Homebrew** (`AegisVault`, `nsz`, `switch-softmod-prep`) | `Argon • High` (Crypto Threat Model) / `Argon • Med` | `Argon • Med` (Python Crypto, Binary I/O) | `Flash • Low` (CLI flags, JSON feeds, docs) | 32-Thread `ProcessPool` + `/dev/shm` |
+| **AI Skills & Orchestration** (`cli-power-setup`) | `Argon • High` (Quota Forensics & Multi-Agent) | `Argon • Med` (Python/Bash CLI Daemons) | `Flash • Low` (`SKILL.md`, rules & sync) | Local AST/RAG + 32-Thread |
 
 ## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
 - **Cross-OS Deployment (`install.ps1` & `install.sh`):** All CLI tools (`agy-cheatsheet` / `cs`, `repo-auto-sync`, `skill-evolve`, `skills-audit-update`, `adaptive-model-router`) run natively on Windows 10/11 via `.cmd`/PowerShell shims in `$HOME\.local\bin` and use `Path(tempfile.gettempdir())` instead of hardcoded `/tmp`.

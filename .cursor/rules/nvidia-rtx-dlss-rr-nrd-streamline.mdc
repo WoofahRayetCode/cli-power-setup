@@ -1,6 +1,6 @@
 ---
 description: NVIDIA RTX NGX & Streamline SDK engineering for DX11, DX12, and Vulkan game engines (including S.T.A.L.K.E.R. OGSR xrRender_R4). Covers DLSS 4 Transformer Presets (J/K/L/M), DLSS-D Ray Reconstruction (G-Buffer Albedo/Normal/Roughness binding), AutoExposure & Reactive Transparency Masks, NVIDIA NRD (REBLUR/RELAX denoisers), and NVIDIA Reflex Low Latency.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

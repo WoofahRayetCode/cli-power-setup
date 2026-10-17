@@ -1,6 +1,6 @@
 ---
 description: 3D/4D linear algebra, change-of-basis similarity transforms (UE5 <-> X-Ray/OGSR <-> Blender), quaternion SLERP/dual-quaternions, Euler HPB/PYR conversions, and MikkTSpace tangent handedness math.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

@@ -1,6 +1,6 @@
 ---
 description: Prevents 150k-200k uncached input token spikes caused by Gemini implicit KV-cache TTL eviction during long playtests, C++ builds, and background tasks by enforcing pre-wait compaction gates and log-tail redirection.
-globs: *
+globs: 
 alwaysApply: false
 ---
 
