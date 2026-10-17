@@ -8,7 +8,7 @@ if [ ! -f "${TOOL_SCRIPT}" ]; then
 fi
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
-    TOOL_SCRIPT="${HOME}/.claude/skills/game-self-improving-qa-pipeline/scripts/self_improving_qa.py"
+    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-self-improving-qa-pipeline/scripts/self_improving_qa.py"
 fi
 
 exec python3 "${TOOL_SCRIPT}" "$@"

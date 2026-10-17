@@ -2,7 +2,7 @@
 # Autonomous Anti-Stuck Game Test Watchdog Launcher
 set -e
 
-SCRIPT_PATH="${HOME}/.claude/skills/game-qa-playtest-controller/scripts/game_test_watchdog.py"
+SCRIPT_PATH="${HOME}/.gemini/config/skills/game-qa-playtest-controller/scripts/game_test_watchdog.py"
 if [ ! -f "$SCRIPT_PATH" ]; then
     SCRIPT_PATH="${HOME}/.gemini/config/skills/game-qa-playtest-controller/scripts/game_test_watchdog.py"
 fi

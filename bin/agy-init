@@ -101,29 +101,8 @@ def generate_gemini_md(root: Path, info: dict) -> str:
 - **Output Token Economy:** Zero conversational fluff, high-density status checklists, silent tool success.
 """
 
-def generate_claude_md(root: Path, info: dict) -> str:
-    langs = ", ".join(info["languages"]) if info["languages"] else "Multi-language"
-    build = info["build_cmd"] or "# No automated build script detected"
-    test = info["test_cmd"] or "# No automated test runner detected"
-
-    return f"""# Project Guidelines for Claude Code
-
-## Stack & Architecture
-- **Ecosystem:** {langs}
-- **Key Modules:** {', '.join(info['key_dirs'][:8])}
-
-## Development Commands
-- **Build:** `{build}`
-- **Test:** `{test}`
-
-## Workflow Conventions
-- Follow Test-Driven Development (`test-driven-development`) where applicable.
-- Adhere to the Output Token Economy: omit pleasantries, lead with technical actions, show compact diffs.
-- Conclude multi-step plans with token savings visibility: `📉 Token Economy: ~<N> tokens saved`.
-"""
-
 def main():
-    parser = argparse.ArgumentParser(description="Codebase Initializer & Onboarding Scanner for Antigravity & Claude")
+    parser = argparse.ArgumentParser(description="Codebase Initializer & Onboarding Scanner for Antigravity (agy)")
     parser.add_argument("--dir", default=".", help="Target project root directory")
     parser.add_argument("--force", action="store_true", help="Overwrite existing instruction files")
     parser.add_argument("--dry-run", action="store_true", help="Print generated files without writing")
@@ -143,16 +122,11 @@ def main():
     print(f"  • Key Modules:        {', '.join(info['key_dirs']) or 'None'}")
 
     gemini_content = generate_gemini_md(root, info)
-    claude_content = generate_claude_md(root, info)
-
     gemini_path = root / "GEMINI.md"
-    claude_path = root / "CLAUDE.md"
 
     if args.dry_run:
         print("\n--- Dry Run: GEMINI.md ---")
         print(gemini_content)
-        print("--- Dry Run: CLAUDE.md ---")
-        print(claude_content)
         return
 
     written = []
@@ -160,14 +134,10 @@ def main():
         gemini_path.write_text(gemini_content, encoding="utf-8")
         written.append("GEMINI.md")
 
-    if not claude_path.exists() or args.force:
-        claude_path.write_text(claude_content, encoding="utf-8")
-        written.append("CLAUDE.md")
-
     if written:
         print(f"\n[✓] Successfully initialized project instructions: {', '.join(written)}")
     else:
-        print("\n[i] Instruction files (GEMINI.md / CLAUDE.md) already exist. Use --force to overwrite.")
+        print("\n[i] Instruction file (GEMINI.md) already exists. Use --force to overwrite.")
 
     try:
         import subprocess

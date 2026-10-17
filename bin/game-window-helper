@@ -8,7 +8,7 @@ if [ ! -f "${TOOL_SCRIPT}" ]; then
 fi
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
-    TOOL_SCRIPT="${HOME}/.claude/skills/linux-game-window-input-capture/scripts/game_window_helper.sh"
+    TOOL_SCRIPT="${HOME}/.gemini/config/skills/linux-game-window-input-capture/scripts/game_window_helper.sh"
 fi
 
 exec bash "${TOOL_SCRIPT}" "$@"

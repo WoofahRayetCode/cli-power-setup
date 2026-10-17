@@ -201,7 +201,7 @@ def sync_single_to_mirrors(skill_name: str) -> None:
     src = SKILLS_DIR / skill_name
     if not (src / "SKILL.md").is_file():
         return
-    for target_root in (GEMINI_SKILLS, CLAUDE_SKILLS):
+    for target_root in (GEMINI_SKILLS,):
         target_root.mkdir(parents=True, exist_ok=True)
         dst = target_root / skill_name
         if dst.exists():

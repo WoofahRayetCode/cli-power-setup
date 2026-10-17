@@ -2,7 +2,7 @@
 """
 Skills Auditor & Multi-CLI Updater (skills-audit-update)
 Audits integrity, permissions, frontmatter, host dependencies, and synchronization
-across config/skills, ~/.gemini/config/skills, and ~/.claude/skills.
+across config/skills, ~/.gemini/config/skills, and ~/.gemini/config/skills.
 """
 
 import sys

@@ -9,7 +9,7 @@ if [ ! -f "${TOOL_SCRIPT}" ]; then
 fi
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
-    TOOL_SCRIPT="${HOME}/.claude/skills/game-dialogue-ui-localization/scripts/dialogue_tool.py"
+    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-dialogue-ui-localization/scripts/dialogue_tool.py"
 fi
 
 exec python3 "${TOOL_SCRIPT}" "$@"

@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-10-16T21:19:01.497298",
+  "updated_at": "2026-10-16T21:28:58.015361",
   "total_repos": 32,
   "repos": [
     {
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792210740.7761998,
+      "activity_ts": 1792211337.059373,
       "age_str": "0s ago",
       "dirty_count": 16,
       "dirty_exts": {
@@ -81,21 +81,25 @@
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792210703.3452697,
-      "age_str": "38s ago",
-      "dirty_count": 1,
-      "dirty_exts": {},
+      "activity_ts": 1792211320.537049,
+      "age_str": "17s ago",
+      "dirty_count": 23,
+      "dirty_exts": {
+        ".json": 2,
+        ".ps1": 1,
+        ".sh": 1
+      },
       "top_exts": [
         ".mdc",
         ".md",
         ".py"
       ],
-      "last_commit": "feat(statusline): add live CPU/GPU thermals, fan R",
+      "last_commit": "fix(voice): enable XWayland dragging, position mem",
       "stack": "AI Skills / Python / Bash",
       "routine": "Flash \u2022 Low (Sync/Docs)",
       "deep": "Argon \u2022 High (Orchestration)",
-      "live_rec": "Flash \u2022 Low",
-      "live_reason": "Skill edits & repo sync",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "Multi-tool engineering",
       "hw": "Local AST/RAG + 32-Thr"
     },
     {
@@ -550,7 +554,7 @@
       "path": "~/Documents/GitHub/HiveGuard",
       "is_git": true,
       "activity_ts": 1791519815.0,
-      "age_str": "7d ago",
+      "age_str": "8d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "top_exts": [

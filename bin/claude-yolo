@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-# Launch Claude Code CLI in hands-free YOLO mode (auto-approves all tool and bash executions)
-[ -t 1 ] && command -v agy-cheatsheet >/dev/null 2>&1 && agy-cheatsheet --banner
-exec claude --dangerously-skip-permissions "$@"

@@ -3,7 +3,7 @@ set -euo pipefail
 
 # ==============================================================================
 # CLI Power Setup Installer (cli-power-setup)
-# Dual-CLI configuration for Google Antigravity (agy) and Claude Code
+# Configuration for Google Antigravity (agy) and Cursor IDE
 # ==============================================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -13,11 +13,6 @@ GEMINI_DIR="${HOME}/.gemini"
 GEMINI_SKILLS="${GEMINI_DIR}/config/skills"
 GEMINI_RULES="${GEMINI_DIR}/config/GEMINI.md"
 GEMINI_CLI_SETTINGS="${GEMINI_DIR}/antigravity-cli/settings.json"
-
-CLAUDE_DIR="${HOME}/.claude"
-CLAUDE_SKILLS="${CLAUDE_DIR}/skills"
-CLAUDE_RULES="${CLAUDE_DIR}/CLAUDE.md"
-CLAUDE_SETTINGS="${CLAUDE_DIR}/settings.json"
 
 CURSOR_DIR="${HOME}/.cursor"
 CURSOR_RULES="${CURSOR_DIR}/rules"
@@ -53,16 +48,6 @@ backup_existing() {
     if [ -f "${GEMINI_CLI_SETTINGS}" ]; then
         cp "${GEMINI_CLI_SETTINGS}" "${backup_dir}/gemini/settings.json"
     fi
-    if [ -d "${CLAUDE_SKILLS}" ]; then
-        mkdir -p "${backup_dir}/claude"
-        cp -r "${CLAUDE_SKILLS}" "${backup_dir}/claude/skills"
-    fi
-    if [ -f "${CLAUDE_RULES}" ]; then
-        cp "${CLAUDE_RULES}" "${backup_dir}/claude/CLAUDE.md"
-    fi
-    if [ -f "${CLAUDE_SETTINGS}" ]; then
-        cp "${CLAUDE_SETTINGS}" "${backup_dir}/claude/settings.json"
-    fi
     if [ -d "${CURSOR_RULES}" ]; then
         mkdir -p "${backup_dir}/cursor"
         cp -r "${CURSOR_RULES}" "${backup_dir}/cursor/rules"
@@ -83,12 +68,6 @@ install_binaries() {
     chmod +x "${BIN_DEST}/agy-quota-statusline"
     log_done "Installed executable: ${BIN_DEST}/agy-quota-statusline"
 
-    if [ -f "${SCRIPT_DIR}/bin/claude-statusline" ]; then
-        cp "${SCRIPT_DIR}/bin/claude-statusline" "${BIN_DEST}/claude-statusline"
-        chmod +x "${BIN_DEST}/claude-statusline"
-        log_done "Installed executable: ${BIN_DEST}/claude-statusline"
-    fi
-
     if [ -f "${SCRIPT_DIR}/bin/agy-turbo" ]; then
         cp "${SCRIPT_DIR}/bin/agy-turbo" "${BIN_DEST}/agy-turbo"
         chmod +x "${BIN_DEST}/agy-turbo"
@@ -99,18 +78,6 @@ install_binaries() {
         cp "${SCRIPT_DIR}/bin/agy-yolo" "${BIN_DEST}/agy-yolo"
         chmod +x "${BIN_DEST}/agy-yolo"
         log_done "Installed executable: ${BIN_DEST}/agy-yolo"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/claude-turbo" ]; then
-        cp "${SCRIPT_DIR}/bin/claude-turbo" "${BIN_DEST}/claude-turbo"
-        chmod +x "${BIN_DEST}/claude-turbo"
-        log_done "Installed executable: ${BIN_DEST}/claude-turbo"
-    fi
-
-    if [ -f "${SCRIPT_DIR}/bin/claude-yolo" ]; then
-        cp "${SCRIPT_DIR}/bin/claude-yolo" "${BIN_DEST}/claude-yolo"
-        chmod +x "${BIN_DEST}/claude-yolo"
-        log_done "Installed executable: ${BIN_DEST}/claude-yolo"
     fi
 
     if [ -f "${SCRIPT_DIR}/bin/skills-audit-update" ]; then
@@ -231,14 +198,6 @@ install_binaries() {
         cp "${SCRIPT_DIR}/config/token_ledger.json" "${HOME}/.cli_power_setup/token_ledger.json"
         log_done "Initialized global token ledger: ${HOME}/.cli_power_setup/token_ledger.json"
     fi
-
-    # Configure YOLO mode aliases in bash and fish
-    if [ -f "$HOME/.bashrc" ] && ! grep -q "claude-yolo" "$HOME/.bashrc"; then
-        echo "alias claude-yolo='claude --dangerously-skip-permissions'" >> "$HOME/.bashrc"
-    fi
-    if [ -f "$HOME/.config/fish/config.fish" ] && ! grep -q "claude-yolo" "$HOME/.config/fish/config.fish"; then
-        echo "alias claude-yolo='claude --dangerously-skip-permissions'" >> "$HOME/.config/fish/config.fish"
-    fi
 }
 
 install_antigravity() {
@@ -293,44 +252,6 @@ EOF
     fi
 }
 
-install_claude() {
-    echo ""
-    log_info "Configuring Claude Code..."
-
-    # 1. Skills
-    mkdir -p "${CLAUDE_SKILLS}"
-    cp -r "${SCRIPT_DIR}/config/skills/"* "${CLAUDE_SKILLS}/"
-    local count
-    count="$(find "${CLAUDE_SKILLS}" -mindepth 1 -maxdepth 1 -type d ! -name "synced" | wc -l)"
-    log_done "Synchronized ${count} skills in ${CLAUDE_SKILLS}."
-
-    # 2. Rules
-    mkdir -p "${CLAUDE_DIR}"
-    cp "${SCRIPT_DIR}/config/GEMINI.md" "${CLAUDE_RULES}"
-    log_done "Installed global rules in ${CLAUDE_RULES}."
-
-    # 3. Settings / Statusline / Effort
-    python3 - <<EOF
-import json, os
-p = os.path.expanduser("${CLAUDE_SETTINGS}")
-data = {}
-if os.path.exists(p):
-    try:
-        with open(p, "r") as f:
-            data = json.load(f)
-    except Exception:
-        data = {}
-data["statusLine"] = {
-    "type": "command",
-    "command": os.path.expanduser("${BIN_DEST}/claude-statusline")
-}
-data["effort"] = "low"
-with open(p, "w") as f:
-    json.dump(data, f, indent=2)
-EOF
-    log_done "Configured statusLine and low-effort thinking in Claude Code settings.json."
-}
-
 install_cursor() {
     echo ""
     log_info "Configuring Cursor IDE & Multi-Model Rules..."
@@ -364,9 +285,6 @@ data["cursor.general.preferredModels"] = [
     "grok-4.7",
     "grok-4.7-fast",
     "grok-4.5",
-    "claude-3-7-sonnet",
-    "claude-3-5-sonnet",
-    "claude-3-5-haiku",
     "o3-mini",
     "o1",
     "gpt-4o",
@@ -400,9 +318,8 @@ verify_installation() {
         log_warn "Statusline test executed with warning (normal if no active session yet)."
     fi
 
-    local agy_count=0 claude_count=0 cursor_count=0
+    local agy_count=0 cursor_count=0
     [ -d "${GEMINI_SKILLS}" ] && agy_count="$(find "${GEMINI_SKILLS}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
-    [ -d "${CLAUDE_SKILLS}" ] && claude_count="$(find "${CLAUDE_SKILLS}" -mindepth 1 -maxdepth 1 -type d ! -name "synced" | wc -l)"
     [ -d "${CURSOR_RULES}" ] && cursor_count="$(find "${CURSOR_RULES}" -name "*.mdc" | wc -l)"
 
     echo ""
@@ -410,10 +327,9 @@ verify_installation() {
     echo -e "${COLOR_GREEN} CLI Power Setup Successfully Installed!             ${COLOR_RESET}"
     echo -e "${COLOR_GREEN}======================================================${COLOR_RESET}"
     echo -e "Antigravity Skills:   ${COLOR_CYAN}${agy_count} active (${GEMINI_SKILLS})${COLOR_RESET}"
-    echo -e "Claude Code Skills:   ${COLOR_CYAN}${claude_count} active (${CLAUDE_SKILLS})${COLOR_RESET}"
     echo -e "Cursor Rules:         ${COLOR_CYAN}${cursor_count} active (${CURSOR_RULES})${COLOR_RESET}"
-    echo -e "Statusline monitors: ${COLOR_CYAN}agy-quota-statusline & claude-statusline${COLOR_RESET}"
-    echo -e "Turbo Launchers:      ${COLOR_CYAN}agy-turbo & claude-turbo (Low Thinking Effort)${COLOR_RESET}"
+    echo -e "Statusline monitor:   ${COLOR_CYAN}agy-quota-statusline${COLOR_RESET}"
+    echo -e "Launchers:            ${COLOR_CYAN}agy-yolo & agy-turbo${COLOR_RESET}"
     echo -e "Auditor & Updater:    ${COLOR_CYAN}skills-audit-update (--audit, --sync, --fix, --pull)${COLOR_RESET}"
     echo ""
 }
@@ -421,21 +337,19 @@ verify_installation() {
 show_menu() {
     echo -e "${COLOR_BOLD}CLI Power Setup Installer${COLOR_RESET}"
     echo "Select target environment:"
-    echo "  1) Tri-Environment (Antigravity, Claude Code, & Cursor) [Recommended]"
+    echo "  1) Full Setup (Antigravity & Cursor) [Recommended]"
     echo "  2) Antigravity only (~/.gemini)"
-    echo "  3) Claude Code only (~/.claude)"
-    echo "  4) Cursor only (~/.cursor, ~/.cursorrules)"
-    echo "  5) Exit"
+    echo "  3) Cursor only (~/.cursor, ~/.cursorrules)"
+    echo "  4) Exit"
     echo ""
-    read -rp "Enter choice [1-5] (default: 1): " choice
+    read -rp "Enter choice [1-4] (default: 1): " choice
     choice="${choice:-1}"
     case "$choice" in
         1) TARGET="all" ;;
         2) TARGET="agy" ;;
-        3) TARGET="claude" ;;
-        4) TARGET="cursor" ;;
-        5) echo "Exiting."; exit 0 ;;
-        *) echo "Invalid option, defaulting to Tri-Environment."; TARGET="all" ;;
+        3) TARGET="cursor" ;;
+        4) echo "Exiting."; exit 0 ;;
+        *) echo "Invalid option, defaulting to Full Setup."; TARGET="all" ;;
     esac
 }
 
@@ -447,10 +361,9 @@ main() {
         case "$1" in
             --all|-a)       TARGET="all" ;;
             --agy|-g)       TARGET="agy" ;;
-            --claude|-c)    TARGET="claude" ;;
             --cursor|-u)    TARGET="cursor" ;;
             --help|-h)
-                echo "Usage: ./install.sh [--all | --agy | --claude | --cursor]"
+                echo "Usage: ./install.sh [--all | --agy | --cursor]"
                 exit 0
                 ;;
             *)
@@ -469,14 +382,10 @@ main() {
     case "${TARGET}" in
         all)
             install_antigravity
-            install_claude
             install_cursor
             ;;
         agy)
             install_antigravity
-            ;;
-        claude)
-            install_claude
             ;;
         cursor)
             install_cursor

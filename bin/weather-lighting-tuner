@@ -8,7 +8,7 @@ if [ ! -f "${TOOL_SCRIPT}" ]; then
 fi
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
-    TOOL_SCRIPT="${HOME}/.claude/skills/game-weather-lighting-fx/scripts/weather_lighting_tuner.py"
+    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-weather-lighting-fx/scripts/weather_lighting_tuner.py"
 fi
 
 exec python3 "${TOOL_SCRIPT}" "$@"

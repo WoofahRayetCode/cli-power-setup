@@ -2,7 +2,7 @@
 """
 skill-evolve: Closed-Loop Runtime Skill Synthesizer, Script Promoter & Hot-Patcher
 Implements NVIDIA Voyager skill crystallization, LATM tool creation, and Reflexion live patching
-across Google Antigravity (~/.gemini/config/skills), Claude Code (~/.claude/skills), and Cursor (~/.cursor/rules).
+across Google Antigravity (~/.gemini/config/skills), Claude Code (~/.gemini/config/skills), and Cursor (~/.cursor/rules).
 """
 
 import argparse
@@ -54,7 +54,7 @@ def validate_script(script_path: Path) -> tuple[bool, str]:
 def hot_sync_single_skill(skill_name: str, auto_push: bool = True) -> None:
     src = SKILLS_DIR / skill_name
     # Bidirectional safeguard: if agent edited ~/.gemini or ~/.claude copy directly, pull into repo first
-    for ext_root in (GEMINI_SKILLS, CLAUDE_SKILLS):
+    for ext_root in (GEMINI_SKILLS,):
         ext_md = ext_root / skill_name / "SKILL.md"
         repo_md = src / "SKILL.md"
         if ext_md.is_file() and (not repo_md.is_file() or ext_md.stat().st_mtime > repo_md.stat().st_mtime + 0.5):
@@ -82,7 +82,7 @@ def hot_sync_single_skill(skill_name: str, auto_push: bool = True) -> None:
     if opt_bin.is_file() and os.environ.get("SKILL_EVOLVE_NO_OPTIMIZE") != "1":
         subprocess.run([sys.executable, str(opt_bin), "--target", skill_name], check=False)
 
-    for target_root in (GEMINI_SKILLS, CLAUDE_SKILLS):
+    for target_root in (GEMINI_SKILLS,):
         target_root.mkdir(parents=True, exist_ok=True)
         dst = target_root / skill_name
         if dst.exists():
@@ -104,7 +104,7 @@ def hot_sync_single_skill(skill_name: str, auto_push: bool = True) -> None:
         cdir.mkdir(parents=True, exist_ok=True)
         (cdir / f"{skill_name}.mdc").write_text(mdc_content, encoding="utf-8")
 
-    print(f"[✓] Hot-synced '{skill_name}' -> Antigravity, Claude Code, and Cursor (<50ms).")
+    print(f"[✓] Hot-synced '{skill_name}' -> Antigravity and Cursor (<50ms).")
     if auto_push and os.environ.get("SKILL_EVOLVE_NO_PUSH") != "1":
         ras = REPO_ROOT / "bin" / "repo-auto-sync"
         if ras.is_file():

@@ -9,7 +9,7 @@ if [ ! -f "${TOOL_SCRIPT}" ]; then
 fi
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
-    TOOL_SCRIPT="${HOME}/.claude/skills/game-dll-proxy-generator/scripts/dll_proxy_generator.py"
+    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-dll-proxy-generator/scripts/dll_proxy_generator.py"
 fi
 
 exec python3 "${TOOL_SCRIPT}" "$@"

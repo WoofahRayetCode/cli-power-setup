@@ -2,7 +2,7 @@
 # Context Pruning Watchdog & Automatic Compaction Stager Launcher
 set -e
 
-SCRIPT_PATH="${HOME}/.claude/skills/context-pruning-watchdog/scripts/context_watchdog.py"
+SCRIPT_PATH="${HOME}/.gemini/config/skills/context-pruning-watchdog/scripts/context_watchdog.py"
 if [ ! -f "$SCRIPT_PATH" ]; then
     SCRIPT_PATH="${HOME}/.gemini/config/skills/context-pruning-watchdog/scripts/context_watchdog.py"
 fi

@@ -2,7 +2,7 @@
 # Autonomous Game Texture Editing & Enhancement Tool Launcher
 set -e
 
-SCRIPT_PATH="${HOME}/.claude/skills/game-texture-editing/scripts/texture_editor.py"
+SCRIPT_PATH="${HOME}/.gemini/config/skills/game-texture-editing/scripts/texture_editor.py"
 if [ ! -f "$SCRIPT_PATH" ]; then
     SCRIPT_PATH="${HOME}/.gemini/config/skills/game-texture-editing/scripts/texture_editor.py"
 fi
