@@ -57,3 +57,9 @@ Trace the resulting source coordinates to identify the failing method, variable,
 - **`xray-crash-symbol-resolver`**: Translates Wine, Proton, and native Linux crash addresses and DLL relative virtual addresses (RVAs) into exact...
 - **`game-screen-telemetry-monitor`**: Real-time in-game screen telemetry monitoring, visual anomaly detection (missing textures, freezes, blackouts)...
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+
+---
+
+## Promoted Executable Tool (`crash_archive.py`)
+- **Location:** `~/.gemini/config/skills/xray-crash-log-diagnostician/scripts/crash_archive.py`
+- **Invocation:** `~/.gemini/config/skills/xray-crash-log-diagnostician/scripts/crash_archive.py`
