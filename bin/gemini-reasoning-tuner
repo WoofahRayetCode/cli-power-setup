@@ -1,0 +1,207 @@
+#!/usr/bin/env python3
+"""
+gemini-reasoning-tuner
+Automatic real-time Gemini model and reasoning effort governor for Google Antigravity.
+Dynamically calibrates model tier (pro vs flash vs flash_lite), subagent dispatch,
+and reasoning effort (low vs medium vs high) turn-by-turn based on rolling quota headroom,
+dirty repository file types, and task complexity to eliminate quota waste.
+"""
+
+from __future__ import annotations
+import argparse
+import json
+import os
+import subprocess
+import sys
+import tempfile
+import time
+from pathlib import Path
+
+BOLD = "\033[1m"
+GREEN = "\033[32m"
+CYAN = "\033[36m"
+YELLOW = "\033[33m"
+RED = "\033[31m"
+DIM = "\033[2m"
+RESET = "\033[0m"
+
+STATE_FILE = Path(".agents/memory/gemini_active_tuning.json")
+
+
+def get_git_dirty_extensions(cwd: Path) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    try:
+        res = subprocess.run(
+            ["git", "-C", str(cwd), "status", "--porcelain"],
+            capture_output=True,
+            text=True,
+            timeout=1.5,
+            check=False,
+        )
+        if res.returncode == 0:
+            for line in res.stdout.splitlines():
+                if len(line) >= 4:
+                    fname = line[3:].strip()
+                    ext = Path(fname).suffix.lower()
+                    if ext:
+                        counts[ext] = counts.get(ext, 0) + 1
+    except Exception:
+        pass
+    return counts
+
+
+def get_quota_headroom() -> dict[str, any]:
+    # Check statusline cache or default to healthy
+    cache_path = Path(tempfile.gettempdir()) / "agy_quota_cache.json"
+    if cache_path.exists():
+        try:
+            data = json.loads(cache_path.read_text(encoding="utf-8"))
+            return {
+                "rolling_5h": data.get("rolling_5h_percent", 85),
+                "weekly": data.get("weekly_percent", 95),
+                "source": "cache",
+            }
+        except Exception:
+            pass
+    return {"rolling_5h": 85, "weekly": 95, "source": "default"}
+
+
+def tune_gemini_settings(
+    prompt: str = "",
+    error_text: str = "",
+    attempts: int = 0,
+    cwd: Path | None = None,
+) -> dict[str, any]:
+    cwd = cwd or Path.cwd()
+    dirty_exts = get_git_dirty_extensions(cwd)
+    quota = get_quota_headroom()
+
+    p_low = (prompt or "").lower()
+    err_low = (error_text or "").lower()
+
+    # 1. Check for Local Model Fleet Offload (Tier 0 - 0 Cloud Tokens)
+    local_task = None
+    if any(k in p_low for k in ["docstring", "commit-msg", "commit message", "boilerplate", "regex"]):
+        local_task = "fast"
+    elif any(k in p_low for k in ["quaternion", "slerp", "ballistics", "exponential damping", "ode math", "spring math"]):
+        local_task = "math"
+    elif any(k in p_low for k in ["pointer truncation", "32-bit to 64-bit", "engine port", "shader transpile", "hlsl to glsl"]):
+        local_task = "port"
+    elif any(k in p_low for k in ["sql query", "sqlite wal", "schema index"]):
+        local_task = "sql"
+    elif any(k in p_low for k in ["translate dialogue", "string table", "mojibake"]):
+        local_task = "translate"
+
+    if local_task and attempts == 0 and not err_low:
+        return {
+            "tier": 0,
+            "engine": "local_coprocessor",
+            "model_gemini": "local",
+            "reasoning_effort": "none",
+            "subagent_model": "local",
+            "local_task": local_task,
+            "rationale": f"Task directly matches local model coprocessor '{local_task}' (0 cloud tokens billed)",
+            "estimated_token_cost": 0,
+            "dirty_files": dirty_exts,
+            "quota_status": quota,
+        }
+
+    # 2. Check for Heavy Resistance / Fatal Crash / Multi-File Architecture (Argon High)
+    is_fatal_crash = any(k in err_low for k in ["segfault", "access violation", "core dumped", "nullpointer", "panic", "bugtrap"])
+    is_architectural = any(k in p_low for k in ["plan", "architecture", "refactor whole", "new mod", "kernel module", "reverse engineer", "decompile"])
+    has_heavy_cpp = any(ext in dirty_exts for ext in [".cpp", ".cc", ".hpp", ".h", ".rs", ".hlsl", ".cu"])
+
+    if (attempts >= 2 or is_fatal_crash or (is_architectural and has_heavy_cpp)) and quota["rolling_5h"] > 25:
+        return {
+            "tier": 3,
+            "engine": "gemini_4_argon",
+            "model_gemini": "pro",
+            "reasoning_effort": "high",
+            "subagent_model": "pro",
+            "local_task": None,
+            "rationale": "High resistance / fatal crash / complex C++ architecture requiring deep chain-of-thought",
+            "estimated_token_cost": 6000,
+            "dirty_files": dirty_exts,
+            "quota_status": quota,
+        }
+
+    # 3. Check for Standard Implementation (Flash Medium or Argon Low)
+    if attempts == 1 or has_heavy_cpp or any(ext in dirty_exts for ext in [".py", ".kt", ".cs", ".gd"]):
+        return {
+            "tier": 2,
+            "engine": "gemini_3.8_flash",
+            "model_gemini": "flash",
+            "reasoning_effort": "medium",
+            "subagent_model": "flash",
+            "local_task": None,
+            "rationale": "Standard code implementation / single-attempt diagnostic under high speed",
+            "estimated_token_cost": 1200,
+            "dirty_files": dirty_exts,
+            "quota_status": quota,
+        }
+
+    # 4. Default: Trivial / Pinpoint Diff (Flash Low)
+    return {
+        "tier": 1,
+        "engine": "gemini_3.8_flash",
+        "model_gemini": "flash",
+        "reasoning_effort": "low",
+        "subagent_model": "flash",
+        "local_task": None,
+        "rationale": "Mechanical / targeted edit with minimal thinking latency and maximum quota efficiency",
+        "estimated_token_cost": 250,
+        "dirty_files": dirty_exts,
+        "quota_status": quota,
+    }
+
+
+def save_tuning_state(tuning: dict):
+    try:
+        STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        STATE_FILE.write_text(json.dumps(tuning, indent=2), encoding="utf-8")
+    except Exception:
+        pass
+
+
+def print_tuning_report(tuning: dict):
+    print(f"\n{BOLD}{CYAN}=== Gemini Dynamic Reasoning & Model Tuner ==={RESET}")
+    print(f"  • Quota Headroom   : Rolling 5h: {tuning['quota_status']['rolling_5h']}% | Weekly: {tuning['quota_status']['weekly']}%")
+    dirty_str = ", ".join(f"{ext}:{cnt}" for ext, cnt in tuning['dirty_files'].items()) if tuning['dirty_files'] else "Clean workspace"
+    print(f"  • Workspace Files  : {dirty_str}")
+    print(f"  • Operational Tier : {BOLD}Tier {tuning['tier']}{RESET} ({tuning['engine']})")
+    print("-" * 55)
+
+    if tuning["tier"] == 0:
+        print(f"  • Recommended Model: {BOLD}{GREEN}LOCAL OLLAMA FLEET{RESET} (0 Cloud Tokens)")
+        print(f"  • Coprocessor Task : local-coprocessor --task {tuning['local_task']}")
+    else:
+        print(f"  • Gemini Model     : {BOLD}{tuning['model_gemini'].upper()}{RESET} ({'Gemini 4 Argon' if tuning['model_gemini'] == 'pro' else 'Gemini 3.8 Flash'})")
+        print(f"  • Reasoning Effort : {BOLD}{tuning['reasoning_effort'].upper()}{RESET} (--effort {tuning['reasoning_effort']})")
+        print(f"  • Subagent Dispatch: Model='{tuning['subagent_model']}'")
+
+    print(f"  • Rationale        : {tuning['rationale']}")
+    print(f"  • Est. Token Burn  : ~{tuning['estimated_token_cost']} tokens\n")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Gemini Model & Reasoning Dynamic Tuner for AgY")
+    parser.add_argument("--prompt", type=str, default="", help="Active task prompt or instruction")
+    parser.add_argument("--error", type=str, default="", help="Error message or crash trace")
+    parser.add_argument("--attempts", type=int, default=0, help="Consecutive failure attempts")
+    parser.add_argument("--json", action="store_true", help="Output results in JSON format")
+    parser.add_argument("--apply", action="store_true", help="Persist tuning recommendations to .agents/memory/gemini_active_tuning.json")
+
+    args = parser.parse_args()
+    tuning = tune_gemini_settings(prompt=args.prompt, error_text=args.error, attempts=args.attempts)
+
+    if args.apply:
+        save_tuning_state(tuning)
+
+    if args.json:
+        print(json.dumps(tuning, indent=2))
+    else:
+        print_tuning_report(tuning)
+
+
+if __name__ == "__main__":
+    main()

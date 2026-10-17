@@ -15,9 +15,10 @@ This skill governs multi-tier model dispatch: **"Frontier Brain, Fast Hands"**.
 
 | Tier | Capabilities | Optimal Tasks | Model Mapping |
 | :--- | :--- | :--- | :--- |
-| **Tier 1: Heavy Deliberation** | Deep chain-of-thought, hypothesis trees, crash dump triage | Architecture planning, multi-file refactor design, reverse-engineering, subtle race condition debugging | `gemini-4-argon-high`<br>`claude-3-opus`<br>`claude-3-7-sonnet` (extended thinking) |
-| **Tier 2: Code Implementation** | High code generation accuracy, fast syntax matching | Writing features from spec, implementing unit tests, targeted diff replacements | `gemini-4-argon-medium`<br>`claude-3-5-sonnet` |
-| **Tier 3: Fast Hands (Mechanical)** | Sub-second latency, zero reasoning overhead, near-zero cost | Git staging/commits, running test suites, inspecting directory listings, moving/renaming files, grep/find | `gemini-3.8-flash`<br>`claude-3-5-haiku` |
+| **Tier 0: Local Fleet Offload** | Offline open-weights models (29 models in VRAM/RAM), zero cloud billing | Docstrings, commit messages, boilerplate, ODE math, 32-to-64-bit pointers | `local-coprocessor`<br>(`deepseek-coder-v2`, `qwen2.5-coder:32b/7b/1.5b`) |
+| **Tier 1: Fast Hands (Mechanical)** | Sub-second latency, zero reasoning overhead, minimal token burn | Applying planned file diffs, running test suites, git staging/commits, status reports | `gemini-3.8-flash` (`--effort low`)<br>`claude-3-5-haiku` |
+| **Tier 2: Code Implementation** | High code generation accuracy, fast syntax matching | Writing features from spec, implementing unit tests, targeted diff replacements | `gemini-3.8-flash` (`--effort medium`)<br>`gemini-4-argon` (`low`) |
+| **Tier 3: Heavy Deliberation** | Deep chain-of-thought, hypothesis trees, crash dump triage | Architecture planning, multi-file refactor design, reverse-engineering, fatal crash triage | `gemini-4-argon` (`--effort high`)<br>`claude-3-7-sonnet` (extended thinking) |
 
 ---
 

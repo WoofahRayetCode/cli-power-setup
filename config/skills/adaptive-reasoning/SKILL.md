@@ -13,6 +13,13 @@ This skill governs automatic reasoning selection and model escalation to maximiz
 
 Before beginning work on any user request, evaluate the prompt's structural complexity:
 
+### Tier 0: Zero-Quota Local Fleet Offload (29 Local Models)
+* **Triggers:** Docstring generation, conventional git commit messages, boilerplate/regex generation, game physics ODE / quaternion math derivations, 32-to-64 bit pointer sanitization, DirectX 9/11 to Vulkan shader translation, SQLite DDL indexing, or multilingual dialogue translation.
+* **Reasoning Strategy:**
+  - Route directly to `local-coprocessor generate --task <task>` or the companion `bin/setup-local-model-fleet`.
+  - **Cloud Tokens Billed: ZERO.** Runs entirely in host VRAM (RTX 5060) and 32 CPU threads via Ollama.
+  - Leaves 100% of rolling 5-hour and weekly Gemini 4 Argon / Claude 3.7 Sonnet quota untouched.
+
 ### Tier 1: Trivial / Direct Execution
 * **Triggers:** Single-line fixes, simple typo corrections, direct shell commands, asking for file locations, formatting, quick status checks, inspecting LAA 4GB PE flags (`laa_pe_patcher.py`), semantic skill matching (`dynamic-skill-router`), or skill health audits/sync (`skills-audit-update`).
 * **Reasoning Strategy:**

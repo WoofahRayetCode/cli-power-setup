@@ -1,13 +1,48 @@
 {
-  "updated_at": "2026-10-17T11:56:20.907311",
+  "updated_at": "2026-10-17T11:59:16.060989",
   "total_repos": 33,
   "repos": [
+    {
+      "name": "cli-power-setup",
+      "path": "~/Documents/GitHub/cli-power-setup",
+      "is_git": true,
+      "activity_ts": 1792263555.7002876,
+      "age_str": "0s ago",
+      "dirty_count": 8,
+      "dirty_exts": {
+        ".md": 4
+      },
+      "recent_exts": [
+        ".md",
+        ".py",
+        ".mdc"
+      ],
+      "top_exts": [
+        ".mdc",
+        ".md",
+        ".py"
+      ],
+      "last_commit": "feat(local-models): complete 29-model fleet downlo",
+      "stack": "AI Skills / Python / Bash",
+      "work_now": "CLI Daemons & Skills",
+      "plan_short": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",
+      "impl_short": "Argon\u2022Med+\ud83e\udd16qwen7b(Py/Sh CLI)",
+      "edit_short": "Flash\u2022Low+\ud83e\udd16qwen1.5b(Skills/Sync)",
+      "plan_full": "Argon \u2022 High + \ud83e\udd16 deepseek-r1:8b (Quota Forensics & Multi-Agent Design)",
+      "impl_full": "Argon \u2022 Med + \ud83e\udd16 qwen2.5-coder:7b / blender-architect (Python/Bash CLI & 3D AI)",
+      "edit_full": "Flash \u2022 Low + \ud83e\udd16 qwen2.5-coder:1.5b / bge-m3 (SKILL.md, Docstrings & Commits)",
+      "routine": "Flash\u2022Low+\ud83e\udd16qwen1.5b(Skills/Sync)",
+      "deep": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",
+      "live_rec": "Argon\u2022Med+\ud83e\udd16qwen7b",
+      "live_reason": "CLI Daemons & Skills",
+      "hw": "Local 8-LLM Fleet + 32-Thr"
+    },
     {
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792263355.0980802,
-      "age_str": "25s ago",
+      "activity_ts": 1792263511.2803922,
+      "age_str": "44s ago",
       "dirty_count": 201,
       "dirty_exts": {
         ".ogf": 3,
@@ -59,9 +94,9 @@
         ".js": 3
       },
       "recent_exts": [
+        ".py",
         ".script",
-        ".xml",
-        ".ltx"
+        ".xml"
       ],
       "top_exts": [
         ".ps",
@@ -84,46 +119,11 @@
       "hw": "RTX 5060 OptiX + 32-Thr /dev/shm"
     },
     {
-      "name": "cli-power-setup",
-      "path": "~/Documents/GitHub/cli-power-setup",
-      "is_git": true,
-      "activity_ts": 1792263354.0250707,
-      "age_str": "26s ago",
-      "dirty_count": 4,
-      "dirty_exts": {
-        ".py": 1
-      },
-      "recent_exts": [
-        ".py",
-        ".md",
-        ".mdc"
-      ],
-      "top_exts": [
-        ".mdc",
-        ".md",
-        ".py"
-      ],
-      "last_commit": "feat(local-models): wire high-end 14B-32B models, ",
-      "stack": "AI Skills / Python / Bash",
-      "work_now": "CLI Daemons & Skills",
-      "plan_short": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",
-      "impl_short": "Argon\u2022Med+\ud83e\udd16qwen7b(Py/Sh CLI)",
-      "edit_short": "Flash\u2022Low+\ud83e\udd16qwen1.5b(Skills/Sync)",
-      "plan_full": "Argon \u2022 High + \ud83e\udd16 deepseek-r1:8b (Quota Forensics & Multi-Agent Design)",
-      "impl_full": "Argon \u2022 Med + \ud83e\udd16 qwen2.5-coder:7b / blender-architect (Python/Bash CLI & 3D AI)",
-      "edit_full": "Flash \u2022 Low + \ud83e\udd16 qwen2.5-coder:1.5b / bge-m3 (SKILL.md, Docstrings & Commits)",
-      "routine": "Flash\u2022Low+\ud83e\udd16qwen1.5b(Skills/Sync)",
-      "deep": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",
-      "live_rec": "Argon\u2022Med+\ud83e\udd16qwen7b",
-      "live_reason": "CLI Daemons & Skills",
-      "hw": "Local 8-LLM Fleet + 32-Thr"
-    },
-    {
       "name": "OGSR-Engine",
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
       "activity_ts": 1792262860.648648,
-      "age_str": "8m ago",
+      "age_str": "11m ago",
       "dirty_count": 34,
       "dirty_exts": {
         ".cpp": 26,
@@ -161,7 +161,7 @@
       "path": "~/Documents/GitHub/FifineControlDeck",
       "is_git": true,
       "activity_ts": 1792261601.8510442,
-      "age_str": "29m ago",
+      "age_str": "32m ago",
       "dirty_count": 1,
       "dirty_exts": {
         ".exe": 1

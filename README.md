@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)** and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
 
-This repository organizes **311 autonomous agent skills**, 311 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a clickable floating voice dictation pill (`agy-mic-button`), a zero-quota CPU/GPU math & physics solver (`game-math-solver`), an auto-optimizing skill ecosystem engine (`skill-optimize`), a clamshell 3D thermal governor (`laptop-perf`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
+This repository organizes **312 autonomous agent skills**, 312 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a clickable floating voice dictation pill (`agy-mic-button`), a zero-quota CPU/GPU math & physics solver (`game-math-solver`), an auto-optimizing skill ecosystem engine (`skill-optimize`), a clamshell 3D thermal governor (`laptop-perf`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
 
 ---
 
@@ -36,11 +36,76 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Environment Sync:** Deploys all 311 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Environment Sync:** Deploys all 312 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Voice Command Routing:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, Zero-Quota Local CPU/GPU Math Offload rules, and Natural-Language Spoken Command Routing (*"Set a goal..."*, *"Make a plan..."*, *"Use boost..."*) to `~/.gemini/config/GEMINI.md` and `~/.cursorrules`.
 4. **Live Multi-Row Telemetry Statusline (`agy-quota-statusline`):** Tracks real-time 5h/weekly quota, 250k compaction gate countdown (`🧹`), active skills in real time (`🛠️ Skills [Live]`), CPU/GPU temperatures & fan RPM (`🌡️`), lid-closed lock state (`🔒Lid-Safe`), RTX 5060 VRAM & `/dev/shm` RAM-disk usage (`🚀`), and active background workloads (`⚙️ 🎨Blender+🔨Build+🎮OGSR/Wine`).
 5. **Floating Voice Dictation Pill (`agy-mic-button`):** Launches a draggable, pinnable (`📌`/`📍`) floating `[🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin]` overlay that triggers `/voice` (`F5`) without keyboard shortcuts and auto-closes when `agy` exits.
 6. **Launchers & Self-Optimizing Ecosystem Tools:** Installs `agy-yolo`, `agy-turbo`, `game-math-solver`, `skill-evolve`, `skill-optimize`, `laptop-perf`, `repo-auto-sync`, and `skills-audit-update` into `~/.local/bin/`.
+
+---
+
+## 🧠 Zero-Quota Local Language Model Fleet (29 Models, 0 Cloud Tokens)
+
+A production-grade fleet of **29 specialized open-weights models**—including **state-of-the-art Mixture-of-Experts (MoE)** and **heavyweight 14B–32B frontier planners**—running locally on your laptop via Ollama with automated **hybrid NVIDIA RTX 5060 GDDR7 VRAM + 32-thread DDR5 RAM layer offloading**.
+
+### 🌟 Key Benefits & Overall Usage Savings
+
+1. **Zero Cloud Token Incurrence (100% Free Inference):**
+   - Routine code edits, docstrings, regex, commit messages, and unit test generation are dispatched to local SLMs (`qwen2.5-coder:1.5b`, `llama3.2:3b`), billing **0 cloud tokens**.
+   - Preserves 100% of rolling 5-hour and weekly Gemini 4 Argon / Claude 3.7 Sonnet quota for hard architectural reasoning.
+
+2. **Hierarchical "Local Brain $\rightarrow$ Local Hands" Workflow:**
+   - **Offline Frontier Planning:** Heavyweight models (`qwen2.5-coder:32b`, `deepseek-r1:32b`, `deepseek-coder-v2:16b`) decompose complex tasks, verify math constraints, and formulate implementation roadmaps locally.
+   - **Sub-Second Execution:** Fast local workers execute the plan in milliseconds, allowing `agy` to operate autonomously without cloud rate limits.
+
+3. **Game Engine Porting & Systems Modernization (#1 MoE Engine):**
+   - **`deepseek-coder-v2:16b`** (16B total, only **2.4B active compute** per token) brings 338-language coverage, 64-bit pointer sanitization, and DirectX 9/11 HLSL to Vulkan SPIR-V shader transpilation at near-instant GPU speeds.
+
+4. **Hardware Saturation (Zero Waste on Local Rig):**
+   - **RTX 5060 GDDR7 VRAM:** Accelerates memory-bandwidth-bound attention layers.
+   - **32-Thread AMD CPU + 30.4 GB DDR5 RAM:** Computes remaining MLP layers in parallel via AVX2 / AVX-512 without OOM crashes.
+   - **Quantized KV-Cache (`q4_0` / `q8_0`):** Shrinks context memory by 50–75%, unlocking 32k–128k context windows locally.
+
+5. **Complete Air-Gapped Privacy & Offline Autonomy:**
+   - Proprietary game source code, closed-source reverse-engineering disassembly, and sensitive client documents never leave your physical machine.
+
+### 📋 Complete 29-Model Local Fleet Matrix
+
+All 29 models are installed on local NVMe SSD storage (`/var/lib/ollama/blobs/`, 166 GB deduplicated physical footprint, >520 GB free headroom):
+
+| Functional Tier | Primary Model | Fallback | Memory | Specialization & Capabilities |
+| :--- | :--- | :--- | :--- | :--- |
+| **`engine-porting`** | **`deepseek-coder-v2:16b`** | `qwen2.5-coder:32b` | ~6.0 GB VRAM + RAM | **#1 Game Engine Porting.** 32-to-64-bit pointer math, struct alignment, HLSL/GLSL shaders (`--task port`) |
+| **`frontier-planners`** | **`qwen2.5-coder:32b`** | `deepseek-r1:32b` | ~7.5 GB VRAM + RAM | **Heavyweight 32B Code Planner.** SWE-bench leader, large refactors, C++20 modernizations (`--task plan`) |
+| **`reasoning`** | **`deepseek-r1:32b`** | `deepseek-r1:14b` / `8b` | ~5.2–7.5 GB VRAM | **32B Deep Chain-of-Thought.** Architectural verification, invariant proofs, root-cause triage (`--task reason`) |
+| **`generalist`** | **`qwen2.5:32b`** | `mistral-nemo:12b` | ~7.1–7.5 GB VRAM | **32B Large Context Generalist.** Repo analysis, modern web architectures, enterprise copy (`--task long`) |
+| **`mid-code`** | **`qwen2.5-coder:14b`** | `qwen2.5-coder:7b` | ~4.7–7.0 GB VRAM | **14B Dense Code Architect.** Multi-file dependency tracking and C++20 modernizations (`--task code`) |
+| **`stem-math`** | **`mathstral:7b`** | `wizard-math:7b` / `phi4` | ~4.1 GB VRAM | Physics ODEs, Open Dynamics Engine (ODE) ERP/CFM stability, quaternion SLERP (`--task math`) |
+| **`dialogue-i18n`** | **`aya:8b`** | `qwen2.5:7b` | ~4.8 GB VRAM | Cohere 101-language translation, Slavic/CJK/FIGS game dialogue trees, XML repair (`--task translate`) |
+| **`web-frontend`** | **`qwen2.5:7b`** | `gemma2:9b` | ~4.7 GB VRAM | Modern Tailwind CSS card grids, responsive UI components, semantic HTML (`--task web`) |
+| **`business-copy`** | **`gemma2:9b`** | `qwen2.5:7b` | ~5.4 GB VRAM | Google Gemma 2 anti-jargon business copy, BLUF proposals, SOWs (`--task business`) |
+| **`database-sql`** | **`sqlcoder:7b`** | `granite-code:8b` | ~4.1 GB VRAM | Defog SQLCoder state-of-the-art DDL schema design & SQLite WAL optimization (`--task sql`) |
+| **`agentic-tools`** | **`hermes3:8b`** | `llama3.1:8b` | ~4.7 GB VRAM | Agentic function calling, tool use, strict JSON schema adherence (`--task tool`) |
+| **`fast-boilerplate`**| **`qwen2.5-coder:1.5b`**| `llama3.2:3b` | ~1.0 GB VRAM | Sub-second regex, docstrings, commit messages, and unit test boilerplate (`--task fast`) |
+| **`vision-ocr`** | **`minicpm-v:8b`** | `moondream:latest` | ~5.5 GB VRAM | Multimodal UI and HUD visual inspection, screen diffing, and local OCR (`--task vision`) |
+| **`embeddings`** | **`bge-m3:latest`** | `nomic-embed-text` | ~1.2 GB VRAM | 8192-token dense multilingual vector embeddings for zero-quota local RAG |
+| **`blender-3d`** | **`blender-architect:latest`** | `qwen2.5-coder:7b` | ~4.7 GB VRAM | Custom Modelfile fused with Blender 5.2 API & organic SDF voxel remeshing rules (`--task blender`) |
+
+### 🛠️ Fleet Management & Local Coprocessor CLI
+```bash
+# Display live fleet status, hardware telemetry & disk usage
+setup-local-model-fleet --status
+
+# Synchronize specific functional tiers or all 29 models
+setup-local-model-fleet --tier engine-porting    # Game engine migration models
+setup-local-model-fleet --tier frontier-planners # 14B-32B offline planners
+setup-local-model-fleet --all                   # Complete 29-model fleet
+
+# Execute tasks locally (0 cloud tokens billed)
+local-coprocessor generate --task port --prompt "Audit this C++ class for 64-bit pointer truncation"
+local-coprocessor generate --task plan --prompt "Decompose game engine porting into 5 atomic steps"
+local-coprocessor generate --task math --prompt "Derive critically damped spring update for fixed_step=0.01"
+```
 
 ---
 
@@ -53,7 +118,7 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & skill reference
 ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
 ├── .cursor/
-│   └── rules/                  # 311 modular Cursor rules (.mdc) with semantic metadata
+│   └── rules/                  # 312 modular Cursor rules (.mdc) with semantic metadata
 ├── bin/
 │   ├── agy-quota-statusline    # Live multi-row quota, skills, thermal, VRAM & git statusline
 │   ├── agy-mic-button          # Floating draggable/pinnable voice dictation pill for agy
@@ -87,14 +152,14 @@ cli-power-setup/
     ├── settings.template.json       # Reference AGY CLI settings configuration
     ├── token_ledger.json            # Pure Antigravity (agy) lifetime token savings ledger (1.28B cached tokens)
     ├── cursor/                      # Cursor reference templates and rules
-    └── skills/                      # 311 specialized skills
+    └── skills/                      # 312 specialized skills
 ```
 
 ---
 
 ## 🎯 Where Skills Perform Best: `agy` CLI vs. Cursor IDE (Division of Labor)
 
-While all 311 skills and CLI utilities are shared across environments, they naturally divide into distinct operational sweet spots:
+While all 312 skills and CLI utilities are shared across environments, they naturally divide into distinct operational sweet spots:
 
 ### 1. Skills That Excel in `agy` CLI (Headless, Voice-Driven & Unattended)
 *Best launched via `agy-yolo`, `agy-turbo`, or spoken *"Set a goal..."* via `agy-mic-button`*
@@ -118,58 +183,6 @@ While all 311 skills and CLI utilities are shared across environments, they natu
 | **Routine edits, repository sync & quick commands** | **`agy-turbo`** | **Gemini 3.8 Flash (Low Effort)** |
 | **3D coordinates, ODE physics, ballistics & symbolic proofs** | **`game-math-solver`** | **Local 32-Thread CPU + RTX 5060 CUDA (`0` tokens)** |
 | **Interactive UI styling, websites & visual apps** | **Cursor IDE** | **Grok 4.7 / Gemini / o3-mini** |
-
----
-
-## 🧠 Zero-Quota Local Model Fleet & Game Engine Porting Coprocessor
-
-A complete fleet of **23+ specialized open-weights models** and **frontier 14B–32B planners** running directly on your laptop via Ollama with hybrid NVIDIA RTX 5060 GDDR7 VRAM and 32-thread DDR5 RAM layer offloading—billing **0 cloud tokens**.
-
-### 1. Fleet Architecture & Functional Tiers
-The local fleet is organized into functional tiers and orchestrated via `local-coprocessor` and `setup-local-model-fleet`:
-
-| Functional Tier | Target Models | Physical Footprint | Primary Specialization |
-| :--- | :--- | :--- | :--- |
-| **`--tier engine-porting`** | `deepseek-coder-v2:16b`, `qwen2.5-coder:32b`, `qwen2.5-coder:14b` | ~40 GB | **#1 Game Engine Porting.** 32-to-64-bit pointer sanitization, DirectX 9/11 HLSL to Vulkan SPIR-V shader transpilation, and C++20 modernizations. |
-| **`--tier frontier-planners`**| `qwen2.5-coder:32b`, `deepseek-r1:32b`, `deepseek-r1:14b`, `qwen2.5:32b` | ~86 GB | **Heavyweight Offline Planners.** High-level task decomposition, architecture roadmaps, and chain-of-thought verification without cloud token spend. |
-| **`--tier code`** | `qwen2.5-coder:7b`, `deepseek-coder:6.7b`, `granite-code:8b`, `starcoder2:7b`, `codellama:7b-python` | ~22 GB | Polyglot coding across C++, C# .NET 8/9, Rust, Python, and AST refactoring. |
-| **`--tier math`** | `mathstral:7b`, `wizard-math:7b`, `phi4:14b`, `deepseek-r1:8b` | ~22 GB | Game physics ODEs, Open Dynamics Engine (ODE) ERP/CFM stability, and quaternion SLERP. |
-| **`--tier dialogue-i18n`** | `aya:8b`, `qwen2.5:7b`, `mistral-nemo:12b` | ~16 GB | Multilingual game dialogue trees (101 languages), string table encoding repair, and 128k summarization. |
-| **`--tier web-business`** | `gemma2:9b`, `sqlcoder:7b`, `qwen2.5:7b` | ~14 GB | Modern Tailwind UI card modernization, state-of-the-art SQL synthesis, and BLUF client proposals. |
-| **`--tier vision`** | `minicpm-v:8b`, `moondream:latest` | ~7 GB | Multimodal UI and HUD visual inspection, screen diffing, and local OCR. |
-| **`--tier custom`** | `blender-architect:latest` | ~4.7 GB | Fine-tuned Modelfile fused with Blender 5.2 API and organic SDF voxel remeshing rules. |
-
-### 2. Fleet Management (`setup-local-model-fleet`)
-```bash
-# 1. Display fleet status, hardware telemetry, and physical storage usage
-setup-local-model-fleet --status
-
-# 2. Synchronize specific functional tiers
-setup-local-model-fleet --tier engine-porting    # Game engine migration models
-setup-local-model-fleet --tier frontier-planners # 14B-32B offline planners
-setup-local-model-fleet --tier core              # Essential daily models
-
-# 3. Download and verify all models
-setup-local-model-fleet --all
-
-# 4. Build custom domain Modelfiles (e.g. blender-architect)
-setup-local-model-fleet --build-custom
-```
-
-### 3. Execution CLI (`local-coprocessor`)
-```bash
-# Game engine porting (32-to-64-bit pointers, shader translation)
-local-coprocessor generate --task port --prompt "Audit this C++ class for 64-bit pointer truncation"
-
-# Frontier offline planning & task decomposition
-local-coprocessor generate --task plan --prompt "Create a 5-step roadmap to port legacy DX9 renderer to Vulkan"
-
-# Mathematical proofing & physics ODE solutions
-local-coprocessor generate --task math --prompt "Derive critically damped spring update for fixed_step=0.01"
-
-# Multilingual dialogue translation preserving %c[color] tags
-local-coprocessor generate --task translate --prompt "Translate string to Russian: <text>Hello Stalker</text>"
-```
 
 ---
 
@@ -1961,7 +1974,7 @@ Eliminates cloud reasoning token burn on 3D coordinate/quaternion basis transfor
 | **`cursor-rules-sync`** | Converts all skills to Cursor `.mdc` rules and syncs `.cursorrules` | After modifying skills or when syncing Cursor configuration. |
 | **`skills-audit-update --audit`** | Audits health across Antigravity and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all 300 skills across Antigravity and Cursor | After adding or updating any skill in the repository. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 311 skills across Antigravity and Cursor | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 312 skills across Antigravity and Cursor | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
@@ -1998,7 +2011,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 311 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 312 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
 
 
@@ -2008,7 +2021,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ---
 
 <!-- AUTO-SYNC-CATALOG:START -->
-## 🔄 Auto-Synchronized Skill & CLI Inventory (311 Total Active Skills)
+## 🔄 Auto-Synchronized Skill & CLI Inventory (312 Total Active Skills)
 
 ### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)
 | CLI Tool | Purpose |
@@ -2028,7 +2041,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 | **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |
 | **`local-coprocessor` / `local-rag` / `local-ast-compiler`** | Zero-quota local CPU/GPU/RAM offload engines for AST syntax checks, BM25/vector RAG, and local LLM summarization. |
 
-### Recently Evolved & SOTA Skills (85 Indexed Automatically)
+### Recently Evolved & SOTA Skills (86 Indexed Automatically)
 | Skill Name | Description |
 | :--- | :--- |
 | **`amd-igpu-nvidia-dgpu-hybrid-offload`** | Dual-GPU workload splitter for AMD Radeon 610M iGPU (/dev/dri/renderD129, RADV Vulkan + VA-API VCN + 30GB shared DDR5 RAM) and NVIDIA GeForce RTX 5060 dGPU (/dev/dri/renderD128, 8GB GDDR7 CUDA/OptiX). Prevents background agent tasks from stealing game VRAM. |
@@ -2090,6 +2103,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 | **`game-audio-ogg-gsc-encoder`** | Converts and encodes game audio to Ogg Vorbis while injecting and preserving proprietary GSC binary engine comment chunks (min/max distance, volume, AI perception) required by S.T.A.L.K.E.R. engines. |
 | **`gemini-ast-symbol-window-slicer`** | Slashes view_file uncached input token burn by 85% by prohibiting un-bounded 800-line view_file calls on files >100 lines, enforcing fast grep/AST line-number lookup followed by tight 40-80 line StartLine/EndLine windows. |
 | **`gemini-copy-then-patch-edit-governor`** | Eliminates 15k-28k output token spikes on Gemini 4 Argon and Flash by forbidding full-file write_to_file regeneration when versioning, cloning, or refactoring scripts/shaders (>50 lines), enforcing shell cp + surgical replace_file_content diffs instead. |
+| **`gemini-dynamic-reasoning-tuner`** | Real-time telemetry governor and automatic model/reasoning tuner for Gemini models in Google Antigravity. Dynamically adjusts model tier (pro vs flash vs flash_lite), subagent dispatch, and reasoning effort (low vs medium vs high) turn-by-turn based on rolling quota headroom, dirty repository file types, and task complexity, guaranteeing zero quota waste. |
 | **`gemini-implicit-kv-cache-ttl-keeper`** | Prevents 150k-200k uncached input token spikes caused by Gemini implicit KV-cache TTL eviction during long playtests, C++ builds, and background tasks by enforcing pre-wait compaction gates and log-tail redirection. |
 | **`grok-realtime-telemetry-scout`** | Emulates xAI Grok real-time live search on Gemini 4 Argon. Scouts bleeding-edge git commits, pull requests, issue trackers, and package feeds for undocumented Linux and game fixes. |
 | **`headless-gameplay-testing-bot`** | Autonomous cross-platform gameplay testing bot, synthetic input replay (uinput, adb input), regression fuzzing, and telemetry invariant assertions. |

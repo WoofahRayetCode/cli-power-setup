@@ -1,0 +1,85 @@
+---
+name: gemini-dynamic-reasoning-tuner
+description: Real-time telemetry governor and automatic model/reasoning tuner for Gemini models in Google Antigravity. Dynamically adjusts model tier (pro vs flash vs flash_lite), subagent dispatch, and reasoning effort (low vs medium vs high) turn-by-turn based on rolling quota headroom, dirty repository file types, and task complexity, guaranteeing zero quota waste.
+---
+
+# Gemini Dynamic Reasoning & Model Tuner (`gemini-dynamic-reasoning-tuner`)
+
+The `gemini-dynamic-reasoning-tuner` skill provides automated, real-time calibration of **Gemini 4 Argon** and **Gemini 3.8 Flash** model and reasoning configurations inside Google Antigravity (`agy`).
+
+By inspecting active task complexity, uncommitted git file extensions, and rolling 5-hour/weekly quota headroom, this skill ensures that tasks are routed to the most cost-effective tier—prioritizing the **29-model local Ollama fleet (0 cloud tokens)** for deterministic drafting, **Flash Low** for mechanical execution, and escalating to **Argon High** only when structural architecture or fatal bug triage demands deep chain-of-thought deliberation.
+
+---
+
+## 1. The 4-Tier Automated Calibration Matrix
+
+```
++--------------------------------------------------------------------------------+
+|                             Incoming User Request                              |
++--------------------------------------------------------------------------------+
+                                       │
+                                       ▼
++--------------------------------------------------------------------------------+
+|                     gemini-reasoning-tuner Dynamic Filter                      |
++--------------------------------------------------------------------------------+
+     │                          │                         │                    │
+     ▼                          ▼                         ▼                    ▼
+[Tier 0: Local Fleet]     [Tier 1: Flash Low]     [Tier 2: Flash Med]    [Tier 3: Argon High]
+- Docstrings/regex        - Pinpoint diffs        - Unit test suites     - /plan formulation
+- Conventional commits    - Single file edits     - Feature writing      - Fatal crash triage
+- ODE & physics math      - Bash execution        - Config migrations    - C++ struct alignment
+- 32-to-64 bit pointers   - Status reports        - Standard debugging   - 3-branch trees
+- 0 Cloud Tokens Billed!  - ~250 tokens billed    - ~1,200 tokens billed - 6,000+ tokens
+```
+
+---
+
+## 2. Operational Tier Reference
+
+| Operational Tier | Engine & Model | Reasoning Effort | Subagent Dispatch | Appropriate Task Scope | Token Burn |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Tier 0: Local Offload** | `local-coprocessor` | `none` | `local` | Docstrings, regex, commit messages, ODE math, 32-to-64-bit pointers | **0 tokens** |
+| **Tier 1: Mechanical** | `gemini-3.8-flash` | `--effort low` | `Model="flash"` | Applying planned file diffs, running tests, git commits, status checks | ~250 tokens |
+| **Tier 2: Implementation** | `gemini-3.8-flash` | `--effort medium` | `Model="flash"` | Feature development, writing unit tests, diagnosing 1st-time test failures | ~1,200 tokens |
+| **Tier 3: Deep Architecture**| `gemini-4-argon` | `--effort high` | `Model="pro"` | Formulating `/plan`, fatal segfault triage, 64-bit memory safety, novel algorithms | ~6,000+ tokens |
+
+---
+
+## 3. CLI Helper Tool Reference (`gemini-reasoning-tuner`)
+
+Installed in `~/.local/bin/gemini-reasoning-tuner`.
+
+```bash
+# 1. Evaluate current task and get recommended model and reasoning settings
+gemini-reasoning-tuner --prompt "Write unit tests for SQLite savegame parser"
+
+# 2. Evaluate task with local offload detection
+gemini-reasoning-tuner --prompt "Generate docstrings for audio utility functions"
+
+# 3. Evaluate crash resistance and get escalation guidance
+gemini-reasoning-tuner --prompt "Fix game crash" --error "fatal error: access violation at 0x00000000" --attempts 2
+
+# 4. Output evaluation as JSON for programmatic consumption
+gemini-reasoning-tuner --prompt "Refactor C++ class" --json
+
+# 5. Persist recommended tuning state to .agents/memory/gemini_active_tuning.json
+gemini-reasoning-tuner --prompt "Refactor C++ class" --apply
+```
+
+---
+
+## 4. Automatic Subagent Dispatch Optimization
+
+When dispatching subagents via `invoke_subagent`, always adhere to the tuner's recommendation:
+* **For Mechanical / Execution Tasks:** Always set `Model="flash"`.
+* **For High-Volume Asset Processing:** Dispatch worker swarms on `flash` (`argon-dynamic-subagent-swarm`).
+* **For Architectural / Planning Tasks:** Set `Model="pro"` exclusively during plan drafting, then immediately drop back to `flash` for implementation.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- The tuner resolves paths via `Path(tempfile.gettempdir())` and executes cross-platform on Linux and Windows 10/11 via `.cmd` / PowerShell shims.
+
+## Related & Interoperating Skills
+- **`adaptive-reasoning`**: Core cognitive complexity routing engine.
+- **`argon-effort-auto-calibrator`**: Calibrates Argon internal thinking token budgets turn-by-turn.
+- **`dynamic-model-downshifter`**: Enforces the 'Frontier Brain, Fast Hands' pattern.
+- **`local-model-coprocessor`**: Bridges Tier 0 tasks to the 29-model local Ollama fleet.
