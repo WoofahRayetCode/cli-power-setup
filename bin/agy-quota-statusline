@@ -196,12 +196,12 @@ def refresh_now():
         if res.returncode == 0 and res.stdout:
             data = {}
             for line in res.stdout.strip().splitlines():
-                parts = line.split("\t")
+                parts = re.split(r"\s{2,}|\t", line.strip())
                 if len(parts) >= 3:
                     data[(parts[0].strip(), parts[1].strip())] = (parts[2].strip(), parts[3].strip() if len(parts) > 3 else "")
 
             g_5h, g_5h_reset = data.get(("Gemini Models", "Five Hour Limit Remaining"), ("--%", ""))
-            g_wk, _ = data.get(("Gemini Models", "Weekly Limit Remaining"), ("--%", ""))
+            g_wk, g_wk_reset = data.get(("Gemini Models", "Weekly Limit Remaining"), ("--%", ""))
 
             c_5h, _ = data.get(("Claude and GPT models", "Five Hour Limit Remaining"), (None, None))
             c_wk, _ = data.get(("Claude and GPT models", "Weekly Limit Remaining"), (None, None))
@@ -220,11 +220,28 @@ def refresh_now():
                 except Exception:
                     pass
 
+            wk_reset_str = ""
+            if g_wk_reset:
+                try:
+                    if "T" in g_wk_reset:
+                        dt_wk = datetime.fromisoformat(g_wk_reset.replace("Z", "+00:00")).astimezone()
+                        wk_reset_str = dt_wk.strftime("%a %m/%d %H:%M")
+                    else:
+                        m_wk = re.search(r"(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2})", g_wk_reset)
+                        if m_wk:
+                            dt_wk = datetime.strptime(f"{m_wk.group(1)} {m_wk.group(2)}", "%Y-%m-%d %H:%M")
+                            wk_reset_str = dt_wk.strftime("%a %m/%d %H:%M")
+                        else:
+                            wk_reset_str = g_wk_reset.strip()
+                except Exception:
+                    pass
+
             quota_dict = {
                 "updated_at": datetime.now().isoformat(),
                 "gemini_5h": g_5h,
                 "gemini_5h_reset": reset_str,
                 "gemini_wk": g_wk,
+                "gemini_wk_reset": wk_reset_str,
                 "claude_5h": c_5h,
                 "claude_wk": c_wk
             }
@@ -373,8 +390,10 @@ def main():
     g_reset = quota.get("gemini_5h_reset", "")
     reset_str = f" (reset {g_reset})" if g_reset else ""
     g_wk = quota.get("gemini_wk", "--%")
+    g_wk_reset = quota.get("gemini_wk_reset", "")
+    wk_reset_str = f" (reset {g_wk_reset})" if g_wk_reset else ""
     quota_5h_seg = f"5h: {g_5h}{reset_str}"
-    quota_wk_seg = f"Wk: {g_wk}"
+    quota_wk_seg = f"Wk: {g_wk}{wk_reset_str}"
 
     # 5. Session token telemetry
     telem = get_session_telemetry()
