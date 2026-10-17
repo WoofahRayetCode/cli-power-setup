@@ -1,0 +1,43 @@
+---
+description: Pre-flight local compiler and AST syntax verification gate for Gemini 4 Argon. Catches syntax, typing, and parsing errors locally in milliseconds before committing changes.
+globs: 
+alwaysApply: false
+---
+
+# Argon AST Syntax Gate (`argon-ast-syntax-gate`)
+
+To achieve complete parity with Claude's code reliability, Argon must never rely on runtime trial-and-error reasoning turns to catch trivial syntax mistakes (e.g. missing semicolons, unbalanced brackets, or undeclared identifiers).
+
+This skill standardizes instantaneous pre-flight syntax gating using local host compilers and linters across all host CPU threads.
+
+---
+
+## 1. Local Pre-Flight Compiler Matrix
+
+| Language / Domain | Pre-Flight Syntax Command | Execution Time |
+| :--- | :--- | :--- |
+| **Lua / LuaJIT** | `luac -p <file>` | < 5 ms |
+| **C / C++** | `clang -fsyntax-only -std=c++20 <file>` | < 50 ms |
+| **Python** | `python3 -m py_compile <file>` | < 15 ms |
+| **Bash / Shell** | `bash -n <file>` | < 5 ms |
+| **JSON / Manifests** | `python3 -m json.tool <file> > /dev/null` | < 10 ms |
+| **GLSL / SPIR-V** | `glslangValidator <file>` | < 20 ms |
+
+---
+
+## 2. The Zero-Error Protocol
+
+1. **Modify File:** Apply surgical atomic diff via `replace_file_content`.
+2. **Execute Gate:** Immediately run the language-specific pre-flight command via `run_command`.
+3. **Handle Errors Locally:** If a syntax error is returned:
+   - Do not ask the user for direction.
+   - Do not speculate in reasoning.
+   - Apply the targeted fix immediately and re-run the syntax gate until it exits with code `0`.
+
+---
+
+## 3. Cognitive Quota Impact
+
+By eliminating multi-turn compile/fail/retry loops with cloud LLMs:
+- **Tokens Saved:** 15,000 to 45,000 tokens per complex refactor.
+- **Latency Impact:** Catches syntax typos in 5ms locally instead of waiting 10 seconds for a cloud round-trip.

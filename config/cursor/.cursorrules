@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (251 Specialized Capabilities)
+## Complete Skills Catalog (255 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -175,10 +175,14 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`api-network-security-hardening`** | API gateway security, network transport hardening, TLS 1.3/certificate pinning, mTLS, token bucket rate limiting, CORS/CSP policy enforcement, and DDoS mitigation for games, bots, and backend services. |
 | **`app-security-threat-modeling`** | Universal application security architecture, STRIDE threat modeling, OWASP Top 10 mitigation, memory safety hardening, and defensive input validation across web, desktop, and mobile systems. |
 | **`argon-adversarial-verification-gate`** | Harnesses Gemini 4 Argon's deep reasoning capacity for formal adversarial self-critique, boundary-condition proofing, and confirmation-bias elimination prior to declaring tasks complete. |
+| **`argon-ast-syntax-gate`** | Pre-flight local compiler and AST syntax verification gate for Gemini 4 Argon. Catches syntax, typing, and parsing errors locally in milliseconds before committing changes. |
+| **`argon-atomic-diff-sequencer`** | Enforces Claude-grade atomic chunk editing on Gemini 4 Argon. Restricts all code changes to surgical <= 30-line replacements, eliminating full-file rewrites and accidental regressions. |
 | **`argon-context-cache-guard`** | Anchors and stabilizes Gemini 4 Argon context to ensure sessions cross and maintain the 32,768-token cache threshold for maximum 95% KV prompt caching discounts. |
+| **`argon-deep-memory-allocator-sanitizer`** | Mathematical 64-bit pointer, struct padding, and memory alignment sanitizer for Gemini 4 Argon. Eliminates pointer truncation and alignment faults in legacy C++ game engine ports. |
 | **`argon-effort-auto-calibrator`** | Dynamically calibrates Gemini 4 Argon reasoning effort (--effort low/medium/high) turn-by-turn based on cognitive task complexity, slashing thinking token burn by up to 85% on routine tool execution. |
 | **`argon-long-context-retrieval-anchor`** | Enforces boundary-edge semantic anchoring across Gemini 4 Argon's 1M-token context window to prevent attention dilution and lost-in-the-middle degradation during massive engineering tasks. |
 | **`argon-multimodal-vision-grounding`** | Directs Gemini 4 Argon's native multimodal vision capabilities toward game screen telemetry, UI layout audits, rendering artifact triage, and graphical glitch diagnosis. |
+| **`argon-self-contained-autonomous-driver`** | Comprehensive single-driver engineering workflow for Gemini 4 Argon. Unifies planning, asset transpilation, C++ precision refactoring, compilation, and autonomous QA playtesting in a single agent. |
 | **`argon-sentencepiece-serializer`** | Formats tabular data, state serializations, and symbol skeletons to optimize token density under Google's SentencePiece tokenizer used by Gemini 4 Argon. |
 | **`argon-structured-json-schema-enforcer`** | Leverages Gemini 4 Argon's native constrained decoding to emit deterministic, schema-compliant JSON payloads for automated CLI pipelines and test harnesses. |
 | **`argon-subagent-dispatch-routing`** | Implements the 'Argon Brain, Flash Hands' subagent swarm dispatch pattern to offload high-volume read, search, and execution tasks to Gemini Flash while conserving Argon quota. |

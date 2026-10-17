@@ -1,0 +1,59 @@
+---
+name: argon-self-contained-autonomous-driver
+description: Comprehensive single-driver engineering workflow for Gemini 4 Argon. Unifies planning, asset transpilation, C++ precision refactoring, compilation, and autonomous QA playtesting in a single agent.
+---
+
+# Argon Self-Contained Autonomous Driver (`argon-self-contained-autonomous-driver`)
+
+With the addition of atomic diffing, local AST syntax gating, and deep memory sanitization, Gemini 4 Argon possesses complete end-to-end capabilities to drive complex software and game modding projects autonomously without requiring a second model.
+
+This skill orchestrates the entire development cycle within Antigravity CLI.
+
+---
+
+## 1. Unified 5-Phase Autonomous Pipeline
+
+```
++-------------------------------------------------------------+
+| Phase 1: Deep Architectural Planning                        |
+| - Outline implementation plan, file touchpoints, test gates |
++-------------------------------------------------------------+
+                              |
+                              v
++-------------------------------------------------------------+
+| Phase 2: Asset Extraction & Configuration Processing        |
+| - Unpack UE5/X-Ray archives (retoc/repak)                   |
+| - Transpile curves, audio GSC headers, and LTX configs      |
++-------------------------------------------------------------+
+                              |
+                              v
++-------------------------------------------------------------+
+| Phase 3: Surgical C++ & Script Implementation               |
+| - Apply <= 30-line atomic diffs (replace_file_content)      |
+| - Enforce local AST syntax gating (luac, clang -fsyntax)    |
+| - Verify 64-bit struct padding and pointer alignment        |
++-------------------------------------------------------------+
+                              |
+                              v
++-------------------------------------------------------------+
+| Phase 4: Dynamic Thread Compilation                         |
+| - Saturated multi-core build: cmake --build build -j$(nproc)|
+| - Clamped terminal output via token-guard                   |
++-------------------------------------------------------------+
+                              |
+                              v
++-------------------------------------------------------------+
+| Phase 5: Autonomous Playtesting & Multimodal Verification   |
+| - Launch headless playtest runner under Wine/Proton         |
+| - Assert frametime stability and zero crash logs            |
+| - Visually inspect rendered frames for artifact-free visuals|
++-------------------------------------------------------------+
+```
+
+---
+
+## 2. Single-Driver Execution Directives
+
+1. **Uninterrupted Flow:** Never pause to ask for minor confirmations; proceed systematically through the 5 phases until concrete verification is achieved.
+2. **First-Principles Crash Triage:** If a runtime crash occurs, analyze the callstack to its root cause, formulate the hypothesis, apply the atomic fix, and re-verify.
+3. **Evidence-Based Completion:** Conclude only when compilation exits with `0`, tests pass, and assets are validated in-game.
