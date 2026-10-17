@@ -1,0 +1,131 @@
+#!/usr/bin/env python3
+"""
+Tandem Agent Orchestrator & Worktree Manager (tandem-agent-sync)
+Manages concurrent, zero-conflict collaboration between Antigravity (Argon) and Claude Code (Fable).
+Creates isolated git worktrees, synchronizes .agents/handoff.json, and coordinates milestones.
+"""
+
+import sys
+import os
+import json
+import subprocess
+import argparse
+from pathlib import Path
+from datetime import datetime
+
+STATE_FILE = ".agents/handoff.json"
+
+def run_cmd(cmd, cwd=None, capture=True):
+    res = subprocess.run(cmd, shell=True, cwd=cwd, text=True, capture_output=capture)
+    return res.returncode, res.stdout.strip(), res.stderr.strip()
+
+def init_tandem(repo_path):
+    repo = Path(repo_path).resolve()
+    if not (repo / ".git").exists():
+        print(f"[-] Error: {repo} is not a valid git repository root.")
+        sys.exit(1)
+        
+    parent_dir = repo.parent
+    argon_tree = parent_dir / f"{repo.name}-argon"
+    fable_tree = parent_dir / f"{repo.name}-fable"
+    
+    print(f"[*] Initializing Tandem Workspaces for: {repo.name}")
+    
+    # Ensure current git repo is clean or staged
+    _, status, _ = run_cmd("git status --porcelain", cwd=repo)
+    if status:
+        print("[!] Warning: Main repository has unstaged changes. Stashing or committing is advised.")
+        
+    # Create Argon worktree if not exists
+    if not argon_tree.exists():
+        print(f"[+] Creating Argon worktree: {argon_tree} (branch: feat/argon-work)")
+        run_cmd(f"git worktree add -B feat/argon-work {argon_tree}", cwd=repo)
+    else:
+        print(f"[✓] Argon worktree exists at {argon_tree}")
+        
+    # Create Fable worktree if not exists
+    if not fable_tree.exists():
+        print(f"[+] Creating Fable worktree: {fable_tree} (branch: feat/fable-work)")
+        run_cmd(f"git worktree add -B feat/fable-work {fable_tree}", cwd=repo)
+    else:
+        print(f"[✓] Fable worktree exists at {fable_tree}")
+        
+    # Ensure .agents directory exists in all
+    for tree in [repo, argon_tree, fable_tree]:
+        (tree / ".agents" / "memory").mkdir(parents=True, exist_ok=True)
+        (tree / ".agents" / "checkpoints").mkdir(parents=True, exist_ok=True)
+        
+    init_payload = {
+        "timestamp": datetime.now().isoformat(),
+        "project": repo.name,
+        "coordination": "tandem_argon_fable",
+        "worktrees": {
+            "argon": str(argon_tree),
+            "fable": str(fable_tree),
+            "root": str(repo)
+        },
+        "roles": {
+            "argon": "Asset extraction, Wwise/GSC audio, LTX ballistics, wine/proton playtesting & crash triage",
+            "fable": "C++ 64-bit engine code, pointer sanitization, Luabind FFI, compiler defect repairs"
+        },
+        "milestones": {
+            "completed": [],
+            "in_progress": "Initial environment provisioning",
+            "next_sync": "Post-asset extraction & initial build pass"
+        }
+    }
+    
+    for tree in [repo, argon_tree, fable_tree]:
+        with open(tree / STATE_FILE, "w", encoding="utf-8") as f:
+            json.dump(init_payload, f, indent=2)
+            
+    print("\n[✓] Tandem environment successfully initialized!")
+    print(f"👉 Argon (Antigravity) terminal: cd {argon_tree} && agy")
+    print(f"👉 Fable (Claude Code) terminal: cd {fable_tree} && claude")
+
+def sync_tandem(repo_path, source_agent):
+    repo = Path(repo_path).resolve()
+    print(f"[*] Synchronizing state from {source_agent}...")
+    
+    # Read handoff from current dir
+    cur_handoff = repo / STATE_FILE
+    if not cur_handoff.exists():
+        print("[-] Error: No handoff.json found in current directory.")
+        sys.exit(1)
+        
+    with open(cur_handoff, "r", encoding="utf-8") as f:
+        data = json.load(f)
+        
+    data["timestamp"] = datetime.now().isoformat()
+    data["last_synced_by"] = source_agent
+    
+    # Broadcast to other worktrees if mapped
+    worktrees = data.get("worktrees", {})
+    for name, path in worktrees.items():
+        dest = Path(path) / STATE_FILE
+        if dest.parent.exists() and dest != cur_handoff:
+            with open(dest, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2)
+            print(f"[✓] Propagated handoff state to {name} worktree ({path})")
+
+def main():
+    parser = argparse.ArgumentParser(description="Tandem Agent Orchestrator for Argon and Fable")
+    subparsers = parser.add_subparsers(dest="command")
+    
+    init_p = subparsers.add_parser("init", help="Initialize isolated worktrees for Argon and Fable")
+    init_p.add_argument("--repo", default=".", help="Path to git repository root")
+    
+    sync_p = subparsers.add_parser("sync", help="Synchronize handoff state between worktrees")
+    sync_p.add_argument("--repo", default=".", help="Path to git repository root")
+    sync_p.add_argument("--agent", required=True, choices=["argon", "fable"], help="Agent updating the sync state")
+    
+    args = parser.parse_args()
+    if args.command == "init":
+        init_tandem(args.repo)
+    elif args.command == "sync":
+        sync_tandem(args.repo, args.agent)
+    else:
+        parser.print_help()
+
+if __name__ == "__main__":
+    main()
