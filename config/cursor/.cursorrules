@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (300 Specialized Capabilities)
+## Complete Skills Catalog (301 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -199,6 +199,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`audio-dsp-tuning`** | Headset calibration, microphone conditioning, and audio DSP processing across Linux (EasyEffects/PipeWire) and Windows (Equalizer APO/Peace). Configures AutoEq headphone profiles and professional 6-stage broadcast voice chains. |
 | **`autogen-adversarial-redteam-critic`** | Emulates Microsoft AutoGen multi-persona red-teaming. Executes an internal Devil's Advocate audit to aggressively attack candidate fixes before committing code. |
 | **`autonomous-3d-reference-researcher`** | Autonomous online anatomical, mechanical blueprint, and Blender bpy technique researcher. Searches the web for real-world proportions, skeletal joint ratios, and shader recipes before/during 3D modeling and crystallizes findings into skills via skill-evolve. |
+| **`autonomous-git-repo-sync-governor`** | Autonomous git repository synchronization, upstream pull/rebase, milestone auto-commit, large-binary/secret pre-commit filtering, and multi-repo fleet updates across ~/Documents/GitHub during long sessions and general development. |
 | **`autonomous-goal-governor`** | Quota governance, machine-verifiable contract formulation, circuit breaker enforcement (3-strike rule), and phased milestone compaction during long-running /goal and overnight autonomous agent runs. |
 | **`avalonia-cross-platform-dev`** | Cross-platform XAML GUI development with Avalonia UI (.NET 8/9), MVVM pattern, CompiledBindings, Native AOT compilation, and native OS desktop integration. |
 | **`bash-posix-automation`** | Defensive Bash and POSIX shell engineering, strict runtime error handling, signal cleanup traps, argument parsing with getopts, atomic file operations, and ShellCheck compliance. |

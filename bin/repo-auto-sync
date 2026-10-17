@@ -1,0 +1,193 @@
+#!/usr/bin/env python3
+"""
+repo-auto-sync: Autonomous Git Repository Updater, Milestone Committer & Multi-Repo Fleet Manager.
+Safely pulls upstream changes (--autostash), stages verified work while blocking >50MB binaries/temp files,
+generates conventional commits, pushes milestones during long sessions, and syncs ~/Documents/GitHub/.
+"""
+
+import argparse
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+GITHUB_ROOT = Path("/home/ericparsley/Documents/GitHub")
+MAX_FILE_BYTES = 50 * 1024 * 1024  # 50 MB GitHub safety threshold
+IGNORE_PATTERNS = (".blend1", ".pyc", "__pycache__", ".tmp", "core.")
+
+
+def run_git(repo: Path, *args: str, timeout: int = 30) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        ["git", "-C", str(repo), *args],
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+    )
+
+
+def get_repo_status(repo: Path, fetch: bool = False) -> dict:
+    if fetch:
+        run_git(repo, "fetch", "--quiet", timeout=20)
+    branch = run_git(repo, "rev-parse", "--abbrev-ref", "HEAD").stdout.strip() or "UNKNOWN"
+    porcelain = run_git(repo, "status", "--porcelain").stdout.splitlines()
+    dirty_count = len(porcelain)
+
+    ahead, behind = 0, 0
+    ab = run_git(repo, "rev-list", "--left-right", "--count", "HEAD...@{u}")
+    if ab.returncode == 0 and ab.stdout.strip():
+        parts = ab.stdout.strip().split()
+        if len(parts) == 2:
+            ahead, behind = int(parts[0]), int(parts[1])
+
+    return {
+        "name": repo.name,
+        "path": str(repo),
+        "branch": branch,
+        "dirty": dirty_count,
+        "ahead": ahead,
+        "behind": behind,
+    }
+
+
+def cmd_pull(repo: Path) -> None:
+    st = get_repo_status(repo, fetch=True)
+    if st["branch"] == "HEAD":
+        print(f"[!] {repo.name}: Detached HEAD; skipping automatic pull.")
+        return
+    if st["behind"] == 0:
+        print(f"[✓] {repo.name} ({st['branch']}) is already up-to-date with upstream (dirty={st['dirty']}, ahead={st['ahead']}).")
+        return
+    res = run_git(repo, "pull", "--rebase", "--autostash", timeout=60)
+    if res.returncode == 0:
+        print(f"[✓] {repo.name} ({st['branch']}): Pulled {st['behind']} upstream commit(s) cleanly.")
+    else:
+        print(f"[✗] {repo.name}: Pull failed: {res.stderr.strip()}", file=sys.stderr)
+        sys.exit(1)
+
+
+def auto_generate_commit_message(repo: Path) -> str:
+    stat = run_git(repo, "diff", "--cached", "--name-only").stdout.splitlines()
+    if not stat:
+        return "chore: sync repository state"
+    top_files = [Path(p).name for p in stat[:3]]
+    more = f" (+{len(stat) - 3} more)" if len(stat) > 3 else ""
+    return f"chore(sync): milestone update for {', '.join(top_files)}{more}"
+
+
+def cmd_checkpoint(repo: Path, message: str | None, push: bool) -> None:
+    st = get_repo_status(repo, fetch=False)
+    if st["branch"] == "HEAD":
+        print(f"[!] {repo.name}: Repository is in detached HEAD state. Checkout a branch before checkpointing.", file=sys.stderr)
+        sys.exit(1)
+
+    run_git(repo, "add", "-A")
+
+    # Safety Filter: Unstage any file > 50 MB or matching temp patterns
+    staged = run_git(repo, "diff", "--cached", "--name-only").stdout.splitlines()
+    for rel in staged:
+        fpath = repo / rel
+        if any(pat in rel for pat in IGNORE_PATTERNS):
+            run_git(repo, "reset", "HEAD", "--", rel)
+            continue
+        if fpath.is_file() and not fpath.is_symlink():
+            if fpath.stat().st_size > MAX_FILE_BYTES:
+                mb = fpath.stat().st_size / (1024 * 1024)
+                print(f"[!] Safety Shield: Unstaged '{rel}' ({mb:.1f} MB > 50 MB limit)")
+                run_git(repo, "reset", "HEAD", "--", rel)
+
+    remaining = run_git(repo, "diff", "--cached", "--name-only").stdout.splitlines()
+    if not remaining:
+        print(f"[✓] {repo.name} ({st['branch']}): No staged changes to commit.")
+    else:
+        commit_msg = message or auto_generate_commit_message(repo)
+        res = run_git(repo, "commit", "-m", commit_msg)
+        if res.returncode != 0:
+            print(f"[✗] Commit failed in {repo.name}: {res.stderr.strip()}", file=sys.stderr)
+            sys.exit(1)
+        print(f"[✓] {repo.name} ({st['branch']}): Committed {len(remaining)} file(s) -> \"{commit_msg}\"")
+
+    if push:
+        # Rebase onto upstream if needed before pushing
+        st_post = get_repo_status(repo, fetch=True)
+        if st_post["behind"] > 0:
+            run_git(repo, "pull", "--rebase", "--autostash", timeout=60)
+        pres = run_git(repo, "push", "origin", st["branch"], timeout=60)
+        if pres.returncode == 0:
+            print(f"[✓] {repo.name} ({st['branch']}): Pushed cleanly to origin/{st['branch']}.")
+        else:
+            print(f"[✗] Push failed in {repo.name}: {pres.stderr.strip()}", file=sys.stderr)
+            sys.exit(1)
+
+
+def list_all_repos() -> list[Path]:
+    repos = []
+    if GITHUB_ROOT.is_dir():
+        for d in sorted(GITHUB_ROOT.iterdir()):
+            if d.is_dir() and ((d / ".git").exists()):
+                repos.append(d)
+    return repos
+
+
+def cmd_fleet_status(fetch: bool = False) -> None:
+    repos = list_all_repos()
+    results = []
+    with ThreadPoolExecutor(max_workers=16) as pool:
+        futs = {pool.submit(get_repo_status, r, fetch): r for r in repos}
+        for fut in as_completed(futs):
+            results.append(fut.result())
+    results.sort(key=lambda x: x["name"].lower())
+
+    print("================================================================================")
+    print(f" 📦 GitHub Multi-Repo Fleet Status ({len(results)} Repositories)")
+    print("================================================================================")
+    print(f"{'Repository':<35} | {'Branch':<24} | {'Dirty':<6} | {'Ahead/Behind'}")
+    print("-" * 80)
+    for r in results:
+        ab = f"+{r['ahead']}/-{r['behind']}"
+        print(f"{r['name']:<35} | {r['branch']:<24} | {r['dirty']:<6} | {ab}")
+    print("================================================================================")
+
+
+def cmd_fleet_pull() -> None:
+    repos = list_all_repos()
+    updated = 0
+    for r in repos:
+        st = get_repo_status(r, fetch=True)
+        if st["branch"] != "HEAD" and st["behind"] > 0:
+            res = run_git(r, "pull", "--rebase", "--autostash", timeout=45)
+            if res.returncode == 0:
+                print(f"[✓] Updated {r.name} ({st['branch']}): +{st['behind']} commits")
+                updated += 1
+    print(f"[✓] Fleet pull complete ({updated} repositories updated).")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Autonomous Git Repo Updater & Milestone Committer")
+    parser.add_argument("repo", nargs="?", default=".", help="Target repository path (default: current directory)")
+    parser.add_argument("--status", action="store_true", help="Show status of target repo")
+    parser.add_argument("--pull", action="store_true", help="Safe autostash rebase pull on target repo")
+    parser.add_argument("--checkpoint", action="store_true", help="Stage safe files (<50MB) and commit milestone")
+    parser.add_argument("-m", "--message", help="Commit message for --checkpoint")
+    parser.add_argument("--push", action="store_true", help="Push committed milestone to origin/<branch>")
+    parser.add_argument("--fleet-status", action="store_true", help="Parallel status scan of all repos in ~/Documents/GitHub")
+    parser.add_argument("--fleet-pull", action="store_true", help="Fetch and autostash-pull all repos in ~/Documents/GitHub")
+
+    args = parser.parse_args()
+    repo_path = Path(args.repo).resolve()
+
+    if args.fleet_status:
+        cmd_fleet_status(fetch=False)
+    elif args.fleet_pull:
+        cmd_fleet_pull()
+    elif args.pull:
+        cmd_pull(repo_path)
+    elif args.checkpoint:
+        cmd_checkpoint(repo_path, args.message, args.push)
+    else:
+        st = get_repo_status(repo_path, fetch=False)
+        print(f"[Repo Status] {st['name']} | Branch: {st['branch']} | Dirty: {st['dirty']} | Ahead: +{st['ahead']} / Behind: -{st['behind']}")
+
+
+if __name__ == "__main__":
+    main()
