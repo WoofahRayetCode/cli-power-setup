@@ -44,6 +44,59 @@ def get_free_vram_mb() -> int:
         return 6000
 
 
+SKILLS_DIRS = [
+    Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills"),
+    Path.home() / ".gemini" / "config" / "skills",
+]
+
+
+def load_skill_context(skill_names: str = "", auto_skill: bool = False, prompt_text: str = "", task: str = "auto") -> tuple[str, list[str]]:
+    loaded_names: list[str] = []
+    target_skills: list[str] = []
+
+    if skill_names:
+        target_skills.extend([s.strip() for s in skill_names.split(",") if s.strip()])
+    if task == "blender" and not target_skills:
+        target_skills.extend([
+            "blender-3d-engineering",
+            "blender-sdf-organic-remeshing",
+            "character-creature-anatomy-modeling",
+            "xray-ogf-dm-blender-pipeline",
+        ])
+    elif auto_skill and prompt_text:
+        p_low = prompt_text.lower()
+        keyword_map = [
+            (("blender", "bpy", "mesh", "3d", "sculpt", "ogf", "remesh", "aisha"), ["blender-3d-engineering", "blender-sdf-organic-remeshing"]),
+            (("shader", "hlsl", "dx11", "rtx", "dlss", "vulkan"), ["xray-dx11-shader-modernization", "rtx-compute-bvh-raytracing-ssgi"]),
+            (("ogg", "audio", "sound", "meow", "voice", "tts"), ["game-audio-ogg-gsc-encoder", "creature-animal-bioacoustic-audio"]),
+            (("ltx", "stalker", "ogsr", "xray", "crash"), ["game-modding", "xray-crash-log-diagnostician"]),
+            (("64-bit", "pointer", "cpp", "c++"), ["cpp-64bit-engine-port-sanitizer", "modern-cpp-engineering"]),
+        ]
+        for kws, sks in keyword_map:
+            if any(k in p_low for k in kws):
+                for s in sks:
+                    if s not in target_skills:
+                        target_skills.append(s)
+
+    blocks: list[str] = []
+    for sname in target_skills[:3]:
+        for sdir in SKILLS_DIRS:
+            spath = sdir / sname / "SKILL.md"
+            if spath.is_file():
+                try:
+                    raw = spath.read_text(encoding="utf-8", errors="ignore")
+                    blocks.append(f"=== SKILL RULEBOOK: {sname} ===\n{raw[:2600]}")
+                    loaded_names.append(sname)
+                    break
+                except Exception:
+                    pass
+
+    if not blocks:
+        return "", []
+    header = "You MUST strictly obey the following installed Antigravity Skill specifications:\n\n"
+    return header + "\n\n".join(blocks), loaded_names
+
+
 def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint: str = "http://localhost:11434") -> str:
     installed = get_installed_ollama_models(endpoint)
     if not installed:
@@ -52,8 +105,12 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
         return requested_model
 
     free_mb = get_free_vram_mb()
-    if task == "vision":
-        for cand in ("minicpm-v:latest", "minicpm-v:8b", "qwen2.5vl:7b", "moondream:latest", "llava:latest"):
+    if task == "blender":
+        for cand in ("blender-architect:latest", "qwen2.5-coder:7b", "deepseek-r1:8b"):
+            if cand in installed:
+                return cand
+    elif task == "vision":
+        for cand in ("minicpm-v:8b", "minicpm-v:latest", "qwen2.5vl:7b", "moondream:latest", "llava:latest"):
             if cand in installed:
                 return cand
     elif task == "reason" and free_mb >= 5200:
@@ -65,20 +122,20 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
             if cand in installed:
                 return cand
 
-    for cand in ("qwen2.5-coder:7b", "qwen2.5-coder:1.5b", "deepseek-r1:8b"):
+    for cand in ("qwen2.5-coder:7b", "blender-architect:latest", "qwen2.5-coder:1.5b", "deepseek-r1:8b"):
         if cand in installed:
             return cand
     return installed[0]
 
 
-def query_local_ollama(endpoint, model, prompt, system_prompt="", image_path="", timeout=25.0):
+def query_local_ollama(endpoint, model, prompt, system_prompt="", image_path="", timeout=35.0):
     resolved_model = resolve_best_local_model(model, "vision" if image_path else "auto", endpoint)
     url = f"{endpoint.rstrip('/')}/api/generate"
     payload = {
         "model": resolved_model,
         "prompt": prompt,
         "stream": False,
-        "options": {"num_ctx": 4096},
+        "options": {"num_ctx": 8192},
     }
     if system_prompt:
         payload["system"] = system_prompt
@@ -116,11 +173,24 @@ def cmd_status(args):
 
 def cmd_generate(args):
     task_mode = "vision" if getattr(args, "image", "") else getattr(args, "task", "auto")
-    resolved = resolve_best_local_model(args.model, task_mode, args.endpoint)
-    print(f"[🤖 Local Generation] Model: {resolved} (task={task_mode}) | Endpoint: {args.endpoint}")
     prompt = args.prompt
     if args.file and os.path.exists(args.file):
-        prompt = Path(args.file).read_text(encoding="utf-8", errors="ignore")
+        file_body = Path(args.file).read_text(encoding="utf-8", errors="ignore")
+        prompt = f"{prompt}\n\n```\n{file_body[:6000]}\n```" if prompt else file_body
+
+    if task_mode == "auto" and any(k in prompt.lower() for k in ("bpy", "blender", ".ogf", "remesh", "3d model")):
+        task_mode = "blender"
+
+    resolved = resolve_best_local_model(args.model, task_mode, args.endpoint)
+    skill_sys, loaded_skills = load_skill_context(
+        getattr(args, "skill", ""),
+        getattr(args, "auto_skill", True),
+        prompt,
+        task_mode,
+    )
+    combined_sys = "\n\n".join(p for p in [getattr(args, "system", ""), skill_sys] if p)
+    skill_badge = f" | Skills Injected: {', '.join(loaded_skills)}" if loaded_skills else ""
+    print(f"[🤖 Local Generation] Model: {resolved} (task={task_mode}){skill_badge}")
 
     response = None
     if not args.dry_run:
@@ -128,7 +198,7 @@ def cmd_generate(args):
             args.endpoint,
             resolved,
             prompt,
-            getattr(args, "system", ""),
+            combined_sys,
             getattr(args, "image", ""),
         )
 
@@ -227,7 +297,9 @@ def main():
     common_parser.add_argument("--dry-run", action="store_true", help="Simulate generation without active local server")
     common_parser.add_argument("--endpoint", type=str, default="http://localhost:11434", help="Local server URL")
     common_parser.add_argument("--model", type=str, default="auto", help="Local model name (default: auto-detect based on VRAM & task)")
-    common_parser.add_argument("--task", type=str, default="auto", choices=["auto", "fast", "code", "reason", "vision"], help="Task routing mode")
+    common_parser.add_argument("--task", type=str, default="auto", choices=["auto", "fast", "code", "reason", "vision", "blender"], help="Task routing mode")
+    common_parser.add_argument("--skill", type=str, default="", help="Comma-separated skill names to inject into local model system prompt")
+    common_parser.add_argument("--auto-skill", action="store_true", default=True, help="Automatically match and inject relevant SKILL.md rules")
 
     parser = argparse.ArgumentParser(parents=[common_parser], description="Local Model Coprocessor & Quota Shield")
     subparsers = parser.add_subparsers(dest="command", required=True)

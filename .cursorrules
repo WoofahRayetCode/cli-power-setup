@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (310 Specialized Capabilities)
+## Complete Skills Catalog (311 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -215,6 +215,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`blender-hard-surface-cad-weapons-props`** | Non-destructive hard-surface 3D modeling in Blender 5.2+ for weapons, firearms, vehicles, mechs, and sci-fi props using Boolean + Bevel + Weighted Normals, MikkTSpace tangents, and FPS kinematic weapon bone rigging. |
 | **`blender-headless-token-shield`** | Quota and context token protector for 3D modeling and Blender workflows. Prohibits dumping raw vertex coordinate tables into chat, enforces headless Python script execution with compact CLI telemetry, and gates renders to major task milestones. |
 | **`blender-high-to-low-baking`** | Automated high-to-low poly baking pipeline in Blender (bpy). Bakes tangent-space normal maps, ambient occlusion (AO), curvature/cavity, and material ID masks from multi-million polygon sculpts onto game-ready low-poly meshes. |
+| **`blender-local-ai-critic-loop`** | Closed-loop local AI 3D modeling, topology auditing, and VLM render critique pipeline (blender-local-ai). Bridges local Ollama models (blender-architect:latest, minicpm-v:8b, deepseek-r1:8b) with installed Blender 5.2+ skills at zero cloud token cost. |
 | **`blender-pbr-texture-packager`** | PBR texture channel packing (ORM - Occlusion, Roughness, Metallic), texel density enforcement, and normal map orientation (DirectX vs OpenGL) for game engines. |
 | **`blender-sdf-organic-remeshing`** | Eliminates the 'cartoony balloon-animal' look in procedural Blender 5.x organic modeling using Voxel SDF Remeshing, Volume-Preserving Laplacian Smoothing, Anatomical Plane Flattening, and QuadriFlow Retopology. |
 | **`blender-uv-udim-lightmap-architect`** | Automated headless UV unwrapping in Blender 5.2+ (SLIM Minimum Stretch, Angle-Based, Conformal), texel density normalization, Trim Sheets, UDIM multi-tile arrays (1001-1008), and non-overlapping UV2 Lightmap generation. |

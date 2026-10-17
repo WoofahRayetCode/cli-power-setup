@@ -1,0 +1,259 @@
+#!/usr/bin/env python3
+"""
+blender-local-ai: Closed-Loop Local AI 3D Model Auditor, VLM Critic & Skill-Grounded Optimizer
+Unifies Blender 5.2 (RTX 5060 OptiX), MiniCPM-V 8B / Moondream (Local VLM), DeepSeek-R1 8B,
+and Blender-Architect (Skill-Fused Qwen2.5-Coder 7B) with all installed 3D skills at 0 cloud tokens.
+"""
+
+import argparse
+import base64
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+import urllib.request
+
+SKILLS_DIR = Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills")
+BLENDER_BIN = "/home/ericparsley/Documents/GitHub/cli-power-setup/bin/blender"
+if not os.path.exists(BLENDER_BIN):
+    BLENDER_BIN = "blender"
+
+
+def load_3d_skill_rules() -> str:
+    target_skills = [
+        "blender-sdf-organic-remeshing",
+        "character-creature-anatomy-modeling",
+        "blender-3d-engineering",
+        "xray-ogf-dm-blender-pipeline",
+    ]
+    chunks = []
+    for s in target_skills:
+        p = SKILLS_DIR / s / "SKILL.md"
+        if p.is_file():
+            chunks.append(f"=== {s} ===\n" + p.read_text(encoding="utf-8", errors="ignore")[:2200])
+    return "\n\n".join(chunks)
+
+
+def ollama_generate(model: str, prompt: str, system: str = "", image_path: str = "", endpoint: str = "http://localhost:11434") -> str:
+    url = f"{endpoint.rstrip('/')}/api/generate"
+    payload: dict = {
+        "model": model,
+        "prompt": prompt,
+        "stream": False,
+        "options": {"num_ctx": 8192, "temperature": 0.2},
+    }
+    if system:
+        payload["system"] = system
+    if image_path and os.path.exists(image_path):
+        with open(image_path, "rb") as f:
+            payload["images"] = [base64.b64encode(f.read()).decode("utf-8")]
+
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=60.0) as resp:
+            if resp.status == 200:
+                return json.loads(resp.read().decode("utf-8")).get("response", "").strip()
+    except Exception as e:
+        return f"[!] Local Ollama error ({model}): {e}"
+    return ""
+
+
+def get_installed_models(endpoint: str = "http://localhost:11434") -> list[str]:
+    try:
+        with urllib.request.urlopen(f"{endpoint.rstrip('/')}/api/tags", timeout=2.0) as resp:
+            if resp.status == 200:
+                return [m.get("name", "") for m in json.loads(resp.read().decode("utf-8")).get("models", [])]
+    except Exception:
+        pass
+    return []
+
+
+def pick_vlm(endpoint: str = "http://localhost:11434") -> str:
+    models = get_installed_models(endpoint)
+    for m in ("minicpm-v:8b", "minicpm-v:latest", "moondream:latest"):
+        if m in models:
+            return m
+    return "moondream:latest"
+
+
+def pick_coder(endpoint: str = "http://localhost:11434") -> str:
+    models = get_installed_models(endpoint)
+    for m in ("blender-architect:latest", "qwen2.5-coder:7b", "deepseek-r1:8b"):
+        if m in models:
+            return m
+    return "qwen2.5-coder:7b"
+
+
+def run_blender_mesh_audit(target_path: str) -> dict:
+    """Runs headless Blender 5.2 to extract mathematical topology, manifold, and proportion telemetry."""
+    audit_out = Path("/dev/shm") / f"blender_audit_{os.getpid()}.json"
+    probe_code = f"""
+import bpy, bmesh, json, mathutils
+
+target = {repr(os.path.abspath(target_path))}
+if target.endswith('.blend'):
+    bpy.ops.wm.open_mainfile(filepath=target)
+elif target.endswith('.py'):
+    with open(target, 'r', encoding='utf-8') as f:
+        code = f.read()
+    try:
+        exec(compile(code, target, 'exec'), {{'__name__': '__main__', '__file__': target}})
+    except Exception as e:
+        pass
+
+meshes = [o for o in bpy.data.objects if o.type == 'MESH']
+armatures = [o for o in bpy.data.objects if o.type == 'ARMATURE']
+tot_verts = 0
+tot_faces = 0
+non_manifold = 0
+zero_area = 0
+max_submesh_verts = 0
+raw_primitives = []
+
+min_bb = [1e9, 1e9, 1e9]
+max_bb = [-1e9, -1e9, -1e9]
+
+for obj in meshes:
+    v_cnt = len(obj.data.vertices)
+    f_cnt = len(obj.data.polygons)
+    tot_verts += v_cnt
+    tot_faces += f_cnt
+    if v_cnt > max_submesh_verts:
+        max_submesh_verts = v_cnt
+    if any(obj.name.startswith(p) for p in ('Sphere', 'Cylinder', 'Cone', 'Cube', 'Icosphere')):
+        raw_primitives.append(obj.name)
+    bm = bmesh.new()
+    bm.from_mesh(obj.data)
+    non_manifold += sum(1 for e in bm.edges if not e.is_manifold)
+    zero_area += sum(1 for f in bm.faces if f.calc_area() < 1e-7)
+    bm.free()
+    for corner in obj.bound_box:
+        wc = obj.matrix_world @ mathutils.Vector(corner)
+        for i in range(3):
+            min_bb[i] = min(min_bb[i], wc[i])
+            max_bb[i] = max(max_bb[i], wc[i])
+
+dims = [round(max_bb[i] - min_bb[i], 4) if max_bb[i] > min_bb[i] else 0.0 for i in range(3)]
+bones = sum(len(a.data.bones) for a in armatures)
+
+report = {{
+    'mesh_objects': len(meshes),
+    'total_verts': tot_verts,
+    'total_faces': tot_faces,
+    'max_submesh_verts': max_submesh_verts,
+    'ogf_uint16_safe': max_submesh_verts <= 32000,
+    'non_manifold_edges': non_manifold,
+    'zero_area_faces': zero_area,
+    'bbox_xyz_m': dims,
+    'bones': bones,
+    'raw_unremeshed_primitives': raw_primitives[:8],
+}}
+with open({repr(str(audit_out))}, 'w', encoding='utf-8') as out_f:
+    json.dump(report, out_f, indent=2)
+"""
+    try:
+        subprocess.run(
+            [BLENDER_BIN, "-b", "--factory-startup", "--python-expr", probe_code],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            timeout=45.0,
+        )
+        if audit_out.is_file():
+            data = json.loads(audit_out.read_text(encoding="utf-8"))
+            audit_out.unlink(missing_ok=True)
+            return data
+    except Exception as e:
+        return {"error": str(e)}
+    return {"error": "Audit did not produce output"}
+
+
+def cmd_audit(args):
+    print(f"[🔬 Blender 5.2 Local Topology & Skill Audit] Target: {args.target}")
+    report = run_blender_mesh_audit(args.target)
+    print(json.dumps(report, indent=2))
+
+
+def cmd_critique(args):
+    vlm = pick_vlm(args.endpoint)
+    print(f"[👁️ Local 3D Render VLM Critique] Model: {vlm} | Image: {args.image}")
+    rubric = (
+        "You are a 3D Character/Asset Lead inspecting a Blender render. Evaluate:\n"
+        "1. Organic Silhouette & Proportions: Does the model look like a cohesive anatomical sculpt or glued-together 'balloon-animal' spheres/cones?\n"
+        "2. Surface & Shading: Are fur/material roughness, normal map cavities, eye corneal reflections, and ear/muzzle transitions natural?\n"
+        "3. Top 3 Specific Geometric/Shader Fixes needed in the Blender Python (`bpy`) generator script."
+    )
+    if args.prompt:
+        rubric = f"{rubric}\nAdditional focus: {args.prompt}"
+    res = ollama_generate(vlm, rubric, image_path=args.image, endpoint=args.endpoint)
+    print(f"\n[✓] VLM Visual Critique ({vlm}):\n{res}")
+
+
+def cmd_improve(args):
+    coder = pick_coder(args.endpoint)
+    vlm = pick_vlm(args.endpoint)
+    script_path = Path(args.script)
+    if not script_path.is_file():
+        print(f"[!] Script not found: {script_path}", file=sys.stderr)
+        sys.exit(1)
+
+    code_text = script_path.read_text(encoding="utf-8", errors="ignore")
+    vis_notes = ""
+    if args.image and os.path.exists(args.image):
+        print(f"[1/2 👁️ VLM Inspection] Auditing render {args.image} with {vlm}...")
+        vis_notes = ollama_generate(
+            vlm,
+            "List the top 3 anatomical, silhouette, or shading flaws visible in this 3D render.",
+            image_path=args.image,
+            endpoint=args.endpoint,
+        )
+        print(f"  -> VLM Findings: {vis_notes[:240]}...")
+
+    print(f"[2/2 🧠 Skill-Grounded Code Synthesis] Generating surgical `bpy` improvements with {coder}...")
+    skill_rules = load_3d_skill_rules()
+    prompt = (
+        f"Goal: {args.goal}\n\n"
+        f"Visual Critique from VLM:\n{vis_notes or 'N/A'}\n\n"
+        f"Current Blender 5.2 Python Script (`{script_path.name}` excerpt):\n"
+        f"```python\n{code_text[:5500]}\n```\n\n"
+        "Provide ONLY surgical Python code replacements (showing target lines and replacement lines, <= 40 lines per chunk) "
+        "that obey Blender 5.2 API laws, SDF Voxel Remesh + Laplacian Smooth organic fusion, and RTX 5060 OptiX rendering."
+    )
+    res = ollama_generate(coder, prompt, system=skill_rules, endpoint=args.endpoint)
+    print(f"\n[✓] Skill-Grounded 3D Improvements ({coder}):\n{res}")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Closed-Loop Local AI 3D Model Auditor, VLM Critic & Skill-Grounded Optimizer")
+    parser.add_argument("--endpoint", default="http://localhost:11434", help="Local Ollama endpoint")
+    sub = parser.add_subparsers(dest="cmd", required=True)
+
+    p_aud = sub.add_parser("audit", help="Run headless Blender 5.2 topology, manifold & OGF budget audit")
+    p_aud.add_argument("target", help="Path to .blend or Blender .py generator script")
+
+    p_crit = sub.add_parser("critique", help="Inspect a 3D render/contact sheet locally using MiniCPM-V 8B / Moondream")
+    p_crit.add_argument("image", help="Path to rendered .png/.jpg image")
+    p_crit.add_argument("--prompt", default="", help="Optional specific focus")
+
+    p_imp = sub.add_parser("improve", help="Run VLM critique + Skill-Grounded Blender-Architect code improvement")
+    p_imp.add_argument("script", help="Path to Blender .py script")
+    p_imp.add_argument("--goal", required=True, help="Improvement goal (e.g. 'improve feline muzzle bridge and ear pinnae')")
+    p_imp.add_argument("--image", default="", help="Optional rendered preview image for VLM grounding")
+
+    args = parser.parse_args()
+    if args.cmd == "audit":
+        cmd_audit(args)
+    elif args.cmd == "critique":
+        cmd_critique(args)
+    elif args.cmd == "improve":
+        cmd_improve(args)
+
+
+if __name__ == "__main__":
+    main()

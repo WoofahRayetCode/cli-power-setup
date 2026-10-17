@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)** and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
 
-This repository organizes **310 autonomous agent skills**, 310 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a clickable floating voice dictation pill (`agy-mic-button`), a zero-quota CPU/GPU math & physics solver (`game-math-solver`), an auto-optimizing skill ecosystem engine (`skill-optimize`), a clamshell 3D thermal governor (`laptop-perf`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
+This repository organizes **311 autonomous agent skills**, 311 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a clickable floating voice dictation pill (`agy-mic-button`), a zero-quota CPU/GPU math & physics solver (`game-math-solver`), an auto-optimizing skill ecosystem engine (`skill-optimize`), a clamshell 3D thermal governor (`laptop-perf`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
 
 ---
 
@@ -36,7 +36,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Environment Sync:** Deploys all 310 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Environment Sync:** Deploys all 311 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Voice Command Routing:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, Zero-Quota Local CPU/GPU Math Offload rules, and Natural-Language Spoken Command Routing (*"Set a goal..."*, *"Make a plan..."*, *"Use boost..."*) to `~/.gemini/config/GEMINI.md` and `~/.cursorrules`.
 4. **Live Multi-Row Telemetry Statusline (`agy-quota-statusline`):** Tracks real-time 5h/weekly quota, 250k compaction gate countdown (`🧹`), active skills in real time (`🛠️ Skills [Live]`), CPU/GPU temperatures & fan RPM (`🌡️`), lid-closed lock state (`🔒Lid-Safe`), RTX 5060 VRAM & `/dev/shm` RAM-disk usage (`🚀`), and active background workloads (`⚙️ 🎨Blender+🔨Build+🎮OGSR/Wine`).
 5. **Floating Voice Dictation Pill (`agy-mic-button`):** Launches a draggable, pinnable (`📌`/`📍`) floating `[🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin]` overlay that triggers `/voice` (`F5`) without keyboard shortcuts and auto-closes when `agy` exits.
@@ -53,7 +53,7 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & skill reference
 ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
 ├── .cursor/
-│   └── rules/                  # 310 modular Cursor rules (.mdc) with semantic metadata
+│   └── rules/                  # 311 modular Cursor rules (.mdc) with semantic metadata
 ├── bin/
 │   ├── agy-quota-statusline    # Live multi-row quota, skills, thermal, VRAM & git statusline
 │   ├── agy-mic-button          # Floating draggable/pinnable voice dictation pill for agy
@@ -85,14 +85,14 @@ cli-power-setup/
     ├── settings.template.json       # Reference AGY CLI settings configuration
     ├── token_ledger.json            # Pure Antigravity (agy) lifetime token savings ledger (1.28B cached tokens)
     ├── cursor/                      # Cursor reference templates and rules
-    └── skills/                      # 310 specialized skills
+    └── skills/                      # 311 specialized skills
 ```
 
 ---
 
 ## 🎯 Where Skills Perform Best: `agy` CLI vs. Cursor IDE (Division of Labor)
 
-While all 310 skills and CLI utilities are shared across environments, they naturally divide into distinct operational sweet spots:
+While all 311 skills and CLI utilities are shared across environments, they naturally divide into distinct operational sweet spots:
 
 ### 1. Skills That Excel in `agy` CLI (Headless, Voice-Driven & Unattended)
 *Best launched via `agy-yolo`, `agy-turbo`, or spoken *"Set a goal..."* via `agy-mic-button`*
@@ -1907,7 +1907,7 @@ Eliminates cloud reasoning token burn on 3D coordinate/quaternion basis transfor
 | **`cursor-rules-sync`** | Converts all skills to Cursor `.mdc` rules and syncs `.cursorrules` | After modifying skills or when syncing Cursor configuration. |
 | **`skills-audit-update --audit`** | Audits health across Antigravity and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all 300 skills across Antigravity and Cursor | After adding or updating any skill in the repository. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 310 skills across Antigravity and Cursor | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 311 skills across Antigravity and Cursor | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
@@ -1944,7 +1944,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 310 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 311 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
 
 
@@ -1954,7 +1954,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ---
 
 <!-- AUTO-SYNC-CATALOG:START -->
-## 🔄 Auto-Synchronized Skill & CLI Inventory (310 Total Active Skills)
+## 🔄 Auto-Synchronized Skill & CLI Inventory (311 Total Active Skills)
 
 ### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)
 | CLI Tool | Purpose |
@@ -1974,7 +1974,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 | **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |
 | **`local-coprocessor` / `local-rag` / `local-ast-compiler`** | Zero-quota local CPU/GPU/RAM offload engines for AST syntax checks, BM25/vector RAG, and local LLM summarization. |
 
-### Recently Evolved & SOTA Skills (84 Indexed Automatically)
+### Recently Evolved & SOTA Skills (85 Indexed Automatically)
 | Skill Name | Description |
 | :--- | :--- |
 | **`amd-igpu-nvidia-dgpu-hybrid-offload`** | Dual-GPU workload splitter for AMD Radeon 610M iGPU (/dev/dri/renderD129, RADV Vulkan + VA-API VCN + 30GB shared DDR5 RAM) and NVIDIA GeForce RTX 5060 dGPU (/dev/dri/renderD128, 8GB GDDR7 CUDA/OptiX). Prevents background agent tasks from stealing game VRAM. |
@@ -2009,6 +2009,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 | **`blender-gaussian-splatting-photogrammetry-cleanup`** | Converts raw 3D Gaussian Splatting (.ply), NeRF, photogrammetry scans, and AI-generated 3D meshes (Tripo3D/Hunyuan3D/Trellis) into clean, delighted, quad-retopologized, game-ready PBR assets in headless Blender 5.2+. |
 | **`blender-geometry-nodes-procedural-worlds`** | Headless Blender 5.2+ Geometry Nodes (bpy.types.GeometryNodeTree) procedural worldbuilding, spline generators (roads, pipes, cables, fences), modular building assembly, Poisson-disk biome foliage scattering, and Realize Instances game export. |
 | **`blender-hard-surface-cad-weapons-props`** | Non-destructive hard-surface 3D modeling in Blender 5.2+ for weapons, firearms, vehicles, mechs, and sci-fi props using Boolean + Bevel + Weighted Normals, MikkTSpace tangents, and FPS kinematic weapon bone rigging. |
+| **`blender-local-ai-critic-loop`** | Closed-loop local AI 3D modeling, topology auditing, and VLM render critique pipeline (blender-local-ai). Bridges local Ollama models (blender-architect:latest, minicpm-v:8b, deepseek-r1:8b) with installed Blender 5.2+ skills at zero cloud token cost. |
 | **`blender-sdf-organic-remeshing`** | Eliminates the 'cartoony balloon-animal' look in procedural Blender 5.x organic modeling using Voxel SDF Remeshing, Volume-Preserving Laplacian Smoothing, Anatomical Plane Flattening, and QuadriFlow Retopology. |
 | **`blender-uv-udim-lightmap-architect`** | Automated headless UV unwrapping in Blender 5.2+ (SLIM Minimum Stretch, Angle-Based, Conformal), texel density normalization, Trim Sheets, UDIM multi-tile arrays (1001-1008), and non-overlapping UV2 Lightmap generation. |
 | **`chatgpt-o1-hypothesis-tree`** | Emulates ChatGPT o1/o3-mini Tree-of-Thought deliberation on Gemini 4 Argon. Branches into 3 competing hypotheses, explores execution paths, and backtracks upon contradiction. |
