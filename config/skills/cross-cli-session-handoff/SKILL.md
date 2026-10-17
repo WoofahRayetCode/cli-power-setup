@@ -62,3 +62,6 @@ When launching the new CLI session (`claude` or `agy`):
 2. **Context Parity Restored:**
    Immediately verify the working branch, check `git status`, and proceed directly to `next_immediate_step` without asking the user for background context.
 3. **Token Savings:** Replaces 40,000+ tokens of conversational catch-up with a surgical **< 300-token payload**.
+4. **Auto-Checkpoint & Cheat Sheet Sync (`autonomous-git-repo-sync-governor` & `dynamic-repo-model-cheatsheet`):**
+   Before handing off a verified milestone, run `repo-auto-sync <repo> --checkpoint --push` and `agy-cheatsheet --update` so the receiving CLI (`agy` or `claude`) immediately sees the updated `🎯 Rec: ...` model/effort recommendation in its startup banner and statusline.
+

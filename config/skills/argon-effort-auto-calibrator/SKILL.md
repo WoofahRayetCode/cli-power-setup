@@ -42,3 +42,8 @@ When invoking tools under Argon, enforce direct action:
 ```text
 "Direct Action Mode: Execute tool call immediately without preamble, repetitive restatements, or speculative internal monologue. Let tool results provide the evidence."
 ```
+
+## 4. Repo Cheat Sheet & Hardware Offload Alignment
+- Consult `agy-cheatsheet` (`cs` / `dynamic-repo-model-cheatsheet`) and the live statusline (`🎯 Rec: ...`) to match effort to the active repository's uncommitted file types (`.ltx`/`.gd` $\rightarrow$ `--effort low`; `.blend`/`.script`/`.kt` $\rightarrow$ `--effort medium`; `.cpp`/`.hlsl`/`.rs` $\rightarrow$ `--effort high`).
+- Offload AST syntax checks (`local-ast-compiler`), `/dev/shm` builds (`ramdisk-tmpfs-build-bake-accelerator`), and OptiX baking (`rtx-optix-gpu-baker-denoiser`) locally to keep Argon reasoning tokens minimal.
+

@@ -139,5 +139,9 @@ python3 config/skills/adaptive-reasoning/scripts/adaptive_model_router.py route 
    - Immediate automatic downshifting back to **`Flash` / Low Reasoning** via `dynamic-model-downshifter`, restoring 100% quota efficiency.
 5. **Context Window Shielding:**
    - As context grows, engage `flash-context-compactor` (<100k cap) or `claude-context-rot-shield` (<80k cap) to prevent attention degradation and prompt cache misses.
+6. **Dynamic Repo Cheat Sheet & Statusline Sync (`dynamic-repo-model-cheatsheet`):**
+   - `adaptive-model-router` automatically updates `config/repo_cheatsheet.json` and invalidates `/tmp/agy_cheatsheet_statusline.json` on `fail` or `pass`, immediately updating `agy-cheatsheet` (`cs`) and the live bottom statusline (`🎯 Rec: ...`).
+   - Pair milestone completions with `repo-auto-sync <repo> --checkpoint --push` and persist solved workarounds via `skill-evolve`.
+
 
 

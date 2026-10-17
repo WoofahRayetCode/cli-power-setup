@@ -50,3 +50,5 @@ When using interactive CLI sessions, use model toggle commands when transitionin
   - Execution: `--effort low` / switch model to Flash
 - **Claude Code CLI:**
   - Shift between `/model claude-3-5-sonnet` and `/model claude-3-5-haiku` for routine maintenance.
+- **Live Terminal Cheat Sheet (`dynamic-repo-model-cheatsheet`):**
+  - Run `cs` (`agy-cheatsheet`) or check `🎯 Rec: ...` in the statusline to see when dirty `.cpp`/`.hlsl` files have been committed via `repo-auto-sync --checkpoint` and the workspace is ready to downshift back to `Flash • Low`.

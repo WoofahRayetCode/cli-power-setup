@@ -46,3 +46,5 @@ When invoking Claude via API, SDK, or CLI flags:
   }
   ```
 - Disable thinking entirely for batch linting, test condensation, or formatting scripts.
+- **Dynamic Repo Cheat Sheet (`dynamic-repo-model-cheatsheet`):** Follow the live `🎯 Rec: ...` indicator in `claude-statusline` and `agy-cheatsheet` (`cs`)—use `claude-turbo` (`MAX_THINKING_TOKENS=1024`) when working on routine config/UI repos, and reserve extended thinking for Tier 3 C++/64-bit/crash tasks.
+- **Milestone Persistence:** After completing a high-thinking architectural fix, commit via `repo-auto-sync <repo> --checkpoint --push` and persist rules via `skill-evolve`.

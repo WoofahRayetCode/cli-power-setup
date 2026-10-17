@@ -43,3 +43,7 @@ agy-init --dir /path/to/project
 # Force update existing configuration files
 agy-init --force
 ```
+
+## 3. Automatic `.gitignore`, Cheat Sheet & Mod Scanner Integration
+- `agy-init` automatically invokes `repo-auto-sync <dir> --ensure-gitignore` to create/harden `.gitignore` and `agy-cheatsheet --update` (`dynamic-repo-model-cheatsheet`) so the initialized repository immediately appears in `cs` and the statusline (`🎯 Rec: ...`).
+- When initializing a game mod repository, pair with `steam-mod-scanner` to link the installed Steam game's engine rules into `GEMINI.md` and `CLAUDE.md`.

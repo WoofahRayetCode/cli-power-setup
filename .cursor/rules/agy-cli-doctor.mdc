@@ -41,3 +41,9 @@ Provides complete parity with Claude Code's native `claude doctor` command. Insp
 # Run complete system health check
 agy-doctor
 ```
+
+## 3. Hardware Offload, Cheat Sheet & Skill Audit Integration
+- `agy-doctor` also verifies:
+  - `~/.cli_power_setup/repo_cheatsheet.json` (`dynamic-repo-model-cheatsheet` / `cs`) and `~/.cli_power_setup/token_ledger.json` symlinks.
+  - Hybrid GPU render nodes (`/dev/dri/renderD128` RTX 5060 dGPU + `/dev/dri/renderD129` Radeon 610M iGPU via `amd-igpu-nvidia-dgpu-hybrid-offload`) and `/dev/shm` tmpfs (`ramdisk-tmpfs-build-bake-accelerator`).
+- Pair with `skills-audit-update --audit` and `repo-auto-sync --fleet-status` for full workspace health verification.

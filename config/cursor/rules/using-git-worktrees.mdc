@@ -42,3 +42,5 @@ git worktree prune
 ## Safety Checklist
 - Never delete a worktree directory using raw `rm -rf` without running `git worktree remove` or `git worktree prune`.
 - Do not run worktrees inside the repository's tracked folders—always place them in sibling directories or `/tmp/`.
+- **Automated Worktree Sync & Cheat Sheet Indexing (`autonomous-git-repo-sync-governor` & `dynamic-repo-model-cheatsheet`):**
+  - Use `repo-auto-sync <worktree> --checkpoint --push` inside sibling worktrees (e.g. `ogsr-complete-merge-argon` and `ogsr-complete-merge-fable`) to harden `.gitignore` against `>50 MB` build artifacts and update `agy-cheatsheet` (`cs`) with per-worktree model recommendations.

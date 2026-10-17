@@ -69,3 +69,6 @@ To sustain **>90% prompt caching discounts** during continuous autonomous runs:
 - **Never modify global system files or project root guidelines mid-run** unless explicitly required.
 - Keep prompt prefixes deterministic.
 - Perform **surgical chunk edits** (`replace_file_content`) instead of full file rewrites to minimize diff churn in the KV cache.
+- **Automated Milestone Push & Self-Evolution (`autonomous-git-repo-sync-governor` & `self-evolving-skill-synthesizer`):**
+  - At every verified 12-turn milestone, commit and push safe changes via `repo-auto-sync <repo> --checkpoint --push` (auto-hardening `.gitignore` and refreshing `agy-cheatsheet`).
+  - Persist any discovered crash workarounds or helper scripts (`>25` lines) via `skill-evolve`.

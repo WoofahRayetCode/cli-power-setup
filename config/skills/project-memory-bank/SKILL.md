@@ -113,6 +113,8 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   Record active crash logs (`.agents/crashes/`), modal dismissal counts, cleared lock files, and zombie process recovery metrics in `learnings.md`.
 * **Model-Optimal State Serialization Bindings (`model-optimal-state-serializer`):**
   Format `activeContext.md` and compaction snapshots using target tokenizer layouts (XML-KV for Claude BPE, Pipe-TSV for Gemini SentencePiece, compact symbol coordinates `<file>#L<line>:<sig>`) to compress state size by 60–80% (<350 tokens).
+* **Dynamic Repo Cheat Sheet, Git Sync & Skill Evolution Bindings (`dynamic-repo-model-cheatsheet`, `autonomous-git-repo-sync-governor`, `self-evolving-skill-synthesizer`):**
+  Whenever a reusable bug fix or helper script (`>25` lines) is logged in `learnings.md`, promote it globally via `skill-evolve --append-rule` or `skill-evolve --promote`, checkpoint the repo via `repo-auto-sync <repo> --checkpoint --push`, and keep `config/repo_cheatsheet.json` synchronized via `agy-cheatsheet --update`.
 
 ---
 
@@ -132,3 +134,4 @@ The memory bank lives in `.agents/memory/` at the root of the project:
   1. Update `.agents/memory/activeContext.md` with current completed steps, open blockers, and immediate next tasks.
   2. Advise running `/compact`.
   3. Upon resuming, re-reading `activeContext.md` restores 100% of working context while freeing up the entire conversation history.
+

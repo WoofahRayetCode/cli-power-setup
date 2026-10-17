@@ -169,5 +169,13 @@ def main():
     else:
         print("\n[i] Instruction files (GEMINI.md / CLAUDE.md) already exist. Use --force to overwrite.")
 
+    try:
+        import subprocess
+        subprocess.run(["repo-auto-sync", str(root), "--ensure-gitignore"], capture_output=True, timeout=5, check=False)
+        subprocess.run(["agy-cheatsheet", "--update"], capture_output=True, timeout=5, check=False)
+        print("[✓] Synchronized .gitignore and indexed repository in agy-cheatsheet.")
+    except Exception:
+        pass
+
 if __name__ == "__main__":
     main()

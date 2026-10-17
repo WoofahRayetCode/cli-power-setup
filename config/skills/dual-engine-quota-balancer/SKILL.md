@@ -31,3 +31,7 @@ This skill balances task dispatch between Argon and Fable based on live telemetr
      - Stage Fable's working state to `.agents/handoff.json`.
      - Route remaining tasks exclusively to Argon (`tandem-dispatch --to argon "<task>"`).
      - Argon completes the milestone while Claude's quota refreshes.
+4. **Local CPU/iGPU/dGPU/RAM Offload & Repo Cheat Sheet (`dynamic-repo-model-cheatsheet`):**
+   - Consult `agy-cheatsheet` (`cs`) for per-repository model and hardware routing (`Tandem•Arg+Fab` for `ogsr-complete-merge`, `Flash • Low` for config/UI repos).
+   - Offload syntax validation (`local-ast-compiler`), semantic search (`local-rag`), `/dev/shm` builds (`ramdisk-tmpfs-build-bake-accelerator`), and dual-GPU workloads (`amd-igpu-nvidia-dgpu-hybrid-offload`) locally before spending either Gemini or Claude cloud quota.
+
