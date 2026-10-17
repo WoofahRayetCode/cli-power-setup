@@ -149,13 +149,14 @@ install_binaries() {
         log_done "Installed executable: ${BIN_DEST}/cursor-rules-sync"
     fi
 
-    for new_bin in agy-init agy-doctor agy-context adaptive-model-router; do
+    for new_bin in agy-init agy-doctor agy-context adaptive-model-router agy-cheatsheet repo-auto-sync skill-evolve steam-mod-scanner tandem-yolo tandem-dispatch tandem-agent-sync; do
         if [ -f "${SCRIPT_DIR}/bin/${new_bin}" ]; then
             cp "${SCRIPT_DIR}/bin/${new_bin}" "${BIN_DEST}/${new_bin}"
             chmod +x "${BIN_DEST}/${new_bin}"
             log_done "Installed executable: ${BIN_DEST}/${new_bin}"
         fi
     done
+    ln -sf "${BIN_DEST}/agy-cheatsheet" "${BIN_DEST}/cs"
 
     if [ -f "${SCRIPT_DIR}/bin/game-dialogue-tool" ]; then
         cp "${SCRIPT_DIR}/bin/game-dialogue-tool" "${BIN_DEST}/game-dialogue-tool"

@@ -2,4 +2,5 @@
 # Launch Claude Code CLI in quota-optimized Turbo mode (low thinking effort)
 export CLAUDE_TURBO=1
 export MAX_THINKING_TOKENS=1024
+[ -t 1 ] && command -v agy-cheatsheet >/dev/null 2>&1 && agy-cheatsheet --banner
 exec claude --effort low "$@"

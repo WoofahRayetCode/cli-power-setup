@@ -257,11 +257,24 @@ def main():
         if cost_parts:
             parts.append(f"💲 {' '.join(cost_parts)}")
 
-    # 6. Git Worktree / Branch (if present)
+    # 6. Git Worktree / Branch & Dynamic Model Recommendation
     worktree = data.get("worktree", {})
     wt_name = worktree.get("name") if isinstance(worktree, dict) else None
     if wt_name:
         parts.append(f"🌿 {wt_name}")
+
+    try:
+        cwd = data.get("current_dir") or data.get("project_dir") or os.getcwd()
+        res_rec = subprocess.run(
+            ["agy-cheatsheet", "--statusline", cwd],
+            capture_output=True,
+            text=True,
+            timeout=0.5
+        )
+        if res_rec.returncode == 0 and res_rec.stdout.strip():
+            parts.append(res_rec.stdout.strip())
+    except Exception:
+        pass
 
     # Determine terminal width
     term_width = data.get("terminal_width") or data.get("columns")

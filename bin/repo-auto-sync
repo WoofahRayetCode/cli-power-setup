@@ -170,8 +170,9 @@ def sync_readme(repo: Path) -> bool:
             "### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)",
             "| CLI Tool | Purpose |",
             "| :--- | :--- |",
+            "| **`agy-cheatsheet` (`cs`)** | Dynamic repo-aware model, reasoning effort, and hardware offload cheat sheet + live statusline recommender (`~/Documents/GitHub`). |",
             "| **`skill-evolve`** | Closed-loop runtime skill scaffolder, Voyager script promoter, and `<50ms` 3-CLI hot-patcher with auto GitHub push. |",
-            "| **`repo-auto-sync`** | Autonomous git repo puller, `.gitignore` hardener, `README.md` updater, milestone committer, and 30-repo fleet manager. |",
+            "| **`repo-auto-sync`** | Autonomous git repo puller, `.gitignore` hardener, `README.md` updater, milestone committer, and 34-repo fleet manager. |",
             "| **`steam-mod-scanner`** | Fingerprints installed Steam games (`/mnt/games/SteamLibrary`) by engine & archive format and maps to modding skills. |",
             "| **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |",
             "| **`tandem-yolo` / `tandem-dispatch`** | 3-column side-by-side Gemini 4 Argon + Claude Fable autonomous split-worktree launcher & live command dispatcher. |",
@@ -223,6 +224,10 @@ def cmd_checkpoint(repo: Path, message: str | None, push: bool) -> None:
 
     ensure_gitignore(repo)
     sync_readme(repo)
+    try:
+        subprocess.run(["agy-cheatsheet", "--update"], capture_output=True, timeout=5, check=False)
+    except Exception:
+        pass
     run_git(repo, "add", "-A")
 
     # Safety Filter: Unstage any file > 50 MB or matching temp patterns & append >50MB files to .gitignore

@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (301 Specialized Capabilities)
+## Complete Skills Catalog (302 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -269,6 +269,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`dual-engine-quota-balancer`** | Dynamic telemetry coordination across Google Gemini and Anthropic Claude rate limits, balancing task allocation to guarantee uninterrupted execution without hitting provider quotas. |
 | **`dxvk-vkd3d-proton-pipeline-profiler`** | Diagnoses and eliminates DXVK and VKD3D-Proton shader compilation stutter, descriptor heap stalls, and VRAM staging bottlenecks for DX11/DX12 games running on Linux. |
 | **`dynamic-model-downshifter`** | Autonomous multi-tier model downshifting for CLI sessions. Enforces the 'Frontier Brain, Fast Hands' pattern by offloading mechanical bash tasks, file moves, and git operations to lightweight models (Flash/Haiku), reserving frontier reasoning (Argon/Opus) exclusively for architectural design and complex debugging. |
+| **`dynamic-repo-model-cheatsheet`** | Dynamic terminal cheat sheet (agy-cheatsheet / cs) and live statusline recommender that scans ~/Documents/GitHub repositories, uncommitted diffs, recent commits, and error states to recommend the optimal Model + Reasoning Effort + Local Hardware Offload. |
 | **`dynamic-skill-router`** | High-performance semantic intent matching and capability indexing across 100+ installed skills. Use to instantly discover, rank, and activate the exact 2-3 optimal skills for any complex prompt, eliminating skill choice paralysis and context bloat. |
 | **`electron-desktop-dev`** | Electron desktop application engineering, IPC security, context isolation, preload scripts, multi-window lifecycles, and cross-platform packaging with electron-builder. |
 | **`emulator-development-engineering`** | Video game console emulation architecture, CPU interpreter & JIT dynamic binary translation, cycle-accurate timing, memory-mapped I/O (MMU), Vulkan/OpenGL graphics rendering backends, APU sound emulation, and contributions to open-source emulators (Dolphin, RPCS3, PCSX2, Ryujinx, RetroArch). |

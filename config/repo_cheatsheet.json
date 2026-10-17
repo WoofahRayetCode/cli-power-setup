@@ -1,0 +1,800 @@
+{
+  "updated_at": "2026-10-16T20:29:55.111979",
+  "total_repos": 34,
+  "repos": [
+    {
+      "name": "ogsr-complete-merge",
+      "path": "~/Documents/GitHub/ogsr-complete-merge",
+      "is_git": true,
+      "activity_ts": 1792207794.8772721,
+      "age_str": "0s ago",
+      "dirty_count": 16,
+      "dirty_exts": {
+        ".json": 78,
+        ".md": 14,
+        ".png": 125,
+        ".blend1": 1,
+        ".blend": 1,
+        ".ogf": 4,
+        ".wav": 1,
+        ".txt": 12,
+        ".log": 37,
+        ".csv": 12,
+        ".out": 11,
+        ".conf": 3,
+        ".sav": 5,
+        ".dds": 197,
+        ".jsonl": 1,
+        ".bak": 1,
+        ".patch": 1,
+        ".ltx": 44,
+        ".xr": 1,
+        ".anm": 6,
+        ".xml": 14,
+        ".fog_vol": 1,
+        ".puddles": 1,
+        ".lua": 1,
+        ".script": 34,
+        ".script_npc_lights_on": 1,
+        ".script_disabled": 3,
+        ".script~": 1,
+        ".qo": 1,
+        ".cleanup": 1,
+        ".normal": 3,
+        ".for_mods": 1,
+        ".dev": 1,
+        ".extrabarmusic": 1,
+        ".zrp": 1,
+        ".script_no mill": 1,
+        ".cmd": 2,
+        ".h": 94,
+        ".s": 130,
+        ".ps": 206,
+        ".vs": 120,
+        ".gs": 3,
+        ".ds": 1,
+        ".hs": 1,
+        ".ogg": 1,
+        ".pl": 1,
+        ".thm": 65,
+        ".ini": 1,
+        ".tsv": 1,
+        ".sh": 17,
+        ".py": 27,
+        ".js": 3,
+        ".pyc": 2
+      },
+      "top_exts": [
+        ".ps",
+        ".dds",
+        ".s"
+      ],
+      "last_commit": "",
+      "stack": "C++20 / X-Ray 64b / DX11",
+      "routine": "Flash \u2022 Low (LTX/DDS)",
+      "deep": "Argon \u2022 High (64b C++/DX11)",
+      "live_rec": "Tandem\u2022Arg+Fab",
+      "live_reason": "Dual C++ (Argon) + LTX (Fable)",
+      "hw": "32-Thr CMake + /dev/shm"
+    },
+    {
+      "name": "cli-power-setup",
+      "path": "~/Documents/GitHub/cli-power-setup",
+      "is_git": true,
+      "activity_ts": 1792207794.7807415,
+      "age_str": "0s ago",
+      "dirty_count": 16,
+      "dirty_exts": {
+        ".md": 2,
+        ".sh": 1,
+        ".mdc": 2,
+        ".json": 1
+      },
+      "top_exts": [
+        ".md",
+        ".mdc",
+        ".py"
+      ],
+      "last_commit": "feat(repo-auto-sync): add automatic .gitignore har",
+      "stack": "AI Skills / Python / Bash",
+      "routine": "Flash \u2022 Low (Sync/Docs)",
+      "deep": "Argon \u2022 High (Orchestration)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "Multi-tool engineering",
+      "hw": "Local AST/RAG + 32-Thr"
+    },
+    {
+      "name": "AegisVault",
+      "path": "~/Documents/GitHub/AegisVault",
+      "is_git": true,
+      "activity_ts": 1792198538.3066192,
+      "age_str": "2h ago",
+      "dirty_count": 36,
+      "dirty_exts": {
+        ".md": 1,
+        ".ps1": 1,
+        ".sh": 1,
+        ".py": 31,
+        ".spec": 2
+      },
+      "top_exts": [
+        ".py",
+        ".png",
+        ".so"
+      ],
+      "last_commit": "feat(companions): implement manual check for ROM u",
+      "stack": "Python / Crypto / Homebrew",
+      "routine": "Flash \u2022 Low (CLI/Feeds)",
+      "deep": "Argon \u2022 Med (Crypto/Binary)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "Security/Crypto Python",
+      "hw": "32-Thr ProcessPool + /dev/shm"
+    },
+    {
+      "name": "OGSR-Engine",
+      "path": "~/Documents/GitHub/OGSR-Engine",
+      "is_git": true,
+      "activity_ts": 1792197607.4411106,
+      "age_str": "2h ago",
+      "dirty_count": 26,
+      "dirty_exts": {
+        ".hpp": 1,
+        ".cpp": 18,
+        ".h": 6,
+        ".json": 1,
+        ".md": 1
+      },
+      "top_exts": [
+        ".h",
+        ".cpp",
+        ".c"
+      ],
+      "last_commit": "Update push.yml",
+      "stack": "C++20 / X-Ray 64b / DX11",
+      "routine": "Flash \u2022 Low (LTX/DDS)",
+      "deep": "Argon \u2022 High (64b C++/DX11)",
+      "live_rec": "Argon \u2022 High",
+      "live_reason": "Active C++/Shader/64b work",
+      "hw": "32-Thr CMake + /dev/shm"
+    },
+    {
+      "name": "zoneforge",
+      "path": "~/Documents/GitHub/zoneforge",
+      "is_git": true,
+      "activity_ts": 1792111082.1888983,
+      "age_str": "1d ago",
+      "dirty_count": 5,
+      "dirty_exts": {
+        ".md": 1,
+        ".py": 4
+      },
+      "top_exts": [
+        ".dds",
+        ".script",
+        ".py"
+      ],
+      "last_commit": "Auto Medic: disable debug HUD info display by defa",
+      "stack": "S.T.A.L.K.E.R. LTX/Lua/Py",
+      "routine": "Flash \u2022 Low (LTX/Audio/DDS)",
+      "deep": "Argon \u2022 Med (Lua/OGF/XDB)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "Lua/Python logic",
+      "hw": "CUDA/NumPy 32-Thr + /dev/shm"
+    },
+    {
+      "name": "omen-space",
+      "path": "~/Documents/GitHub/omen-space",
+      "is_git": true,
+      "activity_ts": 1792069600.0371482,
+      "age_str": "1d ago",
+      "dirty_count": 2,
+      "dirty_exts": {
+        ".sh": 2
+      },
+      "top_exts": [
+        ".rs",
+        ".svg",
+        ".png"
+      ],
+      "last_commit": "Merge pull request #298 from ManOfDiamond/main",
+      "stack": "Linux Kernel / Rust / ACPI",
+      "routine": "Flash \u2022 Low (Systemd/UI)",
+      "deep": "Argon \u2022 High (EC/DKMS/Rust)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Packaging/Scripts",
+      "hw": "CARGO_BUILD_JOBS=32"
+    },
+    {
+      "name": "Thumbprint",
+      "path": "~/Documents/GitHub/Thumbprint",
+      "is_git": true,
+      "activity_ts": 1791641100.1808212,
+      "age_str": "6d ago",
+      "dirty_count": 3,
+      "dirty_exts": {
+        ".godot": 1,
+        ".gd": 7
+      },
+      "top_exts": [
+        ".gd",
+        ".godot"
+      ],
+      "last_commit": "",
+      "stack": "Godot 4 (GDScript / 3D GLB)",
+      "routine": "Flash \u2022 Low (GDScript/UI)",
+      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Fast GDScript / Scene edits",
+      "hw": "RTX 5060 OptiX (Blender)"
+    },
+    {
+      "name": "SuperRCProHams",
+      "path": "~/Documents/GitHub/SuperRCProHams",
+      "is_git": true,
+      "activity_ts": 1791416159.8010454,
+      "age_str": "9d ago",
+      "dirty_count": 1,
+      "dirty_exts": {
+        ".png": 1
+      },
+      "top_exts": [
+        ".asset",
+        ".meta",
+        ".json"
+      ],
+      "last_commit": "Initial check-in",
+      "stack": "C# .NET / Unity / Avalonia",
+      "routine": "Flash \u2022 Low (XAML/UI/Meta)",
+      "deep": "Argon \u2022 Med (Async/AOT/C#)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "UI / Config / Assets",
+      "hw": "Dotnet Parallel Build"
+    },
+    {
+      "name": "tetherfusenet",
+      "path": "~/Documents/GitHub/tetherfusenet",
+      "is_git": true,
+      "activity_ts": 1791414936.7961917,
+      "age_str": "9d ago",
+      "dirty_count": 1,
+      "dirty_exts": {
+        ".sh": 1
+      },
+      "top_exts": [
+        ".kt",
+        ".xml",
+        ".png"
+      ],
+      "last_commit": "Say what to do when adb refuses to install on Xiao",
+      "stack": "Android Kotlin / NDK / VPN",
+      "routine": "Flash \u2022 Low (XML/Gradle)",
+      "deep": "Argon \u2022 Med (Kotlin/NDK)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Gradle/Manifest/UI",
+      "hw": "ADB + Radeon 610M iGPU"
+    },
+    {
+      "name": "omen-acpi",
+      "path": "~/Documents/GitHub/omen-acpi",
+      "is_git": true,
+      "activity_ts": 1791294774.0817323,
+      "age_str": "10d ago",
+      "dirty_count": 20,
+      "dirty_exts": {
+        ".jsonc": 1,
+        ".md": 4,
+        ".py": 4,
+        ".sh": 7
+      },
+      "top_exts": [
+        ".sh",
+        ".py",
+        ".md"
+      ],
+      "last_commit": "Merge S5 update persistence improvements",
+      "stack": "Linux Kernel / Rust / ACPI",
+      "routine": "Flash \u2022 Low (Systemd/UI)",
+      "deep": "Argon \u2022 High (EC/DKMS/Rust)",
+      "live_rec": "Argon \u2022 High",
+      "live_reason": "Rust/ACPI/Audit safety",
+      "hw": "CARGO_BUILD_JOBS=32"
+    },
+    {
+      "name": "ogsr-complete-merge-argon",
+      "path": "~/Documents/GitHub/ogsr-complete-merge-argon",
+      "is_git": true,
+      "activity_ts": 1792203882.419827,
+      "age_str": "1h ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".py"
+      ],
+      "last_commit": "chore(argon): checkpoint Aisha v4 generator + S.T.",
+      "stack": "C++20 / X-Ray 64b / DX11",
+      "routine": "Flash \u2022 Low (LTX/DDS)",
+      "deep": "Argon \u2022 High (64b C++/DX11)",
+      "live_rec": "Argon \u2022 High",
+      "live_reason": "Engine C++ / 64b safety",
+      "hw": "32-Thr CMake + /dev/shm"
+    },
+    {
+      "name": "ogsr-complete-merge-fable",
+      "path": "~/Documents/GitHub/ogsr-complete-merge-fable",
+      "is_git": true,
+      "activity_ts": 1792203612.485178,
+      "age_str": "1h ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".sh"
+      ],
+      "last_commit": "fable: resumed-save stall root cause (NaN skeleton",
+      "stack": "C++20 / X-Ray 64b / DX11",
+      "routine": "Flash \u2022 Low (LTX/DDS)",
+      "deep": "Argon \u2022 High (64b C++/DX11)",
+      "live_rec": "Argon \u2022 High",
+      "live_reason": "Engine C++ / 64b safety",
+      "hw": "32-Thr CMake + /dev/shm"
+    },
+    {
+      "name": "nsz",
+      "path": "~/Documents/GitHub/nsz",
+      "is_git": true,
+      "activity_ts": 1792189743.6650836,
+      "age_str": "5h ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".py",
+        ".sh",
+        ".cmd"
+      ],
+      "last_commit": "Merge pull request #248 from mmozeiko/decompress-f",
+      "stack": "Python / Crypto / Homebrew",
+      "routine": "Flash \u2022 Low (CLI/Feeds)",
+      "deep": "Argon \u2022 Med (Crypto/Binary)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Python/Feed tooling",
+      "hw": "32-Thr ProcessPool + /dev/shm"
+    },
+    {
+      "name": "Wlfryt-Android-Messages",
+      "path": "~/Documents/GitHub/Wlfryt-Android-Messages",
+      "is_git": true,
+      "activity_ts": 1792104752.0,
+      "age_str": "1d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".js",
+        ".json",
+        ".html"
+      ],
+      "last_commit": "Improve viewing of received video messages",
+      "stack": "Web / JS / Extension",
+      "routine": "Flash \u2022 Low (HTML/CSS/JS)",
+      "deep": "Argon \u2022 Med (Architecture)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Fast Web/JS iteration",
+      "hw": "Radeon 610M iGPU Preview"
+    },
+    {
+      "name": "NSZ-Android",
+      "path": "~/Documents/GitHub/NSZ-Android",
+      "is_git": false,
+      "activity_ts": 1792100062.3427184,
+      "age_str": "1d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".kt",
+        ".webp",
+        ".xml"
+      ],
+      "last_commit": "",
+      "stack": "Android Kotlin / NDK / VPN",
+      "routine": "Flash \u2022 Low (XML/Gradle)",
+      "deep": "Argon \u2022 Med (Kotlin/NDK)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Gradle/Manifest/UI",
+      "hw": "ADB + Radeon 610M iGPU"
+    },
+    {
+      "name": "wlfryt-organized-gta-pc-fixes",
+      "path": "~/Documents/GitHub/wlfryt-organized-gta-pc-fixes",
+      "is_git": true,
+      "activity_ts": 1792092923.0,
+      "age_str": "1d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".glsl",
+        ".vdf",
+        ".asi"
+      ],
+      "last_commit": "Add modern controller support profiles, Steam Inpu",
+      "stack": "Binary RE / Rust / TS / ASI",
+      "routine": "Flash \u2022 Low (TS/INI/VDF)",
+      "deep": "Argon \u2022 High (Decomp/Hooks)",
+      "live_rec": "Flash \u2022 Med",
+      "live_reason": "Tooling / Scripting",
+      "hw": "REA MCP + 32-Thr Cargo"
+    },
+    {
+      "name": "rea",
+      "path": "~/Documents/GitHub/rea",
+      "is_git": true,
+      "activity_ts": 1792083657.4157345,
+      "age_str": "1d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".ts",
+        ".txt",
+        ".rs"
+      ],
+      "last_commit": "fix(process): preserve unrelated trace comparison ",
+      "stack": "Binary RE / Rust / TS / ASI",
+      "routine": "Flash \u2022 Low (TS/INI/VDF)",
+      "deep": "Argon \u2022 High (Decomp/Hooks)",
+      "live_rec": "Flash \u2022 Med",
+      "live_reason": "Tooling / Scripting",
+      "hw": "REA MCP + 32-Thr Cargo"
+    },
+    {
+      "name": "wlfryt-obtainium-emulators",
+      "path": "~/Documents/GitHub/wlfryt-obtainium-emulators",
+      "is_git": false,
+      "activity_ts": 1792083208.5005193,
+      "age_str": "1d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".json",
+        ".md"
+      ],
+      "last_commit": "",
+      "stack": "Python / Crypto / Homebrew",
+      "routine": "Flash \u2022 Low (CLI/Feeds)",
+      "deep": "Argon \u2022 Med (Crypto/Binary)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Python/Feed tooling",
+      "hw": "32-Thr ProcessPool + /dev/shm"
+    },
+    {
+      "name": "ClutterlessSocial",
+      "path": "~/Documents/GitHub/ClutterlessSocial",
+      "is_git": false,
+      "activity_ts": 1791864515.969679,
+      "age_str": "3d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".kt",
+        ".ts",
+        ".json"
+      ],
+      "last_commit": "",
+      "stack": "Android Kotlin / NDK / VPN",
+      "routine": "Flash \u2022 Low (XML/Gradle)",
+      "deep": "Argon \u2022 Med (Kotlin/NDK)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Gradle/Manifest/UI",
+      "hw": "ADB + Radeon 610M iGPU"
+    },
+    {
+      "name": "raspberry-pi-nas-setup",
+      "path": "~/Documents/GitHub/raspberry-pi-nas-setup",
+      "is_git": false,
+      "activity_ts": 1791737982.257108,
+      "age_str": "5d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".md",
+        ".sh",
+        ".yml"
+      ],
+      "last_commit": "",
+      "stack": "Homelab / Docker / Samba",
+      "routine": "Flash \u2022 Low (Compose/Env)",
+      "deep": "Argon \u2022 Med (Systemd/RAID)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Docker/NAS config",
+      "hw": "Local ShellCheck Gate"
+    },
+    {
+      "name": "WlfRyt-BadUpdate-Prep",
+      "path": "~/Documents/GitHub/WlfRyt-BadUpdate-Prep",
+      "is_git": true,
+      "activity_ts": 1791672130.396296,
+      "age_str": "6d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".py",
+        ".md",
+        ".spec"
+      ],
+      "last_commit": "Merge pull request #1 from WoofahRayetCode/feature",
+      "stack": "Python / Crypto / Homebrew",
+      "routine": "Flash \u2022 Low (CLI/Feeds)",
+      "deep": "Argon \u2022 Med (Crypto/Binary)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Python/Feed tooling",
+      "hw": "32-Thr ProcessPool + /dev/shm"
+    },
+    {
+      "name": "ModernizedSites",
+      "path": "~/Documents/GitHub/ModernizedSites",
+      "is_git": true,
+      "activity_ts": 1791665969.0,
+      "age_str": "6d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".jpg",
+        ".png",
+        ".html"
+      ],
+      "last_commit": "Add the prospects dashboard: build script, page te",
+      "stack": "Web / JS / Extension",
+      "routine": "Flash \u2022 Low (HTML/CSS/JS)",
+      "deep": "Argon \u2022 Med (Architecture)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Fast Web/JS iteration",
+      "hw": "Radeon 610M iGPU Preview"
+    },
+    {
+      "name": "Warmstead",
+      "path": "~/Documents/GitHub/Warmstead",
+      "is_git": true,
+      "activity_ts": 1791552414.0,
+      "age_str": "7d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".import",
+        ".png",
+        ".uid"
+      ],
+      "last_commit": "Frame cap follows the display's refresh (an even s",
+      "stack": "Godot 4 (GDScript / 3D GLB)",
+      "routine": "Flash \u2022 Low (GDScript/UI)",
+      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Fast GDScript / Scene edits",
+      "hw": "RTX 5060 OptiX (Blender)"
+    },
+    {
+      "name": "Candlepane",
+      "path": "~/Documents/GitHub/Candlepane",
+      "is_git": true,
+      "activity_ts": 1791537669.0,
+      "age_str": "7d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".import",
+        ".png",
+        ".uid"
+      ],
+      "last_commit": "Release the floating stick when a sheet opens or t",
+      "stack": "Godot 4 (GDScript / 3D GLB)",
+      "routine": "Flash \u2022 Low (GDScript/UI)",
+      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Fast GDScript / Scene edits",
+      "hw": "RTX 5060 OptiX (Blender)"
+    },
+    {
+      "name": "HiveGuard",
+      "path": "~/Documents/GitHub/HiveGuard",
+      "is_git": true,
+      "activity_ts": 1791519815.0,
+      "age_str": "7d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".import",
+        ".png",
+        ".uid"
+      ],
+      "last_commit": "Fix the in-game credits line: the audio is fully s",
+      "stack": "Godot 4 (GDScript / 3D GLB)",
+      "routine": "Flash \u2022 Low (GDScript/UI)",
+      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Fast GDScript / Scene edits",
+      "hw": "RTX 5060 OptiX (Blender)"
+    },
+    {
+      "name": "CargoCamp",
+      "path": "~/Documents/GitHub/CargoCamp",
+      "is_git": true,
+      "activity_ts": 1791488951.0,
+      "age_str": "8d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".import",
+        ".png",
+        ".uid"
+      ],
+      "last_commit": "Cargo Camp: migrate harness, reset income readout ",
+      "stack": "Godot 4 (GDScript / 3D GLB)",
+      "routine": "Flash \u2022 Low (GDScript/UI)",
+      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Fast GDScript / Scene edits",
+      "hw": "RTX 5060 OptiX (Blender)"
+    },
+    {
+      "name": "MobRush",
+      "path": "~/Documents/GitHub/MobRush",
+      "is_git": true,
+      "activity_ts": 1791471197.0,
+      "age_str": "8d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".import",
+        ".png",
+        ".gd"
+      ],
+      "last_commit": "Redesign Mob Rush UI/UX: arcade hazard / garage HQ",
+      "stack": "Godot 4 (GDScript / 3D GLB)",
+      "routine": "Flash \u2022 Low (GDScript/UI)",
+      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "3D Mesh / Shader pipeline",
+      "hw": "RTX 5060 OptiX (Blender)"
+    },
+    {
+      "name": "BarrelBreaker",
+      "path": "~/Documents/GitHub/BarrelBreaker",
+      "is_git": true,
+      "activity_ts": 1791469433.0,
+      "age_str": "8d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".import",
+        ".png",
+        ".uid"
+      ],
+      "last_commit": "Redesign Barrel Breaker UI/UX: dockyard stencil / ",
+      "stack": "Godot 4 (GDScript / 3D GLB)",
+      "routine": "Flash \u2022 Low (GDScript/UI)",
+      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "3D Mesh / Shader pipeline",
+      "hw": "RTX 5060 OptiX (Blender)"
+    },
+    {
+      "name": "SwarmRun",
+      "path": "~/Documents/GitHub/SwarmRun",
+      "is_git": true,
+      "activity_ts": 1791468825.0,
+      "age_str": "8d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".import",
+        ".png",
+        ".uid"
+      ],
+      "last_commit": "Fix stage-select pages coming up empty after a pag",
+      "stack": "Godot 4 (GDScript / 3D GLB)",
+      "routine": "Flash \u2022 Low (GDScript/UI)",
+      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Fast GDScript / Scene edits",
+      "hw": "RTX 5060 OptiX (Blender)"
+    },
+    {
+      "name": "RescueCollapse",
+      "path": "~/Documents/GitHub/RescueCollapse",
+      "is_git": true,
+      "activity_ts": 1791468825.0,
+      "age_str": "8d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".import",
+        ".png",
+        ".gd"
+      ],
+      "last_commit": "Fix stage-select pages coming up empty after a pag",
+      "stack": "Godot 4 (GDScript / 3D GLB)",
+      "routine": "Flash \u2022 Low (GDScript/UI)",
+      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Fast GDScript / Scene edits",
+      "hw": "RTX 5060 OptiX (Blender)"
+    },
+    {
+      "name": "BridgeBrigade",
+      "path": "~/Documents/GitHub/BridgeBrigade",
+      "is_git": true,
+      "activity_ts": 1791468825.0,
+      "age_str": "8d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".import",
+        ".png",
+        ".gd"
+      ],
+      "last_commit": "Fix stage-select pages coming up empty after a pag",
+      "stack": "Godot 4 (GDScript / 3D GLB)",
+      "routine": "Flash \u2022 Low (GDScript/UI)",
+      "deep": "Argon \u2022 Med (3D/Nav/Shaders)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Fast GDScript / Scene edits",
+      "hw": "RTX 5060 OptiX (Blender)"
+    },
+    {
+      "name": "mobile-game-research",
+      "path": "~/Documents/GitHub/mobile-game-research",
+      "is_git": true,
+      "activity_ts": 1791420068.0,
+      "age_str": "9d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".md"
+      ],
+      "last_commit": "Add bait-and-switch mobile game ad research",
+      "stack": "Research / Docs (.md)",
+      "routine": "Flash \u2022 Low (Notes/Docs)",
+      "deep": "Argon \u2022 Med (Deep Research)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Standard workflow",
+      "hw": "Local Vector RAG"
+    },
+    {
+      "name": "switch-softmod-prep",
+      "path": "~/Documents/GitHub/switch-softmod-prep",
+      "is_git": true,
+      "activity_ts": 1791297161.7472465,
+      "age_str": "10d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".py",
+        ".txt",
+        ".md"
+      ],
+      "last_commit": "feat(tests): add test_extract.py for testing extra",
+      "stack": "Python / Crypto / Homebrew",
+      "routine": "Flash \u2022 Low (CLI/Feeds)",
+      "deep": "Argon \u2022 Med (Crypto/Binary)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Python/Feed tooling",
+      "hw": "32-Thr ProcessPool + /dev/shm"
+    },
+    {
+      "name": "PS-Multi-Tools",
+      "path": "~/Documents/GitHub/PS-Multi-Tools",
+      "is_git": true,
+      "activity_ts": 1791296814.7809658,
+      "age_str": "10d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "top_exts": [
+        ".cs",
+        ".axaml",
+        ".exe"
+      ],
+      "last_commit": "Route merged CDR tracks to dedicated folder",
+      "stack": "C# .NET / Unity / Avalonia",
+      "routine": "Flash \u2022 Low (XAML/UI/Meta)",
+      "deep": "Argon \u2022 Med (Async/AOT/C#)",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "C# Logic & Types",
+      "hw": "Dotnet Parallel Build"
+    }
+  ]
+}

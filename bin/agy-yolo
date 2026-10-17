@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 # Launch Antigravity CLI in hands-free YOLO mode (auto-approves tool executions without prompting)
+[ -t 1 ] && command -v agy-cheatsheet >/dev/null 2>&1 && agy-cheatsheet --banner
 exec agy --dangerously-skip-permissions --mode auto "$@"

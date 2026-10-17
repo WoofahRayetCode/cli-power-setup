@@ -402,9 +402,21 @@ def main():
         except Exception:
             pass
 
-    # 7. Workspace & Git
+    # 7. Workspace, Git & Dynamic Model Recommendation
     cwd = payload.get("current_dir") or payload.get("project_dir") or os.getcwd()
     git_seg = get_git_info(cwd)
+    rec_seg = None
+    try:
+        res_rec = subprocess.run(
+            ["agy-cheatsheet", "--statusline", cwd],
+            capture_output=True,
+            text=True,
+            timeout=0.5
+        )
+        if res_rec.returncode == 0 and res_rec.stdout.strip():
+            rec_seg = res_rec.stdout.strip()
+    except Exception:
+        pass
 
     # 8. Assemble segments in priority order
     segments = [
@@ -415,7 +427,8 @@ def main():
         save_seg,
         global_saved_seg,
         turn_seg,
-        git_seg
+        git_seg,
+        rec_seg
     ]
 
     # Filter non-empty segments

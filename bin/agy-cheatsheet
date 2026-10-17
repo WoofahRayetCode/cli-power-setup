@@ -1,0 +1,545 @@
+#!/usr/bin/env python3
+"""
+agy-cheatsheet: Dynamic Repo-Aware Model & Reasoning Cheat Sheet for Antigravity (agy) & Claude Code.
+Automatically scans ~/Documents/GitHub and the current working directory (uncommitted diffs, recent commits,
+file extensions, and error states) to recommend the exact Model + Reasoning Effort + Hardware Offload.
+Dynamically updates as you work on new repos or modify different file types.
+"""
+
+from __future__ import annotations
+import argparse
+import json
+import os
+import subprocess
+import sys
+import time
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
+from pathlib import Path
+
+GITHUB_ROOT = Path.home() / "Documents" / "GitHub"
+CONFIG_STATE_PATH = Path.home() / "Documents" / "GitHub" / "cli-power-setup" / "config" / "repo_cheatsheet.json"
+USER_STATE_PATH = Path.home() / ".cli_power_setup" / "repo_cheatsheet.json"
+STATUSLINE_CACHE = Path("/tmp/agy_cheatsheet_statusline.json")
+
+# ANSI Colors
+C_RESET = "\033[0m"
+C_BOLD = "\033[1m"
+C_DIM = "\033[2m"
+C_CYAN = "\033[36m"
+C_GREEN = "\033[32m"
+C_YELLOW = "\033[33m"
+C_MAGENTA = "\033[35m"
+C_BLUE = "\033[34m"
+C_RED = "\033[31m"
+
+
+def run_git(repo: Path, *args: str, timeout: float = 2.0) -> str:
+    try:
+        res = subprocess.run(
+            ["git", "-C", str(repo), *args],
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+            check=False,
+        )
+        return res.stdout.strip() if res.returncode == 0 else ""
+    except Exception:
+        return ""
+
+
+def fmt_age(ts: float) -> str:
+    if ts <= 0:
+        return "never"
+    diff = max(0, int(time.time() - ts))
+    if diff < 60:
+        return f"{diff}s ago"
+    if diff < 3600:
+        return f"{diff // 60}m ago"
+    if diff < 86400:
+        return f"{diff // 3600}h ago"
+    days = diff // 86400
+    if days < 30:
+        return f"{days}d ago"
+    return f"{days // 30}mo ago"
+
+
+def classify_workload(
+    repo_name: str,
+    ext_counts: dict[str, int],
+    dirty_exts: dict[str, int],
+    has_crash_or_retry: bool = False,
+) -> dict[str, str]:
+    """
+    Determines the stack label, Routine (fast) model/effort, Deep (complex) model/effort,
+    LIVE right-now recommendation based on dirty files, and Hardware Offload hint.
+    """
+    name_low = repo_name.lower()
+    active_exts = dirty_exts if sum(dirty_exts.values()) > 0 else ext_counts
+
+    # Helper to check extension presence
+    def has_ext(*exts: str) -> bool:
+        return any(ext_counts.get(e, 0) > 0 for e in exts)
+
+    def dirty_has(*exts: str) -> bool:
+        return any(dirty_exts.get(e, 0) > 0 for e in exts)
+
+    # 1. S.T.A.L.K.E.R. X-Ray / OGSR 64-Bit C++ Engine & Merge Worktrees
+    if "ogsr" in name_low or (has_ext(".cpp", ".h") and has_ext(".ps", ".vs", ".ltx")):
+        stack = "C++20 / X-Ray 64b / DX11"
+        routine = "Flash • Low (LTX/DDS)"
+        deep = "Argon • High (64b C++/DX11)"
+        hw = "32-Thr CMake + /dev/shm"
+        if "merge" in name_low and not ("argon" in name_low or "fable" in name_low):
+            live_rec = "Tandem•Arg+Fab"
+            live_reason = "Dual C++ (Argon) + LTX (Fable)"
+        elif dirty_has(".cpp", ".h", ".hpp", ".c", ".ps", ".vs", ".hlsl", ".patch", ".s") or has_crash_or_retry:
+            live_rec = "Argon • High"
+            live_reason = "Active C++/Shader/64b work"
+        elif dirty_has(".ltx", ".xml", ".dds", ".ogg"):
+            live_rec = "Flash • Low"
+            live_reason = "Config/Asset edits"
+        else:
+            live_rec = "Argon • High"
+            live_reason = "Engine C++ / 64b safety"
+
+    # 2. ZoneForge / S.T.A.L.K.E.R. Modding Suite
+    elif "zoneforge" in name_low or has_ext(".ltx", ".script"):
+        stack = "S.T.A.L.K.E.R. LTX/Lua/Py"
+        routine = "Flash • Low (LTX/Audio/DDS)"
+        deep = "Argon • Med (Lua/OGF/XDB)"
+        hw = "CUDA/NumPy 32-Thr + /dev/shm"
+        if dirty_has(".script", ".py") or has_crash_or_retry:
+            live_rec = "Argon • Med"
+            live_reason = "Lua/Python logic"
+        else:
+            live_rec = "Flash • Low"
+            live_reason = "LTX/DDS/Mod packaging"
+
+    # 3. Reverse Engineering / Binary Analysis (rea, GTA ASI fixes)
+    elif name_low == "rea" or "gta" in name_low or has_ext(".asi"):
+        stack = "Binary RE / Rust / TS / ASI"
+        routine = "Flash • Low (TS/INI/VDF)"
+        deep = "Argon • High (Decomp/Hooks)"
+        hw = "REA MCP + 32-Thr Cargo"
+        if dirty_has(".rs", ".cpp", ".c", ".asi", ".glsl") or has_crash_or_retry:
+            live_rec = "Argon • High"
+            live_reason = "Binary RE / Native code"
+        else:
+            live_rec = "Flash • Med"
+            live_reason = "Tooling / Scripting"
+
+    # 4. Linux Kernel ACPI / Hardware Daemons (omen-acpi, omen-space)
+    elif "omen" in name_low or (has_ext(".rs") and "acpi" in name_low):
+        stack = "Linux Kernel / Rust / ACPI"
+        routine = "Flash • Low (Systemd/UI)"
+        deep = "Argon • High (EC/DKMS/Rust)"
+        hw = "CARGO_BUILD_JOBS=32"
+        if dirty_has(".rs", ".c", ".h", ".py") or has_crash_or_retry:
+            live_rec = "Argon • High"
+            live_reason = "Rust/ACPI/Audit safety"
+        else:
+            live_rec = "Flash • Low"
+            live_reason = "Packaging/Scripts"
+
+    # 5. Godot 4 Game Projects (.gd, .tscn, .glb)
+    elif has_ext(".gd", ".godot", ".import"):
+        stack = "Godot 4 (GDScript / 3D GLB)"
+        routine = "Flash • Low (GDScript/UI)"
+        deep = "Argon • Med (3D/Nav/Shaders)"
+        hw = "RTX 5060 OptiX (Blender)"
+        if dirty_has(".glb", ".blend", ".gdshader") or has_crash_or_retry:
+            live_rec = "Argon • Med"
+            live_reason = "3D Mesh / Shader pipeline"
+        else:
+            live_rec = "Flash • Low"
+            live_reason = "Fast GDScript / Scene edits"
+
+    # 6. Unity / C# / Avalonia Cross-Platform (SuperRCProHams, PS-Multi-Tools)
+    elif has_ext(".cs", ".axaml", ".unity"):
+        stack = "C# .NET / Unity / Avalonia"
+        routine = "Flash • Low (XAML/UI/Meta)"
+        deep = "Argon • Med (Async/AOT/C#)"
+        hw = "Dotnet Parallel Build"
+        if dirty_has(".cs") and has_crash_or_retry:
+            live_rec = "Argon • High"
+            live_reason = "C# Debugging"
+        elif dirty_has(".cs"):
+            live_rec = "Argon • Med"
+            live_reason = "C# Logic & Types"
+        else:
+            live_rec = "Flash • Low"
+            live_reason = "UI / Config / Assets"
+
+    # 7. Android Kotlin / NDK (tetherfusenet, NSZ-Android)
+    elif has_ext(".kt", ".kts"):
+        stack = "Android Kotlin / NDK / VPN"
+        routine = "Flash • Low (XML/Gradle)"
+        deep = "Argon • Med (Kotlin/NDK)"
+        hw = "ADB + Radeon 610M iGPU"
+        if dirty_has(".kt", ".cpp", ".c") or has_crash_or_retry:
+            live_rec = "Argon • Med"
+            live_reason = "Kotlin/NDK services"
+        else:
+            live_rec = "Flash • Low"
+            live_reason = "Gradle/Manifest/UI"
+
+    # 8. CLI Power Setup (Skills, Multi-Agent Orchestration, Hardware Offload)
+    elif "cli-power-setup" in name_low:
+        stack = "AI Skills / Python / Bash"
+        routine = "Flash • Low (Sync/Docs)"
+        deep = "Argon • High (Orchestration)"
+        hw = "Local AST/RAG + 32-Thr"
+        if dirty_has(".py", ".sh") and sum(dirty_exts.values()) > 2:
+            live_rec = "Argon • Med"
+            live_reason = "Multi-tool engineering"
+        else:
+            live_rec = "Flash • Low"
+            live_reason = "Skill edits & repo sync"
+
+    # 9. Homelab / NAS / Docker (raspberry-pi-nas-setup)
+    elif "nas" in name_low or "docker" in name_low:
+        stack = "Homelab / Docker / Samba"
+        routine = "Flash • Low (Compose/Env)"
+        deep = "Argon • Med (Systemd/RAID)"
+        hw = "Local ShellCheck Gate"
+        live_rec = "Flash • Low"
+        live_reason = "Docker/NAS config"
+
+    # 10. Console Homebrew & Crypto Utilities (nsz, switch-softmod-prep, BadUpdate, AegisVault, obtainium)
+    elif any(k in name_low for k in ("nsz", "switch", "badupdate", "aegis", "vault", "obtainium")):
+        stack = "Python / Crypto / Homebrew"
+        routine = "Flash • Low (CLI/Feeds)"
+        deep = "Argon • Med (Crypto/Binary)"
+        hw = "32-Thr ProcessPool + /dev/shm"
+        if dirty_has(".py", ".so", ".spec") and "aegis" in name_low:
+            live_rec = "Argon • Med"
+            live_reason = "Security/Crypto Python"
+        else:
+            live_rec = "Flash • Low"
+            live_reason = "Python/Feed tooling"
+
+    # 11. Web / Static Sites / JS / Browser Extensions (ModernizedSites, ClutterlessSocial, Wlfryt-Android-Messages)
+    elif has_ext(".html", ".js", ".ts", ".tsx", ".css", ".webp"):
+        stack = "Web / JS / Extension"
+        routine = "Flash • Low (HTML/CSS/JS)"
+        deep = "Argon • Med (Architecture)"
+        hw = "Radeon 610M iGPU Preview"
+        live_rec = "Flash • Low"
+        live_reason = "Fast Web/JS iteration"
+
+    # Default fallback for any newly created or research repo
+    else:
+        top_ext = next(iter(active_exts.keys()), ".md")
+        stack = f"Research / Docs ({top_ext})"
+        routine = "Flash • Low (Notes/Docs)"
+        deep = "Argon • Med (Deep Research)"
+        hw = "Local Vector RAG"
+        live_rec = "Flash • Low"
+        live_reason = "Standard workflow"
+
+    if has_crash_or_retry:
+        live_rec = "Argon • High"
+        live_reason = "⚠️ Recent error/retry escalation"
+
+    return {
+        "stack": stack,
+        "routine": routine,
+        "deep": deep,
+        "live_rec": live_rec,
+        "live_reason": live_reason,
+        "hw": hw,
+    }
+
+
+def analyze_repo(repo: Path) -> dict:
+    """Scans a single repository for file signatures, git status, recent commits, and timestamps."""
+    ext_counts: dict[str, int] = {}
+    latest_mtime = 0.0
+    is_git = (repo / ".git").exists()
+
+    try:
+        for root, dirs, files in os.walk(repo):
+            dirs[:] = [
+                d
+                for d in dirs
+                if not d.startswith(".")
+                and d not in ("node_modules", "target", "build", "venv", ".venv", "dist", "__pycache__")
+            ]
+            for f in files:
+                fp = Path(root) / f
+                ext = fp.suffix.lower()
+                if ext:
+                    ext_counts[ext] = ext_counts.get(ext, 0) + 1
+                try:
+                    mt = fp.stat().st_mtime
+                    if mt > latest_mtime:
+                        latest_mtime = mt
+                except OSError:
+                    pass
+    except Exception:
+        pass
+
+    git_ts = 0.0
+    last_commit_subj = ""
+    dirty_files: list[str] = []
+    dirty_exts: dict[str, int] = {}
+    recent_commit_exts: dict[str, int] = {}
+
+    if is_git:
+        git_ts_str = run_git(repo, "log", "-1", "--format=%ct")
+        git_ts = float(git_ts_str) if git_ts_str.isdigit() else 0.0
+        last_commit_subj = run_git(repo, "log", "-1", "--format=%s")[:50]
+
+        porcelain = run_git(repo, "status", "--porcelain")
+        for line in porcelain.splitlines():
+            if len(line) > 3:
+                rel = line[3:].strip().strip('"')
+                dirty_files.append(rel)
+                dp = repo / rel
+                if dp.is_dir():
+                    for r_root, _, r_files in os.walk(dp):
+                        for rf in r_files:
+                            ext = Path(rf).suffix.lower()
+                            if ext:
+                                dirty_exts[ext] = dirty_exts.get(ext, 0) + 1
+                else:
+                    ext = dp.suffix.lower()
+                    if ext:
+                        dirty_exts[ext] = dirty_exts.get(ext, 0) + 1
+
+        if not dirty_exts:
+            diff_files = run_git(repo, "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD")
+            for cf in diff_files.splitlines():
+                ext = Path(cf.strip()).suffix.lower()
+                if ext:
+                    recent_commit_exts[ext] = recent_commit_exts.get(ext, 0) + 1
+
+    # Check adaptive reasoning state for active errors
+    has_crash_or_retry = False
+    state_file = repo / ".agents" / "memory" / "adaptive_reasoning_state.json"
+    if state_file.exists():
+        try:
+            st = json.loads(state_file.read_text(encoding="utf-8"))
+            if st.get("current_tier", 1) >= 3:
+                has_crash_or_retry = True
+        except Exception:
+            pass
+
+    effective_dirty = dirty_exts if dirty_exts else recent_commit_exts
+    profile = classify_workload(repo.name, ext_counts, effective_dirty, has_crash_or_retry)
+
+    activity_ts = max(git_ts, latest_mtime)
+    top_exts = [k for k, _ in sorted(ext_counts.items(), key=lambda x: -x[1])[:3]]
+
+    return {
+        "name": repo.name,
+        "path": str(repo),
+        "is_git": is_git,
+        "activity_ts": activity_ts,
+        "age_str": fmt_age(activity_ts),
+        "dirty_count": len(dirty_files),
+        "dirty_exts": dirty_exts,
+        "top_exts": top_exts,
+        "last_commit": last_commit_subj,
+        **profile,
+    }
+
+
+def scan_all_repos(save: bool = True) -> list[dict]:
+    repos = []
+    if GITHUB_ROOT.exists():
+        for p in GITHUB_ROOT.iterdir():
+            if p.is_dir() and not p.name.startswith("."):
+                repos.append(p)
+
+    with ThreadPoolExecutor(max_workers=min(16, max(1, len(repos)))) as ex:
+        results = list(ex.map(analyze_repo, repos))
+
+    # Sort by dirty first, then most recent activity timestamp
+    results.sort(key=lambda r: (r["dirty_count"] > 0, r["activity_ts"]), reverse=True)
+
+    if save:
+        home_str = str(Path.home())
+        sanitized = [{**r, "path": r["path"].replace(home_str, "~")} for r in results]
+        payload = {
+            "updated_at": datetime.now().isoformat(),
+            "total_repos": len(sanitized),
+            "repos": sanitized,
+        }
+        try:
+            CONFIG_STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+            CONFIG_STATE_PATH.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+            USER_STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+            if not USER_STATE_PATH.exists() and not USER_STATE_PATH.is_symlink():
+                USER_STATE_PATH.symlink_to(CONFIG_STATE_PATH)
+        except Exception:
+            pass
+
+    return results
+
+
+def color_rec(rec: str) -> str:
+    if "Tandem" in rec:
+        return f"{C_YELLOW}{C_BOLD}{rec}{C_RESET}"
+    if "Argon • High" in rec:
+        return f"{C_MAGENTA}{C_BOLD}{rec}{C_RESET}"
+    if "Argon • Med" in rec:
+        return f"{C_CYAN}{C_BOLD}{rec}{C_RESET}"
+    return f"{C_GREEN}{C_BOLD}{rec}{C_RESET}"
+
+
+def get_statusline_rec(target_dir: str | None = None) -> str:
+    """Fast (<10ms cached) statusline segment for agy-quota-statusline and claude-statusline."""
+    cwd = Path(target_dir or os.getcwd()).resolve()
+    now = time.time()
+
+    # Check 30-second cache keyed by directory
+    if STATUSLINE_CACHE.exists():
+        try:
+            cache = json.loads(STATUSLINE_CACHE.read_text(encoding="utf-8"))
+            if cache.get("cwd") == str(cwd) and (now - cache.get("ts", 0)) < 30:
+                return cache.get("seg", "")
+        except Exception:
+            pass
+
+    # Find containing git repo
+    repo_dir = cwd
+    while repo_dir != repo_dir.parent:
+        if (repo_dir / ".git").exists():
+            break
+        repo_dir = repo_dir.parent
+
+    if (repo_dir / ".git").exists():
+        info = analyze_repo(repo_dir)
+        rec = info["live_rec"].replace(" ", "")
+        seg = f"🎯 Rec: {rec}"
+    else:
+        seg = "🎯 Rec: Flash•Low"
+
+    try:
+        STATUSLINE_CACHE.write_text(json.dumps({"cwd": str(cwd), "ts": now, "seg": seg}), encoding="utf-8")
+    except Exception:
+        pass
+    return seg
+
+
+def print_banner(cwd: Path, results: list[dict], top_n: int = 5) -> None:
+    """Compact 7-line cheat sheet printed automatically when launching agy-yolo / agy-turbo."""
+    # Identify current repo if inside one
+    cur_repo = None
+    for r in results:
+        if str(cwd).startswith(r["path"]):
+            cur_repo = r
+            break
+
+    print(f"{C_CYAN}╭──────────────────────────────────────────────────────────────────────────────────────────╮{C_RESET}")
+    print(f"{C_CYAN}│{C_RESET} 🧠 {C_BOLD}AGY DYNAMIC MODEL & REASONING CHEAT SHEET{C_RESET} {C_DIM}(Auto-updated from ~/Documents/GitHub){C_RESET}      {C_CYAN}│{C_RESET}")
+    if cur_repo:
+        dirty_tag = f"{C_YELLOW}{cur_repo['dirty_count']} dirty{C_RESET}" if cur_repo["dirty_count"] else f"{C_DIM}clean{C_RESET}"
+        print(
+            f"{C_CYAN}│{C_RESET} 📍 {C_BOLD}Current:{C_RESET} {cur_repo['name']:<22} ({dirty_tag}) ➔ Use {color_rec(cur_repo['live_rec'])} [{cur_repo['live_reason']}]"
+        )
+        print(
+            f"{C_CYAN}│{C_RESET}    ├─ Fast/Routine: {C_GREEN}{cur_repo['routine']:<24}{C_RESET} │ Deep/Debug: {C_MAGENTA}{cur_repo['deep']}{C_RESET}"
+        )
+        print(
+            f"{C_CYAN}│{C_RESET}    └─ Hardware Offload: {C_YELLOW}{cur_repo['hw']}{C_RESET}"
+        )
+    else:
+        print(
+            f"{C_CYAN}│{C_RESET} 📍 {C_BOLD}Current:{C_RESET} {cwd.name:<22} ➔ Routine: {C_GREEN}Flash • Low{C_RESET} │ Complex: {C_MAGENTA}Argon • High{C_RESET}"
+        )
+
+    print(f"{C_CYAN}├──────────────────────────┬───────────────────────┬──────────────────┬────────────────────┤{C_RESET}")
+    print(f"{C_CYAN}│{C_RESET} {C_BOLD}{'Recent Active Repo':<24}{C_RESET} │ {C_BOLD}{'Stack / Activity':<21}{C_RESET} │ {C_BOLD}{'Use Right Now':<16}{C_RESET} │ {C_BOLD}{'Local HW Offload':<18}{C_RESET} {C_CYAN}│{C_RESET}")
+    print(f"{C_CYAN}├──────────────────────────┼───────────────────────┼──────────────────┼────────────────────┤{C_RESET}")
+    for r in results[:top_n]:
+        name_col = r["name"][:24]
+        stack_col = r["stack"][:21]
+        rec_raw = r["live_rec"]
+        pad = 16 - len(rec_raw)
+        rec_col = color_rec(rec_raw) + (" " * max(0, pad))
+        hw_col = r["hw"][:18]
+        print(f"{C_CYAN}│{C_RESET} {name_col:<24} │ {stack_col:<21} │ {rec_col} │ {hw_col:<18} {C_CYAN}│{C_RESET}")
+    print(f"{C_CYAN}╰──────────────────────────┴───────────────────────┴──────────────────┴────────────────────╯{C_RESET}")
+    print(f"{C_DIM}  Tip: Run `agy-cheatsheet` (or `cs`) anytime for full table, or `agy-cheatsheet --all` for all {len(results)} repos.{C_RESET}\n")
+
+
+def print_full_table(cwd: Path, results: list[dict], show_all: bool = False) -> None:
+    limit = len(results) if show_all else min(14, len(results))
+    cur_repo = next((r for r in results if str(cwd).startswith(r["path"])), None)
+
+    print(f"\n{C_CYAN}================================================================================================================{C_RESET}")
+    print(f" 🧠 {C_BOLD}ANTIGRAVITY (AGY) & CLAUDE DYNAMIC MODEL + REASONING CHEAT SHEET{C_RESET} ({len(results)} GitHub Repos Indexed)")
+    print(f"{C_CYAN}================================================================================================================{C_RESET}")
+
+    if cur_repo:
+        dirty_info = (
+            f"{cur_repo['dirty_count']} uncommitted files ({', '.join(cur_repo['dirty_exts'].keys())})"
+            if cur_repo["dirty_count"]
+            else "Working tree clean"
+        )
+        print(f" 📍 {C_BOLD}ACTIVE WORKSPACE:{C_RESET} {C_BOLD}{cur_repo['name']}{C_RESET}  |  {dirty_info}")
+        print(f"    🎯 {C_BOLD}RECOMMENDED NOW:{C_RESET}  {color_rec(cur_repo['live_rec'])}  —  {cur_repo['live_reason']}")
+        print(f"    ⚡ {C_BOLD}Fast / Routine:{C_RESET}   {C_GREEN}{cur_repo['routine']}{C_RESET}   |   🔬 {C_BOLD}Deep / Architecture:{C_RESET} {C_MAGENTA}{cur_repo['deep']}{C_RESET}")
+        print(f"    🚀 {C_BOLD}HW Accelerator:{C_RESET}   {C_YELLOW}{cur_repo['hw']}{C_RESET}")
+        print(f"{C_CYAN}----------------------------------------------------------------------------------------------------------------{C_RESET}")
+
+    header = f" {'Repository':<26} | {'Active':<8} | {'Stack':<23} | {'Right Now':<13} | {'Routine Mode':<22} | {'Deep Mode':<25}"
+    print(C_BOLD + header + C_RESET)
+    print(f"{C_CYAN}----------------------------------------------------------------------------------------------------------------{C_RESET}")
+
+    for r in results[:limit]:
+        marker = "▶" if (cur_repo and r["name"] == cur_repo["name"]) else ("*" if r["dirty_count"] > 0 else " ")
+        name_str = f"{marker} {r['name'][:24]}"
+        age_str = f"{r['dirty_count']} dirty" if r["dirty_count"] > 0 else r["age_str"]
+        rec_raw = r["live_rec"]
+        rec_padded = color_rec(rec_raw) + (" " * max(0, 13 - len(rec_raw)))
+        print(
+            f" {name_str:<26} | {age_str:<8} | {r['stack'][:23]:<23} | {rec_padded} | {r['routine'][:22]:<22} | {r['deep'][:25]:<25}"
+        )
+
+    print(f"{C_CYAN}================================================================================================================{C_RESET}")
+    print(f" {C_BOLD}QUICK RULES OF THUMB:{C_RESET}")
+    print(f"  • {C_GREEN}{C_BOLD}Gemini Flash (Low){C_RESET}   ➔ LTX/JSON/TOML configs, GDScript UI, HTML/CSS, git sync, batch texture/audio scripts (Saves 85% quota)")
+    print(f"  • {C_CYAN}{C_BOLD}Gemini Argon (Med){C_RESET}   ➔ Blender 5.2+ 3D modeling (`bpy`), Lua quests, Kotlin/C# services, multi-file refactors")
+    print(f"  • {C_MAGENTA}{C_BOLD}Gemini Argon (High){C_RESET}  ➔ 64-bit C++ engine porting (`OGSR`), DX11/Vulkan shaders, binary RE (`rea`), kernel ACPI (`omen-acpi`), crashes")
+    print(f"  • {C_YELLOW}{C_BOLD}Tandem YOLO Mode{C_RESET}     ➔ Run `tandem-yolo` on `ogsr-complete-merge` to pair Argon (C++/64b) + Claude Fable (LTX/Lua) concurrently")
+    if not show_all and len(results) > limit:
+        print(f"  {C_DIM}(Showing top {limit} most active repos. Run `agy-cheatsheet --all` to view all {len(results)} repos.){C_RESET}")
+    print()
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Dynamic Repo-Aware Model & Reasoning Cheat Sheet")
+    parser.add_argument("--all", action="store_true", help="Show all repositories in ~/Documents/GitHub")
+    parser.add_argument("--banner", action="store_true", help="Print compact startup banner for agy-yolo/agy-turbo")
+    parser.add_argument("--statusline", nargs="?", const=".", help="Print compact 1-segment recommendation for statusline")
+    parser.add_argument("--update", action="store_true", help="Silently scan and update repo_cheatsheet.json")
+    parser.add_argument("--json", action="store_true", help="Output full cheat sheet telemetry as JSON")
+    args = parser.parse_args()
+
+    if args.statusline is not None:
+        print(get_statusline_rec(args.statusline))
+        return
+
+    results = scan_all_repos(save=True)
+    cwd = Path.cwd().resolve()
+
+    if args.update:
+        print(f"[✓] Updated dynamic model cheat sheet ({len(results)} repos indexed).")
+        return
+
+    if args.json:
+        print(json.dumps(results, indent=2))
+        return
+
+    if args.banner:
+        print_banner(cwd, results, top_n=5)
+    else:
+        print_full_table(cwd, results, show_all=args.all)
+
+
+if __name__ == "__main__":
+    main()

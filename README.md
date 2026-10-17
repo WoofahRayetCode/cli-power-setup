@@ -2,7 +2,7 @@
 
 A production-grade, quota-optimized engineering and game development suite for **Google Antigravity (`agy`)**, **Claude Code CLI (`claude`)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **xAI Grok**, **Anthropic Claude**, **OpenAI GPT/o1/o3**, and **DeepSeek**).
 
-This repository organizes a curated set of **301 autonomous agent skills**, 301 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
+This repository organizes a curated set of **302 autonomous agent skills**, 302 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, quota-saving protocols, a Turbo launcher, a multi-environment skills auditor/updater, and an asynchronous real-time CLI statusline monitor.
  
  ---
  
@@ -38,7 +38,7 @@ This repository organizes a curated set of **301 autonomous agent skills**, 301 
  
  ### What the Installer Does:
  1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
- 2. **Tri-Environment Sync:** Deploys all 301 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+ 2. **Tri-Environment Sync:** Deploys all 302 skills to `~/.gemini/config/skills/`, `~/.claude/skills/`, and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
  3. **Global Discipline & Multi-Model Rules:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, and multi-model calibrations to `~/.gemini/config/GEMINI.md`, `~/.claude/CLAUDE.md`, `~/.cursorrules`, and `.cursor/rules/`.
  4. **Live Quota & Token Monitor:** Installs dedicated statusline monitors (`agy-quota-statusline` and `claude-statusline`) to track real-time limits, weekly reset countdowns, context gauges, and token savings.
  5. **Turbo Mode Launchers:** Installs `agy-turbo`, `claude-turbo`, and autonomous YOLO shortcuts (`agy-yolo`, `claude-yolo`) into `~/.local/bin/`.
@@ -54,7 +54,7 @@ This repository organizes a curated set of **301 autonomous agent skills**, 301 
  ├── README.md                   # Comprehensive documentation & skill reference
  ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
  ├── .cursor/
- │   └── rules/                  # 301 modular Cursor rules (.mdc) with semantic metadata
+ │   └── rules/                  # 302 modular Cursor rules (.mdc) with semantic metadata
 
 
 ├── bin/
@@ -82,14 +82,14 @@ This repository organizes a curated set of **301 autonomous agent skills**, 301 
     ├── settings.template.json  # Reference AGY CLI settings configuration
     ├── token_ledger.json       # Universal lifetime token ledger benchmark (1.535B tokens recorded)
     ├── cursor/                 # Cursor reference templates and rules
-    └── skills/                 # 301 specialized skills
+    └── skills/                 # 302 specialized skills
 ```
 
 ---
 
 ## 🎯 Where Skills Perform Best: CLI vs. Cursor IDE (Division of Labor)
 
-While all 301 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
+While all 302 skills and CLI utilities are shared identically between environments, they naturally divide into distinct operational sweet spots:
 
 ### 1. Skills That Excel in the CLI (Headless & Unattended)
 *Best launched via `claude-turbo`, `agy-turbo`, or standalone terminal scripts*
@@ -1975,7 +1975,7 @@ This is called **Compounding Context**. Every time you say "okay, now change thi
 | **`skills-audit-update --audit`** | Audits health across Gemini, Claude, and Cursor | Periodically or when diagnosing missing tools/scripts. |
 | **`skills-audit-update --sync`** | Synchronizes all skills across Antigravity, Claude, and Cursor | After adding or updating any skill in the repository. |
 | **`skills-audit-update --pull`** | Fetches latest upstream skills from GitHub and re-syncs | To update all installed skills to the latest git release. |
-| **`./install.sh --all`** | Re-synchronizes and backs up all 301 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
+| **`./install.sh --all`** | Re-synchronizes and backs up all 302 skills across all 3 tools | Whenever you pull updates from the `cli-power-setup` repository. |
 
 ---
 
@@ -2012,7 +2012,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
      * **Qwen & Alibaba (`qwen-2.5-coder-32b/72b`):** Indentation preservation (spaces vs tabs), premier C++/Lua syntax accuracy.
      * **Mistral (`mistral-large-2`, `codestral-2501`):** Fast fill-in-the-middle completions and POSIX/C++ standards compliance.
 2. **Modular Skill Rules (`alwaysApply: false`):**
-   * All 301 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
+   * All 302 skills are compiled into individual `.cursor/rules/<skill-name>.mdc` files with rich semantic YAML frontmatter descriptions.
    * Cursor's semantic rule matcher automatically pulls the right skill into context only when your prompt or open files require it—**zero prompt bloat and zero token waste**.
 
 
@@ -2022,19 +2022,20 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 ---
 
 <!-- AUTO-SYNC-CATALOG:START -->
-## 🔄 Auto-Synchronized Skill & CLI Inventory (301 Total Active Skills)
+## 🔄 Auto-Synchronized Skill & CLI Inventory (302 Total Active Skills)
 
 ### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)
 | CLI Tool | Purpose |
 | :--- | :--- |
+| **`agy-cheatsheet` (`cs`)** | Dynamic repo-aware model, reasoning effort, and hardware offload cheat sheet + live statusline recommender (`~/Documents/GitHub`). |
 | **`skill-evolve`** | Closed-loop runtime skill scaffolder, Voyager script promoter, and `<50ms` 3-CLI hot-patcher with auto GitHub push. |
-| **`repo-auto-sync`** | Autonomous git repo puller, `.gitignore` hardener, `README.md` updater, milestone committer, and 30-repo fleet manager. |
+| **`repo-auto-sync`** | Autonomous git repo puller, `.gitignore` hardener, `README.md` updater, milestone committer, and 34-repo fleet manager. |
 | **`steam-mod-scanner`** | Fingerprints installed Steam games (`/mnt/games/SteamLibrary`) by engine & archive format and maps to modding skills. |
 | **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |
 | **`tandem-yolo` / `tandem-dispatch`** | 3-column side-by-side Gemini 4 Argon + Claude Fable autonomous split-worktree launcher & live command dispatcher. |
 | **`local-coprocessor` / `local-rag` / `local-ast-compiler`** | Zero-quota local CPU/GPU/RAM offload engines for AST syntax checks, BM25/vector RAG, and local LLM summarization. |
 
-### Recently Evolved & SOTA Skills (82 Indexed Automatically)
+### Recently Evolved & SOTA Skills (83 Indexed Automatically)
 | Skill Name | Description |
 | :--- | :--- |
 | **`amd-igpu-nvidia-dgpu-hybrid-offload`** | Dual-GPU workload splitter for AMD Radeon 610M iGPU (/dev/dri/renderD129, RADV Vulkan + VA-API VCN + 30GB shared DDR5 RAM) and NVIDIA GeForce RTX 5060 dGPU (/dev/dri/renderD128, 8GB GDDR7 CUDA/OptiX). Prevents background agent tasks from stealing game VRAM. |
@@ -2085,6 +2086,7 @@ This suite is fully integrated with **Cursor IDE**, supporting all major frontie
 | **`devin-environment-self-healer`** | Emulates Cognition Devin autonomous environment self-healing. Automatically diagnoses missing host dependencies, dynamic libraries (.so), and compiler toolchains on Linux (CachyOS/Arch). |
 | **`dual-engine-quota-balancer`** | Dynamic telemetry coordination across Google Gemini and Anthropic Claude rate limits, balancing task allocation to guarantee uninterrupted execution without hitting provider quotas. |
 | **`dxvk-vkd3d-proton-pipeline-profiler`** | Diagnoses and eliminates DXVK and VKD3D-Proton shader compilation stutter, descriptor heap stalls, and VRAM staging bottlenecks for DX11/DX12 games running on Linux. |
+| **`dynamic-repo-model-cheatsheet`** | Dynamic terminal cheat sheet (agy-cheatsheet / cs) and live statusline recommender that scans ~/Documents/GitHub repositories, uncommitted diffs, recent commits, and error states to recommend the optimal Model + Reasoning Effort + Local Hardware Offload. |
 | **`game-asset-streaming-lod-governor`** | Real-time asynchronous asset streaming, distance-based LOD hierarchies (LOD0-LOD3), virtual texturing, and LRU memory cache eviction. |
 | **`game-audio-ogg-gsc-encoder`** | Converts and encodes game audio to Ogg Vorbis while injecting and preserving proprietary GSC binary engine comment chunks (min/max distance, volume, AI perception) required by S.T.A.L.K.E.R. engines. |
 | **`grok-realtime-telemetry-scout`** | Emulates xAI Grok real-time live search on Gemini 4 Argon. Scouts bleeding-edge git commits, pull requests, issue trackers, and package feeds for undocumented Linux and game fixes. |
