@@ -91,3 +91,12 @@ When modeling dogs, wolves, horses, or feline predators:
 For expressive human/creature faces, ensure topology supports the 52 standard blendshape targets:
 - `eyeBlinkLeft`, `eyeBlinkRight`, `jawOpen`, `mouthSmileLeft`, `mouthSmileRight`.
 - Separate eye meshes and teeth/tongue into distinct child objects linked to head bone.
+
+---
+
+## 5. Eliminating the "Balloon-Animal / Cartoon" Look in Procedural Models
+When generating humans, cats, dogs, or mutants via Python (`bpy` / `bmesh`), raw ellipsoids (`create_uvsphere`) and cylindrical tubes (`catmull_rom_chain`) produce hard intersection creases and uniform circular cross-sections. Always pair this skill with **`blender-sdf-organic-remeshing`**:
+1. **Voxel SDF Fusion (`voxel_remesh`):** Join overlapping anatomical muscle/bone primitives and fuse them at `voxel_size = 0.004–0.006`, followed by `LAPLACIANSMOOTH` (`use_volume_preserve=True`) to create continuous skin/fur bridges across the neck, shoulders, and haunches.
+2. **Bony Landmarks vs. Fleshy Bellies:** Flatten lateral ribcages, sharpen dorsal scapular ridges, and flatten zygomatic cheek arches and nasal bridges—real mammals have flat/angular structural planes rather than round spheres.
+3. **Alpha-Clipped Fur Cards & Multi-Layer Shaders:** Break up plastic silhouettes on pelted creatures with short alpha-tested hair cards along the cheek ruffs, neck, haunches, and tail, backed by an anisotropic velvet/rim roughness map.
+

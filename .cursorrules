@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (278 Specialized Capabilities)
+## Complete Skills Catalog (281 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -204,6 +204,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`blender-headless-token-shield`** | Quota and context token protector for 3D modeling and Blender workflows. Prohibits dumping raw vertex coordinate tables into chat, enforces headless Python script execution with compact CLI telemetry, and gates renders to major task milestones. |
 | **`blender-high-to-low-baking`** | Automated high-to-low poly baking pipeline in Blender (bpy). Bakes tangent-space normal maps, ambient occlusion (AO), curvature/cavity, and material ID masks from multi-million polygon sculpts onto game-ready low-poly meshes. |
 | **`blender-pbr-texture-packager`** | PBR texture channel packing (ORM - Occlusion, Roughness, Metallic), texel density enforcement, and normal map orientation (DirectX vs OpenGL) for game engines. |
+| **`blender-sdf-organic-remeshing`** | Eliminates the 'cartoony balloon-animal' look in procedural Blender 5.x organic modeling using Voxel SDF Remeshing, Volume-Preserving Laplacian Smoothing, Anatomical Plane Flattening, and QuadriFlow Retopology. |
 | **`brainstorming`** | Interactive design exploration and requirements discovery. Use before committing to an architecture, feature implementation, or mod design to clarify trade-offs, constraints, and user preferences. |
 | **`cachyos-arch-packaging`** | Arch Linux and CachyOS packaging standards, PKGBUILD authoring, DKMS kernel module builds, and systemd service units. Use when building, testing, or maintaining packages like omen-acpi on CachyOS/Arch. |
 | **`canvas-interactive-workspace`** | Emulates ChatGPT Canvas side-by-side collaborative drafting, targeted inline diff staging, and surgical change annotations in Claude Code. |
@@ -407,6 +408,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`threejs-webgl-engineering`** | Interactive 3D WebGL and WebGPU development using Three.js, OrbitControls, GLTFLoader, PBR lighting rigs, procedural geometry, and zero-build browser previews. |
 | **`time-travel-deterministic-replay-debug`** | Deterministic record-and-replay time-travel debugging using Mozilla rr and GDB reverse execution. Steps backwards from segfaults and corrupted pointers to the exact instruction that mutated memory. |
 | **`token-economy`** | Output token optimization and high-density communication protocol. Use to minimize output token consumption, prevent transcript context bloat, and maintain concise progress visibility during long engineering workflows. |
+| **`ue5-foliage-mesh-to-ogsr-transpiler`** | Extracts S.T.A.L.K.E.R. 2 (UE5 IoStore) 3D trees, bushes, and grass meshes and transpiles them into 64-bit S.T.A.L.K.E.R. OGSR (.ogf and .dm) formats with uint16 submesh partitioning and alpha-coverage mipmaps. |
 | **`unity-game-dev`** | Game development workflows for Unity Engine (C#). Use when developing MonoBehaviours, ScriptableObjects, physics interactions, UI Toolkit/UGUI, shader integrations, or optimizing memory allocations and garbage collection. |
 | **`universal-token-containment-protocol`** | Universal cross-model and cross-domain token containment protocol across all 197 skills (Sonnet, Opus, Fable, Flash, Argon). Mandates zero chat duplication, strict file/artifact offloading, and output clamping across 3D modeling, binary reverse engineering, web design, and game modding. |
 | **`unreal-engine-dev`** | Game development workflows for Unreal Engine 5 (C++ and Blueprints). Use when implementing Gameplay Framework actors, UObject memory management, Subsystems, Enhanced Input, Niagara systems, or profiling performance. |
@@ -429,6 +431,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`xray-dx11-shader-modernization`** | Modernizes and adapts legacy DirectX 9 Shader Model 3.0 shaders to DirectX 11 Shader Model 5.0 in S.T.A.L.K.E.R. / OGSR Engine. Enforces 16-byte constant buffer (cbuffer) alignment, registers texture sampler splits, and fixes blown-out dynamic lighting/reflections. |
 | **`xray-lua-scripting`** | S.T.A.L.K.E.R. X-Ray Engine Lua scripting guidelines and safeguards. Use when writing, modifying, or debugging game scripts, quest logic, callbacks, inventory hooks, or AI logic in S.T.A.L.K.E.R. EE. |
 | **`xray-macro-boilerplate-condenser`** | Pre-processes and condenses legacy X-Ray and OGSR C++ macros, memory wrappers (xr_new, xr_delete, IC), and Luabind export registration blocks into clean, high-density semantic signatures to reduce C++ source ingestion context by 70-80%. |
+| **`xray-ogf-dm-blender-pipeline`** | Direct binary compilation and export of S.T.A.L.K.E.R. X-Ray and OGSR 3D meshes (.ogf v4 rigid/skinned models and .dm Detail Model grass/flora) from Blender 5.2+ without third-party plugins. |
 | **`yolo-autonomous-watchdog`** | Autonomous execution watchdog and quota protector for YOLO modes (claude-yolo, agy-yolo). Prevents infinite retry loops, terminal stdout flooding, oscillating file churn, and runaway context inflation during unattended operation. |
 | **`youtube-shorts-video-automation`** | Automated creation of viral YouTube Shorts, TikToks, and long-form YouTube edits with 9:16 vertical re-framing, hook-first pacing, kinetic word-by-word subtitles, silence trimming jump cuts, split-screen layouts, and audio ducking. |
 | **`zoneforge-cloud-sync-governor`** | Governs ZoneForge Google Drive and cloud asset synchronization, OAuth2 token refreshment, chunked resumable transfers, and local cache validation for large game mod distributions. |
