@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# tandem-yolo: Launch Claude YOLO and Antigravity YOLO side by side in a split tmux session
+# tandem-yolo: Launch Argon, Fable, and a Control/Dispatch Pane in a 3-way layout
 # Usage: tandem-yolo [/path/to/project/root]
 
 set -euo pipefail
 
-SESSION_NAME="tandem-yolo-$$"
+SESSION_NAME="tandem-yolo"
 REPO_ROOT="${1:-$(pwd)}"
 
 # Resolve repo paths
@@ -18,22 +18,29 @@ if [ -d "${REPO_ROOT}-fable" ]; then
     FABLE_DIR="${REPO_ROOT}-fable"
 fi
 
-# Ensure tmux session starts detached
-tmux new-session -d -s "${SESSION_NAME}" -n "tandem-yolo" "cd '${ARGON_DIR}' && agy-yolo"
+# Kill previous session with same name if dead or dangling
+tmux kill-session -t "${SESSION_NAME}" 2>/dev/null || true
 
-# Split window horizontally (left/right side by side)
+# 1. Create main session with Argon in Pane 0 (Top-Left)
+tmux new-session -d -s "${SESSION_NAME}" -n "tandem" "cd '${ARGON_DIR}' && agy-yolo"
+
+# 2. Split horizontally to put Fable in Pane 1 (Top-Right)
 tmux split-window -h -t "${SESSION_NAME}:0" "cd '${FABLE_DIR}' && claude-yolo"
 
-# Set equal 50/50 horizontal split
-tmux select-layout -t "${SESSION_NAME}:0" even-horizontal
+# 3. Split bottom across both to create Pane 2 (Control & Command Dispatcher)
+tmux split-window -v -t "${SESSION_NAME}:0.0" -p 25 "cd '${REPO_ROOT}' && echo -e '=== 🎮 TANDEM COMMAND & DISPATCH CONSOLE ===\nCommands:\n  tandem-dispatch --to checkpoint        # Resume both from active checkpoints\n  tandem-dispatch --to argon \"<prompt>\"   # Send task to Argon\n  tandem-dispatch --to fable \"<prompt>\"   # Send task to Fable\n  tandem-dispatch --to both \"<prompt>\"    # Send task to both\n===========================================' && exec bash"
 
-# Enable mouse support for easy pane resizing and scrolling
+# Set optimal layout: Top half split 50/50 (Argon | Fable), bottom strip for Controller
+tmux select-layout -t "${SESSION_NAME}:0" main-horizontal
+# Adjust pane sizes: top 75% for agents, bottom 25% for user commands
+tmux resize-pane -t "${SESSION_NAME}:0.2" -y 10
+
+# Enable mouse support for clicking into panes and resizing
 tmux set-option -t "${SESSION_NAME}" mouse on
 
-# If inside a graphical terminal, attach directly
+# Attach to session
 if [ -t 0 ]; then
     exec tmux attach-session -t "${SESSION_NAME}"
 else
-    # Launch in a new Konsole window if called from desktop launcher
     exec konsole -e tmux attach-session -t "${SESSION_NAME}"
 fi
