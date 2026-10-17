@@ -1,0 +1,424 @@
+#!/usr/bin/env python3
+"""
+sound-web-scout — Autonomous Web Audio & SFX Search, Acoustic SNR Scorer & Game Audio Masterer
+==============================================================================================
+Searches public-domain / CC0 audio repositories (Wikimedia Commons, Internet Archive) for any
+requested sound effect, foley, animal vocalization, weapon sound, or ambient loop; downloads top
+candidates to /dev/shm; scores them acoustically (SNR, clipping, spectral richness, duration fit);
+auto-slices the cleanest audio event; and exports mastered WAV/OGG (with optional GSC X-Ray v3
+24-byte binary Ogg header injection).
+"""
+import argparse
+import hashlib
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+import urllib.parse
+import urllib.request
+import wave
+from pathlib import Path
+
+import numpy as np
+from scipy import signal
+
+CACHE_DIR = Path.home() / ".cache" / "sound_web_scout"
+USER_AGENT = "AntigravitySoundScout/1.0 (Linux; Autonomous Game Audio Engineering)"
+
+
+def http_get_json(url: str, timeout: float = 8.0) -> dict:
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(req, timeout=timeout) as resp:
+        return json.loads(resp.read().decode("utf-8", errors="replace"))
+
+
+def search_wikimedia_audio(query: str, limit: int = 8) -> list[dict]:
+    """Searches Wikimedia Commons namespace 6 (File:) for audio files matching query."""
+    results = []
+    q_str = f"{query} filetype:audio"
+    api_url = (
+        "https://commons.wikimedia.org/w/api.php?action=query&list=search"
+        f"&srsearch={urllib.parse.quote(q_str)}&srnamespace=6&srlimit={limit}&format=json"
+    )
+    try:
+        data = http_get_json(api_url)
+        titles = [item["title"] for item in data.get("query", {}).get("search", [])]
+        if not titles:
+            return []
+        info_url = (
+            "https://commons.wikimedia.org/w/api.php?action=query"
+            f"&titles={urllib.parse.quote('|'.join(titles))}"
+            "&prop=imageinfo&iiprop=url|size|mediatype|mime&format=json"
+        )
+        idata = http_get_json(info_url)
+        for page in idata.get("query", {}).get("pages", {}).values():
+            title = page.get("title", "")
+            ii = (page.get("imageinfo") or [{}])[0]
+            url = ii.get("url", "")
+            size = int(ii.get("size") or 0)
+            mime = ii.get("mime", "")
+            if not url or size < 1024 or size > 18 * 1024 * 1024:
+                continue
+            if not any(ext in url.lower() for ext in (".ogg", ".oga", ".wav", ".flac", ".mp3", ".opus")) and "audio" not in mime:
+                continue
+            results.append(
+                {
+                    "source": "wikimedia",
+                    "title": title.replace("File:", ""),
+                    "url": url,
+                    "size": size,
+                }
+            )
+    except Exception:
+        pass
+    return results
+
+
+def search_internet_archive_audio(query: str, limit: int = 5) -> list[dict]:
+    """Searches Internet Archive (archive.org) for short open audio / sound effect items."""
+    results = []
+    ia_q = f"({query}) AND mediatype:(audio) AND NOT collection:(podcasts)"
+    api_url = (
+        "https://archive.org/advancedsearch.php?"
+        f"q={urllib.parse.quote(ia_q)}&fl[]=identifier,title&rows={limit}&page=1&output=json"
+    )
+    try:
+        data = http_get_json(api_url, timeout=8.0)
+        docs = data.get("response", {}).get("docs", [])
+        for doc in docs:
+            ident = doc.get("identifier")
+            if not ident:
+                continue
+            meta_url = f"https://archive.org/metadata/{urllib.parse.quote(ident)}/files"
+            mdata = http_get_json(meta_url, timeout=6.0)
+            for f in mdata.get("result", []):
+                fname = f.get("name", "")
+                fsize = int(f.get("size") or 0)
+                if fsize < 1024 or fsize > 15 * 1024 * 1024:
+                    continue
+                if fname.lower().endswith((".ogg", ".wav", ".flac", ".mp3")):
+                    dl_url = f"https://archive.org/download/{urllib.parse.quote(ident)}/{urllib.parse.quote(fname)}"
+                    results.append(
+                        {
+                            "source": "archive.org",
+                            "title": f"{doc.get('title', ident)} ({fname})",
+                            "url": dl_url,
+                            "size": fsize,
+                        }
+                    )
+                    break
+    except Exception:
+        pass
+    return results
+
+
+def download_and_decode(url: str, sr: int = 44100) -> tuple[np.ndarray | None, float]:
+    """Downloads audio candidate to cache and decodes to mono float32 numpy array."""
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    url_hash = hashlib.sha256(url.encode("utf-8")).hexdigest()[:16]
+    ext = Path(urllib.parse.urlparse(url).path).suffix or ".ogg"
+    cached_file = CACHE_DIR / f"cand_{url_hash}{ext}"
+
+    if not cached_file.exists() or cached_file.stat().st_size < 512:
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+            with urllib.request.urlopen(req, timeout=10.0) as resp:
+                cached_file.write_bytes(resp.read())
+        except Exception:
+            return None, 0.0
+
+    shm_dir = "/dev/shm" if os.path.isdir("/dev/shm") else tempfile.gettempdir()
+    with tempfile.NamedTemporaryFile(dir=shm_dir, suffix=".wav", delete=False) as tf:
+        tmp_wav = tf.name
+    try:
+        subprocess.run(
+            ["ffmpeg", "-y", "-v", "error", "-i", str(cached_file), "-ac", "1", "-ar", str(sr), tmp_wav],
+            check=True,
+            timeout=10.0,
+        )
+        with wave.open(tmp_wav, "rb") as w:
+            nframes = w.getnframes()
+            samples = np.frombuffer(w.readframes(nframes), dtype=np.int16).astype(np.float32) / 32768.0
+        return samples, len(samples) / float(sr)
+    except Exception:
+        return None, 0.0
+    finally:
+        if os.path.exists(tmp_wav):
+            os.remove(tmp_wav)
+
+
+def score_and_slice_candidate(
+    samples: np.ndarray,
+    sr: int,
+    title: str,
+    query: str,
+    target_dur: float = 1.0,
+    auto_slice: bool = True,
+) -> tuple[float, np.ndarray, dict]:
+    """
+    Evaluates acoustic quality (SNR in dB, clipping penalty, spectral richness, title match,
+    duration fit) and extracts the highest-SNR vocal/SFX burst if the source file is long.
+    """
+    if len(samples) < int(0.08 * sr):
+        return -999.0, samples, {"reason": "too_short"}
+
+    # Remove DC offset & sub-30Hz rumble before analysis
+    samples = samples - float(np.mean(samples))
+    sos_hp = signal.butter(3, 35.0, btype="highpass", fs=sr, output="sos")
+    clean = signal.sosfiltfilt(sos_hp, samples).astype(np.float32)
+
+    # Frame-level RMS energy (25ms windows)
+    win = max(64, int(0.025 * sr))
+    hop = max(32, win // 2)
+    n_frames = max(1, (len(clean) - win) // hop + 1)
+    rms_frames = np.array(
+        [np.sqrt(np.mean(clean[i * hop : i * hop + win] ** 2) + 1e-12) for i in range(n_frames)],
+        dtype=np.float32,
+    )
+
+    p95 = float(np.percentile(rms_frames, 95))
+    p15 = float(np.percentile(rms_frames, 15))
+    snr_db = float(20.0 * np.log10(max(p95, 1e-7) / max(p15, 1e-7)))
+
+    # If file is longer than 1.6x target_dur and auto_slice is True, extract the best burst window
+    sliced = clean
+    if auto_slice and len(clean) > int(target_dur * 1.5 * sr):
+        target_samples = int(target_dur * sr)
+        best_frame = int(np.argmax(rms_frames))
+        center = best_frame * hop + win // 2
+        # Walk outward from peak frame while energy > 12% of peak
+        thresh = p95 * 0.12
+        f_start = best_frame
+        while f_start > 0 and rms_frames[f_start] > thresh:
+            f_start -= 1
+        f_end = best_frame
+        while f_end < len(rms_frames) - 1 and rms_frames[f_end] > thresh:
+            f_end += 1
+        pad = int(0.045 * sr)
+        i0 = max(0, f_start * hop - pad)
+        i1 = min(len(clean), (f_end + 1) * hop + pad)
+        if (i1 - i0) < int(0.18 * sr):
+            i0 = max(0, center - target_samples // 2)
+            i1 = min(len(clean), i0 + target_samples)
+        elif (i1 - i0) > int(target_dur * 1.45 * sr):
+            i1 = i0 + int(target_dur * 1.35 * sr)
+        sliced = clean[i0:i1]
+
+    # Clipping ratio penalty
+    clip_frac = float(np.mean(np.abs(sliced) >= 0.992))
+    clip_penalty = clip_frac * 120.0
+
+    # Spectral centroid (reject pure muffled hum or pure high-freq hiss)
+    freqs, psd = signal.welch(sliced, fs=sr, nperseg=min(2048, len(sliced)))
+    centroid_hz = float(np.sum(freqs * psd) / (np.sum(psd) + 1e-12))
+    spectral_bonus = 8.0 if 180.0 <= centroid_hz <= 5500.0 else -6.0
+
+    # Lexical relevance bonus
+    q_tokens = [t for t in re.split(r"\W+", query.lower()) if len(t) >= 3]
+    t_lower = title.lower()
+    lexical_bonus = sum(6.0 for tok in q_tokens if tok in t_lower)
+
+    # Duration proximity bonus
+    raw_dur = len(clean) / float(sr)
+    dur_penalty = min(15.0, abs(raw_dur - target_dur) * 0.8)
+
+    total_score = min(snr_db, 42.0) + spectral_bonus + lexical_bonus - clip_penalty - dur_penalty
+    metrics = {
+        "score": round(total_score, 2),
+        "snr_db": round(snr_db, 1),
+        "centroid_hz": round(centroid_hz, 0),
+        "raw_dur_s": round(raw_dur, 2),
+        "sliced_dur_s": round(len(sliced) / float(sr), 2),
+    }
+    return total_score, sliced, metrics
+
+
+def master_and_export(
+    samples: np.ndarray,
+    sr: int,
+    out_path: Path,
+    highpass_hz: float = 60.0,
+    pitch_semitones: float = 0.0,
+    inject_gsc: bool = True,
+    min_dist: float = 2.0,
+    max_dist: float = 30.0,
+    max_ai_dist: float = 15.0,
+    volume: float = 1.0,
+    game_type: int = 128,
+) -> dict:
+    if highpass_hz > 15.0:
+        sos = signal.butter(4, highpass_hz, btype="highpass", fs=sr, output="sos")
+        samples = signal.sosfiltfilt(sos, samples).astype(np.float32)
+
+    if abs(pitch_semitones) > 0.05:
+        factor = 2.0 ** (pitch_semitones / 12.0)
+        samples = signal.resample(samples, max(256, int(len(samples) / factor))).astype(np.float32)
+
+    # Cosine fade-in (20ms) & fade-out (40ms)
+    fi = min(int(0.020 * sr), len(samples) // 4)
+    fo = min(int(0.040 * sr), len(samples) // 4)
+    if fi > 0:
+        samples[:fi] *= 0.5 * (1.0 - np.cos(np.linspace(0, np.pi, fi)))
+    if fo > 0:
+        samples[-fo:] *= 0.5 * (1.0 + np.cos(np.linspace(0, np.pi, fo)))
+
+    peak = float(np.max(np.abs(samples)))
+    if peak > 1e-6:
+        samples = samples * (0.88 / peak)
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    pcm16 = np.clip(samples * 32767.0, -32768, 32767).astype(np.int16)
+
+    shm_dir = "/dev/shm" if os.path.isdir("/dev/shm") else tempfile.gettempdir()
+    with tempfile.NamedTemporaryFile(dir=shm_dir, suffix=".wav", delete=False) as tf:
+        tmp_wav = Path(tf.name)
+    try:
+        with wave.open(str(tmp_wav), "wb") as w:
+            w.setnchannels(1)
+            w.setsampwidth(2)
+            w.setframerate(sr)
+            w.writeframes(pcm16.tobytes())
+
+        if out_path.suffix.lower() == ".wav":
+            shutil.copy2(tmp_wav, out_path)
+            return {"output": str(out_path), "format": "wav", "duration_s": round(len(samples) / sr, 2)}
+
+        subprocess.run(
+            [
+                "ffmpeg",
+                "-y",
+                "-v",
+                "error",
+                "-i",
+                str(tmp_wav),
+                "-ac",
+                "1",
+                "-ar",
+                str(sr),
+                "-c:a",
+                "libvorbis",
+                "-b:a",
+                "96k",
+                str(out_path),
+            ],
+            check=True,
+        )
+        gsc_info = {}
+        if inject_gsc and out_path.suffix.lower() == ".ogg":
+            forge_bin = Path.home() / ".local" / "bin" / "creature-sound-forge"
+            if forge_bin.exists():
+                subprocess.run(
+                    [
+                        str(forge_bin),
+                        "fix_ogg_header",
+                        "-o",
+                        str(out_path),
+                        "--min-dist",
+                        str(min_dist),
+                        "--max-dist",
+                        str(max_dist),
+                        "--max-ai-dist",
+                        str(max_ai_dist),
+                        "--volume",
+                        str(volume),
+                        "--game-type",
+                        str(game_type),
+                    ],
+                    check=True,
+                    stdout=subprocess.DEVNULL,
+                )
+                gsc_info = {
+                    "gsc_v3": True,
+                    "min_dist": min_dist,
+                    "max_dist": max_dist,
+                    "max_ai_dist": max_ai_dist,
+                }
+        return {
+            "output": str(out_path),
+            "format": out_path.suffix.lstrip("."),
+            "duration_s": round(len(samples) / sr, 2),
+            **gsc_info,
+        }
+    finally:
+        if tmp_wav.exists():
+            tmp_wav.unlink()
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(
+        description="Search the web for CC0/open audio & SFX, rank by acoustic SNR, slice, master, and export."
+    )
+    parser.add_argument("query", help="Search query (e.g. 'cat meow', 'raven caw', 'geiger counter', 'metal impact')")
+    parser.add_argument("-o", "--output", default=None, help="Output .ogg or .wav path (omit for list-only search)")
+    parser.add_argument("--limit", type=int, default=6, help="Max candidates to evaluate")
+    parser.add_argument("--target-dur", type=float, default=1.0, help="Target sound duration in seconds (default 1.0s)")
+    parser.add_argument("--no-slice", action="store_true", help="Keep full audio duration without burst slicing")
+    parser.add_argument("--highpass", type=float, default=60.0, help="High-pass filter cutoff in Hz (default 60Hz)")
+    parser.add_argument("--pitch", type=float, default=0.0, help="Pitch shift in semitones")
+    parser.add_argument("--no-gsc", action="store_true", help="Skip GSC X-Ray v3 binary Ogg comment injection")
+    parser.add_argument("--min-dist", type=float, default=2.0, help="GSC 3D min distance (m)")
+    parser.add_argument("--max-dist", type=float, default=30.0, help="GSC 3D max distance (m)")
+    parser.add_argument("--max-ai-dist", type=float, default=15.0, help="GSC AI hearing distance (m)")
+    args = parser.parse_args()
+
+    candidates = search_wikimedia_audio(args.query, limit=args.limit)
+    if len(candidates) < 3:
+        candidates.extend(search_internet_archive_audio(args.query, limit=max(2, args.limit - len(candidates))))
+
+    if not candidates:
+        print(f"[!] No online audio candidates found for query: '{args.query}'", file=sys.stderr)
+        return 1
+
+    sr = 44100
+    scored = []
+    for cand in candidates[: args.limit]:
+        samples, raw_dur = download_and_decode(cand["url"], sr=sr)
+        if samples is None:
+            continue
+        score, sliced, metrics = score_and_slice_candidate(
+            samples=samples,
+            sr=sr,
+            title=cand["title"],
+            query=args.query,
+            target_dur=args.target_dur,
+            auto_slice=not args.no_slice,
+        )
+        scored.append((score, cand, sliced, metrics))
+
+    if not scored:
+        print(f"[!] Could not decode any audio candidates for '{args.query}'", file=sys.stderr)
+        return 1
+
+    scored.sort(key=lambda x: x[0], reverse=True)
+    print(f"🔎 Web Audio Scout Results for '{args.query}' ({len(scored)} evaluated):")
+    for idx, (sc, cand, _, met) in enumerate(scored, 1):
+        star = "★ WINNER" if idx == 1 else f"  #{idx}    "
+        print(
+            f"  {star} [{cand['source']}] {cand['title']} | "
+            f"Score:{met['score']} SNR:{met['snr_db']}dB Centroid:{int(met['centroid_hz'])}Hz "
+            f"Dur:{met['raw_dur_s']}s->{met['sliced_dur_s']}s"
+        )
+
+    if args.output:
+        best_score, best_cand, best_sliced, best_metrics = scored[0]
+        out_path = Path(args.output).expanduser().resolve()
+        export_info = master_and_export(
+            samples=best_sliced,
+            sr=sr,
+            out_path=out_path,
+            highpass_hz=args.highpass,
+            pitch_semitones=args.pitch,
+            inject_gsc=not args.no_gsc,
+            min_dist=args.min_dist,
+            max_dist=args.max_dist,
+            max_ai_dist=args.max_ai_dist,
+        )
+        print(f"[✓] Exported best match '{best_cand['title']}' -> {export_info}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,58 @@
+---
+description: Autonomously searches open web audio repositories (Wikimedia Commons, Internet Archive) for real CC0/public-domain sound effects, foley, animal vocalizations, weapons, and ambient audio; ranks candidates acoustically by Signal-to-Noise Ratio (SNR), spectral centroid, and clipping; slices the cleanest audio event in /dev/shm; and exports mastered WAV/OGG with GSC X-Ray v3 binary headers.
+globs: *
+alwaysApply: false
+---
+
+# Autonomous Audio & SFX Web Researcher (`autonomous-audio-sfx-web-researcher`)
+
+Whenever a modding, game development, or multimedia task requires a realistic sound effect (e.g., animal vocalizations, weapon foley, UI clicks, anomaly hums, footsteps, weather, mechanical impacts) and no local studio asset exists, **never** fall back to naive sine-wave synthesis (`np.sin`). Immediately invoke `~/.local/bin/sound-web-scout` to search, acoustically rank, slice, master, and export a real studio/field recording.
+
+---
+
+## 1. One-Command Web Audio Search, Acoustic Ranking & Mastering
+
+```bash
+# Search the web, evaluate top 6 candidates by SNR (dB) & spectral centroid,
+# slice the cleanest 0.85s burst in /dev/shm, and export with GSC X-Ray v3 Ogg header:
+~/.local/bin/sound-web-scout "cat meow" \
+  -o gamedata/sounds/actor/aisha_meow.ogg \
+  --target-dur 0.85 \
+  --min-dist 2.0 --max-dist 28.0 --max-ai-dist 15.0
+
+# Search & rank candidates without exporting (dry-run acoustic inspection):
+~/.local/bin/sound-web-scout "raven caw" --limit 6
+
+# Search for a longer ambient loop (disable burst slicing with --no-slice):
+~/.local/bin/sound-web-scout "geiger counter clicks" \
+  -o gamedata/sounds/detectors/geiger_loop.ogg \
+  --target-dur 4.0 --no-slice --min-dist 1.0 --max-dist 12.0
+
+# Export standard WAV (or non-GSC Ogg with --no-gsc) for UE5 / Godot / Unity / Web:
+~/.local/bin/sound-web-scout "sword metal impact" -o assets/sfx/sword_hit.wav --target-dur 0.6
+```
+
+---
+
+## 2. How Acoustic Candidate Scoring Works (`sound-web-scout`)
+
+Raw web search results vary wildly in recording quality (some are 60-second windy field recordings; others are studio-mastered `.wav` files). `sound-web-scout` downloads candidates into `/dev/shm` and ranks each candidate using a composite DSP score:
+
+1. **Signal-to-Noise Ratio (`SNR dB`):**
+   - Computes 25ms frame RMS energy across the file and measures $20 \log_{10}(P_{95} / P_{15})$. Studio recordings score `60–75 dB`; noisy/windy recordings score `< 20 dB`.
+2. **Automatic Peak-Event Burst Slicing (`--target-dur`):**
+   - If a candidate is a multi-second recording (e.g. `11.85s`), `sound-web-scout` locates the highest-energy acoustic event and walks outward to the `-18 dB` envelope boundaries, cleanly extracting a `0.8–1.1s` one-shot asset with cosine fade-in/out.
+3. **Clipping & Distortion Rejection:**
+   - Penalizes samples where $|x[n]| \ge 0.992$.
+4. **Spectral Centroid Validation:**
+   - Uses Welch's power spectral density (`scipy.signal.welch`) to reject muffled low-frequency hum (`< 180 Hz` centroid) or pure high-frequency tape hiss (`> 5500 Hz` centroid).
+5. **Engine-Safe Mastering & GSC v3 Injection:**
+   - Applies a 4th-order zero-phase Butterworth high-pass filter (`--highpass 60`), peak-normalizes to `-1.1 dBFS` (`0.88`), encodes via `libvorbis`, and injects the 24-byte `OGG_COMMENT_VERSION = 0x0003` struct (`<IfffIf`) with recomputed Ogg page CRC-32 (`0x04C11DB7`).
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux (`/dev/shm` RAM-disk acceleration) and Windows 10/11 (`tempfile.gettempdir()` fallback, standard `urllib`/`numpy`/`scipy`/`ffmpeg`).
+
+## Related & Interoperating Skills
+- **`creature-animal-bioacoustic-audio`**: Real CC0 animal presets + Klatt/Rosenberg mammalian glottal-formant vocal tract DSP synthesis (`creature-sound-forge`).
+- **`game-audio-ogg-gsc-encoder`**: S.T.A.L.K.E.R. X-Ray / OGSR binary Ogg comment specification.
+- **`autonomous-3d-reference-researcher`**: Autonomous web reference & blueprint researcher for 3D modeling.

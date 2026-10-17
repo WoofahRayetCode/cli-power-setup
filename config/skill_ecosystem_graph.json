@@ -1,5 +1,5 @@
 {
-  "total_skills": 301,
+  "total_skills": 302,
   "skills": {
     "adaptive-reasoning": {
       "description": "Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-speed execution on Flash and deep-reasoning planning on Argon based on prompt complexity.",
@@ -68,9 +68,9 @@
       "description": "AI-powered and procedural audio generation for game development, content creation, and applications. Covers procedural DSP synthesis (oscillators, envelopes, noise bursts, chiptune/sfxr), text-to-sound-effect (SFX) models, adaptive game soundtrack layering, UI sound design, and loudness normalization.",
       "related": [
         "ai-3d-mesh-generation",
+        "autonomous-audio-sfx-web-researcher",
         "game-audio-engine-engineering",
-        "emulator-development-engineering",
-        "game-localization-i18n"
+        "emulator-development-engineering"
       ]
     },
     "amd-igpu-nvidia-dgpu-hybrid-offload": {
@@ -401,9 +401,18 @@
       "description": "Autonomous online anatomical, mechanical blueprint, and Blender bpy technique researcher. Searches the web for real-world proportions, skeletal joint ratios, and shader recipes before/during 3D modeling and crystallizes findings into skills via skill-evolve.",
       "related": [
         "autonomous-git-repo-sync-governor",
+        "autonomous-audio-sfx-web-researcher",
         "autonomous-skill-ecosystem-optimizer",
-        "concept-art-sketch-to-3d-sculptor",
-        "self-evolving-skill-synthesizer"
+        "concept-art-sketch-to-3d-sculptor"
+      ]
+    },
+    "autonomous-audio-sfx-web-researcher": {
+      "description": "Autonomously searches open web audio repositories (Wikimedia Commons, Internet Archive) for real CC0/public-domain sound effects, foley, animal vocalizations, weapons, and ambient audio; ranks candidates acoustically by Signal-to-Noise Ratio (SNR), spectral centroid, and clipping; slices the cleanest audio event in /dev/shm; and exports mastered WAV/OGG with GSC X-Ray v3 binary headers.",
+      "related": [
+        "creature-animal-bioacoustic-audio",
+        "autonomous-3d-reference-researcher",
+        "autonomous-git-repo-sync-governor",
+        "autonomous-skill-ecosystem-optimizer"
       ]
     },
     "autonomous-git-repo-sync-governor": {
@@ -430,7 +439,7 @@
         "autonomous-git-repo-sync-governor",
         "self-evolving-skill-synthesizer",
         "autonomous-3d-reference-researcher",
-        "dynamic-repo-model-cheatsheet"
+        "autonomous-audio-sfx-web-researcher"
       ]
     },
     "avalonia-cross-platform-dev": {
@@ -823,10 +832,10 @@
     "creature-animal-bioacoustic-audio": {
       "description": "Realistic animal and creature vocalization engineering (cats, dogs, wolves, mutants, wildlife) combining real CC0 acoustic field recordings, Klatt/Rosenberg mammalian glottal-formant vocal tract DSP synthesis (scipy.signal), and automatic GSC X-Ray / OGSR v3 24-byte binary Ogg comment header injection.",
       "related": [
+        "autonomous-audio-sfx-web-researcher",
         "game-audio-ogg-gsc-encoder",
         "cuda-numpy-batch-texture-dsp-processor",
-        "game-dynamic-stress-orchestrator",
-        "game-audio-engine-engineering"
+        "game-dynamic-stress-orchestrator"
       ]
     },
     "cross-agent-context-deduplicator": {
