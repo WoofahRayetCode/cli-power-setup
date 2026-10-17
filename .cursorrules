@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (223 Specialized Capabilities)
+## Complete Skills Catalog (227 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -172,9 +172,13 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`android-testing-ci-cd-security`** | Android automated testing (JUnit 5, MockK, Robolectric, Compose UI testing), headless Gradle CI/CD pipelines, Android App Bundle (AAB) generation, R8/ProGuard obfuscation rules, Android Keystore hardware-backed encryption, and release hardening. |
 | **`api-network-security-hardening`** | API gateway security, network transport hardening, TLS 1.3/certificate pinning, mTLS, token bucket rate limiting, CORS/CSP policy enforcement, and DDoS mitigation for games, bots, and backend services. |
 | **`app-security-threat-modeling`** | Universal application security architecture, STRIDE threat modeling, OWASP Top 10 mitigation, memory safety hardening, and defensive input validation across web, desktop, and mobile systems. |
+| **`argon-adversarial-verification-gate`** | Harnesses Gemini 4 Argon's deep reasoning capacity for formal adversarial self-critique, boundary-condition proofing, and confirmation-bias elimination prior to declaring tasks complete. |
 | **`argon-context-cache-guard`** | Anchors and stabilizes Gemini 4 Argon context to ensure sessions cross and maintain the 32,768-token cache threshold for maximum 95% KV prompt caching discounts. |
 | **`argon-effort-auto-calibrator`** | Dynamically calibrates Gemini 4 Argon reasoning effort (--effort low/medium/high) turn-by-turn based on cognitive task complexity, slashing thinking token burn by up to 85% on routine tool execution. |
+| **`argon-long-context-retrieval-anchor`** | Enforces boundary-edge semantic anchoring across Gemini 4 Argon's 1M-token context window to prevent attention dilution and lost-in-the-middle degradation during massive engineering tasks. |
+| **`argon-multimodal-vision-grounding`** | Directs Gemini 4 Argon's native multimodal vision capabilities toward game screen telemetry, UI layout audits, rendering artifact triage, and graphical glitch diagnosis. |
 | **`argon-sentencepiece-serializer`** | Formats tabular data, state serializations, and symbol skeletons to optimize token density under Google's SentencePiece tokenizer used by Gemini 4 Argon. |
+| **`argon-structured-json-schema-enforcer`** | Leverages Gemini 4 Argon's native constrained decoding to emit deterministic, schema-compliant JSON payloads for automated CLI pipelines and test harnesses. |
 | **`argon-subagent-dispatch-routing`** | Implements the 'Argon Brain, Flash Hands' subagent swarm dispatch pattern to offload high-volume read, search, and execution tasks to Gemini Flash while conserving Argon quota. |
 | **`argon-thinking-governor`** | Gemini 4 Argon internal chain-of-thought (CoT) and reasoning token governor. Clamps speculative reasoning bloat during routine tool execution and enforces the hybrid 'Argon Brain, Flash Hands' dispatch pattern. |
 | **`argon-tool-calling-densifier`** | Enforces compact parallel tool invocation and parameter density on Gemini 4 Argon to minimize output token generation costs and round-trip latency. |

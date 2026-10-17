@@ -1,0 +1,54 @@
+---
+description: Directs Gemini 4 Argon's native multimodal vision capabilities toward game screen telemetry, UI layout audits, rendering artifact triage, and graphical glitch diagnosis.
+globs: 
+alwaysApply: false
+---
+
+# Argon Multimodal Vision Grounding (`argon-multimodal-vision-grounding`)
+
+Gemini 4 Argon is natively multimodal, accepting high-resolution images and visual inputs directly alongside text. In game modding, desktop GUI development, and engine porting, describing visual bugs in text (e.g. "the sky is blown out" or "the font overlaps the health bar") is ambiguous and prone to misinterpretation.
+
+This skill standardizes automated visual ingestion to ground Argon's diagnosis directly in rendered pixels.
+
+---
+
+## 1. Visual Capture & Ingestion Pipeline
+
+```
++-------------------+      +---------------------+      +---------------------+
+|  Game/App Window  | ---> | spectacle / maim    | ---> | Visual Ingestion    |
+|  (X11/Wayland)    |      | (Targeted Crop)     |      | into Argon Context  |
++-------------------+      +---------------------+      +---------------------+
+                                                                   |
+                                                                   v
+                                                        +---------------------+
+                                                        | Argon Vision Engine |
+                                                        | - Shader Light-Bleed|
+                                                        | - UI Font Clipping  |
+                                                        | - Missing Textures  |
+                                                        +---------------------+
+```
+
+---
+
+## 2. Standard Triage Categories
+
+When visually triaging rendered application frames:
+
+1. **Rendering Artifacts & Lighting:**
+   - Detect dynamic range blowing out (pure white clipping `#FFFFFF`).
+   - Identify unshaded geometry (flat magenta/black missing texture checkerboards).
+   - Detect shadow acne, inverted normals, and SSAO haloing around meshes.
+2. **UI & Text Layout Audits:**
+   - Identify localized string truncation or font overflowing bounding boxes.
+   - Detect misaligned inventory slots or overlapping HUD elements.
+3. **Screen Freeze & Crash Modals:**
+   - Detect static un-updating frames during autonomous runs.
+   - Transcribe and triage Wine/Proton crash dialogue popups (`BugTrap`, `fatal error`).
+
+---
+
+## 3. Quota-Conscious Capture Rules
+
+1. **Never Capture Full 4K Desktops:** Always crop specifically to the active window or region of interest using `spectacle -a` or `maim -i` to minimize vision token consumption.
+2. **Capture at Milestones Only:** Do not stream images continuously. Capture on test completion, visual state transition, or detected error condition.
