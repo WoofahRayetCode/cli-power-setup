@@ -1,0 +1,58 @@
+---
+name: game-asset-streaming-lod-governor
+description: Real-time asynchronous asset streaming, distance-based LOD hierarchies (LOD0-LOD3), virtual texturing, and LRU memory cache eviction.
+---
+
+# Game Asset Streaming & LOD Governor (`game-asset-streaming-lod-governor`)
+
+Large 3D game worlds exceed the physical RAM and VRAM capacity of client hardware (e.g. 4GB Android phones or 8GB PC VRAM). Synchronous loading of high-polygon meshes and 4K textures causes fatal memory spikes and multi-second gameplay hitches.
+
+This skill governs asynchronous background resource streaming, hierarchical Level-of-Detail (LOD0–LOD3) selection, and Least-Recently-Used (LRU) memory cache eviction.
+
+---
+
+## 1. Asset Streaming Architecture
+
+```
++-------------------------------------------------------------+
+| Camera / Player Transform & Screen Space Error (SSE) Metric |
++-------------------------------------------------------------+
+                              |
+                              v
++-------------------------------------------------------------+
+| Streaming Prioritization Queue                              |
+| - High Priority: Directly visible, LOD0 needed              |
+| - Medium Priority: Distant objects, LOD2/LOD3               |
+| - Eviction Pool: Unseen meshes beyond view distance         |
++-------------------------------------------------------------+
+                              |
+              +---------------+---------------+
+              |                               |
+       (Background I/O Thread)         (GPU Async Transfer)
+              v                               v
+    +-------------------+           +-------------------+
+    | Disk / VFS Read   |           | VkQueueTransfer   |
+    | (Decompress Mip)  |           | (Staging Buffer)  |
+    +-------------------+           +-------------------+
+```
+
+---
+
+## 2. LOD Distance Clamping Rules
+
+| LOD Level | Polygon Budget Ratio | Texture Mip Level | Recommended Distance |
+| :--- | :--- | :--- | :--- |
+| **LOD0** | 100% (Full geometry) | Mip 0 (Full res) | 0m – 20m |
+| **LOD1** | 50% polygons | Mip 1 (Half res) | 20m – 50m |
+| **LOD2** | 25% polygons | Mip 2 (Quarter res)| 50m – 120m |
+| **LOD3 / Impostor** | 5%–10% polygons / billboard | Mip 3+ | > 120m |
+
+---
+
+## 3. Memory Eviction Directives
+
+1. **Hard VRAM Budget Caps:**
+   - Mobile Android: Never exceed **1.8 GB** total allocated texture/buffer memory.
+   - Desktop PC: Cap allocated VRAM at **80% of dedicated GPU memory** (e.g. 6.4 GB on an 8 GB card) to reserve room for OS compositors.
+2. **LRU Cache Trimming:**
+   When total allocated memory reaches 85% of budget, evict the highest-resolution mips and LOD0 geometry of entities not rendered within the last 15 seconds.
