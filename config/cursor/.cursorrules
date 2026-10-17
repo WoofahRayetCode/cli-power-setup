@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (239 Specialized Capabilities)
+## Complete Skills Catalog (242 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -216,6 +216,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`coverage-guided-mutation-testing`** | AST-based fault injection, mutant survival analysis, and automated test synthesis to self-improve test suite detection power across Lua, Python, C++, and Rust. |
 | **`cpp-64bit-engine-port-sanitizer`** | Detects and repairs 64-bit bitness porting defects in C++ game engines (e.g. X-Ray/OGSR). Audits pointer-to-integer truncations, #pragma pack(1) struct padding discrepancies, 64-bit ABI calling convention drift, and virtual method table alignment. |
 | **`creative-web-design-archetypes`** | Advanced web styling archetypes and visual design systems. Covers Neo-Brutalism, Mythic/Fantasy Parchment, Cyberpunk/Terminal HUD, Editorial/Academic Journal, Swiss Modernism, and Glassmorphic aesthetics with responsive CSS and typography pairings. |
+| **`cross-agent-git-rebase-guard`** | Automated git worktree synchronization, non-interactive rebasing, and conflict-free merging between concurrent AI agent feature branches. |
 | **`cross-browser-extensions`** | Cross-browser web extension development in Manifest V3, supporting Chrome, Firefox, and Safari with webextension-polyfill, background service workers, and declarativeNetRequest. |
 | **`cross-cli-session-handoff`** | Seamless zero-context-loss session handoff protocol between Antigravity CLI, Claude Code CLI, and Cursor IDE. Exports and imports structured handover packets (.agents/handoff.json) containing active git diffs, verified milestones, blockers, and next steps in under 300 tokens. |
 | **`cross-engine-shader-transpiler`** | Universal shader authoring and transpilation using Slang and SPIRV-Cross, converting single-source shaders to Vulkan SPIR-V, DX12 HLSL, Metal MSL, and OpenGL GLSL. |
@@ -231,6 +232,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`disassembly-token-redactor`** | Reverse engineering disassembly token redactor and CFG basic-block condenser. Intercepts verbose objdump, Ghidra, and rizin disassembly dumps, stripping raw hex byte columns, instruction padding, and linear NOP sleds to slash binary reverse engineering tokens by 75-80%. |
 | **`discord-bot-engineering`** | Production Discord bot development across Python (discord.py) and TypeScript (discord.js). Covers modern Discord API v10, slash commands, interactive UI components (Buttons, Select Menus, Modals), Gateway intent discipline, rate-limit bucket management, Voice Gateway audio streaming, and high-availability sharded deployment. |
 | **`documentation-site-generator`** | Static documentation site generation using VitePress and MkDocs Material, automated API reference extraction, and GitHub Pages deployment. |
+| **`dual-engine-quota-balancer`** | Dynamic telemetry coordination across Google Gemini and Anthropic Claude rate limits, balancing task allocation to guarantee uninterrupted execution without hitting provider quotas. |
 | **`dynamic-model-downshifter`** | Autonomous multi-tier model downshifting for CLI sessions. Enforces the 'Frontier Brain, Fast Hands' pattern by offloading mechanical bash tasks, file moves, and git operations to lightweight models (Flash/Haiku), reserving frontier reasoning (Argon/Opus) exclusively for architectural design and complex debugging. |
 | **`dynamic-skill-router`** | High-performance semantic intent matching and capability indexing across 100+ installed skills. Use to instantly discover, rank, and activate the exact 2-3 optimal skills for any complex prompt, eliminating skill choice paralysis and context bloat. |
 | **`electron-desktop-dev`** | Electron desktop application engineering, IPC security, context isolation, preload scripts, multi-window lifecycles, and cross-platform packaging with electron-builder. |
@@ -365,6 +367,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`subagent-swarm-orchestrator`** | Coordinates autonomous parallel subagent swarms in Claude Code, leveraging isolated git worktrees, background processes, and parent-child JSON messaging pipelines. |
 | **`superpowers`** | Core engineering methodology and discipline engine. Use when starting non-trivial tasks to evaluate if brainstorming, structured planning, TDD, or systematic debugging applies before writing code. |
 | **`systematic-debugging`** | Root-cause diagnosis and hypothesis-driven debugging. Use when encountering test failures, runtime errors, game crashes, or unexpected behavior to diagnose before editing. |
+| **`tandem-multi-agent-orchestrator`** | Coordinates concurrent execution between Gemini 4 Argon and Claude Fable across isolated git worktrees, preventing file collisions and synchronizing milestones via .agents/handoff.json. |
 | **`task-velocity-governor`** | Enforces task completion velocity, strict timeboxing, step budgeting, anti-thrashing loops, and diminishing returns boundaries. Prevents tasks from taking longer than necessary and halts iterative wheel-spinning. |
 | **`tauri-multiplatform-dev`** | Lightweight cross-platform desktop and mobile engineering with Tauri 2.0, Rust backend, web frontend, secure IPC commands, low RAM usage, and native system integration. |
 | **`test-driven-development`** | Test-Driven Development (TDD) workflow. Use when developing testable features, parsers, codecs, utilities, or bug fixes to write tests before implementation. |

@@ -1,0 +1,34 @@
+---
+description: Dynamic telemetry coordination across Google Gemini and Anthropic Claude rate limits, balancing task allocation to guarantee uninterrupted execution without hitting provider quotas.
+globs: 
+alwaysApply: false
+---
+
+# Dual-Engine Quota Balancer (`dual-engine-quota-balancer`)
+
+Running Gemini 4 Argon and Claude Fable simultaneously provides dual-model intelligence, but requires intelligent quota governance to prevent either provider from exhausting its rolling or daily window.
+
+This skill balances task dispatch between Argon and Fable based on live telemetry metrics.
+
+---
+
+## 1. Provider Cost & Quota Economics
+
+| Provider / Model | Quota Characteristics | Best Use Cases (Maximum ROI) | Throttle Threshold |
+| :--- | :--- | :--- | :--- |
+| **Gemini 4 Argon** (`pro`) | Rolling 5-Hour & Weekly limits; **95% prompt cache discount** ($0.10/MTok); 1M context. | Heavy asset parsing, broad file reading, Wine/Proton crash triage, image inspection. | Escalate/offload when 5h quota < 20% |
+| **Claude Fable** (`claude`) | Daily & Weekly token allowances; high precision; strict output token cost. | Surgical C++ diffs, complex AST refactors, LuaJIT FFI bindings, compiler error fixes. | Escalate/offload when context > 80k or weekly < 25% |
+
+---
+
+## 2. Dynamic Workload Rebalancing Rules
+
+1. **Shift QA & Log Reading to Argon:**
+   - Always route compiler stdout logs, test suite output, and crash callstack analysis to Argon. Argon's 95% cache discount makes analyzing 100k lines of logs virtually free compared to Claude.
+2. **Shift Surgical Diffs to Fable:**
+   - Once Argon identifies the exact 10 lines causing a crash, route the surgical patch application to Fable. Fable’s atomic diff sequencer executes code fixes with near 100% first-turn accuracy.
+3. **Emergency Offload:**
+   - If Claude Fable approaches its daily quota ceiling:
+     - Stage Fable's working state to `.agents/handoff.json`.
+     - Route remaining tasks exclusively to Argon (`tandem-dispatch --to argon "<task>"`).
+     - Argon completes the milestone while Claude's quota refreshes.

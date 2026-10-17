@@ -1,0 +1,62 @@
+---
+description: Automated git worktree synchronization, non-interactive rebasing, and conflict-free merging between concurrent AI agent feature branches.
+globs: 
+alwaysApply: false
+---
+
+# Cross-Agent Git Rebase Guard (`cross-agent-git-rebase-guard`)
+
+When multiple AI agents generate commits simultaneously in separate worktrees (`feat/argon-work` and `feat/fable-work`), merging branches naively can trigger interactive editor prompts, merge conflicts, or dirty working directory locks.
+
+This skill governs non-interactive, automated branch merging and rebase synchronization.
+
+---
+
+## 1. Clean Synchronization Workflow
+
+```
+feat/argon-work  ----[ Commit A1 ]----[ Commit A2 ]----+
+                                                       | (Clean Merge)
+main             --------------------------------------+----> [ Unified Main ]
+                                                       |
+feat/fable-work  ----[ Commit F1 ]----[ Commit F2 ]----+
+```
+
+---
+
+## 2. Non-Interactive Merge Commands
+
+When integrating concurrent work back to `main`:
+
+```bash
+# 1. Switch to root repository
+cd /path/to/project-root
+
+# 2. Ensure working directory is clean
+git status --porcelain
+
+# 3. Merge Argon feature branch with automated commit message
+git merge feat/argon-work --no-edit -m "merge: integrate Argon asset and LTX enhancements"
+
+# 4. Merge Fable engine branch
+git merge feat/fable-work --no-edit -m "merge: integrate Fable 64-bit C++ engine refactors"
+
+# 5. Push unified master/main to remote
+git push origin main
+```
+
+---
+
+## 3. Conflict Prevention Guardrails
+
+1. **Commit Early, Commit Atomic:** Each agent must commit atomic milestones rather than leaving dozens of uncommitted files sitting in working trees.
+2. **Rebase Onto Main Post-Merge:**
+   Once `main` is updated:
+   ```bash
+   # From Argon worktree
+   git fetch origin && git rebase main
+   
+   # From Fable worktree
+   git fetch origin && git rebase main
+   ```
+3. **Never Force Push (`--force`):** Always use standard fast-forward or non-interactive merge commits to preserve both models' execution history.
