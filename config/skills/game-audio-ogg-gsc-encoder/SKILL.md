@@ -71,3 +71,8 @@ python3 -m zoneforge.cli audio encode \
 - **`game-asset-pack-archive-engineering`**: Virtual file systems (VFS), game asset pack archive containers (PAK, XDB, AssetBundles), chunked zstd/zlib com...
 - **`game-weapon-ballistics-mechanics`**: Game weapon configuration, ballistics physics, firing cycles, projectile damage radii, underbarrel launchers, ...
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+
+---
+
+## Exact OGSR SoundRender_Source_loader.cpp 24-Byte v3 Comment & creature-sound-forge
+Use ~/.local/bin/creature-sound-forge fix_ogg_header -o <file.ogg> --min-dist 2.0 --max-dist 28.0 to inject the exact 24-byte struct.pack('<IfffIf', 3, min_dist, max_dist, base_vol, game_type, max_ai_dist) into user_comments[0] with recomputed Ogg page CRC32 (0x04C11DB7), preventing '! Invalid ogg-comment version'.

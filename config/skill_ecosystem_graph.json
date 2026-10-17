@@ -1,5 +1,5 @@
 {
-  "total_skills": 300,
+  "total_skills": 301,
   "skills": {
     "adaptive-reasoning": {
       "description": "Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-speed execution on Flash and deep-reasoning planning on Argon based on prompt complexity.",
@@ -820,6 +820,15 @@
         "interactive-data-visualization-web"
       ]
     },
+    "creature-animal-bioacoustic-audio": {
+      "description": "Realistic animal and creature vocalization engineering (cats, dogs, wolves, mutants, wildlife) combining real CC0 acoustic field recordings, Klatt/Rosenberg mammalian glottal-formant vocal tract DSP synthesis (scipy.signal), and automatic GSC X-Ray / OGSR v3 24-byte binary Ogg comment header injection.",
+      "related": [
+        "game-audio-ogg-gsc-encoder",
+        "cuda-numpy-batch-texture-dsp-processor",
+        "game-dynamic-stress-orchestrator",
+        "game-audio-engine-engineering"
+      ]
+    },
     "cross-agent-context-deduplicator": {
       "description": "Eliminates redundant transcript ingestion and context pollution between Argon orchestrators and Flash subagents by clamping sync payloads to strict 15-line symbol diff abstracts.",
       "related": [
@@ -1220,9 +1229,9 @@
       "description": "Converts and encodes game audio to Ogg Vorbis while injecting and preserving proprietary GSC binary engine comment chunks (min/max distance, volume, AI perception) required by S.T.A.L.K.E.R. engines.",
       "related": [
         "game-dynamic-stress-orchestrator",
+        "creature-animal-bioacoustic-audio",
         "game-asset-pack-archive-engineering",
-        "game-weapon-ballistics-mechanics",
-        "game-modding"
+        "game-weapon-ballistics-mechanics"
       ]
     },
     "game-autonomous-navigation-ai": {

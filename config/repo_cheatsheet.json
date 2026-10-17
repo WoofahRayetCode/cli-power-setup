@@ -1,12 +1,37 @@
 {
-  "updated_at": "2026-10-16T22:24:12.135672",
+  "updated_at": "2026-10-16T22:31:21.400333",
   "total_repos": 32,
   "repos": [
+    {
+      "name": "cli-power-setup",
+      "path": "~/Documents/GitHub/cli-power-setup",
+      "is_git": true,
+      "activity_ts": 1792215081.0493429,
+      "age_str": "0s ago",
+      "dirty_count": 8,
+      "dirty_exts": {
+        ".mdc": 2,
+        ".md": 3,
+        ".json": 2
+      },
+      "top_exts": [
+        ".mdc",
+        ".md",
+        ".py"
+      ],
+      "last_commit": "feat(statusline): hot-load dual dGPU (RTX 5060) + ",
+      "stack": "AI Skills / Python / Bash",
+      "routine": "Flash \u2022 Low (Sync/Docs)",
+      "deep": "Argon \u2022 High (Orchestration)",
+      "live_rec": "Flash \u2022 Low",
+      "live_reason": "Skill edits & repo sync",
+      "hw": "Local AST/RAG + 32-Thr"
+    },
     {
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792214651.3437207,
+      "activity_ts": 1792215080.6230743,
       "age_str": "0s ago",
       "dirty_count": 16,
       "dirty_exts": {
@@ -54,7 +79,7 @@
         ".gs": 3,
         ".ds": 1,
         ".hs": 1,
-        ".ogg": 1,
+        ".ogg": 6,
         ".pl": 1,
         ".thm": 65,
         ".ini": 1,
@@ -78,34 +103,11 @@
       "hw": "32-Thr CMake + /dev/shm"
     },
     {
-      "name": "cli-power-setup",
-      "path": "~/Documents/GitHub/cli-power-setup",
-      "is_git": true,
-      "activity_ts": 1792214637.196643,
-      "age_str": "14s ago",
-      "dirty_count": 2,
-      "dirty_exts": {
-        ".json": 1
-      },
-      "top_exts": [
-        ".mdc",
-        ".md",
-        ".py"
-      ],
-      "last_commit": "perf(agy-yolo): export NVIDIA RTX 5060 PRIME offlo",
-      "stack": "AI Skills / Python / Bash",
-      "routine": "Flash \u2022 Low (Sync/Docs)",
-      "deep": "Argon \u2022 High (Orchestration)",
-      "live_rec": "Flash \u2022 Low",
-      "live_reason": "Skill edits & repo sync",
-      "hw": "Local AST/RAG + 32-Thr"
-    },
-    {
       "name": "OGSR-Engine",
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
       "activity_ts": 1792213021.776576,
-      "age_str": "27m ago",
+      "age_str": "34m ago",
       "dirty_count": 30,
       "dirty_exts": {
         ".hpp": 1,
@@ -301,7 +303,7 @@
       "path": "~/Documents/GitHub/nsz",
       "is_git": true,
       "activity_ts": 1792189743.6650836,
-      "age_str": "6h ago",
+      "age_str": "7h ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "top_exts": [
