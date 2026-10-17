@@ -1,5 +1,5 @@
 {
-  "total_skills": 296,
+  "total_skills": 300,
   "skills": {
     "adaptive-reasoning": {
       "description": "Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-speed execution on Flash and deep-reasoning planning on Argon based on prompt complexity.",
@@ -730,6 +730,15 @@
         "argon-subagent-payload-compressor"
       ]
     },
+    "computational-geometry-mesh-bvh-math": {
+      "description": "Computational geometry, Garland-Heckbert QEM mesh decimation, X-Ray AI level_graph 24-bit/16-bit spatial quantization, SAH BVH trees, M\u00f6ller-Trumbore raycasting, and discrete differential geometry (cotangent Laplacian, SDFs, SLIM UVs).",
+      "related": [
+        "ue5-foliage-mesh-to-ogsr-transpiler",
+        "blender-sdf-organic-remeshing",
+        "game-audio-ogg-gsc-encoder",
+        "argon-deep-memory-allocator-sanitizer"
+      ]
+    },
     "computer-vision-deep-learning": {
       "description": "Modern deep-learning computer vision engineering and high-performance inference pipelines. Covers neural object detection (YOLOv8/YOLOv11, RT-DETR), instance segmentation (SAM 2), vision-language models (Florence-2, CLIP), ONNX Runtime/TensorRT GPU acceleration, and multi-object tracking (ByteTrack, DeepSORT).",
       "related": [
@@ -859,10 +868,10 @@
     "cross-engine-3d-import-export-bridge": {
       "description": "Unified Blender 5.2+ to Game Engine 3D export matrix covering Unreal Engine 5 (Nanite/UCX), Godot 4.x (.glb/-col/-loop), Unity (Humanoid/bake_space_transform), S.T.A.L.K.E.R. X-Ray/OGSR (.ogf/.dm), and Three.js/WebGPU (Meshopt/Draco/KTX2).",
       "related": [
+        "game-3d-linear-algebra-quaternions",
         "xray-ogf-dm-blender-pipeline",
         "blender-animation-nla-retargeting-vat",
-        "rigging-weight-painting-pipeline",
-        "cross-agent-hot-reload-watcher"
+        "rigging-weight-painting-pipeline"
       ]
     },
     "cross-engine-shader-transpiler": {
@@ -922,10 +931,10 @@
     "cuda-numpy-batch-texture-dsp-processor": {
       "description": "Saturates all 32 host CPU threads (ProcessPoolExecutor), 30 GB RAM, and NVIDIA CUDA/NumPy SIMD vectorization for massively parallel batch processing of .dds textures, normal map swizzling, alpha-coverage mipmaps, and .ogg audio files.",
       "related": [
+        "pbr-radiometry-color-dsp-math",
         "blender-pbr-texture-packager",
         "game-texture-material-pipeline",
-        "cuda-gpu-acceleration",
-        "rtx-optix-gpu-baker-denoiser"
+        "cuda-gpu-acceleration"
       ]
     },
     "cursor-inline-diff-lens": {
@@ -1153,6 +1162,15 @@
         "gemini-flash-cache-aligner"
       ]
     },
+    "game-3d-linear-algebra-quaternions": {
+      "description": "3D/4D linear algebra, change-of-basis similarity transforms (UE5 <-> X-Ray/OGSR <-> Blender), quaternion SLERP/dual-quaternions, Euler HPB/PYR conversions, and MikkTSpace tangent handedness math.",
+      "related": [
+        "cross-engine-3d-import-export-bridge",
+        "game-animation-skeletal-pipeline",
+        "game-texture-material-pipeline",
+        "game-dynamic-stress-orchestrator"
+      ]
+    },
     "game-ai-agent-play": {
       "description": "Autonomous game-playing agent engineering and reinforcement learning (Gymnasium, OpenCV computer vision, reward modeling, and low-latency input simulation via uinput/evdev/pyautogui).",
       "related": [
@@ -1165,10 +1183,10 @@
     "game-animation-skeletal-pipeline": {
       "description": "Real-time skeletal animation, quaternion slerp/nlerp interpolation, dual quaternion skinning, inverse kinematics (Two-Bone IK, FABRIK), blend spaces, and root motion extraction. Use when implementing skeletal meshes, character animation runtimes, or fixing skinning artifacts.",
       "related": [
+        "game-3d-linear-algebra-quaternions",
         "game-networking-state-sync",
         "game-physics-collision-pipeline",
-        "game-engine-3d-budget-profiler",
-        "game-memory-allocator-engineering"
+        "game-engine-3d-budget-profiler"
       ]
     },
     "game-asset-pack-archive-engineering": {
@@ -1267,7 +1285,7 @@
         "game-qol-gameplay-scripting",
         "game-autonomous-navigation-ai",
         "game-audio-ogg-gsc-encoder",
-        "game-self-improving-qa-pipeline"
+        "game-3d-linear-algebra-quaternions"
       ]
     },
     "game-engine-3d-budget-profiler": {
@@ -1936,6 +1954,15 @@
         "claude-silent-dispatch"
       ]
     },
+    "pbr-radiometry-color-dsp-math": {
+      "description": "Physically Based Rendering (Cook-Torrance GGX BRDF), legacy X-Ray gloss-to-PBR roughness bijective mapping, IEC 61966-2-1 sRGB/Linear colorimetry, ACES Filmic tonemapping, Spherical Harmonics irradiance, and audio/texture DSP math.",
+      "related": [
+        "xray-dx11-shader-modernization",
+        "cuda-numpy-batch-texture-dsp-processor",
+        "game-texture-material-pipeline",
+        "post-processing-visual-fx"
+      ]
+    },
     "pc-cross-platform-graphics-api": {
       "description": "Modern C++ graphics Hardware Abstraction Layer (HAL) supporting DirectX 12, Vulkan, and DirectX 11, Valve Proton compatibility, and RenderDoc telemetry.",
       "related": [
@@ -1943,6 +1970,15 @@
         "real-time-rendering-pipeline",
         "headless-gameplay-testing-bot",
         "proton-game-dev-linux"
+      ]
+    },
+    "physics-ballistics-ode-numerical-math": {
+      "description": "Game physics mathematics, Open Dynamics Engine (ODE) ERP/CFM LCP constraint solver equations (X-Ray/OGSR xrPhysics), frame-rate independent exponential damping, external ballistics ODEs, and RK4/Symplectic Euler integration.",
+      "related": [
+        "compiler-error-cascade-isolator",
+        "game-dynamic-stress-orchestrator",
+        "game-physics-collision-pipeline",
+        "game-weapon-ballistics-mechanics"
       ]
     },
     "polyglot-ast-interface-pruner": {
@@ -1958,9 +1994,9 @@
       "description": "Screen-space rendering, post-processing stacks, and volumetric lighting when building or porting engines. Use when implementing HDR tone mapping (ACES, AgX), progressive dual-filtering bloom, ambient occlusion (SSAO, GTAO), screen-space reflections (SSR), or cascaded shadow maps (CSM).",
       "related": [
         "xray-dx11-shader-modernization",
+        "pbr-radiometry-color-dsp-math",
         "godot-shader-vfx",
-        "real-time-rendering-pipeline",
-        "game-weather-lighting-fx"
+        "real-time-rendering-pipeline"
       ]
     },
     "powershell-windows-automation": {
@@ -2606,9 +2642,9 @@
       "description": "Modernizes and adapts legacy DirectX 9 Shader Model 3.0 shaders to DirectX 11 Shader Model 5.0 in S.T.A.L.K.E.R. / OGSR Engine. Enforces 16-byte constant buffer (cbuffer) alignment, registers texture sampler splits, and fixes blown-out dynamic lighting/reflections.",
       "related": [
         "xray-ogf-dm-blender-pipeline",
+        "pbr-radiometry-color-dsp-math",
         "cross-engine-shader-transpiler",
-        "xray-crash-log-diagnostician",
-        "xray-macro-boilerplate-condenser"
+        "xray-crash-log-diagnostician"
       ]
     },
     "xray-lua-scripting": {
@@ -2634,8 +2670,8 @@
       "related": [
         "cross-engine-3d-import-export-bridge",
         "xray-dx11-shader-modernization",
-        "xray-lua-scripting",
-        "xray-macro-boilerplate-condenser"
+        "game-3d-linear-algebra-quaternions",
+        "xray-lua-scripting"
       ]
     },
     "yolo-autonomous-watchdog": {

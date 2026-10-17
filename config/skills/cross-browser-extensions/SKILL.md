@@ -82,3 +82,6 @@ export async function loadUserPreferences() {
 - **`static-site-architecture`**: Modern Jamstack and static site generator (SSG) architecture. Covers Astro, VitePress, Starlight, Content Coll...
 - **`homelab-docker-devops`**: Self-hosted infrastructure, Docker Compose multi-service stacks, Samba network storage permissions, Nextcloud ...
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

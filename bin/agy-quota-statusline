@@ -642,6 +642,7 @@ CLI_TO_SKILL_MAP = {
     "laptop-perf": "laptop-performance-profile",
     "laptop_performance_controller": "laptop-performance-profile",
     "agy-mic-button": "voice-speech-audio-synthesis",
+    "game-math-solver": "game-3d-linear-algebra-quaternions",
     "agy-context": "agy-context-telemetry",
     "agy-doctor": "agy-cli-doctor",
     "agy-init": "agy-codebase-init",

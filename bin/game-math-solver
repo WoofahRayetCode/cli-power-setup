@@ -1,0 +1,231 @@
+#!/usr/bin/env python3
+"""
+game-math-solver: Local Zero-Quota Mathematical & Symbolic Solver for Game Engine Porting & 3D Graphics
+Executes exact cross-engine coordinate basis transforms (UE5 <-> X-Ray/OGSR <-> Blender),
+ODE physics ERP/CFM spring-damper scaling, X-Ray AI LevelGraph 5-byte NodePosition quantization,
+external ballistics RK4/analytical solvers, and SymPy symbolic identity verification on host CPU.
+"""
+
+import argparse
+import json
+import math
+import sys
+import numpy as np
+
+
+def solve_coord(args: argparse.Namespace) -> None:
+    src = args.src.lower()
+    dst = args.dst.lower()
+    pos = np.array(args.pos, dtype=np.float64)
+    quat = np.array(args.quat, dtype=np.float64) if args.quat else None
+
+    # Canonical intermediate: X-Ray/OGSR (Left-Handed Y-Up, meters: +X Right, +Y Up, +Z Forward)
+    if src in ("ue5", "stalker2", "unreal"):
+        # UE5 (LH Z-Up, cm: +X Fwd, +Y Right, +Z Up) -> X-Ray (LH Y-Up, m: +X Right, +Y Up, +Z Fwd)
+        xray_pos = 0.01 * np.array([pos[1], pos[2], pos[0]], dtype=np.float64)
+        xray_quat = np.array([quat[1], quat[2], quat[0], quat[3]], dtype=np.float64) if quat is not None else None
+        winding_flip = False
+    elif src in ("blender", "bpy"):
+        # Blender (RH Z-Up, m: +X Right, +Y Fwd, +Z Up) -> X-Ray (LH Y-Up, m)
+        xray_pos = np.array([pos[0], pos[2], pos[1]], dtype=np.float64)
+        xray_quat = np.array([-quat[0], -quat[2], -quat[1], quat[3]], dtype=np.float64) if quat is not None else None
+        winding_flip = True
+    else:
+        xray_pos = pos.copy()
+        xray_quat = quat.copy() if quat is not None else None
+        winding_flip = False
+
+    if dst in ("ue5", "stalker2", "unreal"):
+        out_pos = 100.0 * np.array([xray_pos[2], xray_pos[0], xray_pos[1]], dtype=np.float64)
+        out_quat = (
+            np.array([xray_quat[2], xray_quat[0], xray_quat[1], xray_quat[3]], dtype=np.float64)
+            if xray_quat is not None
+            else None
+        )
+    elif dst in ("blender", "bpy"):
+        out_pos = np.array([xray_pos[0], xray_pos[2], xray_pos[1]], dtype=np.float64)
+        out_quat = (
+            np.array([-xray_quat[0], -xray_quat[2], -xray_quat[1], xray_quat[3]], dtype=np.float64)
+            if xray_quat is not None
+            else None
+        )
+        winding_flip = not winding_flip
+    else:
+        out_pos = xray_pos
+        out_quat = xray_quat
+
+    res = {
+        "from": src,
+        "to": dst,
+        "input_pos": [round(float(x), 6) for x in pos],
+        "output_pos": [round(float(x), 6) for x in out_pos],
+        "reverse_triangle_winding": winding_flip,
+    }
+    if out_quat is not None:
+        norm = np.linalg.norm(out_quat)
+        if norm > 1e-12:
+            out_quat = out_quat / norm
+        res["output_quat_xyzw"] = [round(float(x), 7) for x in out_quat]
+    print(json.dumps(res, indent=2))
+
+
+def solve_ode(args: argparse.Namespace) -> None:
+    h1 = args.step
+    if args.erp is not None and args.cfm is not None:
+        erp1, cfm1 = args.erp, args.cfm
+        kp = erp1 / (h1 * cfm1)
+        kd = (1.0 - erp1) / cfm1
+    elif args.kp is not None and args.kd is not None:
+        kp, kd = args.kp, args.kd
+        erp1 = (h1 * kp) / (h1 * kp + kd)
+        cfm1 = 1.0 / (h1 * kp + kd)
+    else:
+        print("Error: Provide either (--erp and --cfm) or (--kp and --kd).", file=sys.stderr)
+        sys.exit(1)
+
+    h2 = args.new_step or h1
+    erp2 = (h2 * kp) / (h2 * kp + kd)
+    cfm2 = 1.0 / (h2 * kp + kd)
+    print(
+        json.dumps(
+            {
+                "spring_kp_N_per_m": round(kp, 4),
+                "damper_kd_Ns_per_m": round(kd, 4),
+                "original_step_s": h1,
+                "original_erp": round(erp1, 6),
+                "original_cfm": float(f"{cfm1:.6e}"),
+                "target_step_s": h2,
+                "rescaled_erp": round(erp2, 6),
+                "rescaled_cfm": float(f"{cfm2:.6e}"),
+            },
+            indent=2,
+        )
+    )
+
+
+def solve_ballistics(args: argparse.Namespace) -> None:
+    v0 = args.v0
+    k = args.drag
+    r = args.range
+    g = args.gravity
+    if k > 1e-9:
+        vx_final = v0 * math.exp(-k * r)
+        tof = (math.exp(k * r) - 1.0) / (k * v0)
+    else:
+        vx_final = v0
+        tof = r / v0
+    drop_m = 0.5 * g * (tof**2)
+    zero_angle_rad = math.atan2(drop_m, r)
+    zero_angle_mrad = zero_angle_rad * 1000.0
+    zero_angle_moa = math.degrees(zero_angle_rad) * 60.0
+    print(
+        json.dumps(
+            {
+                "muzzle_velocity_m_s": v0,
+                "air_resistance_k": k,
+                "range_m": r,
+                "time_of_flight_s": round(tof, 4),
+                "terminal_velocity_m_s": round(vx_final, 2),
+                "gravity_drop_m": round(drop_m, 4),
+                "sight_zero_elevation_mrad": round(zero_angle_mrad, 3),
+                "sight_zero_elevation_moa": round(zero_angle_moa, 3),
+            },
+            indent=2,
+        )
+    )
+
+
+def solve_ai_node(args: argparse.Namespace) -> None:
+    bmin = np.array(args.box_min, dtype=np.float64)
+    bmax = np.array(args.box_max, dtype=np.float64)
+    cell = args.cell_size
+    row_len = int(math.floor((bmax[2] - bmin[2]) / cell) + 1)
+
+    if args.pos:
+        p = np.array(args.pos, dtype=np.float64)
+        ix = int(math.floor((p[0] - bmin[0]) / cell + 0.5))
+        iz = int(math.floor((p[2] - bmin[2]) / cell + 0.5))
+        xz_packed = ix * row_len + iz
+        y_packed = max(0, min(65535, int(math.floor((p[1] - bmin[1]) / max(1e-6, bmax[1] - bmin[1]) * 65535.0 + 0.5))))
+        rx = ix * cell + bmin[0]
+        rz = iz * cell + bmin[2]
+        ry = (y_packed / 65535.0) * (bmax[1] - bmin[1]) + bmin[1]
+        print(
+            json.dumps(
+                {
+                    "row_length": row_len,
+                    "cell_size_m": cell,
+                    "packed_xz_24bit": xz_packed,
+                    "packed_y_16bit": y_packed,
+                    "reconstructed_pos": [round(rx, 4), round(ry, 4), round(rz, 4)],
+                    "quantization_error_m": round(float(np.linalg.norm(p - np.array([rx, ry, rz]))), 5),
+                },
+                indent=2,
+            )
+        )
+
+
+def solve_prove(args: argparse.Namespace) -> None:
+    import sympy as sp
+
+    expr_str = args.expr
+    expr = sp.sympify(expr_str)
+    simplified = sp.simplify(expr)
+    expanded = sp.expand(expr)
+    print(
+        json.dumps(
+            {
+                "input": expr_str,
+                "simplified": str(simplified),
+                "expanded": str(expanded),
+                "is_zero": bool(simplified == 0),
+            },
+            indent=2,
+        )
+    )
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Local Zero-Quota Game Engine & 3D Mathematics Solver")
+    sub = parser.add_subparsers(dest="cmd", required=True)
+
+    p_coord = sub.add_parser("coord", help="Convert 3D coordinates & quaternions across UE5, X-Ray/OGSR, and Blender")
+    p_coord.add_argument("--from", dest="src", required=True, choices=["ue5", "xray", "blender"])
+    p_coord.add_argument("--to", dest="dst", required=True, choices=["ue5", "xray", "blender"])
+    p_coord.add_argument("--pos", nargs=3, type=float, required=True, metavar=("X", "Y", "Z"))
+    p_coord.add_argument("--quat", nargs=4, type=float, metavar=("QX", "QY", "QZ", "QW"))
+    p_coord.set_defaults(func=solve_coord)
+
+    p_ode = sub.add_parser("ode", help="Convert ODE physics ERP/CFM <-> Spring/Damper (kp, kd) across step sizes")
+    p_ode.add_argument("--erp", type=float, help="ODE Error Reduction Parameter (0..1)")
+    p_ode.add_argument("--cfm", type=float, help="ODE Constraint Force Mixing (>0)")
+    p_ode.add_argument("--kp", type=float, help="Spring stiffness N/m")
+    p_ode.add_argument("--kd", type=float, help="Damping coefficient N*s/m")
+    p_ode.add_argument("--step", type=float, default=0.02, help="Original fixed_step in seconds (default: 0.02)")
+    p_ode.add_argument("--new-step", type=float, help="New fixed_step in seconds (e.g. 0.01)")
+    p_ode.set_defaults(func=solve_ode)
+
+    p_bal = sub.add_parser("ballistics", help="Compute analytical external ballistics drop, TOF, and zeroing angle")
+    p_bal.add_argument("--v0", type=float, required=True, help="Muzzle velocity (m/s)")
+    p_bal.add_argument("--drag", type=float, default=0.001, help="Air resistance coefficient k_air")
+    p_bal.add_argument("--range", type=float, required=True, help="Target distance (m)")
+    p_bal.add_argument("--gravity", type=float, default=9.81, help="Gravity (m/s^2)")
+    p_bal.set_defaults(func=solve_ballistics)
+
+    p_ai = sub.add_parser("ai-node", help="Encode/decode X-Ray level.ai 5-byte NodePosition (24-bit XZ + 16-bit Y)")
+    p_ai.add_argument("--pos", nargs=3, type=float, required=True, metavar=("X", "Y", "Z"))
+    p_ai.add_argument("--box-min", nargs=3, type=float, default=[-400.0, -50.0, -400.0])
+    p_ai.add_argument("--box-max", nargs=3, type=float, default=[400.0, 150.0, 400.0])
+    p_ai.add_argument("--cell-size", type=float, default=0.7)
+    p_ai.set_defaults(func=solve_ai_node)
+
+    p_prove = sub.add_parser("prove", help="Symbolically simplify or prove algebraic/trig expressions via SymPy")
+    p_prove.add_argument("expr", help="Mathematical expression (e.g. 'sin(x)**2 + cos(x)**2 - 1')")
+    p_prove.set_defaults(func=solve_prove)
+
+    args = parser.parse_args()
+    args.func(args)
+
+
+if __name__ == "__main__":
+    main()

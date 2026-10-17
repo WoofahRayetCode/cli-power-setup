@@ -1,0 +1,88 @@
+---
+name: computational-geometry-mesh-bvh-math
+description: Computational geometry, Garland-Heckbert QEM mesh decimation, X-Ray AI level_graph 24-bit/16-bit spatial quantization, SAH BVH trees, Möller-Trumbore raycasting, and discrete differential geometry (cotangent Laplacian, SDFs, SLIM UVs).
+---
+
+# Computational Geometry, Mesh Decimation, Spatial Indexing & Discrete Differential Geometry
+
+## When to Use
+Activate this skill whenever:
+- Decimating high-poly UE5 / Blender meshes into `.ogf` / `.dm` LOD hierarchies using **Quadric Error Metrics (QEM)** while preserving UV seams, material boundaries, and foliage silhouettes.
+- Decoding, generating, or repairing S.T.A.L.K.E.R. X-Ray / OGSR `level.ai` (`level_graph`) navigation meshes, `NodePosition` 5-byte quantized coordinates, or `xrCDB` / `OPCODE` bounding volume hierarchies (BVH).
+- Implementing ray-triangle intersections (Möller–Trumbore), barycentric interpolation, Signed Distance Field (SDF) voxel operations, or cotangent Laplacian mesh smoothing.
+
+---
+
+## 1. X-Ray / OGSR AI `level.ai` (`CLevelGraph`) Spatial Quantization Math
+
+From `ogsr_engine/COMMON_AI/GRAPH/level_graph_space.h`, X-Ray compresses every 3D navigation vertex (`NodePosition`) into exactly **5 bytes** (`#pragma pack(push, 1)`):
+- `u8 m_xz[3]`: 24-bit unsigned packed XZ index ($\text{MAX\_XZ} = 2^{24} - 1 = 16,777,215$)
+- `u16 m_y`: 16-bit unsigned vertical quantization ($\text{MAX\_Y} = 2^{16} - 1 = 65,535$)
+- Standard cell size: $c = \text{header.cell\_size()} = 0.7\text{ m}$, row length $R = \left\lfloor \frac{B_{\max, z} - B_{\min, z}}{c} \right\rfloor + 1$.
+
+### Exact Encode & Decode Equations (3D World $\leftrightarrow$ 5-Byte `NodePosition`)
+Given level bounding box $[\mathbf{B}_{\min}, \mathbf{B}_{\max}]$ and cell size $c$:
+- **World Position $(x, y, z) \rightarrow \text{Packed }(I_{xz}, I_y)$:**
+  $$i_x = \left\lfloor \frac{x - B_{\min, x}}{c} + 0.5 \right\rfloor, \quad i_z = \left\lfloor \frac{z - B_{\min, z}}{c} + 0.5 \right\rfloor$$
+  $$I_{xz} = i_x \cdot R + i_z \in [0, 2^{24}-1]$$
+  $$I_y = \text{clamp}\!\left(\left\lfloor \frac{y - B_{\min, y}}{B_{\max, y} - B_{\min, y}} \cdot 65535.0 + 0.5 \right\rfloor,\; 0,\; 65535\right)$$
+- **Packed $(I_{xz}, I_y) \rightarrow \text{World Position }(x, y, z)$:**
+  $$i_x = \left\lfloor \frac{I_{xz}}{R} \right\rfloor, \quad i_z = I_{xz} \bmod R$$
+  $$x = i_x \cdot c + B_{\min, x}, \quad z = i_z \cdot c + B_{\min, z}, \quad y = \frac{I_y}{65535.0}\left(B_{\max, y} - B_{\min, y}\right) + B_{\min, y}$$
+
+---
+
+## 2. Garland-Heckbert Quadric Error Metrics (QEM) for Mesh Decimation
+
+To simplify a mesh from $N$ triangles down to target count $M$ (e.g. X-Ray `uint16` 65,535-vertex submesh limit or LOD1/LOD2 generation):
+1. **Fundamental Error Quadric $K_p$ of a Triangle Plane:**
+   For each triangle face with unit normal $\mathbf{n} = (a, b, c)$ and plane constant $d = -\mathbf{n} \cdot \mathbf{v}_0$ ($a^2 + b^2 + c^2 = 1$), let $\mathbf{p} = [a, b, c, d]^T$:
+   $$K_p = \mathbf{p}\mathbf{p}^T = \begin{bmatrix} a^2 & ab & ac & ad \\ ab & b^2 & bc & bd \\ ac & bc & c^2 & cd \\ ad & bd & cd & d^2 \end{bmatrix}$$
+2. **Vertex Quadric Accumulation & Seam Preservation:**
+   Each vertex $v_i$ accumulates area-weighted plane quadrics of incident faces $F(v_i)$, plus boundary/UV-seam penalty planes $K_{\text{seam}}$ with weight $w_{\text{seam}} \in [100, 1000]$ perpendicular to the triangle along open/UV edges:
+   $$Q_i = \sum_{f \in F(v_i)} A_f K_{p, f} + \sum_{e \in E_{\text{seam}}(v_i)} w_{\text{seam}} \|e\|^2 K_{p, e}$$
+3. **Optimal Edge Contraction Position & Cost:**
+   Contracting edge $(v_1, v_2) \rightarrow \bar{\mathbf{v}}$ has combined quadric $\bar{Q} = Q_1 + Q_2$. The quadratic geometric error is:
+   $$\Delta(\bar{\mathbf{v}}) = \bar{\mathbf{v}}^T \bar{Q} \, \bar{\mathbf{v}}, \quad \bar{\mathbf{v}} = [\bar{x}, \bar{y}, \bar{z}, 1]^T$$
+   If the upper-left $3 \times 3$ submatrix $\bar{Q}_{3\times 3}$ is invertible ($\det(\bar{Q}_{3\times 3}) > 10^{-8}$), the optimal vertex position is solved via:
+   $$\bar{\mathbf{v}} = \begin{bmatrix} q_{11} & q_{12} & q_{13} & q_{14} \\ q_{12} & q_{22} & q_{23} & q_{24} \\ q_{13} & q_{23} & q_{33} & q_{34} \\ 0 & 0 & 0 & 1 \end{bmatrix}^{-1} \begin{bmatrix} 0 \\ 0 \\ 0 \\ 1 \end{bmatrix}$$
+   Otherwise, choose the minimum-error point along the segment $\bar{\mathbf{v}}(t) = (1-t)\mathbf{v}_1 + t\mathbf{v}_2$ for $t \in \{0, 0.5, 1\}$.
+
+---
+
+## 3. Ray-Triangle Intersection, Barycentric Coordinates & SAH BVH
+
+### Möller–Trumbore Ray-Triangle Intersection
+Given ray $\mathbf{R}(t) = \mathbf{O} + t\mathbf{D}$ ($t \ge 0$) and triangle $(\mathbf{V}_0, \mathbf{V}_1, \mathbf{V}_2)$ with edges $\mathbf{E}_1 = \mathbf{V}_1 - \mathbf{V}_0$, $\mathbf{E}_2 = \mathbf{V}_2 - \mathbf{V}_0$:
+$$\mathbf{P} = \mathbf{D} \times \mathbf{E}_2, \quad \det = \mathbf{E}_1 \cdot \mathbf{P}$$
+If $|\det| < \epsilon$, the ray is parallel to the triangle. Otherwise let $f = 1 / \det$ and $\mathbf{T} = \mathbf{O} - \mathbf{V}_0$:
+$$u = f (\mathbf{T} \cdot \mathbf{P}) \in [0, 1], \quad \mathbf{Q} = \mathbf{T} \times \mathbf{E}_1, \quad v = f (\mathbf{D} \cdot \mathbf{Q}) \in [0, 1 - u], \quad t = f (\mathbf{E}_2 \cdot \mathbf{Q}) > 0$$
+The barycentric weights are $(w, u, v) = (1 - u - v,\; u,\; v)$, which interpolate normals, UVs, and lightmap colors smoothly across the face.
+
+### Surface Area Heuristic (SAH) for AABB BVH Construction (`xrCDB`)
+For a parent AABB $P$ with surface area $SA(P) = 2(\Delta x \Delta y + \Delta y \Delta z + \Delta z \Delta x)$ split into child boxes $(L, R)$ with primitive counts $(N_L, N_R)$:
+$$C_{\text{SAH}}(L, R) = C_{\text{traversal}} + \frac{SA(L)}{SA(P)} N_L C_{\text{isect}} + \frac{SA(R)}{SA(P)} N_R C_{\text{isect}}$$
+
+---
+
+## 4. Discrete Differential Geometry: Cotangent Laplacian, Taubin Smoothing & SDFs
+
+### Cotangent Laplace-Beltrami Operator (Volume-Preserving Smoothing)
+Standard uniform umbrella smoothing ($\mathbf{v}_i \leftarrow \frac{1}{|N(i)|}\sum \mathbf{v}_j$) causes severe vertex drift and shrinks meshes. Always use the **Cotangent Weights** with **Taubin $\lambda/\mu$ alternating steps**:
+$$\Delta_c \mathbf{v}_i = \frac{1}{2 A_{\text{Voronoi}}(v_i)} \sum_{j \in N_1(i)} \left(\cot\alpha_{ij} + \cot\beta_{ij}\right)(\mathbf{v}_j - \mathbf{v}_i)$$
+where $\cot\theta = \frac{\mathbf{u} \cdot \mathbf{w}}{\|\mathbf{u} \times \mathbf{w}\|}$.
+- **Taubin Non-Shrinking Bandpass Filter:** Alternate a positive shrinking step $\lambda > 0$ (e.g. $\lambda = 0.5$) with a negative un-shrinking step $\mu < -\lambda$ (e.g. $\mu = -0.53$):
+  $$\mathbf{v}^{(k+1/2)} = \mathbf{v}^{(k)} + \lambda L \mathbf{v}^{(k)}, \quad \mathbf{v}^{(k+1)} = \mathbf{v}^{(k+1/2)} + \mu L \mathbf{v}^{(k+1/2)}$$
+
+### Signed Distance Fields (SDF) Smooth Boolean Blending
+To fuse organic primitives without sharp creases, use the polynomial smooth-minimum ($C^1$ continuous with radius $k > 0$):
+$$\text{smin}(a, b, k) = \min(a, b) - \frac{\max(k - |a - b|, 0)^2}{4k}$$
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`ue5-foliage-mesh-to-ogsr-transpiler`**: Extracts S.T.A.L.K.E.R. 2 (UE5 IoStore) 3D trees, bushes, and grass meshes and transpiles them into 64-bit S.T...
+- **`blender-sdf-organic-remeshing`**: Eliminates the 'cartoony balloon-animal' look in procedural Blender 5.x organic modeling using Voxel SDF Remes...
+- **`game-audio-ogg-gsc-encoder`**: Converts and encodes game audio to Ogg Vorbis while injecting and preserving proprietary GSC binary engine com...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
