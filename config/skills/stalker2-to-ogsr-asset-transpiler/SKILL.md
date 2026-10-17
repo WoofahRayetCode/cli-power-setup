@@ -50,3 +50,9 @@ repak list /mnt/games/SteamLibrary/steamapps/common/S.T.A.L.K.E.R.\ 2\ Heart\ of
 - **`stalker2-modding`**: Modding workflows and tools for S.T.A.L.K.E.R. 2 Heart of Chornobyl (Unreal Engine 5). Use when packaging UE5 ...
 - **`game-texture-material-pipeline`**: High-performance asset pipelines for modern PBR and legacy game textures. Use when converting textures across ...
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+
+---
+
+## Promoted Executable Tool (`s2_vegetation_import.py`)
+- **Location:** `~/.gemini/config/skills/stalker2-to-ogsr-asset-transpiler/scripts/s2_vegetation_import.py`
+- **Invocation:** `~/.gemini/config/skills/stalker2-to-ogsr-asset-transpiler/scripts/s2_vegetation_import.py`

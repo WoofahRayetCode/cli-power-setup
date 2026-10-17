@@ -1,29 +1,31 @@
 {
-  "updated_at": "2026-10-17T08:20:06.386812",
+  "updated_at": "2026-10-17T08:20:09.054795",
   "total_repos": 32,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792250405.975089,
+      "activity_ts": 1792250408.6397367,
       "age_str": "0s ago",
-      "dirty_count": 3,
+      "dirty_count": 4,
       "dirty_exts": {
         ".mdc": 2,
-        ".md": 1
+        ".md": 1,
+        ".py": 1,
+        ".pyc": 1
       },
       "top_exts": [
         ".mdc",
         ".md",
         ".py"
       ],
-      "last_commit": "feat(skill-evolve): auto-sync 'physics-ballistics-",
+      "last_commit": "feat(skill-evolve): auto-sync 'game-autonomous-nav",
       "stack": "AI Skills / Python / Bash",
       "routine": "Flash \u2022 Low (Sync/Docs)",
       "deep": "Argon \u2022 High (Orchestration)",
-      "live_rec": "Flash \u2022 Low",
-      "live_reason": "Skill edits & repo sync",
+      "live_rec": "Argon \u2022 Med",
+      "live_reason": "Multi-tool engineering",
       "hw": "Local AST/RAG + 32-Thr"
     },
     {
@@ -31,7 +33,7 @@
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
       "activity_ts": 1792250401.5291119,
-      "age_str": "4s ago",
+      "age_str": "7s ago",
       "dirty_count": 16,
       "dirty_exts": {
         ".json": 78,
