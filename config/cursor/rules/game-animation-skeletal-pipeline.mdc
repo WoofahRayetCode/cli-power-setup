@@ -71,3 +71,9 @@ For multi-joint kinematic chains (tentacles, spines, tails):
   $$\mathbf{v}_{	ext{controller}} = 
 rac{\Delta \mathbf{P}_{	ext{root}}}{\Delta t}$$
   Keep root bone anchored at $(0, 0, 0)$ in the local visual mesh to eliminate foot-sliding during walking and running.
+
+## Related & Interoperating Skills
+- **`game-networking-state-sync`**: Multiplayer network architecture, client-side prediction, server reconciliation, entity interpolation, snapsho...
+- **`game-physics-collision-pipeline`**: Real-time physics engine architecture, fixed timestep accumulator loops, continuous collision detection (CCD),...
+- **`game-engine-3d-budget-profiler`**: Enforces game engine 3D performance budgets, automated LOD0-LOD3 generation, convex collision hull generation ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

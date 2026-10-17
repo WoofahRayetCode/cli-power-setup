@@ -77,3 +77,11 @@ target_link_libraries(native_game
 - **Blender 5.2+ Mobile 3D Optimizer (`android-mobile-3d-asset-optimizer`):** Prune micro-triangles (`<4px`) for Adreno/Mali Tile-Based Deferred Renderers, clamp skinning weights to `<=4` bones/vert (`<=64` bones/cluster), quantize vertex attributes to `fp16`/`int16` (`EXT_mesh_quantization`), and pack ORM textures into ASTC 4x4/6x6 `.ktx2` (`mobile-gpu-texture-compression`).
 - **Zero-CPU Crowd & Physics Animation (`blender-animation-nla-retargeting-vat`):** Replace expensive mobile skeletal bone hierarchies on crowds/destruction with `float16 EXR/KTX2` Vertex Animation Textures (VAT) sampled directly in the Vulkan vertex shader.
 
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`android-ndk-jni-engineering`**: High-performance Android NDK C/C++ development, JNI bridge architecture, native Vulkan/OpenGL ES rendering, Ob...
+- **`android-monetization-iap-ads`**: Google Play Billing (BillingClient 7.x), In-App Purchases, server-side receipt cryptographic verification, Pla...
+- **`android-app-engineering`**: Modern Android development in Kotlin, Gradle KTS, foreground services, network tethering/VPN APIs, ProGuard/R8...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

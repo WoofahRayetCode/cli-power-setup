@@ -45,3 +45,12 @@ echo "Attention stalkers. An emission is approaching. Seek shelter immediately."
 
 * **Handoff to `audio-dsp-tuning`:** To process generated speech through 6-stage broadcast chains (de-esser, compressor, EQ).
 * **Handoff to `game-modding`:** To package dialogue files with S.T.A.L.K.E.R. proprietary GSC Vorbis sound comment chunks.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`ai-3d-mesh-generation`**: AI-powered text-to-3D and image-to-3D generation pipelines using Tripo3D API, automatic retopology, PBR textur...
+- **`stalker-spawn-entity-indexer`**: High-performance local indexer and query engine for S.T.A.L.K.E.R. unpacked all.spawn and game.graph archives....
+- **`game-engine-3d-budget-profiler`**: Enforces game engine 3D performance budgets, automated LOD0-LOD3 generation, convex collision hull generation ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

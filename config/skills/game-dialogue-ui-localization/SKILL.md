@@ -91,3 +91,9 @@ The companion executable `game-dialogue-tool` (installed in `~/.local/bin/game-d
 4. **Enforce `complex_mode="1"`:** Every `<text>` tag in `talk.xml` and `talk_16.xml` must have `complex_mode="1"` enabled to allow word-wrapping.
 5. **Widescreen Parity:** Never edit `talk.xml` without updating `talk_16.xml`.
 6. **CJK Kinzoku Shori Discipline:** Ensure Japanese and Chinese translations don't place sentence-ending punctuation (`。`, `、`, `」`) at line starts.
+
+## Related & Interoperating Skills
+- **`game-localization-i18n`**: Internationalization (i18n) and localization (l10n) pipelines for games, desktop, and web apps. Covers ICU mes...
+- **`game-companion-pet-ai`**: Custom companion & pet NPC architecture: state machine behaviors (follow, guard, objective guide), god mode st...
+- **`game-entity-component-system`**: High-performance Entity Component System (ECS) architecture, Data-Oriented Design (DOD), Archetype vs Sparse-S...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

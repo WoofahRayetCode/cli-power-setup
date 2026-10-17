@@ -108,4 +108,5 @@ The goal governor directly coordinates with supporting autonomous guardrails:
 * **Hybrid CPU / AMD 610M iGPU / RTX 5060 dGPU / 30GB RAM Offload (`ramdisk-tmpfs-build-bake-accelerator`, `amd-igpu-nvidia-dgpu-hybrid-offload`, `rtx-optix-gpu-baker-denoiser`):** Stage heavy builds/bakes in `/dev/shm` and pin background video/compute to the AMD iGPU (`GPU0`) while reserving the RTX 5060 (`GPU1`) for game execution and Cycles OptiX.
 * **Seamless Cross-CLI Handoff (`cross-cli-session-handoff`):** When approaching quota thresholds, the governor writes `.agents/handoff.json` and updates `activeContext.md`, enabling an instant switch to another CLI environment in < 300 tokens.
 
-
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

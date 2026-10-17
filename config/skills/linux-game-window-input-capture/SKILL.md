@@ -102,3 +102,9 @@ config/skills/linux-game-window-input-capture/scripts/game_window_helper.sh togg
 - **Crash Modal Interception & WER Dumps:** On Windows, `xray_crash_handler.py sweep` queries WMI (`Win32_Process`) and terminates lingering `notepad.exe`/`WerFault.exe` popups via `taskkill /F /PID`, reading logs from `%USERPROFILE%\Documents\STALKER-SHOC\logs` and `_appdata_\logs`.
 - **Native Win32 Playtest Input & Window Capture:** When `sys.platform == "win32"`, `game_playtest_controller.py` automatically dispatches Win32 `keybd_event` / `mouse_event` (`SendInput`), `ClipCursor`, and `PIL.ImageGrab` instead of Linux `/dev/uinput` and `spectacle`.
 - **Steam Library Auto-Discovery:** `steam-mod-scanner` automatically reads `HKCU\Software\Valve\Steam\SteamPath` and `C:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf` on Windows alongside `~/.local/share/Steam` on Linux.
+
+## Related & Interoperating Skills
+- **`linux-gaming-proton-optimization`**: Optimizing and fixing games under Linux, Wine, Steam Proton, and Steam Deck. Covers GE-Proton switching, dxvk....
+- **`linux-perf-flamegraph-bottleneck-triage`**: Hardware performance counter profiling (perf record/report) and folded stack Flamegraph bottleneck triage for ...
+- **`linux-systems-engineering`**: Linux systems programming in C/C++/Rust, POSIX APIs, asynchronous I/O (epoll, io_uring), process/signal manage...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

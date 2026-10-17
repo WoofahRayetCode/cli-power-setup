@@ -90,3 +90,9 @@ This skill covers unit testing, Jetpack Compose UI testing, headless CI/CD build
       <base-config cleartextTrafficPermitted="false" />
   </network-security-config>
   ```
+
+## Related & Interoperating Skills
+- **`android-app-engineering`**: Modern Android development in Kotlin, Gradle KTS, foreground services, network tethering/VPN APIs, ProGuard/R8...
+- **`android-architecture-jetpack`**: Modern Android Architecture (Now in Android standard), Clean Architecture, MVI/MVVM with unidirectional data f...
+- **`android-device-automation`**: Real-time Android device control, scrcpy screen observation, mobile game bot scripting, automated app manageme...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

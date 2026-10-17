@@ -54,3 +54,9 @@ Error_Details: none
 - Eliminates 150+ wasted tokens on every subagent turn.
 - Across a 20-subagent swarm, saves **3,000 to 5,000 prompt tokens** directly in the parent context.
 - Maintains the parent Argon context in the sub-100k sweet spot for fastest response speed.
+
+## Related & Interoperating Skills
+- **`cross-agent-context-deduplicator`**: Eliminates redundant transcript ingestion and context pollution between Argon orchestrators and Flash subagent...
+- **`argon-structured-json-schema-enforcer`**: Leverages Gemini 4 Argon's native constrained decoding to emit deterministic, schema-compliant JSON payloads f...
+- **`argon-subagent-lifecycle-governor`**: Prevents zombie hangs, infinite loops, and interactive prompt blocking in Gemini subagents with deterministic ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

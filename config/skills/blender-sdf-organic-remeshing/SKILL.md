@@ -98,3 +98,12 @@ To make a quadruped or feline look **realistic instead of cartoony**:
 
 - **Fuse into the SDF Skin Mesh:** Cranium, muzzle, lips, ears, neck, torso, tail, legs, and paws MUST be fused into a single continuous voxel-remeshed skin surface so no polygon seams exist.
 - **Keep as Separate Sharp Sub-Meshes:** Eyeballs (glossy wet cornea), collar strap, metal bell, claws, and thin vibrissae (whiskers)—joined *after* `fuse_and_remesh_organic()` completes.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`blender-gaussian-splatting-photogrammetry-cleanup`**: Converts raw 3D Gaussian Splatting (.ply), NeRF, photogrammetry scans, and AI-generated 3D meshes (Tripo3D/Hun...
+- **`blender-uv-udim-lightmap-architect`**: Automated headless UV unwrapping in Blender 5.2+ (SLIM Minimum Stretch, Angle-Based, Conformal), texel density...
+- **`blender-geometry-nodes-procedural-worlds`**: Headless Blender 5.2+ Geometry Nodes (bpy.types.GeometryNodeTree) procedural worldbuilding, spline generators ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

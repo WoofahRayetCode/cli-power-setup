@@ -82,3 +82,12 @@ jobs:
 
 * **Pairing with `project-memory-bank`:** Transcribes `.agents/memory/systemPatterns.md` into customer-facing documentation.
 * **Handoff to `github-actions-cicd`:** Integrates docs deployment with continuous delivery.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`static-site-architecture`**: Modern Jamstack and static site generator (SSG) architecture. Covers Astro, VitePress, Starlight, Content Coll...
+- **`cmake-cross-platform`**: Cross-platform CMake architecture (3.25+), target-centric modern CMake, toolchain files for cross-compilation ...
+- **`ai-3d-mesh-generation`**: AI-powered text-to-3D and image-to-3D generation pipelines using Tripo3D API, automatic retopology, PBR textur...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

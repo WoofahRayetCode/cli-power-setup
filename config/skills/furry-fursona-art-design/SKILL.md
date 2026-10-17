@@ -106,3 +106,12 @@ To prevent multi-figure blending and anatomy distortion when executing refsheet 
 2. **Solid Backdrops:** Specify neutral studio backdrops (`solid light grey background`, `clean studio backdrop`) to prevent environmental clutter from fusing with fur contours.
 3. **No In-Image AI Text:** Never prompt the AI generator to write names, stats, or hex codes inside the image. Use the local Pillow swatch tool (`fursona_generator.py swatch`) to composite typography post-generation.
 4. **Iterative Inpainting:** When generating complex markings (asymmetrical patterns or cybernetics), generate the clean base turnaround first, then inpaint marking zones with localized masks.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`frontier-image-studio`**: Frontier AI image generation, prompt translation for ChatGPT (DALL-E 3) and Gemini (Imagen 3) styles, multi-ba...
+- **`concept-art-sketch-to-3d-sculptor`**: Converts 2D drawn images, character concept art, and reference sketches into high-detail 3D models in Blender ...
+- **`ai-3d-mesh-generation`**: AI-powered text-to-3D and image-to-3D generation pipelines using Tripo3D API, automatic retopology, PBR textur...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -75,3 +75,9 @@ When building persistent background tools (like `tetherfusenet`), Android's aggr
 * **Run Unit Tests:** `./gradlew testDebugUnitTest`
 * **Assemble Release APK:** `./gradlew assembleRelease`
 * **Analyze APK Size:** Use `apkanalyzer` to verify DEX method counts and resource shrinking.
+
+## Related & Interoperating Skills
+- **`android-architecture-jetpack`**: Modern Android Architecture (Now in Android standard), Clean Architecture, MVI/MVVM with unidirectional data f...
+- **`android-testing-ci-cd-security`**: Android automated testing (JUnit 5, MockK, Robolectric, Compose UI testing), headless Gradle CI/CD pipelines, ...
+- **`android-compose-ui-ux`**: Advanced Jetpack Compose UI/UX architecture, Material 3 design systems, edge-to-edge window insets, recomposit...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

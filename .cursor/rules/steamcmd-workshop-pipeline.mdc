@@ -46,3 +46,12 @@ SteamCMD consumes a Valve Data Format (VDF) file to build workshop items:
   steamcmd +login <USER> +workshop_build_item <PATH_TO_VDF> +quit
   ```
 - When SteamCMD finishes, extract the resulting `PublishedFileId` from stdout and update your project configuration (`zoneforge.toml`).
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-modding`**: Specialized workflows, format rules, and safety checks for game modding, focusing on S.T.A.L.K.E.R. Legends of...
+- **`game-mod-release-packager`**: Automated game mod release packaging, archive compression, and distribution pipeline. Strips debug symbols (st...
+- **`electron-desktop-dev`**: Electron desktop application engineering, IPC security, context isolation, preload scripts, multi-window lifec...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

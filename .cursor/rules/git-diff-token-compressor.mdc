@@ -58,3 +58,12 @@ index 8a34bc1..9f12d8a 100644
    - Use `git diff -w` or `git diff --ignore-all-space` when auditing logic to prevent newline/indentation diff storms.
 4. **Coordinate Handoff Storage:**
    - In `.agents/handoff.json`, store file modifications as coordinate maps rather than unified diff blocks whenever possible.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`cross-agent-context-deduplicator`**: Eliminates redundant transcript ingestion and context pollution between Argon orchestrators and Flash subagent...
+- **`canvas-interactive-workspace`**: Emulates ChatGPT Canvas side-by-side collaborative drafting, targeted inline diff staging, and surgical change...
+- **`cross-model-switch-pruner`**: Pre-switch state compaction and history virtualization engine when switching models (Sonnet to Fable, Opus, or...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

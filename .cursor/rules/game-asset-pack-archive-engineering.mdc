@@ -76,3 +76,12 @@ Always unpack and repack multi-gigabyte archives inside `/dev/shm` (`ramdisk-tmp
 - **Nightdive KEX `.kpf` (*SiN Reloaded*) & id Tech `.pk3`/`.pk4` (*Quake III*, *DOOM 3*):** Standard Deflate/Store ZIP containers.
 - **Bethesda `.bsa` / `.ba2` (*Morrowind*, *Oblivion*, *Skyrim SE*, *Fallout 3/NV/4*, *Starfield*):** `BSA\x00` (LZ4) and `BTDX` (`GNRL` + `DX10` streamed BC1–BC7 mipmaps). Never set the compress flag on `.bsa` archives containing `.fuz`/`.xwm` voice audio.
 - **Valve Source `.vpk` (*Half-Life 2*, *Black Mesa*, *GMod*, *L4D2*, *Portal 2*):** Multi-chunk `_dir.vpk` directory index + `_000.vpk` data chunks.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-save-state-serialization`**: Robust game save system architecture, versioned schema migrations, bit-packed binary serialization, endianness...
+- **`game-mod-release-packager`**: Automated game mod release packaging, archive compression, and distribution pipeline. Strips debug symbols (st...
+- **`game-modding`**: Specialized workflows, format rules, and safety checks for game modding, focusing on S.T.A.L.K.E.R. Legends of...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

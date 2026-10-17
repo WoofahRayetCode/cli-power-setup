@@ -62,3 +62,12 @@ Deploy instantly without manual builds using GitHub Actions (`.github/workflows/
 python3 config/skills/static-site-architecture/scripts/static_site_scaffolder.py \
   pure-static --title "Chronicles of Ancient Lore" --dest ./site_build
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`documentation-site-generator`**: Static documentation site generation using VitePress and MkDocs Material, automated API reference extraction, ...
+- **`interactive-data-visualization-web`**: Browser-based interactive data visualization for history, mythology, game lore, and complex architectures. Gen...
+- **`cross-browser-extensions`**: Cross-browser web extension development in Manifest V3, supporting Chrome, Firefox, and Safari with webextensi...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -61,3 +61,9 @@ When profiling Windows PE binaries (`.exe` / `.dll`) under Wine/Proton:
 - **Profiling & Time-Travel Debugging:** On Windows 10/11, use **Windows Performance Recorder (`wpr -start GeneralProfile` / `wpa.exe`)** in place of Linux `perf`, and **WinDbg Preview Time-Travel Debugging (`ttd.exe -launch <app.exe>`)** in place of Mozilla `rr`.
 - **Hardware, Thermal & Power Profiles:** Query sensors via WMI/CIM (`Get-CimInstance -Namespace root/wmi MSAcpi_ThermalZoneTemperature`, `nvidia-smi`) and switch power plans via `powercfg /setactive` on Windows.
 - **File System Hot-Reload & ADB:** Use `.NET System.IO.FileSystemWatcher` (`Register-ObjectEvent`) on Windows in place of `inotifywait`, and resolve `adb.exe` from `%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe`.
+
+## Related & Interoperating Skills
+- **`dxvk-vkd3d-proton-pipeline-profiler`**: Diagnoses and eliminates DXVK and VKD3D-Proton shader compilation stutter, descriptor heap stalls, and VRAM st...
+- **`game-memory-scanner`**: High-performance game memory scanner and pointer discovery engine for Linux & Windows/Proton games. Scans virt...
+- **`game-performance-overlay-telemetry`**: In-game HUD performance metrics and telemetry profiling (MangoHud, DXVK HUD, PresentMon). Configures FPS, fram...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

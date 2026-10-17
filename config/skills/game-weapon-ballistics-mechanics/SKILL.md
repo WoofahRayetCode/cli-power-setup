@@ -93,3 +93,9 @@ function on_actor_weapon_fire(wpn)
     end
 end
 ```
+
+## Related & Interoperating Skills
+- **`game-config-delta-extractor`**: Game configuration delta extractor and inheritance pruner. Strips identical inherited keys in S.T.A.L.K.E.R. L...
+- **`game-qa-playtest-controller`**: Autonomous multi-axis game testing locomotion controller using Linux /dev/uinput and evdev. Injects dynamic ch...
+- **`game-qol-gameplay-scripting`**: Autonomous quality-of-life gameplay scripting: proximity radar scanning, intelligent auto-loot for quest/ammo/...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

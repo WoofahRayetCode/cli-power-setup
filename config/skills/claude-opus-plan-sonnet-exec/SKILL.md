@@ -63,3 +63,12 @@ When running interactive Claude Code CLI sessions:
 In autonomous or background sessions, delegate Tier 3 tasks to lightweight subagents:
 - Use Sonnet/Haiku subagents to run compilers and test suites in isolated worktrees.
 - Keep the parent Opus transcript pristine and reserved solely for decision-making.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`dynamic-model-downshifter`**: Autonomous multi-tier model downshifting for CLI sessions. Enforces the 'Frontier Brain, Fast Hands' pattern b...
+- **`claude-thinking-budget-governor`**: Extended thinking token budget governor for Claude 3.7+ Sonnet and Opus. Clamps internal reasoning tokens duri...
+- **`argon-subagent-dispatch-routing`**: Implements the 'Argon Brain, Flash Hands' subagent swarm dispatch pattern to offload high-volume read, search,...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

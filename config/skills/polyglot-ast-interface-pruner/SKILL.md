@@ -72,3 +72,9 @@ public:
    - Map dependencies as: `<path>#L<num>:signature`.
 3. **Preserve Type Annotations:**
    - Always retain return types and argument types; discard variable names if not necessary for signature disambiguation.
+
+## Related & Interoperating Skills
+- **`smart-context-packer`**: Compresses multi-file codebases into interface-only AST skeletons (stripping function bodies, comments, and bl...
+- **`qwen-polyglot-ast-cartographer`**: Emulates Qwen 2.5 Coder polyglot AST cartography. Generates instant symbol call-graphs, inheritance trees, and...
+- **`selective-context-ingestor`**: Enforces surgical line-slice reading and AST-first inspection via slice-reader, preventing models from ingesti...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

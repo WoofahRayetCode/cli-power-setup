@@ -57,3 +57,12 @@ TOTAL_SECONDARY_ERRORS_STRIPPED: 428
      ```bash
      cmake --build build -- -j$(nproc) 2>&1 | grep -E "error:|fatal error:" -B 2 -A 3 | head -n 25
      ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`xray-crash-symbol-resolver`**: Translates Wine, Proton, and native Linux crash addresses and DLL relative virtual addresses (RVAs) into exact...
+- **`cross-cli-session-handoff`**: Seamless zero-context-loss session handoff protocol between Antigravity CLI, Claude Code CLI, and Cursor IDE. ...
+- **`claude-fable-engine-governor`**: Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engin...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -52,3 +52,12 @@ Any script consuming Argon's structured output should pipe directly to validatio
 python3 -c "import json, sys; json.load(sys.stdin)" < payload.json
 ```
 If validation passes, downstream automation (`android-dev-runner`, `slice-reader`, etc.) executes immediately without manual inspection.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`argon-sentencepiece-serializer`**: Formats tabular data, state serializations, and symbol skeletons to optimize token density under Google's Sent...
+- **`argon-subagent-payload-compressor`**: Enforces high-density structured return envelopes on Gemini subagent messages, eliminating conversational fluf...
+- **`argon-tool-calling-densifier`**: Enforces compact parallel tool invocation and parameter density on Gemini 4 Argon to minimize output token gen...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

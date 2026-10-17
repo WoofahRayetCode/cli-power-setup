@@ -39,3 +39,6 @@ EOF
 
 * **Handoff to `generative-visual-artifacts`:** To display generated PNG/SVG charts in the browser.
 * **Handoff to `audio-dsp-tuning`:** To compute exact parametric EQ biquad filter curves.\n
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

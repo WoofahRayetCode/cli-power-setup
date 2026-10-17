@@ -60,3 +60,12 @@ Before packaging or merging pull requests, run automated dependency security aud
 ## 4. Native Binary Hardening Inspector Tool
 
 Use `scripts/binary_hardening_check.py` to inspect ELF Linux binaries and shared libraries for RELRO, Stack Canary symbols, NX stack headers, and PIE flags without external dependencies.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`security-vulnerability-audit`**: Pre-commit secret scanning with gitleaks, SAST vulnerability analysis with semgrep, dependency audits, and bin...
+- **`game-security-anti-tamper`**: Game engine runtime security, anti-tamper architectures, memory modification detection, DLL hijacking preventi...
+- **`game-engine-migration`**: Universal architectural framework for porting, migrating, and modernizing game engines and legacy mods across ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -231,3 +231,12 @@ Only decompile code you are authorized to analyze. Reading what a third party
 ships is a legitimate security-research and debugging activity; using it
 against targets without consent may be illegal. You are responsible for
 compliance.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`reverse-engineer-anything`**: Reverse engineer native, managed, Electron/JavaScript, packaged, firmware, and browser targets with REA. Use s...
+- **`binary-re-workflows`**: Orchestrates reverse engineering tools (REA MCP, Ghidra, JADX, TShark, objdump, hex analysis) with Superpowers...
+- **`console-game-decompilation`**: Console game decompilation, matching reverse engineering, and disassembly workflows for PS1, PS2, PS3, origina...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -87,3 +87,12 @@ python3 config/skills/computer-vision-deep-learning/scripts/computer_vision_pipe
 * **ONNX Runtime GPU Execution**: Use `CUDAExecutionProvider` or `TensorrtExecutionProvider` with pinned GPU memory.
 * **Quantization**: Export to FP16 half-precision to double memory throughput with negligible mAP drop.
 * **Batching**: Group frames into dynamic batch sizes ($N=4, 8$) for high-throughput video ingestion.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`industrial-machine-vision-inspection`**: Classical computer vision, camera calibration, precision metrology, and industrial inspection. Covers OpenCV p...
+- **`cuda-gpu-acceleration`**: High-performance NVIDIA GPU engineering, CUDA 13.4 kernel development, nvcc compilation, Tensor Core accelerat...
+- **`homelab-docker-devops`**: Self-hosted infrastructure, Docker Compose multi-service stacks, Samba network storage permissions, Nextcloud ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

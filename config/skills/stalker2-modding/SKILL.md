@@ -53,3 +53,5 @@ This skill governs modding workflows for **S.T.A.L.K.E.R. 2: Heart of Chornobyl*
 - **Textures, Audio & Ballistics to OGSR (`stalker2-to-ogsr-asset-transpiler`):** Convert UE5 ORM/normal maps into X-Ray `_bump.dds` (`cuda-numpy-batch-texture-dsp-processor`) and inject GSC Ogg binary headers (`game-audio-ogg-gsc-encoder`).
 - **Multi-Game UE5 IoStore Support (`ue5-redengine-rage-library-modding`):** Shares the same `retoc` + `repak` Zstd `_P.pak` workflow with *Borderlands 4* (`1285190`) and *Assetto Corsa Rally* (`3917090`).
 
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

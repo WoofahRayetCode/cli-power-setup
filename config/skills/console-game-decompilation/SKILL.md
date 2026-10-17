@@ -118,3 +118,6 @@ The following native tools are installed and ready for immediate CLI usage:
 * **Handoff to `emulator-development-engineering`:** Verifies reconstructed function logic against emulator CPU interpreters and MMU mappings.
 * **Handoff to `binary-re-workflows`:** Coordinates Ghidra headless scripts and symbol export.
 * **Handoff to `token-economy`:** Offloads massive disassembly text files and splat YAML split tables to disk.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

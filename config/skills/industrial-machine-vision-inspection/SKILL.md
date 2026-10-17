@@ -82,3 +82,12 @@ python3 config/skills/industrial-machine-vision-inspection/scripts/machine_visio
 python3 config/skills/industrial-machine-vision-inspection/scripts/machine_vision_inspector.py \
   anomaly-detect --image surface.png --sensitivity 1.8 --min-area 40
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`visual-document-ocr-intelligence`**: Document AI, optical character recognition (OCR), table extraction, and visual document understanding. Covers ...
+- **`computer-vision-deep-learning`**: Modern deep-learning computer vision engineering and high-performance inference pipelines. Covers neural objec...
+- **`game-ai-agent-play`**: Autonomous game-playing agent engineering and reinforcement learning (Gymnasium, OpenCV computer vision, rewar...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

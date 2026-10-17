@@ -53,3 +53,12 @@ token-guard --max-lines 50 <command>
 
 - **Zero-Waste Lookups:** When searching wide directories for unknown symbols or files, agents must always prefix exploratory commands with `token-guard`.
 - **Targeted Drilling:** If `token-guard` indicates matches were truncated, the agent narrows its search pattern (e.g. adding subdirectory or file extension filters) rather than re-running wide unconstrained queries.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`yolo-autonomous-watchdog`**: Autonomous execution watchdog and quota protector for YOLO modes (claude-yolo, agy-yolo). Prevents infinite re...
+- **`log-output-sanitizer`**: Intercepts noisy compiler, package manager, and test suite terminal output (cargo, pytest, npm, cmake), passin...
+- **`context-window-governor`**: Deterministic token budgeting, turn-by-turn context partitioning, and hard output containment to prevent tool ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

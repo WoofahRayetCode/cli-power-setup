@@ -113,3 +113,9 @@ python3 config/skills/android-rom-os-engineering/scripts/android_rom_tools.py vi
 - **Profiling & Time-Travel Debugging:** On Windows 10/11, use **Windows Performance Recorder (`wpr -start GeneralProfile` / `wpa.exe`)** in place of Linux `perf`, and **WinDbg Preview Time-Travel Debugging (`ttd.exe -launch <app.exe>`)** in place of Mozilla `rr`.
 - **Hardware, Thermal & Power Profiles:** Query sensors via WMI/CIM (`Get-CimInstance -Namespace root/wmi MSAcpi_ThermalZoneTemperature`, `nvidia-smi`) and switch power plans via `powercfg /setactive` on Windows.
 - **File System Hot-Reload & ADB:** Use `.NET System.IO.FileSystemWatcher` (`Register-ObjectEvent`) on Windows in place of `inotifywait`, and resolve `adb.exe` from `%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe`.
+
+## Related & Interoperating Skills
+- **`android-ndk-jni-engineering`**: High-performance Android NDK C/C++ development, JNI bridge architecture, native Vulkan/OpenGL ES rendering, Ob...
+- **`android-app-engineering`**: Modern Android development in Kotlin, Gradle KTS, foreground services, network tethering/VPN APIs, ProGuard/R8...
+- **`android-device-automation`**: Real-time Android device control, scrcpy screen observation, mobile game bot scripting, automated app manageme...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

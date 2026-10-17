@@ -79,4 +79,5 @@ Emits a structured JSON payload for autonomous subagent verification or statusli
 4. **In-Flight Evolution & Script Promotion (`self-evolving-skill-synthesizer`):** Use `skill-evolve --hot-patch <skill>`, `skill-evolve --promote <script> --to <skill>`, or `skill-evolve --scaffold <name> "<desc>"` during active tasks to update stale instructions or crystallize verified `/tmp` scripts into permanent skill tools in `<50ms`.
 5. **Automatic `README.md`, `.gitignore` & Cheat Sheet Sync (`autonomous-git-repo-sync-governor` & `dynamic-repo-model-cheatsheet`):** Follow `skills-audit-update --sync` with `repo-auto-sync . --checkpoint --push` to automatically update skill counts and catalog tables in `README.md`, harden `.gitignore`, refresh `config/repo_cheatsheet.json` via `agy-cheatsheet --update`, and push to `origin/main`.
 
-
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

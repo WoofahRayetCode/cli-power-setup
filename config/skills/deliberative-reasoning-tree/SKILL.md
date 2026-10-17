@@ -35,3 +35,9 @@ This skill implements advanced deliberative reasoning (Tree-of-Thought), forcing
 
 * **Handoff to `adaptive-reasoning`:** Activates automatically when prompt complexity warrants deep deliberative reasoning.
 * **Handoff to `superpowers`:** Feeds the selected path directly into `writing-plans`.\n
+
+## Related & Interoperating Skills
+- **`argon-adversarial-verification-gate`**: Harnesses Gemini 4 Argon's deep reasoning capacity for formal adversarial self-critique, boundary-condition pr...
+- **`chatgpt-o1-hypothesis-tree`**: Emulates ChatGPT o1/o3-mini Tree-of-Thought deliberation on Gemini 4 Argon. Branches into 3 competing hypothes...
+- **`claude-thinking-budget-governor`**: Extended thinking token budget governor for Claude 3.7+ Sonnet and Opus. Clamps internal reasoning tokens duri...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

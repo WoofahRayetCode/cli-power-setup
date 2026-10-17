@@ -45,3 +45,9 @@ Before applying any code changes via `replace_file_content`:
 
 - **The Rule:** If the Red-Team Critic discovers any plausible crash condition, the code is rejected in internal reasoning before a single file edit or compiler command is executed.
 - **Quota Savings:** Eliminates runtime game crashes, saving 3–5 expensive test-run turns per defect.
+
+## Related & Interoperating Skills
+- **`argon-adversarial-verification-gate`**: Harnesses Gemini 4 Argon's deep reasoning capacity for formal adversarial self-critique, boundary-condition pr...
+- **`chatgpt-o1-hypothesis-tree`**: Emulates ChatGPT o1/o3-mini Tree-of-Thought deliberation on Gemini 4 Argon. Branches into 3 competing hypothes...
+- **`deliberative-reasoning-tree`**: DeepSeek R1 and OpenAI o1-style Tree-of-Thought reasoning, exploring 3 branching hypothesis paths, adversarial...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

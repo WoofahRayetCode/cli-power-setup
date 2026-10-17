@@ -85,3 +85,9 @@ This skill provides standardized deployment, security, and maintenance patterns 
   WantedBy=timers.target
   ```
 * **Drive Mount Protection:** In `/etc/fstab`, always include `nofail,x-systemd.device-timeout=10s` for external USB storage so the server boots normally even if a drive is disconnected.
+
+## Related & Interoperating Skills
+- **`computer-vision-deep-learning`**: Modern deep-learning computer vision engineering and high-performance inference pipelines. Covers neural objec...
+- **`cross-browser-extensions`**: Cross-browser web extension development in Manifest V3, supporting Chrome, Firefox, and Safari with webextensi...
+- **`android-app-engineering`**: Modern Android development in Kotlin, Gradle KTS, foreground services, network tethering/VPN APIs, ProGuard/R8...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

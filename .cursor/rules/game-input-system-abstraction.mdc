@@ -56,3 +56,9 @@ Maintain an active input state machine:
   * Sony (`0x054c`): Switch UI to PlayStation icons (`[✕] Interact`).
   * Microsoft / XInput (`0x045e`): Switch UI to Xbox icons (`[A] Interact`).
   * Nintendo (`0x057e`): Switch UI to Nintendo layout (`[B] Interact`).
+
+## Related & Interoperating Skills
+- **`game-physics-collision-pipeline`**: Real-time physics engine architecture, fixed timestep accumulator loops, continuous collision detection (CCD),...
+- **`game-ai-agent-play`**: Autonomous game-playing agent engineering and reinforcement learning (Gymnasium, OpenCV computer vision, rewar...
+- **`game-asset-pack-archive-engineering`**: Virtual file systems (VFS), game asset pack archive containers (PAK, XDB, AssetBundles), chunked zstd/zlib com...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

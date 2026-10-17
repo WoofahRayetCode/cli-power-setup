@@ -38,3 +38,12 @@ python3 -m zoneforge.cli drive status
 # Upload packed mod archive with integrity check
 python3 -m zoneforge.cli drive upload --file build/complete_ogsr_remaster.xdb0 --remote-folder "ZoneForge Builds" --verify-hash
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-asset-pack-archive-engineering`**: Virtual file systems (VFS), game asset pack archive containers (PAK, XDB, AssetBundles), chunked zstd/zlib com...
+- **`autonomous-git-repo-sync-governor`**: Autonomous git repository synchronization, upstream pull/rebase, milestone auto-commit, large-binary/secret pr...
+- **`local-vector-rag-engine`**: Local vector embeddings and dense semantic search engine running on host CPU/GPU/RAM. Replaces context-stuffin...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

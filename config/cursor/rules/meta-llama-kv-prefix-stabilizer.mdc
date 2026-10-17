@@ -36,3 +36,9 @@ This skill stabilizes the conversation prefix, guaranteeing continuous **95% pro
 1. **Quarantine Volatile State:** Never place current clock timestamps, random seeds, or dynamic process IDs inside the system prompt or static skills headers.
 2. **Trailing Metadata Only:** Dynamic environment variables must be appended strictly at the tail of the message inside `<ADDITIONAL_METADATA>` tags.
 3. **Cache Discount Guarantee:** Guarantees that all tokens prior to the trailing user message hit the cache with **100% prefix invariance**, locking in the **\$0.10 / 1M token rate**.
+
+## Related & Interoperating Skills
+- **`multi-model-cache-harmonizer`**: Prompt cache prefix stabilization and alignment engine across Claude, Gemini, OpenAI, and Grok. Aligns static ...
+- **`gemini-flash-cache-aligner`**: Maximizes Gemini 3.8 Flash prompt caching discounts (>90% savings) through strict prefix stabilization, 4,096-...
+- **`prompt-cache-context-optimizer`**: Emulates 1M+ context windows and maximizes Anthropic prompt caching discounts (>90% savings) through strict pr...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

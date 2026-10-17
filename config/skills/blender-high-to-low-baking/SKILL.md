@@ -99,3 +99,12 @@ Bake contact shadows into crevice masks for PBR shading:
 To eliminate black seam line artifacts when rendering baked normal maps in game engines:
 1. **Rule:** Every UV island boundary **must** be marked as a **Sharp Edge** (`mesh.edges[i].use_seam == True -> mesh.edges[i].use_edge_sharp = True`).
 2. **Padding:** Use a minimum bake margin of **16 pixels** (`bpy.context.scene.render.bake.margin = 16`) for 2048x2048 textures to prevent mipmap bleed.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`blender-uv-udim-lightmap-architect`**: Automated headless UV unwrapping in Blender 5.2+ (SLIM Minimum Stretch, Angle-Based, Conformal), texel density...
+- **`blender-gaussian-splatting-photogrammetry-cleanup`**: Converts raw 3D Gaussian Splatting (.ply), NeRF, photogrammetry scans, and AI-generated 3D meshes (Tripo3D/Hun...
+- **`blender-hard-surface-cad-weapons-props`**: Non-destructive hard-surface 3D modeling in Blender 5.2+ for weapons, firearms, vehicles, mechs, and sci-fi pr...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

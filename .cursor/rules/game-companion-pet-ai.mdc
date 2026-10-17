@@ -129,3 +129,12 @@ end
 2. **PBR Fur Texture:** Calico pattern (white base, orange and black patched patches) baked into Diffuse/Albedo, with subtle Tangent-Space Normal for fur directionality.
 3. **Rigging & Armature:** Quadruped skeletal rig (Spine, 4 legs with Two-Bone IK, tail curve bones, head/jaw bone for vocalization).
 4. **Export:** Export as `.ogf` using the X-Ray Blender tools or `.fbx` with unified bone scale ($1.0$).
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-weather-lighting-fx`**: Dynamic game weather cycles, HDR tonemapping, sun shafts/god rays, skybox balance, and blinding glare/light-bl...
+- **`game-qol-gameplay-scripting`**: Autonomous quality-of-life gameplay scripting: proximity radar scanning, intelligent auto-loot for quest/ammo/...
+- **`game-ai-agent-play`**: Autonomous game-playing agent engineering and reinforcement learning (Gymnasium, OpenCV computer vision, rewar...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

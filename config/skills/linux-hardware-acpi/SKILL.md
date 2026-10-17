@@ -61,3 +61,9 @@ Search the resulting `.dsl` files for WMI GUIDs, thermal zones (`_TZ`), and embe
 - **Profiling & Time-Travel Debugging:** On Windows 10/11, use **Windows Performance Recorder (`wpr -start GeneralProfile` / `wpa.exe`)** in place of Linux `perf`, and **WinDbg Preview Time-Travel Debugging (`ttd.exe -launch <app.exe>`)** in place of Mozilla `rr`.
 - **Hardware, Thermal & Power Profiles:** Query sensors via WMI/CIM (`Get-CimInstance -Namespace root/wmi MSAcpi_ThermalZoneTemperature`, `nvidia-smi`) and switch power plans via `powercfg /setactive` on Windows.
 - **File System Hot-Reload & ADB:** Use `.NET System.IO.FileSystemWatcher` (`Register-ObjectEvent`) on Windows in place of `inotifywait`, and resolve `adb.exe` from `%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe`.
+
+## Related & Interoperating Skills
+- **`hardware-tool-engineering`**: Architect, build, and update hardware management tools, system daemons, sensors, and thermal controllers with ...
+- **`linux-systems-engineering`**: Linux systems programming in C/C++/Rust, POSIX APIs, asynchronous I/O (epoll, io_uring), process/signal manage...
+- **`laptop-performance-profile`**: Laptop performance tuning, thermal management, and acoustic control. Integrates OMEN Space (omen-cli / omen-sp...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

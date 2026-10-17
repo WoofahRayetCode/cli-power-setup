@@ -35,3 +35,9 @@ When refactoring multiple functions across a large file:
 | **Full File Overwrite** (500-line file) | ~1,800 – 2,500 tokens | High (accidental regressions) |
 | **Atomic Chunk Replacement** (15-line diff) | **~80 – 150 tokens** | **0% (Isolated surgical fix)** |
 | **Net Savings on Argon** | **94% output quota saved** | **Claude-grade precision locked** |
+
+## Related & Interoperating Skills
+- **`argon-thinking-governor`**: Gemini 4 Argon internal chain-of-thought (CoT) and reasoning token governor. Clamps speculative reasoning bloa...
+- **`selective-context-ingestor`**: Enforces surgical line-slice reading and AST-first inspection via slice-reader, preventing models from ingesti...
+- **`codestral-fill-in-the-middle`**: Emulates Mistral Codestral Fill-in-the-Middle (FIM) surgical infilling. Anchors prefix and suffix code boundar...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -92,3 +92,12 @@ if !stream.is_valid() {
 * **Handoff to `subagent-code-reviewer`:** Dispatches an isolated subagent to run `coderabbit_review.py` without context bias.
 * **Handoff to `security-vulnerability-audit`:** Performs deep static SAST scans (semgrep, gitleaks) when critical vulnerabilities are detected.
 * **Handoff to `token-economy`:** Offloads verbose multi-file diff logs to `.agents/reviews/`, outputting only high-density findings in chat.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`coverage-guided-mutation-testing`**: AST-based fault injection, mutant survival analysis, and automated test synthesis to self-improve test suite d...
+- **`argon-effort-auto-calibrator`**: Dynamically calibrates Gemini 4 Argon reasoning effort (--effort low/medium/high) turn-by-turn based on cognit...
+- **`game-memory-scanner`**: High-performance game memory scanner and pointer discovery engine for Linux & Windows/Proton games. Scans virt...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

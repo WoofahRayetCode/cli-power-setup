@@ -45,3 +45,9 @@ When launching `agy` sessions where Argon is active, include this anchor directi
 ```text
 "Direct Action Mode: Execute tools immediately without preamble, repetitive restatements, or speculative internal monologue. Let tool results provide the evidence."
 ```
+
+## Related & Interoperating Skills
+- **`argon-subagent-dispatch-routing`**: Implements the 'Argon Brain, Flash Hands' subagent swarm dispatch pattern to offload high-volume read, search,...
+- **`claude-thinking-budget-governor`**: Extended thinking token budget governor for Claude 3.7+ Sonnet and Opus. Clamps internal reasoning tokens duri...
+- **`argon-effort-auto-calibrator`**: Dynamically calibrates Gemini 4 Argon reasoning effort (--effort low/medium/high) turn-by-turn based on cognit...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

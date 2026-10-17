@@ -36,3 +36,9 @@ This skill equips Gemini 4 Argon with self-healing capabilities on Linux (CachyO
 - **Profiling & Time-Travel Debugging:** On Windows 10/11, use **Windows Performance Recorder (`wpr -start GeneralProfile` / `wpa.exe`)** in place of Linux `perf`, and **WinDbg Preview Time-Travel Debugging (`ttd.exe -launch <app.exe>`)** in place of Mozilla `rr`.
 - **Hardware, Thermal & Power Profiles:** Query sensors via WMI/CIM (`Get-CimInstance -Namespace root/wmi MSAcpi_ThermalZoneTemperature`, `nvidia-smi`) and switch power plans via `powercfg /setactive` on Windows.
 - **File System Hot-Reload & ADB:** Use `.NET System.IO.FileSystemWatcher` (`Register-ObjectEvent`) on Windows in place of `inotifywait`, and resolve `adb.exe` from `%LOCALAPPDATA%\Android\Sdk\platform-tools\adb.exe`.
+
+## Related & Interoperating Skills
+- **`grok-realtime-telemetry-scout`**: Emulates xAI Grok real-time live search on Gemini 4 Argon. Scouts bleeding-edge git commits, pull requests, is...
+- **`game-runtime-diagnostics`**: Cross-platform game crash diagnostics, performance tuning, and compatibility triage across Windows (DirectX, E...
+- **`cachyos-arch-packaging`**: Arch Linux and CachyOS packaging standards, PKGBUILD authoring, DKMS kernel module builds, and systemd service...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

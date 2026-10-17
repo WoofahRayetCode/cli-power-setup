@@ -37,3 +37,9 @@ Whenever modifying a shared interface:
 2. **LTX Hierarchy Trace:**
    If a base LTX section (`[identity_immunities]`) is modified, check all inheriting sections (`[wpn_*]`) to ensure no required parameters were orphaned.
 3. **Context Economy:** Track ripple effects as compact symbol coordinates (`<file>#L<line>`) rather than ingesting entire files.
+
+## Related & Interoperating Skills
+- **`qwen-polyglot-ast-cartographer`**: Emulates Qwen 2.5 Coder polyglot AST cartography. Generates instant symbol call-graphs, inheritance trees, and...
+- **`xray-macro-boilerplate-condenser`**: Pre-processes and condenses legacy X-Ray and OGSR C++ macros, memory wrappers (xr_new, xr_delete, IC), and Lua...
+- **`cross-agent-hot-reload-watcher`**: Real-time file system observer using inotifywait to trigger instant hot-reloading of modified scripts, configs...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

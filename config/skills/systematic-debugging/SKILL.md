@@ -28,3 +28,9 @@ Use this skill whenever an error, bug, test failure, or unexpected crash occurs.
 - Apply the minimal change required to fix the root cause.
 - Run the reproduction test to prove the fix works.
 - Run the full test suite or relevant checks to ensure no regressions were introduced.
+
+## Related & Interoperating Skills
+- **`superpowers`**: Core engineering methodology and discipline engine. Use when starting non-trivial tasks to evaluate if brainst...
+- **`rust-engineering`**: Rust software engineering and compiler-first workflows. Use when authoring or debugging Rust code, managing li...
+- **`executing-plans`**: Step-by-step execution of approved implementation plans. Use when executing a multi-step plan to track progres...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

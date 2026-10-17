@@ -115,3 +115,9 @@ Turn any budget USB or XLR microphone into a broadcast-ready voice that sounds w
 * **Problem: Audio crackling or popping during games.**
   * *Root Cause:* Audio buffer underrun caused by CPU core scheduling lag.
   * *Fix:* Increase PipeWire quantum buffer from 64 to 128/256 samples, or configure Real-Time Audio Priority in Linux (`rtkit`).
+
+## Related & Interoperating Skills
+- **`video-production-automation`**: Hardware-accelerated video engineering and automated post-production using FFmpeg with NVIDIA NVENC (AV1, HEVC...
+- **`powershell-windows-automation`**: Modern PowerShell 7 and Windows PowerShell automation, advanced cmdlet design, pipeline streaming, WMI/CIM que...
+- **`game-performance-overlay-telemetry`**: In-game HUD performance metrics and telemetry profiling (MangoHud, DXVK HUD, PresentMon). Configures FPS, fram...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

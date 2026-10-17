@@ -57,3 +57,9 @@ Every interactive widget must be **completely self-contained in a single `.html`
 ## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
 - **Cross-OS Deployment (`install.ps1` & `install.sh`):** All CLI tools (`agy-cheatsheet` / `cs`, `repo-auto-sync`, `skill-evolve`, `skills-audit-update`, `adaptive-model-router`) run natively on Windows 10/11 via `.cmd`/PowerShell shims in `$HOME\.local\bin` and use `Path(tempfile.gettempdir())` instead of hardcoded `/tmp`.
 - **Multi-Agent Split Terminal:** On Windows 10/11, use **Windows Terminal (`wt.exe`)** split panes (`wt -p "PowerShell" \; split-pane -V ...`) in place of Linux `tmux`/`kitty`, and `sccache` / MSVC `/MP` for shared build caching across git worktrees.
+
+## Related & Interoperating Skills
+- **`generative-visual-artifacts`**: Generates self-contained interactive HTML/SVG widgets, KaTeX mathematical formulas, and live browser previews ...
+- **`threejs-webgl-engineering`**: Interactive 3D WebGL and WebGPU development using Three.js, OrbitControls, GLTFLoader, PBR lighting rigs, proc...
+- **`screen-vision-inspector`**: Autonomously captures, crops, and visually inspects the active computer screen, desktop application windows, a...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

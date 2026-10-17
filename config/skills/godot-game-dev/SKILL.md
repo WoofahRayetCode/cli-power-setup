@@ -35,3 +35,12 @@ This skill governs game development within the **Godot Engine** (Godot 4.x), foc
   godot --headless --path . -s addons/gut/gut_cmdln.gd
   ```
 - Use GUT (Godot Unit Test) framework for automated logic testing before manual visual verification.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`unity-game-dev`**: Game development workflows for Unity Engine (C#). Use when developing MonoBehaviours, ScriptableObjects, physi...
+- **`godot-shader-vfx`**: Authoring 2D and 3D visual shaders, canvas item shaders, spatial shaders, particle systems, and screen-reading...
+- **`modern-cpp-engineering`**: Modern C++ standards (C++20/C++23) and systems engineering. Use when authoring or debugging C++ code, game eng...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

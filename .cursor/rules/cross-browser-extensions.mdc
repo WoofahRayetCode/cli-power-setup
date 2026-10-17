@@ -77,3 +77,9 @@ export async function loadUserPreferences() {
 
 * **Synergy with [`ClutterlessSocial`](file:///home/ericparsley/Documents/GitHub/ClutterlessSocial/package.json):** Standardizes extension building and testing.
 * **Handoff to `electron-desktop-dev`:** If packaging the extension functionality into a standalone desktop application.\n
+
+## Related & Interoperating Skills
+- **`cmake-cross-platform`**: Cross-platform CMake architecture (3.25+), target-centric modern CMake, toolchain files for cross-compilation ...
+- **`static-site-architecture`**: Modern Jamstack and static site generator (SSG) architecture. Covers Astro, VitePress, Starlight, Content Coll...
+- **`homelab-docker-devops`**: Self-hosted infrastructure, Docker Compose multi-service stacks, Samba network storage permissions, Nextcloud ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

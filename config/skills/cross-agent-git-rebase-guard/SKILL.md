@@ -58,4 +58,3 @@ repo-auto-sync . --checkpoint -m "chore(release): sync merged subagent branches"
 
 ## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
 - **Cross-OS Deployment (`install.ps1` & `install.sh`):** All git sync and worktree commands (`repo-auto-sync`, `agy-cheatsheet` / `cs`) run natively on Windows 10/11 and Linux.
-

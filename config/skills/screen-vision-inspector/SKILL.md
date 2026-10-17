@@ -46,3 +46,12 @@ python3 scripts/capture_screen.py --max-dim 1280 --output /tmp/screen_optimized.
 1. **Local Privacy First:** Screenshots are written to local temporary paths (`/tmp/screen_capture.png`) and never uploaded to public clouds.
 2. **Max Dimension Capping:** High-DPI screens (e.g. 4K / 1440p) are automatically downscaled to `1280px` max dimension to prevent feeding 4,000+ unnecessary vision tokens into the model context.
 3. **Immediate Cleanup:** Temporary captures can be safely overwritten or deleted once the visual analysis turn concludes.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`argon-multimodal-vision-grounding`**: Directs Gemini 4 Argon's native multimodal vision capabilities toward game screen telemetry, UI layout audits,...
+- **`self-healing-test-automation`**: Resilient UI test automation, semantic locator auto-repair, visual OCR fallback, and dynamic flakiness mitigat...
+- **`headless-browser-automation`**: Headless browser automation via Playwright and Puppeteer, executing dynamic JavaScript on SPAs, capturing scre...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

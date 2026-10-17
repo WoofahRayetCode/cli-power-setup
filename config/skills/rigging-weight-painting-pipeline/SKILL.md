@@ -83,3 +83,11 @@ Before export, test extreme poses to verify joint integrity:
 | **Valve Source & KEX** (*HL2*, *Black Mesa*, *GMod*, *L4D2*, *SiN*) | `128` (`studiomdl` hard limit) | `3` (`studiomdl` clamps `>3` weights) | Prefix `ValveBiped.Bip01_Pelvis`, `ValveBiped.Bip01_Spine`, `ValveBiped.Bip01_R_Hand` |
 | **Project Zomboid & Rockstar GTA** | `<= 64` | `4` | Zomboid `Dummy01` $\rightarrow$ `Bip01` $\rightarrow$ `Bip01_Pelvis`; GTA SA/V bone tags (`0 = Root`, `24818 = Head`) |
 
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`character-creature-anatomy-modeling`**: Character, creature, and animal 3D modeling in Blender. Covers organic biped and quadruped skeletal anatomy, d...
+- **`game-animation-skeletal-pipeline`**: Real-time skeletal animation, quaternion slerp/nlerp interpolation, dual quaternion skinning, inverse kinemati...
+- **`android-mobile-3d-asset-optimizer`**: Android NDK, Vulkan, and OpenGL ES 3.2 mobile 3D asset optimization in Blender 5.2+. Enforces Adreno/Mali Tile...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

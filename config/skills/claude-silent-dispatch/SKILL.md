@@ -47,3 +47,9 @@ When an action requires a tool call:
 
 * **Pairing with `token-economy`:** Enforces the Zero Conversational Fluff rule at the API tool invocation layer.
 * **Pairing with `log-output-sanitizer`:** Ensures both the input command and the output result remain high-density.
+
+## Related & Interoperating Skills
+- **`claude-opus-conciseness-enforcer`**: Enforces extreme output conciseness, strict BLUF formatting, and hard token caps for Claude Opus. Eliminates c...
+- **`argon-tool-calling-densifier`**: Enforces compact parallel tool invocation and parameter density on Gemini 4 Argon to minimize output token gen...
+- **`high-density-prompting`**: Compresses verbose prompts into surgical, quota-saving directives, eliminates speculative reasoning tokens, an...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -66,3 +66,9 @@ powerManager.addThermalStatusListener { status ->
     }
 }
 ```
+
+## Related & Interoperating Skills
+- **`steamdeck-proton-hardware-tuning`**: Steam Deck & handheld Linux hardware optimization for Proton games. Covers 15W TDP power budgets, 40Hz/45Hz re...
+- **`laptop-performance-profile`**: Laptop performance tuning, thermal management, and acoustic control. Integrates OMEN Space (omen-cli / omen-sp...
+- **`game-performance-overlay-telemetry`**: In-game HUD performance metrics and telemetry profiling (MangoHud, DXVK HUD, PresentMon). Configures FPS, fram...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

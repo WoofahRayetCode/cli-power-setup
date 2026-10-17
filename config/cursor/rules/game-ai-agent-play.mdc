@@ -52,3 +52,9 @@ Use kernel-level `/dev/uinput` or `evdev` to avoid game anti-cheat or window foc
 ## 📊 Summary Output Format
 * `game-ai-loop: [✓] Latency: 12ms/frame (83 FPS) | State: IN_COMBAT | Action: DODGE_RIGHT`
 * `rl policy: [✓] Model: PPO (PyTorch CUDA) | Episode 142 | Reward: +850`
+
+## Related & Interoperating Skills
+- **`game-networking-state-sync`**: Multiplayer network architecture, client-side prediction, server reconciliation, entity interpolation, snapsho...
+- **`game-companion-pet-ai`**: Custom companion & pet NPC architecture: state machine behaviors (follow, guard, objective guide), god mode st...
+- **`game-qa-playtest-controller`**: Autonomous multi-axis game testing locomotion controller using Linux /dev/uinput and evdev. Injects dynamic ch...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

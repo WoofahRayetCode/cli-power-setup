@@ -32,3 +32,9 @@ When proposing or verifying multi-line changes:
 1. **Zero Surrounding Fluff:** Only show the modified line and 1–2 surrounding context lines. Never dump 50 lines of untouched code.
 2. **Deterministic Line Coordinates:** Always specify exact line numbers (`@@ -start,count +start,count @@`).
 3. **Ghost-Text Verification:** Compare proposed diffs against git status using `git diff -U2` to ensure surgical precision before committing.
+
+## Related & Interoperating Skills
+- **`argon-subagent-payload-compressor`**: Enforces high-density structured return envelopes on Gemini subagent messages, eliminating conversational fluf...
+- **`qwen-polyglot-ast-cartographer`**: Emulates Qwen 2.5 Coder polyglot AST cartography. Generates instant symbol call-graphs, inheritance trees, and...
+- **`claude-silent-dispatch`**: Eliminates pre-tool narration, commentary, and conversational play-by-plays in Claude Code, executing tool cal...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

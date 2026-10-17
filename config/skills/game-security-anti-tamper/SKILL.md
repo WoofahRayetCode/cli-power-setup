@@ -57,6 +57,13 @@ Before calling third-party plugins or dynamically loaded libraries (`LoadLibrary
 Client-side prediction must always be bounded by authoritative server sanity rules:
 * **Speed & Teleport Validation:**
   $$\Delta \mathbf{P}_{\max} = (v_{\max} \cdot \Delta t) + \epsilon_{	ext{latency}}$$
-  If $\lVert \mathbf{P}_{	ext{client}} - \mathbf{P}_{	ext{prev}} Vert > \Delta \mathbf{P}_{\max}$, snap player back to valid state.
+  If $\lVert \mathbf{P}_{	ext{client}} - \mathbf{P}_{	ext{prev}} 
+Vert > \Delta \mathbf{P}_{\max}$, snap player back to valid state.
 * **Raycast Line-of-Sight Checks:**
   Never accept client-reported bullet hits directly. The server must trace a ray through the world geometry from the shooter's verified position to verify line-of-sight before registering damage.
+
+## Related & Interoperating Skills
+- **`game-networking-state-sync`**: Multiplayer network architecture, client-side prediction, server reconciliation, entity interpolation, snapsho...
+- **`game-physics-collision-pipeline`**: Real-time physics engine architecture, fixed timestep accumulator loops, continuous collision detection (CCD),...
+- **`game-asset-pack-archive-engineering`**: Virtual file systems (VFS), game asset pack archive containers (PAK, XDB, AssetBundles), chunked zstd/zlib com...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -61,3 +61,9 @@ This skill strips hex noise and condenses disassembly into clean, symbolic Contr
      `objdump -d --disassemble=<function_name> <binary>` or `gdb -batch -ex "disassemble <function>" <binary>`.
 4. **Cap Maximum Instructions:**
    - Hard cap disassembly listings at **50 instructions**. If a function is larger, report branch structure and call sites only.
+
+## Related & Interoperating Skills
+- **`git-diff-token-compressor`**: Zero-context hunk and coordinate patch compressor for Git workflows. Strips redundant identical context lines,...
+- **`headless-test-condenser`**: Test suite output condenser and noise filter for autonomous CLI runs. Strips thousands of lines of passing tes...
+- **`universal-token-containment-protocol`**: Universal cross-model and cross-domain token containment protocol across all 197 skills (Sonnet, Opus, Fable, ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

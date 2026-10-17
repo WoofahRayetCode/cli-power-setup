@@ -66,3 +66,9 @@ This skill defines standards for writing robust, forward-and-backward compatible
 ## 4. Save State Inspector Helper
 
 Use `scripts/save_state_inspector.py` to inspect, validate checksums, and dump chunk metadata from save files.
+
+## Related & Interoperating Skills
+- **`game-asset-pack-archive-engineering`**: Virtual file systems (VFS), game asset pack archive containers (PAK, XDB, AssetBundles), chunked zstd/zlib com...
+- **`game-security-anti-tamper`**: Game engine runtime security, anti-tamper architectures, memory modification detection, DLL hijacking preventi...
+- **`game-engine-migration`**: Universal architectural framework for porting, migrating, and modernizing game engines and legacy mods across ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

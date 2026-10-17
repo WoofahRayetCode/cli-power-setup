@@ -37,3 +37,9 @@ When multiple independent actions are needed (e.g. inspecting 3 files, creating 
 | :--- | :--- | :--- | :--- |
 | **Serial Tool Execution (with preamble)** | 4 turns | ~1,200 tokens | 1.0x (Baseline) |
 | **Parallel Bundled Dispatch (zero fluff)** | 1 turn | ~280 tokens | **0.23x (77% saved)** |
+
+## Related & Interoperating Skills
+- **`argon-thinking-governor`**: Gemini 4 Argon internal chain-of-thought (CoT) and reasoning token governor. Clamps speculative reasoning bloa...
+- **`speculative-multi-step-drafting`**: Bundles predictable consecutive edits and multi-file modifications into single-turn atomic dispatches, slashin...
+- **`claude-silent-dispatch`**: Eliminates pre-tool narration, commentary, and conversational play-by-plays in Claude Code, executing tool cal...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

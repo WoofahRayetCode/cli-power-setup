@@ -49,3 +49,9 @@ agy-init --force
 
 ## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
 - **Cross-OS Deployment (`install.ps1` & `install.sh`):** `agy-init` runs natively on Windows 10/11 and Linux, detecting MSVC/Clang-CL, PowerShell, CMake, and `.venv\Scripts\pytest.exe` on Windows alongside POSIX toolchains on Linux.
+
+## Related & Interoperating Skills
+- **`agy-context-telemetry`**: Deep context window utilization and token cost inspector for Antigravity CLI (parity with claude /context and ...
+- **`agy-cli-doctor`**: System diagnostics and environment verification for Antigravity CLI (parity with claude doctor). Validates bin...
+- **`semantic-codebase-indexing`**: Cursor and Windsurf-style AST symbol indexing, call-graph tracing, and ctags/tree-sitter repository mapping fo...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

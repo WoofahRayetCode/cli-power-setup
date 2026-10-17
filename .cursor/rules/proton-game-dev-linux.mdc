@@ -65,3 +65,12 @@ To achieve Valve's **Steam Deck Verified** rating when running via Proton:
      ```
 3. **Steam Input Glyph Switching:**
    - Support seamless switching between gamepad, mouse, and keyboard without requiring a game restart.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`linux-gaming-proton-optimization`**: Optimizing and fixing games under Linux, Wine, Steam Proton, and Steam Deck. Covers GE-Proton switching, dxvk....
+- **`game-memory-scanner`**: High-performance game memory scanner and pointer discovery engine for Linux & Windows/Proton games. Scans virt...
+- **`game-trainer-engineering`**: Cross-platform game trainer development across Windows and Linux. Covers dynamic memory scanning, multi-level ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

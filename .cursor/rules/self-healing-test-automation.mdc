@@ -49,3 +49,12 @@ python3 scripts/self_healing_tester.py heal-locator --dry-run
 * `self-healing: [✓] Healed broken locator '#btn-checkout-v1' -> role('button', name='Checkout') (Score: 0.94)`
 * `auto-patch: [✓] Generated unified patch: tests/e2e/checkout.spec.ts (+1, -1)`
 * `flakiness: [✓] Identified 2 fragile sleep() delays; converted to waitForSelector state listener.`
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`self-evolving-skill-synthesizer`**: Closed-loop in-flight skill synthesis, Voyager-style script promotion, and Reflexion self-healing. Automatical...
+- **`screen-vision-inspector`**: Autonomously captures, crops, and visually inspects the active computer screen, desktop application windows, a...
+- **`android-device-automation`**: Real-time Android device control, scrcpy screen observation, mobile game bot scripting, automated app manageme...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

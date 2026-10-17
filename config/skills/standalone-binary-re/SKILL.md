@@ -128,3 +128,12 @@ with open("target.dat", "rb") as f:
 1. **Never Echo Massive Disassemblies:** Pipe disassembler output to temporary files or grep for specific symbol signatures.
 2. **Subagent Delegation for Large Targets:** When reverse engineering large APKs or multi-megabyte shared objects, invoke a `research` subagent to analyze the code and report back only high-level structs, function signatures, and logic summaries.
 3. **Always Note Offsets:** Record verified file offsets and RVAs for any discovered patches or hooks.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`binary-re-workflows`**: Orchestrates reverse engineering tools (REA MCP, Ghidra, JADX, TShark, objdump, hex analysis) with Superpowers...
+- **`lowlevel-dll-internals`**: Windows PE/DLL internals, assembly-level disassembly, vtable reconstruction, calling convention alignment (__t...
+- **`rea-mcp-obligation-ledger-orchestrator`**: Orchestrates the Reverse Engineer Anything (REA) MCP server obligation ledger, binary function diffing, and st...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -79,3 +79,9 @@ billingClient.startConnection(object : BillingClientStateListener {
     }
 })
 ```
+
+## Related & Interoperating Skills
+- **`android-game-ndk-vulkan`**: Native Android game development using C++20, Android NDK (GameActivity / NativeActivity), Vulkan mobile render...
+- **`android-architecture-jetpack`**: Modern Android Architecture (Now in Android standard), Clean Architecture, MVI/MVVM with unidirectional data f...
+- **`android-app-engineering`**: Modern Android development in Kotlin, Gradle KTS, foreground services, network tethering/VPN APIs, ProGuard/R8...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

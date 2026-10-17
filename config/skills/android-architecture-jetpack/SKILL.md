@@ -108,3 +108,9 @@ For sync, telemetry uploads, or image processing that must survive app death or 
       .setRequiresBatteryNotLow(true)
       .build()
   ```
+
+## Related & Interoperating Skills
+- **`android-app-engineering`**: Modern Android development in Kotlin, Gradle KTS, foreground services, network tethering/VPN APIs, ProGuard/R8...
+- **`android-testing-ci-cd-security`**: Android automated testing (JUnit 5, MockK, Robolectric, Compose UI testing), headless Gradle CI/CD pipelines, ...
+- **`android-compose-ui-ux`**: Advanced Jetpack Compose UI/UX architecture, Material 3 design systems, edge-to-edge window insets, recomposit...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

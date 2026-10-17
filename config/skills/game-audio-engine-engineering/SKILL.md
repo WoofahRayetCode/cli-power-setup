@@ -62,3 +62,11 @@ python3 config/skills/game-audio-engine-engineering/scripts/silent_audio_tester.
 * **Software Monitor Capture:** Samples live audio waveform buffers directly from PipeWire / PulseAudio software sinks (`easyeffects_sink.monitor`), calculating RMS mean volume (dB), peak amplitude, and dynamic range.
 * **Engine Log Auditing:** Parses game engine logs for OpenAL context status, sound cache lines, and missing sound asset errors.
 
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-memory-allocator-engineering`**: Custom high-performance game engine memory allocators (Linear Arena, Stack, Pool, TLSF), SIMD memory alignment...
+- **`game-networking-state-sync`**: Multiplayer network architecture, client-side prediction, server reconciliation, entity interpolation, snapsho...
+- **`game-performance-overlay-telemetry`**: In-game HUD performance metrics and telemetry profiling (MangoHud, DXVK HUD, PresentMon). Configures FPS, fram...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

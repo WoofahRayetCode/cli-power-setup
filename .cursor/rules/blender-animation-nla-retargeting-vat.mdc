@@ -71,3 +71,12 @@ For complex destruction, waving tentacles, cloth flags, or massive mobile/PC cro
 | **Bethesda Creation Engine** (*Skyrim SE*, *FO3/NV/4*, *Oblivion*) | Havok `.hkx` (`hkxcmd` / `ck-cmd` from `.fbx`/`.kf`) | `30 FPS` | Embed `NiTextKeyExtraData` annotation tracks (`start`, `Hit`, `SoundPlay.xxx`, `end`) |
 | **Valve Source & KEX** (*HL2*, *Black Mesa*, *GMod*, *L4D2*, *SiN*) | `.smd` / `.dmx` $\rightarrow$ `studiomdl` `.mdl` | `30 FPS` | Define `$sequence "reload" "anims/reload.smd" fps 30 { event AE_CL_PLAYSOUND 12 "Weapon.ClipOut" }` |
 | **id Tech 4** (*DOOM 3*) | `.md5anim` (ASCII quaternion keyframes) | `24 FPS` | Hierarchy and bone flags must match `.md5mesh` joint order 1:1 |
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`blender-high-to-low-baking`**: Automated high-to-low poly baking pipeline in Blender (bpy). Bakes tangent-space normal maps, ambient occlusio...
+- **`blender-gaussian-splatting-photogrammetry-cleanup`**: Converts raw 3D Gaussian Splatting (.ply), NeRF, photogrammetry scans, and AI-generated 3D meshes (Tripo3D/Hun...
+- **`blender-geometry-nodes-procedural-worlds`**: Headless Blender 5.2+ Geometry Nodes (bpy.types.GeometryNodeTree) procedural worldbuilding, spline generators ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

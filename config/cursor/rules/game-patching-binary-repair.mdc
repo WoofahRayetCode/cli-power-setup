@@ -77,3 +77,9 @@ When code modifications inside the `.exe` are too risky, intercept calls via **D
 2. Build a proxy DLL that:
    - Exports the original function names and forwards them to `C:\Windows\System32\<dll>`.
    - On `DLL_PROCESS_ATTACH`, injects custom bug fixes, memory allocations, or compatibility hooks.
+
+## Related & Interoperating Skills
+- **`game-runtime-diagnostics`**: Cross-platform game crash diagnostics, performance tuning, and compatibility triage across Windows (DirectX, E...
+- **`cross-platform-game-compatibility`**: Diagnosing and repairing legacy and modern PC games to run smoothly across Windows and Linux. Covers DirectX l...
+- **`game-trainer-engineering`**: Cross-platform game trainer development across Windows and Linux. Covers dynamic memory scanning, multi-level ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

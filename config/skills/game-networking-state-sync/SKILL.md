@@ -28,7 +28,8 @@ Clients retain an input buffer of unacknowledged user commands:
 ```
 ### Reconciliation Algorithm
 When receiving server state snapshot $S_{	ext{server}}$ at sequence $k$:
-1. If $\lVert S_{	ext{client}}(k) - S_{	ext{server}}(k) Vert > \epsilon_{	ext{snap}}$:
+1. If $\lVert S_{	ext{client}}(k) - S_{	ext{server}}(k) 
+Vert > \epsilon_{	ext{snap}}$:
    * Hard reset local state: $S_{	ext{local}} = S_{	ext{server}}(k)$.
    * **Replay:** Iterate inputs from sequence $k+1$ through current sequence $N$:
      $$S_{	ext{local}} = 	ext{Simulate}(S_{	ext{local}}, \mathbf{u}_i, \Delta t_{	ext{tick}})$$
@@ -50,7 +51,14 @@ Remote proxies cannot be predicted. Buffer states in a time-delay queue:
 
 * **Quantization & Fixed-Point Packing:**
   * Position: Clamp to world bounds $[-2048.0, +2048.0]$ and quantize to 16-bit integer (resolution $pprox 0.06	ext{m}$):
-    $$	ext{packed} = 	ext{uint16}\left(rac{x - x_{\min}}{x_{\max} - x_{\min}} \cdot 65535ight)$$
+    $$	ext{packed} = 	ext{uint16}\left(rac{x - x_{\min}}{x_{\max} - x_{\min}} \cdot 65535
+ight)$$
   * Rotation: "Smallest Three" quaternion encoding. Store 2-bit index of largest component, omit it (reconstructed via $w = \sqrt{1 - x^2 - y^2 - z^2}$), and pack remaining three components into $3 	imes 10	ext{-bit}$ integers (32 bits total vs 128 bits for 4 floats).
 * **Delta Encoding:**
   Send only changed fields compared to the client's last acknowledged snapshot base using bitmasks.
+
+## Related & Interoperating Skills
+- **`game-audio-engine-engineering`**: Low-latency game audio architecture, 3D spatial audio, HRTF binaural processing, mixing bus hierarchies, and s...
+- **`game-security-anti-tamper`**: Game engine runtime security, anti-tamper architectures, memory modification detection, DLL hijacking preventi...
+- **`game-ai-agent-play`**: Autonomous game-playing agent engineering and reinforcement learning (Gymnasium, OpenCV computer vision, rewar...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

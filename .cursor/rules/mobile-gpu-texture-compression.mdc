@@ -54,3 +54,12 @@ if (props.optimalTilingFeatures & VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT) {
     load_etc2_texture("textures/albedo.pkm");
 }
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-texture-material-pipeline`**: High-performance asset pipelines for modern PBR and legacy game textures. Use when converting textures across ...
+- **`blender-pbr-texture-packager`**: PBR texture channel packing (ORM - Occlusion, Roughness, Metallic), texel density enforcement, and normal map ...
+- **`android-mobile-3d-asset-optimizer`**: Android NDK, Vulkan, and OpenGL ES 3.2 mobile 3D asset optimization in Blender 5.2+. Enforces Adreno/Mali Tile...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

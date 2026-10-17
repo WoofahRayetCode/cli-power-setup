@@ -44,3 +44,9 @@ Creation Engine plugins consist of nested **Record (`TES4`, `WEAP`, `ARMO`, `NPC
 - **Crash Modal Interception & WER Dumps:** On Windows, `xray_crash_handler.py sweep` queries WMI (`Win32_Process`) and terminates lingering `notepad.exe`/`WerFault.exe` popups via `taskkill /F /PID`, reading logs from `%USERPROFILE%\Documents\STALKER-SHOC\logs` and `_appdata_\logs`.
 - **Native Win32 Playtest Input & Window Capture:** When `sys.platform == "win32"`, `game_playtest_controller.py` automatically dispatches Win32 `keybd_event` / `mouse_event` (`SendInput`), `ClipCursor`, and `PIL.ImageGrab` instead of Linux `/dev/uinput` and `spectacle`.
 - **Steam Library Auto-Discovery:** `steam-mod-scanner` automatically reads `HKCU\Software\Valve\Steam\SteamPath` and `C:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf` on Windows alongside `~/.local/share/Steam` on Linux.
+
+## Related & Interoperating Skills
+- **`source-idtech-kex-engine-modding`**: Modding pipeline for Valve Source/Source 2, GoldSrc, id Tech (Quake II/III, DOOM 3), and Nightdive KEX Engine ...
+- **`xray-lua-scripting`**: S.T.A.L.K.E.R. X-Ray Engine Lua scripting guidelines and safeguards. Use when writing, modifying, or debugging...
+- **`lowlevel-dll-internals`**: Windows PE/DLL internals, assembly-level disassembly, vtable reconstruction, calling convention alignment (__t...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

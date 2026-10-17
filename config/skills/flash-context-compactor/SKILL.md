@@ -53,3 +53,9 @@ class DataPipeline:
   1. Trigger structured compaction to `.agents/memory/activeContext.md`.
   2. Snapshot the current verified milestone and active hypotheses.
   3. Run `/compact` to flush historical tool noise, resetting the active turn cost to the low base cache.
+
+## Related & Interoperating Skills
+- **`selective-context-ingestor`**: Enforces surgical line-slice reading and AST-first inspection via slice-reader, preventing models from ingesti...
+- **`claude-context-rot-shield`**: Mitigates Claude context window degradation and prompt cache misses. Enforces 80k-token milestone compaction b...
+- **`fable-virtual-context-manager`**: Virtualized context paging and hierarchical indexing for Claude Fable (1M-token context). Prevents full 1M-tok...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -52,3 +52,12 @@ A single argument `$ARGUMENTS`:
 | AndroidManifest | `get_android_manifest()` |
 
 All tools are provided by the `jadx-headless` MCP server bundled with this plugin.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`standalone-binary-re`**: Standalone binary reverse engineering without external MCP servers. Uses native Linux CLI utilities (objdump, ...
+- **`reverse-engineer-anything`**: Reverse engineer native, managed, Electron/JavaScript, packaged, firmware, and browser targets with REA. Use s...
+- **`binary-re-workflows`**: Orchestrates reverse engineering tools (REA MCP, Ghidra, JADX, TShark, objdump, hex analysis) with Superpowers...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

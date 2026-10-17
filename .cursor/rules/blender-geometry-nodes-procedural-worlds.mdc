@@ -70,3 +70,12 @@ Game engines (`.fbx`, `.glb`, `.ogf`) will ignore unrealized Geometry Node insta
        obj.data.attributes.active = attr
        bpy.ops.geometry.attribute_convert(mode='UV_MAP')
    ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`blender-hard-surface-cad-weapons-props`**: Non-destructive hard-surface 3D modeling in Blender 5.2+ for weapons, firearms, vehicles, mechs, and sci-fi pr...
+- **`blender-uv-udim-lightmap-architect`**: Automated headless UV unwrapping in Blender 5.2+ (SLIM Minimum Stretch, Angle-Based, Conformal), texel density...
+- **`blender-high-to-low-baking`**: Automated high-to-low poly baking pipeline in Blender (bpy). Bakes tangent-space normal maps, ambient occlusio...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

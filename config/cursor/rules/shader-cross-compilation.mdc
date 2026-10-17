@@ -68,3 +68,12 @@ Run the included validator script:
 ```bash
 python3 scripts/shader_transpile_validate.py path/to/shader.vert -S vert
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`cross-engine-shader-transpiler`**: Universal shader authoring and transpilation using Slang and SPIRV-Cross, converting single-source shaders to ...
+- **`vulkan-gpu-compute`**: Cross-vendor GPU compute and modern graphics engineering via Vulkan 1.3/1.4, SPIR-V shader compilation, headle...
+- **`game-engine-migration`**: Universal architectural framework for porting, migrating, and modernizing game engines and legacy mods across ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

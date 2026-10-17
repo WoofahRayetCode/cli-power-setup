@@ -59,3 +59,12 @@ python3 config/skills/local-vector-rag-engine/scripts/local_vector_rag.py \
 python3 config/skills/local-vector-rag-engine/scripts/local_vector_rag.py \
   stats --index .agents/rag/index.json
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`stalker-spawn-entity-indexer`**: High-performance local indexer and query engine for S.T.A.L.K.E.R. unpacked all.spawn and game.graph archives....
+- **`fable-virtual-context-manager`**: Virtualized context paging and hierarchical indexing for Claude Fable (1M-token context). Prevents full 1M-tok...
+- **`local-model-coprocessor`**: Offloads low-complexity tasks (docstrings, commit messages, log summarization, regex, boilerplate) to local SL...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

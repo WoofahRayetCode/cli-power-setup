@@ -47,3 +47,9 @@ print(f"Status: PASS (Transforms frozen, normals recalculated)")
 ## Windows 10/11 & Cross-Platform Blender 5.2+ Parity (`windows-linux-cross-os-runtime-bridge`)
 - **Executable Discovery:** Resolve Blender via `shutil.which("blender")` or fallback on Windows to `C:\Program Files\Blender Foundation\Blender 5.2\blender.exe -b --factory-startup`.
 - **Cross-OS Scratch & OptiX Baking:** Stage intermediate `.blend`, `.png`, and `.ogf`/`.glb` exports in `Path(tempfile.gettempdir())` (`%TEMP%` on Windows, `/dev/shm` on Linux) and enable `compute_device_type = "OPTIX"` on both Windows WDDM 3.2 and Linux NVIDIA drivers.
+
+## Related & Interoperating Skills
+- **`blender-3d-engineering`**: High-efficiency, quota-saving 3D modeling and procedural asset generation with Blender (bpy). Use when creatin...
+- **`universal-token-containment-protocol`**: Universal cross-model and cross-domain token containment protocol across all 197 skills (Sonnet, Opus, Fable, ...
+- **`claude-opus-conciseness-enforcer`**: Enforces extreme output conciseness, strict BLUF formatting, and hard token caps for Claude Opus. Eliminates c...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

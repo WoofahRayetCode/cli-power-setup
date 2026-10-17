@@ -42,3 +42,9 @@ When working on massive codebases that exceed 200k tokens:
 
 * Reading a 150k token repo 10 times un-cached: **1,500,000 billed input tokens**.
 * Reading with stabilized prompt caching (>90% discount): **~165,000 effective input tokens**.\n
+
+## Related & Interoperating Skills
+- **`gemini-flash-cache-aligner`**: Maximizes Gemini 3.8 Flash prompt caching discounts (>90% savings) through strict prefix stabilization, 4,096-...
+- **`multi-model-cache-harmonizer`**: Prompt cache prefix stabilization and alignment engine across Claude, Gemini, OpenAI, and Grok. Aligns static ...
+- **`claude-fable-engine-governor`**: Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engin...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

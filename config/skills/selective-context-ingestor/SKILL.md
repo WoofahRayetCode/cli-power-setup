@@ -56,3 +56,12 @@ slice-reader src/xrGame/alife_simulator.cpp teleport_object
 # View 10 lines around line 412:
 slice-reader src/xrGame/alife_simulator.cpp 412 -c 10
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`flash-context-compactor`**: Prevents Gemini 3.8 Flash context window inflation through targeted line-slice reading, AST interface skeleton...
+- **`argon-atomic-diff-sequencer`**: Enforces Claude-grade atomic chunk editing on Gemini 4 Argon. Restricts all code changes to surgical <= 30-lin...
+- **`qwen-polyglot-ast-cartographer`**: Emulates Qwen 2.5 Coder polyglot AST cartography. Generates instant symbol call-graphs, inheritance trees, and...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

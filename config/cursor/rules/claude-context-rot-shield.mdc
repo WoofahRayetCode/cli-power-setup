@@ -40,3 +40,9 @@ To keep context rot from setting in prematurely:
 - Pipe long terminal commands to `head -n 40` or scratch logs.
 - Never print full source files into context when a targeted diff suffices.
 - Condense test runner logs using `headless-test-condenser`.
+
+## Related & Interoperating Skills
+- **`argon-long-haul-context-compaction-gate`**: Monitors context consumption during long-running Argon YOLO porting runs, triggering atomic milestone compacti...
+- **`context-pruning-watchdog`**: Live telemetry monitoring of active context consumption; automatically stages memory state into activeContext....
+- **`cross-model-switch-pruner`**: Pre-switch state compaction and history virtualization engine when switching models (Sonnet to Fable, Opus, or...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

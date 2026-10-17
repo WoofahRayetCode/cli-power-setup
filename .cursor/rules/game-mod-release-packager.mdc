@@ -81,3 +81,9 @@ Conclude packaging with a clean release table:
 - **Archive Size:** Total packed MB vs unpacked MB (compression efficiency ratio).
 - **Checksum Verification:** Verified pass on all SHA-256 signatures.
 - **Ready for Deployment:** Instant upload paths for ModDB, Nexus Mods, or Steam Workshop.
+
+## Related & Interoperating Skills
+- **`game-asset-pack-archive-engineering`**: Virtual file systems (VFS), game asset pack archive containers (PAK, XDB, AssetBundles), chunked zstd/zlib com...
+- **`game-modding`**: Specialized workflows, format rules, and safety checks for game modding, focusing on S.T.A.L.K.E.R. Legends of...
+- **`game-dll-proxy-generator`**: Automated game proxy DLL generation and internal hook architecture. Scaffolds export forwarding wrappers for d...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

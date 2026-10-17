@@ -113,3 +113,12 @@ echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope
 # Permanent setting in /etc/sysctl.d/10-ptrace.conf:
 # kernel.yama.ptrace_scope = 0
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-trainer-engineering`**: Cross-platform game trainer development across Windows and Linux. Covers dynamic memory scanning, multi-level ...
+- **`game-self-improving-qa-pipeline`**: Closed-loop self-improving game QA test harness: automated loading screen dismissal, 88% loading stall watchdo...
+- **`game-entity-component-system`**: High-performance Entity Component System (ECS) architecture, Data-Oriented Design (DOD), Archetype vs Sparse-S...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

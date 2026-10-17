@@ -66,3 +66,12 @@ spirv-cross build/shaders/pbr_lighting.spv --msl --output build/shaders/pbr_ligh
    ```
 3. **Automated SPIR-V Validation:**
    Always run `spirv-val` on generated SPIR-V binaries to catch malformed control flows or unsupported memory models before runtime driver submission.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`shader-cross-compilation`**: Cross-compilation, translation, and validation of game shaders across HLSL, GLSL, SPIR-V, WGSL, and MSL. Use w...
+- **`vulkan-gpu-compute`**: Cross-vendor GPU compute and modern graphics engineering via Vulkan 1.3/1.4, SPIR-V shader compilation, headle...
+- **`pc-cross-platform-graphics-api`**: Modern C++ graphics Hardware Abstraction Layer (HAL) supporting DirectX 12, Vulkan, and DirectX 11, Valve Prot...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

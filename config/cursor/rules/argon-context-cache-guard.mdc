@@ -40,3 +40,9 @@ To prevent breaking the KV cache on Argon:
 1. **Never Put Timestamps in System Prompts:** Dynamic dates and current times must strictly reside in trailing user message blocks (e.g. `<ADDITIONAL_METADATA>`), never in system rules.
 2. **Frozen Tool Schemas:** Never dynamically alter tool definitions mid-session.
 3. **Static System Directives:** Ensure behavioral guidelines and project instructions remain byte-for-byte identical turn-over-turn.
+
+## Related & Interoperating Skills
+- **`multi-model-cache-harmonizer`**: Prompt cache prefix stabilization and alignment engine across Claude, Gemini, OpenAI, and Grok. Aligns static ...
+- **`gemini-flash-cache-aligner`**: Maximizes Gemini 3.8 Flash prompt caching discounts (>90% savings) through strict prefix stabilization, 4,096-...
+- **`agy-context-telemetry`**: Deep context window utilization and token cost inspector for Antigravity CLI (parity with claude /context and ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

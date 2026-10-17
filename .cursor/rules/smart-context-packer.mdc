@@ -86,3 +86,12 @@ grep -E '^(type [A-Za-z0-9_]+ (struct|interface)|func [A-Za-z0-9_]+|func \([a-z]
 
 * **Handoff to `semantic-codebase-indexing`:** Uses symbol index tags to identify which files to skeletonize.
 * **Handoff to `writing-plans`:** Feeds interface skeletons into implementation plans without blowing the context window.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`polyglot-ast-interface-pruner`**: Polyglot AST interface pruner and header skeletonizer across C++, C#, Rust, Python, and Lua. Strips function i...
+- **`qwen-polyglot-ast-cartographer`**: Emulates Qwen 2.5 Coder polyglot AST cartography. Generates instant symbol call-graphs, inheritance trees, and...
+- **`selective-context-ingestor`**: Enforces surgical line-slice reading and AST-first inspection via slice-reader, preventing models from ingesti...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

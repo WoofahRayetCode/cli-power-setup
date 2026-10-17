@@ -35,3 +35,9 @@ When available 5-hour quota drops below **15%**:
 4. **Sleep & Auto-Resume:**
    - Sleep until the reset timestamp passes.
    - Upon replenishment, verify quota has returned to > 80% and seamlessly resume execution from `.agents/memory/activeContext.md`.
+
+## Related & Interoperating Skills
+- **`gemini-5h-quota-governor`**: Real-time telemetry governor for Gemini 3.8 Flash rolling 5-hour quota windows. Throttles tool verbosity and p...
+- **`argon-long-haul-context-compaction-gate`**: Monitors context consumption during long-running Argon YOLO porting runs, triggering atomic milestone compacti...
+- **`context-pruning-watchdog`**: Live telemetry monitoring of active context consumption; automatically stages memory state into activeContext....
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

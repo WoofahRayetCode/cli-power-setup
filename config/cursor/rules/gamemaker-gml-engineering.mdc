@@ -110,3 +110,9 @@ GameMaker defaults to step-based fixed timesteps (`room_speed` / 60 FPS). For sm
 x += (hspd * target_fps) * DT;
 y += (vspd * target_fps) * DT;
 ```
+
+## Related & Interoperating Skills
+- **`csharp-dotnet-engineering`**: Modern C# and .NET 8/9 engineering standards. Use when writing C# applications, Unity/Godot C# logic, memory o...
+- **`godot-game-dev`**: Game development workflows for Godot Engine (GDScript 2.0 & C#). Use when designing game systems, scene trees,...
+- **`unreal-engine-dev`**: Game development workflows for Unreal Engine 5 (C++ and Blueprints). Use when implementing Gameplay Framework ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

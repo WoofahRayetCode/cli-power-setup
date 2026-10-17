@@ -67,3 +67,12 @@ print(json.dumps(db.get('esc_trader', {}), indent=2))
 - **99.5% Context Reduction:** Replaces ingesting 40,000 lines of spawn text with a 15-line targeted JSON record.
 - **Prevents Agent Hallucinations:** Supplies exact game vertex IDs and floating-point positions directly from engine data.
 - **Saves 35k–50k tokens** on every quest, level changer, or NPC transit triage.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`stalker-level-ai-graph-triage`**: Diagnoses and repairs S.T.A.L.K.E.R. and X-Ray/OGSR level AI navmesh and graph defects. Triages 'Cannot find l...
+- **`local-vector-rag-engine`**: Local vector embeddings and dense semantic search engine running on host CPU/GPU/RAM. Replaces context-stuffin...
+- **`xray-crash-symbol-resolver`**: Translates Wine, Proton, and native Linux crash addresses and DLL relative virtual addresses (RVAs) into exact...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

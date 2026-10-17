@@ -88,3 +88,12 @@ xdg-open /path/to/generated_image.png 2>/dev/null || open /path/to/generated_ima
 
 * **Handoff to `generative-visual-artifacts`:** To embed generated images in interactive HTML dashboards.
 * **Handoff to `game-modding`:** To convert generated textures into DXT1/DXT5 `.dds` formats for S.T.A.L.K.E.R.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`furry-fursona-art-design`**: Specialized design and generation pipeline for furry and fursona character art, multi-view turnaround referenc...
+- **`ai-3d-mesh-generation`**: AI-powered text-to-3D and image-to-3D generation pipelines using Tripo3D API, automatic retopology, PBR textur...
+- **`intelligent-interactive-ui`**: Generates reactive, single-file interactive micro-apps, live calculators, filterable data tables, and dynamic ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -193,3 +193,12 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 ## 7. Permissions & Gateway Intents Tool
 
 Use `scripts/discord_bitmask_calculator.py` to calculate exact permission integers, decode bot invite links, and evaluate gateway intent bitmasks without granting unsafe administrator rights.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`cryptographic-security-engineering`**: Applied modern cryptography and secure protocol implementations. Covers Ed25519 digital signatures (Discord in...
+- **`emulator-development-engineering`**: Video game console emulation architecture, CPU interpreter & JIT dynamic binary translation, cycle-accurate ti...
+- **`claude-opus-plan-sonnet-exec`**: Three-tier model routing architecture for Anthropic Claude ('Opus Plan, Sonnet Code, Haiku Hands'). Preserves ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

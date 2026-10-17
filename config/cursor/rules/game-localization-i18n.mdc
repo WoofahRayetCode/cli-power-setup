@@ -48,3 +48,9 @@ Simple string concatenation (`"You have " + count + " items"`) breaks in Slavic,
 When supporting Arabic (`ar`) or Hebrew (`he`):
 - Text flows right-to-left, but numbers and embedded Latin words flow left-to-right.
 - UI elements (back buttons, inventory slots, skill trees) must horizontally mirror across the vertical axis.
+
+## Related & Interoperating Skills
+- **`game-dialogue-ui-localization`**: Specialized game dialogue translation, string table repair, and conversation UI layout engine (S.T.A.L.K.E.R. ...
+- **`game-qol-gameplay-scripting`**: Autonomous quality-of-life gameplay scripting: proximity radar scanning, intelligent auto-loot for quest/ammo/...
+- **`game-audio-engine-engineering`**: Low-latency game audio architecture, 3D spatial audio, HRTF binaural processing, mixing bus hierarchies, and s...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

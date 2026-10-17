@@ -83,3 +83,12 @@ To prevent visual jarring where a weapon has crisp 4K pixels next to a muddy 512
 | **Bethesda Fallout 4 & Starfield** | DirectX `Y-` `_n.dds` (`BC5`) | Fallout 4 `_s.dds` (`BC5`): `R = Smoothness (1 - Roughness)`, `G = Metallic`; Starfield separate `_rough`, `_metal`, `_ao` |
 | **Valve Source** (*HL2*, *Black Mesa*, *GMod*, *L4D2*, *CS2*) | DirectX `Y-` `.vtf` (`BGRA8888` / `DXT5`) | `$bumpmap` Alpha = `$envmapmask` or `$basemapalphaphongmask`; `$phongexponenttexture` (`R = Exp, G = Albedo Tint`) |
 | **Rockstar GTA** (*GTA III/VC/SA* `.txd`, *GTA IV/V* `.ytd`) | DirectX `Y-` (`DXT1/DXT5`) | GTA V `_s.dds`: `R = Specular Intensity`, `G = Glossiness`, `B = Fresnel` |
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`blender-high-to-low-baking`**: Automated high-to-low poly baking pipeline in Blender (bpy). Bakes tangent-space normal maps, ambient occlusio...
+- **`game-texture-material-pipeline`**: High-performance asset pipelines for modern PBR and legacy game textures. Use when converting textures across ...
+- **`blender-uv-udim-lightmap-architect`**: Automated headless UV unwrapping in Blender 5.2+ (SLIM Minimum Stretch, Angle-Based, Conformal), texel density...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

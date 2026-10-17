@@ -105,3 +105,12 @@ python3 config/skills/game-performance-overlay-telemetry/scripts/mangohud_config
 # Generate benchmark logging profile:
 python3 config/skills/game-performance-overlay-telemetry/scripts/mangohud_configurator.py --preset benchmark --out /tmp/MangoHud.conf
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`dxvk-vkd3d-proton-pipeline-profiler`**: Diagnoses and eliminates DXVK and VKD3D-Proton shader compilation stutter, descriptor heap stalls, and VRAM st...
+- **`game-audio-engine-engineering`**: Low-latency game audio architecture, 3D spatial audio, HRTF binaural processing, mixing bus hierarchies, and s...
+- **`game-runtime-diagnostics`**: Cross-platform game crash diagnostics, performance tuning, and compatibility triage across Windows (DirectX, E...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

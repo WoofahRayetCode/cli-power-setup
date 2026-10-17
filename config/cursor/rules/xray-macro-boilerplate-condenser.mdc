@@ -70,3 +70,9 @@ public:
    - Always retain whether a pointer is owned (`shared_ptr`, `unique_ptr`, or manual engine pool pointer).
 3. **Keep Luabind Signatures Flat:**
    - Convert multi-line chained `.def("fn", &Class::fn)` blocks into 1-line export lists.
+
+## Related & Interoperating Skills
+- **`xray-crash-symbol-resolver`**: Translates Wine, Proton, and native Linux crash addresses and DLL relative virtual addresses (RVAs) into exact...
+- **`xray-lua-scripting`**: S.T.A.L.K.E.R. X-Ray Engine Lua scripting guidelines and safeguards. Use when writing, modifying, or debugging...
+- **`polyglot-ast-interface-pruner`**: Polyglot AST interface pruner and header skeletonizer across C++, C#, Rust, Python, and Lua. Strips function i...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

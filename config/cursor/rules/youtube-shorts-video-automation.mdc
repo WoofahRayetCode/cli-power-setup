@@ -47,3 +47,12 @@ Convert Whisper `.srt` into stylized Advanced SubStation Alpha (`.ass`):
 ## 📊 Summary Output Format
 * `youtube shorts: [✓] Rendered 9:16 vertical short (58s, AV1 NVENC, blurred background padding)`
 * `jump-cut trimming: [✓] Removed 14 pauses (12.4s saved, pace increased by 18%)`
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`video-production-automation`**: Hardware-accelerated video engineering and automated post-production using FFmpeg with NVIDIA NVENC (AV1, HEVC...
+- **`game-exploratory-fuzzing`**: Evolutionary input fuzzing, novelty-guided action mutation, and crash delta minimization for automated game QA...
+- **`android-device-automation`**: Real-time Android device control, scrcpy screen observation, mobile game bot scripting, automated app manageme...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

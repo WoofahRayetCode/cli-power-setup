@@ -37,3 +37,9 @@ This skill governs C# software development across modern .NET 8/9 and game engin
 ## Cross-OS Windows 10/11 & Linux Runtime Bridge (`windows-linux-cross-os-runtime-bridge`)
 - **Unified Windows & Linux Execution:** Pair with `windows-linux-cross-os-runtime-bridge` for portable CPU thread saturation (`os.cpu_count()` / `$env:NUMBER_OF_PROCESSORS` / `$(nproc)`), scratch staging (`Path(tempfile.gettempdir())` / `R:\` RAMDisk / `/dev/shm`), and dual-GPU routing (Windows `UserGpuPreferences` vs Linux `DRI_PRIME`).
 - **Dynamic Cheat Sheet, Git Sync & Self-Evolution:** Consult `agy-cheatsheet` (`cs` / `dynamic-repo-model-cheatsheet`) for live per-repo model/effort selection, commit verified milestones via `repo-auto-sync <repo> --checkpoint --push` (`autonomous-git-repo-sync-governor`), and promote reusable cross-OS scripts via `skill-evolve` (`self-evolving-skill-synthesizer`).
+
+## Related & Interoperating Skills
+- **`unity-game-dev`**: Game development workflows for Unity Engine (C#). Use when developing MonoBehaviours, ScriptableObjects, physi...
+- **`python-engineering`**: Python software engineering and performance standards (Python 3.10+). Use when authoring or refactoring Python...
+- **`gamemaker-gml-engineering`**: Modern GameMaker (2024+) game development workflows in GML Code. Covers lightweight constructors/structs, stat...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -43,3 +43,9 @@ When an operation requires invoking tools (`view_file`, `replace_file_content`, 
 - Emit the tool call immediately.
 - Do not announce what you are about to do in chat before calling the tool.
 - Let the tool result provide the evidence.
+
+## Related & Interoperating Skills
+- **`token-economy`**: Output token optimization and high-density communication protocol. Use to minimize output token consumption, p...
+- **`claude-silent-dispatch`**: Eliminates pre-tool narration, commentary, and conversational play-by-plays in Claude Code, executing tool cal...
+- **`claude-opus-plan-sonnet-exec`**: Three-tier model routing architecture for Anthropic Claude ('Opus Plan, Sonnet Code, Haiku Hands'). Preserves ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

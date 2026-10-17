@@ -42,3 +42,6 @@ python3 config/skills/interactive-data-visualization-web/scripts/data_vis_genera
 2. **Visual Generation:** Render interactive graphs or timelines via `interactive-data-visualization-web`.
 3. **Aesthetic Framing:** Wrap inside a thematic archetype (e.g. `mythic-parchment` or `dark-glassmorphism`) via `creative-web-design-archetypes`.
 4. **Publishing:** Deploy to GitHub Pages via `static-site-architecture`.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

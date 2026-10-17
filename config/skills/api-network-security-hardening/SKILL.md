@@ -75,3 +75,9 @@ Cross-Origin-Opener-Policy: same-origin
 When receiving webhooks (Discord, Stripe, GitHub, custom payment providers):
 1. **Timestamp Freshness Check:** Reject any incoming webhook whose timestamp differs by more than 300 seconds (5 minutes) from server time to prevent replay attacks.
 2. **Raw Body Cryptographic Signature:** Compute HMAC-SHA256 over `timestamp + "." + raw_request_body` and verify with constant-time equality. Never parse JSON before signature verification.
+
+## Related & Interoperating Skills
+- **`cryptographic-security-engineering`**: Applied modern cryptography and secure protocol implementations. Covers Ed25519 digital signatures (Discord in...
+- **`app-security-threat-modeling`**: Universal application security architecture, STRIDE threat modeling, OWASP Top 10 mitigation, memory safety ha...
+- **`discord-bot-engineering`**: Production Discord bot development across Python (discord.py) and TypeScript (discord.js). Covers modern Disco...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

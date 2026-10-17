@@ -68,3 +68,9 @@ static auto CVar_ShadowCascadeCount = CVarSystem::RegisterInt("r.shadows.cascade
   ```
 * **GPU Time Queries:** Use timestamp query pools (`vkCmdWriteTimestamp` / `D3D12_QUERY_TYPE_TIMESTAMP`) to measure exact GPU pass latency in microseconds without stalling the pipeline with CPU synchronizations.
 * **Flame Graph Hierarchy:** Aggregate scopes into a per-thread tree structure rendered dynamically via ImGui timeline bars.
+
+## Related & Interoperating Skills
+- **`game-physics-collision-pipeline`**: Real-time physics engine architecture, fixed timestep accumulator loops, continuous collision detection (CCD),...
+- **`game-graphics-optimization-profiling`**: Profiling and optimizing GPU/CPU rendering performance for games and engine ports. Use when identifying vertex...
+- **`game-performance-overlay-telemetry`**: In-game HUD performance metrics and telemetry profiling (MangoHud, DXVK HUD, PresentMon). Configures FPS, fram...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

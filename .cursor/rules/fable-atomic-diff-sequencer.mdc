@@ -56,3 +56,9 @@ flowchart TD
 
 - **80% Output Token Reduction:** Eliminates 30,000+ tokens of redundant unchanged code per refactor.
 - **Zero Broken Multi-File Edits:** If a chunk fails, only that single file is retried rather than repeating the entire 10-file batch.
+
+## Related & Interoperating Skills
+- **`fable-virtual-context-manager`**: Virtualized context paging and hierarchical indexing for Claude Fable (1M-token context). Prevents full 1M-tok...
+- **`claude-fable-engine-governor`**: Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engin...
+- **`argon-ast-syntax-gate`**: Pre-flight local compiler and AST syntax verification gate for Gemini 4 Argon. Catches syntax, typing, and par...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

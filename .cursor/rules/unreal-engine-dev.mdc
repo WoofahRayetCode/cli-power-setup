@@ -35,3 +35,9 @@ This skill governs C++ and Blueprint architecture in **Unreal Engine 5 (UE 5.1 -
 - `APawn` / `ACharacter`: Physical in-world avatar (mesh, collisions, movement components).
 - `APlayerState`: Persistent player state (score, ping, player stats) across actor respawns.
 - `UActorComponent`: Reusable, modular gameplay behaviors (e.g. `HealthComponent`, `InventoryComponent`) attached to actors rather than creating monolithic character subclasses.
+
+## Related & Interoperating Skills
+- **`unity-game-dev`**: Game development workflows for Unity Engine (C#). Use when developing MonoBehaviours, ScriptableObjects, physi...
+- **`gamemaker-gml-engineering`**: Modern GameMaker (2024+) game development workflows in GML Code. Covers lightweight constructors/structs, stat...
+- **`godot-game-dev`**: Game development workflows for Godot Engine (GDScript 2.0 & C#). Use when designing game systems, scene trees,...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

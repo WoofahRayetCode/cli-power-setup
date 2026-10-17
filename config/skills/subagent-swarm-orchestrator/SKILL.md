@@ -63,3 +63,12 @@ Subagents report progress back to the parent orchestrator via standard JSON file
 
 * **Handoff to `using-git-worktrees`:** For low-level worktree lifecycle and branch cleanup.
 * **Handoff to `subagent-code-reviewer`:** For dispatching dedicated code-review subagents before merging.\n
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`claude-worktree-tmux`**: Native Claude Code background session and tmux pane isolation, running heavy builds, test suites, and long tas...
+- **`cross-agent-git-rebase-guard`**: Automated git worktree synchronization, non-interactive rebasing, and conflict-free merging between concurrent...
+- **`argon-subagent-payload-compressor`**: Enforces high-density structured return envelopes on Gemini subagent messages, eliminating conversational fluf...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

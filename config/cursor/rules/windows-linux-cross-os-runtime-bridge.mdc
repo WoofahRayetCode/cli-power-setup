@@ -76,3 +76,9 @@ def sweep_xray_crash_modals() -> None:
     else:
         subprocess.run(["pkill", "-f", "notepad.exe.*xray_"], capture_output=True)
 ```
+
+## Related & Interoperating Skills
+- **`amd-igpu-nvidia-dgpu-hybrid-offload`**: Dual-GPU workload splitter for AMD Radeon 610M iGPU (/dev/dri/renderD129, RADV Vulkan + VA-API VCN + 30GB shar...
+- **`ramdisk-tmpfs-build-bake-accelerator`**: Exploits 30 GB system RAM via Linux /dev/shm tmpfs RAM-disk (~40 GB/s bandwidth, zero SSD I/O wear) for ultra-...
+- **`dual-engine-quota-balancer`**: Dynamic telemetry coordination across Gemini 4 Argon, Gemini 3.8 Flash subagents, and local CPU/GPU offloads, ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

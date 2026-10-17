@@ -143,3 +143,6 @@ python3 config/skills/adaptive-reasoning/scripts/adaptive_model_router.py route 
 6. **Dynamic Repo Cheat Sheet & Statusline Sync (`dynamic-repo-model-cheatsheet`):**
    - `adaptive-model-router` automatically updates `config/repo_cheatsheet.json` and invalidates `/tmp/agy_cheatsheet_statusline.json` on `fail` or `pass`, immediately updating `agy-cheatsheet` (`cs`) and the live bottom statusline (`🎯 Rec: ...`).
    - Pair milestone completions with `repo-auto-sync <repo> --checkpoint --push` and persist solved workarounds via `skill-evolve`.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

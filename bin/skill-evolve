@@ -77,6 +77,11 @@ def hot_sync_single_skill(skill_name: str, auto_push: bool = True) -> None:
                     print(f"[✗] Script syntax error in {sp.name}: {smsg}", file=sys.stderr)
                     sys.exit(1)
 
+    # Auto-optimize the skill & wire into ecosystem mesh (cross-linking, cross-OS parity, token compaction)
+    opt_bin = REPO_ROOT / "bin" / "skill-optimize"
+    if opt_bin.is_file() and os.environ.get("SKILL_EVOLVE_NO_OPTIMIZE") != "1":
+        subprocess.run([sys.executable, str(opt_bin), "--target", skill_name], check=False)
+
     for target_root in (GEMINI_SKILLS, CLAUDE_SKILLS):
         target_root.mkdir(parents=True, exist_ok=True)
         dst = target_root / skill_name

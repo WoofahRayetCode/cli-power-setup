@@ -82,3 +82,9 @@ When running stress tests, correlate entity counts with MangoHud / DXVK performa
        end
    end
    ```
+
+## Related & Interoperating Skills
+- **`game-qol-gameplay-scripting`**: Autonomous quality-of-life gameplay scripting: proximity radar scanning, intelligent auto-loot for quest/ammo/...
+- **`game-autonomous-navigation-ai`**: Autonomous AI player navigation, level vertex/waypoint graph mapping, route recording & playback, obstacle/inv...
+- **`game-audio-ogg-gsc-encoder`**: Converts and encodes game audio to Ogg Vorbis while injecting and preserving proprietary GSC binary engine com...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

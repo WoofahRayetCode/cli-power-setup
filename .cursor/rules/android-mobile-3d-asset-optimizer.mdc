@@ -52,3 +52,12 @@ def sanitize_mobile_skinning(obj: bpy.types.Object, max_influences: int = 4):
 2. **ASTC 4x4 / 6x6 & KTX2 Supercompression:**
    - Never ship uncompressed `.png` or desktop `BC7/DXT5` textures inside an Android `.apk`/`.aab`.
    - Pack Occlusion (`R`), Roughness (`G`), and Metallic (`B`) into a single **ORM** map (`blender-pbr-texture-packager`) and encode to **ASTC 4x4** (normals/hero albedo) and **ASTC 6x6** (environment/ORM) inside `.ktx2` containers (`toktx --t2 --encode uastc --zcmp 18`).
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-engine-3d-budget-profiler`**: Enforces game engine 3D performance budgets, automated LOD0-LOD3 generation, convex collision hull generation ...
+- **`android-game-ndk-vulkan`**: Native Android game development using C++20, Android NDK (GameActivity / NativeActivity), Vulkan mobile render...
+- **`android-ndk-jni-engineering`**: High-performance Android NDK C/C++ development, JNI bridge architecture, native Vulkan/OpenGL ES rendering, Ob...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

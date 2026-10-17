@@ -32,3 +32,9 @@ This skill establishes an **Atomic Milestone Compaction Gate** at **250k tokens*
 | :--- | :--- | :--- | :--- |
 | **Unmanaged Long-Haul Run** | 500k – 800k tokens | 8 – 15 seconds per turn | 95% discount (but high memory overhead) |
 | **Managed 250k Compaction Gate** | **35k – 250k tokens** | **1 – 3 seconds per turn** | **Continuous 95% discount locked permanently** |
+
+## Related & Interoperating Skills
+- **`claude-context-rot-shield`**: Mitigates Claude context window degradation and prompt cache misses. Enforces 80k-token milestone compaction b...
+- **`argon-long-context-retrieval-anchor`**: Enforces boundary-edge semantic anchoring across Gemini 4 Argon's 1M-token context window to prevent attention...
+- **`argon-yolo-quota-pacing-watchdog`**: Telemetry governor that paces Gemini 4 Argon autonomous YOLO execution, preventing 5-hour quota exhaustion by ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

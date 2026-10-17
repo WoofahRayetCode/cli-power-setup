@@ -49,3 +49,9 @@ This skill provides architectural guidance, debugging methodologies, and design 
 ## 📊 Summary Output Format
 * `emulator jit: [✓] Recompiled block at 0x80004120 (38 guest instrs -> 24 host instrs, 0 spills)`
 * `vulkan renderer: [✓] Pipeline barrier: Resolved depth buffer hazard at VBLANK (60.0 FPS)`
+
+## Related & Interoperating Skills
+- **`real-time-rendering-pipeline`**: Architecture, modern paradigms, and debugging for real-time game renderers (DirectX 12, Vulkan 1.3+, WebGPU). ...
+- **`vulkan-gpu-compute`**: Cross-vendor GPU compute and modern graphics engineering via Vulkan 1.3/1.4, SPIR-V shader compilation, headle...
+- **`game-engine-migration`**: Universal architectural framework for porting, migrating, and modernizing game engines and legacy mods across ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

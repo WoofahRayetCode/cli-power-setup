@@ -26,3 +26,9 @@ Use this skill when implementing an approved plan.
 
 4. **Progress Visibility:**
    - Briefly communicate progress as tasks are completed and verified.
+
+## Related & Interoperating Skills
+- **`superpowers`**: Core engineering methodology and discipline engine. Use when starting non-trivial tasks to evaluate if brainst...
+- **`writing-plans`**: Breaks down complex engineering tasks, refactors, and mod implementations into granular, dependency-ordered, v...
+- **`python-engineering`**: Python software engineering and performance standards (Python 3.10+). Use when authoring or refactoring Python...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

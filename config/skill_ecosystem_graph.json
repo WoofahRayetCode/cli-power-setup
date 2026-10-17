@@ -1,0 +1,2669 @@
+{
+  "total_skills": 296,
+  "skills": {
+    "adaptive-reasoning": {
+      "description": "Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-speed execution on Flash and deep-reasoning planning on Argon based on prompt complexity.",
+      "related": [
+        "argon-effort-auto-calibrator",
+        "dynamic-model-downshifter",
+        "python-engineering",
+        "claude-thinking-budget-governor"
+      ]
+    },
+    "agent-error-recovery-sentinel": {
+      "description": "Autonomous watchdog and runtime error recovery supervisor for unattended YOLO playtests and background test runners. Intercepts frozen Wine/Proton processes, dismisses modal crash dialogs (Notepad/BugTrap), clears stale file locks, and auto-resumes test loops without human intervention.",
+      "related": [
+        "xray-crash-interceptor-daemon",
+        "game-self-improving-qa-pipeline",
+        "xray-crash-log-diagnostician",
+        "game-screen-telemetry-monitor"
+      ]
+    },
+    "agentic-visual-perception": {
+      "description": "Autonomous AI agent visual reasoning, visual grounding, and high-resolution perception. Covers Slicing Aided Hyper Inference (SAHI) for 4K/8K images, natural language visual grounding coordinates [ymin, xmin, ymax, xmax], click centroid calculation, multi-scale crop-and-zoom inspection heuristics, and structural visual diffing (SSIM).",
+      "related": [
+        "argon-multimodal-vision-grounding",
+        "local-gpu-vision-ocr-preprocessor",
+        "screen-vision-inspector",
+        "game-ai-agent-play"
+      ]
+    },
+    "agy-cli-doctor": {
+      "description": "System diagnostics and environment verification for Antigravity CLI (parity with claude doctor). Validates binary health, settings.json permissions, SQLite conversation database integrity, model endpoint connectivity, and quota locks.",
+      "related": [
+        "agy-context-telemetry",
+        "agy-codebase-init",
+        "skills-updater-and-auditor",
+        "screen-vision-inspector"
+      ]
+    },
+    "agy-codebase-init": {
+      "description": "Autonomous repository onboarding and architecture intake for Antigravity (parity with claude /init). Detects build systems, test runners, linters, and directory layout, generating tailored GEMINI.md and CLAUDE.md project guidelines.",
+      "related": [
+        "agy-context-telemetry",
+        "agy-cli-doctor",
+        "semantic-codebase-indexing",
+        "headless-test-condenser"
+      ]
+    },
+    "agy-context-telemetry": {
+      "description": "Deep context window utilization and token cost inspector for Antigravity CLI (parity with claude /context and claude /cost). Tracks step-by-step cache efficiency, prompt overhead, model token splits, and dollar value savings.",
+      "related": [
+        "agy-codebase-init",
+        "agy-cli-doctor",
+        "argon-context-cache-guard",
+        "context-pruning-watchdog"
+      ]
+    },
+    "ai-3d-mesh-generation": {
+      "description": "AI-powered text-to-3D and image-to-3D generation pipelines using Tripo3D API, automatic retopology, PBR texture baking, format conversion (GLB, FBX, OBJ), and offline Blender procedural fallback.",
+      "related": [
+        "blender-gaussian-splatting-photogrammetry-cleanup",
+        "ai-procedural-audio-generation",
+        "blender-3d-engineering",
+        "argon-structured-json-schema-enforcer"
+      ]
+    },
+    "ai-procedural-audio-generation": {
+      "description": "AI-powered and procedural audio generation for game development, content creation, and applications. Covers procedural DSP synthesis (oscillators, envelopes, noise bursts, chiptune/sfxr), text-to-sound-effect (SFX) models, adaptive game soundtrack layering, UI sound design, and loudness normalization.",
+      "related": [
+        "ai-3d-mesh-generation",
+        "game-audio-engine-engineering",
+        "emulator-development-engineering",
+        "game-localization-i18n"
+      ]
+    },
+    "amd-igpu-nvidia-dgpu-hybrid-offload": {
+      "description": "Dual-GPU workload splitter for AMD Radeon 610M iGPU (/dev/dri/renderD129, RADV Vulkan + VA-API VCN + 30GB shared DDR5 RAM) and NVIDIA GeForce RTX 5060 dGPU (/dev/dri/renderD128, 8GB GDDR7 CUDA/OptiX). Prevents background agent tasks from stealing game VRAM.",
+      "related": [
+        "windows-linux-cross-os-runtime-bridge",
+        "rtx-optix-gpu-baker-denoiser",
+        "local-model-coprocessor",
+        "vulkan-gpu-compute"
+      ]
+    },
+    "android-app-engineering": {
+      "description": "Modern Android development in Kotlin, Gradle KTS, foreground services, network tethering/VPN APIs, ProGuard/R8 rules, and release keystore signing.",
+      "related": [
+        "android-architecture-jetpack",
+        "android-testing-ci-cd-security",
+        "android-compose-ui-ux",
+        "android-game-ndk-vulkan"
+      ]
+    },
+    "android-architecture-jetpack": {
+      "description": "Modern Android Architecture (Now in Android standard), Clean Architecture, MVI/MVVM with unidirectional data flow (UDF), Kotlin Coroutines & StateFlow, Room SQLite persistence, type-safe Navigation DSL, WorkManager background execution, and Dagger Hilt dependency injection.",
+      "related": [
+        "android-app-engineering",
+        "android-testing-ci-cd-security",
+        "android-compose-ui-ux",
+        "android-monetization-iap-ads"
+      ]
+    },
+    "android-compose-ui-ux": {
+      "description": "Advanced Jetpack Compose UI/UX architecture, Material 3 design systems, edge-to-edge window insets, recomposition performance optimization, stability inference, custom Layouts/DrawModifiers, and fluid physics animations. Use when designing modern Android UI, fixing recomposition jank, or implementing edge-to-edge screens.",
+      "related": [
+        "android-architecture-jetpack",
+        "android-app-engineering",
+        "android-perf-battery-profiling",
+        "android-game-ndk-vulkan"
+      ]
+    },
+    "android-device-automation": {
+      "description": "Real-time Android device control, scrcpy screen observation, mobile game bot scripting, automated app management, carrier debloating, cache cleaning, and system health diagnostics over ADB.",
+      "related": [
+        "android-perf-battery-profiling",
+        "android-testing-ci-cd-security",
+        "android-game-ndk-vulkan",
+        "android-architecture-jetpack"
+      ]
+    },
+    "android-game-ndk-vulkan": {
+      "description": "Native Android game development using C++20, Android NDK (GameActivity / NativeActivity), Vulkan mobile rendering, touch gesture queues, and pipeline cache serialization.",
+      "related": [
+        "android-ndk-jni-engineering",
+        "android-monetization-iap-ads",
+        "android-app-engineering",
+        "android-compose-ui-ux"
+      ]
+    },
+    "android-mobile-3d-asset-optimizer": {
+      "description": "Android NDK, Vulkan, and OpenGL ES 3.2 mobile 3D asset optimization in Blender 5.2+. Enforces Adreno/Mali Tile-Based Deferred Rendering (TBDR) triangle budgets, <=4 bone skinning weights, fp16 vertex quantization, and ASTC/KTX2 BasisU texture compression.",
+      "related": [
+        "game-engine-3d-budget-profiler",
+        "android-game-ndk-vulkan",
+        "android-ndk-jni-engineering",
+        "mobile-gpu-texture-compression"
+      ]
+    },
+    "android-monetization-iap-ads": {
+      "description": "Google Play Billing (BillingClient 7.x), In-App Purchases, server-side receipt cryptographic verification, Play Integrity API, and AdMob/AppLovin mediation.",
+      "related": [
+        "android-game-ndk-vulkan",
+        "android-architecture-jetpack",
+        "android-app-engineering",
+        "android-ndk-jni-engineering"
+      ]
+    },
+    "android-ndk-jni-engineering": {
+      "description": "High-performance Android NDK C/C++ development, JNI bridge architecture, native Vulkan/OpenGL ES rendering, Oboe low-latency audio, NEON SIMD vectorization, and tombstone crash symbolization. Use when writing native game engines, DSP libraries, hardware-accelerated processing, or debugging native crashes in Android apps.",
+      "related": [
+        "android-game-ndk-vulkan",
+        "game-memory-allocator-engineering",
+        "game-audio-engine-engineering",
+        "game-trainer-engineering"
+      ]
+    },
+    "android-perf-battery-profiling": {
+      "description": "Low-level Android performance profiling, frame rate/jank diagnosis (dumpsys gfxinfo), battery consumption analysis (dumpsys batterystats), Perfetto system tracing, memory leak detection (heap dump triage), and StrictMode violation traps. Use when diagnosing Android app slowness, frame drops, or battery drain.",
+      "related": [
+        "android-device-automation",
+        "android-compose-ui-ux",
+        "android-ndk-jni-engineering",
+        "android-app-engineering"
+      ]
+    },
+    "android-rom-os-engineering": {
+      "description": "Android custom ROM development, AOSP and LineageOS device tree bring-up, proprietary vendor blob extraction, kernel defconfigs, dynamic super partition sizing, and SELinux sepolicy denial triage.",
+      "related": [
+        "android-ndk-jni-engineering",
+        "android-app-engineering",
+        "android-device-automation",
+        "android-testing-ci-cd-security"
+      ]
+    },
+    "android-testing-ci-cd-security": {
+      "description": "Android automated testing (JUnit 5, MockK, Robolectric, Compose UI testing), headless Gradle CI/CD pipelines, Android App Bundle (AAB) generation, R8/ProGuard obfuscation rules, Android Keystore hardware-backed encryption, and release hardening.",
+      "related": [
+        "android-app-engineering",
+        "android-architecture-jetpack",
+        "android-device-automation",
+        "android-compose-ui-ux"
+      ]
+    },
+    "api-network-security-hardening": {
+      "description": "API gateway security, network transport hardening, TLS 1.3/certificate pinning, mTLS, token bucket rate limiting, CORS/CSP policy enforcement, and DDoS mitigation for games, bots, and backend services.",
+      "related": [
+        "cryptographic-security-engineering",
+        "app-security-threat-modeling",
+        "discord-bot-engineering",
+        "game-security-anti-tamper"
+      ]
+    },
+    "app-security-threat-modeling": {
+      "description": "Universal application security architecture, STRIDE threat modeling, OWASP Top 10 mitigation, memory safety hardening, and defensive input validation across web, desktop, and mobile systems.",
+      "related": [
+        "game-security-anti-tamper",
+        "api-network-security-hardening",
+        "android-monetization-iap-ads",
+        "cryptographic-security-engineering"
+      ]
+    },
+    "argon-adversarial-verification-gate": {
+      "description": "Harnesses Gemini 4 Argon's deep reasoning capacity for formal adversarial self-critique, boundary-condition proofing, and confirmation-bias elimination prior to declaring tasks complete.",
+      "related": [
+        "deliberative-reasoning-tree",
+        "argon-effort-auto-calibrator",
+        "argon-ast-syntax-gate",
+        "argon-thinking-governor"
+      ]
+    },
+    "argon-ast-syntax-gate": {
+      "description": "Pre-flight local compiler and AST syntax verification gate for Gemini 4 Argon. Catches syntax, typing, and parsing errors locally in milliseconds before committing changes.",
+      "related": [
+        "local-preflight-syntax-gate",
+        "argon-adversarial-verification-gate",
+        "argon-yolo-quota-pacing-watchdog",
+        "argon-effort-auto-calibrator"
+      ]
+    },
+    "argon-atomic-diff-sequencer": {
+      "description": "Enforces Claude-grade atomic chunk editing on Gemini 4 Argon. Restricts all code changes to surgical <= 30-line replacements, eliminating full-file rewrites and accidental regressions.",
+      "related": [
+        "argon-thinking-governor",
+        "selective-context-ingestor",
+        "codestral-fill-in-the-middle",
+        "argon-ast-syntax-gate"
+      ]
+    },
+    "argon-context-cache-guard": {
+      "description": "Anchors and stabilizes Gemini 4 Argon context to ensure sessions cross and maintain the 32,768-token cache threshold for maximum 95% KV prompt caching discounts.",
+      "related": [
+        "multi-model-cache-harmonizer",
+        "gemini-flash-cache-aligner",
+        "agy-context-telemetry",
+        "argon-long-context-retrieval-anchor"
+      ]
+    },
+    "argon-deep-memory-allocator-sanitizer": {
+      "description": "Mathematical 64-bit pointer, struct padding, and memory alignment sanitizer for Gemini 4 Argon. Eliminates pointer truncation and alignment faults in legacy C++ game engine ports.",
+      "related": [
+        "cpp-64bit-engine-port-sanitizer",
+        "argon-thinking-governor",
+        "deepseek-r1-math-verification",
+        "argon-adversarial-verification-gate"
+      ]
+    },
+    "argon-dynamic-subagent-swarm": {
+      "description": "Spawns and coordinates parallel Gemini Flash worker subagents to execute high-volume asset conversion, audio processing, and test sweeps simultaneously, slashing porting turnaround time by 80%.",
+      "related": [
+        "argon-subagent-dispatch-routing",
+        "argon-hierarchical-worktree-isolator",
+        "argon-subagent-payload-compressor",
+        "argon-self-contained-autonomous-driver"
+      ]
+    },
+    "argon-effort-auto-calibrator": {
+      "description": "Dynamically calibrates Gemini 4 Argon reasoning effort (--effort low/medium/high) turn-by-turn based on cognitive task complexity, slashing thinking token burn by up to 85% on routine tool execution.",
+      "related": [
+        "argon-thinking-governor",
+        "claude-thinking-budget-governor",
+        "dynamic-model-downshifter",
+        "adaptive-reasoning"
+      ]
+    },
+    "argon-hierarchical-worktree-isolator": {
+      "description": "Sandboxes concurrent subagent file modifications into isolated git worktrees, preventing file lock collisions and allowing atomic integration by Argon.",
+      "related": [
+        "cross-agent-git-rebase-guard",
+        "argon-dynamic-subagent-swarm",
+        "argon-subagent-dispatch-routing",
+        "using-git-worktrees"
+      ]
+    },
+    "argon-long-context-retrieval-anchor": {
+      "description": "Enforces boundary-edge semantic anchoring across Gemini 4 Argon's 1M-token context window to prevent attention dilution and lost-in-the-middle degradation during massive engineering tasks.",
+      "related": [
+        "argon-long-haul-context-compaction-gate",
+        "argon-thinking-governor",
+        "argon-context-cache-guard",
+        "claude-context-rot-shield"
+      ]
+    },
+    "argon-long-haul-context-compaction-gate": {
+      "description": "Monitors context consumption during long-running Argon YOLO porting runs, triggering atomic milestone compaction at 250k tokens to maintain sub-second latency and 95% cache discounts.",
+      "related": [
+        "claude-context-rot-shield",
+        "argon-long-context-retrieval-anchor",
+        "argon-yolo-quota-pacing-watchdog",
+        "argon-tool-calling-densifier"
+      ]
+    },
+    "argon-multimodal-vision-grounding": {
+      "description": "Directs Gemini 4 Argon's native multimodal vision capabilities toward game screen telemetry, UI layout audits, rendering artifact triage, and graphical glitch diagnosis.",
+      "related": [
+        "screen-vision-inspector",
+        "argon-dynamic-subagent-swarm",
+        "argon-self-contained-autonomous-driver",
+        "agentic-visual-perception"
+      ]
+    },
+    "argon-self-contained-autonomous-driver": {
+      "description": "Comprehensive single-driver engineering workflow for Gemini 4 Argon. Unifies planning, asset transpilation, C++ precision refactoring, compilation, and autonomous QA playtesting in a single agent.",
+      "related": [
+        "argon-dynamic-subagent-swarm",
+        "argon-adversarial-verification-gate",
+        "argon-ast-syntax-gate",
+        "argon-multimodal-vision-grounding"
+      ]
+    },
+    "argon-sentencepiece-serializer": {
+      "description": "Formats tabular data, state serializations, and symbol skeletons to optimize token density under Google's SentencePiece tokenizer used by Gemini 4 Argon.",
+      "related": [
+        "model-optimal-state-serializer",
+        "argon-structured-json-schema-enforcer",
+        "argon-subagent-payload-compressor",
+        "argon-long-haul-context-compaction-gate"
+      ]
+    },
+    "argon-structured-json-schema-enforcer": {
+      "description": "Leverages Gemini 4 Argon's native constrained decoding to emit deterministic, schema-compliant JSON payloads for automated CLI pipelines and test harnesses.",
+      "related": [
+        "argon-sentencepiece-serializer",
+        "argon-subagent-payload-compressor",
+        "argon-tool-calling-densifier",
+        "model-optimal-state-serializer"
+      ]
+    },
+    "argon-subagent-dispatch-routing": {
+      "description": "Implements the 'Argon Brain, Flash Hands' subagent swarm dispatch pattern to offload high-volume read, search, and execution tasks to Gemini Flash while conserving Argon quota.",
+      "related": [
+        "argon-thinking-governor",
+        "argon-dynamic-subagent-swarm",
+        "dynamic-model-downshifter",
+        "dual-engine-quota-balancer"
+      ]
+    },
+    "argon-subagent-lifecycle-governor": {
+      "description": "Prevents zombie hangs, infinite loops, and interactive prompt blocking in Gemini subagents with deterministic timeouts and automated process cleanup.",
+      "related": [
+        "argon-subagent-payload-compressor",
+        "argon-yolo-quota-pacing-watchdog",
+        "argon-thinking-governor",
+        "argon-long-haul-context-compaction-gate"
+      ]
+    },
+    "argon-subagent-payload-compressor": {
+      "description": "Enforces high-density structured return envelopes on Gemini subagent messages, eliminating conversational fluff and reducing parent context inflation by up to 80%.",
+      "related": [
+        "cross-agent-context-deduplicator",
+        "argon-structured-json-schema-enforcer",
+        "argon-subagent-lifecycle-governor",
+        "argon-dynamic-subagent-swarm"
+      ]
+    },
+    "argon-thinking-governor": {
+      "description": "Gemini 4 Argon internal chain-of-thought (CoT) and reasoning token governor. Clamps speculative reasoning bloat during routine tool execution and enforces the hybrid 'Argon Brain, Flash Hands' dispatch pattern.",
+      "related": [
+        "argon-subagent-dispatch-routing",
+        "claude-thinking-budget-governor",
+        "argon-effort-auto-calibrator",
+        "argon-tool-calling-densifier"
+      ]
+    },
+    "argon-tool-calling-densifier": {
+      "description": "Enforces compact parallel tool invocation and parameter density on Gemini 4 Argon to minimize output token generation costs and round-trip latency.",
+      "related": [
+        "argon-thinking-governor",
+        "speculative-multi-step-drafting",
+        "claude-silent-dispatch",
+        "argon-structured-json-schema-enforcer"
+      ]
+    },
+    "argon-yolo-quota-pacing-watchdog": {
+      "description": "Telemetry governor that paces Gemini 4 Argon autonomous YOLO execution, preventing 5-hour quota exhaustion by staging state and safely sleeping until window refresh.",
+      "related": [
+        "gemini-5h-quota-governor",
+        "argon-long-haul-context-compaction-gate",
+        "context-pruning-watchdog",
+        "argon-subagent-dispatch-routing"
+      ]
+    },
+    "audio-dsp-tuning": {
+      "description": "Headset calibration, microphone conditioning, and audio DSP processing across Linux (EasyEffects/PipeWire) and Windows (Equalizer APO/Peace). Configures AutoEq headphone profiles and professional 6-stage broadcast voice chains.",
+      "related": [
+        "video-production-automation",
+        "powershell-windows-automation",
+        "game-performance-overlay-telemetry",
+        "voice-speech-audio-synthesis"
+      ]
+    },
+    "autogen-adversarial-redteam-critic": {
+      "description": "Emulates Microsoft AutoGen multi-persona red-teaming. Executes an internal Devil's Advocate audit to aggressively attack candidate fixes before committing code.",
+      "related": [
+        "argon-adversarial-verification-gate",
+        "chatgpt-o1-hypothesis-tree",
+        "deliberative-reasoning-tree",
+        "argon-thinking-governor"
+      ]
+    },
+    "autonomous-3d-reference-researcher": {
+      "description": "Autonomous online anatomical, mechanical blueprint, and Blender bpy technique researcher. Searches the web for real-world proportions, skeletal joint ratios, and shader recipes before/during 3D modeling and crystallizes findings into skills via skill-evolve.",
+      "related": [
+        "autonomous-git-repo-sync-governor",
+        "autonomous-skill-ecosystem-optimizer",
+        "concept-art-sketch-to-3d-sculptor",
+        "self-evolving-skill-synthesizer"
+      ]
+    },
+    "autonomous-git-repo-sync-governor": {
+      "description": "Autonomous git repository synchronization, upstream pull/rebase, milestone auto-commit, large-binary/secret pre-commit filtering, and multi-repo fleet updates across ~/Documents/GitHub during long sessions and general development.",
+      "related": [
+        "autonomous-skill-ecosystem-optimizer",
+        "autonomous-3d-reference-researcher",
+        "autonomous-goal-governor",
+        "skills-updater-and-auditor"
+      ]
+    },
+    "autonomous-goal-governor": {
+      "description": "Quota governance, machine-verifiable contract formulation, circuit breaker enforcement (3-strike rule), and phased milestone compaction during long-running /goal and overnight autonomous agent runs.",
+      "related": [
+        "autonomous-git-repo-sync-governor",
+        "argon-long-haul-context-compaction-gate",
+        "yolo-autonomous-watchdog",
+        "working-memory-checkpointing"
+      ]
+    },
+    "autonomous-skill-ecosystem-optimizer": {
+      "description": "Closed-loop auto-optimizing skill ecosystem harmonizer (skill-optimize). Automatically invoked by skill-evolve whenever skills are created or updated to cross-link related skills, enforce Windows/Linux & hardware offload rules, prune dead references, compact tokens, and rebuild the capability graph.",
+      "related": [
+        "autonomous-git-repo-sync-governor",
+        "self-evolving-skill-synthesizer",
+        "autonomous-3d-reference-researcher",
+        "dynamic-repo-model-cheatsheet"
+      ]
+    },
+    "avalonia-cross-platform-dev": {
+      "description": "Cross-platform XAML GUI development with Avalonia UI (.NET 8/9), MVVM pattern, CompiledBindings, Native AOT compilation, and native OS desktop integration.",
+      "related": [
+        "cmake-cross-platform",
+        "tauri-multiplatform-dev",
+        "windows-app-engineering",
+        "github-actions-cicd"
+      ]
+    },
+    "bash-posix-automation": {
+      "description": "Defensive Bash and POSIX shell engineering, strict runtime error handling, signal cleanup traps, argument parsing with getopts, atomic file operations, and ShellCheck compliance.",
+      "related": [
+        "powershell-windows-automation",
+        "proton-game-dev-linux",
+        "stalker-luajit-ffi-migration",
+        "security-vulnerability-audit"
+      ]
+    },
+    "bethesda-creation-engine-nif-modding": {
+      "description": "Modding pipeline for Bethesda Creation Engine & Gamebryo games owned in Steam library (Morrowind, Oblivion, Skyrim/SE, Fallout 3, Fallout New Vegas, Fallout 4, Starfield). Covers ESM/ESP/ESL binary plugin records, BSA/BA2 archives, NIF 3D meshes, Papyrus scripting, and SKSE/F4SE/NVSE C++ DLLs.",
+      "related": [
+        "source-idtech-kex-engine-modding",
+        "xray-lua-scripting",
+        "lowlevel-dll-internals",
+        "game-audio-ogg-gsc-encoder"
+      ]
+    },
+    "binary-re-workflows": {
+      "description": "Orchestrates reverse engineering tools (REA MCP, Ghidra, JADX, TShark, objdump, hex analysis) with Superpowers discipline. Use when analyzing closed-source binaries, game executables, APKs, packet traces, or firmware.",
+      "related": [
+        "standalone-binary-re",
+        "rea-mcp-obligation-ledger-orchestrator",
+        "lowlevel-dll-internals",
+        "network-protocol-engineering"
+      ]
+    },
+    "blender-3d-engineering": {
+      "description": "High-efficiency, quota-saving 3D modeling and procedural asset generation with Blender (bpy). Use when creating 3D models, procedural geometry, game-ready assets (glTF, FBX, OBJ), modifier stacks, or running headless Blender automation.",
+      "related": [
+        "blender-headless-token-shield",
+        "blender-gaussian-splatting-photogrammetry-cleanup",
+        "blender-high-to-low-baking",
+        "blender-geometry-nodes-procedural-worlds"
+      ]
+    },
+    "blender-3d-printing-cad-manifold-prep": {
+      "description": "General 3D engineering in Blender 5.2+ for 3D printing (FDM/SLA), CNC machining, watertight manifold repair, wall thickness solidification, mechanical snap-fit clearance tolerances (0.15-0.25mm), overhang analysis, and precision STL/3MF export.",
+      "related": [
+        "blender-high-to-low-baking",
+        "blender-hard-surface-cad-weapons-props",
+        "blender-3d-engineering",
+        "blender-geometry-nodes-procedural-worlds"
+      ]
+    },
+    "blender-animation-nla-retargeting-vat": {
+      "description": "Headless Blender 5.2+ animation authoring, NLA action baking, skeletal retargeting, cyclic loop quaternion continuity, S.T.A.L.K.E.R. .skl/.omf motion export, and Vertex Animation Textures (VAT) for GPU crowd/physics rendering.",
+      "related": [
+        "blender-high-to-low-baking",
+        "blender-gaussian-splatting-photogrammetry-cleanup",
+        "blender-geometry-nodes-procedural-worlds",
+        "blender-hard-surface-cad-weapons-props"
+      ]
+    },
+    "blender-gaussian-splatting-photogrammetry-cleanup": {
+      "description": "Converts raw 3D Gaussian Splatting (.ply), NeRF, photogrammetry scans, and AI-generated 3D meshes (Tripo3D/Hunyuan3D/Trellis) into clean, delighted, quad-retopologized, game-ready PBR assets in headless Blender 5.2+.",
+      "related": [
+        "blender-high-to-low-baking",
+        "blender-uv-udim-lightmap-architect",
+        "blender-3d-engineering",
+        "blender-animation-nla-retargeting-vat"
+      ]
+    },
+    "blender-geometry-nodes-procedural-worlds": {
+      "description": "Headless Blender 5.2+ Geometry Nodes (bpy.types.GeometryNodeTree) procedural worldbuilding, spline generators (roads, pipes, cables, fences), modular building assembly, Poisson-disk biome foliage scattering, and Realize Instances game export.",
+      "related": [
+        "blender-hard-surface-cad-weapons-props",
+        "blender-uv-udim-lightmap-architect",
+        "blender-high-to-low-baking",
+        "blender-pbr-texture-packager"
+      ]
+    },
+    "blender-hard-surface-cad-weapons-props": {
+      "description": "Non-destructive hard-surface 3D modeling in Blender 5.2+ for weapons, firearms, vehicles, mechs, and sci-fi props using Boolean + Bevel + Weighted Normals, MikkTSpace tangents, and FPS kinematic weapon bone rigging.",
+      "related": [
+        "blender-uv-udim-lightmap-architect",
+        "blender-geometry-nodes-procedural-worlds",
+        "blender-high-to-low-baking",
+        "blender-pbr-texture-packager"
+      ]
+    },
+    "blender-headless-token-shield": {
+      "description": "Quota and context token protector for 3D modeling and Blender workflows. Prohibits dumping raw vertex coordinate tables into chat, enforces headless Python script execution with compact CLI telemetry, and gates renders to major task milestones.",
+      "related": [
+        "blender-3d-engineering",
+        "universal-token-containment-protocol",
+        "claude-opus-conciseness-enforcer",
+        "blender-geometry-nodes-procedural-worlds"
+      ]
+    },
+    "blender-high-to-low-baking": {
+      "description": "Automated high-to-low poly baking pipeline in Blender (bpy). Bakes tangent-space normal maps, ambient occlusion (AO), curvature/cavity, and material ID masks from multi-million polygon sculpts onto game-ready low-poly meshes.",
+      "related": [
+        "blender-uv-udim-lightmap-architect",
+        "blender-gaussian-splatting-photogrammetry-cleanup",
+        "blender-hard-surface-cad-weapons-props",
+        "blender-pbr-texture-packager"
+      ]
+    },
+    "blender-pbr-texture-packager": {
+      "description": "PBR texture channel packing (ORM - Occlusion, Roughness, Metallic), texel density enforcement, and normal map orientation (DirectX vs OpenGL) for game engines.",
+      "related": [
+        "blender-high-to-low-baking",
+        "game-texture-material-pipeline",
+        "blender-uv-udim-lightmap-architect",
+        "blender-hard-surface-cad-weapons-props"
+      ]
+    },
+    "blender-sdf-organic-remeshing": {
+      "description": "Eliminates the 'cartoony balloon-animal' look in procedural Blender 5.x organic modeling using Voxel SDF Remeshing, Volume-Preserving Laplacian Smoothing, Anatomical Plane Flattening, and QuadriFlow Retopology.",
+      "related": [
+        "blender-gaussian-splatting-photogrammetry-cleanup",
+        "blender-uv-udim-lightmap-architect",
+        "blender-geometry-nodes-procedural-worlds",
+        "blender-headless-token-shield"
+      ]
+    },
+    "blender-uv-udim-lightmap-architect": {
+      "description": "Automated headless UV unwrapping in Blender 5.2+ (SLIM Minimum Stretch, Angle-Based, Conformal), texel density normalization, Trim Sheets, UDIM multi-tile arrays (1001-1008), and non-overlapping UV2 Lightmap generation.",
+      "related": [
+        "blender-hard-surface-cad-weapons-props",
+        "blender-high-to-low-baking",
+        "blender-geometry-nodes-procedural-worlds",
+        "blender-gaussian-splatting-photogrammetry-cleanup"
+      ]
+    },
+    "brainstorming": {
+      "description": "Interactive design exploration and requirements discovery. Use before committing to an architecture, feature implementation, or mod design to clarify trade-offs, constraints, and user preferences.",
+      "related": [
+        "writing-plans",
+        "superpowers",
+        "claude-opus-plan-sonnet-exec",
+        "project-memory-bank"
+      ]
+    },
+    "cachyos-arch-packaging": {
+      "description": "Arch Linux and CachyOS packaging standards, PKGBUILD authoring, DKMS kernel module builds, and systemd service units. Use when building, testing, or maintaining packages like omen-acpi on CachyOS/Arch.",
+      "related": [
+        "linux-hardware-acpi",
+        "devin-environment-self-healer",
+        "stalker2-modding",
+        "grok-realtime-telemetry-scout"
+      ]
+    },
+    "canvas-interactive-workspace": {
+      "description": "Emulates ChatGPT Canvas side-by-side collaborative drafting, targeted inline diff staging, and surgical change annotations in Claude Code.",
+      "related": [
+        "git-diff-token-compressor",
+        "cursor-inline-diff-lens",
+        "cross-cli-session-handoff",
+        "semantic-codebase-indexing"
+      ]
+    },
+    "character-creature-anatomy-modeling": {
+      "description": "Character, creature, and animal 3D modeling in Blender. Covers organic biped and quadruped skeletal anatomy, deformation-friendly edge loop topology, automated retopology setup (bpy), and facial blendshapes.",
+      "related": [
+        "rigging-weight-painting-pipeline",
+        "game-engine-3d-budget-profiler",
+        "blender-high-to-low-baking",
+        "autonomous-3d-reference-researcher"
+      ]
+    },
+    "chatgpt-o1-hypothesis-tree": {
+      "description": "Emulates ChatGPT o1/o3-mini Tree-of-Thought deliberation on Gemini 4 Argon. Branches into 3 competing hypotheses, explores execution paths, and backtracks upon contradiction.",
+      "related": [
+        "deliberative-reasoning-tree",
+        "argon-adversarial-verification-gate",
+        "deepseek-r1-math-verification",
+        "autogen-adversarial-redteam-critic"
+      ]
+    },
+    "claude-context-rot-shield": {
+      "description": "Mitigates Claude context window degradation and prompt cache misses. Enforces 80k-token milestone compaction boundaries, prevents attention dilution, and aligns system prompts to 1,024-token prompt caching blocks.",
+      "related": [
+        "argon-long-haul-context-compaction-gate",
+        "context-pruning-watchdog",
+        "cross-model-switch-pruner",
+        "flash-context-compactor"
+      ]
+    },
+    "claude-fable-engine-governor": {
+      "description": "Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engine ports (e.g. S.T.A.L.K.E.R. OGSR/X-Ray). Enforces 1M-token prompt cache pinning, C++ AST skeletonization, and surgical crash-dump extraction.",
+      "related": [
+        "fable-virtual-context-manager",
+        "prompt-cache-context-optimizer",
+        "fable-atomic-diff-sequencer",
+        "context-window-governor"
+      ]
+    },
+    "claude-opus-conciseness-enforcer": {
+      "description": "Enforces extreme output conciseness, strict BLUF formatting, and hard token caps for Claude Opus. Eliminates conversational pleasantries, preambles, and code block duplication in chat transcripts to slash expensive Opus output token consumption by up to 75%.",
+      "related": [
+        "token-economy",
+        "claude-silent-dispatch",
+        "claude-opus-plan-sonnet-exec",
+        "argon-subagent-payload-compressor"
+      ]
+    },
+    "claude-opus-plan-sonnet-exec": {
+      "description": "Three-tier model routing architecture for Anthropic Claude ('Opus Plan, Sonnet Code, Haiku Hands'). Preserves expensive Opus quotas by confining Opus strictly to architectural planning and root-cause analysis, shifting to Sonnet for code execution and Haiku for mechanical shell commands.",
+      "related": [
+        "dynamic-model-downshifter",
+        "claude-thinking-budget-governor",
+        "argon-subagent-dispatch-routing",
+        "claude-opus-conciseness-enforcer"
+      ]
+    },
+    "claude-silent-dispatch": {
+      "description": "Eliminates pre-tool narration, commentary, and conversational play-by-plays in Claude Code, executing tool calls directly and silently to slash output token burn.",
+      "related": [
+        "claude-opus-conciseness-enforcer",
+        "argon-tool-calling-densifier",
+        "high-density-prompting",
+        "claude-thinking-budget-governor"
+      ]
+    },
+    "claude-thinking-budget-governor": {
+      "description": "Extended thinking token budget governor for Claude 3.7+ Sonnet and Opus. Clamps internal reasoning tokens during routine tool execution and dynamically scales thinking budgets based on task complexity.",
+      "related": [
+        "argon-thinking-governor",
+        "argon-effort-auto-calibrator",
+        "dynamic-model-downshifter",
+        "claude-opus-plan-sonnet-exec"
+      ]
+    },
+    "claude-worktree-tmux": {
+      "description": "Native Claude Code background session and tmux pane isolation, running heavy builds, test suites, and long tasks in detached worktrees without context pollution.",
+      "related": [
+        "subagent-swarm-orchestrator",
+        "claude-opus-plan-sonnet-exec",
+        "log-output-sanitizer",
+        "claude-fable-engine-governor"
+      ]
+    },
+    "client-memory-integrity-anticheat": {
+      "description": "In-depth client runtime security, anti-debugging, memory scanner detection, obfuscated value storage (XOR/bitwise masks), and anti-tamper heartbeat synchronization for desktop games and sensitive client apps.",
+      "related": [
+        "game-security-anti-tamper",
+        "game-memory-scanner",
+        "game-trainer-engineering",
+        "game-qol-gameplay-scripting"
+      ]
+    },
+    "cmake-cross-platform": {
+      "description": "Cross-platform CMake architecture (3.25+), target-centric modern CMake, toolchain files for cross-compilation (Linux, Windows via MinGW/Clang, macOS), platform abstraction, and CPack installers.",
+      "related": [
+        "github-actions-cicd",
+        "avalonia-cross-platform-dev",
+        "cross-browser-extensions",
+        "game-dll-proxy-generator"
+      ]
+    },
+    "coderabbit-ai-review": {
+      "description": "CodeRabbit-grade autonomous code review, PR walk-through generation, architectural Mermaid sequence diagrams, line-by-line defect triage, and GitHub suggestion diffs.",
+      "related": [
+        "coverage-guided-mutation-testing",
+        "argon-effort-auto-calibrator",
+        "game-memory-scanner",
+        "deep-research-synthesizer"
+      ]
+    },
+    "codestral-fill-in-the-middle": {
+      "description": "Emulates Mistral Codestral Fill-in-the-Middle (FIM) surgical infilling. Anchors prefix and suffix code boundaries to generate exact bridge logic with zero indentation drift or hallucination.",
+      "related": [
+        "argon-atomic-diff-sequencer",
+        "meta-llama-kv-prefix-stabilizer",
+        "argon-long-context-retrieval-anchor",
+        "cursor-inline-diff-lens"
+      ]
+    },
+    "cohere-provenance-grounding-ledger": {
+      "description": "Emulates Cohere Command R+ grounded provenance citations. Traces every game config parameter and C++ modification to its exact vanilla baseline coordinate to eliminate hallucinated parameters.",
+      "related": [
+        "game-modding",
+        "xray-crash-log-diagnostician",
+        "game-config-delta-extractor",
+        "windsurf-cascade-flow-tracker"
+      ]
+    },
+    "compiler-error-cascade-isolator": {
+      "description": "Intercepts C++ compiler error cascades (GCC, Clang, MSVC) during engine builds. Strips recursive template instantiation dumps and secondary cascading errors to isolate the primary root-cause error and source coordinates, slashing compiler diagnostic tokens by 90-95%.",
+      "related": [
+        "xray-crash-symbol-resolver",
+        "cross-cli-session-handoff",
+        "claude-fable-engine-governor",
+        "argon-subagent-payload-compressor"
+      ]
+    },
+    "computer-vision-deep-learning": {
+      "description": "Modern deep-learning computer vision engineering and high-performance inference pipelines. Covers neural object detection (YOLOv8/YOLOv11, RT-DETR), instance segmentation (SAM 2), vision-language models (Florence-2, CLIP), ONNX Runtime/TensorRT GPU acceleration, and multi-object tracking (ByteTrack, DeepSORT).",
+      "related": [
+        "industrial-machine-vision-inspection",
+        "cuda-gpu-acceleration",
+        "homelab-docker-devops",
+        "visual-document-ocr-intelligence"
+      ]
+    },
+    "concept-art-sketch-to-3d-sculptor": {
+      "description": "Converts 2D drawn images, character concept art, and reference sketches into high-detail 3D models in Blender 5.2+ using OpenCV/Pillow contour slice profiling, silhouette-locked 3D lofting, iterative Silhouette IoU verification, and camera-projected displacement/texture baking.",
+      "related": [
+        "autonomous-3d-reference-researcher",
+        "furry-fursona-art-design",
+        "blender-gaussian-splatting-photogrammetry-cleanup",
+        "blender-sdf-organic-remeshing"
+      ]
+    },
+    "console-game-decompilation": {
+      "description": "Console game decompilation, matching reverse engineering, and disassembly workflows for PS1, PS2, PS3, original Xbox, Xbox 360, and retro platforms (MIPS, PowerPC, x86). Covers container inspection (PS-X EXE, ELF, XBE, XEX), binary splitting (splat), compiler matching, and objdiff verification.",
+      "related": [
+        "standalone-binary-re",
+        "binary-re-workflows",
+        "console-homebrew-engineering",
+        "lowlevel-dll-internals"
+      ]
+    },
+    "console-homebrew-engineering": {
+      "description": "Console custom firmware (CFW) setups, Nintendo Switch Atmosphere/Hekate bootloaders, FAT32 32KB cluster alignment, NSP/NSZ package compression, and Obtainium emulator feeds.",
+      "related": [
+        "console-game-decompilation",
+        "game-modding",
+        "database-sql-engineering",
+        "argon-deep-memory-allocator-sanitizer"
+      ]
+    },
+    "context-pruning-watchdog": {
+      "description": "Live telemetry monitoring of active context consumption; automatically stages memory state into activeContext.md and prompts for lossless compaction before hitting quota thresholds.",
+      "related": [
+        "claude-context-rot-shield",
+        "argon-yolo-quota-pacing-watchdog",
+        "agy-context-telemetry",
+        "argon-long-haul-context-compaction-gate"
+      ]
+    },
+    "context-window-governor": {
+      "description": "Deterministic token budgeting, turn-by-turn context partitioning, and hard output containment to prevent tool response bloat and premature context exhaustion.",
+      "related": [
+        "claude-fable-engine-governor",
+        "high-density-prompting",
+        "shell-output-token-guard",
+        "argon-long-context-retrieval-anchor"
+      ]
+    },
+    "coverage-guided-mutation-testing": {
+      "description": "AST-based fault injection, mutant survival analysis, and automated test synthesis to self-improve test suite detection power across Lua, Python, C++, and Rust.",
+      "related": [
+        "game-exploratory-fuzzing",
+        "test-driven-development",
+        "systematic-debugging",
+        "game-self-improving-qa-pipeline"
+      ]
+    },
+    "cpp-64bit-engine-port-sanitizer": {
+      "description": "Detects and repairs 64-bit bitness porting defects in C++ game engines (e.g. X-Ray/OGSR). Audits pointer-to-integer truncations, #pragma pack(1) struct padding discrepancies, 64-bit ABI calling convention drift, and virtual method table alignment.",
+      "related": [
+        "argon-deep-memory-allocator-sanitizer",
+        "stalker-luajit-ffi-migration",
+        "cross-platform-game-compatibility",
+        "stalker-level-ai-graph-triage"
+      ]
+    },
+    "creative-web-design-archetypes": {
+      "description": "Advanced web styling archetypes and visual design systems. Covers Neo-Brutalism, Mythic/Fantasy Parchment, Cyberpunk/Terminal HUD, Editorial/Academic Journal, Swiss Modernism, and Glassmorphic aesthetics with responsive CSS and typography pairings.",
+      "related": [
+        "humanities-lore-research",
+        "human-crafted-web-design",
+        "static-site-architecture",
+        "interactive-data-visualization-web"
+      ]
+    },
+    "cross-agent-context-deduplicator": {
+      "description": "Eliminates redundant transcript ingestion and context pollution between Argon orchestrators and Flash subagents by clamping sync payloads to strict 15-line symbol diff abstracts.",
+      "related": [
+        "argon-subagent-payload-compressor",
+        "cross-model-switch-pruner",
+        "cross-cli-session-handoff",
+        "git-diff-token-compressor"
+      ]
+    },
+    "cross-agent-git-rebase-guard": {
+      "description": "Automated git worktree synchronization, non-interactive rebasing, and conflict-free merging between concurrent AI agent feature branches.",
+      "related": [
+        "argon-hierarchical-worktree-isolator",
+        "cross-agent-hot-reload-watcher",
+        "using-git-worktrees",
+        "cross-agent-context-deduplicator"
+      ]
+    },
+    "cross-agent-hot-reload-watcher": {
+      "description": "Real-time file system observer using inotifywait to trigger instant hot-reloading of modified scripts, configs, and textures in running game instances.",
+      "related": [
+        "cross-agent-git-rebase-guard",
+        "cross-agent-context-deduplicator",
+        "argon-dynamic-subagent-swarm",
+        "dual-engine-quota-balancer"
+      ]
+    },
+    "cross-browser-extensions": {
+      "description": "Cross-browser web extension development in Manifest V3, supporting Chrome, Firefox, and Safari with webextension-polyfill, background service workers, and declarativeNetRequest.",
+      "related": [
+        "cmake-cross-platform",
+        "static-site-architecture",
+        "homelab-docker-devops",
+        "cross-agent-hot-reload-watcher"
+      ]
+    },
+    "cross-cli-session-handoff": {
+      "description": "Seamless zero-context-loss session handoff protocol between Antigravity CLI, Claude Code CLI, and Cursor IDE. Exports and imports structured handover packets (.agents/handoff.json) containing active git diffs, verified milestones, blockers, and next steps in under 300 tokens.",
+      "related": [
+        "cross-agent-context-deduplicator",
+        "cross-agent-git-rebase-guard",
+        "cross-model-switch-pruner",
+        "autonomous-git-repo-sync-governor"
+      ]
+    },
+    "cross-engine-3d-import-export-bridge": {
+      "description": "Unified Blender 5.2+ to Game Engine 3D export matrix covering Unreal Engine 5 (Nanite/UCX), Godot 4.x (.glb/-col/-loop), Unity (Humanoid/bake_space_transform), S.T.A.L.K.E.R. X-Ray/OGSR (.ogf/.dm), and Three.js/WebGPU (Meshopt/Draco/KTX2).",
+      "related": [
+        "xray-ogf-dm-blender-pipeline",
+        "blender-animation-nla-retargeting-vat",
+        "rigging-weight-painting-pipeline",
+        "cross-agent-hot-reload-watcher"
+      ]
+    },
+    "cross-engine-shader-transpiler": {
+      "description": "Universal shader authoring and transpilation using Slang and SPIRV-Cross, converting single-source shaders to Vulkan SPIR-V, DX12 HLSL, Metal MSL, and OpenGL GLSL.",
+      "related": [
+        "shader-cross-compilation",
+        "vulkan-gpu-compute",
+        "pc-cross-platform-graphics-api",
+        "xray-dx11-shader-modernization"
+      ]
+    },
+    "cross-model-switch-pruner": {
+      "description": "Pre-switch state compaction and history virtualization engine when switching models (Sonnet to Fable, Opus, or Gemini). Eliminates 80k-150k uncached token re-reads by snapshotting state, staging model-optimal memory, and executing pre-switch compaction to slash model transition costs by 98%.",
+      "related": [
+        "cross-agent-context-deduplicator",
+        "claude-context-rot-shield",
+        "high-density-prompting",
+        "cross-cli-session-handoff"
+      ]
+    },
+    "cross-platform-game-compatibility": {
+      "description": "Diagnosing and repairing legacy and modern PC games to run smoothly across Windows and Linux. Covers DirectX legacy wrappers (dgVoodoo2, DDrawCompat, DXVK), 4GB LAA memory patching, high-refresh rate frame limiters, aspect ratio / widescreen fixes, and anti-crash shims.",
+      "related": [
+        "game-patching-binary-repair",
+        "game-runtime-diagnostics",
+        "linux-gaming-proton-optimization",
+        "game-trainer-engineering"
+      ]
+    },
+    "cryptographic-security-engineering": {
+      "description": "Applied modern cryptography and secure protocol implementations. Covers Ed25519 digital signatures (Discord interaction webhooks, Git commit signing), AES-256-GCM / ChaCha20-Poly1305 authenticated encryption, HKDF key derivation, constant-time comparison discipline, and hardware security module (TPM2/Keystore) integration.",
+      "related": [
+        "api-network-security-hardening",
+        "discord-bot-engineering",
+        "app-security-threat-modeling",
+        "python-engineering"
+      ]
+    },
+    "csharp-dotnet-engineering": {
+      "description": "Modern C# and .NET 8/9 engineering standards. Use when writing C# applications, Unity/Godot C# logic, memory optimization with Span and Memory, async/await cancellation patterns, or running dotnet test and Roslyn analyzers.",
+      "related": [
+        "unity-game-dev",
+        "python-engineering",
+        "gamemaker-gml-engineering",
+        "modern-cpp-engineering"
+      ]
+    },
+    "cuda-gpu-acceleration": {
+      "description": "High-performance NVIDIA GPU engineering, CUDA 13.4 kernel development, nvcc compilation, Tensor Core acceleration, PyTorch CUDA extensions, and OptiX ray-tracing for modern NVIDIA GPUs (RTX 5060/Blackwell).",
+      "related": [
+        "vulkan-gpu-compute",
+        "rtx-optix-gpu-baker-denoiser",
+        "computer-vision-deep-learning",
+        "godot-shader-vfx"
+      ]
+    },
+    "cuda-numpy-batch-texture-dsp-processor": {
+      "description": "Saturates all 32 host CPU threads (ProcessPoolExecutor), 30 GB RAM, and NVIDIA CUDA/NumPy SIMD vectorization for massively parallel batch processing of .dds textures, normal map swizzling, alpha-coverage mipmaps, and .ogg audio files.",
+      "related": [
+        "blender-pbr-texture-packager",
+        "game-texture-material-pipeline",
+        "cuda-gpu-acceleration",
+        "rtx-optix-gpu-baker-denoiser"
+      ]
+    },
+    "cursor-inline-diff-lens": {
+      "description": "Emulates Cursor IDE ghost-text and surgical multi-line inline diff previews in Antigravity CLI, giving instant visual clarity on code additions and deletions.",
+      "related": [
+        "argon-subagent-payload-compressor",
+        "qwen-polyglot-ast-cartographer",
+        "claude-silent-dispatch",
+        "canvas-interactive-workspace"
+      ]
+    },
+    "database-sql-engineering": {
+      "description": "SQLite performance tuning (WAL mode, PRAGMAs, indexing), PostgreSQL/MySQL schema design, query plan analysis, and database migration architecture.",
+      "related": [
+        "sql-schema-query-condenser",
+        "electron-desktop-dev",
+        "game-localization-i18n",
+        "game-entity-component-system"
+      ]
+    },
+    "deep-research-synthesizer": {
+      "description": "Autonomous multi-source web crawling, recursive citation mapping, source credibility ranking, and publication-grade technical research synthesis.",
+      "related": [
+        "coderabbit-ai-review",
+        "grok-realtime-telemetry-scout",
+        "local-vector-rag-engine",
+        "static-site-architecture"
+      ]
+    },
+    "deepseek-r1-math-verification": {
+      "description": "Emulates DeepSeek-R1 chain-of-verification and self-correcting mathematical proofs in Gemini 4 Argon reasoning tokens for memory layouts, offsets, and timing.",
+      "related": [
+        "argon-deep-memory-allocator-sanitizer",
+        "chatgpt-o1-hypothesis-tree",
+        "argon-adversarial-verification-gate",
+        "meta-llama-kv-prefix-stabilizer"
+      ]
+    },
+    "deliberative-reasoning-tree": {
+      "description": "DeepSeek R1 and OpenAI o1-style Tree-of-Thought reasoning, exploring 3 branching hypothesis paths, adversarial self-critique, and formal backtracking before code modification.",
+      "related": [
+        "argon-adversarial-verification-gate",
+        "chatgpt-o1-hypothesis-tree",
+        "claude-thinking-budget-governor",
+        "autogen-adversarial-redteam-critic"
+      ]
+    },
+    "devin-environment-self-healer": {
+      "description": "Emulates Cognition Devin autonomous environment self-healing. Automatically diagnoses missing host dependencies, dynamic libraries (.so), and compiler toolchains on Linux (CachyOS/Arch).",
+      "related": [
+        "grok-realtime-telemetry-scout",
+        "game-runtime-diagnostics",
+        "cachyos-arch-packaging",
+        "log-output-sanitizer"
+      ]
+    },
+    "devsecops-supply-chain-security": {
+      "description": "DevSecOps build-time security hardening, Software Bill of Materials (SBOM), dependency vulnerability auditing, binary compiler hardening checks (checksec for RELRO, Canaries, NX, PIE), Git secret leak prevention, and rootless container isolation. Use when preparing releases, securing CI/CD pipelines, or auditing compiled binaries.",
+      "related": [
+        "security-vulnerability-audit",
+        "game-security-anti-tamper",
+        "game-engine-migration",
+        "rust-engineering"
+      ]
+    },
+    "disassembly-token-redactor": {
+      "description": "Reverse engineering disassembly token redactor and CFG basic-block condenser. Intercepts verbose objdump, Ghidra, and rizin disassembly dumps, stripping raw hex byte columns, instruction padding, and linear NOP sleds to slash binary reverse engineering tokens by 75-80%.",
+      "related": [
+        "git-diff-token-compressor",
+        "headless-test-condenser",
+        "universal-token-containment-protocol",
+        "network-packet-stream-condenser"
+      ]
+    },
+    "discord-bot-engineering": {
+      "description": "Production Discord bot development across Python (discord.py) and TypeScript (discord.js). Covers modern Discord API v10, slash commands, interactive UI components (Buttons, Select Menus, Modals), Gateway intent discipline, rate-limit bucket management, Voice Gateway audio streaming, and high-availability sharded deployment.",
+      "related": [
+        "cryptographic-security-engineering",
+        "emulator-development-engineering",
+        "claude-opus-plan-sonnet-exec",
+        "game-networking-state-sync"
+      ]
+    },
+    "documentation-site-generator": {
+      "description": "Static documentation site generation using VitePress and MkDocs Material, automated API reference extraction, and GitHub Pages deployment.",
+      "related": [
+        "static-site-architecture",
+        "cmake-cross-platform",
+        "ai-3d-mesh-generation",
+        "nix-reproducible-environments"
+      ]
+    },
+    "dual-engine-quota-balancer": {
+      "description": "Dynamic telemetry coordination across Gemini 4 Argon, Gemini 3.8 Flash subagents, and local CPU/GPU offloads, balancing task allocation to guarantee uninterrupted execution without hitting rolling quota limits.",
+      "related": [
+        "argon-subagent-dispatch-routing",
+        "local-model-coprocessor",
+        "cross-agent-hot-reload-watcher",
+        "local-vector-rag-engine"
+      ]
+    },
+    "dxvk-vkd3d-proton-pipeline-profiler": {
+      "description": "Diagnoses and eliminates DXVK and VKD3D-Proton shader compilation stutter, descriptor heap stalls, and VRAM staging bottlenecks for DX11/DX12 games running on Linux.",
+      "related": [
+        "game-performance-overlay-telemetry",
+        "linux-perf-flamegraph-bottleneck-triage",
+        "game-runtime-diagnostics",
+        "linux-gaming-proton-optimization"
+      ]
+    },
+    "dynamic-model-downshifter": {
+      "description": "Autonomous multi-tier model downshifting for CLI sessions. Enforces the 'Frontier Brain, Fast Hands' pattern by offloading mechanical bash tasks, file moves, and git operations to lightweight models (Flash/Haiku), reserving frontier reasoning (Argon/Opus) exclusively for architectural design and complex debugging.",
+      "related": [
+        "claude-opus-plan-sonnet-exec",
+        "argon-effort-auto-calibrator",
+        "claude-thinking-budget-governor",
+        "argon-subagent-dispatch-routing"
+      ]
+    },
+    "dynamic-repo-model-cheatsheet": {
+      "description": "Dynamic terminal cheat sheet (agy-cheatsheet / cs) and live statusline recommender that scans ~/Documents/GitHub repositories, uncommitted diffs, recent commits, and error states to recommend the optimal Model + Reasoning Effort + Local Hardware Offload.",
+      "related": [
+        "dynamic-skill-router",
+        "dynamic-model-downshifter",
+        "dual-engine-quota-balancer",
+        "cross-cli-session-handoff"
+      ]
+    },
+    "dynamic-skill-router": {
+      "description": "High-performance semantic intent matching and capability indexing across 100+ installed skills. Use to instantly discover, rank, and activate the exact 2-3 optimal skills for any complex prompt, eliminating skill choice paralysis and context bloat.",
+      "related": [
+        "dynamic-model-downshifter",
+        "local-vector-rag-engine",
+        "dynamic-repo-model-cheatsheet",
+        "semantic-codebase-indexing"
+      ]
+    },
+    "electron-desktop-dev": {
+      "description": "Electron desktop application engineering, IPC security, context isolation, preload scripts, multi-window lifecycles, and cross-platform packaging with electron-builder.",
+      "related": [
+        "tauri-multiplatform-dev",
+        "headless-browser-automation",
+        "game-trainer-engineering",
+        "database-sql-engineering"
+      ]
+    },
+    "emulator-development-engineering": {
+      "description": "Video game console emulation architecture, CPU interpreter & JIT dynamic binary translation, cycle-accurate timing, memory-mapped I/O (MMU), Vulkan/OpenGL graphics rendering backends, APU sound emulation, and contributions to open-source emulators (Dolphin, RPCS3, PCSX2, Ryujinx, RetroArch).",
+      "related": [
+        "real-time-rendering-pipeline",
+        "vulkan-gpu-compute",
+        "game-engine-migration",
+        "game-texture-material-pipeline"
+      ]
+    },
+    "executing-plans": {
+      "description": "Step-by-step execution of approved implementation plans. Use when executing a multi-step plan to track progress, verify checkpoints, and ensure safe rollbacks.",
+      "related": [
+        "superpowers",
+        "writing-plans",
+        "python-engineering",
+        "systematic-debugging"
+      ]
+    },
+    "executive-business-communications": {
+      "description": "Professional executive business correspondence, BLUF email structuring, client proposals, Scope of Work (SOW) drafting, invoice generation, and anti-jargon filters.",
+      "related": [
+        "token-economy",
+        "claude-opus-conciseness-enforcer",
+        "claude-silent-dispatch",
+        "project-memory-bank"
+      ]
+    },
+    "fable-atomic-diff-sequencer": {
+      "description": "Multi-file refactor execution coordinator for Claude Fable 5.1. Regulates Fable's 128k output capacity by breaking multi-file refactors into atomic, dependency-ordered chunk execution plans, preventing tool timeouts, chat transcript bloating, and broken syntax.",
+      "related": [
+        "fable-virtual-context-manager",
+        "claude-fable-engine-governor",
+        "argon-ast-syntax-gate",
+        "universal-token-containment-protocol"
+      ]
+    },
+    "fable-virtual-context-manager": {
+      "description": "Virtualized context paging and hierarchical indexing for Claude Fable (1M-token context). Prevents full 1M-token re-billing by paging active 30k-token subsystem slices from a disk-backed knowledge graph into working memory.",
+      "related": [
+        "fable-atomic-diff-sequencer",
+        "claude-fable-engine-governor",
+        "local-vector-rag-engine",
+        "hierarchical-memory-retrieval"
+      ]
+    },
+    "first-principles-reasoning": {
+      "description": "First-principles decomposition, Chain-of-Verification (CoVe), adversarial red-teaming, and Ockham's Razor hypothesis ranking. Eliminates logical fallacies, confirmation bias, and cognitive overburn in complex engineering tasks.",
+      "related": [
+        "argon-adversarial-verification-gate",
+        "deliberative-reasoning-tree",
+        "dynamic-model-downshifter",
+        "argon-thinking-governor"
+      ]
+    },
+    "flash-context-compactor": {
+      "description": "Prevents Gemini 3.8 Flash context window inflation through targeted line-slice reading, AST interface skeletons, and proactive state compaction below the 100k-token ceiling.",
+      "related": [
+        "selective-context-ingestor",
+        "claude-context-rot-shield",
+        "fable-virtual-context-manager",
+        "prompt-cache-context-optimizer"
+      ]
+    },
+    "frontier-image-studio": {
+      "description": "Frontier AI image generation, prompt translation for ChatGPT (DALL-E 3) and Gemini (Imagen 3) styles, multi-backend API dispatch (OpenAI, Gemini Imagen, Flux.1, ComfyUI), and local SVG/texture generation with Pillow.",
+      "related": [
+        "furry-fursona-art-design",
+        "ai-3d-mesh-generation",
+        "intelligent-interactive-ui",
+        "real-time-rendering-pipeline"
+      ]
+    },
+    "furry-fursona-art-design": {
+      "description": "Specialized design and generation pipeline for furry and fursona character art, multi-view turnaround reference sheets (refsheets), species taxonomy, digitigrade anatomy, color palette swatches, and 3D VRChat avatar specifications.",
+      "related": [
+        "frontier-image-studio",
+        "concept-art-sketch-to-3d-sculptor",
+        "ai-3d-mesh-generation",
+        "gemini-flash-cache-aligner"
+      ]
+    },
+    "game-ai-agent-play": {
+      "description": "Autonomous game-playing agent engineering and reinforcement learning (Gymnasium, OpenCV computer vision, reward modeling, and low-latency input simulation via uinput/evdev/pyautogui).",
+      "related": [
+        "game-networking-state-sync",
+        "game-companion-pet-ai",
+        "game-qa-playtest-controller",
+        "game-screen-telemetry-monitor"
+      ]
+    },
+    "game-animation-skeletal-pipeline": {
+      "description": "Real-time skeletal animation, quaternion slerp/nlerp interpolation, dual quaternion skinning, inverse kinematics (Two-Bone IK, FABRIK), blend spaces, and root motion extraction. Use when implementing skeletal meshes, character animation runtimes, or fixing skinning artifacts.",
+      "related": [
+        "game-networking-state-sync",
+        "game-physics-collision-pipeline",
+        "game-engine-3d-budget-profiler",
+        "game-memory-allocator-engineering"
+      ]
+    },
+    "game-asset-pack-archive-engineering": {
+      "description": "Virtual file systems (VFS), game asset pack archive containers (PAK, XDB, AssetBundles), chunked zstd/zlib compression, memory-mapped I/O (mmap), and endianness-safe save state serialization. Use when designing asset loaders, porting game archives, or packaging game data distributions.",
+      "related": [
+        "game-save-state-serialization",
+        "game-mod-release-packager",
+        "game-modding",
+        "game-engine-migration"
+      ]
+    },
+    "game-asset-streaming-lod-governor": {
+      "description": "Real-time asynchronous asset streaming, distance-based LOD hierarchies (LOD0-LOD3), virtual texturing, and LRU memory cache eviction.",
+      "related": [
+        "game-engine-3d-budget-profiler",
+        "game-performance-overlay-telemetry",
+        "game-asset-pack-archive-engineering",
+        "game-audio-engine-engineering"
+      ]
+    },
+    "game-audio-engine-engineering": {
+      "description": "Low-latency game audio architecture, 3D spatial audio, HRTF binaural processing, mixing bus hierarchies, and sound bank asset pipelines (FMOD, Wwise, OpenAL Soft, MiniAudio, Oboe). Use when building audio engines, porting sound runtimes, or fixing audio clipping/desyncs.",
+      "related": [
+        "game-memory-allocator-engineering",
+        "game-networking-state-sync",
+        "game-performance-overlay-telemetry",
+        "game-physics-collision-pipeline"
+      ]
+    },
+    "game-audio-ogg-gsc-encoder": {
+      "description": "Converts and encodes game audio to Ogg Vorbis while injecting and preserving proprietary GSC binary engine comment chunks (min/max distance, volume, AI perception) required by S.T.A.L.K.E.R. engines.",
+      "related": [
+        "game-dynamic-stress-orchestrator",
+        "game-asset-pack-archive-engineering",
+        "game-weapon-ballistics-mechanics",
+        "game-modding"
+      ]
+    },
+    "game-autonomous-navigation-ai": {
+      "description": "Autonomous AI player navigation, level vertex/waypoint graph mapping, route recording & playback, obstacle/invisible wall avoidance, and reactive combat lock-on (aimbot steering).",
+      "related": [
+        "game-self-improving-qa-pipeline",
+        "game-dynamic-stress-orchestrator",
+        "game-qa-playtest-controller",
+        "game-qol-gameplay-scripting"
+      ]
+    },
+    "game-companion-pet-ai": {
+      "description": "Custom companion & pet NPC architecture: state machine behaviors (follow, guard, objective guide), god mode status, dynamic light emission in dark areas, homing projectile attacks with audio vocalization, and 3D pet asset pipelines.",
+      "related": [
+        "game-weather-lighting-fx",
+        "game-qol-gameplay-scripting",
+        "game-ai-agent-play",
+        "game-autonomous-navigation-ai"
+      ]
+    },
+    "game-config-delta-extractor": {
+      "description": "Game configuration delta extractor and inheritance pruner. Strips identical inherited keys in S.T.A.L.K.E.R. LTX, Godot TSCN/TRES, and game YAML configurations, exposing only modified parameters to slash game asset context by 80-85%.",
+      "related": [
+        "game-weapon-ballistics-mechanics",
+        "game-modding",
+        "cohere-provenance-grounding-ledger",
+        "compiler-error-cascade-isolator"
+      ]
+    },
+    "game-debug-ui-tools": {
+      "description": "In-engine debug UI systems, Dear ImGui integration, immediate-mode 3D debug drawing (AABBs, rays, contact manifolds), live console variables (CVars), hierarchical frame profilers, and memory inspectors. Use when diagnosing game runtime issues, tuning gameplay parameters live, or adding telemetry tools.",
+      "related": [
+        "game-physics-collision-pipeline",
+        "game-graphics-optimization-profiling",
+        "game-performance-overlay-telemetry",
+        "game-trainer-engineering"
+      ]
+    },
+    "game-dialogue-ui-localization": {
+      "description": "Specialized game dialogue translation, string table repair, and conversation UI layout engine (S.T.A.L.K.E.R. & RPGs). Validates string IDs, resolves dialogue dead-end loops, fixes text clipping/overrun in talk.xml/talk_16.xml, enforces complex_mode multiline wrapping, and repairs CP1251/UTF-8 mojibake.",
+      "related": [
+        "game-localization-i18n",
+        "game-companion-pet-ai",
+        "game-entity-component-system",
+        "game-qol-gameplay-scripting"
+      ]
+    },
+    "game-dll-proxy-generator": {
+      "description": "Automated game proxy DLL generation and internal hook architecture. Scaffolds export forwarding wrappers for dinput8.dll, dxgi.dll, version.dll, and winmm.dll with embedded DllMain threads, MinHook detours, ImGui overlays, and Proton WINEDLLOVERRIDES configuration.",
+      "related": [
+        "game-trainer-engineering",
+        "game-mod-release-packager",
+        "game-memory-scanner",
+        "game-patching-binary-repair"
+      ]
+    },
+    "game-dynamic-stress-orchestrator": {
+      "description": "Dynamic in-game stress testing and entity orchestration: collision-safe multi-entity wave spawning, cross-faction battle simulations (helicopters vs mutants), and real-time performance saturation profiling.",
+      "related": [
+        "game-qol-gameplay-scripting",
+        "game-autonomous-navigation-ai",
+        "game-audio-ogg-gsc-encoder",
+        "game-self-improving-qa-pipeline"
+      ]
+    },
+    "game-engine-3d-budget-profiler": {
+      "description": "Enforces game engine 3D performance budgets, automated LOD0-LOD3 generation, convex collision hull generation (UCX), and draw-call material audits in Blender.",
+      "related": [
+        "android-mobile-3d-asset-optimizer",
+        "game-asset-streaming-lod-governor",
+        "game-performance-overlay-telemetry",
+        "game-exploratory-fuzzing"
+      ]
+    },
+    "game-engine-migration": {
+      "description": "Universal architectural framework for porting, migrating, and modernizing game engines and legacy mods across bitness (32-bit to 64-bit), graphics APIs (DX9/OpenGL to DX11/DX12/Vulkan), and scripting runtimes.",
+      "related": [
+        "game-texture-material-pipeline",
+        "game-asset-pack-archive-engineering",
+        "game-mod-release-packager",
+        "game-screen-telemetry-monitor"
+      ]
+    },
+    "game-entity-component-system": {
+      "description": "High-performance Entity Component System (ECS) architecture, Data-Oriented Design (DOD), Archetype vs Sparse-Set storage, Structure-of-Arrays (SoA) memory layout, and multithreaded system scheduling. Use when designing game engine logic, optimizing cache misses, or porting object-oriented game code to ECS.",
+      "related": [
+        "game-memory-scanner",
+        "game-networking-state-sync",
+        "game-memory-allocator-engineering",
+        "game-security-anti-tamper"
+      ]
+    },
+    "game-exploratory-fuzzing": {
+      "description": "Evolutionary input fuzzing, novelty-guided action mutation, and crash delta minimization for automated game QA and playtesting.",
+      "related": [
+        "game-qa-playtest-controller",
+        "game-self-improving-qa-pipeline",
+        "coverage-guided-mutation-testing",
+        "game-networking-state-sync"
+      ]
+    },
+    "game-graphics-optimization-profiling": {
+      "description": "Profiling and optimizing GPU/CPU rendering performance for games and engine ports. Use when identifying vertex, pixel, or bandwidth bottlenecks, implementing draw call batching, designing frustum/occlusion culling, creating LOD systems, or integrating temporal upscaling (TAA, FSR, DLSS).",
+      "related": [
+        "game-performance-overlay-telemetry",
+        "game-debug-ui-tools",
+        "game-memory-allocator-engineering",
+        "game-entity-component-system"
+      ]
+    },
+    "game-input-system-abstraction": {
+      "description": "Cross-platform game input abstraction layers, raw sub-pixel mouse polling, radial deadzone math, controller glyph auto-detection, and low-latency input event buffering (SDL3, Win32 RawInput, evdev, Steam Input). Use when porting game controls across PC, Steam Deck, Linux, and Android.",
+      "related": [
+        "game-physics-collision-pipeline",
+        "game-ai-agent-play",
+        "game-asset-pack-archive-engineering",
+        "game-audio-engine-engineering"
+      ]
+    },
+    "game-localization-i18n": {
+      "description": "Internationalization (i18n) and localization (l10n) pipelines for games, desktop, and web apps. Covers ICU message formatting, pluralization rules, bidirectional text (RTL/LTR), font glyph fallbacks, dynamic dialogue translation tables, and string freeze validation.",
+      "related": [
+        "game-dialogue-ui-localization",
+        "game-qol-gameplay-scripting",
+        "game-audio-engine-engineering",
+        "game-security-anti-tamper"
+      ]
+    },
+    "game-memory-allocator-engineering": {
+      "description": "Custom high-performance game engine memory allocators (Linear Arena, Stack, Pool, TLSF), SIMD memory alignment, and zero-hitch heap fragmentation elimination. Use when optimizing game engine memory allocations, fixing frame stutter, or porting engines to memory-constrained platforms.",
+      "related": [
+        "game-audio-engine-engineering",
+        "game-physics-collision-pipeline",
+        "game-entity-component-system",
+        "game-graphics-optimization-profiling"
+      ]
+    },
+    "game-memory-scanner": {
+      "description": "High-performance game memory scanner and pointer discovery engine for Linux & Windows/Proton games. Scans virtual memory ranges, filters candidates iteratively (exact, increased, decreased, changed), resolves multi-level pointer paths, performs AOB wildcard signature scans, and freezes addresses.",
+      "related": [
+        "game-trainer-engineering",
+        "game-self-improving-qa-pipeline",
+        "game-entity-component-system",
+        "game-dll-proxy-generator"
+      ]
+    },
+    "game-mod-release-packager": {
+      "description": "Automated game mod release packaging, archive compression, and distribution pipeline. Strips debug symbols (strip/objcopy), packs game virtual file systems (XDB, PAK, zip), validates SHA-256 checksums, and compiles GitHub / ModDB release distributions using ZoneForge tools.",
+      "related": [
+        "game-asset-pack-archive-engineering",
+        "game-modding",
+        "game-dll-proxy-generator",
+        "game-patching-binary-repair"
+      ]
+    },
+    "game-modding": {
+      "description": "Specialized workflows, format rules, and safety checks for game modding, focusing on S.T.A.L.K.E.R. Legends of the Zone Trilogy EE (ZoneForge), LTX configurations, XDB pack archives, DDS textures, and engine-safe audio.",
+      "related": [
+        "game-texture-material-pipeline",
+        "game-asset-pack-archive-engineering",
+        "game-mod-release-packager",
+        "game-config-delta-extractor"
+      ]
+    },
+    "game-networking-state-sync": {
+      "description": "Multiplayer network architecture, client-side prediction, server reconciliation, entity interpolation, snapshot delta compression, and rollback networking (GGPO / lockstep). Use when building real-time multiplayer games, porting single-player engines to networked play, or fixing client jitter and desyncs.",
+      "related": [
+        "game-audio-engine-engineering",
+        "game-security-anti-tamper",
+        "game-ai-agent-play",
+        "game-physics-collision-pipeline"
+      ]
+    },
+    "game-patching-binary-repair": {
+      "description": "Diagnosing and fixing broken PC game binaries, engine crashes, missing DLL dependencies, and memory corruption without source code. Covers Dependency Walker import analysis, hex patching, assembly NOP/JMP patches, crash offset resolution, and custom hook wrappers.",
+      "related": [
+        "game-runtime-diagnostics",
+        "cross-platform-game-compatibility",
+        "game-trainer-engineering",
+        "lowlevel-dll-internals"
+      ]
+    },
+    "game-performance-overlay-telemetry": {
+      "description": "In-game HUD performance metrics and telemetry profiling (MangoHud, DXVK HUD, PresentMon). Configures FPS, frametimes, 1% lows, GPU/VRAM/RAM/power stats, and collision-free HUD positioning.",
+      "related": [
+        "dxvk-vkd3d-proton-pipeline-profiler",
+        "game-audio-engine-engineering",
+        "game-runtime-diagnostics",
+        "game-screen-telemetry-monitor"
+      ]
+    },
+    "game-physics-collision-pipeline": {
+      "description": "Real-time physics engine architecture, fixed timestep accumulator loops, continuous collision detection (CCD), broadphase BVH spatial hashing, narrowphase GJK/EPA solvers, and Jolt/PhysX integration. Use when porting physics runtimes, fixing tunneling, or optimizing simulation performance.",
+      "related": [
+        "game-audio-engine-engineering",
+        "game-debug-ui-tools",
+        "game-networking-state-sync",
+        "game-input-system-abstraction"
+      ]
+    },
+    "game-qa-playtest-controller": {
+      "description": "Autonomous multi-axis game testing locomotion controller using Linux /dev/uinput and evdev. Injects dynamic character movement patterns (circle-strafing orbit, 360\u00b0 panoramic camera sweeps, obstacle wandering, sprint/jump/crouch stress locomotion, and action cycles) for automated game QA and crash reproduction.",
+      "related": [
+        "game-exploratory-fuzzing",
+        "game-self-improving-qa-pipeline",
+        "game-weapon-ballistics-mechanics",
+        "game-autonomous-navigation-ai"
+      ]
+    },
+    "game-qol-gameplay-scripting": {
+      "description": "Autonomous quality-of-life gameplay scripting: proximity radar scanning, intelligent auto-loot for quest/ammo/health items, faction-filtered defense systems, and anomaly immunity.",
+      "related": [
+        "game-dynamic-stress-orchestrator",
+        "game-autonomous-navigation-ai",
+        "game-companion-pet-ai",
+        "game-weapon-ballistics-mechanics"
+      ]
+    },
+    "game-runtime-diagnostics": {
+      "description": "Cross-platform game crash diagnostics, performance tuning, and compatibility triage across Windows (DirectX, Event Viewer, GPU TDRs) and Linux (Steam Proton, DXVK, Wine prefixes, Winetricks, DLL overrides).",
+      "related": [
+        "linux-gaming-proton-optimization",
+        "game-patching-binary-repair",
+        "cross-platform-game-compatibility",
+        "game-screen-telemetry-monitor"
+      ]
+    },
+    "game-save-state-serialization": {
+      "description": "Robust game save system architecture, versioned schema migrations, bit-packed binary serialization, endianness safety, checksum validation, and atomic file replacement. Use when implementing save/load systems, retro game save states, or preventing save corruption.",
+      "related": [
+        "game-asset-pack-archive-engineering",
+        "game-security-anti-tamper",
+        "game-engine-migration",
+        "game-entity-component-system"
+      ]
+    },
+    "game-screen-telemetry-monitor": {
+      "description": "Real-time in-game screen telemetry monitoring, visual anomaly detection (missing textures, freezes, blackouts), and automated crash dialog OCR for game modding, engine porting, and QA testing.",
+      "related": [
+        "game-self-improving-qa-pipeline",
+        "xray-crash-log-diagnostician",
+        "game-runtime-diagnostics",
+        "game-performance-overlay-telemetry"
+      ]
+    },
+    "game-security-anti-tamper": {
+      "description": "Game engine runtime security, anti-tamper architectures, memory modification detection, DLL hijacking prevention, save file HMAC integrity seals, server-side simulation sanity validation, and anti-teleport physics checks. Use when securing multiplayer games, protecting save files against hex editing, or hardening game binaries against injection.",
+      "related": [
+        "game-networking-state-sync",
+        "game-physics-collision-pipeline",
+        "game-asset-pack-archive-engineering",
+        "game-save-state-serialization"
+      ]
+    },
+    "game-self-improving-qa-pipeline": {
+      "description": "Closed-loop self-improving game QA test harness: automated loading screen dismissal, 88% loading stall watchdog, crash log harvesting, regression database tracking, and area test countdown timers.",
+      "related": [
+        "game-autonomous-navigation-ai",
+        "game-exploratory-fuzzing",
+        "game-screen-telemetry-monitor",
+        "game-qa-playtest-controller"
+      ]
+    },
+    "game-texture-editing": {
+      "description": "Autonomous game texture editing, enhancement, and repair suite. Generates tangent-space normal maps, blends detail normals via Reoriented Normal Mapping (RNM), synthesizes seamless repeating tiles, strips baked lighting (de-lighting), dilates alpha edges (bleed) to eliminate dark fringe halos, sharpens micro-details (CAS), packs PBR ORM maps, and transcodes DDS textures (BC1-BC7).",
+      "related": [
+        "game-texture-material-pipeline",
+        "game-autonomous-navigation-ai",
+        "blender-pbr-texture-packager",
+        "game-weather-lighting-fx"
+      ]
+    },
+    "game-texture-material-pipeline": {
+      "description": "High-performance asset pipelines for modern PBR and legacy game textures. Use when converting textures across engine formats (DDS, KTX2, PNG, TGA), packing PBR channels (ORM - Occlusion/Roughness/Metallic), inverting normal map Y channels (OpenGL vs DirectX), or setting up mipmaps and color spaces.",
+      "related": [
+        "mobile-gpu-texture-compression",
+        "game-texture-editing",
+        "game-modding",
+        "blender-pbr-texture-packager"
+      ]
+    },
+    "game-trainer-engineering": {
+      "description": "Cross-platform game trainer development across Windows and Linux. Covers dynamic memory scanning, multi-level pointer resolution, AOB pattern scanning, code injection (trampoline/detour mid-function hooks), global hotkey hooking, and embedded ImGui/web overlays.",
+      "related": [
+        "game-memory-scanner",
+        "game-dll-proxy-generator",
+        "game-patching-binary-repair",
+        "lowlevel-dll-internals"
+      ]
+    },
+    "game-weapon-ballistics-mechanics": {
+      "description": "Game weapon configuration, ballistics physics, firing cycles, projectile damage radii, underbarrel launchers, durability, and anti-jamming mechanics (S.T.A.L.K.E.R. LTX & shooter engines).",
+      "related": [
+        "game-config-delta-extractor",
+        "game-qa-playtest-controller",
+        "game-qol-gameplay-scripting",
+        "game-modding"
+      ]
+    },
+    "game-weather-lighting-fx": {
+      "description": "Dynamic game weather cycles, HDR tonemapping, sun shafts/god rays, skybox balance, and blinding glare/light-bleed suppression (S.T.A.L.K.E.R. X-Ray/OGSR & RPG engines).",
+      "related": [
+        "game-companion-pet-ai",
+        "game-self-improving-qa-pipeline",
+        "game-weapon-ballistics-mechanics",
+        "game-dynamic-stress-orchestrator"
+      ]
+    },
+    "gamemaker-gml-engineering": {
+      "description": "Modern GameMaker (2024+) game development workflows in GML Code. Covers lightweight constructors/structs, state machines, delta-timing, surface memory management, texture page optimization, sound emitter hierarchies, and YYP project architecture.",
+      "related": [
+        "csharp-dotnet-engineering",
+        "godot-game-dev",
+        "unreal-engine-dev",
+        "unity-game-dev"
+      ]
+    },
+    "gemini-5h-quota-governor": {
+      "description": "Real-time telemetry governor for Gemini 3.8 Flash rolling 5-hour quota windows. Throttles tool verbosity and paces autonomous execution to guarantee uninterrupted workflow between rollover cycles.",
+      "related": [
+        "argon-yolo-quota-pacing-watchdog",
+        "gemini-flash-cache-aligner",
+        "context-pruning-watchdog",
+        "agy-context-telemetry"
+      ]
+    },
+    "gemini-flash-cache-aligner": {
+      "description": "Maximizes Gemini 3.8 Flash prompt caching discounts (>90% savings) through strict prefix stabilization, 4,096-token floor anchoring, and dynamic variable isolation.",
+      "related": [
+        "multi-model-cache-harmonizer",
+        "argon-context-cache-guard",
+        "prompt-cache-context-optimizer",
+        "high-density-prompting"
+      ]
+    },
+    "generative-visual-artifacts": {
+      "description": "Generates self-contained interactive HTML/SVG widgets, KaTeX mathematical formulas, and live browser previews directly from Claude Code CLI.",
+      "related": [
+        "threejs-webgl-engineering",
+        "intelligent-interactive-ui",
+        "sandbox-code-interpreter",
+        "screen-vision-inspector"
+      ]
+    },
+    "git-diff-token-compressor": {
+      "description": "Zero-context hunk and coordinate patch compressor for Git workflows. Strips redundant identical context lines, index hashes, and binary diff bloat, reducing Git diff token consumption by 70-85% during code reviews, PR audits, and cross-session handoffs.",
+      "related": [
+        "cross-agent-context-deduplicator",
+        "canvas-interactive-workspace",
+        "cross-model-switch-pruner",
+        "model-optimal-state-serializer"
+      ]
+    },
+    "github-actions-cicd": {
+      "description": "Multi-OS GitHub Actions matrix builds (Linux, Windows, macOS), automated release packaging, semantic versioning, and compilation caching.",
+      "related": [
+        "headless-game-ci-automation",
+        "cmake-cross-platform",
+        "avalonia-cross-platform-dev",
+        "game-mod-release-packager"
+      ]
+    },
+    "godot-game-dev": {
+      "description": "Game development workflows for Godot Engine (GDScript 2.0 & C#). Use when designing game systems, scene trees, custom nodes, signals, UI layouts, or running headless Godot CLI builds and GUT tests.",
+      "related": [
+        "unity-game-dev",
+        "godot-shader-vfx",
+        "modern-cpp-engineering",
+        "xray-lua-scripting"
+      ]
+    },
+    "godot-shader-vfx": {
+      "description": "Authoring 2D and 3D visual shaders, canvas item shaders, spatial shaders, particle systems, and screen-reading post-processing effects in Godot Engine 4.",
+      "related": [
+        "godot-game-dev",
+        "post-processing-visual-fx",
+        "cuda-gpu-acceleration",
+        "vulkan-gpu-compute"
+      ]
+    },
+    "grok-realtime-telemetry-scout": {
+      "description": "Emulates xAI Grok real-time live search on Gemini 4 Argon. Scouts bleeding-edge git commits, pull requests, issue trackers, and package feeds for undocumented Linux and game fixes.",
+      "related": [
+        "devin-environment-self-healer",
+        "linux-gaming-proton-optimization",
+        "autogen-adversarial-redteam-critic",
+        "dynamic-repo-model-cheatsheet"
+      ]
+    },
+    "hardware-tool-engineering": {
+      "description": "Architect, build, and update hardware management tools, system daemons, sensors, and thermal controllers with cross-architecture portability (x86_64 Zen/Intel, ARM64, NVIDIA, AMD).",
+      "related": [
+        "linux-hardware-acpi",
+        "laptop-performance-profile",
+        "steamdeck-proton-hardware-tuning",
+        "windows-linux-cross-os-runtime-bridge"
+      ]
+    },
+    "headless-browser-automation": {
+      "description": "Headless browser automation via Playwright and Puppeteer, executing dynamic JavaScript on SPAs, capturing screenshots, form interactions, and bypass techniques.",
+      "related": [
+        "headless-game-ci-automation",
+        "electron-desktop-dev",
+        "headless-test-condenser",
+        "screen-vision-inspector"
+      ]
+    },
+    "headless-game-ci-automation": {
+      "description": "Automated headless game compilation, asset baking, CLI test execution, and packaging across Godot, Unity, Unreal Engine 5, and custom C++/Rust engines.",
+      "related": [
+        "headless-gameplay-testing-bot",
+        "github-actions-cicd",
+        "headless-test-condenser",
+        "headless-browser-automation"
+      ]
+    },
+    "headless-gameplay-testing-bot": {
+      "description": "Autonomous cross-platform gameplay testing bot, synthetic input replay (uinput, adb input), regression fuzzing, and telemetry invariant assertions.",
+      "related": [
+        "headless-game-ci-automation",
+        "game-qa-playtest-controller",
+        "game-self-improving-qa-pipeline",
+        "game-exploratory-fuzzing"
+      ]
+    },
+    "headless-test-condenser": {
+      "description": "Test suite output condenser and noise filter for autonomous CLI runs. Strips thousands of lines of passing test output from pytest, cargo test, npm/vitest, and ctest, surfacing only actionable failures, stack traces, and lines to slash context token consumption by up to 95%.",
+      "related": [
+        "log-output-sanitizer",
+        "claude-silent-dispatch",
+        "headless-game-ci-automation",
+        "claude-worktree-tmux"
+      ]
+    },
+    "hierarchical-memory-retrieval": {
+      "description": "Multi-tiered query-driven memory retrieval across working context, episodic logs (.agents/episodes/), semantic project patterns (.agents/memory/), and archival records with BM25 ranking.",
+      "related": [
+        "fable-virtual-context-manager",
+        "local-vector-rag-engine",
+        "claude-context-rot-shield",
+        "project-memory-bank"
+      ]
+    },
+    "high-density-prompting": {
+      "description": "Compresses verbose prompts into surgical, quota-saving directives, eliminates speculative reasoning tokens, and enforces deterministic, zero-waste agent outputs.",
+      "related": [
+        "claude-silent-dispatch",
+        "gemini-flash-cache-aligner",
+        "context-window-governor",
+        "multi-model-cache-harmonizer"
+      ]
+    },
+    "homelab-docker-devops": {
+      "description": "Self-hosted infrastructure, Docker Compose multi-service stacks, Samba network storage permissions, Nextcloud optimization, and systemd automation timers.",
+      "related": [
+        "computer-vision-deep-learning",
+        "cross-browser-extensions",
+        "android-app-engineering",
+        "android-compose-ui-ux"
+      ]
+    },
+    "human-crafted-web-design": {
+      "description": "Anti-AI web design heuristics, Linear and Stripe-grade UI aesthetics, professional typography hierarchy, tactile dark-mode interfaces, and production Tailwind CSS.",
+      "related": [
+        "creative-web-design-archetypes",
+        "android-compose-ui-ux",
+        "executive-business-communications",
+        "electron-desktop-dev"
+      ]
+    },
+    "humanities-lore-research": {
+      "description": "Cross-disciplinary research in world history, ancient mythology, comparative folklore, archaeology, and worldbuilding. Compiles structured entity dossiers, chronological timelines, and pantheon relationship graphs ready for websites, wikis, and digital archives.",
+      "related": [
+        "interactive-data-visualization-web",
+        "static-site-architecture",
+        "creative-web-design-archetypes",
+        "deep-research-synthesizer"
+      ]
+    },
+    "industrial-machine-vision-inspection": {
+      "description": "Classical computer vision, camera calibration, precision metrology, and industrial inspection. Covers OpenCV pinhole camera intrinsic/extrinsic matrix calibration, sub-pixel edge detection, geometric dimensioning, color space segmentation, normalized cross-correlation template matching, and surface anomaly detection.",
+      "related": [
+        "visual-document-ocr-intelligence",
+        "computer-vision-deep-learning",
+        "game-ai-agent-play",
+        "game-texture-editing"
+      ]
+    },
+    "intelligent-interactive-ui": {
+      "description": "Generates reactive, single-file interactive micro-apps, live calculators, filterable data tables, and dynamic forms with instant client-side state and export capabilities (GPT-6 Astra Intelligent UI parity).",
+      "related": [
+        "generative-visual-artifacts",
+        "threejs-webgl-engineering",
+        "screen-vision-inspector",
+        "argon-sentencepiece-serializer"
+      ]
+    },
+    "interactive-data-visualization-web": {
+      "description": "Browser-based interactive data visualization for history, mythology, game lore, and complex architectures. Generates zero-build D3.js force-directed network graphs, Vis.js chronological timelines, and interactive entity stat charts.",
+      "related": [
+        "humanities-lore-research",
+        "static-site-architecture",
+        "generative-visual-artifacts",
+        "intelligent-interactive-ui"
+      ]
+    },
+    "laptop-performance-profile": {
+      "description": "Laptop performance tuning, thermal management, and acoustic control. Integrates OMEN Space (omen-cli / omen-space-daemon), ACPI/WMI sysfs, and power-profiles-daemon for whisper-quiet night runs, balanced daily operation, and turbo boost execution.",
+      "related": [
+        "linux-hardware-acpi",
+        "hardware-tool-engineering",
+        "mobile-thermal-frame-pacing",
+        "claude-worktree-tmux"
+      ]
+    },
+    "legacy-codebase-cartographer": {
+      "description": "Maps legacy game engine architectures (e.g. X-Ray, idTech, GoldSrc) by constructing reverse-call dependency graphs from core entry points. Identifies dead code, orphaned translation units, obsolete LTX sections, and unreferenced assets to produce an 'Omit-from-Port' manifest.",
+      "related": [
+        "stalker-ogsr-migration",
+        "game-engine-migration",
+        "game-mod-release-packager",
+        "real-time-rendering-pipeline"
+      ]
+    },
+    "linux-desktop-packaging": {
+      "description": "Linux desktop integration and packaging standards, XDG Base Directory specs, FreeDesktop .desktop entries, AppStream metadata, Flatpak manifests, and AppImage bundling.",
+      "related": [
+        "linux-hardware-acpi",
+        "linux-systems-engineering",
+        "linux-game-window-input-capture",
+        "linux-perf-flamegraph-bottleneck-triage"
+      ]
+    },
+    "linux-game-window-input-capture": {
+      "description": "Linux game window containment, mouse grab/confinement, focus isolation, and dual-monitor multitasking under Wine/Proton, Gamescope, Wayland, and X11.",
+      "related": [
+        "linux-gaming-proton-optimization",
+        "linux-perf-flamegraph-bottleneck-triage",
+        "linux-systems-engineering",
+        "game-screen-telemetry-monitor"
+      ]
+    },
+    "linux-gaming-proton-optimization": {
+      "description": "Optimizing and fixing games under Linux, Wine, Steam Proton, and Steam Deck. Covers GE-Proton switching, dxvk.conf tuning, async shader compilation, GameMode, Gamescope micro-compositing, Winetricks prefix repair, Media Foundation cutscene codec fixes, and anti-cheat compatibility triage.",
+      "related": [
+        "game-runtime-diagnostics",
+        "proton-game-dev-linux",
+        "linux-game-window-input-capture",
+        "cross-platform-game-compatibility"
+      ]
+    },
+    "linux-hardware-acpi": {
+      "description": "Linux kernel ACPI module development, DSDT/SSDT table analysis, hwmon sensor interfaces, thermal fan curves, and systemd D-Bus daemons.",
+      "related": [
+        "hardware-tool-engineering",
+        "linux-systems-engineering",
+        "laptop-performance-profile",
+        "cachyos-arch-packaging"
+      ]
+    },
+    "linux-perf-flamegraph-bottleneck-triage": {
+      "description": "Hardware performance counter profiling (perf record/report) and folded stack Flamegraph bottleneck triage for native Linux and Wine/Proton games. Pinpoints exact C++ functions causing severe FPS drops in seconds without blind bisecting.",
+      "related": [
+        "dxvk-vkd3d-proton-pipeline-profiler",
+        "game-memory-scanner",
+        "game-performance-overlay-telemetry",
+        "linux-gaming-proton-optimization"
+      ]
+    },
+    "linux-systems-engineering": {
+      "description": "Linux systems programming in C/C++/Rust, POSIX APIs, asynchronous I/O (epoll, io_uring), process/signal management, systemd service units, and diagnostics (strace, gdb, perf, sanitizers).",
+      "related": [
+        "linux-hardware-acpi",
+        "win32-systems-engineering",
+        "linux-perf-flamegraph-bottleneck-triage",
+        "linux-desktop-packaging"
+      ]
+    },
+    "local-ast-compiler-engine": {
+      "description": "High-performance multithreaded AST analysis, symbol table scanning, and structural linting running across all host CPU cores (nproc). Detects syntax errors and extracts symbol trees in milliseconds locally, eliminating trial-and-error reasoning turns.",
+      "related": [
+        "local-preflight-syntax-gate",
+        "argon-ast-syntax-gate",
+        "local-model-coprocessor",
+        "local-vector-rag-engine"
+      ]
+    },
+    "local-gpu-vision-ocr-preprocessor": {
+      "description": "Pre-processes game screenshots, desktop captures, and 3D renders locally on host CPU/GPU using Pillow/NumPy perceptual frame-diffing and local Tesseract OCR, cutting cloud multimodal vision token consumption by 85-95%.",
+      "related": [
+        "local-vector-rag-engine",
+        "game-screen-telemetry-monitor",
+        "local-ast-compiler-engine",
+        "agent-error-recovery-sentinel"
+      ]
+    },
+    "local-model-coprocessor": {
+      "description": "Offloads low-complexity tasks (docstrings, commit messages, log summarization, regex, boilerplate) to local SLMs/LLMs running in GPU VRAM or system RAM via Ollama or llama.cpp, saving 100% of cloud quota for hard architectural reasoning.",
+      "related": [
+        "local-vector-rag-engine",
+        "dual-engine-quota-balancer",
+        "local-ast-compiler-engine",
+        "local-preflight-syntax-gate"
+      ]
+    },
+    "local-preflight-syntax-gate": {
+      "description": "Zero-token host-side pre-flight syntax and linter verification gate. Executes lightweight native compilers and linters (luac, ruff, cargo check, clang-format, tsc) in milliseconds on the host CPU before submitting code or running heavy test suites, intercepting syntax errors locally to save 15k-40k cloud reasoning tokens per caught bug.",
+      "related": [
+        "argon-ast-syntax-gate",
+        "local-ast-compiler-engine",
+        "local-vector-rag-engine",
+        "local-model-coprocessor"
+      ]
+    },
+    "local-vector-rag-engine": {
+      "description": "Local vector embeddings and dense semantic search engine running on host CPU/GPU/RAM. Replaces context-stuffing (50k+ tokens) by retrieving only the top-k relevant 15-line snippets into LLM prompts, slashing context consumption by 80-95%.",
+      "related": [
+        "stalker-spawn-entity-indexer",
+        "fable-virtual-context-manager",
+        "local-model-coprocessor",
+        "semantic-codebase-indexing"
+      ]
+    },
+    "log-output-sanitizer": {
+      "description": "Intercepts noisy compiler, package manager, and test suite terminal output (cargo, pytest, npm, cmake), passing only actionable errors and compact summaries to preserve context.",
+      "related": [
+        "headless-test-condenser",
+        "shell-output-token-guard",
+        "rust-engineering",
+        "claude-worktree-tmux"
+      ]
+    },
+    "lowlevel-dll-internals": {
+      "description": "Windows PE/DLL internals, assembly-level disassembly, vtable reconstruction, calling convention alignment (__thiscall, __stdcall, __cdecl, x64 ABI), and native detour hooks (MinHook, MS Detours, trampoline patching). Use when analyzing or modifying game DLLs, ASI plugins, C++ engine classes, crash dumps, or writing native binary patches.",
+      "related": [
+        "standalone-binary-re",
+        "game-trainer-engineering",
+        "game-patching-binary-repair",
+        "rea-mcp-obligation-ledger-orchestrator"
+      ]
+    },
+    "meta-llama-kv-prefix-stabilizer": {
+      "description": "Emulates Meta Llama 3.3 KV-cache alignment. Enforces strict token-boundary block padding to prevent prompt cache fragmentation and lock in 95% cache discounts.",
+      "related": [
+        "multi-model-cache-harmonizer",
+        "gemini-flash-cache-aligner",
+        "prompt-cache-context-optimizer",
+        "claude-fable-engine-governor"
+      ]
+    },
+    "mobile-gpu-texture-compression": {
+      "description": "Multi-platform GPU texture compression pipeline covering mobile ASTC/ETC2 and PC BC1-BC7, runtime format negotiation, and mipmap generation.",
+      "related": [
+        "game-texture-material-pipeline",
+        "blender-pbr-texture-packager",
+        "android-mobile-3d-asset-optimizer",
+        "cross-engine-shader-transpiler"
+      ]
+    },
+    "mobile-thermal-frame-pacing": {
+      "description": "Mobile thermal management, Android Swappy frame pacing, dynamic resolution scaling (DRS), and battery efficiency algorithms for Android and PC games.",
+      "related": [
+        "steamdeck-proton-hardware-tuning",
+        "laptop-performance-profile",
+        "game-performance-overlay-telemetry",
+        "android-perf-battery-profiling"
+      ]
+    },
+    "model-optimal-state-serializer": {
+      "description": "Model-optimal structured session state serialization engine. Compresses in-flight memory, active hypotheses, and file state into tokenizer-native formats (XML/YAML for Claude BPE, Pipe/TSV for Gemini SentencePiece, compact symbol skeletons) to slash context consumption by 60-80%.",
+      "related": [
+        "argon-sentencepiece-serializer",
+        "multi-model-cache-harmonizer",
+        "argon-structured-json-schema-enforcer",
+        "project-memory-bank"
+      ]
+    },
+    "modern-cpp-engineering": {
+      "description": "Modern C++ standards (C++20/C++23) and systems engineering. Use when authoring or debugging C++ code, game engine plugins, DLLs, memory management with RAII, smart pointers, Concepts, or managing CMake builds.",
+      "related": [
+        "rust-engineering",
+        "godot-game-dev",
+        "csharp-dotnet-engineering",
+        "unity-game-dev"
+      ]
+    },
+    "multi-model-cache-harmonizer": {
+      "description": "Prompt cache prefix stabilization and alignment engine across Claude, Gemini, OpenAI, and Grok. Aligns static system prefixes to model-specific cache boundaries (1,024 tokens for Claude/OpenAI, 4,096 tokens for Gemini) and isolates dynamic variables to prompt suffixes to guarantee 90-95% cache read discounts.",
+      "related": [
+        "gemini-flash-cache-aligner",
+        "argon-context-cache-guard",
+        "prompt-cache-context-optimizer",
+        "model-optimal-state-serializer"
+      ]
+    },
+    "network-packet-stream-condenser": {
+      "description": "Network packet stream and PCAP trace condenser. Flattens verbose tshark and tcpdump protocol dissection trees into high-density 1-line TSV telemetry tuples, slashing network protocol engineering tokens by 85-90%.",
+      "related": [
+        "network-protocol-engineering",
+        "sql-schema-query-condenser",
+        "compiler-error-cascade-isolator",
+        "disassembly-token-redactor"
+      ]
+    },
+    "network-protocol-engineering": {
+      "description": "Packet inspection with tshark and tcpdump, binary serialization with Protobuf and FlatBuffers, custom TCP/UDP client-servers, and Linux TUN/TAP network routing.",
+      "related": [
+        "network-packet-stream-condenser",
+        "binary-re-workflows",
+        "standalone-binary-re",
+        "api-network-security-hardening"
+      ]
+    },
+    "nix-reproducible-environments": {
+      "description": "Hermetic developer environments using Nix Flakes (flake.nix), declarative dependencies, reproducible devShells, and cross-platform isolation.",
+      "related": [
+        "avalonia-cross-platform-dev",
+        "cmake-cross-platform",
+        "devin-environment-self-healer",
+        "documentation-site-generator"
+      ]
+    },
+    "open-apk": {
+      "description": "Load an Android APK / XAPK / DEX / JAR into the jadx-headless MCP for static analysis. Accepts a local file path, or a package name to fetch from APKPure via apkeep. Use when the user asks to open/load an APK in jadx (e.g. \"open com.example.app in jadx\", \"load ./demo.xapk\", \"/jadx-headless:open-apk <path|package>\").",
+      "related": [
+        "standalone-binary-re",
+        "reverse-engineer-anything",
+        "binary-re-workflows",
+        "claude-silent-dispatch"
+      ]
+    },
+    "pc-cross-platform-graphics-api": {
+      "description": "Modern C++ graphics Hardware Abstraction Layer (HAL) supporting DirectX 12, Vulkan, and DirectX 11, Valve Proton compatibility, and RenderDoc telemetry.",
+      "related": [
+        "cross-engine-shader-transpiler",
+        "real-time-rendering-pipeline",
+        "headless-gameplay-testing-bot",
+        "proton-game-dev-linux"
+      ]
+    },
+    "polyglot-ast-interface-pruner": {
+      "description": "Polyglot AST interface pruner and header skeletonizer across C++, C#, Rust, Python, and Lua. Strips function implementation bodies, private members, comments, and boilerplate to generate ultra-dense symbol signatures, reducing codebase ingestion tokens by 85-90%.",
+      "related": [
+        "smart-context-packer",
+        "qwen-polyglot-ast-cartographer",
+        "selective-context-ingestor",
+        "xray-macro-boilerplate-condenser"
+      ]
+    },
+    "post-processing-visual-fx": {
+      "description": "Screen-space rendering, post-processing stacks, and volumetric lighting when building or porting engines. Use when implementing HDR tone mapping (ACES, AgX), progressive dual-filtering bloom, ambient occlusion (SSAO, GTAO), screen-space reflections (SSR), or cascaded shadow maps (CSM).",
+      "related": [
+        "xray-dx11-shader-modernization",
+        "godot-shader-vfx",
+        "real-time-rendering-pipeline",
+        "game-weather-lighting-fx"
+      ]
+    },
+    "powershell-windows-automation": {
+      "description": "Modern PowerShell 7 and Windows PowerShell automation, advanced cmdlet design, pipeline streaming, WMI/CIM querying, Task Scheduler automation, and Win32 P/Invoke.",
+      "related": [
+        "bash-posix-automation",
+        "python-engineering",
+        "proton-game-dev-linux",
+        "stalker-luajit-ffi-migration"
+      ]
+    },
+    "project-memory-bank": {
+      "description": "Persistent project memory and context curation system. Use when starting sessions on existing codebases, resuming tasks, recording architectural decisions, logging bug solutions, or preparing state before running /compact to slash token usage.",
+      "related": [
+        "session-episodic-memory",
+        "fable-virtual-context-manager",
+        "model-optimal-state-serializer",
+        "session-experience-harvester"
+      ]
+    },
+    "prompt-cache-context-optimizer": {
+      "description": "Emulates 1M+ context windows and maximizes Anthropic prompt caching discounts (>90% savings) through strict prefix ordering, hierarchical AST compression, and cache stabilization.",
+      "related": [
+        "gemini-flash-cache-aligner",
+        "multi-model-cache-harmonizer",
+        "claude-fable-engine-governor",
+        "argon-context-cache-guard"
+      ]
+    },
+    "proton-game-dev-linux": {
+      "description": "Engineering and validating PC games and engines to target Valve Proton seamlessly from day one. Covers cross-platform Win32/POSIX case-sensitivity bugs, Steamworks SDK integration under Wine/Proton, headless Proton CLI test runners, and anti-cheat runtime packaging.",
+      "related": [
+        "linux-gaming-proton-optimization",
+        "game-memory-scanner",
+        "game-trainer-engineering",
+        "game-asset-pack-archive-engineering"
+      ]
+    },
+    "python-engineering": {
+      "description": "Python software engineering and performance standards (Python 3.10+). Use when authoring or refactoring Python code, adding type annotations, writing pytest suites, optimizing hot paths, or using Ruff and Mypy.",
+      "related": [
+        "rust-engineering",
+        "adaptive-reasoning",
+        "argon-ast-syntax-gate",
+        "csharp-dotnet-engineering"
+      ]
+    },
+    "qwen-polyglot-ast-cartographer": {
+      "description": "Emulates Qwen 2.5 Coder polyglot AST cartography. Generates instant symbol call-graphs, inheritance trees, and signatures across C++, Python, Lua, and Rust in under 500 tokens.",
+      "related": [
+        "semantic-codebase-indexing",
+        "smart-context-packer",
+        "selective-context-ingestor",
+        "windsurf-cascade-flow-tracker"
+      ]
+    },
+    "ramdisk-tmpfs-build-bake-accelerator": {
+      "description": "Exploits 30 GB system RAM via Linux /dev/shm tmpfs RAM-disk (~40 GB/s bandwidth, zero SSD I/O wear) for ultra-fast Blender texture baking, S.T.A.L.K.E.R./UE5 archive extraction, CMake object compilation, and test staging.",
+      "related": [
+        "windows-linux-cross-os-runtime-bridge",
+        "rtx-optix-gpu-baker-denoiser",
+        "claude-worktree-tmux",
+        "headless-game-ci-automation"
+      ]
+    },
+    "rea-mcp-obligation-ledger-orchestrator": {
+      "description": "Orchestrates the Reverse Engineer Anything (REA) MCP server obligation ledger, binary function diffing, and static-to-runtime correlation to formally verify decompiled or ported C++ game engine binaries.",
+      "related": [
+        "binary-re-workflows",
+        "standalone-binary-re",
+        "game-patching-binary-repair",
+        "lowlevel-dll-internals"
+      ]
+    },
+    "real-time-rendering-pipeline": {
+      "description": "Architecture, modern paradigms, and debugging for real-time game renderers (DirectX 12, Vulkan 1.3+, WebGPU). Use when designing render graphs, implementing bindless descriptors, configuring reverse-Z depth buffers, managing transient memory aliasing, or capturing frames with RenderDoc.",
+      "related": [
+        "emulator-development-engineering",
+        "pc-cross-platform-graphics-api",
+        "game-graphics-optimization-profiling",
+        "game-performance-overlay-telemetry"
+      ]
+    },
+    "reverse-engineer-anything": {
+      "description": "Reverse engineer native, managed, Electron/JavaScript, packaged, firmware, and browser targets with REA. Use shipped-artifact or requested runtime evidence to explain features, compare versions, decompile code, or guide a reconstruction. Skip REA for ordinary source-repository architecture analysis.",
+      "related": [
+        "rea-mcp-obligation-ledger-orchestrator",
+        "binary-re-workflows",
+        "open-apk",
+        "standalone-binary-re"
+      ]
+    },
+    "rigging-weight-painting-pipeline": {
+      "description": "Character, creature, and animal rigging and skinning in Blender (bpy). Armature hierarchies, bone limits for game engines, automated weight painting normalization, IK/FK solvers, and deformation testing.",
+      "related": [
+        "character-creature-anatomy-modeling",
+        "game-animation-skeletal-pipeline",
+        "android-mobile-3d-asset-optimizer",
+        "headless-gameplay-testing-bot"
+      ]
+    },
+    "rtx-optix-gpu-baker-denoiser": {
+      "description": "Accelerates headless Blender 5.2+ Cycles texture baking (Normals, AO, Lightmaps, Curvature) and 2x2 contact sheet renders by 10x-20x using NVIDIA RTX 5060 Hardware Ray-Tracing (OptiX) and AI Denoising at 16-32 samples.",
+      "related": [
+        "cuda-gpu-acceleration",
+        "amd-igpu-nvidia-dgpu-hybrid-offload",
+        "ramdisk-tmpfs-build-bake-accelerator",
+        "blender-hard-surface-cad-weapons-props"
+      ]
+    },
+    "rust-engineering": {
+      "description": "Rust software engineering and compiler-first workflows. Use when authoring or debugging Rust code, managing lifetimes and the borrow checker, designing zero-cost abstractions, or running Cargo check, Clippy, and tests.",
+      "related": [
+        "python-engineering",
+        "modern-cpp-engineering",
+        "log-output-sanitizer",
+        "systematic-debugging"
+      ]
+    },
+    "sandbox-code-interpreter": {
+      "description": "Headless Python scientific computing, data analytics, mathematical proof verification, and automated chart plotting in Claude Code.",
+      "related": [
+        "blender-headless-token-shield",
+        "generative-visual-artifacts",
+        "blender-3d-engineering",
+        "game-memory-scanner"
+      ]
+    },
+    "screen-vision-inspector": {
+      "description": "Autonomously captures, crops, and visually inspects the active computer screen, desktop application windows, and UI rendering states via local screenshot utilities (Google Project Astra and GPT-6 Astra Vision parity).",
+      "related": [
+        "argon-multimodal-vision-grounding",
+        "self-healing-test-automation",
+        "headless-browser-automation",
+        "intelligent-interactive-ui"
+      ]
+    },
+    "security-vulnerability-audit": {
+      "description": "Pre-commit secret scanning with gitleaks, SAST vulnerability analysis with semgrep, dependency audits, and binary hardening verification.",
+      "related": [
+        "devsecops-supply-chain-security",
+        "app-security-threat-modeling",
+        "autonomous-git-repo-sync-governor",
+        "headless-game-ci-automation"
+      ]
+    },
+    "selective-context-ingestor": {
+      "description": "Enforces surgical line-slice reading and AST-first inspection via slice-reader, preventing models from ingesting 800-line files when they only need 25 lines to save 90-95% context tokens.",
+      "related": [
+        "flash-context-compactor",
+        "argon-atomic-diff-sequencer",
+        "qwen-polyglot-ast-cartographer",
+        "polyglot-ast-interface-pruner"
+      ]
+    },
+    "self-evolving-skill-synthesizer": {
+      "description": "Closed-loop in-flight skill synthesis, Voyager-style script promotion, and Reflexion self-healing. Automatically creates missing skills, promotes verified one-off scripts into reusable skill tools, and patches stale skill instructions mid-task across Gemini, Claude, and Cursor.",
+      "related": [
+        "autonomous-skill-ecosystem-optimizer",
+        "self-healing-test-automation",
+        "autonomous-git-repo-sync-governor",
+        "autonomous-3d-reference-researcher"
+      ]
+    },
+    "self-healing-test-automation": {
+      "description": "Resilient UI test automation, semantic locator auto-repair, visual OCR fallback, and dynamic flakiness mitigation for Web, Mobile, and Desktop GUI testing.",
+      "related": [
+        "self-evolving-skill-synthesizer",
+        "screen-vision-inspector",
+        "android-device-automation",
+        "android-perf-battery-profiling"
+      ]
+    },
+    "semantic-codebase-indexing": {
+      "description": "Cursor and Windsurf-style AST symbol indexing, call-graph tracing, and ctags/tree-sitter repository mapping for instant token-efficient code navigation.",
+      "related": [
+        "qwen-polyglot-ast-cartographer",
+        "local-vector-rag-engine",
+        "stalker-spawn-entity-indexer",
+        "flash-context-compactor"
+      ]
+    },
+    "session-episodic-memory": {
+      "description": "Multi-session milestone checkpointing, chronological episode logging (.agents/episodes/), decision rationales, and seamless restoration across /compact events. Use during long-running tasks to prevent conversational amnesia and maintain an audit trail of engineering decisions.",
+      "related": [
+        "project-memory-bank",
+        "session-experience-harvester",
+        "hierarchical-memory-retrieval",
+        "android-ndk-jni-engineering"
+      ]
+    },
+    "session-experience-harvester": {
+      "description": "Mines completed long-running agent session transcripts (.jsonl), tracks cumulative multi-billion token prompt cache savings (~/.cli_power_setup/token_ledger.json), and distills solved bug resolutions and engine gotchas into project memory banks to prevent redundant trial-and-error discovery across all models.",
+      "related": [
+        "project-memory-bank",
+        "session-episodic-memory",
+        "claude-fable-engine-governor",
+        "cross-cli-session-handoff"
+      ]
+    },
+    "shader-cross-compilation": {
+      "description": "Cross-compilation, translation, and validation of game shaders across HLSL, GLSL, SPIR-V, WGSL, and MSL. Use when porting game shaders between engines (DirectX to Vulkan/OpenGL/WebGPU), modernizing legacy Shader Model 3.0/4.0/5.0 code to SM 6.x, or resolving cross-platform graphics API discrepancies.",
+      "related": [
+        "cross-engine-shader-transpiler",
+        "vulkan-gpu-compute",
+        "game-engine-migration",
+        "real-time-rendering-pipeline"
+      ]
+    },
+    "shell-output-token-guard": {
+      "description": "Enforces hard terminal stdout line ceilings using token-guard to intercept noisy commands (find, grep, git log, compiler dumps), truncating runaway output and saving 10k-50k tokens per query.",
+      "related": [
+        "yolo-autonomous-watchdog",
+        "log-output-sanitizer",
+        "context-window-governor",
+        "blender-headless-token-shield"
+      ]
+    },
+    "skills-updater-and-auditor": {
+      "description": "Automated health auditing, synchronization, and upstream updates for all installed agent skills. Verifies YAML frontmatter integrity, helper script syntax/permissions, host CLI dependencies, and cross-CLI parity across Antigravity and Claude Code.",
+      "related": [
+        "autonomous-git-repo-sync-governor",
+        "agy-cli-doctor",
+        "cross-cli-session-handoff",
+        "screen-vision-inspector"
+      ]
+    },
+    "smart-context-packer": {
+      "description": "Compresses multi-file codebases into interface-only AST skeletons (stripping function bodies, comments, and blank lines), reducing context consumption by 85-90%.",
+      "related": [
+        "polyglot-ast-interface-pruner",
+        "qwen-polyglot-ast-cartographer",
+        "selective-context-ingestor",
+        "flash-context-compactor"
+      ]
+    },
+    "source-idtech-kex-engine-modding": {
+      "description": "Modding pipeline for Valve Source/Source 2, GoldSrc, id Tech (Quake II/III, DOOM 3), and Nightdive KEX Engine games in your Steam library (SiN Reloaded, Half-Life 1/2, Black Mesa, Garry's Mod, Left 4 Dead 1/2, Portal 1/2, CS2, TF2).",
+      "related": [
+        "ue5-redengine-rage-library-modding",
+        "bethesda-creation-engine-nif-modding",
+        "game-mod-release-packager",
+        "stalker2-modding"
+      ]
+    },
+    "speculative-multi-step-drafting": {
+      "description": "Bundles predictable consecutive edits and multi-file modifications into single-turn atomic dispatches, slashing multi-turn reasoning overhead and saving up to 75% input tokens.",
+      "related": [
+        "argon-tool-calling-densifier",
+        "local-vector-rag-engine",
+        "executing-plans",
+        "argon-thinking-governor"
+      ]
+    },
+    "sql-schema-query-condenser": {
+      "description": "SQL relational schema and query plan condenser. Serializes verbose DDL migrations and EXPLAIN QUERY PLAN execution trees into compact type-bracket notation and flat operator pipelines, slashing database context by 65-75%.",
+      "related": [
+        "database-sql-engineering",
+        "claude-silent-dispatch",
+        "network-packet-stream-condenser",
+        "model-optimal-state-serializer"
+      ]
+    },
+    "stalker-level-ai-graph-triage": {
+      "description": "Diagnoses and repairs S.T.A.L.K.E.R. and X-Ray/OGSR level AI navmesh and graph defects. Triages 'Cannot find level vertex' CTDs, audits all.spawn cross-level transits, validates level.ai and game.graph connectivity, and resolves NPC pathfinding deadlocks.",
+      "related": [
+        "stalker-spawn-entity-indexer",
+        "stalker-ogsr-migration",
+        "stalker-luajit-ffi-migration",
+        "game-dynamic-stress-orchestrator"
+      ]
+    },
+    "stalker-luajit-ffi-migration": {
+      "description": "Manages Lua script migration to 64-bit LuaJIT and FFI in modern S.T.A.L.K.E.R. engines (OGSR Engine). Audits deprecated Luabind C++ exports, prevents LuaJIT GC64 memory limits and raw pointer corruption, and traps silent callback failures.",
+      "related": [
+        "stalker-ogsr-migration",
+        "stalker-level-ai-graph-triage",
+        "stalker-spawn-entity-indexer",
+        "argon-deep-memory-allocator-sanitizer"
+      ]
+    },
+    "stalker-ogsr-migration": {
+      "description": "Migration, adaptation, and porting of legacy S.T.A.L.K.E.R. Shadow of Chernobyl mods (Complete, AMK, Autumn Aurora) to the 64-bit OGSR Engine. Covers 64-bit binary layout, DX11 shader reconciliation, LuaJIT callback adaptation, ACDC spawn translation, LTX sanitization, and crash log diagnosis.",
+      "related": [
+        "stalker-luajit-ffi-migration",
+        "stalker-level-ai-graph-triage",
+        "legacy-codebase-cartographer",
+        "game-engine-migration"
+      ]
+    },
+    "stalker-spawn-entity-indexer": {
+      "description": "High-performance local indexer and query engine for S.T.A.L.K.E.R. unpacked all.spawn and game.graph archives. Extracts entity sections, story IDs, level changers, and patrol path coordinates on the host CPU in milliseconds, saving 35k-50k tokens versus ingesting raw spawn archives.",
+      "related": [
+        "stalker-level-ai-graph-triage",
+        "local-vector-rag-engine",
+        "xray-crash-symbol-resolver",
+        "semantic-codebase-indexing"
+      ]
+    },
+    "stalker2-modding": {
+      "description": "Modding workflows and tools for S.T.A.L.K.E.R. 2 Heart of Chornobyl (Unreal Engine 5). Use when packaging UE5 IoStore containers (pak, ucas, utoc) with repak, authoring RE-UE4SS C++ and Lua hooks, inspecting assets via FModel, or organizing mod distributions.",
+      "related": [
+        "stalker2-to-ogsr-asset-transpiler",
+        "ue5-redengine-rage-library-modding",
+        "ue5-foliage-mesh-to-ogsr-transpiler",
+        "game-asset-pack-archive-engineering"
+      ]
+    },
+    "stalker2-to-ogsr-asset-transpiler": {
+      "description": "Converts and adapts S.T.A.L.K.E.R. 2 Heart of Chornobyl UE5 IoStore assets (textures, audio, ballistics curves, weather) into 64-bit S.T.A.L.K.E.R. OGSR/X-Ray formats.",
+      "related": [
+        "ue5-foliage-mesh-to-ogsr-transpiler",
+        "stalker2-modding",
+        "game-texture-material-pipeline",
+        "argon-dynamic-subagent-swarm"
+      ]
+    },
+    "standalone-binary-re": {
+      "description": "Standalone binary reverse engineering without external MCP servers. Uses native Linux CLI utilities (objdump, readelf, nm, jadx, gdb, strings, xxd) and Python (pefile, struct) for fast, zero-dependency disassembly, symbol analysis, and APK decompilation.",
+      "related": [
+        "binary-re-workflows",
+        "lowlevel-dll-internals",
+        "rea-mcp-obligation-ledger-orchestrator",
+        "game-trainer-engineering"
+      ]
+    },
+    "static-site-architecture": {
+      "description": "Modern Jamstack and static site generator (SSG) architecture. Covers Astro, VitePress, Starlight, Content Collections with Zod schemas, zero-JS baseline performance, and automated GitHub Pages CI/CD deployment pipelines.",
+      "related": [
+        "documentation-site-generator",
+        "interactive-data-visualization-web",
+        "cross-browser-extensions",
+        "humanities-lore-research"
+      ]
+    },
+    "steamcmd-workshop-pipeline": {
+      "description": "SteamCMD and Steam Workshop publishing pipeline. Use when authoring workshop item VDF manifests, managing content depots, setting visibility, or publishing/updating mods via SteamCMD.",
+      "related": [
+        "game-modding",
+        "game-mod-release-packager",
+        "electron-desktop-dev",
+        "rust-engineering"
+      ]
+    },
+    "steamdeck-proton-hardware-tuning": {
+      "description": "Steam Deck & handheld Linux hardware optimization for Proton games. Covers 15W TDP power budgets, 40Hz/45Hz refresh rate frame pacing, 1280x800 16:10 aspect ratio handling, font readability scaling, and battery longevity tuning.",
+      "related": [
+        "mobile-thermal-frame-pacing",
+        "game-performance-overlay-telemetry",
+        "cross-platform-game-compatibility",
+        "linux-perf-flamegraph-bottleneck-triage"
+      ]
+    },
+    "subagent-code-reviewer": {
+      "description": "Dispatches an isolated reviewer subagent to audit code changes, mod diffs, security implications, or edge cases before committing or publishing, without polluting the primary context.",
+      "related": [
+        "subagent-swarm-orchestrator",
+        "binary-re-workflows",
+        "verification-before-completion",
+        "deliberative-reasoning-tree"
+      ]
+    },
+    "subagent-swarm-orchestrator": {
+      "description": "Coordinates autonomous parallel subagent swarms in Claude Code, leveraging isolated git worktrees, background processes, and parent-child JSON messaging pipelines.",
+      "related": [
+        "claude-worktree-tmux",
+        "cross-agent-git-rebase-guard",
+        "argon-subagent-payload-compressor",
+        "subagent-code-reviewer"
+      ]
+    },
+    "superpowers": {
+      "description": "Core engineering methodology and discipline engine. Use when starting non-trivial tasks to evaluate if brainstorming, structured planning, TDD, or systematic debugging applies before writing code.",
+      "related": [
+        "executing-plans",
+        "systematic-debugging",
+        "verification-before-completion",
+        "task-velocity-governor"
+      ]
+    },
+    "systematic-debugging": {
+      "description": "Root-cause diagnosis and hypothesis-driven debugging. Use when encountering test failures, runtime errors, game crashes, or unexpected behavior to diagnose before editing.",
+      "related": [
+        "superpowers",
+        "rust-engineering",
+        "executing-plans",
+        "python-engineering"
+      ]
+    },
+    "task-velocity-governor": {
+      "description": "Enforces task completion velocity, strict timeboxing, step budgeting, anti-thrashing loops, and diminishing returns boundaries. Prevents tasks from taking longer than necessary and halts iterative wheel-spinning.",
+      "related": [
+        "superpowers",
+        "argon-atomic-diff-sequencer",
+        "executing-plans",
+        "python-engineering"
+      ]
+    },
+    "tauri-multiplatform-dev": {
+      "description": "Lightweight cross-platform desktop and mobile engineering with Tauri 2.0, Rust backend, web frontend, secure IPC commands, low RAM usage, and native system integration.",
+      "related": [
+        "electron-desktop-dev",
+        "avalonia-cross-platform-dev",
+        "standalone-binary-re",
+        "proton-game-dev-linux"
+      ]
+    },
+    "test-driven-development": {
+      "description": "Test-Driven Development (TDD) workflow. Use when developing testable features, parsers, codecs, utilities, or bug fixes to write tests before implementation.",
+      "related": [
+        "task-velocity-governor",
+        "coverage-guided-mutation-testing",
+        "writing-plans",
+        "systematic-debugging"
+      ]
+    },
+    "threejs-webgl-engineering": {
+      "description": "Interactive 3D WebGL and WebGPU development using Three.js, OrbitControls, GLTFLoader, PBR lighting rigs, procedural geometry, and zero-build browser previews.",
+      "related": [
+        "generative-visual-artifacts",
+        "intelligent-interactive-ui",
+        "screen-vision-inspector",
+        "headless-browser-automation"
+      ]
+    },
+    "time-travel-deterministic-replay-debug": {
+      "description": "Deterministic record-and-replay time-travel debugging using Mozilla rr and GDB reverse execution. Steps backwards from segfaults and corrupted pointers to the exact instruction that mutated memory.",
+      "related": [
+        "xray-lua-scripting",
+        "game-exploratory-fuzzing",
+        "argon-subagent-lifecycle-governor",
+        "chatgpt-o1-hypothesis-tree"
+      ]
+    },
+    "token-economy": {
+      "description": "Output token optimization and high-density communication protocol. Use to minimize output token consumption, prevent transcript context bloat, and maintain concise progress visibility during long engineering workflows.",
+      "related": [
+        "claude-opus-conciseness-enforcer",
+        "claude-silent-dispatch",
+        "argon-subagent-payload-compressor",
+        "argon-tool-calling-densifier"
+      ]
+    },
+    "ue5-foliage-mesh-to-ogsr-transpiler": {
+      "description": "Extracts S.T.A.L.K.E.R. 2 (UE5 IoStore) 3D trees, bushes, and grass meshes and transpiles them into 64-bit S.T.A.L.K.E.R. OGSR (.ogf and .dm) formats with uint16 submesh partitioning and alpha-coverage mipmaps.",
+      "related": [
+        "stalker2-to-ogsr-asset-transpiler",
+        "ue5-redengine-rage-library-modding",
+        "stalker2-modding",
+        "xray-ogf-dm-blender-pipeline"
+      ]
+    },
+    "ue5-redengine-rage-library-modding": {
+      "description": "Multi-engine modding workflows for your installed and owned UE5 IoStore games (Borderlands 4, Assetto Corsa Rally, S.T.A.L.K.E.R. 2), Rockstar GTA (GTA I/III/VC/SA/IV/V), CDPR REDengine (Cyberpunk 2077, Witcher 3), Baldur's Gate 3, Project Zomboid, and No Man's Sky.",
+      "related": [
+        "ue5-foliage-mesh-to-ogsr-transpiler",
+        "stalker2-modding",
+        "source-idtech-kex-engine-modding",
+        "cross-engine-3d-import-export-bridge"
+      ]
+    },
+    "unity-game-dev": {
+      "description": "Game development workflows for Unity Engine (C#). Use when developing MonoBehaviours, ScriptableObjects, physics interactions, UI Toolkit/UGUI, shader integrations, or optimizing memory allocations and garbage collection.",
+      "related": [
+        "csharp-dotnet-engineering",
+        "godot-game-dev",
+        "unreal-engine-dev",
+        "game-memory-allocator-engineering"
+      ]
+    },
+    "universal-token-containment-protocol": {
+      "description": "Universal cross-model and cross-domain token containment protocol across all 197 skills (Sonnet, Opus, Fable, Flash, Argon). Mandates zero chat duplication, strict file/artifact offloading, and output clamping across 3D modeling, binary reverse engineering, web design, and game modding.",
+      "related": [
+        "blender-headless-token-shield",
+        "cross-agent-context-deduplicator",
+        "cross-model-switch-pruner",
+        "claude-fable-engine-governor"
+      ]
+    },
+    "unreal-engine-dev": {
+      "description": "Game development workflows for Unreal Engine 5 (C++ and Blueprints). Use when implementing Gameplay Framework actors, UObject memory management, Subsystems, Enhanced Input, Niagara systems, or profiling performance.",
+      "related": [
+        "unity-game-dev",
+        "gamemaker-gml-engineering",
+        "godot-game-dev",
+        "modern-cpp-engineering"
+      ]
+    },
+    "using-git-worktrees": {
+      "description": "Manages isolated git worktrees for parallel mod development, experimenting with risky changes, or testing multiple branches simultaneously without dirtying the working directory.",
+      "related": [
+        "cross-agent-git-rebase-guard",
+        "working-memory-checkpointing",
+        "argon-hierarchical-worktree-isolator",
+        "autonomous-git-repo-sync-governor"
+      ]
+    },
+    "verification-before-completion": {
+      "description": "Final quality gate and evidence collector. Use before claiming any task, feature, or bug fix is finished to verify with concrete execution evidence.",
+      "related": [
+        "superpowers",
+        "systematic-debugging",
+        "writing-plans",
+        "executing-plans"
+      ]
+    },
+    "video-production-automation": {
+      "description": "Hardware-accelerated video engineering and automated post-production using FFmpeg with NVIDIA NVENC (AV1, HEVC, H.264), multi-track audio mastering (-14 LUFS), ProRes/DNxHR intermediate transcoding, and subtitle embedding.",
+      "related": [
+        "youtube-shorts-video-automation",
+        "cuda-gpu-acceleration",
+        "dual-engine-quota-balancer",
+        "vulkan-gpu-compute"
+      ]
+    },
+    "visual-document-ocr-intelligence": {
+      "description": "Document AI, optical character recognition (OCR), table extraction, and visual document understanding. Covers multi-engine OCR orchestration (Tesseract, PaddleOCR, Surya), document preprocessing (deskewing, adaptive Sauvola binarization, shadow flattening), and structured table/form key-value extraction.",
+      "related": [
+        "industrial-machine-vision-inspection",
+        "computer-vision-deep-learning",
+        "argon-multimodal-vision-grounding",
+        "game-dialogue-ui-localization"
+      ]
+    },
+    "voice-speech-audio-synthesis": {
+      "description": "Speech-to-text transcription via Whisper, natural voice generation using Piper/Kokoro/OpenAI TTS, game NPC dialogue synthesis, and subtitle timing.",
+      "related": [
+        "ai-3d-mesh-generation",
+        "stalker-spawn-entity-indexer",
+        "game-engine-3d-budget-profiler",
+        "frontier-image-studio"
+      ]
+    },
+    "vulkan-gpu-compute": {
+      "description": "Cross-vendor GPU compute and modern graphics engineering via Vulkan 1.3/1.4, SPIR-V shader compilation, headless GPGPU pipelines, and multi-GPU portability across NVIDIA, AMD, and Intel.",
+      "related": [
+        "cuda-gpu-acceleration",
+        "shader-cross-compilation",
+        "cross-engine-shader-transpiler",
+        "emulator-development-engineering"
+      ]
+    },
+    "wakaru": {
+      "description": ">-",
+      "related": [
+        "reverse-engineer-anything",
+        "binary-re-workflows",
+        "console-game-decompilation",
+        "standalone-binary-re"
+      ]
+    },
+    "win32-systems-engineering": {
+      "description": "Windows systems programming in C++/C#, Win32 API, Windows Registry, Windows Services (SCM), Named Pipes, Structured Exception Handling (SEH), and Windows Application Manifests.",
+      "related": [
+        "android-app-engineering",
+        "linux-systems-engineering",
+        "windows-app-engineering",
+        "cross-browser-extensions"
+      ]
+    },
+    "windows-app-engineering": {
+      "description": "Native Windows desktop UI engineering, WinUI 3, Windows App SDK, WPF (.NET 8/9), C#/WinRT component interop, Fluent Design, and MSIX packaging.",
+      "related": [
+        "avalonia-cross-platform-dev",
+        "win32-systems-engineering",
+        "wine-proton-native-interop",
+        "windows-linux-cross-os-runtime-bridge"
+      ]
+    },
+    "windows-linux-cross-os-runtime-bridge": {
+      "description": "Cross-platform runtime bridge between Windows 10/11 (PowerShell 7, Win32 API, DirectX/DXGI, MSVC, ETW, ImDisk RAMDisk) and Linux (CachyOS/Arch, POSIX/Bash, Vulkan/RADV, Wine/Proton, /dev/shm, /dev/uinput) so all 300+ skills execute natively on both operating systems.",
+      "related": [
+        "amd-igpu-nvidia-dgpu-hybrid-offload",
+        "ramdisk-tmpfs-build-bake-accelerator",
+        "dual-engine-quota-balancer",
+        "game-runtime-diagnostics"
+      ]
+    },
+    "windsurf-cascade-flow-tracker": {
+      "description": "Emulates Codeium Windsurf Cascade Flow on Gemini 4 Argon. Tracks multi-file dependency ripple effects, symbol references, and cascading changes across C++, Lua, and LTX configurations.",
+      "related": [
+        "qwen-polyglot-ast-cartographer",
+        "xray-macro-boilerplate-condenser",
+        "cross-agent-hot-reload-watcher",
+        "cohere-provenance-grounding-ledger"
+      ]
+    },
+    "wine-proton-native-interop": {
+      "description": "Native Linux and Wine/Proton interop engineering. Covers Win32-to-Linux IPC sockets, shared memory shims, Wine DLL call thunking, custom Wine builtin modules, and running hybrid native/Proton tooling.",
+      "related": [
+        "game-trainer-engineering",
+        "game-memory-scanner",
+        "windows-linux-cross-os-runtime-bridge",
+        "linux-gaming-proton-optimization"
+      ]
+    },
+    "working-memory-checkpointing": {
+      "description": "Atomic snapshotting and 1-command rollback of in-flight git diffs, hypotheses, and active working state to safeguard complex multi-step refactors against dead-end debugging loops.",
+      "related": [
+        "argon-long-haul-context-compaction-gate",
+        "claude-context-rot-shield",
+        "context-pruning-watchdog",
+        "cross-cli-session-handoff"
+      ]
+    },
+    "writing-plans": {
+      "description": "Breaks down complex engineering tasks, refactors, and mod implementations into granular, dependency-ordered, verifiable task lists. Use when planning multi-step work.",
+      "related": [
+        "executing-plans",
+        "verification-before-completion",
+        "superpowers",
+        "brainstorming"
+      ]
+    },
+    "xray-crash-interceptor-daemon": {
+      "description": "Background sweep daemon that intercepts and dismisses Wine/Proton crash modals (BugTrap, Notepad log windows) during unattended S.T.A.L.K.E.R./OGSR YOLO runs.",
+      "related": [
+        "agent-error-recovery-sentinel",
+        "xray-crash-log-diagnostician",
+        "xray-crash-symbol-resolver",
+        "game-screen-telemetry-monitor"
+      ]
+    },
+    "xray-crash-log-diagnostician": {
+      "description": "Triages and diagnoses S.T.A.L.K.E.R. X-Ray and OGSR engine crashes, BugTrap logs, and Wine/Proton stack traces into exact source file coordinates and root-cause fixes.",
+      "related": [
+        "xray-crash-interceptor-daemon",
+        "xray-crash-symbol-resolver",
+        "game-screen-telemetry-monitor",
+        "game-self-improving-qa-pipeline"
+      ]
+    },
+    "xray-crash-symbol-resolver": {
+      "description": "Translates Wine, Proton, and native Linux crash addresses and DLL relative virtual addresses (RVAs) into exact source file coordinates and line numbers via host CPU symbol analysis (addr2line, objdump, rizin), eliminating 25k-40k tokens of blind codebase searching.",
+      "related": [
+        "xray-crash-log-diagnostician",
+        "xray-crash-interceptor-daemon",
+        "stalker-spawn-entity-indexer",
+        "compiler-error-cascade-isolator"
+      ]
+    },
+    "xray-dx11-shader-modernization": {
+      "description": "Modernizes and adapts legacy DirectX 9 Shader Model 3.0 shaders to DirectX 11 Shader Model 5.0 in S.T.A.L.K.E.R. / OGSR Engine. Enforces 16-byte constant buffer (cbuffer) alignment, registers texture sampler splits, and fixes blown-out dynamic lighting/reflections.",
+      "related": [
+        "xray-ogf-dm-blender-pipeline",
+        "cross-engine-shader-transpiler",
+        "xray-crash-log-diagnostician",
+        "xray-macro-boilerplate-condenser"
+      ]
+    },
+    "xray-lua-scripting": {
+      "description": "S.T.A.L.K.E.R. X-Ray Engine Lua scripting guidelines and safeguards. Use when writing, modifying, or debugging game scripts, quest logic, callbacks, inventory hooks, or AI logic in S.T.A.L.K.E.R. EE.",
+      "related": [
+        "xray-macro-boilerplate-condenser",
+        "xray-ogf-dm-blender-pipeline",
+        "godot-game-dev",
+        "csharp-dotnet-engineering"
+      ]
+    },
+    "xray-macro-boilerplate-condenser": {
+      "description": "Pre-processes and condenses legacy X-Ray and OGSR C++ macros, memory wrappers (xr_new, xr_delete, IC), and Luabind export registration blocks into clean, high-density semantic signatures to reduce C++ source ingestion context by 70-80%.",
+      "related": [
+        "xray-crash-symbol-resolver",
+        "xray-lua-scripting",
+        "polyglot-ast-interface-pruner",
+        "qwen-polyglot-ast-cartographer"
+      ]
+    },
+    "xray-ogf-dm-blender-pipeline": {
+      "description": "Direct binary compilation and export of S.T.A.L.K.E.R. X-Ray and OGSR 3D meshes (.ogf v4 rigid/skinned models and .dm Detail Model grass/flora) from Blender 5.2+ without third-party plugins.",
+      "related": [
+        "cross-engine-3d-import-export-bridge",
+        "xray-dx11-shader-modernization",
+        "xray-lua-scripting",
+        "xray-macro-boilerplate-condenser"
+      ]
+    },
+    "yolo-autonomous-watchdog": {
+      "description": "Autonomous execution watchdog and quota protector for YOLO modes (claude-yolo, agy-yolo). Prevents infinite retry loops, terminal stdout flooding, oscillating file churn, and runaway context inflation during unattended operation.",
+      "related": [
+        "shell-output-token-guard",
+        "agent-error-recovery-sentinel",
+        "autonomous-goal-governor",
+        "blender-headless-token-shield"
+      ]
+    },
+    "youtube-shorts-video-automation": {
+      "description": "Automated creation of viral YouTube Shorts, TikToks, and long-form YouTube edits with 9:16 vertical re-framing, hook-first pacing, kinetic word-by-word subtitles, silence trimming jump cuts, split-screen layouts, and audio ducking.",
+      "related": [
+        "video-production-automation",
+        "game-exploratory-fuzzing",
+        "android-device-automation",
+        "game-qa-playtest-controller"
+      ]
+    },
+    "zoneforge-cloud-sync-governor": {
+      "description": "Governs ZoneForge Google Drive and cloud asset synchronization, OAuth2 token refreshment, chunked resumable transfers, and local cache validation for large game mod distributions.",
+      "related": [
+        "game-asset-pack-archive-engineering",
+        "autonomous-git-repo-sync-governor",
+        "local-vector-rag-engine",
+        "game-asset-streaming-lod-governor"
+      ]
+    }
+  }
+}

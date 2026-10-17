@@ -104,3 +104,12 @@ game-texture-editor stalker-bump gamedata/textures/wpn/wpn_ak74.dds -o gamedata/
 # Resize to nearest Power-of-Two (e.g. 1920x1080 -> 2048x1024) and compress to DXT1 DDS
 game-texture-editor convert non_pot_image.png -o game_ready.dds --pot --dds dxt1
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-texture-material-pipeline`**: High-performance asset pipelines for modern PBR and legacy game textures. Use when converting textures across ...
+- **`game-autonomous-navigation-ai`**: Autonomous AI player navigation, level vertex/waypoint graph mapping, route recording & playback, obstacle/inv...
+- **`blender-pbr-texture-packager`**: PBR texture channel packing (ORM - Occlusion, Roughness, Metallic), texel density enforcement, and normal map ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

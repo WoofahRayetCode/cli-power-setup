@@ -92,3 +92,9 @@ In networked multiplayer or synced single-player systems:
 2. **Periodic State Heartbeats:**
    - The client periodically computes a rolling hash of its memory state and active loaded DLLs, signing it with a session key.
    - If a client fails 3 consecutive heartbeats or sends an inconsistent state hash, quarantine the connection gracefully.
+
+## Related & Interoperating Skills
+- **`game-security-anti-tamper`**: Game engine runtime security, anti-tamper architectures, memory modification detection, DLL hijacking preventi...
+- **`game-memory-scanner`**: High-performance game memory scanner and pointer discovery engine for Linux & Windows/Proton games. Scans virt...
+- **`game-trainer-engineering`**: Cross-platform game trainer development across Windows and Linux. Covers dynamic memory scanning, multi-level ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

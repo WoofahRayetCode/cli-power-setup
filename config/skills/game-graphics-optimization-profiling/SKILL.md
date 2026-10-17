@@ -51,3 +51,9 @@ Modern temporal upscalers (AMD FSR 2/3, Intel XeSS, NVIDIA DLSS) require exact e
    $$\text{Velocity} = \text{uv}_{\text{current}} - \text{uv}_{\text{previous}}$$
 3. **Linear Depth:** Clean depth without transparency.
 4. **Exposure & Reactive Masks:** Mask out particles, UI elements, and alpha-blended geometry from history accumulation to prevent ghosting.
+
+## Related & Interoperating Skills
+- **`game-performance-overlay-telemetry`**: In-game HUD performance metrics and telemetry profiling (MangoHud, DXVK HUD, PresentMon). Configures FPS, fram...
+- **`game-debug-ui-tools`**: In-engine debug UI systems, Dear ImGui integration, immediate-mode 3D debug drawing (AABBs, rays, contact mani...
+- **`game-memory-allocator-engineering`**: Custom high-performance game engine memory allocators (Linear Arena, Stack, Pool, TLSF), SIMD memory alignment...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

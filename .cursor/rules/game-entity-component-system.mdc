@@ -96,3 +96,9 @@ Entity ID (64-bit):
 [ 32-bit Generation Counter ] [ 32-bit Index ]
 ```
 * **Dangling Reference Defense:** When an entity is destroyed, increment its generation counter. Stale handles from other systems or scripts instantly fail the generation check (`handle.gen == registry.gen[handle.idx]`), eliminating use-after-free pointer corruption.
+
+## Related & Interoperating Skills
+- **`game-memory-scanner`**: High-performance game memory scanner and pointer discovery engine for Linux & Windows/Proton games. Scans virt...
+- **`game-networking-state-sync`**: Multiplayer network architecture, client-side prediction, server reconciliation, entity interpolation, snapsho...
+- **`game-memory-allocator-engineering`**: Custom high-performance game engine memory allocators (Linear Arena, Stack, Pool, TLSF), SIMD memory alignment...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -74,3 +74,12 @@ Run the included packing tool:
 ```bash
 python3 scripts/texture_pbr_packer.py --ao ao.png --roughness rough.png --metallic metal.png -o orm.png
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`mobile-gpu-texture-compression`**: Multi-platform GPU texture compression pipeline covering mobile ASTC/ETC2 and PC BC1-BC7, runtime format negot...
+- **`game-texture-editing`**: Autonomous game texture editing, enhancement, and repair suite. Generates tangent-space normal maps, blends de...
+- **`game-modding`**: Specialized workflows, format rules, and safety checks for game modding, focusing on S.T.A.L.K.E.R. Legends of...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

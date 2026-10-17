@@ -52,3 +52,12 @@ All compiled research outputs integrate directly with web design archetypes:
 * **Interactive Timelines:** Vis.js / TimelineJS widgets fed by `sorted_timeline.json`.
 * **Force-Directed Pantheon Graphs:** D3.js or Mermaid lineage diagrams fed by `pantheon_graph.json`.
 * **Static Site Collections:** Astro or VitePress content collections formatted with Zod schemas.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`interactive-data-visualization-web`**: Browser-based interactive data visualization for history, mythology, game lore, and complex architectures. Gen...
+- **`static-site-architecture`**: Modern Jamstack and static site generator (SSG) architecture. Covers Astro, VitePress, Starlight, Content Coll...
+- **`creative-web-design-archetypes`**: Advanced web styling archetypes and visual design systems. Covers Neo-Brutalism, Mythic/Fantasy Parchment, Cyb...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

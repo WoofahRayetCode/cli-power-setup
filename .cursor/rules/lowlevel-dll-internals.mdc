@@ -171,3 +171,9 @@ void DisableCheck(uintptr_t targetAddress) {
 * [ ] **Check `this` Pointer Validity:** Is `ecx`/`rcx` a valid heap/stack pointer or `0x00000000`?
 * [ ] **Verify Structure Padding:** Are members aligned to 4/8-byte boundaries? Use `#pragma pack(push, 1)` only if binary struct is unaligned.
 * [ ] **Flush Instruction Cache:** Did you call `FlushInstructionCache()` after modifying executable code?
+
+## Related & Interoperating Skills
+- **`standalone-binary-re`**: Standalone binary reverse engineering without external MCP servers. Uses native Linux CLI utilities (objdump, ...
+- **`game-trainer-engineering`**: Cross-platform game trainer development across Windows and Linux. Covers dynamic memory scanning, multi-level ...
+- **`game-patching-binary-repair`**: Diagnosing and fixing broken PC game binaries, engine crashes, missing DLL dependencies, and memory corruption...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

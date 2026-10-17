@@ -66,3 +66,9 @@ public:
   * AVX / AVX2: Align to 32 bytes.
   * AVX-512: Align to 64 bytes.
 * Structure Data in **Structure of Arrays (SoA)** rather than Array of Structures (AoS) for entity component systems to maximize CPU L1/L2 prefetcher cache hit rates.
+
+## Related & Interoperating Skills
+- **`game-audio-engine-engineering`**: Low-latency game audio architecture, 3D spatial audio, HRTF binaural processing, mixing bus hierarchies, and s...
+- **`game-physics-collision-pipeline`**: Real-time physics engine architecture, fixed timestep accumulator loops, continuous collision detection (CCD),...
+- **`game-entity-component-system`**: High-performance Entity Component System (ECS) architecture, Data-Oriented Design (DOD), Archetype vs Sparse-S...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

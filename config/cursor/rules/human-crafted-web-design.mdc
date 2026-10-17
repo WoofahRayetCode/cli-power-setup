@@ -66,3 +66,9 @@ A clean, human-designed feature card in Tailwind CSS:
 
 * **Pairing with `generative-visual-artifacts`:** Launches live browser previews using `xdg-open`.
 * **Pairing with `threejs-webgl-engineering`:** Embeds high-performance 3D canvas viewports inside clean landing page layouts.
+
+## Related & Interoperating Skills
+- **`creative-web-design-archetypes`**: Advanced web styling archetypes and visual design systems. Covers Neo-Brutalism, Mythic/Fantasy Parchment, Cyb...
+- **`android-compose-ui-ux`**: Advanced Jetpack Compose UI/UX architecture, Material 3 design systems, edge-to-edge window insets, recomposit...
+- **`executive-business-communications`**: Professional executive business correspondence, BLUF email structuring, client proposals, Scope of Work (SOW) ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

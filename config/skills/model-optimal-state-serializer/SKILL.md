@@ -110,3 +110,9 @@ When preparing to compact context (`/compact`, `autonomous-goal-governor`, or `p
 ## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
 - **Cross-OS Deployment (`install.ps1` & `install.sh`):** All CLI tools (`agy-cheatsheet` / `cs`, `repo-auto-sync`, `skill-evolve`, `skills-audit-update`, `adaptive-model-router`) run natively on Windows 10/11 via `.cmd`/PowerShell shims in `$HOME\.local\bin` and use `Path(tempfile.gettempdir())` instead of hardcoded `/tmp`.
 - **Multi-Agent Split Terminal:** On Windows 10/11, use **Windows Terminal (`wt.exe`)** split panes (`wt -p "PowerShell" \; split-pane -V ...`) in place of Linux `tmux`/`kitty`, and `sccache` / MSVC `/MP` for shared build caching across git worktrees.
+
+## Related & Interoperating Skills
+- **`argon-sentencepiece-serializer`**: Formats tabular data, state serializations, and symbol skeletons to optimize token density under Google's Sent...
+- **`multi-model-cache-harmonizer`**: Prompt cache prefix stabilization and alignment engine across Claude, Gemini, OpenAI, and Grok. Aligns static ...
+- **`argon-structured-json-schema-enforcer`**: Leverages Gemini 4 Argon's native constrained decoding to emit deterministic, schema-compliant JSON payloads f...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

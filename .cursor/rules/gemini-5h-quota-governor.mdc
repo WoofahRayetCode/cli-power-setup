@@ -47,3 +47,12 @@ If the 5-hour quota reaches **$\le$ 10%**:
 2. Snapshot all working state to `.agents/memory/activeContext.md`.
 3. Sleep cleanly until the recorded reset timestamp passes.
 4. Verify quota replenishment via `agy-quota-statusline` and resume execution seamlessly.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`argon-yolo-quota-pacing-watchdog`**: Telemetry governor that paces Gemini 4 Argon autonomous YOLO execution, preventing 5-hour quota exhaustion by ...
+- **`gemini-flash-cache-aligner`**: Maximizes Gemini 3.8 Flash prompt caching discounts (>90% savings) through strict prefix stabilization, 4,096-...
+- **`context-pruning-watchdog`**: Live telemetry monitoring of active context consumption; automatically stages memory state into activeContext....
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -51,3 +51,9 @@ Structure deep reasoning around explicit exploration markers:
 By eliminating trial-and-error edits and blind code modifications:
 - Solves complex bugs on **Turn 1** rather than Turn 5.
 - Saves up to **80% of round-trip tokens** on difficult debugging sessions.
+
+## Related & Interoperating Skills
+- **`deliberative-reasoning-tree`**: DeepSeek R1 and OpenAI o1-style Tree-of-Thought reasoning, exploring 3 branching hypothesis paths, adversarial...
+- **`argon-adversarial-verification-gate`**: Harnesses Gemini 4 Argon's deep reasoning capacity for formal adversarial self-critique, boundary-condition pr...
+- **`deepseek-r1-math-verification`**: Emulates DeepSeek-R1 chain-of-verification and self-correcting mathematical proofs in Gemini 4 Argon reasoning...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

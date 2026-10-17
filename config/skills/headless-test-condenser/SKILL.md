@@ -51,3 +51,12 @@ When reporting test results into context, extract only:
 - **Test ID:** `test_filename.py::test_case_name`
 - **Error Line:** `line 42: AssertionError: expected 200, got 404`
 - **Root Failure:** 3-line traceback snippet (omit framework boilerplates).
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`log-output-sanitizer`**: Intercepts noisy compiler, package manager, and test suite terminal output (cargo, pytest, npm, cmake), passin...
+- **`claude-silent-dispatch`**: Eliminates pre-tool narration, commentary, and conversational play-by-plays in Claude Code, executing tool cal...
+- **`headless-game-ci-automation`**: Automated headless game compilation, asset baking, CLI test execution, and packaging across Godot, Unity, Unre...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

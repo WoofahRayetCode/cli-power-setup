@@ -55,3 +55,9 @@ GROUP BY u.username;
 
 * **Handoff to `csharp-dotnet-engineering` / `python-engineering`:** For ORM tuning (EF Core, SQLAlchemy, Tortoise).
 * **Handoff to `homelab-docker-devops`:** For PostgreSQL container multi-service deployments and persistent volume backups.
+
+## Related & Interoperating Skills
+- **`sql-schema-query-condenser`**: SQL relational schema and query plan condenser. Serializes verbose DDL migrations and EXPLAIN QUERY PLAN execu...
+- **`electron-desktop-dev`**: Electron desktop application engineering, IPC security, context isolation, preload scripts, multi-window lifec...
+- **`game-localization-i18n`**: Internationalization (i18n) and localization (l10n) pipelines for games, desktop, and web apps. Covers ICU mes...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

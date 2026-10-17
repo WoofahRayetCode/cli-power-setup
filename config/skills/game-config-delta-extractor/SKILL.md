@@ -64,3 +64,9 @@ bullet_speed   = 900  (parent: 880)
    - S.T.A.L.K.E.R. `.ltx` / `.xml` configs
    - Godot `.tscn` / `.tres` inheritances (`instance=ExtResource(...)`)
    - Unity `.prefab` override deltas
+
+## Related & Interoperating Skills
+- **`game-weapon-ballistics-mechanics`**: Game weapon configuration, ballistics physics, firing cycles, projectile damage radii, underbarrel launchers, ...
+- **`game-modding`**: Specialized workflows, format rules, and safety checks for game modding, focusing on S.T.A.L.K.E.R. Legends of...
+- **`cohere-provenance-grounding-ledger`**: Emulates Cohere Command R+ grounded provenance citations. Traces every game config parameter and C++ modificat...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

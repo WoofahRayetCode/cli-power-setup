@@ -39,3 +39,6 @@ This skill enforces a **strict 15-line abstract ceiling** on all subagent and cr
    `<file_path>#L<start>-L<end>:<function_name>`
 3. **Flat Machine Schema (`argon-subagent-payload-compressor`):** All cross-agent communication is parsed directly through `.agents/handoff.json` or structured subagent return envelopes without conversational preambles.
 4. **Live Statusline & Cheat Sheet (`dynamic-repo-model-cheatsheet`):** Works automatically when `agy-cheatsheet` (`cs`) recommends `Argon•High+Flash` swarm mode.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

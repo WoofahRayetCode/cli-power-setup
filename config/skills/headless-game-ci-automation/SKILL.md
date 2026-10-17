@@ -67,3 +67,12 @@ Automate UE5 builds using `RunUAT.sh` (Unreal Automation Tool):
   -nocompileeditor \
   -nop4
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`headless-gameplay-testing-bot`**: Autonomous cross-platform gameplay testing bot, synthetic input replay (uinput, adb input), regression fuzzing...
+- **`github-actions-cicd`**: Multi-OS GitHub Actions matrix builds (Linux, Windows, macOS), automated release packaging, semantic versionin...
+- **`headless-test-condenser`**: Test suite output condenser and noise filter for autonomous CLI runs. Strips thousands of lines of passing tes...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

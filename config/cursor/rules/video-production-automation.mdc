@@ -47,3 +47,12 @@ ffmpeg -i recording.mkv -c copy -movflags +faststart output.mp4
 ## 📊 Summary Output Format
 * `ffmpeg nvenc: [✓] Encoded 4K video to AV1 in 14.2s (284 FPS, 45% size reduction)`
 * `loudness normalization: [✓] Integrated: -14.1 LUFS | True Peak: -1.0 dB (Pass)`
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`youtube-shorts-video-automation`**: Automated creation of viral YouTube Shorts, TikToks, and long-form YouTube edits with 9:16 vertical re-framing...
+- **`cuda-gpu-acceleration`**: High-performance NVIDIA GPU engineering, CUDA 13.4 kernel development, nvcc compilation, Tensor Core accelerat...
+- **`dual-engine-quota-balancer`**: Dynamic telemetry coordination across Gemini 4 Argon, Gemini 3.8 Flash subagents, and local CPU/GPU offloads, ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

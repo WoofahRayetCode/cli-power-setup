@@ -87,3 +87,9 @@ When classes use multiple inheritance with virtual methods:
 - **Crash Modal Interception & WER Dumps:** On Windows, `xray_crash_handler.py sweep` queries WMI (`Win32_Process`) and terminates lingering `notepad.exe`/`WerFault.exe` popups via `taskkill /F /PID`, reading logs from `%USERPROFILE%\Documents\STALKER-SHOC\logs` and `_appdata_\logs`.
 - **Native Win32 Playtest Input & Window Capture:** When `sys.platform == "win32"`, `game_playtest_controller.py` automatically dispatches Win32 `keybd_event` / `mouse_event` (`SendInput`), `ClipCursor`, and `PIL.ImageGrab` instead of Linux `/dev/uinput` and `spectacle`.
 - **Steam Library Auto-Discovery:** `steam-mod-scanner` automatically reads `HKCU\Software\Valve\Steam\SteamPath` and `C:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf` on Windows alongside `~/.local/share/Steam` on Linux.
+
+## Related & Interoperating Skills
+- **`argon-deep-memory-allocator-sanitizer`**: Mathematical 64-bit pointer, struct padding, and memory alignment sanitizer for Gemini 4 Argon. Eliminates poi...
+- **`stalker-luajit-ffi-migration`**: Manages Lua script migration to 64-bit LuaJIT and FFI in modern S.T.A.L.K.E.R. engines (OGSR Engine). Audits d...
+- **`cross-platform-game-compatibility`**: Diagnosing and repairing legacy and modern PC games to run smoothly across Windows and Linux. Covers DirectX l...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

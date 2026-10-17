@@ -43,3 +43,9 @@ Speculative Multi-Step Drafting (1 Turn = 1x Context Re-read):
 | :--- | :--- | :--- | :--- |
 | **Serial Execution** | 4 turns | 400,000 tokens | 4x preambles |
 | **Speculative Bundling** | **1 turn** | **100,000 tokens (75% saved)** | **1x preamble** |
+
+## Related & Interoperating Skills
+- **`argon-tool-calling-densifier`**: Enforces compact parallel tool invocation and parameter density on Gemini 4 Argon to minimize output token gen...
+- **`local-vector-rag-engine`**: Local vector embeddings and dense semantic search engine running on host CPU/GPU/RAM. Replaces context-stuffin...
+- **`executing-plans`**: Step-by-step execution of approved implementation plans. Use when executing a multi-step plan to track progres...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

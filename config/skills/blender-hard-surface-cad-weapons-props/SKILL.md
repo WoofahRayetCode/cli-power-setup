@@ -74,3 +74,11 @@ Every interactive firearm or mechanical prop must separate moving sub-parts by v
 - **Assetto Corsa Rally & Rockstar GTA Vehicles:** Separate wheel/caliper/steering hierarchies (`WHEEL_LF`, `WHEEL_RF`, `WHEEL_LR`, `WHEEL_RR`, `SUSP_LF`, `STEER_HR` in AC; `wheel_lf_dummy`, `chassis_dummy`, `boot_dummy`, `bonnet_dummy`, `door_lf_dummy` in GTA `.dff`/`.yft`).
 - **Valve Source Viewmodels (`v_*.mdl`) & Worldmodels (`w_*.mdl`):** Include `$attachment "muzzle"` and `$attachment "1"` (brass eject) in the `.qc` manifest.
 
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`blender-uv-udim-lightmap-architect`**: Automated headless UV unwrapping in Blender 5.2+ (SLIM Minimum Stretch, Angle-Based, Conformal), texel density...
+- **`blender-geometry-nodes-procedural-worlds`**: Headless Blender 5.2+ Geometry Nodes (bpy.types.GeometryNodeTree) procedural worldbuilding, spline generators ...
+- **`blender-high-to-low-baking`**: Automated high-to-low poly baking pipeline in Blender (bpy). Bakes tangent-space normal maps, ambient occlusio...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

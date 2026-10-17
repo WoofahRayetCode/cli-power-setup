@@ -40,3 +40,12 @@ This skill standardizes instantaneous pre-flight syntax gating using local host 
 By eliminating multi-turn compile/fail/retry loops with cloud LLMs:
 - **Tokens Saved:** 15,000 to 45,000 tokens per complex refactor.
 - **Latency Impact:** Catches syntax typos in 5ms locally instead of waiting 10 seconds for a cloud round-trip.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`local-preflight-syntax-gate`**: Zero-token host-side pre-flight syntax and linter verification gate. Executes lightweight native compilers and...
+- **`argon-adversarial-verification-gate`**: Harnesses Gemini 4 Argon's deep reasoning capacity for formal adversarial self-critique, boundary-condition pr...
+- **`argon-yolo-quota-pacing-watchdog`**: Telemetry governor that paces Gemini 4 Argon autonomous YOLO execution, preventing 5-hour quota exhaustion by ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

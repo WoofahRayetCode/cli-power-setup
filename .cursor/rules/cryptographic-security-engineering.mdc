@@ -63,3 +63,9 @@ Standard string equality operators (`==`) terminate early on the first mismatche
 ## 5. Standalone Cryptographic Guard Tool
 
 Use `scripts/crypto_guard.py` for generating cryptographically secure entropy keys, calculating HMAC-SHA256 seals, deriving subkeys with HKDF, and testing constant-time verification.
+
+## Related & Interoperating Skills
+- **`api-network-security-hardening`**: API gateway security, network transport hardening, TLS 1.3/certificate pinning, mTLS, token bucket rate limiti...
+- **`discord-bot-engineering`**: Production Discord bot development across Python (discord.py) and TypeScript (discord.js). Covers modern Disco...
+- **`app-security-threat-modeling`**: Universal application security architecture, STRIDE threat modeling, OWASP Top 10 mitigation, memory safety ha...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -31,3 +31,12 @@ When operating on Gemini 3.8 Flash or standard tiers:
 - For complex architectural plans or multi-file mod designs, the agent should automatically dispatch a **`pro` (Argon tier)** subagent via `invoke_subagent` (`Model: "pro"`, `Role: "Lead Architect Planner"`).
 - The `pro` subagent leverages deep reasoning to evaluate edge cases, write the plan artifact, and return the strategy.
 - The primary agent then presents the plan. Once approved by the user, the primary agent executes the tasks directly using **Flash** to conserve quota.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`executing-plans`**: Step-by-step execution of approved implementation plans. Use when executing a multi-step plan to track progres...
+- **`verification-before-completion`**: Final quality gate and evidence collector. Use before claiming any task, feature, or bug fix is finished to ve...
+- **`superpowers`**: Core engineering methodology and discipline engine. Use when starting non-trivial tasks to evaluate if brainst...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

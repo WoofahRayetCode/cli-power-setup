@@ -70,3 +70,12 @@ nix develop --command cargo build --release
 
 * **Pairing with [`omen-space`](file:///home/ericparsley/Documents/GitHub/omen-space/flake.nix):** Directly maintains and validates the project's native Flake configuration.
 * **Handoff to `cachyos-arch-packaging`:** For translating flake builds into Arch/CachyOS PKGBUILDs.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`avalonia-cross-platform-dev`**: Cross-platform XAML GUI development with Avalonia UI (.NET 8/9), MVVM pattern, CompiledBindings, Native AOT co...
+- **`cmake-cross-platform`**: Cross-platform CMake architecture (3.25+), target-centric modern CMake, toolchain files for cross-compilation ...
+- **`devin-environment-self-healer`**: Emulates Cognition Devin autonomous environment self-healing. Automatically diagnoses missing host dependencie...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

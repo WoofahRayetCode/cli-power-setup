@@ -53,3 +53,12 @@ For open-world environments, split the camera frustum into 3 to 4 cascades to ba
   Where $m = \text{cascade count}$, $\lambda \in [0.5, 0.9]$ blends logarithmic and uniform distribution.
 * **Texel Snapping:** Snap orthographic light projection matrices to shadow map texel increments to completely eliminate shadow edge shimmering during camera movement:
   $$\text{offset} = \text{round}\left( \frac{\text{lightPos}}{\text{texelSize}} \right) \times \text{texelSize}$$
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`xray-dx11-shader-modernization`**: Modernizes and adapts legacy DirectX 9 Shader Model 3.0 shaders to DirectX 11 Shader Model 5.0 in S.T.A.L.K.E....
+- **`godot-shader-vfx`**: Authoring 2D and 3D visual shaders, canvas item shaders, spatial shaders, particle systems, and screen-reading...
+- **`real-time-rendering-pipeline`**: Architecture, modern paradigms, and debugging for real-time game renderers (DirectX 12, Vulkan 1.3+, WebGPU). ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

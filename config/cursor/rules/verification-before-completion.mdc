@@ -24,3 +24,12 @@ Before declaring a task done, you must verify the following:
 
 3. **User Documentation:**
    - For complex tasks, summarize the changes in a walkthrough artifact or concise explanation with direct clickable file links.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`superpowers`**: Core engineering methodology and discipline engine. Use when starting non-trivial tasks to evaluate if brainst...
+- **`systematic-debugging`**: Root-cause diagnosis and hypothesis-driven debugging. Use when encountering test failures, runtime errors, gam...
+- **`writing-plans`**: Breaks down complex engineering tasks, refactors, and mod implementations into granular, dependency-ordered, v...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

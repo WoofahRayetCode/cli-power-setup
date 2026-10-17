@@ -70,3 +70,12 @@ When managing emulator updates via Obtainium (e.g. `wlfryt-obtainium-emulators`)
   }
   ```
 * Separate **nightly builds** (unstable, experimental vulkan features) from **stable releases**.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`console-game-decompilation`**: Console game decompilation, matching reverse engineering, and disassembly workflows for PS1, PS2, PS3, origina...
+- **`game-modding`**: Specialized workflows, format rules, and safety checks for game modding, focusing on S.T.A.L.K.E.R. Legends of...
+- **`database-sql-engineering`**: SQLite performance tuning (WAL mode, PRAGMAs, indexing), PostgreSQL/MySQL schema design, query plan analysis, ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

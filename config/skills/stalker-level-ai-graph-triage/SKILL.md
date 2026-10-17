@@ -55,3 +55,9 @@ When diagnosing NPC pathfinding crashes:
    Cross-check NPC coordinates against level bounding box (`level.ltx` `[level_map]` bounds).
 4. **Recompile & Test:**
    Compile back to `all.spawn` with `perl acdc.pl -c ./unpacked_spawn -out all.spawn.new` and verify with autonomous playtest runner.
+
+## Related & Interoperating Skills
+- **`stalker-spawn-entity-indexer`**: High-performance local indexer and query engine for S.T.A.L.K.E.R. unpacked all.spawn and game.graph archives....
+- **`stalker-ogsr-migration`**: Migration, adaptation, and porting of legacy S.T.A.L.K.E.R. Shadow of Chernobyl mods (Complete, AMK, Autumn Au...
+- **`stalker-luajit-ffi-migration`**: Manages Lua script migration to 64-bit LuaJIT and FFI in modern S.T.A.L.K.E.R. engines (OGSR Engine). Audits d...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -48,3 +48,11 @@ When invoking Claude via API, SDK, or CLI flags:
 - **Dynamic Repo Cheat Sheet (`dynamic-repo-model-cheatsheet`):** Follow the live `🎯 Rec: ...` indicator in `claude-statusline` and `agy-cheatsheet` (`cs`)—use `claude-turbo` (`MAX_THINKING_TOKENS=1024`) when working on routine config/UI repos, and reserve extended thinking for Tier 3 C++/64-bit/crash tasks.
 - **Milestone Persistence:** After completing a high-thinking architectural fix, commit via `repo-auto-sync <repo> --checkpoint --push` and persist rules via `skill-evolve`.
 
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`argon-thinking-governor`**: Gemini 4 Argon internal chain-of-thought (CoT) and reasoning token governor. Clamps speculative reasoning bloa...
+- **`argon-effort-auto-calibrator`**: Dynamically calibrates Gemini 4 Argon reasoning effort (--effort low/medium/high) turn-by-turn based on cognit...
+- **`dynamic-model-downshifter`**: Autonomous multi-tier model downshifting for CLI sessions. Enforces the 'Frontier Brain, Fast Hands' pattern b...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -76,3 +76,9 @@ public async Task<string?> OpenBackupFolderAsync(TopLevel topLevel)
 ## Cross-OS Windows 10/11 & Linux Runtime Bridge (`windows-linux-cross-os-runtime-bridge`)
 - **Unified Windows & Linux Execution:** Pair with `windows-linux-cross-os-runtime-bridge` for portable CPU thread saturation (`os.cpu_count()` / `$env:NUMBER_OF_PROCESSORS` / `$(nproc)`), scratch staging (`Path(tempfile.gettempdir())` / `R:\` RAMDisk / `/dev/shm`), and dual-GPU routing (Windows `UserGpuPreferences` vs Linux `DRI_PRIME`).
 - **Dynamic Cheat Sheet, Git Sync & Self-Evolution:** Consult `agy-cheatsheet` (`cs` / `dynamic-repo-model-cheatsheet`) for live per-repo model/effort selection, commit verified milestones via `repo-auto-sync <repo> --checkpoint --push` (`autonomous-git-repo-sync-governor`), and promote reusable cross-OS scripts via `skill-evolve` (`self-evolving-skill-synthesizer`).
+
+## Related & Interoperating Skills
+- **`cmake-cross-platform`**: Cross-platform CMake architecture (3.25+), target-centric modern CMake, toolchain files for cross-compilation ...
+- **`tauri-multiplatform-dev`**: Lightweight cross-platform desktop and mobile engineering with Tauri 2.0, Rust backend, web frontend, secure I...
+- **`windows-app-engineering`**: Native Windows desktop UI engineering, WinUI 3, Windows App SDK, WPF (.NET 8/9), C#/WinRT component interop, F...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

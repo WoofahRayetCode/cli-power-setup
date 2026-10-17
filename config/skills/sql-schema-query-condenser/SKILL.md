@@ -66,3 +66,9 @@ INDEX_SEARCH(users.idx_users_email:email) -> AUTO_INDEX_JOIN(user_sessions.user_
 2. **Query Optimization:**
    - Condense query plans to operator chains: `SCAN(tbl)` (bad, full scan) vs `INDEX_SEARCH(tbl.col)` (good).
    - Flag missing indices using 1-line suggestions: `+INDEX(tbl.col)`.
+
+## Related & Interoperating Skills
+- **`database-sql-engineering`**: SQLite performance tuning (WAL mode, PRAGMAs, indexing), PostgreSQL/MySQL schema design, query plan analysis, ...
+- **`claude-silent-dispatch`**: Eliminates pre-tool narration, commentary, and conversational play-by-plays in Claude Code, executing tool cal...
+- **`network-packet-stream-condenser`**: Network packet stream and PCAP trace condenser. Flattens verbose tshark and tcpdump protocol dissection trees ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

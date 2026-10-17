@@ -41,3 +41,12 @@ In systems with dual GPUs (e.g. AMD Radeon iGPU + NVIDIA RTX dGPU), query physic
 ## 📊 Summary Output Format
 * `glslangValidator: [✓] shader.comp -> shader.comp.spv (SPIR-V 1.6, clean)`
 * `vulkan compute: [✓] Device: NVIDIA RTX 5060 | 65,536 invocations in 0.82ms`
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`cuda-gpu-acceleration`**: High-performance NVIDIA GPU engineering, CUDA 13.4 kernel development, nvcc compilation, Tensor Core accelerat...
+- **`shader-cross-compilation`**: Cross-compilation, translation, and validation of game shaders across HLSL, GLSL, SPIR-V, WGSL, and MSL. Use w...
+- **`cross-engine-shader-transpiler`**: Universal shader authoring and transpilation using Slang and SPIRV-Cross, converting single-source shaders to ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

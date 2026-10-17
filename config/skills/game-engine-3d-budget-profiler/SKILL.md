@@ -104,3 +104,11 @@ def apply_weighted_normals(obj):
 | **Valve Source & KEX** (*HL2*, *Black Mesa*, *GMod*, *L4D2*, *SiN*) | **`32,767`–`65,535` verts** per `.mdl` bodygroup | `8,000 – 20,000 tris` | `300 – 4,500 tris` (`<=32` VPhysics convex pieces) |
 | **Project Zomboid & Classic GTA** (*Zomboid* `108600`, *GTA III/VC/SA*) | `uint16` | `800 – 2,500 tris` (Zomboid/GTA III-SA) | `100 – 1,200 tris` |
 
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`android-mobile-3d-asset-optimizer`**: Android NDK, Vulkan, and OpenGL ES 3.2 mobile 3D asset optimization in Blender 5.2+. Enforces Adreno/Mali Tile...
+- **`game-asset-streaming-lod-governor`**: Real-time asynchronous asset streaming, distance-based LOD hierarchies (LOD0-LOD3), virtual texturing, and LRU...
+- **`game-performance-overlay-telemetry`**: In-game HUD performance metrics and telemetry profiling (MangoHud, DXVK HUD, PresentMon). Configures FPS, fram...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

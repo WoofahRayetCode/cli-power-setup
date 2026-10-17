@@ -186,3 +186,9 @@ function protect_rookie_loner(npc)
     end
 end
 ```
+
+## Related & Interoperating Skills
+- **`game-dynamic-stress-orchestrator`**: Dynamic in-game stress testing and entity orchestration: collision-safe multi-entity wave spawning, cross-fact...
+- **`game-autonomous-navigation-ai`**: Autonomous AI player navigation, level vertex/waypoint graph mapping, route recording & playback, obstacle/inv...
+- **`game-companion-pet-ai`**: Custom companion & pet NPC architecture: state machine behaviors (follow, guard, objective guide), god mode st...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

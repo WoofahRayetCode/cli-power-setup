@@ -48,3 +48,9 @@ gemini-5h-quota-governor|active|12000
 3. **Flat Key-Value Tags:**
    For state passing, use flat XML/KV tags:
    `<STATE key="value" flag="true" />` instead of nested dictionaries.
+
+## Related & Interoperating Skills
+- **`model-optimal-state-serializer`**: Model-optimal structured session state serialization engine. Compresses in-flight memory, active hypotheses, a...
+- **`argon-structured-json-schema-enforcer`**: Leverages Gemini 4 Argon's native constrained decoding to emit deterministic, schema-compliant JSON payloads f...
+- **`argon-subagent-payload-compressor`**: Enforces high-density structured return envelopes on Gemini subagent messages, eliminating conversational fluf...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

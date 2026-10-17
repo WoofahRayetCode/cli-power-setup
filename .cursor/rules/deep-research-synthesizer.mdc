@@ -30,3 +30,9 @@ Every Deep Research task produces a formal report in `.agents/research/<topic>.m
 * **Architecture Analysis:** Deep-dive into mechanisms, memory layouts, or APIs.
 * **Comparative Matrix:** Concrete pros/cons and benchmarks.
 * **Verified Citations:** Numbered links with quotes and author dates.\n
+
+## Related & Interoperating Skills
+- **`coderabbit-ai-review`**: CodeRabbit-grade autonomous code review, PR walk-through generation, architectural Mermaid sequence diagrams, ...
+- **`grok-realtime-telemetry-scout`**: Emulates xAI Grok real-time live search on Gemini 4 Argon. Scouts bleeding-edge git commits, pull requests, is...
+- **`local-vector-rag-engine`**: Local vector embeddings and dense semantic search engine running on host CPU/GPU/RAM. Replaces context-stuffin...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

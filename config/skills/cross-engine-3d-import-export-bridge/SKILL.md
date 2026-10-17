@@ -64,3 +64,12 @@ bpy.ops.export_scene.fbx(
 
 ### C. Unity `.fbx` Export (Eliminating the `-89.98°` X-Rotation Bug)
 Always enable `bake_space_transform=True` and `apply_scale_options='FBX_SCALE_UNITS'` so Unity Prefabs instantiate at `(0, 0, 0)` rotation and `(1, 1, 1)` scale.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`xray-ogf-dm-blender-pipeline`**: Direct binary compilation and export of S.T.A.L.K.E.R. X-Ray and OGSR 3D meshes (.ogf v4 rigid/skinned models ...
+- **`blender-animation-nla-retargeting-vat`**: Headless Blender 5.2+ animation authoring, NLA action baking, skeletal retargeting, cyclic loop quaternion con...
+- **`rigging-weight-painting-pipeline`**: Character, creature, and animal rigging and skinning in Blender (bpy). Armature hierarchies, bone limits for g...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -18,7 +18,7 @@ New-Item -ItemType Directory -Force -Path $BinDest, "$GeminiDir\skills", "$Claud
 
 # 1. Deploy Python CLI utilities and generate Windows .cmd shims
 $PyTools = @(
-    "agy-cheatsheet", "repo-auto-sync", "skill-evolve", "skills-audit-update",
+    "agy-cheatsheet", "repo-auto-sync", "skill-evolve", "skill-optimize", "skills-audit-update",
     "steam-mod-scanner", "adaptive-model-router", "agy-doctor", "agy-init",
     "agy-context", "agy-quota-statusline", "claude-statusline", "slice-reader",
     "token-guard", "cursor-rules-sync"

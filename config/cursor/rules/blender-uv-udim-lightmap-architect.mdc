@@ -72,3 +72,12 @@ def generate_lightmap_uv2(obj: bpy.types.Object, lightmap_res: int = 256):
    - Tile `1001` = Head/Face (`U: 0..1, V: 0..1`), Tile `1002` = Torso/Limbs (`U: 1..2, V: 0..1`), Tile `1003` = Armor/Gear (`U: 2..3, V: 0..1`).
    - Create UDIM tiled images in `bpy` via `img = bpy.data.images.new(name, 2048, 2048, tiled=True)` and add tiles via `img.tiles.new(tile_number=1002)`.
 3. **Hard Edge = UV Seam Law:** Every mesh edge marked `use_edge_sharp = True` **must** also be a UV seam (`use_seam = True`) with separated UV islands; otherwise tangent-space normal maps will bake black seam artifacts along the hard edge.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`blender-hard-surface-cad-weapons-props`**: Non-destructive hard-surface 3D modeling in Blender 5.2+ for weapons, firearms, vehicles, mechs, and sci-fi pr...
+- **`blender-high-to-low-baking`**: Automated high-to-low poly baking pipeline in Blender (bpy). Bakes tangent-space normal maps, ambient occlusio...
+- **`blender-geometry-nodes-procedural-worlds`**: Headless Blender 5.2+ Geometry Nodes (bpy.types.GeometryNodeTree) procedural worldbuilding, spline generators ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

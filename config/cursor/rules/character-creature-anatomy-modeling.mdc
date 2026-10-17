@@ -100,3 +100,12 @@ When generating humans, cats, dogs, or mutants via Python (`bpy` / `bmesh`), raw
 1. **Voxel SDF Fusion (`voxel_remesh`):** Join overlapping anatomical muscle/bone primitives and fuse them at `voxel_size = 0.004–0.006`, followed by `LAPLACIANSMOOTH` (`use_volume_preserve=True`) to create continuous skin/fur bridges across the neck, shoulders, and haunches.
 2. **Bony Landmarks vs. Fleshy Bellies:** Flatten lateral ribcages, sharpen dorsal scapular ridges, and flatten zygomatic cheek arches and nasal bridges—real mammals have flat/angular structural planes rather than round spheres.
 3. **Alpha-Clipped Fur Cards & Multi-Layer Shaders:** Break up plastic silhouettes on pelted creatures with short alpha-tested hair cards along the cheek ruffs, neck, haunches, and tail, backed by an anisotropic velvet/rim roughness map.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`rigging-weight-painting-pipeline`**: Character, creature, and animal rigging and skinning in Blender (bpy). Armature hierarchies, bone limits for g...
+- **`game-engine-3d-budget-profiler`**: Enforces game engine 3D performance budgets, automated LOD0-LOD3 generation, convex collision hull generation ...
+- **`blender-high-to-low-baking`**: Automated high-to-low poly baking pipeline in Blender (bpy). Bakes tangent-space normal maps, ambient occlusio...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

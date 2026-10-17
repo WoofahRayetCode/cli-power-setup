@@ -78,3 +78,12 @@ python3 config/skills/visual-document-ocr-intelligence/scripts/document_ocr_pipe
 python3 config/skills/visual-document-ocr-intelligence/scripts/document_ocr_pipeline.py \
   extract-table --image invoice.png --format markdown --output table.md
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`industrial-machine-vision-inspection`**: Classical computer vision, camera calibration, precision metrology, and industrial inspection. Covers OpenCV p...
+- **`computer-vision-deep-learning`**: Modern deep-learning computer vision engineering and high-performance inference pipelines. Covers neural objec...
+- **`argon-multimodal-vision-grounding`**: Directs Gemini 4 Argon's native multimodal vision capabilities toward game screen telemetry, UI layout audits,...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

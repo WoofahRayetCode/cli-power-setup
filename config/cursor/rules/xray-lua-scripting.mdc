@@ -59,3 +59,9 @@ The X-Ray Engine executes a customized Lua 5.1 / LuaJIT runtime. Scripts reside 
 - **Crash Modal Interception & WER Dumps:** On Windows, `xray_crash_handler.py sweep` queries WMI (`Win32_Process`) and terminates lingering `notepad.exe`/`WerFault.exe` popups via `taskkill /F /PID`, reading logs from `%USERPROFILE%\Documents\STALKER-SHOC\logs` and `_appdata_\logs`.
 - **Native Win32 Playtest Input & Window Capture:** When `sys.platform == "win32"`, `game_playtest_controller.py` automatically dispatches Win32 `keybd_event` / `mouse_event` (`SendInput`), `ClipCursor`, and `PIL.ImageGrab` instead of Linux `/dev/uinput` and `spectacle`.
 - **Steam Library Auto-Discovery:** `steam-mod-scanner` automatically reads `HKCU\Software\Valve\Steam\SteamPath` and `C:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf` on Windows alongside `~/.local/share/Steam` on Linux.
+
+## Related & Interoperating Skills
+- **`xray-macro-boilerplate-condenser`**: Pre-processes and condenses legacy X-Ray and OGSR C++ macros, memory wrappers (xr_new, xr_delete, IC), and Lua...
+- **`xray-ogf-dm-blender-pipeline`**: Direct binary compilation and export of S.T.A.L.K.E.R. X-Ray and OGSR 3D meshes (.ogf v4 rigid/skinned models ...
+- **`godot-game-dev`**: Game development workflows for Godot Engine (GDScript 2.0 & C#). Use when designing game systems, scene trees,...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

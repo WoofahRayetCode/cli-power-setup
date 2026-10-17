@@ -56,3 +56,9 @@ This skill governs asynchronous background resource streaming, hierarchical Leve
    - Desktop PC: Cap allocated VRAM at **80% of dedicated GPU memory** (e.g. 6.4 GB on an 8 GB card) to reserve room for OS compositors.
 2. **LRU Cache Trimming:**
    When total allocated memory reaches 85% of budget, evict the highest-resolution mips and LOD0 geometry of entities not rendered within the last 15 seconds.
+
+## Related & Interoperating Skills
+- **`game-engine-3d-budget-profiler`**: Enforces game engine 3D performance budgets, automated LOD0-LOD3 generation, convex collision hull generation ...
+- **`game-performance-overlay-telemetry`**: In-game HUD performance metrics and telemetry profiling (MangoHud, DXVK HUD, PresentMon). Configures FPS, fram...
+- **`game-asset-pack-archive-engineering`**: Virtual file systems (VFS), game asset pack archive containers (PAK, XDB, AssetBundles), chunked zstd/zlib com...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

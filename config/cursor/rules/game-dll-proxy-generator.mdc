@@ -79,3 +79,12 @@ WINEDLLOVERRIDES="dinput8=n,b" %command%
 | **`version.dll`** | Unreal Engine, Unity, Modern PC | `GetFileVersionInfoA/W`, `VerQueryValueA/W` |
 | **`dxgi.dll`** | Modern DirectX 11 / 12 titles | `CreateDXGIFactory`, `CreateDXGIFactory1/2` |
 | **`winmm.dll`** | Older DirectX 8 / 9 titles, retro PC | `timeGetTime`, `timeBeginPeriod` |
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-trainer-engineering`**: Cross-platform game trainer development across Windows and Linux. Covers dynamic memory scanning, multi-level ...
+- **`game-mod-release-packager`**: Automated game mod release packaging, archive compression, and distribution pipeline. Strips debug symbols (st...
+- **`game-memory-scanner`**: High-performance game memory scanner and pointer discovery engine for Linux & Windows/Proton games. Scans virt...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -62,3 +62,12 @@ python3 -m zoneforge.cli audio encode \
 | **Pistol / SMG Shot** | 3.0 m | 100.0 m | `2` (Gunshot) |
 | **Rifle / Sniper Shot** | 5.0 m | 250.0 m | `2` (Gunshot) |
 | **Explosion / RPG** | 10.0 m | 400.0 m | `3` (Explosion) |
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-dynamic-stress-orchestrator`**: Dynamic in-game stress testing and entity orchestration: collision-safe multi-entity wave spawning, cross-fact...
+- **`game-asset-pack-archive-engineering`**: Virtual file systems (VFS), game asset pack archive containers (PAK, XDB, AssetBundles), chunked zstd/zlib com...
+- **`game-weapon-ballistics-mechanics`**: Game weapon configuration, ballistics physics, firing cycles, projectile damage radii, underbarrel launchers, ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

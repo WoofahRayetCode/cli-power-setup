@@ -69,3 +69,9 @@ To guarantee cache hits across all turns, prompt payloads must strictly follow t
 
 ## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
 - **Cross-OS Deployment (`install.ps1` & `install.sh`):** Prefix stabilization and `agy-context` / `agy-quota-statusline` cache telemetry operate identically on Windows 10/11 and Linux.
+
+## Related & Interoperating Skills
+- **`gemini-flash-cache-aligner`**: Maximizes Gemini 3.8 Flash prompt caching discounts (>90% savings) through strict prefix stabilization, 4,096-...
+- **`argon-context-cache-guard`**: Anchors and stabilizes Gemini 4 Argon context to ensure sessions cross and maintain the 32,768-token cache thr...
+- **`prompt-cache-context-optimizer`**: Emulates 1M+ context windows and maximizes Anthropic prompt caching discounts (>90% savings) through strict pr...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

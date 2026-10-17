@@ -78,3 +78,6 @@ Always cache package manager dependencies and object builds (e.g. `ccache`, `car
 
 * **Handoff to `cmake-cross-platform`:** When driving cross-compilation toolchains inside CI runners.
 * **Handoff to `cachyos-arch-packaging`:** For automated PKGBUILD linting and release tarballs.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

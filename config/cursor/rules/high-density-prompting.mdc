@@ -60,3 +60,12 @@ When requested to **"distill"**, **"compress"**, or **"optimize"** a user prompt
 1. Strip all conversational filler, preambles, and speculative language.
 2. Identify the core entity, operation, constraints, and test command.
 3. Return the compressed directive in a code block ready to copy or execute, alongside the estimated token reduction percentage.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`claude-silent-dispatch`**: Eliminates pre-tool narration, commentary, and conversational play-by-plays in Claude Code, executing tool cal...
+- **`gemini-flash-cache-aligner`**: Maximizes Gemini 3.8 Flash prompt caching discounts (>90% savings) through strict prefix stabilization, 4,096-...
+- **`context-window-governor`**: Deterministic token budgeting, turn-by-turn context partitioning, and hard output containment to prevent tool ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

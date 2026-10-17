@@ -85,3 +85,12 @@ python3 config/skills/game-autonomous-navigation-ai/scripts/nav_graph_recorder.p
 # Smooth recorded waypoints to eliminate jerky camera turns:
 python3 config/skills/game-autonomous-navigation-ai/scripts/nav_graph_recorder.py optimize-route gamedata/routes/cordon_patrol.json
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-self-improving-qa-pipeline`**: Closed-loop self-improving game QA test harness: automated loading screen dismissal, 88% loading stall watchdo...
+- **`game-dynamic-stress-orchestrator`**: Dynamic in-game stress testing and entity orchestration: collision-safe multi-entity wave spawning, cross-fact...
+- **`game-qa-playtest-controller`**: Autonomous multi-axis game testing locomotion controller using Linux /dev/uinput and evdev. Injects dynamic ch...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

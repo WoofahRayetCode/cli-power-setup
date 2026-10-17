@@ -60,3 +60,9 @@ When a custom engine build behaves differently from the stock binary (e.g. custo
 
 - **Lazy Schema Loading:** Read only the required schema file in `/home/ericparsley/.gemini/antigravity/mcp/rea/<toolName>.json` before invoking `call_mcp_tool`.
 - **Targeted Decompilation:** Use `procedure_pseudo_code` on specific suspect functions rather than `batch_decompile` on hundreds of procedures to keep context lean.
+
+## Related & Interoperating Skills
+- **`binary-re-workflows`**: Orchestrates reverse engineering tools (REA MCP, Ghidra, JADX, TShark, objdump, hex analysis) with Superpowers...
+- **`standalone-binary-re`**: Standalone binary reverse engineering without external MCP servers. Uses native Linux CLI utilities (objdump, ...
+- **`game-patching-binary-repair`**: Diagnosing and fixing broken PC game binaries, engine crashes, missing DLL dependencies, and memory corruption...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

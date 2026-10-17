@@ -75,3 +75,9 @@ When debugging script CTDs:
 2. Check Lua callstack:
    `grep -A 15 "stack traceback:" xray_*.log`
 3. If traceback ends inside a C++ engine thunk (`[C]: in function '...'`), isolate the exact arguments passed from the preceding Lua line to identify the invalid pointer or type mismatch.
+
+## Related & Interoperating Skills
+- **`stalker-ogsr-migration`**: Migration, adaptation, and porting of legacy S.T.A.L.K.E.R. Shadow of Chernobyl mods (Complete, AMK, Autumn Au...
+- **`stalker-level-ai-graph-triage`**: Diagnoses and repairs S.T.A.L.K.E.R. and X-Ray/OGSR level AI navmesh and graph defects. Triages 'Cannot find l...
+- **`stalker-spawn-entity-indexer`**: High-performance local indexer and query engine for S.T.A.L.K.E.R. unpacked all.spawn and game.graph archives....
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

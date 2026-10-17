@@ -66,3 +66,12 @@ python3 config/skills/creative-web-design-archetypes/scripts/archetype_template_
 python3 config/skills/creative-web-design-archetypes/scripts/archetype_template_generator.py \
   cyberpunk-terminal --title "Zone Radiation Telemetry" --out dist/telemetry.html
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`humanities-lore-research`**: Cross-disciplinary research in world history, ancient mythology, comparative folklore, archaeology, and worldb...
+- **`human-crafted-web-design`**: Anti-AI web design heuristics, Linear and Stripe-grade UI aesthetics, professional typography hierarchy, tacti...
+- **`static-site-architecture`**: Modern Jamstack and static site generator (SSG) architecture. Covers Astro, VitePress, Starlight, Content Coll...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

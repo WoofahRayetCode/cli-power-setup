@@ -66,3 +66,9 @@ void vertex() {
     VERTEX.z += (wind_sample * 2.0 - 1.0) * wind_strength * height_factor;
 }
 ```
+
+## Related & Interoperating Skills
+- **`godot-game-dev`**: Game development workflows for Godot Engine (GDScript 2.0 & C#). Use when designing game systems, scene trees,...
+- **`post-processing-visual-fx`**: Screen-space rendering, post-processing stacks, and volumetric lighting when building or porting engines. Use ...
+- **`cuda-gpu-acceleration`**: High-performance NVIDIA GPU engineering, CUDA 13.4 kernel development, nvcc compilation, Tensor Core accelerat...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

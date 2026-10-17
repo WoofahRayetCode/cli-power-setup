@@ -79,3 +79,12 @@ python3 config/skills/game-weather-lighting-fx/scripts/weather_lighting_tuner.py
 2. `[ ]` **Separate Direct vs Hemi Light:** Keep `hemi_color` at ~60-70% of `sun_color` to maintain readable shadows.
 3. `[ ]` **Test at Low Sun Angles:** Verify sunrise (06:00) and sunset (19:00) weather frames where sun shafts intersect low geometry.
 4. `[ ]` **Preserve Atmospheric Contrast:** Cloud overcast frames should reduce `r2_sun_lumscale` and elevate ambient fill.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-companion-pet-ai`**: Custom companion & pet NPC architecture: state machine behaviors (follow, guard, objective guide), god mode st...
+- **`game-self-improving-qa-pipeline`**: Closed-loop self-improving game QA test harness: automated loading screen dismissal, 88% loading stall watchdo...
+- **`game-weapon-ballistics-mechanics`**: Game weapon configuration, ballistics physics, firing cycles, projectile damage radii, underbarrel launchers, ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

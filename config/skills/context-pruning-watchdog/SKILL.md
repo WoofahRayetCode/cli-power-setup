@@ -63,3 +63,12 @@ When triggered automatically or manually before `/compact`:
 * **Handoff to `autonomous-goal-governor`:** Automatically stages memory during `phase-gate` transitions.
 * **Handoff to `claude-statusline`:** Asynchronously triggers `context-watchdog` when context crosses 50%.
 * **Handoff to `working-memory-checkpointing`:** Safeguards in-flight diffs before conversation resets.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`claude-context-rot-shield`**: Mitigates Claude context window degradation and prompt cache misses. Enforces 80k-token milestone compaction b...
+- **`argon-yolo-quota-pacing-watchdog`**: Telemetry governor that paces Gemini 4 Argon autonomous YOLO execution, preventing 5-hour quota exhaustion by ...
+- **`agy-context-telemetry`**: Deep context window utilization and token cost inspector for Antigravity CLI (parity with claude /context and ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

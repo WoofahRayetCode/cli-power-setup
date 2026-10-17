@@ -52,3 +52,9 @@ When modifying existing code under Gemini Flash:
 1. Always prefer **surgical chunk replacements** (`replace_file_content`) over full rewrites.
 2. Keep edits focused to $\le$ 30 lines per replacement.
 3. Keep the conversation transcript lean so cache retrieval latency remains sub-second.
+
+## Related & Interoperating Skills
+- **`multi-model-cache-harmonizer`**: Prompt cache prefix stabilization and alignment engine across Claude, Gemini, OpenAI, and Grok. Aligns static ...
+- **`argon-context-cache-guard`**: Anchors and stabilizes Gemini 4 Argon context to ensure sessions cross and maintain the 32,768-token cache thr...
+- **`prompt-cache-context-optimizer`**: Emulates 1M+ context windows and maximizes Anthropic prompt caching discounts (>90% savings) through strict pr...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

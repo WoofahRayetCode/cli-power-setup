@@ -23,3 +23,9 @@ This skill connects the **Reverse Engineer Anything (REA)** MCP server and nativ
    - **Observed:** Directly extracted from raw bytes, symbols, strings, or disassembly (cite Evidence ID or file offset).
    - **Inferred:** Deductions made about high-level intent, variable types, or game logic.
    - **Unknown:** What remains unverified (never guess an undocumented struct layout without checking memory alignment).
+
+## Related & Interoperating Skills
+- **`standalone-binary-re`**: Standalone binary reverse engineering without external MCP servers. Uses native Linux CLI utilities (objdump, ...
+- **`rea-mcp-obligation-ledger-orchestrator`**: Orchestrates the Reverse Engineer Anything (REA) MCP server obligation ledger, binary function diffing, and st...
+- **`lowlevel-dll-internals`**: Windows PE/DLL internals, assembly-level disassembly, vtable reconstruction, calling convention alignment (__t...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

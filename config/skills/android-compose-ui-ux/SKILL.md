@@ -80,3 +80,9 @@ Modern Android (API 35+) enforces full edge-to-edge layout by default. Never use
 * **Dynamic Color (Monet):** Check `Build.VERSION.SDK_INT >= Build.VERSION_CODES.S` and use `dynamicDarkColorScheme(context)` / `dynamicLightColorScheme(context)`.
 * **Surface Tones & Elevation:** Material 3 uses color tinting on surfaces rather than cast shadows to represent elevation:
   * `surfaceContainerLowest`, `surfaceContainerLow`, `surfaceContainer`, `surfaceContainerHigh`, `surfaceContainerHighest`.
+
+## Related & Interoperating Skills
+- **`android-architecture-jetpack`**: Modern Android Architecture (Now in Android standard), Clean Architecture, MVI/MVVM with unidirectional data f...
+- **`android-app-engineering`**: Modern Android development in Kotlin, Gradle KTS, foreground services, network tethering/VPN APIs, ProGuard/R8...
+- **`android-perf-battery-profiling`**: Low-level Android performance profiling, frame rate/jank diagnosis (dumpsys gfxinfo), battery consumption anal...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

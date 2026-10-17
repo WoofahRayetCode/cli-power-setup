@@ -46,3 +46,12 @@ iptables -A FORWARD -i tun0 -o wlan0 -j ACCEPT
 
 * **Handoff to `android-app-engineering`:** For implementing VpnService and USB tethering tunnels in Kotlin.
 * **Handoff to `linux-systems-engineering`:** For non-blocking epoll sockets and high-performance I/O loops.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`network-packet-stream-condenser`**: Network packet stream and PCAP trace condenser. Flattens verbose tshark and tcpdump protocol dissection trees ...
+- **`binary-re-workflows`**: Orchestrates reverse engineering tools (REA MCP, Ghidra, JADX, TShark, objdump, hex analysis) with Superpowers...
+- **`standalone-binary-re`**: Standalone binary reverse engineering without external MCP servers. Uses native Linux CLI utilities (objdump, ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -72,3 +72,9 @@ void UpdateGame(float frameDelta) {
 * Fast-moving projectiles (bullets, arrows) will tunnel through thin walls in discrete collision detection.
 * **Raycast / Sphere Cast:** Sweep the bounding sphere along the velocity vector:
   $$\text{Ray}(t) = P_0 + t \cdot \vec{v}, \quad t \in [0, \Delta t]$$
+
+## Related & Interoperating Skills
+- **`game-audio-engine-engineering`**: Low-latency game audio architecture, 3D spatial audio, HRTF binaural processing, mixing bus hierarchies, and s...
+- **`game-debug-ui-tools`**: In-engine debug UI systems, Dear ImGui integration, immediate-mode 3D debug drawing (AABBs, rays, contact mani...
+- **`game-networking-state-sync`**: Multiplayer network architecture, client-side prediction, server reconciliation, entity interpolation, snapsho...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

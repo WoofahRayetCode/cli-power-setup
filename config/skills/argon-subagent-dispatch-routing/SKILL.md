@@ -78,4 +78,3 @@ When Argon is the active primary agent:
 - **Repo-Aware Swarm Routing (`dynamic-repo-model-cheatsheet`):** When `agy-cheatsheet` (`cs`) or the bottom of your statusline displays `Argon•High+Flash` (e.g. on `ogsr-complete-merge`), Argon automatically retains 64-bit C++/DX11 tasks while dispatching parallel Flash subagents (`argon-dynamic-subagent-swarm`) for LTX configs, DDS textures, and Ogg Vorbis audio.
 - **Return Envelope Compression (`argon-subagent-payload-compressor` & `cross-agent-context-deduplicator`):** All Flash subagents must return compact $\le 15$-line symbol-coordinate summaries so Argon's 1M context window stays lean.
 - **Cross-OS Parity (`windows-linux-cross-os-runtime-bridge`):** Operates identically across Linux and Windows 10/11 (`agy-yolo` / `agy-turbo`).
-

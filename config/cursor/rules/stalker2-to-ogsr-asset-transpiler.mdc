@@ -42,3 +42,12 @@ repak list /mnt/games/SteamLibrary/steamapps/common/S.T.A.L.K.E.R.\ 2\ Heart\ of
 | `AssaultRifleDispersionDefault` | `fire_dispersion_base` | Radial spread converted to radians/degrees |
 | `AimingWeaponRecoilPitchCurve` | `cam_dispersion` | Per-shot vertical pitch kick |
 | `AimingWeaponRecoilYawCurve` | `cam_dispersion_inc` | Incremental horizontal muzzle drift |
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`ue5-foliage-mesh-to-ogsr-transpiler`**: Extracts S.T.A.L.K.E.R. 2 (UE5 IoStore) 3D trees, bushes, and grass meshes and transpiles them into 64-bit S.T...
+- **`stalker2-modding`**: Modding workflows and tools for S.T.A.L.K.E.R. 2 Heart of Chornobyl (Unreal Engine 5). Use when packaging UE5 ...
+- **`game-texture-material-pipeline`**: High-performance asset pipelines for modern PBR and legacy game textures. Use when converting textures across ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

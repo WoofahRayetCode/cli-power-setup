@@ -61,3 +61,12 @@ Run the automated host slice extractor before ingesting any subsystem:
 - **Zero Hallucination:** Directly parses C++ classes, methods, inheritance, and Lua functions into line-anchored `<fn L="...">` tags.
 - **Sub-Second Speed:** Parses 50 files in <30ms on host CPU with zero LLM API calls.
 - **Guaranteed Compression:** Replaces 50,000–100,000 lines of implementation code with a 1,500-token interface skeleton.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`fable-atomic-diff-sequencer`**: Multi-file refactor execution coordinator for Claude Fable 5.1. Regulates Fable's 128k output capacity by brea...
+- **`claude-fable-engine-governor`**: Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engin...
+- **`local-vector-rag-engine`**: Local vector embeddings and dense semantic search engine running on host CPU/GPU/RAM. Replaces context-stuffin...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -46,3 +46,12 @@ for node in ast.walk(tree):
         print(f"{type(node).__name__}: {node.name}")
 '
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`semantic-codebase-indexing`**: Cursor and Windsurf-style AST symbol indexing, call-graph tracing, and ctags/tree-sitter repository mapping fo...
+- **`smart-context-packer`**: Compresses multi-file codebases into interface-only AST skeletons (stripping function bodies, comments, and bl...
+- **`selective-context-ingestor`**: Enforces surgical line-slice reading and AST-first inspection via slice-reader, preventing models from ingesti...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

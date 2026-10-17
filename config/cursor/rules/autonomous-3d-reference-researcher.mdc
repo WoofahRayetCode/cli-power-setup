@@ -56,3 +56,9 @@ skill-evolve --append-rule <target-3d-skill> "<Subject> Verified Proportions" "<
 ## Windows 10/11 & Cross-Platform Blender 5.2+ Parity (`windows-linux-cross-os-runtime-bridge`)
 - **Executable Discovery:** Resolve Blender via `shutil.which("blender")` or fallback on Windows to `C:\Program Files\Blender Foundation\Blender 5.2\blender.exe -b --factory-startup`.
 - **Cross-OS Scratch & OptiX Baking:** Stage intermediate `.blend`, `.png`, and `.ogf`/`.glb` exports in `Path(tempfile.gettempdir())` (`%TEMP%` on Windows, `/dev/shm` on Linux) and enable `compute_device_type = "OPTIX"` on both Windows WDDM 3.2 and Linux NVIDIA drivers.
+
+## Related & Interoperating Skills
+- **`autonomous-git-repo-sync-governor`**: Autonomous git repository synchronization, upstream pull/rebase, milestone auto-commit, large-binary/secret pr...
+- **`autonomous-skill-ecosystem-optimizer`**: Closed-loop auto-optimizing skill ecosystem harmonizer (skill-optimize). Automatically invoked by skill-evolve...
+- **`concept-art-sketch-to-3d-sculptor`**: Converts 2D drawn images, character concept art, and reference sketches into high-detail 3D models in Blender ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

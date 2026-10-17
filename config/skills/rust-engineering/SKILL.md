@@ -34,3 +34,9 @@ This skill governs Rust programming, leveraging the compiler as an instant verif
 ## Cross-OS Windows 10/11 & Linux Runtime Bridge (`windows-linux-cross-os-runtime-bridge`)
 - **Unified Windows & Linux Execution:** Pair with `windows-linux-cross-os-runtime-bridge` for portable CPU thread saturation (`os.cpu_count()` / `$env:NUMBER_OF_PROCESSORS` / `$(nproc)`), scratch staging (`Path(tempfile.gettempdir())` / `R:\` RAMDisk / `/dev/shm`), and dual-GPU routing (Windows `UserGpuPreferences` vs Linux `DRI_PRIME`).
 - **Dynamic Cheat Sheet, Git Sync & Self-Evolution:** Consult `agy-cheatsheet` (`cs` / `dynamic-repo-model-cheatsheet`) for live per-repo model/effort selection, commit verified milestones via `repo-auto-sync <repo> --checkpoint --push` (`autonomous-git-repo-sync-governor`), and promote reusable cross-OS scripts via `skill-evolve` (`self-evolving-skill-synthesizer`).
+
+## Related & Interoperating Skills
+- **`python-engineering`**: Python software engineering and performance standards (Python 3.10+). Use when authoring or refactoring Python...
+- **`modern-cpp-engineering`**: Modern C++ standards (C++20/C++23) and systems engineering. Use when authoring or debugging C++ code, game eng...
+- **`log-output-sanitizer`**: Intercepts noisy compiler, package manager, and test suite terminal output (cargo, pytest, npm, cmake), passin...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

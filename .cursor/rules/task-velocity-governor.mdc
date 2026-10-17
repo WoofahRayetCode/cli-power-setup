@@ -64,3 +64,12 @@ python3 config/skills/task-velocity-governor/scripts/task_velocity_guard.py fini
 * **Direct Action Over Commentary:** Skip verbal preambles ("Now I will..."). Run the tool directly.
 * **Surgical Diffs:** Never rewrite a 500-line file when a 4-line patch fixes the root cause.
 * **Deterministic Verification:** If the compiler or test suite passes, declare victory and conclude.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`superpowers`**: Core engineering methodology and discipline engine. Use when starting non-trivial tasks to evaluate if brainst...
+- **`argon-atomic-diff-sequencer`**: Enforces Claude-grade atomic chunk editing on Gemini 4 Argon. Restricts all code changes to surgical <= 30-lin...
+- **`executing-plans`**: Step-by-step execution of approved implementation plans. Use when executing a multi-step plan to track progres...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

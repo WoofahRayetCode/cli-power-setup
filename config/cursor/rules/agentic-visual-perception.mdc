@@ -82,3 +82,12 @@ python3 config/skills/agentic-visual-perception/scripts/agent_visual_grounding.p
 python3 config/skills/agentic-visual-perception/scripts/agent_visual_grounding.py \
   diff --frame-a before_click.png --frame-b after_click.png --threshold 0.05
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`argon-multimodal-vision-grounding`**: Directs Gemini 4 Argon's native multimodal vision capabilities toward game screen telemetry, UI layout audits,...
+- **`local-gpu-vision-ocr-preprocessor`**: Pre-processes game screenshots, desktop captures, and 3D renders locally on host CPU/GPU using Pillow/NumPy pe...
+- **`screen-vision-inspector`**: Autonomously captures, crops, and visually inspects the active computer screen, desktop application windows, a...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

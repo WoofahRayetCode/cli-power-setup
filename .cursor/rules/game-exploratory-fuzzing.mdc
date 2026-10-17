@@ -72,3 +72,12 @@ python3 scripts/game_exploratory_fuzzer.py fuzz --dry-run
 
 * `game-fuzzer: [✓] Generated 24 action mutations | Novel states discovered: 7 | Active corpus: 32 genomes`
 * `crash-minimizer: [✓] Minimized 140-step trajectory to 3-step repro: [JUMP, RELOAD, INVENTORY_OPEN]`
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-qa-playtest-controller`**: Autonomous multi-axis game testing locomotion controller using Linux /dev/uinput and evdev. Injects dynamic ch...
+- **`game-self-improving-qa-pipeline`**: Closed-loop self-improving game QA test harness: automated loading screen dismissal, 88% loading stall watchdo...
+- **`coverage-guided-mutation-testing`**: AST-based fault injection, mutant survival analysis, and automated test synthesis to self-improve test suite d...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -74,3 +74,12 @@ python3 config/skills/game-self-improving-qa-pipeline/scripts/self_improving_qa.
 | **`sweep-crashes`** | Sweeps and kills blocking Notepad / BugTrap dialogs |
 | **`countdown`** | Runs live terminal timer for area soak tests |
 | **`log-flaw`** | Stores failure telemetry into the central regression database |
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-autonomous-navigation-ai`**: Autonomous AI player navigation, level vertex/waypoint graph mapping, route recording & playback, obstacle/inv...
+- **`game-exploratory-fuzzing`**: Evolutionary input fuzzing, novelty-guided action mutation, and crash delta minimization for automated game QA...
+- **`game-screen-telemetry-monitor`**: Real-time in-game screen telemetry monitoring, visual anomaly detection (missing textures, freezes, blackouts)...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

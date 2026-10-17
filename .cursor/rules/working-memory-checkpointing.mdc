@@ -53,3 +53,12 @@ python3 config/skills/working-memory-checkpointing/scripts/state_checkpoint.py p
 * **Handoff to `systematic-debugging`:** Checkpoints state between hypothesis tests.
 * **Handoff to `session-episodic-memory`:** When a checkpoint succeeds, log the resolution episode into `.agents/episodes/`.
 * **Handoff to `token-economy`:** Cuts recovery cost from 5+ conversational turns down to 1 command.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`argon-long-haul-context-compaction-gate`**: Monitors context consumption during long-running Argon YOLO porting runs, triggering atomic milestone compacti...
+- **`claude-context-rot-shield`**: Mitigates Claude context window degradation and prompt cache misses. Enforces 80k-token milestone compaction b...
+- **`context-pruning-watchdog`**: Live telemetry monitoring of active context consumption; automatically stages memory state into activeContext....
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

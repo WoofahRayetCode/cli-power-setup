@@ -27,9 +27,13 @@ For instant, zero-latency, zero-cost procedural audio generation without externa
 * **Square Wave (Chiptune & 8-bit Retro):**
   $$s(t) = A \cdot 	ext{sgn}(\sin(2\pi f t))$$
 * **Sawtooth Wave (Aggressive Synths & Lasers):**
-  $$s(t) = 2 A \left( f t - \lfloor f t + 0.5 floor ight)$$
+  $$s(t) = 2 A \left( f t - \lfloor f t + 0.5 
+floor 
+ight)$$
 * **Triangle Wave (Soft Bass & Melodies):**
-  $$s(t) = 2 A \left| 2 (f t - \lfloor f t + 0.5 floor) ight| - A$$
+  $$s(t) = 2 A \left| 2 (f t - \lfloor f t + 0.5 
+floor) 
+ight| - A$$
 * **White / Pink Noise (Explosions, Wind, Impacts):**
   Uniform random sampling $r \in [-1.0, 1.0]$, filtered through low-pass biquad stages for rumble and high-pass for hiss.
 
@@ -97,3 +101,12 @@ Always master exported audio to target platform loudness constraints:
 ## 5. Offline Procedural SFX Generator Tool
 
 Use `scripts/procedural_sfx_generator.py` to instantly synthesize crisp game sound effects, UI pings, explosions, coins, and chimes into 48kHz WAV files—**100% offline, zero API keys, zero external Python libraries required**.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`ai-3d-mesh-generation`**: AI-powered text-to-3D and image-to-3D generation pipelines using Tripo3D API, automatic retopology, PBR textur...
+- **`game-audio-engine-engineering`**: Low-latency game audio architecture, 3D spatial audio, HRTF binaural processing, mixing bus hierarchies, and s...
+- **`emulator-development-engineering`**: Video game console emulation architecture, CPU interpreter & JIT dynamic binary translation, cycle-accurate ti...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

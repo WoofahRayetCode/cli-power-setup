@@ -52,3 +52,12 @@ When capturing or inspecting network traffic:
 3. **Stream Aggregation First:**
    - Run conversation/stream statistics before analyzing individual packets:
      `tshark -r capture.pcap -q -z conv,ip` (produces a 5-line summary of top talkers).
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`network-protocol-engineering`**: Packet inspection with tshark and tcpdump, binary serialization with Protobuf and FlatBuffers, custom TCP/UDP ...
+- **`sql-schema-query-condenser`**: SQL relational schema and query plan condenser. Serializes verbose DDL migrations and EXPLAIN QUERY PLAN execu...
+- **`compiler-error-cascade-isolator`**: Intercepts C++ compiler error cascades (GCC, Clang, MSVC) during engine builds. Strips recursive template inst...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -39,3 +39,9 @@ When invoking the reviewer:
 }
 ```
 Using `flash` keeps the review fast, thorough, and highly quota-efficient.
+
+## Related & Interoperating Skills
+- **`subagent-swarm-orchestrator`**: Coordinates autonomous parallel subagent swarms in Claude Code, leveraging isolated git worktrees, background ...
+- **`binary-re-workflows`**: Orchestrates reverse engineering tools (REA MCP, Ghidra, JADX, TShark, objdump, hex analysis) with Superpowers...
+- **`verification-before-completion`**: Final quality gate and evidence collector. Use before claiming any task, feature, or bug fix is finished to ve...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

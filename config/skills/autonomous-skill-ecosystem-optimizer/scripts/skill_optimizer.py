@@ -1,0 +1,1 @@
+/home/ericparsley/Documents/GitHub/cli-power-setup/bin/skill-optimize

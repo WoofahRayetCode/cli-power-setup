@@ -73,3 +73,12 @@ def repair_and_verify_manifold(obj: bpy.types.Object) -> dict:
 
 ## 4. Blender 5.2+ Fast C++ `.stl` Export
 In Blender 4.0+/5.2+, use the native C++ exporter `bpy.ops.wm.stl_export(filepath=out_stl, export_selected_objects=True, global_scale=1.0)` rather than the removed legacy Python `export_mesh.stl` addon.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`blender-high-to-low-baking`**: Automated high-to-low poly baking pipeline in Blender (bpy). Bakes tangent-space normal maps, ambient occlusio...
+- **`blender-hard-surface-cad-weapons-props`**: Non-destructive hard-surface 3D modeling in Blender 5.2+ for weapons, firearms, vehicles, mechs, and sci-fi pr...
+- **`blender-3d-engineering`**: High-efficiency, quota-saving 3D modeling and procedural asset generation with Blender (bpy). Use when creatin...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
