@@ -1,0 +1,141 @@
+#!/usr/bin/env python3
+"""
+steam-mod-scanner: Scans Steam library folders (e.g. /mnt/games/SteamLibrary) and localconfig.vdf,
+fingerprints the game engine & archive formats for every installed game, and maps each game to
+its dedicated modding skill and CLI unpacker/packer tools.
+"""
+
+import argparse
+import glob
+import json
+import os
+import re
+from pathlib import Path
+
+
+def find_library_paths() -> list[Path]:
+    vdf = Path.home() / ".local/share/Steam/steamapps/libraryfolders.vdf"
+    paths = [Path.home() / ".local/share/Steam"]
+    if vdf.is_file():
+        txt = vdf.read_text(encoding="utf-8", errors="ignore")
+        for m in re.finditer(r'"path"\s+"([^"]+)"', txt):
+            p = Path(m.group(1))
+            if p.is_dir() and p not in paths:
+                paths.append(p)
+    return paths
+
+
+def fingerprint_game_dir(gdir: Path) -> dict:
+    entries = set(os.listdir(gdir)) if gdir.is_dir() else set()
+    # Check subdirectories and file patterns
+    if "xrEngine.exe" in entries or any(e.startswith("gamedata.db") for e in entries) or "fsgame.ltx" in entries:
+        is_ee = "dxcompiler.dll" in entries or "sl.common.dll" in entries
+        return {
+            "engine": "X-Ray Engine 64-bit (Legends of the Zone EE / OGSR)" if is_ee else "X-Ray Engine (Classic 32-bit)",
+            "formats": [".db", ".xdb", ".pack", ".ltx", ".ogf", ".dm", ".dds", ".ogg (GSC comment)"],
+            "skill": "game-modding + xray-ogf-dm-blender-pipeline + stalker-ogsr-migration",
+            "tools": "zoneforge, write_ogf.py, game-dialogue-tool, weather-lighting-tuner",
+        }
+    if "Engine" in entries and any((gdir / sub / "Content" / "Paks").is_dir() for sub in entries if (gdir / sub).is_dir()):
+        return {
+            "engine": "Unreal Engine 5 (Zen Loader IoStore)",
+            "formats": [".utoc", ".ucas", ".pak", ".uasset", ".ubulk"],
+            "skill": "ue5-redengine-rage-library-modding + stalker2-modding + ue5-foliage-mesh-to-ogsr-transpiler",
+            "tools": "retoc, repak, liboo2corelinux64.so.9",
+        }
+    if any(e.endswith(".kpf") for e in entries):
+        return {
+            "engine": "Nightdive KEX Engine (Hybrid id Tech 2 / Quake II)",
+            "formats": [".kpf (ZIP)", ".sin/.pak", ".bsp", ".md2", ".def", "game_x64.dll"],
+            "skill": "source-idtech-kex-engine-modding",
+            "tools": "unzip/zip, blender-3d-engineering",
+        }
+    if "GTADATA" in entries or any(e.endswith(".img") or e.endswith(".rpf") for e in entries):
+        return {
+            "engine": "Rockstar GTA Engine (2D Classic / RenderWare / RAGE)",
+            "formats": [".CMP", ".FXT", ".GRY", "MISSION.INI", ".img", ".txd", ".dff", ".rpf"],
+            "skill": "ue5-redengine-rage-library-modding",
+            "tools": "custom binary struct parsers, blender-3d-engineering",
+        }
+    if any(e.endswith(".forge") for e in entries) or "DataPC.forge" in entries:
+        return {
+            "engine": "Ubisoft AnvilNext 2.0",
+            "formats": [".forge", ".data"],
+            "skill": "game-asset-pack-archive-engineering",
+            "tools": "binary-re-workflows",
+        }
+    if "Data" in entries and (gdir / "Data").is_dir():
+        data_files = os.listdir(gdir / "Data")
+        if any(f.endswith((".esm", ".esp", ".bsa", ".ba2")) for f in data_files):
+            return {
+                "engine": "Bethesda Creation Engine / Gamebryo",
+                "formats": [".esm", ".esp", ".esl", ".bsa", ".ba2", ".nif", ".psc/.pex"],
+                "skill": "bethesda-creation-engine-nif-modding",
+                "tools": "bsarch/ba2, blender-3d-engineering",
+            }
+    return {
+        "engine": "Custom / Native Engine",
+        "formats": list(sorted({Path(e).suffix for e in entries if Path(e).suffix}))[:6],
+        "skill": "game-modding + binary-re-workflows",
+        "tools": "rizin, objdump, local-ast-compiler",
+    }
+
+
+def scan_installed_games() -> list[dict]:
+    results = []
+    skip_prefixes = ("Steam", "Proton", "Blender", "Godot")
+    for lib in find_library_paths():
+        steamapps = lib / "steamapps"
+        common = steamapps / "common"
+        if not common.is_dir():
+            continue
+        # Map installdir -> appid from appmanifest_*.acf
+        dir_to_appid = {}
+        for acf in glob.glob(str(steamapps / "appmanifest_*.acf")):
+            txt = Path(acf).read_text(encoding="utf-8", errors="ignore")
+            aid = re.search(r'"appid"\s+"(\d+)"', txt)
+            idir = re.search(r'"installdir"\s+"([^"]+)"', txt)
+            if aid and idir:
+                dir_to_appid[idir.group(1)] = aid.group(1)
+
+        for dname in sorted(os.listdir(common)):
+            if dname.startswith(skip_prefixes):
+                continue
+            gdir = common / dname
+            if not gdir.is_dir():
+                continue
+            fp = fingerprint_game_dir(gdir)
+            results.append({
+                "game": dname,
+                "appid": dir_to_appid.get(dname, "local"),
+                "path": str(gdir),
+                **fp,
+            })
+    return results
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description="Scan Steam libraries for moddable games and map to skills")
+    parser.add_argument("--json", action="store_true", help="Emit JSON output")
+    args = parser.parse_args()
+
+    games = scan_installed_games()
+    if args.json:
+        print(json.dumps(games, indent=2))
+        return
+
+    print("================================================================================")
+    print(f" 🎮 Steam Library Moddable Game Scanner ({len(games)} Moddable Installations Found)")
+    print("================================================================================")
+    for g in games:
+        print(f"• {g['game']} (AppID: {g['appid']})")
+        print(f"  ├─ Path:    {g['path']}")
+        print(f"  ├─ Engine:  {g['engine']}")
+        print(f"  ├─ Formats: {', '.join(g['formats'])}")
+        print(f"  ├─ Skill:   {g['skill']}")
+        print(f"  └─ Tools:   {g['tools']}")
+    print("================================================================================")
+
+
+if __name__ == "__main__":
+    main()

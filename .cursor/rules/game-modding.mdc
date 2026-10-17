@@ -54,11 +54,21 @@ This skill guides game modding, with specialized domain knowledge for **S.T.A.L.
 
 ---
 
-## 2. General Game & Console Modding (GTA PC, Switch, Emulators)
+## 2. Steam Library Multi-Engine Modding Matrix (`steam-mod-scanner`)
 
-- **Vanilla Backups:** Always preserve a clean backup copy before modifying game binaries, scripts, or archives.
-- **Format Verification:** For archive files (PFS0/NSP/NSZ, ZIP, TAR), check header magic, block alignment, and checksums before writing.
-- **Reverse Engineering Delegation:** When disassembling or analyzing unfamiliar binary structures, delegate the research to the `rea` tools or an isolated subagent to keep the main context clean.
+Run `steam-mod-scanner` at any time to fingerprint all installed games in `/mnt/games/SteamLibrary` and `~/.local/share/Steam`. Route modding tasks to the matching specialized engine skill:
+
+- **S.T.A.L.K.E.R. Classic Trilogy (`4500`, `20510`, `41700`), Enhanced Edition (`2427410`, `2427420`, `2427430`) & OGSR:**
+  - Use `game-modding`, `stalker-ogsr-migration`, `xray-ogf-dm-blender-pipeline` (`write_ogf.py`), and `xray-lua-scripting`.
+- **Unreal Engine 5 IoStore Titles (*S.T.A.L.K.E.R. 2* `1643320`, *Borderlands 4* `1285190`, *Assetto Corsa Rally* `3917090`):**
+  - Use `ue5-redengine-rage-library-modding`, `stalker2-modding`, and `ue5-foliage-mesh-to-ogsr-transpiler` with `retoc` + `repak` (staging in `/dev/shm` via `ramdisk-tmpfs-build-bake-accelerator`).
+- **Nightdive KEX, Valve Source & id Tech (*SiN Reloaded* `632950`, *Half-Life 1/2*, *Black Mesa* `362890`, *Garry's Mod* `4000`, *L4D2* `550`, *Quake II/III*, *DOOM 3*):**
+  - Use `source-idtech-kex-engine-modding` (`.kpf` ZIP containers, `.vpk`, StudioMDL `.mdl`/`.qc`, `.vtf`/`.vmt`, `.pk3`/`.pk4`).
+- **Bethesda Creation Engine (*Morrowind* `22320`, *Oblivion* `22330`, *Skyrim / SE* `489830`, *Fallout 3 / NV / 4* `22380`/`377160`, *Starfield* `1716740`):**
+  - Use `bethesda-creation-engine-nif-modding` (`.esm`/`.esp`/`.esl` light plugins, `.bsa`/`.ba2`, `.nif` meshes, Papyrus `.psc`, SKSE/F4SE/NVSE).
+- **Rockstar GTA (*GTA 1* `12170`, *GTA III/VC/SA/IV/V*), *Cyberpunk 2077* (`1091500`), *Witcher 3* (`292030`), *Baldur's Gate 3* (`1086940`) & *Project Zomboid* (`108600`):**
+  - Use `ue5-redengine-rage-library-modding`.
+- **Vanilla Backups & Reverse Engineering Delegation:** Always preserve read-only vanilla archives and delegate binary disassembly to `rea` MCP tools (`rea-mcp-obligation-ledger-orchestrator`).
 
 ---
 

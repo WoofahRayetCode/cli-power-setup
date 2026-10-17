@@ -66,3 +66,13 @@ Run the included VFS pack utility to bundle asset folders into compressed contai
 ```bash
 python3 scripts/vfs_asset_packer.py --input path/to/assets --output gamedata.vpak --compress
 ```
+
+---
+
+## 5. Steam Library Archive Format Reference (Stage in `/dev/shm` RAM-Disk)
+Always unpack and repack multi-gigabyte archives inside `/dev/shm` (`ramdisk-tmpfs-build-bake-accelerator`) to leverage 30 GB DDR5 RAM (`~40 GB/s`) with zero SSD wear:
+- **X-Ray `.db` / `.xdb` / `.pack` (*S.T.A.L.K.E.R.* Trilogy & EE):** `zoneforge pack` / chunked LZHUF or Zstd VFS containers.
+- **UE5 Zen IoStore `.utoc` / `.ucas` / `.pak` (*S.T.A.L.K.E.R. 2*, *Borderlands 4*, *Assetto Corsa Rally*):** Extract via `retoc to-legacy` (`liboo2corelinux64.so.9`), repack via `repak pack --compression Zstd` into `Content/Paks/~mods/zzzz_Mod_P.pak`.
+- **Nightdive KEX `.kpf` (*SiN Reloaded*) & id Tech `.pk3`/`.pk4` (*Quake III*, *DOOM 3*):** Standard Deflate/Store ZIP containers.
+- **Bethesda `.bsa` / `.ba2` (*Morrowind*, *Oblivion*, *Skyrim SE*, *Fallout 3/NV/4*, *Starfield*):** `BSA\x00` (LZ4) and `BTDX` (`GNRL` + `DX10` streamed BC1–BC7 mipmaps). Never set the compress flag on `.bsa` archives containing `.fuz`/`.xwm` voice audio.
+- **Valve Source `.vpk` (*Half-Life 2*, *Black Mesa*, *GMod*, *L4D2*, *Portal 2*):** Multi-chunk `_dir.vpk` directory index + `_000.vpk` data chunks.
