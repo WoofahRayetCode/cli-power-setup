@@ -125,6 +125,15 @@ FLEET_TIERS = {
             "blender-architect:latest",
         ],
     },
+    "ultra-large": {
+        "description": "Ultra-large 22B–72B models stored on secondary NVMe drive (/mnt/games/large-models) with hardware layer offload (~77 GB)",
+        "models": [
+            "llm4decompile:22b-q4",
+            "deepseek-r1:70b-iq2",
+            "qwen2.5:72b-iq2",
+            "llama3.3:70b-iq2",
+        ],
+    },
 }
 
 ALL_MODELS = [

@@ -1,9 +1,10 @@
 # CLI Power Setup (`cli-power-setup`)
 
 [![Active Skills](https://img.shields.io/badge/Skills-314%20Active-brightgreen.svg)](#-categorized-skills-directory-314-skills)
-[![Local Models](https://img.shields.io/badge/Local%20Fleet-29%20Models%20(Ollama)-blue.svg)](#-zero-quota-local-language-model-fleet-29-models-0-cloud-tokens)
-[![Fleet Disk Size](https://img.shields.io/badge/Fleet%20Disk%20Size-166%20GB%20(29%20Models)-blueviolet.svg)](#-zero-quota-local-language-model-fleet-29-models-0-cloud-tokens)
-[![Hardware Offload](https://img.shields.io/badge/Hardware-32T%20CPU%20%2B%20RTX%205060%20CUDA-orange.svg)](#-zero-quota-local-language-model-fleet-29-models-0-cloud-tokens)
+[![Local Fleet](https://img.shields.io/badge/Local%20Fleet-31%20Models%20(Ollama)-blue.svg)](#-zero-quota-local-language-model-fleet-31-models-0-cloud-tokens)
+[![Fleet Disk Size](https://img.shields.io/badge/Fleet%20Disk%20Size-198%20GB%20(31%20Models)-blueviolet.svg)](#-zero-quota-local-language-model-fleet-31-models-0-cloud-tokens)
+[![Secondary NVMe](https://img.shields.io/badge/Secondary%20NVMe-1.4%20TB%20Headroom%20(/mnt/games)-success.svg)](#-secondary-drive-ultra-large-model-repository--hardware-optimizer)
+[![Hardware Offload](https://img.shields.io/badge/Hardware-32T%20CPU%20%2B%20RTX%205060%20CUDA-orange.svg)](#-zero-quota-local-language-model-fleet-31-models-0-cloud-tokens)
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)](#-license)
 
 A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)** and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
@@ -17,9 +18,10 @@ This repository organizes **316 autonomous agent skills**, 316 modular Cursor ru
 Jump directly to any section of the documentation:
 
 * [⚡ Quick Start & Installation](#-quick-start)
-* [🧠 Zero-Quota Local Language Model Fleet (29 Models)](#-zero-quota-local-language-model-fleet-29-models-0-cloud-tokens)
+* [🧠 Zero-Quota Local Language Model Fleet (31 Models)](#-zero-quota-local-language-model-fleet-31-models-0-cloud-tokens)
   * [Key Benefits & Token Savings](#-key-benefits--overall-usage-savings)
-  * [Local Fleet Matrix (Collapsible Table)](#-complete-29-model-local-fleet-matrix)
+  * [Local Fleet Matrix (Collapsible Table)](#-complete-31-model-local-fleet-matrix)
+  * [Secondary Drive Ultra-Large Model Repository (`ultra-model-manager`)](#-secondary-drive-ultra-large-model-repository--hardware-optimizer)
 * [🚀 Dynamic AGY Omni-Auto Mode (`agy-omni-mode`)](#-dynamic-agy-omni-auto-mode-agy-omni-mode)
 * [🔎 Zero-Quota Local Research Scout (`local-research-scout`)](#-zero-quota-local-research-scout-local-research-scout)
 * [🛠️ CLI Power Tools & Launchers](#️-cli-power-tools--launchers)
@@ -110,13 +112,15 @@ A production-grade fleet of **29 specialized open-weights models**—including *
 5. **Complete Air-Gapped Privacy & Offline Autonomy:**
    - Proprietary game source code, closed-source reverse-engineering disassembly, and sensitive client documents never leave your physical machine.
 
-### 📋 Complete 29-Model Local Fleet Matrix
+### 📋 Complete 31-Model Local Fleet Matrix
 
 <details>
-<summary><b>🔍 Click to View Complete 29-Model Local Fleet Specifications & Memory Footprint</b></summary>
+<summary><b>🔍 Click to View Complete 31-Model Local Fleet Specifications & Memory Footprint</b></summary>
 
 | Functional Tier | Primary Model | Fallback | Memory | Specialization & Capabilities |
 | :--- | :--- | :--- | :--- | :--- |
+| **`ultra-large`** | **`deepseek-r1:70b-iq2`** | `llm4decompile:22b-q4` | ~19.1–22.4 GB VRAM+RAM | **Titan 70B Deep Reasoning.** Secondary NVMe storage (`/mnt/games`), 18-layer VRAM offload (`--task reason`) |
+| **`decompile-re`** | **`llm4decompile:22b-q4`** | `deepseek-coder-v2:16b` | ~12.4 GB VRAM+RAM | **Binary Reverse Engineering.** Assembly-to-C decompilation for REA MCP & Ghidra (`--task re`) |
 | **`engine-porting`** | **`deepseek-coder-v2:16b`** | `qwen2.5-coder:32b` | ~6.0 GB VRAM + RAM | **#1 Game Engine Porting.** 32-to-64-bit pointer math, struct alignment, HLSL/GLSL shaders (`--task port`) |
 | **`frontier-planners`** | **`qwen2.5-coder:32b`** | `deepseek-r1:32b` | ~7.5 GB VRAM + RAM | **Heavyweight 32B Code Planner.** SWE-bench leader, large refactors, C++20 modernizations (`--task plan`) |
 | **`reasoning`** | **`deepseek-r1:32b`** | `deepseek-r1:14b` / `8b` | ~5.2–7.5 GB VRAM | **32B Deep Chain-of-Thought.** Architectural verification, invariant proofs, root-cause triage (`--task reason`) |
@@ -149,6 +153,30 @@ setup-local-model-fleet --all                   # Complete 29-model fleet
 local-coprocessor generate --task port --prompt "Audit this C++ class for 64-bit pointer truncation"
 local-coprocessor generate --task plan --prompt "Decompose game engine porting into 5 atomic steps"
 local-coprocessor generate --task math --prompt "Derive critically damped spring update for fixed_step=0.01"
+```
+
+### 🚀 Secondary Drive Ultra-Large Model Repository & Hardware Optimizer (`ultra-model-manager`)
+
+Dedicated storage and hardware-layer split manager for **70B–405B parameter models** stored directly on the secondary high-speed NVMe drive (`/mnt/games/large-models/` with **1.35 TB free headroom**), completely isolating large weights from the root operating system drive:
+
+* **Hardware Optimization:** Every model is calibrated with importance-matrix (`IQ2_XXS` / `Q4_K_M`) quantization, 32-thread AMD Zen AVX-512 CPU execution, and automated GDDR7 VRAM layer offloading to the NVIDIA RTX 5060 (leaving safe headroom for desktop rendering and quantized `q4_0` KV cache).
+* **Automated Parallel Downloader:** Leverages `aria2c` with 16 parallel connections to download ultra-large weights at over **220 MB/s** (~1.8 Gbps) with segmented resumption and SHA-256 integrity validation.
+
+```bash
+# Display repository status, stored GGUF files, and secondary drive headroom
+ultra-model-manager status
+
+# Download and register DeepSeek-R1 70B (IQ2_XXS) on secondary storage
+ultra-model-manager download deepseek-r1-70b --optimize
+
+# Download and register LLM4Decompile 22B for assembly-to-C reverse engineering
+ultra-model-manager download llm4decompile-22b --optimize
+
+# Download and register Qwen 2.5 72B for dense systems architecture and C++ porting
+ultra-model-manager download qwen-72b-instruct --optimize
+
+# Run an interactive prompt with any ultra-large model
+ultra-model-manager run deepseek-r1-70b --prompt "Verify 64-bit struct padding for X-Ray vertex buffer"
 ```
 
 ---
@@ -217,6 +245,7 @@ A dedicated suite of executable utilities installed directly into `~/.local/bin/
 | **`game-math-solver`** | Hardware Math | 32-thread CPU + RTX 5060 CUDA solver for quaternions, ODEs, and ballistics (0 tokens). |
 | **`local-coprocessor`** | Offline AI | Task dispatcher to local Ollama fleet (`port`, `plan`, `code`, `math`, `sql`, `web`). |
 | **`setup-local-model-fleet`**| Fleet Manager | Local model fleet installer, tier synchronizer, and storage inspector. |
+| **`ultra-model-manager`** | Ultra-Large AI | Downloader, hardware layer-offload tuner, and Ollama registrar on secondary NVMe. |
 | **`model-quant-optimizer`** | Ultra-Large AI | Hardware budget planner, imatrix (IQ2/IQ3) and AirLLM runner for 70B-405B models. |
 | **`gemini-reasoning-tuner`**| Quota / Tuning | Real-time reasoning effort and model tier calibrator for Google Antigravity. |
 | **`laptop-perf`** | Hardware | OMEN thermal governor (`clamshell-3d` lid-closed render lock, `sleep-mode`, `boost-exec`). |

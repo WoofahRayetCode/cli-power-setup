@@ -45,18 +45,26 @@ Enables running models with **70 billion to 405 billion parameters** locally on 
 ## 🛠️ CLI Usage & Quick Start
 
 ```bash
-# Check hardware capability and view curated ultra-large model memory budgets
-model-quant-optimizer
+# Manage, download, and hardware-optimize ultra-large models on secondary drive
+ultra-model-manager list
 
-# Generate an Ollama Modelfile for Qwen 70B Coder
-model-quant-optimizer --modelfile qwen-70b-coder > Modelfile.qwen70b
-ollama create qwen70b -f Modelfile.qwen70b
+# Download and register DeepSeek-R1 70B (IQ2_XXS) directly to /mnt/games/large-models/
+ultra-model-manager download deepseek-r1-70b --optimize
+
+# Download and register LLM4Decompile 22B for binary reverse engineering (REA MCP interop)
+ultra-model-manager download llm4decompile-22b --optimize
+
+# Download and register Qwen 72B for dense systems architecture and C++ porting
+ultra-model-manager download qwen-72b-instruct --optimize
+
+# Check secondary drive storage and Ollama registration status
+ultra-model-manager status
+
+# Run an interactive prompt with any ultra-large model
+ultra-model-manager run deepseek-r1-70b --prompt "Verify 64-bit struct padding for X-Ray vertex buffer"
 
 # Generate an AirLLM Python streaming script to run 405B on 8GB VRAM
-model-quant-optimizer --airllm-script > run_405b.py
-python3 run_405b.py
-
-# Directly pull and run a 70B IQ2 model from Hugging Face Hub via Ollama
-ollama run hf.co/bartowski/Qwen2.5-Coder-70B-Instruct-GGUF:IQ2_XS
-ollama run hf.co/bartowski/DeepSeek-R1-Distill-Llama-70B-GGUF:IQ2_XXS
+model-quant-optimizer --airllm-script > /mnt/games/large-models/airllm/run_405b.py
+python3 /mnt/games/large-models/airllm/run_405b.py
 ```
+

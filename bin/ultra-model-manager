@@ -1,0 +1,348 @@
+#!/usr/bin/env python3
+"""
+Ultra-Large Model Hardware & Quantization Manager
+Downloads, optimizes, and registers ultra-large models (70B-405B) onto secondary storage (/mnt/games/large-models)
+Tailored for 32-thread AMD Zen CPU, 30.4 GB DDR5 RAM, and 8 GB GDDR7 NVIDIA RTX 5060 Laptop GPU.
+"""
+
+import sys
+import os
+import argparse
+import subprocess
+import shutil
+import json
+import time
+
+STORAGE_ROOT = "/mnt/games/large-models"
+GGUF_DIR = os.path.join(STORAGE_ROOT, "gguf")
+MODELFILE_DIR = os.path.join(STORAGE_ROOT, "modelfiles")
+AIRLLM_DIR = os.path.join(STORAGE_ROOT, "airllm")
+
+MODELS = {
+    "deepseek-r1-70b": {
+        "name": "DeepSeek-R1-Distill-Llama-70B",
+        "ollama_tag": "deepseek-r1:70b-iq2",
+        "params": "70.6B",
+        "role": "Frontier Chain-of-Thought Reasoning & Struct Layout Verification",
+        "repo": "bartowski/DeepSeek-R1-Distill-Llama-70B-GGUF",
+        "filename": "DeepSeek-R1-Distill-Llama-70B-IQ2_XXS.gguf",
+        "quant": "IQ2_XXS",
+        "size_gb": 19.10,
+        "ram_gb": 21.2,
+        "vram_layers": 18,
+        "num_ctx": 32768,
+        "temp": 0.6,
+        "template": "chatml",
+        "system_prompt": "You are DeepSeek-R1 70B, an elite reasoning engine specializing in deep mathematical proofs, C++ 64-bit systems architecture, and algorithmic verification."
+    },
+    "qwen-72b-instruct": {
+        "name": "Qwen2.5-72B-Instruct",
+        "ollama_tag": "qwen2.5:72b-iq2",
+        "params": "72.7B",
+        "role": "Dense Systems Architecture, C++ Porting & Full-Repo Logic",
+        "repo": "bartowski/Qwen2.5-72B-Instruct-GGUF",
+        "filename": "Qwen2.5-72B-Instruct-IQ2_XXS.gguf",
+        "quant": "IQ2_XXS",
+        "size_gb": 25.49,
+        "ram_gb": 27.5,
+        "vram_layers": 16,
+        "num_ctx": 32768,
+        "temp": 0.2,
+        "template": "chatml",
+        "system_prompt": "You are Qwen 2.5 72B, an expert systems architect specializing in high-performance C++20, game engine migrations (OGSR/X-Ray), and complex codebase refactoring."
+    },
+    "llama-3.3-70b": {
+        "name": "Llama-3.3-70B-Instruct",
+        "ollama_tag": "llama3.3:70b-iq2",
+        "params": "70.6B",
+        "role": "Generalist Reasoning, Agent Tool-Calling & Structured Extraction",
+        "repo": "bartowski/Llama-3.3-70B-Instruct-GGUF",
+        "filename": "Llama-3.3-70B-Instruct-IQ2_XXS.gguf",
+        "quant": "IQ2_XXS",
+        "size_gb": 19.10,
+        "ram_gb": 21.5,
+        "vram_layers": 18,
+        "num_ctx": 32768,
+        "temp": 0.2,
+        "template": "llama3",
+        "system_prompt": "You are Llama 3.3 70B, a master generalist and tool-calling agent executing complex workflows with deterministic precision."
+    },
+    "llm4decompile-22b": {
+        "name": "LLM4Decompile-22B-v2",
+        "ollama_tag": "llm4decompile:22b-q4",
+        "params": "22.0B",
+        "role": "Binary Reverse Engineering, Assembly-to-C Decompilation & REA MCP Interop",
+        "repo": "mradermacher/llm4decompile-22b-v2-i1-GGUF",
+        "filename": "llm4decompile-22b-v2.i1-Q4_K_M.gguf",
+        "quant": "Q4_K_M (imatrix)",
+        "size_gb": 13.34,
+        "ram_gb": 15.2,
+        "vram_layers": 24,
+        "num_ctx": 16384,
+        "temp": 0.1,
+        "template": "raw",
+        "system_prompt": "You are LLM4Decompile, a specialized reverse engineering AI. You decompile raw assembly and disassembly into clean, structured, type-safe C/C++ code."
+    }
+}
+
+def ensure_dirs():
+    for d in [GGUF_DIR, MODELFILE_DIR, AIRLLM_DIR]:
+        os.makedirs(d, exist_ok=True)
+
+def get_disk_info():
+    stat = shutil.disk_usage("/mnt/games")
+    return {
+        "total_gb": stat.total / (1024**3),
+        "used_gb": stat.used / (1024**3),
+        "free_gb": stat.free / (1024**3),
+        "percent_used": (stat.used / stat.total) * 100
+    }
+
+def is_downloaded(model_info):
+    path = os.path.join(GGUF_DIR, model_info["filename"])
+    if os.path.exists(path):
+        size = os.path.getsize(path) / (1024**3)
+        # Check if at least 95% of expected size
+        return size >= (model_info["size_gb"] * 0.95), size
+    return False, 0.0
+
+def is_ollama_registered(model_info):
+    try:
+        res = subprocess.run(["ollama", "list"], capture_output=True, text=True, timeout=5)
+        return model_info["ollama_tag"] in res.stdout
+    except Exception:
+        return False
+
+def cmd_list(args):
+    ensure_dirs()
+    disk = get_disk_info()
+    print("\n═══════════════════════════════════════════════════════════════════════════")
+    print("  🚀 ULTRA-LARGE MODEL REPOSITORY & HARDWARE OPTIMIZER")
+    print("═══════════════════════════════════════════════════════════════════════════")
+    print(f"  📂 Storage Directory : {STORAGE_ROOT} (Secondary Drive)")
+    print(f"  💾 Secondary Drive   : {disk['free_gb']:.1f} GB Free / {disk['total_gb']:.1f} GB Total ({disk['percent_used']:.1f}% used)")
+    print("  ⚡ Host Hardware     : 32 CPU Threads | 30.4 GB DDR5 RAM | 8 GB GDDR7 RTX 5060")
+    print("───────────────────────────────────────────────────────────────────────────\n")
+
+    for key, m in MODELS.items():
+        downloaded, cur_size = is_downloaded(m)
+        registered = is_ollama_registered(m)
+
+        status_str = ""
+        if registered:
+            status_str = "🟢 Active in Ollama"
+        elif downloaded:
+            status_str = f"🟡 Downloaded ({cur_size:.1f} GB) - Needs Optimization"
+        else:
+            status_str = f"⚪ Ready to Download ({m['size_gb']:.1f} GB)"
+
+        print(f"  📦 [{key}] {m['name']} ({m['params']})")
+        print(f"     • Role         : {m['role']}")
+        print(f"     • Quantization : {m['quant']} | Memory Footprint: ~{m['ram_gb']:.1f} GB")
+        print(f"     • Offload      : {m['vram_layers']} layers to 8GB GDDR7 VRAM + 32-thread AVX-512 RAM")
+        print(f"     • Status       : {status_str}")
+        print(f"     • Action       : ./bin/ultra-model-manager --download {key} --optimize\n")
+
+    print("───────────────────────────────────────────────────────────────────────────")
+    print("💡 Additional Ultra-Large Architecture Options:")
+    print("  • DeepSeek-Coder-V2-236B MoE (21B active weights per token):")
+    print("    Fastest inference speed per parameter; requires 68GB storage, streams weights.")
+    print("  • Meta-Llama-3.1-405B Instruct via AirLLM:")
+    print("    Streams 405B transformer layers into 8GB GDDR7 VRAM block-by-block from NVMe.")
+    print("═══════════════════════════════════════════════════════════════════════════\n")
+
+def cmd_download(args):
+    ensure_dirs()
+    key = args.model
+    if key not in MODELS:
+        print(f"❌ Error: Model '{key}' not recognized. Choose from: {list(MODELS.keys())}")
+        sys.exit(1)
+
+    m = MODELS[key]
+    dest_path = os.path.join(GGUF_DIR, m["filename"])
+    url = f"https://huggingface.co/{m['repo']}/resolve/main/{m['filename']}"
+
+    downloaded, cur_size = is_downloaded(m)
+    if downloaded and not args.force:
+        print(f"✅ Model '{key}' already downloaded at {dest_path} ({cur_size:.1f} GB).")
+        if args.optimize:
+            cmd_optimize(args)
+        return
+
+    print(f"\n🚀 Initiating High-Speed Download for {m['name']} ({m['size_gb']:.1f} GB)...")
+    print(f"   Target Location: {dest_path}")
+    print(f"   Source URL     : {url}")
+
+    # Check for aria2c
+    has_aria2 = shutil.which("aria2c") is not None
+
+    start_time = time.time()
+    if has_aria2:
+        cmd = [
+            "aria2c",
+            "-c",
+            "-x", "16",
+            "-s", "16",
+            "-k", "2M",
+            "--file-allocation=none",
+            "-d", GGUF_DIR,
+            "-o", m["filename"],
+            url
+        ]
+        print(f"⚡ Utilizing aria2c 16-connection parallel accelerator...")
+    else:
+        cmd = [
+            "curl",
+            "-L",
+            "-C", "-",
+            "--progress-bar",
+            "-o", dest_path,
+            url
+        ]
+        print(f"⚡ Utilizing curl resumable download...")
+
+    ret = subprocess.run(cmd)
+    if ret.returncode != 0:
+        print(f"❌ Download failed with exit code {ret.returncode}")
+        sys.exit(ret.returncode)
+
+    elapsed = time.time() - start_time
+    file_size_gb = os.path.getsize(dest_path) / (1024**3)
+    avg_speed = (file_size_gb * 1024) / max(1, elapsed)
+    print(f"✅ Download complete: {dest_path} ({file_size_gb:.2f} GB in {elapsed:.1f}s, avg {avg_speed:.1f} MB/s)")
+
+    if args.optimize:
+        cmd_optimize(args)
+
+def cmd_optimize(args):
+    ensure_dirs()
+    key = args.model
+    if key not in MODELS:
+        print(f"❌ Error: Model '{key}' not recognized. Choose from: {list(MODELS.keys())}")
+        sys.exit(1)
+
+    m = MODELS[key]
+    gguf_path = os.path.join(GGUF_DIR, m["filename"])
+
+    if not os.path.exists(gguf_path):
+        print(f"❌ Error: GGUF file {gguf_path} not found. Run --download first.")
+        sys.exit(1)
+
+    modelfile_path = os.path.join(MODELFILE_DIR, f"Modelfile.{key}")
+
+    print(f"\n⚙️ Generating Hardware-Optimized Modelfile for {m['name']}...")
+    print(f"   CPU Threads       : 32 (Zen AVX-512 saturation)")
+    print(f"   VRAM Layer Offload: {m['vram_layers']} layers to 8GB GDDR7 RTX 5060")
+    print(f"   Context Length    : {m['num_ctx']} tokens")
+    print(f"   Temperature       : {m['temp']}")
+
+    modelfile_content = f"""# Hardware-Optimized Modelfile for {m['name']}
+# Generated by ultra-model-manager for 32 CPU Threads + 30.4GB RAM + 8GB RTX 5060
+FROM {gguf_path}
+
+# Hardware Allocation Parameters
+PARAMETER num_thread 32
+PARAMETER num_gpu {m['vram_layers']}
+PARAMETER num_ctx {m['num_ctx']}
+PARAMETER num_batch 512
+PARAMETER temperature {m['temp']}
+
+SYSTEM \"\"\"{m['system_prompt']}\"\"\"
+"""
+
+    with open(modelfile_path, "w") as f:
+        f.write(modelfile_content)
+
+    print(f"📝 Modelfile saved to: {modelfile_path}")
+    print(f"🚀 Registering model '{m['ollama_tag']}' in Ollama...")
+
+    ret = subprocess.run(["ollama", "create", m["ollama_tag"], "-f", modelfile_path])
+    if ret.returncode != 0:
+        print(f"❌ Ollama registration failed with code {ret.returncode}")
+        sys.exit(ret.returncode)
+
+    print(f"\n🎉 Successfully created and registered '{m['ollama_tag']}' in Ollama!")
+    print(f"   Run interactive test: ollama run {m['ollama_tag']}")
+    print(f"   Call via coprocessor: ./bin/local-coprocessor --model {m['ollama_tag']} --prompt 'Explain...'")
+
+def cmd_status(args):
+    ensure_dirs()
+    disk = get_disk_info()
+    print("\n═══════════════════════════════════════════════════════════════════════════")
+    print("  📊 ULTRA-LARGE MODEL STATUS & HARDWARE PROFILE")
+    print("═══════════════════════════════════════════════════════════════════════════")
+    print(f"  📂 Secondary Drive Path : {STORAGE_ROOT}")
+    print(f"  💾 Secondary Storage    : {disk['free_gb']:.1f} GB Free / {disk['total_gb']:.1f} GB Total ({disk['percent_used']:.1f}% used)")
+
+    # GGUF directory contents
+    files = os.listdir(GGUF_DIR) if os.path.exists(GGUF_DIR) else []
+    total_gguf_size = sum(os.path.getsize(os.path.join(GGUF_DIR, f)) for f in files) / (1024**3)
+    print(f"  📦 Stored GGUF Models   : {len(files)} files ({total_gguf_size:.2f} GB)")
+    for f in files:
+        sz = os.path.getsize(os.path.join(GGUF_DIR, f)) / (1024**3)
+        print(f"     • {f} ({sz:.2f} GB)")
+
+    # Modelfiles
+    mfiles = os.listdir(MODELFILE_DIR) if os.path.exists(MODELFILE_DIR) else []
+    print(f"  📝 Custom Modelfiles    : {len(mfiles)} files")
+    for mf in mfiles:
+        print(f"     • {mf}")
+
+    # Ollama models
+    print("\n  🤖 Active Ollama Fleet (Ultra-Large Models):")
+    for key, m in MODELS.items():
+        reg = is_ollama_registered(m)
+        status = "🟢 Registered" if reg else "⚪ Not Registered"
+        print(f"     • {m['ollama_tag']:<25} : {status}")
+
+    print("═══════════════════════════════════════════════════════════════════════════\n")
+
+def cmd_run(args):
+    key = args.model
+    if key not in MODELS:
+        print(f"❌ Error: Model '{key}' not recognized. Choose from: {list(MODELS.keys())}")
+        sys.exit(1)
+
+    tag = MODELS[key]["ollama_tag"]
+    prompt = args.prompt or "Hello! Please summarize your capabilities and architectural configuration."
+    print(f"🚀 Running {tag} with prompt: {prompt}\n")
+    subprocess.run(["ollama", "run", tag, prompt])
+
+def main():
+    parser = argparse.ArgumentParser(description="Ultra-Large Model Hardware & Quantization Manager")
+    subparsers = parser.add_subparsers(dest="command", help="Command to execute")
+
+    # list
+    p_list = subparsers.add_parser("list", help="List curated ultra-large models and readiness")
+    p_list.set_defaults(func=cmd_list)
+
+    # download
+    p_down = subparsers.add_parser("download", help="Download GGUF model directly to secondary drive")
+    p_down.add_argument("model", choices=list(MODELS.keys()), help="Model key to download")
+    p_down.add_argument("--optimize", "-o", action="store_true", help="Automatically generate Modelfile and register in Ollama after download")
+    p_down.add_argument("--force", "-f", action="store_true", help="Force re-download even if file exists")
+    p_down.set_defaults(func=cmd_download)
+
+    # optimize
+    p_opt = subparsers.add_parser("optimize", help="Generate hardware-tuned Modelfile and register in Ollama")
+    p_opt.add_argument("model", choices=list(MODELS.keys()), help="Model key to optimize")
+    p_opt.set_defaults(func=cmd_optimize)
+
+    # status
+    p_stat = subparsers.add_parser("status", help="Show storage and model readiness status")
+    p_stat.set_defaults(func=cmd_status)
+
+    # run
+    p_run = subparsers.add_parser("run", help="Run a test prompt on an ultra-large model")
+    p_run.add_argument("model", choices=list(MODELS.keys()), help="Model key to run")
+    p_run.add_argument("--prompt", "-p", help="Prompt text to test")
+    p_run.set_defaults(func=cmd_run)
+
+    args = parser.parse_args()
+    if not args.command:
+        cmd_list(args)
+    else:
+        args.func(args)
+
+if __name__ == "__main__":
+    main()
