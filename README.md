@@ -57,6 +57,9 @@ cd cli-power-setup
 ./install.sh
 ```
 
+<details>
+<summary><b>📋 Click to View Interactive Installer Menu & Automated Actions</b></summary>
+
 ### 📋 Interactive Installer Menu
 Running `./install.sh` displays an interactive target menu:
 ```text
@@ -83,6 +86,8 @@ Or pass flags non-interactively in automated scripts:
 5. **Floating Voice Dictation Pill (`agy-mic-button`):** Launches a draggable, pinnable (`📌`/`📍`) floating `[🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin]` overlay that triggers `/voice` (`F5`) without keyboard shortcuts and auto-closes when `agy` exits.
 6. **Launchers & Self-Optimizing Ecosystem Tools:** Installs `agy-yolo`, `agy-turbo`, `agy-omni-mode`, `local-research-scout`, `game-math-solver`, `skill-evolve`, `skill-optimize`, `laptop-perf`, `repo-auto-sync`, and `setup-local-model-fleet` into `~/.local/bin/`.
 
+</details>
+
 ---
 
 ## 🧠 Zero-Quota Local Language Model Fleet (34 Models, 0 Cloud Tokens)
@@ -94,6 +99,9 @@ A production-grade fleet of **34 specialized open-weights models**—including *
 > • **Primary NVMe (`/var/lib/ollama/blobs/`):** `208 GB` active weights, **`444 GB` free headroom** (54% disk used of 950 GB).
 > • **Secondary High-Speed NVMe (`/mnt/games/large-models/`):** `76 GB` master GGUF archive, **`1.30 TB` free headroom** (29% disk used of 1.8 TB).
 > All ultra-large models are importance-matrix (imatrix) quantized (`IQ2_XXS`, `Q4_K_M`) and layer-split to execute within 30.4 GB RAM + 8 GB VRAM with zero out-of-memory faults.
+
+<details>
+<summary><b>🌟 Click to View Key Benefits & Overall Usage Savings</b></summary>
 
 ### 🌟 Key Benefits & Overall Usage Savings
 
@@ -116,9 +124,11 @@ A production-grade fleet of **34 specialized open-weights models**—including *
 5. **Complete Air-Gapped Privacy & Offline Autonomy:**
    - Proprietary game source code, closed-source reverse-engineering disassembly, and sensitive client documents never leave your physical machine.
 
+</details>
+
 ### 📋 Complete 34-Model Local Fleet Matrix
 
-<details open>
+<details>
 <summary><b>🔍 Click to Expand/Collapse Complete 34-Model Local Fleet Specifications & Hardware Footprint</b></summary>
 
 | Model Tag | Disk Size | Parameter Tier | Hardware Offload | Primary Specialization & Use Case |
@@ -253,6 +263,9 @@ nomic-embed-text:latest
 ```
 </details>
 
+<details>
+<summary><b>🛠️ Click to View Fleet Management & Local Coprocessor CLI Commands</b></summary>
+
 ### 🛠️ Fleet Management & Local Coprocessor CLI
 ```bash
 # Display live fleet status, hardware telemetry & disk usage
@@ -268,6 +281,11 @@ local-coprocessor generate --task port --prompt "Audit this C++ class for 64-bit
 local-coprocessor generate --task plan --prompt "Decompose game engine porting into 5 atomic steps"
 local-coprocessor generate --task math --prompt "Derive critically damped spring update for fixed_step=0.01"
 ```
+
+</details>
+
+<details>
+<summary><b>🚀 Click to View Secondary Drive Ultra-Large Model Repository & Hardware Optimizer Details</b></summary>
 
 ### 🚀 Secondary Drive Ultra-Large Model Repository & Hardware Optimizer (`ultra-model-manager`)
 
@@ -293,11 +311,16 @@ ultra-model-manager download qwen-72b-instruct --optimize
 ultra-model-manager run deepseek-r1-70b --prompt "Verify 64-bit struct padding for X-Ray vertex buffer"
 ```
 
+</details>
+
 ---
 
 ## 🚀 Dynamic AGY Omni-Auto Mode (`agy-omni-mode`)
 
 The **Omni-Auto Mode** dynamically evaluates every user instruction, workflow lifecycle step, git dirty file types, and rolling 5-hour quota headroom to automatically switch between cloud Gemini models and local Ollama models with zero token waste:
+
+<details>
+<summary><b>🚀 Click to View Omni-Auto Step Lifecycle Routing Matrix & Commands</b></summary>
 
 ### Step Lifecycle Routing Matrix
 
@@ -324,11 +347,17 @@ agy-omni-mode "port legacy blenders to DX11 hlsl"
 agy-omni-mode --exec "calculate quaternion slerp for camera trajectory"
 ```
 
+</details>
+
 ---
 
 ## 🔎 Zero-Quota Local Research Scout (`local-research-scout`)
 
 Autonomous multi-source web searching and technical RAG without cloud API keys or token billing:
+
+<details>
+<summary><b>🔎 Click to View Local Research Scout Features & Search Commands</b></summary>
+
 - **Federated Multi-Source:** DuckDuckGo HTML, GitHub API (repositories, releases), and StackOverflow (compiler errors, 64-bit porting traps).
 - **Local RAG Ranking:** Embeds query and documentation chunks with local `bge-m3` vectors (1024-dim) on RTX 5060 GPU.
 - **Offline Synthesis:** Synthesizes structured markdown reports with code examples and exact citation links using `deepseek-coder-v2:16b`, `deepseek-r1:14b`, or `qwen2.5:32b`.
@@ -344,11 +373,16 @@ local-research-scout "c++ pointer truncation 64-bit fix" --scrape --rag
 local-research-scout "godot compute shaders buffer sync" --raw-search
 ```
 
+</details>
+
 ---
 
 ## 🛠️ CLI Power Tools & Launchers
 
 A dedicated suite of executable utilities installed directly into `~/.local/bin/` to automate every aspect of autonomous coding, quota monitoring, and local hardware acceleration:
+
+<details>
+<summary><b>🛠️ Click to View All 18 CLI Power Tools & Launchers Specifications</b></summary>
 
 | Utility | Category | Purpose |
 | :--- | :--- | :--- |
@@ -371,11 +405,16 @@ A dedicated suite of executable utilities installed directly into `~/.local/bin/
 | **`token-guard`** | Context Guard | Intercepts noisy shell output, enforcing hard 30-line ceilings to prevent context floods. |
 | **`voice-prompt-optimizer`**| Voice / Context | Cleans conversational filler, normalizes phonetic jargon (C++, OGSR, LTX), saves 50–85% tokens. |
 
+</details>
+
 ---
 
 ## 🎯 Division of Labor: `agy` CLI vs. Cursor IDE
 
 While all 316 skills and CLI utilities are shared across environments, they divide into distinct operational sweet spots:
+
+<details>
+<summary><b>🎯 Click to View Division of Labor Details & Recommended Tooling</b></summary>
 
 ### 1. Skills That Excel in `agy` CLI (Headless, Voice-Driven & Unattended)
 *Best launched via `agy-yolo`, `agy-turbo`, or spoken *"Set a goal..."* via `agy-mic-button`*
@@ -397,6 +436,8 @@ While all 316 skills and CLI utilities are shared across environments, they divi
 | **Routine edits, repository sync & quick commands** | **`agy-turbo`** | **Gemini 3.8 Flash (Low Effort)** |
 | **3D coordinates, ODE physics, ballistics & symbolic proofs** | **`game-math-solver`** | **Local 32-Thread CPU + RTX 5060 CUDA (`0` tokens)** |
 | **Interactive UI styling, websites & visual apps** | **Cursor IDE** | **Grok 4.7 / Gemini / o3-mini** |
+
+</details>
 
 ---
 
@@ -812,6 +853,9 @@ The full collection of 316 skills is organized into 11 functional domains. Click
 
 The suite includes **dedicated, tailor-made statusline monitors** for both CLIs:
 
+<details>
+<summary><b>📊 Click to View Dual-CLI Statusline Monitors & Real-Time Telemetry</b></summary>
+
 ### 1. Claude Code CLI Dedicated Monitor (`claude-statusline`)
 Installed to `~/.local/bin/claude-statusline` and configured in `~/.claude/settings.json`. Intercepts Claude Code's live `stdin` telemetry stream to render model, rate limits, weekly reset countdowns, visual context gauge with token counts, prompt cache savings, session cost, and git worktree:
 ```text
@@ -831,11 +875,16 @@ In multi-model sessions:
 * **Universal Lifetime Fallback:** When active session cache savings are clean, seamlessly falls back to `~/.cli_power_setup/token_ledger.json` to render the persistent lifetime token benchmark (`1.54B tok`).
 * **Zero CLI Lag:** Subprocesses are detached with PID lockfile protection (`/tmp/agy_quota_refresh.lock`), guaranteeing instantaneous prompt rendering (<2ms).
 
+</details>
+
 ---
 
 ## 🛡️ Ultimate Hardening Protocols & Zero-Token Host Pre-Flight
 
 To maximize efficiency and slash token costs when operating heavy-duty frontier models like **Claude Fable 5.1** or **Gemini 4 Argon**, the suite enforces automated host-CPU pre-flighting and strict context containment:
+
+<details>
+<summary><b>🛡️ Click to View Host Pre-Flight Arsenal (<30ms Local Execution) & Token Savings</b></summary>
 
 ### The Zero-Token Host Pre-flight Arsenal (<30ms Local Execution)
 Instead of forcing expensive LLMs to read raw, noisy files into their context windows, 6 specialized Python utilities process data directly on the host CPU in milliseconds with **0 API tokens burned**:
@@ -849,11 +898,16 @@ Instead of forcing expensive LLMs to read raw, noisy files into their context wi
 | **`xray_crash_resolver.py`** | `xray-crash-symbol-resolver` | Scans 15,000-line crash logs, isolating fatal assertions and RVAs | **~99% crash log reduction** |
 | **`config_delta_extractor.py`** | `game-config-delta-extractor` | Compares child config sections with parents, extracting only overrides | **~95% config token reduction** |
 
+</details>
+
 ---
 
 ## 📱 Android 2D & 3D Game & App Development Workflows
 
 The repository provides a dedicated toolchain and automation suite for high-performance 2D and 3D Android development across C++/Vulkan NDK, Godot, Unity, and Jetpack Compose:
+
+<details>
+<summary><b>📱 Click to View Android Game & App Toolchain Workflows</b></summary>
 
 1. **High-End 3D Native Game Architecture (C++ / Vulkan NDK):**
    * **Skills:** `android-ndk-jni-engineering` + `vulkan-gpu-compute` + `game-texture-material-pipeline` + `android-perf-battery-profiling`.
@@ -874,9 +928,14 @@ android-dev-runner mirror   # Launches high-performance scrcpy mirror
 android-dev-runner jank     # Profiles frame rendering drops and 1% lows
 ```
 
+</details>
+
 ---
 
 ## 📂 Repository Structure
+
+<details>
+<summary><b>📂 Click to View Complete Repository Directory Tree Structure</b></summary>
 
 ```text
 cli-power-setup/
@@ -912,6 +971,8 @@ cli-power-setup/
     ├── token_ledger.json       # Pure Antigravity (agy) lifetime token savings ledger
     └── skills/                 # 316 specialized skill packages
 ```
+
+</details>
 
 ---
 
@@ -967,6 +1028,9 @@ cli-power-setup/
 
 ## 🛠️ Maintenance & Adding New Skills
 
+<details>
+<summary><b>🛠️ Click to View Guide on Adding New Skills & Maintenance</b></summary>
+
 ### To add a new skill:
 1. Create `config/skills/<skill-name>/SKILL.md`.
 2. Include standard YAML frontmatter:
@@ -979,6 +1043,8 @@ cli-power-setup/
    ...
    ```
 3. Run `skills-audit-update --sync` (or `./install.sh --all`) to automatically compile and deploy the new skill across **Antigravity**, **Claude Code**, and **Cursor IDE**.
+
+</details>
 
 ---
 

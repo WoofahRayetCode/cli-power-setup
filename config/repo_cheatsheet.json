@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-17T14:25:21.722438",
+  "updated_at": "2026-10-17T14:37:50.053617",
   "total_repos": 33,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792272306.5846858,
-      "age_str": "15s ago",
+      "activity_ts": 1792273069.6926305,
+      "age_str": "0s ago",
       "dirty_count": 3,
       "dirty_exts": {
         ".md": 1
@@ -21,7 +21,7 @@
         ".mdc",
         ".py"
       ],
-      "last_commit": "feat(telemetry): update token context and prompt s",
+      "last_commit": "docs(readme): catalog complete 34-model fleet matr",
       "stack": "AI Skills / Python / Bash",
       "work_now": "CLI Daemons & Skills",
       "plan_short": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",
@@ -40,8 +40,8 @@
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792272271.4294972,
-      "age_str": "50s ago",
+      "activity_ts": 1792273007.6773694,
+      "age_str": "1m ago",
       "dirty_count": 205,
       "dirty_exts": {
         ".ogf": 3,
@@ -122,7 +122,7 @@
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
       "activity_ts": 1792265777.8859844,
-      "age_str": "1h ago",
+      "age_str": "2h ago",
       "dirty_count": 42,
       "dirty_exts": {
         ".cpp": 34,
@@ -160,7 +160,7 @@
       "path": "~/Documents/GitHub/FifineControlDeck",
       "is_git": true,
       "activity_ts": 1792261601.8510442,
-      "age_str": "2h ago",
+      "age_str": "3h ago",
       "dirty_count": 1,
       "dirty_exts": {
         ".exe": 1
@@ -442,7 +442,7 @@
       "path": "~/Documents/GitHub/nsz",
       "is_git": true,
       "activity_ts": 1792189743.6650836,
-      "age_str": "22h ago",
+      "age_str": "23h ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -508,7 +508,7 @@
       "path": "~/Documents/GitHub/NSZ-Android",
       "is_git": false,
       "activity_ts": 1792100062.3427184,
-      "age_str": "1d ago",
+      "age_str": "2d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
