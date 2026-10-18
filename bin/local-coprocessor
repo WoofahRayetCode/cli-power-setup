@@ -626,8 +626,8 @@ def main():
     # status
     subparsers.add_parser("status", parents=[common_parser], help="Check connection to local Ollama / llama.cpp")
 
-    # generate
-    p_gen = subparsers.add_parser("generate", parents=[common_parser], help="Generate code or text locally")
+    # generate / exec
+    p_gen = subparsers.add_parser("generate", aliases=["exec"], parents=[common_parser], help="Generate code or text locally")
     p_gen.add_argument("--prompt", type=str, default="", help="Prompt text")
     p_gen.add_argument("--file", type=str, default="", help="Input file path")
     p_gen.add_argument("--image", type=str, default="", help="Optional image path for local VLM")
@@ -668,7 +668,7 @@ def main():
 
     if args.command == "status":
         cmd_status(args)
-    elif args.command == "generate":
+    elif args.command in ("generate", "exec"):
         cmd_generate(args)
     elif args.command == "vision":
         cmd_vision(args)

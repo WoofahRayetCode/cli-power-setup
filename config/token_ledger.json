@@ -25,12 +25,12 @@
     }
   ],
   "local_llm_savings": {
-    "total_calls": 99,
-    "total_local_tokens": 16831,
-    "total_cloud_tokens_saved": 189321,
-    "last_model": "mixtral:8x7b",
-    "last_saved_tokens": 2687,
-    "last_updated": "2026-10-17T18:38:59",
+    "total_calls": 103,
+    "total_local_tokens": 17561,
+    "total_cloud_tokens_saved": 200951,
+    "last_model": "sqlcoder:7b",
+    "last_saved_tokens": 1294,
+    "last_updated": "2026-10-17T18:57:15",
     "by_model": {
       "blender-architect": {
         "calls": 3,
@@ -153,9 +153,9 @@
         "cloud_tokens_saved": 2436
       },
       "sqlcoder:7b": {
-        "calls": 2,
-        "local_tokens": 32,
-        "cloud_tokens_saved": 2432
+        "calls": 4,
+        "local_tokens": 220,
+        "cloud_tokens_saved": 5020
       },
       "llama3.1:8b": {
         "calls": 2,
@@ -213,9 +213,9 @@
         "cloud_tokens_saved": 2474
       },
       "deepseek-r1:1.5b": {
-        "calls": 2,
-        "local_tokens": 22,
-        "cloud_tokens_saved": 7052
+        "calls": 4,
+        "local_tokens": 564,
+        "cloud_tokens_saved": 16094
       },
       "codegeex4:9b": {
         "calls": 2,
