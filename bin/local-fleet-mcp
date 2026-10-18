@@ -1,0 +1,172 @@
+#!/usr/bin/env python3
+"""
+Local Fleet MCP Server (local-fleet-mcp)
+Exposes the host 42-model Ollama fleet and zero-quota local engines (speculative-draft, local-rag, grok-truth)
+as native Model Context Protocol (MCP) tools for Claude Code.
+Uses strict line-delimited JSON-RPC per standard MCP stdio transport.
+"""
+
+import json
+import os
+import subprocess
+import sys
+import urllib.error
+import urllib.request
+
+OLLAMA_API = "http://127.0.0.1:11434/api/generate"
+
+TOOLS = [
+    {
+        "name": "local_draft_code",
+        "description": "Speculatively drafts candidate code, boilerplate, unit tests, or regex using local Ollama SLMs (qwen2.5:1.5b / deepseek-r1:1.5b) on the host RTX 5060 in <800ms, billing 0 cloud tokens.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "prompt": {
+                    "type": "string",
+                    "description": "The exact code generation or drafting instruction."
+                },
+                "model": {
+                    "type": "string",
+                    "description": "Local Ollama model name (default: qwen2.5:1.5b). Options: qwen2.5:1.5b, deepseek-r1:1.5b, qwen2.5:72b-iq2, deepseek-r1:70b-iq2, blender-architect.",
+                    "default": "qwen2.5:1.5b"
+                }
+            },
+            "required": ["prompt"]
+        }
+    },
+    {
+        "name": "local_search_rag",
+        "description": "Performs fast local dense/lexical vector search over the codebase using local-rag (<10ms). Returns top-k relevant line slices with exact file paths.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Search query or symbol name."
+                },
+                "top_k": {
+                    "type": "integer",
+                    "description": "Number of snippets to retrieve (default: 3).",
+                    "default": 3
+                }
+            },
+            "required": ["query"]
+        }
+    },
+    {
+        "name": "local_truth_audit",
+        "description": "Runs xAI Grok dialectic truth auditor on diffs or proposals to identify speculative assumptions, consensus traps, and unproven claims.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "text": {
+                    "type": "string",
+                    "description": "Code diff, plan, or hypothesis text to audit."
+                }
+            },
+            "required": ["text"]
+        }
+    }
+]
+
+def handle_draft(prompt, model="qwen2.5:1.5b"):
+    payload = {
+        "model": model,
+        "prompt": prompt,
+        "stream": False,
+        "options": {"temperature": 0.2, "num_predict": 1024}
+    }
+    req = urllib.request.Request(
+        OLLAMA_API,
+        data=json.dumps(payload).encode("utf-8"),
+        headers={"Content-Type": "application/json"}
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            if resp.status == 200:
+                data = json.loads(resp.read().decode("utf-8"))
+                return data.get("response", "").strip()
+            return f"Error: Ollama returned HTTP {resp.status}"
+    except Exception as e:
+        return f"Error connecting to Ollama: {str(e)}"
+
+def handle_rag(query, top_k=3):
+    try:
+        res = subprocess.run(["local-rag", "search", query, "-k", str(top_k)], capture_output=True, text=True, timeout=10)
+        return res.stdout.strip() if res.returncode == 0 else f"local-rag error: {res.stderr.strip()}"
+    except Exception as e:
+        return f"RAG error: {str(e)}"
+
+def handle_truth(text):
+    try:
+        res = subprocess.run(["grok-truth-audit"], input=text, capture_output=True, text=True, timeout=10)
+        return res.stdout.strip() if res.returncode == 0 else f"grok-truth-audit error: {res.stderr.strip()}"
+    except Exception as e:
+        return f"Truth audit error: {str(e)}"
+
+def send_response(response):
+    sys.stdout.write(json.dumps(response) + "\n")
+    sys.stdout.flush()
+
+def main():
+    for line in sys.stdin:
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            msg = json.loads(line)
+        except Exception:
+            continue
+
+        msg_id = msg.get("id")
+        method = msg.get("method")
+
+        if method == "initialize":
+            send_response({
+                "jsonrpc": "2.0",
+                "id": msg_id,
+                "result": {
+                    "protocolVersion": "2024-11-05",
+                    "capabilities": {"tools": {}},
+                    "serverInfo": {"name": "local-fleet-mcp", "version": "1.0.0"}
+                }
+            })
+        elif method == "notifications/initialized":
+            continue
+        elif method == "tools/list":
+            send_response({
+                "jsonrpc": "2.0",
+                "id": msg_id,
+                "result": {"tools": TOOLS}
+            })
+        elif method == "tools/call":
+            params = msg.get("params", {})
+            tool_name = params.get("name")
+            arguments = params.get("arguments", {})
+
+            if tool_name == "local_draft_code":
+                res = handle_draft(arguments.get("prompt", ""), arguments.get("model", "qwen2.5:1.5b"))
+            elif tool_name == "local_search_rag":
+                res = handle_rag(arguments.get("query", ""), arguments.get("top_k", 3))
+            elif tool_name == "local_truth_audit":
+                res = handle_truth(arguments.get("text", ""))
+            else:
+                res = f"Unknown tool: {tool_name}"
+
+            send_response({
+                "jsonrpc": "2.0",
+                "id": msg_id,
+                "result": {
+                    "content": [{"type": "text", "text": res}]
+                }
+            })
+        elif msg_id is not None:
+            send_response({
+                "jsonrpc": "2.0",
+                "id": msg_id,
+                "error": {"code": -32601, "message": f"Method not found: {method}"}
+            })
+
+if __name__ == "__main__":
+    main()
