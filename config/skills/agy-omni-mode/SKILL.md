@@ -70,3 +70,12 @@ agy-omni-mode --exec "calculate quaternion slerp for camera trajectory"
 ## Quota Self-Protection Circuit Breaker
 - When rolling 5-hour quota is $\ge 40\%$, routine execution uses Gemini 3.8 Flash for instant turnaround and Gemini 4 Argon for high-complexity architecture, while continuously offloading specialized tasks (Blender, Decompilation, Math) to Tier 0 local models.
 - When rolling 5-hour quota drops $< 40\%$, the orchestrator automatically clamps cloud dispatches and routes code generation, architecture planning, and debugging to local 70B–72B Titan models (`deepseek-r1:70b-iq2`, `qwen2.5:72b-iq2`), guaranteeing **uninterrupted execution without quota lockouts**.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`gemini-dynamic-reasoning-tuner`**: Real-time telemetry governor and automatic model/reasoning tuner for Gemini models in Google Antigravity. Dyna...
+- **`adaptive-reasoning`**: Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-sp...
+- **`dynamic-model-downshifter`**: Autonomous multi-tier model downshifting for CLI sessions. Enforces the 'Frontier Brain, Fast Hands' pattern b...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
