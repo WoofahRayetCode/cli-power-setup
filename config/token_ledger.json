@@ -25,12 +25,12 @@
     }
   ],
   "local_llm_savings": {
-    "total_calls": 97,
-    "total_local_tokens": 16673,
-    "total_cloud_tokens_saved": 183947,
-    "last_model": "llava:13b",
-    "last_saved_tokens": 1269,
-    "last_updated": "2026-10-17T18:34:59",
+    "total_calls": 99,
+    "total_local_tokens": 16831,
+    "total_cloud_tokens_saved": 189321,
+    "last_model": "mixtral:8x7b",
+    "last_saved_tokens": 2687,
+    "last_updated": "2026-10-17T18:38:59",
     "by_model": {
       "blender-architect": {
         "calls": 3,
@@ -236,6 +236,11 @@
         "calls": 2,
         "local_tokens": 138,
         "cloud_tokens_saved": 2538
+      },
+      "mixtral:8x7b": {
+        "calls": 2,
+        "local_tokens": 158,
+        "cloud_tokens_saved": 5374
       }
     }
   },
