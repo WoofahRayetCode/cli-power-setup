@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec python3 /home/ericparsley/Documents/GitHub/cli-power-setup/config/skills/grok-dialectic-truth-engine/scripts/grok_truth_auditor.py "$@"

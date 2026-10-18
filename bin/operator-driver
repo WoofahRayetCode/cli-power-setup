@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+exec python3 /home/ericparsley/Documents/GitHub/cli-power-setup/config/skills/openai-operator-desktop-driver/scripts/operator_desktop_driver.py "$@"

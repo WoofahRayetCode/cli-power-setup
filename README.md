@@ -1,6 +1,6 @@
 # CLI Power Setup (`cli-power-setup`)
 
-[![Active Skills](https://img.shields.io/badge/Skills-324%20Active-brightgreen.svg)](#-categorized-skills-directory-324-skills)
+[![Active Skills](https://img.shields.io/badge/Skills-332%20Active-brightgreen.svg)](#-categorized-skills-directory-332-skills)
 [![Local Fleet](https://img.shields.io/badge/Local%20Fleet-42%20Models%20(Ollama)-blue.svg)](#-zero-quota-local-language-model-fleet-42-models-0-cloud-tokens)
 [![Fleet Disk Size](https://img.shields.io/badge/Fleet%20Disk%20Size-320%20GB%20(42%20Models)-blueviolet.svg)](#-zero-quota-local-language-model-fleet-42-models-0-cloud-tokens)
 [![Secondary NVMe](https://img.shields.io/badge/Secondary%20NVMe-1.3%20TB%20Headroom%20(/mnt/games)-success.svg)](#-secondary-drive-ultra-large-model-repository--hardware-optimizer)
@@ -9,7 +9,7 @@
 
 A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)**, **Claude Code (`claude` — Claude 3.7 Sonnet / Opus / Fable)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **Claude 3.7**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
 
-This repository organizes **328 autonomous agent skills**, 328 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a 42-model zero-quota local LLM fleet, an Omni-Auto dynamic routing engine, a floating voice dictation pill (`agy-mic-button`), and live multi-row telemetry statuslines (`agy-quota-statusline` & `claude-statusline`).
+This repository organizes **332 autonomous agent skills**, 332 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a 42-model zero-quota local LLM fleet, an Omni-Auto dynamic routing engine, a floating voice dictation pill (`agy-mic-button`), and live multi-row telemetry statuslines (`agy-quota-statusline` & `claude-statusline`).
 
 ---
 
@@ -28,7 +28,7 @@ Jump directly to any section of the documentation:
 * [🔎 Zero-Quota Local Research Scout (`local-research-scout`)](#-zero-quota-local-research-scout-local-research-scout)
 * [🛠️ CLI Power Tools & Launchers](#️-cli-power-tools--launchers)
 * [🎯 Division of Labor: `agy` CLI vs. Cursor IDE](#-division-of-labor-agy-cli-vs-cursor-ide)
-* [🧩 Categorized Skills Directory (324 Skills Dropdowns)](#-categorized-skills-directory-324-skills)
+* [🧩 Categorized Skills Directory (332 Skills Dropdowns)](#-categorized-skills-directory-332-skills)
   * [1. Cognitive Reasoning, Quota Governance & Token Containment](#1-cognitive-reasoning-quota-governance--token-containment)
   * [2. Game Engine Architecture, Porting & Diagnostics](#2-game-engine-architecture-porting--diagnostics)
   * [3. 3D Assets, Headless Blender 5.2+ & Audio DSP](#3-3d-assets-headless-blender-52--audio-dsp)
@@ -85,7 +85,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Environment Sync:** Deploys all 328 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Environment Sync:** Deploys all 332 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Voice Command Routing:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, Zero-Quota Local CPU/GPU Math Offload rules, and Natural-Language Spoken Command Routing (*"Set a goal..."*, *"Make a plan..."*, *"Use boost..."*) to `~/.gemini/config/GEMINI.md` and `~/.cursorrules`.
 4. **Live Multi-Row Telemetry Statusline (`agy-quota-statusline`):** Tracks real-time 5h/weekly quota, 250k compaction gate countdown (`🧹`), active skills in real time (`🛠️ Skills [Live]`), CPU/GPU temperatures & fan RPM (`🌡️`), lid-closed lock state (`🔒Lid-Safe`), RTX 5060 VRAM & `/dev/shm` RAM-disk usage (`🚀`), and active background workloads (`⚙️ 🎨Blender+🔨Build+🎮OGSR/Wine`).
 5. **Floating Voice Dictation Pill (`agy-mic-button`):** Launches a draggable, pinnable (`📌`/`📍`) floating `[🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin]` overlay that triggers `/voice` (`F5`) without keyboard shortcuts and auto-closes when `agy` exits.
@@ -467,7 +467,7 @@ A dedicated suite of executable utilities installed directly into `~/.local/bin/
 
 ## 🎯 Division of Labor: `agy` CLI vs. Cursor IDE
 
-While all 328 skills and CLI utilities are shared across environments, they divide into distinct operational sweet spots:
+While all 332 skills and CLI utilities are shared across environments, they divide into distinct operational sweet spots:
 
 <details>
 <summary><b>🎯 Click to View Division of Labor Details & Recommended Tooling</b></summary>
@@ -827,7 +827,7 @@ The full collection of 324 skills is organized into 11 functional domains. Click
 </details>
 
 <details>
-<summary><b>🤖 10. Frontier AI, Subagent Swarms & Multi-Model Parity (43 Skills)</b></summary>
+<summary><b>🤖 10. Frontier AI, Subagent Swarms & Multi-Model Parity (47 Skills)</b></summary>
 
 | Skill | Purpose & Key Capabilities |
 | :--- | :--- |
@@ -873,6 +873,10 @@ The full collection of 324 skills is organized into 11 functional domains. Click
 | **`hierarchical-memory-retrieval`**| Multi-tiered BM25 search across working context, episodes, and semantic patterns. |
 | **`project-memory-bank`** | Persistent project memory and context curation system (`.agents/memory/`). |
 | **`sandbox-code-interpreter`** | Headless Python scientific computing, data analytics, and mathematical proofs. |
+| **`openai-operator-desktop-driver`** | OpenAI Operator and Anthropic Computer Use agentic desktop interaction (Wayland/X11 mouse & keyboard navigation via `ydotoold` daemon and `/dev/uinput`). |
+| **`grok-dialectic-truth-engine`** | xAI Grok 3 dialectic truth-seeking & anti-sycophancy auditor (flags speculative assumptions and demands empirical proof). |
+| **`perplexity-multi-vector-scout`** | Perplexity Pro & Sonar orthogonal multi-vector query decomposer (official docs, closed PRs, live commits, stack traces). |
+| **`deepseek-speculative-local-drafter`** | DeepSeek-V3 speculative local drafting engine offloading candidate diffs and boilerplate to local Ollama SLMs (`qwen2.5:1.5b` / `deepseek-r1:1.5b`). |
 
 </details>
 
@@ -1007,7 +1011,7 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & categorized reference
 ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
 ├── .cursor/
-│   └── rules/                  # 328 modular Cursor rules (.mdc) with semantic metadata
+│   └── rules/                  # 332 modular Cursor rules (.mdc) with semantic metadata
 ├── bin/
 │   ├── agy-omni-mode           # Dynamic Gemini & local Ollama model orchestrator
 │   ├── local-research-scout    # Zero-quota multi-source search (DDG, GitHub, SO) + RAG
@@ -1040,7 +1044,7 @@ cli-power-setup/
 ---
 
 <!-- AUTO-SYNC-CATALOG:START -->
-## 🔄 Auto-Synchronized Skill & CLI Inventory (328 Total Active Skills)
+## 🔄 Auto-Synchronized Skill & CLI Inventory (332 Total Active Skills)
 
 ### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)
 | CLI Tool | Purpose |
@@ -1059,6 +1063,10 @@ cli-power-setup/
 | **`steam-mod-scanner`** | Fingerprints installed Steam games (`/mnt/games/SteamLibrary`) by engine & archive format and maps to modding skills. |
 | **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |
 | **`local-coprocessor` / `local-rag` / `local-ast-compiler`** | Zero-quota local CPU/GPU/RAM offload engines for AST syntax checks, BM25/vector RAG, and local LLM summarization. |
+| **`operator-driver`** | OpenAI Operator & Anthropic Computer Use agentic desktop controller (Wayland/X11 mouse & keyboard navigation via `ydotoold` daemon and `/dev/uinput`). |
+| **`grok-truth-audit`** | xAI Grok 3 dialectic truth-seeking & anti-sycophancy auditor (flags speculative assumptions and demands empirical proof). |
+| **`perplexity-scout`** | Perplexity Pro & Sonar orthogonal multi-vector query decomposer (docs, closed PRs, live commits, stack traces). |
+| **`speculative-draft`** | DeepSeek-V3 speculative local drafting engine offloading candidate diffs and boilerplate to Ollama SLMs (`qwen2.5:1.5b` / `deepseek-r1:1.5b`). |
 
 ### Recently Evolved & SOTA Skills (26 Indexed Automatically)
 | Skill Name | Description |

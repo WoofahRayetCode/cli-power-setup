@@ -184,6 +184,10 @@ def sync_readme(repo: Path) -> bool:
             "| **`steam-mod-scanner`** | Fingerprints installed Steam games (`/mnt/games/SteamLibrary`) by engine & archive format and maps to modding skills. |",
             "| **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |",
             "| **`local-coprocessor` / `local-rag` / `local-ast-compiler`** | Zero-quota local CPU/GPU/RAM offload engines for AST syntax checks, BM25/vector RAG, and local LLM summarization. |",
+            "| **`operator-driver`** | OpenAI Operator & Anthropic Computer Use agentic desktop controller (Wayland/X11 mouse & keyboard navigation via `ydotoold` daemon and `/dev/uinput`). |",
+            "| **`grok-truth-audit`** | xAI Grok 3 dialectic truth-seeking & anti-sycophancy auditor (flags speculative assumptions and demands empirical proof). |",
+            "| **`perplexity-scout`** | Perplexity Pro & Sonar orthogonal multi-vector query decomposer (docs, closed PRs, live commits, stack traces). |",
+            "| **`speculative-draft`** | DeepSeek-V3 speculative local drafting engine offloading candidate diffs and boilerplate to Ollama SLMs (`qwen2.5:1.5b` / `deepseek-r1:1.5b`). |",
             "",
         ]
         if unlisted:
