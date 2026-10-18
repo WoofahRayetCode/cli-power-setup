@@ -1,6 +1,6 @@
 ---
 description: Offloads low-complexity tasks (docstrings, commit messages, log summarization, regex, boilerplate) to local SLMs/LLMs running in GPU VRAM or system RAM via Ollama or llama.cpp, saving 100% of cloud quota for hard architectural reasoning.
-globs: 
+globs: *
 alwaysApply: false
 ---
 
@@ -38,42 +38,119 @@ By delegating deterministic, low-complexity drafting tasks to local hardware, th
 
 ---
 
-## 2. Supported Local Engines & Recommended Models
+## 2. Complete 42-Model Local Fleet & Task Matrix
 
-* **Ollama** (`http://localhost:11434` default):
-  - `qwen2.5-coder:1.5b` (Blazing fast, 1.2 GB VRAM, excellent for Python/JS boilerplate).
-  - `qwen2.5-coder:7b` (High-accuracy code completions and refactoring, ~4.5 GB VRAM).
-  - `llama3.2:3b` (General text summarization and commit message generation).
-  - `deepseek-r1:1.5b` (Local step-by-step thinking for math and logic).
-* **llama.cpp** (`http://localhost:8080`):
-  - GGUF quantizations (`Q4_K_M`, `Q5_K_M`) running with full GPU layer offloading (`-ngl 99`).
+The local fleet is orchestrated via Ollama (`http://localhost:11434`), consuming **`318 GB`** physical disk space across the primary NVMe (`/var/lib/ollama/blobs/` — 242 GB) and secondary NVMe (`/mnt/games/large-models/` — 76 GB) with zero cloud token usage:
+
+| Domain / Task Flag | Primary Model | Fallback | VRAM / RAM | Specialization / Routing Target |
+| :--- | :--- | :--- | :--- | :--- |
+| **`--task titan-agent`** | **`llama3.3:70b-iq2`** | `hermes3:8b` / `llama3.1:8b` | 18 Layers (7.0 GB) + RAM | **Titan 70B Agentic Swarm.** Complex multi-turn tool orchestration, structured schema execution |
+| **`--task titan-code`** / **`port`** | **`qwen2.5:72b-iq2`** | `deepseek-coder-v2:16b` | 16 Layers (5.4 GB) + RAM | **Titan 72B Systems Architect.** C++20 refactoring, engine modernization, 3D geometry |
+| **`--task titan-reason`** | **`deepseek-r1:70b-iq2`** | `deepseek-r1:32b` / `14b` | 18 Layers (7.0 GB) + RAM | **Titan 70B Deep Reasoning.** Chain-of-thought proofs, 64-bit struct padding verification |
+| **`--task moe-heavy`** / **`mixtral`** | **`mixtral:8x7b`** | `deepseek-coder-v2:16b` | 18 Layers (6.8 GB) + RAM | **Sparse MoE 46.7B (12.9B active).** High-speed deep reasoning, C++ engine refactoring |
+| **`--task enterprise-agent`** / **`command-r`**| **`command-r:35b`** | `llama3.3:70b-iq2` | 22 Layers (6.9 GB) + RAM | **Cohere 35B Enterprise Agent.** 128k context, multi-step tool calling, structured JSON & RAG |
+| **`--task mistral-small`** | **`mistral-small:24b`** | `mistral-nemo:12b` | 24 Layers (7.0 GB) + RAM | **Mistral Small 3 24B.** 128k context, high-density reasoning, code generation & multi-doc synthesis |
+| **`--task code-frontier`** | **`qwen2.5-coder:32b`** | `qwen2.5-coder:14b` / `7b` | ~7.5 GB | **32B Frontier Code Planner.** SWE-bench refactoring, multi-file codebases |
+| **`--task general-synthesis`** | **`qwen2.5:32b`** | `qwen2.5:7b` / `llama3.1:8b` | ~7.5 GB | **32B General Knowledge.** Repository analysis, technical specifications, documentation |
+| **`--task reason-32b`** | **`deepseek-r1:32b`** | `deepseek-r1:14b` / `8b` | ~7.5 GB | **32B Frontier Deep CoT.** Architectural invariant proofs, memory layout proofs |
+| **`--task re`** / **`decompile`** | **`llm4decompile:22b-q4`** | `deepseek-coder-v2:16b` | 24 Layers (7.1 GB) + RAM | **Binary Reverse Engineering.** Assembly-to-C decompilation for REA MCP & Ghidra |
+| **`--task shader`** | **`deepseek-coder-v2:16b`** | `qwen2.5-coder:14b` | ~6.0 GB | **MoE Shader Transpiler.** SPIR-V, DX12 HLSL, Vulkan GLSL, low-level engine porting |
+| **`--task physics`** | **`phi4:14b`** | `mathstral:7b` / `wizard-math:7b` | ~7.2 GB | **STEM & ODE Physics.** Numerical integration, ballistics physics, scientific derivations |
+| **`--task reason-14b`** | **`deepseek-r1:14b`** | `deepseek-r1:8b` / `1.5b` | ~7.1 GB | **14B Fast CoT.** Rapid algorithmic verification and bug triage |
+| **`--task code-14b`** | **`qwen2.5-coder:14b`** | `qwen2.5-coder:7b` | ~7.1 GB | **14B Dense Code Architect.** High-speed multi-file refactoring and modernizations |
+| **`--task long`** | **`mistral-nemo:12b`** | `qwen2.5:32b` / `7b` | ~7.1 GB | **128k Long Context.** Long document summarization, release notes, compiler log triage |
+| **`--task business`** | **`gemma2:9b`** | `qwen2.5:32b` / `7b` | ~5.4 GB | **Executive Communications.** Anti-jargon client proposals, BLUF executive copy, SOWs |
+| **`--task blender`** | **`blenderllm:7b-q4`** | `blender-architect:latest` | ~4.7 GB (100% VRAM) | **CAD & 3D Meshes.** Trained on `BlendNet` for instant natural language $\rightarrow$ `bpy` scripts |
+| **`--task blender-arch`** | **`blender-architect:latest`** | `blenderllm:7b-q4` | ~4.7 GB (100% VRAM) | **Blender 5.2 SDF & Game Export.** Organic remeshing, texel density, OGSR `.ogf`/`.dm` export |
+| **`--task vision-13b`** / **`llava`** | **`llava:13b`** | `minicpm-v:8b` | ~8.0 GB (100% VRAM) | **13B Multimodal VLM.** Full VRAM offload for UI triage, diagram analysis, and Blender renders |
+| **`--task vision`** | **`llava:13b`** | `minicpm-v:8b` | ~8.0 GB (100% VRAM) | **Multimodal Vision.** Game HUD inspection, OCR triage, visual glitch & artifact analysis |
+| **`--task fast-vision`** | **`moondream:latest`** | `minicpm-v:8b` | ~1.7 GB (100% VRAM) | **Sub-second Lightweight VLM.** Bounding boxes, UI element presence verification |
+| **`--task code-repo`** / **`codegeex`** | **`codegeex4:9b`** | `qwen2.5-coder:32b` | ~5.5 GB (100% VRAM) | **Whole-Repository Code Intelligence.** 128k context, repo-level AST mapping & code completion |
+| **`--task csharp`** | **`granite-code:8b`** | `qwen2.5-coder:32b` | ~4.6 GB (100% VRAM) | **Enterprise C# / .NET 9.** Avalonia XAML, EF Core, ASP.NET backend engineering |
+| **`--task rust`** | **`starcoder2:7b`** | `qwen2.5-coder:32b` | ~4.0 GB (100% VRAM) | **Rust Systems Engineering.** Borrow-checker proofs, Cargo crates, memory safety |
+| **`--task python`** | **`codellama:7b-python`** | `qwen2.5-coder:32b` | ~3.8 GB (100% VRAM) | **Python 3.10+ Automation.** Scientific computing, pytest test suite generation |
+| **`--task translate`** | **`aya:8b`** | `qwen2.5:32b` / `7b` | ~4.8 GB (100% VRAM) | **Cohere 101-Language Translation.** Slavic, CJK, and FIGS game dialogue & XML strings |
+| **`--task sql`** | **`sqlcoder:7b`** | `granite-code:8b` | ~4.1 GB (100% VRAM) | **Defog SQLCoder.** SQL query tuning, SQLite WAL PRAGMAs, PostgreSQL DDL migrations |
+| **`--task tool`** | **`hermes3:8b`** | `llama3.1:8b` | ~4.7 GB (100% VRAM) | **Function Calling Specialist.** Strict JSON schema compliance and agent tool routing |
+| **`--task conversation`** | **`llama3.1:8b`** | `qwen2.5:32b` | ~4.9 GB (100% VRAM) | **General Agent Dialogue.** Multi-turn brainstorming and collaborative design exploration |
+| **`--task math`** | **`mathstral:7b`** | `wizard-math:7b` | ~4.1 GB (100% VRAM) | **STEM 3D Math.** Quaternion SLERP, 3D linear algebra, change-of-basis transforms |
+| **`--task competition-math`** | **`wizard-math:7b`** | `mathstral:7b` | ~4.1 GB (100% VRAM) | **Competition Math.** Formal geometry, coordinate matrix transformations, algebraic proofs |
+| **`--task reason-8b`** | **`deepseek-r1:8b`** | `deepseek-r1:1.5b` | ~5.2 GB (100% VRAM) | **Distilled CoT Reasoning.** Algorithmic logic proofs, boundary invariant checks |
+| **`--task web`** | **`qwen2.5:7b`** | `qwen2.5:32b` | ~4.7 GB (100% VRAM) | **Modern Web Frontend.** Responsive Tailwind CSS, semantic HTML components, Astro |
+| **`--task test`** / **`code`** | **`qwen2.5-coder:7b`** | `deepseek-coder:6.7b-instruct`| ~4.7 GB (100% VRAM) | **Workhorse Multi-language Coder.** C++, Python, Bash test suites and refactoring |
+| **`--task systems-posix`** | **`deepseek-coder:6.7b-instruct`**| `qwen2.5-coder:7b` | ~3.8 GB (100% VRAM) | **POSIX C & Linux Low-Level.** Systems programming, epoll, socket IPC, kernel interfaces |
+| **`--task status-report`** | **`llama3.2:3b`** | `smollm2:1.7b` | ~2.0 GB (100% VRAM) | **Sub-second Status Reporter.** Milestone briefs, notifications, text drafts |
+| **`--task mini-logic`** | **`phi3.5:latest`** | `deepseek-r1:1.5b` | ~2.2 GB (100% VRAM) | **Microsoft 128k Mini Model.** Fast logic puzzles, lightweight algorithms |
+| **`--task docstring`** | **`smollm2:1.7b`** | `qwen2.5-coder:1.5b` | ~1.8 GB (100% VRAM) | **Sub-second Instruct SLM.** PEP257 docstrings, code comment formatting |
+| **`--task regex`** / **`fast`** | **`qwen2.5-coder:1.5b`** | `smollm2:1.7b` | ~986 MB (100% VRAM) | **Sub-second Boilerplate.** Regex, conventional commit messages, boilerplate snippets |
+| **`--task fast-reason`** | **`deepseek-r1:1.5b`** | `deepseek-r1:8b` | ~1.1 GB (100% VRAM) | **Sub-second Distilled CoT.** 120+ tok/s sanity assertions and rapid logic proofs |
+| **`--task embed`** | **`nomic-embed-text:latest`** | `bge-m3:latest` | ~274 MB (100% VRAM) | **Codebase Vector Indexing.** 768-dim embeddings for local RAG semantic search |
+| **`--task embed-dense`** | **`bge-m3:latest`** | `nomic-embed-text:latest` | ~1.2 GB (100% VRAM) | **Dense Multilingual Vectors.** 1024-dim dense vector embeddings for cross-language search |
 
 ---
 
-## 3. CLI Helper Tool Reference (`local_model_coprocessor.py`)
+## 3. 50% Weekly Quota Safe Reserve Offload Protocol
 
-Located at `config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py`.
+When the weekly quota indicator drops to **50% or below** (`weekly <= 50%`), the local model coprocessor activates **Safe Reserve Shielding**:
+1. **Direct Workload Diversion:** All routine code edits, docstring generations, and non-critical refactors are routed locally (0 cloud tokens).
+2. **Sub-4B Rapid Offload Tier:**
+   - **`deepseek-r1:1.5b` (1.1 GB):** Instant formal chain-of-thought verification & math proofs at 120+ tok/s.
+   - **`phi3.5:latest` (2.2 GB):** Microsoft 128k context mini model for multi-file logic & algorithms.
+   - **`smollm2:1.7b` (1.8 GB):** Ultra-fast instruction following, docstrings, formatting, and terminal error diagnosis.
+   - **`qwen2.5-coder:1.5b` (986 MB):** Sub-second code completion, regex, docstrings, commit messages.
+   - **`llama3.2:3b` (2.0 GB):** Fast generalist drafting and conversational summarization.
+3. **Weekly Headroom Protection:** Preserves the remaining 50% cloud headroom exclusively for difficult compiler error cascades and final verification gates until the weekly rollover.
 
-### Commands
+---
+
+## 4. CLI Helper Tool Reference (`local-coprocessor` / `setup-local-model-fleet`)
+
+Installed in `~/.local/bin/local-coprocessor` and `~/.local/bin/setup-local-model-fleet`.
+
+### Fleet Management Commands
 ```bash
-# 1. Check local server health and model availability
-python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py status
+# 1. Inspect fleet health, hardware telemetry, and disk storage (85 GB)
+setup-local-model-fleet --status
 
-# 2. Generate function docstrings locally
-python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py \
-  docstring --file src/utils.py --model qwen2.5-coder:1.5b
+# 2. Sync or verify specific functional tiers
+setup-local-model-fleet --tier code     # Polyglot coding models
+setup-local-model-fleet --tier math     # Physics & STEM models
+setup-local-model-fleet --tier dialogue # Translation & text repair
+setup-local-model-fleet --tier web-business # Web modernization & proposals
+setup-local-model-fleet --all          # Synchronize all 23 models
 
-# 3. Generate conventional git commit message from staged diff
-git diff --staged | python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py \
-  commit-msg --model llama3.2:3b
+# 3. Build or rebuild custom Modelfiles
+setup-local-model-fleet --build-custom
+```
 
-# 4. Summarize compiler or test error logs locally
-python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py \
-  summarize-log --file /tmp/build.log --model qwen2.5-coder:1.5b
+### Coprocessor Execution Commands
+```bash
+# 1. Game engine porting & 32-to-64-bit pointer audit (deepseek-coder-v2:16b)
+local-coprocessor generate --task port --prompt "Audit this C++ class for 32-to-64-bit pointer truncation and modernize raw pointers to RAII"
 
-# 5. Free-form local prompt generation
-python3 config/skills/local-model-coprocessor/scripts/local_model_coprocessor.py \
-  generate --prompt "Write a regex that matches semver strings" --model qwen2.5-coder:1.5b
+# 2. Frontier offline architecture planning (qwen2.5-coder:32b / deepseek-r1:32b)
+local-coprocessor generate --task plan --prompt "Decompose this game mod port into dependency-ordered atomic implementation steps"
+
+# 3. Code completion or refactoring via optimal engine
+local-coprocessor generate --task cpp --prompt "Refactor raw pointer into std::unique_ptr"
+
+# 4. Mathematical derivation & ODE solutions
+local-coprocessor generate --task math --prompt "Derive critically damped spring update for fixed_step=0.01"
+
+# 5. Game dialogue translation preserving tags
+local-coprocessor generate --task translate --prompt "Translate string into Russian: <text>Hello stalker</text>"
+
+# 6. Web modernization into Tailwind CSS
+local-coprocessor generate --task web --prompt "Convert this legacy HTML table to responsive cards"
+
+# 5. Executive business proposal drafting
+local-coprocessor generate --task business --prompt "Draft a BLUF proposal for 3D model asset conversion"
+
+# 6. SQL query synthesis & indexing
+local-coprocessor generate --task sql --prompt "Generate optimized SQLite schema for game savegame inventory"
+
+# 7. Auto-injecting installed skill rulebooks into local prompt
+local-coprocessor generate --auto-skill --prompt "Write a Blender 5.2 bpy script for voxel remeshing"
 ```
 
 ---

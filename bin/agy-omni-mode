@@ -69,7 +69,12 @@ DOMAIN_LOCAL_MODELS = {
     "fast-status-report": "llama3.2:3b",
     "mini-logic": "phi3.5:latest",
     "multimodal-vision": "minicpm-v:8b",
+    "sota-multimodal-vision": "llava:13b",
     "fast-vision-presence": "moondream:latest",
+    "enterprise-agent-rag": "command-r:35b",
+    "sparse-moe-reasoning": "mixtral:8x7b",
+    "dense-long-context": "mistral-small:24b",
+    "whole-repo-intelligence": "codegeex4:9b",
     "code-vector-embedding": "nomic-embed-text:latest",
     "multilingual-dense-embedding": "bge-m3:latest",
 }

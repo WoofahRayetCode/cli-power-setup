@@ -1,29 +1,30 @@
 {
-  "updated_at": "2026-10-17T18:21:59.818691",
+  "updated_at": "2026-10-17T18:35:38.545675",
   "total_repos": 33,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792286519.4224267,
-      "age_str": "0s ago",
-      "dirty_count": 3,
+      "activity_ts": 1792287270.5318906,
+      "age_str": "1m ago",
+      "dirty_count": 13,
       "dirty_exts": {
-        ".md": 1,
-        ".mdc": 1
+        ".mdc": 2,
+        ".md": 2,
+        ".py": 2
       },
       "recent_exts": [
         ".mdc",
-        ".md",
-        ".py"
+        ".py",
+        ".md"
       ],
       "top_exts": [
         ".mdc",
         ".md",
         ".py"
       ],
-      "last_commit": "feat(skill-evolve): auto-sync 'gemini-dynamic-reas",
+      "last_commit": "feat(skill-evolve): auto-sync 'agy-omni-mode'",
       "stack": "AI Skills / Python / Bash",
       "work_now": "CLI Daemons & Skills",
       "plan_short": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",
@@ -42,9 +43,9 @@
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792285434.689594,
-      "age_str": "18m ago",
-      "dirty_count": 210,
+      "activity_ts": 1792286790.5332332,
+      "age_str": "9m ago",
+      "dirty_count": 212,
       "dirty_exts": {
         ".ogf": 3,
         ".md": 17,
@@ -57,7 +58,7 @@
         ".jsonl": 1,
         ".bak": 1,
         ".patch": 1,
-        ".ltx": 47,
+        ".ltx": 46,
         ".anm": 6,
         ".xml": 15,
         ".fog_vol": 1,
@@ -95,8 +96,8 @@
         ".js": 3
       },
       "recent_exts": [
-        ".ltx",
         ".script",
+        ".ltx",
         ".xml"
       ],
       "top_exts": [
@@ -124,7 +125,7 @@
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
       "activity_ts": 1792283041.5682282,
-      "age_str": "57m ago",
+      "age_str": "1h ago",
       "dirty_count": 45,
       "dirty_exts": {
         ".cpp": 36,
@@ -162,7 +163,7 @@
       "path": "~/Documents/GitHub/FifineControlDeck",
       "is_git": true,
       "activity_ts": 1792261601.8510442,
-      "age_str": "6h ago",
+      "age_str": "7h ago",
       "dirty_count": 1,
       "dirty_exts": {
         ".exe": 1

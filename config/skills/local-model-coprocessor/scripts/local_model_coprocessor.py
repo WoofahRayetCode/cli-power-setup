@@ -128,7 +128,19 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
             if cand in installed:
                 return cand
 
-    # Tier 2: 32B Frontier Heavyweights
+    # Tier 2: 32B-47B Frontier Heavyweights & MoE
+    elif task in ("enterprise-agent", "agent-35b", "command-r", "agentic-rag", "tool-orchestrate"):
+        for cand in ("command-r:35b", "llama3.3:70b-iq2", "hermes3:8b"):
+            if cand in installed:
+                return cand
+    elif task in ("moe-heavy", "mixtral", "moe-8x7b", "sparse-moe", "moe-reason"):
+        for cand in ("mixtral:8x7b", "deepseek-coder-v2:16b", "qwen2.5:72b-iq2"):
+            if cand in installed:
+                return cand
+    elif task in ("mistral-small", "dense-24b", "long-code", "doc-synthesis", "knowledge-dense"):
+        for cand in ("mistral-small:24b", "mistral-nemo:12b", "qwen2.5:32b"):
+            if cand in installed:
+                return cand
     elif task in ("code-frontier", "swe-bench", "code-planning", "multi-file-arch", "coder-32b"):
         for cand in ("qwen2.5-coder:32b", "qwen2.5:72b-iq2", "qwen2.5-coder:14b", "qwen2.5-coder:7b"):
             if cand in installed:
@@ -183,12 +195,20 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
         for cand in ("blender-architect:latest", "blenderllm:7b-q4", "qwen2.5:72b-iq2", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
+    elif task in ("vision-13b", "llava", "vision-sota", "diagram-audit", "ui-audit"):
+        for cand in ("llava:13b", "minicpm-v:8b", "moondream:latest"):
+            if cand in installed:
+                return cand
     elif task in ("vision", "vlm", "screen-telemetry", "hud", "render-inspect", "minicpm"):
-        for cand in ("minicpm-v:8b", "moondream:latest"):
+        for cand in ("llava:13b", "minicpm-v:8b", "moondream:latest"):
             if cand in installed:
                 return cand
     elif task in ("fast-vision", "vlm-crop", "bounding-box", "quick-image-qa", "moondream"):
-        for cand in ("moondream:latest", "minicpm-v:8b"):
+        for cand in ("moondream:latest", "minicpm-v:8b", "llava:13b"):
+            if cand in installed:
+                return cand
+    elif task in ("code-repo", "repo-ast", "codegeex", "repo-level", "whole-repo"):
+        for cand in ("codegeex4:9b", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task in ("csharp", "cs", "dotnet", "avalonia", "xaml", "granite"):
@@ -328,9 +348,15 @@ def record_local_llm_savings(model: str, prompt_eval: int, eval_count: int, has_
     elif "blender" in clean_m:
         cloud_saved = prompt_eval + (eval_count * 3) + 2000
     # 5. Multimodal Vision Models: avoids 2500+ vision tokens per image
-    elif has_image or "minicpm" in clean_m or "moondream" in clean_m:
+    elif has_image or any(k in clean_m for k in ["minicpm", "moondream", "vision"]):
         cloud_saved = prompt_eval + (eval_count * 2) + 3200
-    # 6. Standard code & fast utilities:
+    # 6. Enterprise Agent & MoE Heavyweights (Command-R 35B, Mixtral 8x7B, Mistral Small 24B):
+    elif any(k in clean_m for k in ["command-r", "mixtral", "8x7b", "mistral-small"]):
+        cloud_saved = prompt_eval + (eval_count * 3) + 2500
+    # 7. Whole-Repository Intelligence (CodeGeeX4 9B):
+    elif "codegeex" in clean_m:
+        cloud_saved = prompt_eval + (eval_count * 2) + 1800
+    # 8. Standard code & fast utilities:
     else:
         cloud_saved = local_tok + max(1200, eval_count * 2)
 
@@ -368,11 +394,11 @@ def record_local_llm_savings(model: str, prompt_eval: int, eval_count: int, has_
 
 def query_local_ollama(endpoint, model, prompt, system_prompt="", image_path="", timeout=180.0):
     resolved_model = resolve_best_local_model(model, "vision" if image_path else "auto", endpoint)
-    if any(k in resolved_model for k in ("70b", "72b")):
+    if any(k in resolved_model for k in ("70b", "72b", "mixtral", "8x7b", "command-r")):
         timeout = max(timeout, 240.0)
     _write_local_state(resolved_model, True)
     url = f"{endpoint.rstrip('/')}/api/generate"
-    num_ctx = 2048 if any(k in resolved_model for k in ("70b", "72b")) else 8192
+    num_ctx = 2048 if any(k in resolved_model for k in ("70b", "72b", "mixtral", "8x7b")) else 8192
     payload = {
         "model": resolved_model,
         "prompt": prompt,

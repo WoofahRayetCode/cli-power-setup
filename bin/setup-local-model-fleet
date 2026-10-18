@@ -48,6 +48,7 @@ FLEET_TIERS = {
             "granite-code:8b",
             "starcoder2:7b",
             "codellama:7b-python",
+            "codegeex4:9b",
             "qwen2.5-coder:1.5b",
         ],
     },
@@ -77,16 +78,18 @@ FLEET_TIERS = {
         ],
     },
     "agentic-tools": {
-        "description": "Structured JSON schema generation, tool calling, and long-context reasoning (~16 GB)",
+        "description": "Structured JSON schema generation, tool calling, and long-context reasoning (~35 GB)",
         "models": [
             "hermes3:8b",
+            "command-r:35b",
             "llama3.1:8b",
             "mistral-nemo:12b",
         ],
     },
     "vision": {
-        "description": "Multimodal screen inspection, game UI audit, and local OCR (~7 GB)",
+        "description": "Multimodal screen inspection, game UI audit, and local OCR (~15 GB)",
         "models": [
+            "llava:13b",
             "minicpm-v:8b",
             "moondream:latest",
         ],
@@ -109,9 +112,10 @@ FLEET_TIERS = {
         ],
     },
     "frontier-planners": {
-        "description": "Heavyweight 14B–32B frontier models for offline planning, verification, and architecture (~86 GB)",
+        "description": "Heavyweight 14B–32B frontier models for offline planning, verification, and architecture (~100 GB)",
         "models": [
             "deepseek-coder-v2:16b",
+            "mistral-small:24b",
             "qwen2.5-coder:14b",
             "deepseek-r1:14b",
             "qwen2.5-coder:32b",
@@ -134,8 +138,9 @@ FLEET_TIERS = {
         ],
     },
     "ultra-large": {
-        "description": "Ultra-large & specialist models stored on secondary NVMe drive (/mnt/games/large-models) with hardware layer offload (~82 GB)",
+        "description": "Ultra-large & specialist models stored on secondary NVMe drive (/mnt/games/large-models) with hardware layer offload (~108 GB)",
         "models": [
+            "mixtral:8x7b",
             "llm4decompile:22b-q4",
             "deepseek-r1:70b-iq2",
             "qwen2.5:72b-iq2",
@@ -183,9 +188,19 @@ ALL_MODELS = [
     "qwen2.5:72b-iq2",
     "llama3.3:70b-iq2",
     "blenderllm:7b-q4",
+    "command-r:35b",
+    "mixtral:8x7b",
+    "mistral-small:24b",
+    "llava:13b",
+    "codegeex4:9b",
 ]
 
 MODEL_SPECS = {
+    "command-r:35b": ("19 GB", "Cohere 35B Enterprise Agent: 128k context, multi-step tool calling, structured JSON & enterprise RAG"),
+    "mixtral:8x7b": ("26 GB", "Sparse MoE 46.7B (12.9B active): High-speed deep reasoning, C++ engine refactoring & large-scale synthesis"),
+    "mistral-small:24b": ("14 GB", "Mistral Small 3 24B: 128k context, high-density reasoning, code generation & multi-document synthesis"),
+    "llava:13b": ("8.0 GB", "13B Multimodal VLM: Full VRAM offload for UI triage, diagram analysis, and Blender renders"),
+    "codegeex4:9b": ("5.5 GB", "Whole-repository code intelligence: 128k context, repo-level AST mapping & code completion in VRAM"),
     "deepseek-coder-v2:16b": ("8.9 GB", "MoE 16B (2.4B active): #1 Game engine porting, C++ systems, and shader dialect translation"),
     "qwen2.5-coder:32b": ("19.8 GB", "32B Heavyweight frontier code planner: SWE-bench leader, large refactors, C++20 modernizations"),
     "deepseek-r1:32b": ("19.9 GB", "32B Frontier deep reasoning: architectural verification, invariant proofs, root-cause debugging"),

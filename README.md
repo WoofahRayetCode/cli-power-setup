@@ -1,15 +1,15 @@
 # CLI Power Setup (`cli-power-setup`)
 
 [![Active Skills](https://img.shields.io/badge/Skills-316%20Active-brightgreen.svg)](#-categorized-skills-directory-316-skills)
-[![Local Fleet](https://img.shields.io/badge/Local%20Fleet-37%20Models%20(Ollama)-blue.svg)](#-zero-quota-local-language-model-fleet-37-models-0-cloud-tokens)
-[![Fleet Disk Size](https://img.shields.io/badge/Fleet%20Disk%20Size-250%20GB%20(37%20Models)-blueviolet.svg)](#-zero-quota-local-language-model-fleet-37-models-0-cloud-tokens)
+[![Local Fleet](https://img.shields.io/badge/Local%20Fleet-42%20Models%20(Ollama)-blue.svg)](#-zero-quota-local-language-model-fleet-42-models-0-cloud-tokens)
+[![Fleet Disk Size](https://img.shields.io/badge/Fleet%20Disk%20Size-320%20GB%20(42%20Models)-blueviolet.svg)](#-zero-quota-local-language-model-fleet-42-models-0-cloud-tokens)
 [![Secondary NVMe](https://img.shields.io/badge/Secondary%20NVMe-1.3%20TB%20Headroom%20(/mnt/games)-success.svg)](#-secondary-drive-ultra-large-model-repository--hardware-optimizer)
-[![Hardware Offload](https://img.shields.io/badge/Hardware-32T%20CPU%20%2B%20RTX%205060%20CUDA-orange.svg)](#-zero-quota-local-language-model-fleet-37-models-0-cloud-tokens)
+[![Hardware Offload](https://img.shields.io/badge/Hardware-32T%20CPU%20%2B%20RTX%205060%20CUDA-orange.svg)](#-zero-quota-local-language-model-fleet-42-models-0-cloud-tokens)
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)](#-license)
 
 A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)** and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
 
-This repository organizes **316 autonomous agent skills**, 316 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a 37-model zero-quota local LLM fleet, an Omni-Auto dynamic routing engine, a floating voice dictation pill (`agy-mic-button`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
+This repository organizes **316 autonomous agent skills**, 316 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a 42-model zero-quota local LLM fleet, an Omni-Auto dynamic routing engine, a floating voice dictation pill (`agy-mic-button`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
 
 ---
 
@@ -18,9 +18,9 @@ This repository organizes **316 autonomous agent skills**, 316 modular Cursor ru
 Jump directly to any section of the documentation:
 
 * [⚡ Quick Start & Installation](#-quick-start)
-* [🧠 Zero-Quota Local Language Model Fleet (37 Models)](#-zero-quota-local-language-model-fleet-37-models-0-cloud-tokens)
+* [🧠 Zero-Quota Local Language Model Fleet (42 Models)](#-zero-quota-local-language-model-fleet-42-models-0-cloud-tokens)
   * [Key Benefits & Token Savings](#-key-benefits--overall-usage-savings)
-  * [Local Fleet Matrix (Collapsible Table)](#-complete-37-model-local-fleet-matrix)
+  * [Local Fleet Matrix (Collapsible Table)](#-complete-42-model-local-fleet-matrix)
   * [1-Click Copy-Paste Model Reference](#-1-click-copy-paste-model-reference)
   * [50% Weekly Quota Safe Reserve Offload Protocol](#-50-weekly-quota-safe-reserve-offload-protocol)
   * [Secondary Drive Ultra-Large Model Repository (`ultra-model-manager`)](#-secondary-drive-ultra-large-model-repository--hardware-optimizer)
@@ -131,16 +131,21 @@ A production-grade fleet of **37 specialized open-weights models**—including *
 
 </details>
 
-### 📋 Complete 37-Model Local Fleet Matrix
+### 📋 Complete 42-Model Local Fleet Matrix
 
 <details>
-<summary><b>🔍 Click to Expand/Collapse Complete 37-Model Local Fleet Specifications & Hardware Footprint</b></summary>
+<summary><b>🔍 Click to Expand/Collapse Complete 42-Model Local Fleet Specifications & Hardware Footprint</b></summary>
 
 | Model Tag | Disk Size | Parameter Tier | Hardware Offload | Primary Specialization & Use Case |
 | :--- | :--- | :--- | :--- | :--- |
 | **`qwen2.5:72b-iq2`** | 25 GB | Ultra-Large Titan (72B) | RTX 5060 + 32-Thr CPU | Systems architecture, C++20 refactoring, 3D geometry & spatial layout, large codebase reasoning |
 | **`deepseek-r1:70b-iq2`** | 19 GB | Ultra-Large Titan (70B) | RTX 5060 + 32-Thr CPU | Formal chain-of-thought proofs, 64-bit struct padding, invariant & memory alignment verification |
 | **`llama3.3:70b-iq2`** | 19 GB | Ultra-Large Titan (70B) | RTX 5060 + 32-Thr CPU | Complex multi-turn agentic tool calling, function orchestration, structured JSON schema extraction |
+| **`command-r:35b`** | 19 GB | Enterprise Agent & RAG (35B) | RTX 5060 + 32-Thr CPU | Cohere 35B enterprise tool calling, multi-step agentic planning, and 128k context RAG |
+| **`mixtral:8x7b`** | 26 GB | Sparse MoE Heavyweight (47B) | RTX 5060 + 32-Thr CPU | 46.7B parameter MoE (12.9B active), high-speed deep reasoning, C++ engine refactoring |
+| **`mistral-small:24b`** | 14 GB | Knowledge-Dense Reasoning (24B) | RTX 5060 + 32-Thr CPU | Mistral Small 3 24B with 128k context, fast coding, multi-document synthesis & logic |
+| **`llava:13b`** | 8.0 GB | Multimodal Vision (13B) | Full RTX 5060 VRAM | 13B multimodal vision, sub-second UI audit, diagram analysis, and Blender renders |
+| **`codegeex4:9b`** | 5.5 GB | Whole-Repository Coder (9B) | Full RTX 5060 VRAM | Whole-repository code intelligence, 128k context, repo-level AST mapping & code completion |
 | **`llm4decompile:22b-q4`** | 13 GB | Reverse Engineering (22B) | RTX 5060 + 32-Thr CPU | Assembly-to-C decompilation for REA MCP, Ghidra & x64dbg binary DLL analysis |
 | **`blenderllm:7b-q4`** | 4.7 GB | 3D CAD & Procedural (7B) | Full RTX 5060 VRAM | Dedicated `BlendNet` CAD & procedural `bpy` mesh modeling from natural language |
 | **`blender-architect:latest`** | 4.7 GB | 3D Engine & Mesh (7B) | Full RTX 5060 VRAM | Blender 5.2 API, organic SDF voxel remeshing, and S.T.A.L.K.E.R. OGSR `.ogf` v4 constraints |
@@ -195,7 +200,10 @@ A production-grade fleet of **37 specialized open-weights models**—including *
 - blenderllm:7b-q4 (4.7 GB) — Dedicated BlendNet CAD & procedural bpy mesh modeling from natural language.
 - blender-architect:latest (4.7 GB) — Custom Blender 5.2 API modelfile, organic SDF voxel remeshing, and S.T.A.L.K.E.R. OGSR .ogf v4 constraints.
 
-### 3. Frontier Planners & Heavy Coders (12B–32B)
+### 3. Frontier Planners & Heavy Coders (12B–47B)
+- command-r:35b (19 GB) — Cohere 35B enterprise tool calling, multi-step agentic planning, and 128k context RAG.
+- mixtral:8x7b (26 GB) — 46.7B parameter MoE (12.9B active), high-speed deep reasoning, C++ engine refactoring.
+- mistral-small:24b (14 GB) — Mistral Small 3 24B with 128k context, fast coding, multi-document synthesis & logic.
 - qwen2.5-coder:32b (19 GB) — Heavyweight 32B code planning, complex multi-file refactoring, C++20 modernization.
 - deepseek-r1:32b (19 GB) — 32B deep chain-of-thought reasoning, root-cause crash triage, algorithm design.
 - qwen2.5:32b (19 GB) — 32B large-context generalist, repository-wide analysis, multi-file code review.
@@ -205,7 +213,9 @@ A production-grade fleet of **37 specialized open-weights models**—including *
 - deepseek-r1:14b (9.0 GB) — Fast chain-of-thought reasoning, mathematical proofs, invariant verification.
 - mistral-nemo:12b (7.1 GB) — 128k context generalist, technical writing, log summarization, documentation.
 
-### 4. Domain Specialists & Task Experts (6.7B–9B)
+### 4. Domain Specialists & Task Experts (5.5B–13B)
+- llava:13b (8.0 GB) — 13B multimodal vision, sub-second UI audit, diagram analysis, and Blender renders.
+- codegeex4:9b (5.5 GB) — Whole-repository code intelligence, 128k context, repo-level AST mapping & code completion.
 - gemma2:9b (5.4 GB) — Google Gemma 2 high-precision instruction following, anti-jargon business copy, BLUF proposals.
 - hermes3:8b (4.7 GB) — Advanced agentic function calling, tool use, strict JSON schema adherence.
 - aya:8b (4.8 GB) — Cohere 101-language translation, game dialogue tree localization, string-table XML repair.
@@ -240,6 +250,11 @@ A production-grade fleet of **37 specialized open-weights models**—including *
 qwen2.5:72b-iq2
 deepseek-r1:70b-iq2
 llama3.3:70b-iq2
+command-r:35b
+mixtral:8x7b
+mistral-small:24b
+llava:13b
+codegeex4:9b
 llm4decompile:22b-q4
 blenderllm:7b-q4
 blender-architect:latest
@@ -307,11 +322,11 @@ setup-local-model-fleet --detect-system
 # Re-optimize all Modelfiles for host CPU threads, RAM, and GPU VRAM
 setup-local-model-fleet --optimize
 
-# Synchronize specific functional tiers or all 37 models
+# Synchronize specific functional tiers or all 42 models
 setup-local-model-fleet --tier engine-porting    # Game engine migration models
 setup-local-model-fleet --tier ultra-large       # 70B-72B Titan models and specialists
 setup-local-model-fleet --tier safe-reserve     # Sub-4B models for 50% weekly quota offload
-setup-local-model-fleet --all                   # Complete 37-model fleet
+setup-local-model-fleet --all                   # Complete 42-model fleet
 
 # Execute tasks locally (0 cloud tokens billed)
 local-coprocessor generate --task port --prompt "Audit this C++ class for 64-bit pointer truncation"

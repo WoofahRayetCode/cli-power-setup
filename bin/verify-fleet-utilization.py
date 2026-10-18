@@ -39,7 +39,10 @@ FLEET_ROSTER = [
     ("qwen2.5:72b-iq2", "titan-code", "Engine Porting & Systems C++20", "generate", "Optimize C++20 struct"),
     ("deepseek-r1:70b-iq2", "titan-reason", "Deep CoT & 64-bit Struct Proofs", "generate", "Verify memory alignment"),
 
-    # Tier 2: 32B Frontier Heavyweights
+    # Tier 2: 32B-47B Frontier Heavyweights & MoE
+    ("command-r:35b", "enterprise-agent", "Cohere 35B Enterprise Agent & RAG", "generate", "Generate structured tool schema"),
+    ("mixtral:8x7b", "moe-heavy", "Sparse MoE 47B Reasoning & C++ Engine", "generate", "Optimize memory cache alignment"),
+    ("mistral-small:24b", "mistral-small", "Mistral Small 3 24B Reasoning & Code", "generate", "Synthesize multi-file diff"),
     ("qwen2.5-coder:32b", "code-frontier", "SWE-bench Code Planning & Refactors", "generate", "Refactor module API"),
     ("qwen2.5:32b", "general-synthesis", "Full Repo Analysis & Technical Specs", "generate", "Draft architecture spec"),
     ("deepseek-r1:32b", "reason-32b", "CoT Proofs & Algorithmic Triage", "generate", "Solve pointer boundary condition"),
@@ -55,7 +58,9 @@ FLEET_ROSTER = [
     ("mistral-nemo:12b", "long", "128k Context Summaries & Log Triage", "generate", "Summarize engine log"),
     ("gemma2:9b", "business", "Executive Communications & Proposals", "generate", "Draft client proposal"),
 
-    # Tier 5: Workhorse Domain Specialists (7B-8B)
+    # Tier 5: Workhorse Domain Specialists (7B-13B)
+    ("llava:13b", "vision-13b", "LLaVA 13B Multimodal Vision & UI Triage", "generate", "Check render frame anomalies"),
+    ("codegeex4:9b", "code-repo", "Whole-Repository Code Intelligence & AST", "generate", "Index repository symbols"),
     ("blenderllm:7b-q4", "blender", "Procedural Blender bpy Scripting", "generate", "import bpy; # cube"),
     ("blender-architect:latest", "blender-arch", "Blender 5.2 SDF Remesh & OGF Export", "generate", "Generate organic SDF remesh script"),
     ("minicpm-v:8b", "vision", "Multimodal VLM Screenshot Triage", "generate", "Check render frame anomalies"),
@@ -102,7 +107,7 @@ def test_model(model: str, task: str, desc: str, mtype: str, test_prompt: str, e
             "prompt": test_prompt,
             "stream": False,
             "options": {
-                "num_ctx": 2048 if any(k in model for k in ("70b", "72b")) else 8192,
+                "num_ctx": 2048 if any(k in model for k in ("70b", "72b", "mixtral", "8x7b")) else 8192,
                 "num_predict": 5,
                 "temperature": 0.2,
             },
@@ -115,7 +120,7 @@ def test_model(model: str, task: str, desc: str, mtype: str, test_prompt: str, e
             headers={"Content-Type": "application/json"},
             method="POST",
         )
-        tout = 240.0 if any(k in model for k in ("70b", "72b")) else 90.0
+        tout = 240.0 if any(k in model for k in ("70b", "72b", "mixtral", "8x7b", "command-r")) else 90.0
         with urllib.request.urlopen(req, timeout=tout) as resp:
             if resp.status == 200:
                 elapsed = time.time() - t0

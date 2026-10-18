@@ -37,15 +37,18 @@ By delegating deterministic, low-complexity drafting tasks to local hardware, th
 
 ---
 
-## 2. Complete 37-Model Local Fleet & Task Matrix
+## 2. Complete 42-Model Local Fleet & Task Matrix
 
-The local fleet is orchestrated via Ollama (`http://localhost:11434`), consuming **`245 GB`** physical disk space across the primary NVMe (`/var/lib/ollama/blobs/` — 208 GB) and secondary NVMe (`/mnt/games/large-models/` — 76 GB) with zero cloud token usage:
+The local fleet is orchestrated via Ollama (`http://localhost:11434`), consuming **`318 GB`** physical disk space across the primary NVMe (`/var/lib/ollama/blobs/` — 242 GB) and secondary NVMe (`/mnt/games/large-models/` — 76 GB) with zero cloud token usage:
 
 | Domain / Task Flag | Primary Model | Fallback | VRAM / RAM | Specialization / Routing Target |
 | :--- | :--- | :--- | :--- | :--- |
 | **`--task titan-agent`** | **`llama3.3:70b-iq2`** | `hermes3:8b` / `llama3.1:8b` | 18 Layers (7.0 GB) + RAM | **Titan 70B Agentic Swarm.** Complex multi-turn tool orchestration, structured schema execution |
 | **`--task titan-code`** / **`port`** | **`qwen2.5:72b-iq2`** | `deepseek-coder-v2:16b` | 16 Layers (5.4 GB) + RAM | **Titan 72B Systems Architect.** C++20 refactoring, engine modernization, 3D geometry |
 | **`--task titan-reason`** | **`deepseek-r1:70b-iq2`** | `deepseek-r1:32b` / `14b` | 18 Layers (7.0 GB) + RAM | **Titan 70B Deep Reasoning.** Chain-of-thought proofs, 64-bit struct padding verification |
+| **`--task moe-heavy`** / **`mixtral`** | **`mixtral:8x7b`** | `deepseek-coder-v2:16b` | 18 Layers (6.8 GB) + RAM | **Sparse MoE 46.7B (12.9B active).** High-speed deep reasoning, C++ engine refactoring |
+| **`--task enterprise-agent`** / **`command-r`**| **`command-r:35b`** | `llama3.3:70b-iq2` | 22 Layers (6.9 GB) + RAM | **Cohere 35B Enterprise Agent.** 128k context, multi-step tool calling, structured JSON & RAG |
+| **`--task mistral-small`** | **`mistral-small:24b`** | `mistral-nemo:12b` | 24 Layers (7.0 GB) + RAM | **Mistral Small 3 24B.** 128k context, high-density reasoning, code generation & multi-doc synthesis |
 | **`--task code-frontier`** | **`qwen2.5-coder:32b`** | `qwen2.5-coder:14b` / `7b` | ~7.5 GB | **32B Frontier Code Planner.** SWE-bench refactoring, multi-file codebases |
 | **`--task general-synthesis`** | **`qwen2.5:32b`** | `qwen2.5:7b` / `llama3.1:8b` | ~7.5 GB | **32B General Knowledge.** Repository analysis, technical specifications, documentation |
 | **`--task reason-32b`** | **`deepseek-r1:32b`** | `deepseek-r1:14b` / `8b` | ~7.5 GB | **32B Frontier Deep CoT.** Architectural invariant proofs, memory layout proofs |
@@ -58,8 +61,10 @@ The local fleet is orchestrated via Ollama (`http://localhost:11434`), consuming
 | **`--task business`** | **`gemma2:9b`** | `qwen2.5:32b` / `7b` | ~5.4 GB | **Executive Communications.** Anti-jargon client proposals, BLUF executive copy, SOWs |
 | **`--task blender`** | **`blenderllm:7b-q4`** | `blender-architect:latest` | ~4.7 GB (100% VRAM) | **CAD & 3D Meshes.** Trained on `BlendNet` for instant natural language $\rightarrow$ `bpy` scripts |
 | **`--task blender-arch`** | **`blender-architect:latest`** | `blenderllm:7b-q4` | ~4.7 GB (100% VRAM) | **Blender 5.2 SDF & Game Export.** Organic remeshing, texel density, OGSR `.ogf`/`.dm` export |
-| **`--task vision`** | **`minicpm-v:8b`** | `moondream:latest` | ~5.5 GB | **Multimodal Vision.** Game HUD inspection, OCR triage, visual glitch & artifact analysis |
+| **`--task vision-13b`** / **`llava`** | **`llava:13b`** | `minicpm-v:8b` | ~8.0 GB (100% VRAM) | **13B Multimodal VLM.** Full VRAM offload for UI triage, diagram analysis, and Blender renders |
+| **`--task vision`** | **`llava:13b`** | `minicpm-v:8b` | ~8.0 GB (100% VRAM) | **Multimodal Vision.** Game HUD inspection, OCR triage, visual glitch & artifact analysis |
 | **`--task fast-vision`** | **`moondream:latest`** | `minicpm-v:8b` | ~1.7 GB (100% VRAM) | **Sub-second Lightweight VLM.** Bounding boxes, UI element presence verification |
+| **`--task code-repo`** / **`codegeex`** | **`codegeex4:9b`** | `qwen2.5-coder:32b` | ~5.5 GB (100% VRAM) | **Whole-Repository Code Intelligence.** 128k context, repo-level AST mapping & code completion |
 | **`--task csharp`** | **`granite-code:8b`** | `qwen2.5-coder:32b` | ~4.6 GB (100% VRAM) | **Enterprise C# / .NET 9.** Avalonia XAML, EF Core, ASP.NET backend engineering |
 | **`--task rust`** | **`starcoder2:7b`** | `qwen2.5-coder:32b` | ~4.0 GB (100% VRAM) | **Rust Systems Engineering.** Borrow-checker proofs, Cargo crates, memory safety |
 | **`--task python`** | **`codellama:7b-python`** | `qwen2.5-coder:32b` | ~3.8 GB (100% VRAM) | **Python 3.10+ Automation.** Scientific computing, pytest test suite generation |
