@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-10-17T18:21:49.276394",
+  "updated_at": "2026-10-17T18:21:51.870669",
   "total_repos": 33,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792286508.8776884,
+      "activity_ts": 1792286511.4789493,
       "age_str": "0s ago",
-      "dirty_count": 4,
+      "dirty_count": 3,
       "dirty_exts": {
         ".md": 1,
         ".mdc": 1
@@ -19,11 +19,11 @@
         ".py"
       ],
       "top_exts": [
-        ".md",
         ".mdc",
+        ".md",
         ".py"
       ],
-      "last_commit": "feat(fleet): verify all 37 local models active in ",
+      "last_commit": "feat(skill-evolve): auto-sync 'local-research-scou",
       "stack": "AI Skills / Python / Bash",
       "work_now": "CLI Daemons & Skills",
       "plan_short": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",

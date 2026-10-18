@@ -83,3 +83,11 @@ agy "$(voice-prompt-optimizer 'set a goal to port shaders and run tests' --exec)
 ## Token Context Savings Ledger Integration
 Every invocation of `voice-prompt-optimizer` automatically calculates the token delta (`orig_tokens - clean_tokens`) and logs cumulative prompt savings directly to `token_ledger.json` under `prompt_context_savings_by_technique["voice_prompt_context_optimizer"]`, feeding live token telemetry directly into `agy-quota-statusline`.
 
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`high-density-prompting`**: Compresses verbose prompts into surgical, quota-saving directives, eliminates speculative reasoning tokens, an...
+- **`voice-speech-audio-synthesis`**: Speech-to-text transcription via Whisper, natural voice generation using Piper/Kokoro/OpenAI TTS, game NPC dia...
+- **`claude-silent-dispatch`**: Eliminates pre-tool narration, commentary, and conversational play-by-plays in Claude Code, executing tool cal...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
