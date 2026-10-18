@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# Claude Code CLI YOLO Launcher (claude-yolo)
+# Launches Claude Code in hands-free autonomous mode (auto-approves tool actions)
+# ==============================================================================
+[ -t 1 ] && command -v agy-cheatsheet >/dev/null 2>&1 && agy-cheatsheet --banner
+exec claude --dangerously-skip-permissions "$@"

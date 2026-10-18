@@ -1,15 +1,15 @@
 # CLI Power Setup (`cli-power-setup`)
 
-[![Active Skills](https://img.shields.io/badge/Skills-316%20Active-brightgreen.svg)](#-categorized-skills-directory-316-skills)
+[![Active Skills](https://img.shields.io/badge/Skills-324%20Active-brightgreen.svg)](#-categorized-skills-directory-324-skills)
 [![Local Fleet](https://img.shields.io/badge/Local%20Fleet-42%20Models%20(Ollama)-blue.svg)](#-zero-quota-local-language-model-fleet-42-models-0-cloud-tokens)
 [![Fleet Disk Size](https://img.shields.io/badge/Fleet%20Disk%20Size-320%20GB%20(42%20Models)-blueviolet.svg)](#-zero-quota-local-language-model-fleet-42-models-0-cloud-tokens)
 [![Secondary NVMe](https://img.shields.io/badge/Secondary%20NVMe-1.3%20TB%20Headroom%20(/mnt/games)-success.svg)](#-secondary-drive-ultra-large-model-repository--hardware-optimizer)
 [![Hardware Offload](https://img.shields.io/badge/Hardware-32T%20CPU%20%2B%20RTX%205060%20CUDA-orange.svg)](#-zero-quota-local-language-model-fleet-42-models-0-cloud-tokens)
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)](#-license)
 
-A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)** and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
+A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)**, **Claude Code (`claude` — Claude 3.7 Sonnet / Opus / Fable)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **Claude 3.7**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
 
-This repository organizes **316 autonomous agent skills**, 316 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a 42-model zero-quota local LLM fleet, an Omni-Auto dynamic routing engine, a floating voice dictation pill (`agy-mic-button`), and a live multi-row telemetry statusline (`agy-quota-statusline`).
+This repository organizes **324 autonomous agent skills**, 324 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a 42-model zero-quota local LLM fleet, an Omni-Auto dynamic routing engine, a floating voice dictation pill (`agy-mic-button`), and live multi-row telemetry statuslines (`agy-quota-statusline` & `claude-statusline`).
 
 ---
 
@@ -28,7 +28,7 @@ Jump directly to any section of the documentation:
 * [🔎 Zero-Quota Local Research Scout (`local-research-scout`)](#-zero-quota-local-research-scout-local-research-scout)
 * [🛠️ CLI Power Tools & Launchers](#️-cli-power-tools--launchers)
 * [🎯 Division of Labor: `agy` CLI vs. Cursor IDE](#-division-of-labor-agy-cli-vs-cursor-ide)
-* [🧩 Categorized Skills Directory (316 Skills Dropdowns)](#-categorized-skills-directory-316-skills)
+* [🧩 Categorized Skills Directory (324 Skills Dropdowns)](#-categorized-skills-directory-324-skills)
   * [1. Cognitive Reasoning, Quota Governance & Token Containment](#1-cognitive-reasoning-quota-governance--token-containment)
   * [2. Game Engine Architecture, Porting & Diagnostics](#2-game-engine-architecture-porting--diagnostics)
   * [3. 3D Assets, Headless Blender 5.2+ & Audio DSP](#3-3d-assets-headless-blender-52--audio-dsp)
@@ -44,7 +44,7 @@ Jump directly to any section of the documentation:
 * [🛡️ Ultimate Hardening Protocols & Zero-Token Pre-Flight](#️-ultimate-hardening-protocols--zero-token-host-pre-flight)
 * [📱 Android 2D & 3D Game & App Workflows](#-android-2d--3d-game--app-development-workflows)
 * [📂 Repository Structure](#-repository-structure)
-* [🔄 Auto-Synchronized Catalog](#-auto-synchronized-skill--cli-inventory-316-total-active-skills)
+* [🔄 Auto-Synchronized Catalog](#-auto-synchronized-skill--cli-inventory-324-total-active-skills)
 
 ---
 
@@ -85,7 +85,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Environment Sync:** Deploys all 316 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Environment Sync:** Deploys all 324 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Voice Command Routing:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, Zero-Quota Local CPU/GPU Math Offload rules, and Natural-Language Spoken Command Routing (*"Set a goal..."*, *"Make a plan..."*, *"Use boost..."*) to `~/.gemini/config/GEMINI.md` and `~/.cursorrules`.
 4. **Live Multi-Row Telemetry Statusline (`agy-quota-statusline`):** Tracks real-time 5h/weekly quota, 250k compaction gate countdown (`🧹`), active skills in real time (`🛠️ Skills [Live]`), CPU/GPU temperatures & fan RPM (`🌡️`), lid-closed lock state (`🔒Lid-Safe`), RTX 5060 VRAM & `/dev/shm` RAM-disk usage (`🚀`), and active background workloads (`⚙️ 🎨Blender+🔨Build+🎮OGSR/Wine`).
 5. **Floating Voice Dictation Pill (`agy-mic-button`):** Launches a draggable, pinnable (`📌`/`📍`) floating `[🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin]` overlay that triggers `/voice` (`F5`) without keyboard shortcuts and auto-closes when `agy` exits.
@@ -467,7 +467,7 @@ A dedicated suite of executable utilities installed directly into `~/.local/bin/
 
 ## 🎯 Division of Labor: `agy` CLI vs. Cursor IDE
 
-While all 316 skills and CLI utilities are shared across environments, they divide into distinct operational sweet spots:
+While all 324 skills and CLI utilities are shared across environments, they divide into distinct operational sweet spots:
 
 <details>
 <summary><b>🎯 Click to View Division of Labor Details & Recommended Tooling</b></summary>
@@ -497,9 +497,9 @@ While all 316 skills and CLI utilities are shared across environments, they divi
 
 ---
 
-## 🧩 Categorized Skills Directory (316 Skills)
+## 🧩 Categorized Skills Directory (324 Skills)
 
-The full collection of 316 skills is organized into 11 functional domains. Click any category below to expand its skills and capabilities:
+The full collection of 324 skills is organized into 11 functional domains. Click any category below to expand its skills and capabilities:
 
 <details>
 <summary><b>🧠 1. Cognitive Reasoning, Quota Governance & Token Containment (38 Skills)</b></summary>
@@ -827,7 +827,7 @@ The full collection of 316 skills is organized into 11 functional domains. Click
 </details>
 
 <details>
-<summary><b>🤖 10. Frontier AI, Subagent Swarms & Multi-Model Parity (35 Skills)</b></summary>
+<summary><b>🤖 10. Frontier AI, Subagent Swarms & Multi-Model Parity (43 Skills)</b></summary>
 
 | Skill | Purpose & Key Capabilities |
 | :--- | :--- |
@@ -841,7 +841,14 @@ The full collection of 316 skills is organized into 11 functional domains. Click
 | **`argon-sentencepiece-serializer`**| Formats tabular data to optimize density under Google's SentencePiece tokenizer. |
 | **`argon-structured-json-schema-enforcer`**| Constrained decoding emitting deterministic, schema-compliant JSON payloads. |
 | **`argon-self-contained-autonomous-driver`**| Single-driver workflow unifies planning, C++ refactoring, and QA playtesting. |
-| **`subagent-swarm-orchestrator`**| Coordinates parallel subagent swarms in Claude Code using isolated worktrees. |
+| **`claude-local-fleet-offloader`**| Offloads tasks from Claude Code to 42-model local Ollama fleet, auto-activating 50% weekly quota Safe Mode. |
+| **`claude-adversarial-verification-gate`**| 4-stage adversarial self-critique and boundary proofing for Claude 3.7 before declaring complete. |
+| **`claude-prompt-cache-sentinel`**| Maximizes Anthropic prompt caching discounts (90% savings) through 1024-token blocks and 5m TTL guard. |
+| **`claude-hardware-acceleration-governor`**| Enforces 32-thread saturation, 30 GB /dev/shm RAM disk builds, and RTX 5060 OptiX GPU acceleration in Claude. |
+| **`claude-multimodal-vision-auditor`**| Inspects screen telemetry, local GPU OCR pre-processing, UI layouts, and Blender 3D viewports in Claude. |
+| **`claude-voice-prompt-optimizer`**| Strips conversational mirroring from agy-mic-button voice dictation and normalizes phonetic code terms. |
+| **`claude-yolo-quota-watchdog`**| Autonomous watchdog for claude-yolo, enforcing 5h wait-for-refresh and 3-strike file churn circuit breaker. |
+| **`claude-reverse-engineering-suite`**| Orchestrates REA MCP, Ghidra/Rizin decompilation analysis, objdiff binary diffing, and 64-bit engine ports. |
 | **`claude-silent-dispatch`** | Eliminates pre-tool narration and commentary, executing tools directly. |
 | **`claude-worktree-tmux`** | Detached background sessions and tmux pane isolation without context pollution. |
 | **`claude-opus-plan-sonnet-exec`**| Hierarchical planning on Claude 3.7 Opus and execution on Sonnet 3.7. |
@@ -1000,7 +1007,7 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & categorized reference
 ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
 ├── .cursor/
-│   └── rules/                  # 316 modular Cursor rules (.mdc) with semantic metadata
+│   └── rules/                  # 324 modular Cursor rules (.mdc) with semantic metadata
 ├── bin/
 │   ├── agy-omni-mode           # Dynamic Gemini & local Ollama model orchestrator
 │   ├── local-research-scout    # Zero-quota multi-source search (DDG, GitHub, SO) + RAG
@@ -1033,7 +1040,7 @@ cli-power-setup/
 ---
 
 <!-- AUTO-SYNC-CATALOG:START -->
-## 🔄 Auto-Synchronized Skill & CLI Inventory (316 Total Active Skills)
+## 🔄 Auto-Synchronized Skill & CLI Inventory (324 Total Active Skills)
 
 ### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)
 | CLI Tool | Purpose |
@@ -1053,7 +1060,7 @@ cli-power-setup/
 | **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |
 | **`local-coprocessor` / `local-rag` / `local-ast-compiler`** | Zero-quota local CPU/GPU/RAM offload engines for AST syntax checks, BM25/vector RAG, and local LLM summarization. |
 
-### Recently Evolved & SOTA Skills (21 Indexed Automatically)
+### Recently Evolved & SOTA Skills (22 Indexed Automatically)
 | Skill Name | Description |
 | :--- | :--- |
 | **`ai-procedural-audio-generation`** | AI-powered and procedural audio generation for game development, content creation, and applications. Covers procedural DSP synthesis (oscillators, envelopes, noise bursts, chiptune/sfxr), text-to-sound-effect (SFX) models, adaptive game soundtrack layering, UI sound design, and loudness normalization. |
@@ -1073,6 +1080,7 @@ cli-power-setup/
 | **`high-density-prompting`** | Compresses verbose prompts into surgical, quota-saving directives, eliminates speculative reasoning tokens, and enforces deterministic, zero-waste agent outputs. |
 | **`speculative-multi-step-drafting`** | Bundles predictable consecutive edits and multi-file modifications into single-turn atomic dispatches, slashing multi-turn reasoning overhead and saving up to 75% input tokens. |
 | **`stalker2-modding`** | Modding workflows and tools for S.T.A.L.K.E.R. 2 Heart of Chornobyl (Unreal Engine 5). Use when packaging UE5 IoStore containers (pak, ucas, utoc) with repak, authoring RE-UE4SS C++ and Lua hooks, inspecting assets via FModel, or organizing mod distributions. |
+| **`subagent-swarm-orchestrator`** | Coordinates autonomous parallel subagent swarms in Claude Code, leveraging isolated git worktrees, background processes, and parent-child JSON messaging pipelines. |
 | **`ultra-large-model-quantization-optimizer`** | Hardware-aware model compression, extreme low-bit quantization (imatrix IQ2/IQ3), sparse MoE execution, and layer-wise NVMe SSD streaming (AirLLM). Enables running 70B to 405B parameter language models locally on consumer laptop hardware (30GB RAM + 8GB RTX 5060 VRAM). |
 | **`voice-prompt-context-optimizer`** | Autonomous voice-to-text prompt normalizer and context token saver. Eliminates conversational filler, corrects phonetic developer jargon (C++, OGSR, LTX, JSON), translates spoken commands into slash commands, and prevents compounding context bloat across voice-driven AI workflows. |
 | **`xray-dx11-shader-modernization`** | Modernizes and adapts legacy DirectX 9 Shader Model 3.0 shaders to DirectX 11 Shader Model 5.0 in S.T.A.L.K.E.R. / OGSR Engine. Enforces 16-byte constant buffer (cbuffer) alignment, registers texture sampler splits, and fixes blown-out dynamic lighting/reflections. |

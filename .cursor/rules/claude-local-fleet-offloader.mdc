@@ -1,0 +1,47 @@
+---
+description: Offloads low-complexity and repetitive engineering tasks from Claude Code to the 42-model local Ollama fleet, automatically activating 50% weekly quota Safe Mode to preserve Anthropic cloud tokens.
+globs: 
+alwaysApply: false
+---
+
+# Claude Local Fleet Offloader (`claude-local-fleet-offloader`)
+
+Claude 3.7 Sonnet and Opus are world-class reasoning models, but using cloud tokens for mechanical symbol searches, boilerplate generation, decompilation analysis, and unit test logs burns expensive rate limits and exhausts weekly quotas rapidly.
+
+This skill equips Claude Code with an automated **Zero-Quota Local Offload Pipeline**, routing specialized engineering tasks to the local 42-model Ollama fleet running on the host AMD Ryzen 9 (32 threads) and NVIDIA GeForce RTX 5060 Laptop GPU (8GB GDDR7 VRAM).
+
+---
+
+## 🛡️ 1. The 50% Weekly Quota Safe Mode
+
+When Claude Code's weekly quota drops to **$\le 50\%$**, this skill automatically engages **Safe Mode**:
+- **Divert Code Generation**: Divert repetitive boilerplate, CRUD, LTX configs, and test fixtures to local models via `local-coprocessor` or `agy-omni-mode --exec`.
+- **Divert C++ Decompilation**: Offload disassembly analysis and pseudocode reconstruction to `llm4decompile:22b-q4`.
+- **Divert Math & Physics**: Route ballistics curves and matrix proofs to `deepseek-r1:70b-iq2` or `mathstral:7b`.
+- **Divert 3D Blender Automation**: Route procedural geometry and shader scripts to `blender-architect` or `blenderllm:7b-q4`.
+- **Preserve Claude Quota**: Reserve the remaining 50% cloud quota strictly for high-level architectural decisions and difficult debugging until the weekly reset.
+
+---
+
+## 🤖 2. Local Fleet Routing Matrix for Claude Code
+
+| Task Domain | Optimal Local Model | Invocation Command | Cloud Tokens Saved |
+| :--- | :--- | :--- | :--- |
+| **Whole-Repo AST Search** | `codegeex4:9b` (128k ctx) | `local-coprocessor exec --model codegeex4:9b --prompt "..."` | ~1,800 - 5,000 tok/query |
+| **C++ & Systems Code** | `qwen2.5:72b-iq2` / `qwen2.5-coder:32b` | `local-coprocessor exec --task porting --prompt "..."` | ~2,500 - 7,000 tok/turn |
+| **Mathematical Proofs & ODE** | `deepseek-r1:70b-iq2` / `mathstral:7b` | `local-coprocessor exec --task math --prompt "..."` | ~3,000 - 8,000 tok/turn |
+| **Binary Decompilation** | `llm4decompile:22b-q4` | `local-coprocessor exec --task decompile --prompt "..."` | ~2,000 - 5,000 tok/fn |
+| **Blender 3D bpy Scripts** | `blender-architect` / `blenderllm:7b-q4`| `local-coprocessor exec --task blender --prompt "..."` | ~2,000 - 6,000 tok/turn |
+| **Multimodal UI & Diagram OCR**| `llava:13b` / `minicpm-v:8b` | `local-coprocessor exec --task vision --prompt "..."` | ~1,500 - 4,000 tok/image |
+| **RAG & Structured Tool Use** | `command-r:35b` | `local-coprocessor exec --task enterprise-agent --prompt "..."`| ~2,500 - 6,000 tok/turn |
+| **Boilerplate & Docstrings** | `qwen2.5-coder:7b` / `smollm2:1.7b` | `local-coprocessor exec --task docstring --prompt "..."` | ~800 - 2,000 tok/file |
+
+---
+
+## ⚡ 3. Terminal Offload CLI Helpers
+
+Before executing cloud reasoning for mechanical tasks, run these local tools via Bash:
+1. **Symbol Search**: Run `slice-reader <file> <start> <end>` or `token-guard grep -n "symbol"` rather than reading entire files.
+2. **Local AST Scan**: Run `local-coprocessor exec --task code-repo --prompt "Find definitions of..."`.
+3. **Coprocessor Query**: Run `local-coprocessor exec --model <model> --prompt "<prompt>"`.
+4. **Token Ledger Check**: Run `local-coprocessor status` to view lifetime saved tokens and active VRAM headroom.

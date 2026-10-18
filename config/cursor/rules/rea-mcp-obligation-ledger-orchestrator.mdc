@@ -61,6 +61,7 @@ When a custom engine build behaves differently from the stock binary (e.g. custo
 
 - **Lazy Schema Loading:** Read only the required schema file in `/home/ericparsley/.gemini/antigravity/mcp/rea/<toolName>.json` before invoking `call_mcp_tool`.
 - **Targeted Decompilation:** Use `procedure_pseudo_code` on specific suspect functions rather than `batch_decompile` on hundreds of procedures to keep context lean.
+- **Local Neural Decompiler Offload (`llm4decompile:22b-q4`):** When REA extracts raw assembly or procedure disassembly, offload procedure reconstruction to `local-coprocessor --task re` (`llm4decompile:22b-q4`) to recover clean C++ structures, variable types, and control flow 100% locally with 0 cloud tokens.
 
 ## Related & Interoperating Skills
 - **`binary-re-workflows`**: Orchestrates reverse engineering tools (REA MCP, Ghidra, JADX, TShark, objdump, hex analysis) with Superpowers...

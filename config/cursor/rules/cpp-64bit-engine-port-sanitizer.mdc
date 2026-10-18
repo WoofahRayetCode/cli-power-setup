@@ -82,6 +82,24 @@ When classes use multiple inheritance with virtual methods:
 - In 64-bit, each virtual base pointer (`vptr`) is 8 bytes instead of 4 bytes.
 - Never use raw byte offset math (`*(char**)this + offset`) to access member variables or virtual tables. Always use standard `reinterpret_cast` or `dynamic_cast`.
 
+---
+
+## 5. Zero-Quota Local Formal Verification (`deepseek-r1:70b-iq2` & `qwen2.5:72b-iq2`)
+
+Do not spend cloud Gemini 4 Argon or Claude 3.7 reasoning tokens calculating byte offsets, struct padding, or pointer alignment proofs in-head. Offload them to host Titan models via `local-coprocessor`:
+
+```bash
+# 1. Formal Chain-of-Thought Proof for 64-bit Struct Padding (DeepSeek-R1 70B)
+local-coprocessor generate --task reason \
+  --prompt "Analyze this legacy 32-bit packet header. Calculate exact byte offsets in LLP64 vs LP64 and emit a static_assert padded C++ struct: struct Header { char magic[4]; void* pData; uint32_t flags; };"
+
+# 2. Large-Scale C++20 Refactoring and Pointer Safety (Titan Qwen 2.5 72B)
+local-coprocessor generate --task cpp \
+  --prompt "Refactor this legacy X-Ray memory allocator to use uintptr_t, C++20 std::span, and alignment-safe pointer arithmetic."
+```
+
+---
+
 ## Windows 10/11 & Cross-Platform Game Modding Parity (`windows-linux-cross-os-runtime-bridge`)
 - **Native Windows vs. Linux Wine/Proton:** On Windows 10/11, execute `xrEngine.exe` and mod tools natively via DirectX 11/12 without Wine overhead. On Linux, route through Proton/Wine and DXVK/VKD3D.
 - **LLP64 vs. LP64 64-Bit C++ Safety:** On Windows x64 MSVC/Clang-CL (LLP64), `long` and `unsigned long` (`DWORD`) are **32-bit (4 bytes)** whereas on Linux x86_64 (LP64) `long` is 64-bit. Never cast pointers to `long` or `DWORD`—always use `uintptr_t`, `intptr_t`, or `size_t`.

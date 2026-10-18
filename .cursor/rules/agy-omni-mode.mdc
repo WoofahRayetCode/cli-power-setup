@@ -1,6 +1,6 @@
 ---
 description: Dynamic model & fleet orchestrator for Google Antigravity. Dynamically switches between Gemini models (Pro / Flash) and local Ollama language models based on task complexity, active step lifecycle, referenced project files, and rolling 5-hour quota headroom.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

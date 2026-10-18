@@ -1,6 +1,6 @@
 ---
 description: Real-time telemetry governor and automatic model/reasoning tuner for Gemini models in Google Antigravity. Dynamically adjusts model tier (pro vs flash vs flash_lite), subagent dispatch, and reasoning effort (low vs medium vs high) turn-by-turn based on rolling quota headroom, dirty repository file types, and task complexity, guaranteeing zero quota waste.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

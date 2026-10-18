@@ -14,6 +14,11 @@ GEMINI_SKILLS="${GEMINI_DIR}/config/skills"
 GEMINI_RULES="${GEMINI_DIR}/config/GEMINI.md"
 GEMINI_CLI_SETTINGS="${GEMINI_DIR}/antigravity-cli/settings.json"
 
+CLAUDE_DIR="${HOME}/.claude"
+CLAUDE_SKILLS="${CLAUDE_DIR}/skills"
+CLAUDE_RULES="${CLAUDE_DIR}/CLAUDE.md"
+CLAUDE_SETTINGS="${CLAUDE_DIR}/settings.json"
+
 CURSOR_DIR="${HOME}/.cursor"
 CURSOR_RULES="${CURSOR_DIR}/rules"
 CURSOR_GLOBAL_RULES="${HOME}/.cursorrules"
@@ -47,6 +52,16 @@ backup_existing() {
     fi
     if [ -f "${GEMINI_CLI_SETTINGS}" ]; then
         cp "${GEMINI_CLI_SETTINGS}" "${backup_dir}/gemini/settings.json"
+    fi
+    if [ -d "${CLAUDE_SKILLS}" ]; then
+        mkdir -p "${backup_dir}/claude"
+        cp -r "${CLAUDE_SKILLS}" "${backup_dir}/claude/skills"
+    fi
+    if [ -f "${CLAUDE_RULES}" ]; then
+        cp "${CLAUDE_RULES}" "${backup_dir}/claude/CLAUDE.md"
+    fi
+    if [ -f "${CLAUDE_SETTINGS}" ]; then
+        cp "${CLAUDE_SETTINGS}" "${backup_dir}/claude/settings.json"
     fi
     if [ -d "${CURSOR_RULES}" ]; then
         mkdir -p "${backup_dir}/cursor"
@@ -146,6 +161,65 @@ EOF
     fi
 }
 
+install_claude() {
+    echo ""
+    log_info "Configuring Claude Code..."
+
+    # Ensure @anthropic-ai/claude-code is installed
+    if ! command -v claude >/dev/null 2>&1; then
+        log_info "Claude Code CLI not found in PATH. Installing via npm..."
+        if command -v npm >/dev/null 2>&1; then
+            npm install -g --prefix "${HOME}/.local" --allow-scripts=@anthropic-ai/claude-code @anthropic-ai/claude-code || true
+        fi
+    fi
+
+    # 1. Skills
+    mkdir -p "${CLAUDE_SKILLS}"
+    cp -r "${SCRIPT_DIR}/config/skills/"* "${CLAUDE_SKILLS}/"
+    local count
+    count="$(find "${CLAUDE_SKILLS}" -mindepth 1 -maxdepth 1 -type d ! -name "synced" | wc -l)"
+    log_done "Synchronized ${count} skills in ${CLAUDE_SKILLS}."
+
+    # 2. Rules
+    mkdir -p "${CLAUDE_DIR}"
+    if [ -f "${SCRIPT_DIR}/config/CLAUDE.md" ]; then
+        cp "${SCRIPT_DIR}/config/CLAUDE.md" "${CLAUDE_RULES}"
+    else
+        cp "${SCRIPT_DIR}/config/GEMINI.md" "${CLAUDE_RULES}"
+    fi
+    ln -sf "${CLAUDE_RULES}" "${HOME}/.claude.md"
+    log_done "Installed global rules in ${CLAUDE_RULES}."
+
+    # 3. Settings / Statusline / Effort
+    python3 - <<EOF
+import json, os
+p = os.path.expanduser("${CLAUDE_SETTINGS}")
+data = {}
+if os.path.exists(p):
+    try:
+        with open(p, "r") as f:
+            data = json.load(f)
+    except Exception:
+        data = {}
+data["statusLine"] = {
+    "type": "command",
+    "command": os.path.expanduser("${BIN_DEST}/claude-statusline")
+}
+data["effort"] = "low"
+with open(p, "w") as f:
+    json.dump(data, f, indent=2)
+EOF
+    log_done "Configured statusLine and low-effort thinking in Claude Code settings.json."
+
+    # Configure YOLO & Turbo mode aliases in bash
+    if [ -f "$HOME/.bashrc" ] && ! grep -q "claude-yolo" "$HOME/.bashrc"; then
+        echo "" >> "$HOME/.bashrc"
+        echo "# Claude Code YOLO & Turbo mode aliases" >> "$HOME/.bashrc"
+        echo "alias claude-yolo='/home/ericparsley/.local/bin/claude-yolo'" >> "$HOME/.bashrc"
+        echo "alias claude-turbo='/home/ericparsley/.local/bin/claude-turbo'" >> "$HOME/.bashrc"
+    fi
+}
+
 install_cursor() {
     echo ""
     log_info "Configuring Cursor IDE & Multi-Model Rules..."
@@ -179,6 +253,9 @@ data["cursor.general.preferredModels"] = [
     "grok-4.7",
     "grok-4.7-fast",
     "grok-4.5",
+    "claude-3-7-sonnet",
+    "claude-3-5-sonnet",
+    "claude-3-5-haiku",
     "o3-mini",
     "o1",
     "gpt-4o",
@@ -197,7 +274,7 @@ data["terminal.integrated.env.linux"] = env_linux
 with open(p, "w") as f:
     json.dump(data, f, indent=2)
 EOF
-    log_done "Configured Grok 4.7, agent mode, user rules, and CLI path in Cursor settings.json."
+    log_done "Configured Grok 4.7, Claude 3.7, agent mode, user rules, and CLI path in Cursor settings.json."
 }
 
 verify_installation() {
@@ -207,13 +284,18 @@ verify_installation() {
     if "${BIN_DEST}/agy-quota-statusline" >/dev/null 2>&1; then
         local st
         st="$("${BIN_DEST}/agy-quota-statusline")"
-        log_done "Statusline verification: ${st}"
+        log_done "Antigravity Statusline: ${st}"
     else
-        log_warn "Statusline test executed with warning (normal if no active session yet)."
+        log_warn "Antigravity Statusline test executed with warning (normal if no active session yet)."
     fi
 
-    local agy_count=0 cursor_count=0
+    if [ -f "${BIN_DEST}/claude-statusline" ]; then
+        log_done "Claude Code Statusline: ${BIN_DEST}/claude-statusline installed."
+    fi
+
+    local agy_count=0 claude_count=0 cursor_count=0
     [ -d "${GEMINI_SKILLS}" ] && agy_count="$(find "${GEMINI_SKILLS}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
+    [ -d "${CLAUDE_SKILLS}" ] && claude_count="$(find "${CLAUDE_SKILLS}" -mindepth 1 -maxdepth 1 -type d ! -name "synced" | wc -l)"
     [ -d "${CURSOR_RULES}" ] && cursor_count="$(find "${CURSOR_RULES}" -name "*.mdc" | wc -l)"
 
     local model_count=0
@@ -226,10 +308,11 @@ verify_installation() {
     echo -e "${COLOR_GREEN} CLI Power Setup Successfully Installed!             ${COLOR_RESET}"
     echo -e "${COLOR_GREEN}======================================================${COLOR_RESET}"
     echo -e "Antigravity Skills:   ${COLOR_CYAN}${agy_count} active (${GEMINI_SKILLS})${COLOR_RESET}"
+    echo -e "Claude Code Skills:   ${COLOR_CYAN}${claude_count} active (${CLAUDE_SKILLS})${COLOR_RESET}"
     echo -e "Cursor Rules:         ${COLOR_CYAN}${cursor_count} active (${CURSOR_RULES})${COLOR_RESET}"
     echo -e "Local Model Fleet:    ${COLOR_CYAN}${model_count} models registered in Ollama${COLOR_RESET}"
-    echo -e "Statusline monitor:   ${COLOR_CYAN}agy-quota-statusline${COLOR_RESET}"
-    echo -e "Launchers:            ${COLOR_CYAN}agy-yolo & agy-turbo${COLOR_RESET}"
+    echo -e "Statusline monitors:  ${COLOR_CYAN}agy-quota-statusline & claude-statusline${COLOR_RESET}"
+    echo -e "Launchers:            ${COLOR_CYAN}agy-yolo, agy-turbo, claude-yolo, claude-turbo${COLOR_RESET}"
     echo -e "Fleet Manager:        ${COLOR_CYAN}setup-local-model-fleet (--status, --all, --detect-system)${COLOR_RESET}"
     echo -e "Hardware Optimizer:   ${COLOR_CYAN}ultra-model-manager (detect, status, download-all, optimize-all)${COLOR_RESET}"
     echo -e "Auditor & Updater:    ${COLOR_CYAN}skills-audit-update (--audit, --sync, --fix, --pull)${COLOR_RESET}"
@@ -266,22 +349,24 @@ install_models() {
 show_menu() {
     echo -e "${COLOR_BOLD}CLI Power Setup Installer${COLOR_RESET}"
     echo "Select target installation option:"
-    echo "  1) Full Setup (Antigravity & Cursor) [Recommended]"
-    echo "  2) Full Setup + Local Model Fleet Download & Optimization (37 Models)"
+    echo "  1) Full Setup (Antigravity, Claude Code & Cursor) [Recommended]"
+    echo "  2) Full Setup + Local Model Fleet Download & Optimization (42 Models)"
     echo "  3) Antigravity only (~/.gemini)"
-    echo "  4) Cursor only (~/.cursor, ~/.cursorrules)"
-    echo "  5) Local Model Fleet Only (Hardware Detection, Download & Optimization)"
-    echo "  6) Exit"
+    echo "  4) Claude Code only (~/.claude)"
+    echo "  5) Cursor only (~/.cursor, ~/.cursorrules)"
+    echo "  6) Local Model Fleet Only (Hardware Detection, Download & Optimization)"
+    echo "  7) Exit"
     echo ""
-    read -rp "Enter choice [1-6] (default: 1): " choice
+    read -rp "Enter choice [1-7] (default: 1): " choice
     choice="${choice:-1}"
     case "$choice" in
         1) TARGET="all"; SYNC_MODELS=0 ;;
         2) TARGET="all"; SYNC_MODELS=1 ;;
         3) TARGET="agy"; SYNC_MODELS=0 ;;
-        4) TARGET="cursor"; SYNC_MODELS=0 ;;
-        5) TARGET="models"; SYNC_MODELS=1 ;;
-        6) echo "Exiting."; exit 0 ;;
+        4) TARGET="claude"; SYNC_MODELS=0 ;;
+        5) TARGET="cursor"; SYNC_MODELS=0 ;;
+        6) TARGET="models"; SYNC_MODELS=1 ;;
+        7) echo "Exiting."; exit 0 ;;
         *) echo "Invalid option, defaulting to Full Setup."; TARGET="all"; SYNC_MODELS=0 ;;
     esac
 }
@@ -296,11 +381,12 @@ main() {
             case "$1" in
                 --all|-a)           TARGET="all" ;;
                 --agy|-g)           TARGET="agy" ;;
+                --claude|-c)        TARGET="claude" ;;
                 --cursor|-u)        TARGET="cursor" ;;
                 --models|-m)        TARGET="models"; SYNC_MODELS=1 ;;
                 --with-models)      TARGET="all"; SYNC_MODELS=1 ;;
                 --help|-h)
-                    echo "Usage: ./install.sh [--all | --agy | --cursor | --models | --with-models]"
+                    echo "Usage: ./install.sh [--all | --agy | --claude | --cursor | --models | --with-models]"
                     exit 0
                     ;;
                 *)
@@ -322,6 +408,7 @@ main() {
             backup_existing
             install_binaries
             install_antigravity
+            install_claude
             install_cursor
             if [ "${SYNC_MODELS}" -eq 1 ]; then
                 install_models
@@ -331,6 +418,11 @@ main() {
             backup_existing
             install_binaries
             install_antigravity
+            ;;
+        claude)
+            backup_existing
+            install_binaries
+            install_claude
             ;;
         cursor)
             backup_existing

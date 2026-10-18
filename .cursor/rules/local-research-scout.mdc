@@ -1,6 +1,6 @@
 ---
 description: Autonomous zero-quota multi-source web search, documentation scraping, and technical query synthesis. Sources across DuckDuckGo HTML, GitHub API, StackOverflow, and direct page scraping, ranking evidence with local embeddings (bge-m3) and synthesizing answers using local LLMs (deepseek-coder-v2:16b, deepseek-r1:14b, qwen2.5:32b).
-globs: *
+globs: 
 alwaysApply: false
 ---
 

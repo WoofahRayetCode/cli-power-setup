@@ -1,6 +1,6 @@
 ---
 description: Offloads low-complexity tasks (docstrings, commit messages, log summarization, regex, boilerplate) to local SLMs/LLMs running in GPU VRAM or system RAM via Ollama or llama.cpp, saving 100% of cloud quota for hard architectural reasoning.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

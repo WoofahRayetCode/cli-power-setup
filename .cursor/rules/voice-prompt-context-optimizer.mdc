@@ -1,6 +1,6 @@
 ---
 description: Autonomous voice-to-text prompt normalizer and context token saver. Eliminates conversational filler, corrects phonetic developer jargon (C++, OGSR, LTX, JSON), translates spoken commands into slash commands, and prevents compounding context bloat across voice-driven AI workflows.
-globs: *
+globs: 
 alwaysApply: false
 ---
 

@@ -1,6 +1,6 @@
 ---
 description: Hardware-aware model compression, extreme low-bit quantization (imatrix IQ2/IQ3), sparse MoE execution, and layer-wise NVMe SSD streaming (AirLLM). Enables running 70B to 405B parameter language models locally on consumer laptop hardware (30GB RAM + 8GB RTX 5060 VRAM).
-globs: *
+globs: 
 alwaysApply: false
 ---
 

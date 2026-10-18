@@ -60,10 +60,25 @@ A clean, human-designed feature card in Tailwind CSS:
 </div>
 ```
 
+## 🤖 4. Local Web Modernization & Component Offload (`qwen2.5:7b`, `gemma2:9b` via `local-coprocessor`)
+
+To modernize legacy web pages, convert bloated HTML tables to sleek responsive Tailwind CSS cards, or author clean semantic UI components without consuming cloud tokens:
+
+```bash
+# Convert legacy HTML table into a modern Tailwind card grid
+local-coprocessor generate --task web \
+  --prompt "Convert this legacy HTML table into a responsive dark-mode Tailwind CSS card grid following Linear design aesthetics: <table border='1'>..."
+
+# Modernize hero section typography and surface layering
+local-coprocessor generate --task web --auto-skill \
+  --prompt "Refactor this website landing page hero section with subtle 1px borders, Zinc-950 background, and Geist font typography"
+```
+
 ---
 
 ## 🔄 Interoperability & Handoffs
 
+* **Pairing with `local-model-coprocessor`:** Routes web frontend drafting to `qwen2.5:7b` locally (0 cloud tokens).
 * **Pairing with `generative-visual-artifacts`:** Launches live browser previews using `xdg-open`.
 * **Pairing with `threejs-webgl-engineering`:** Embeds high-performance 3D canvas viewports inside clean landing page layouts.
 

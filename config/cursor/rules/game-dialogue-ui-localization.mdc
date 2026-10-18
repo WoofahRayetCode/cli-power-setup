@@ -93,8 +93,21 @@ The companion executable `game-dialogue-tool` (installed in `~/.local/bin/game-d
 5. **Widescreen Parity:** Never edit `talk.xml` without updating `talk_16.xml`.
 6. **CJK Kinzoku Shori Discipline:** Ensure Japanese and Chinese translations don't place sentence-ending punctuation (`。`, `、`, `」`) at line starts.
 
+## 6. Local AI Translation & Dialogue Repair Offload (`aya:8b`, `qwen2.5:7b` via `local-coprocessor`)
+
+To translate high-volume dialogue trees or XML string tables without consuming cloud token quotas, route translation tasks to the local `aya:8b` (Cohere 101-language specialist) or `qwen2.5:7b`:
+
+```bash
+# Translate string tables while preserving %c[color] tags and XML structure
+local-coprocessor generate --task translate \
+  --prompt "Translate this S.T.A.L.K.E.R. string to Russian, preserving %c[green] tags: <text>Find the missing anomalous artifact in the Agroprom underground.</text>"
+
+# Auto-repair broken XML dialogue lines with dialogue skill context
+local-coprocessor generate --task translate --auto-skill \
+  --prompt "Audit and fix broken XML string table encoding in gamedata/config/text/rus/string_table_general.xml"
+```
+
 ## Related & Interoperating Skills
-- **`game-localization-i18n`**: Internationalization (i18n) and localization (l10n) pipelines for games, desktop, and web apps. Covers ICU mes...
-- **`game-companion-pet-ai`**: Custom companion & pet NPC architecture: state machine behaviors (follow, guard, objective guide), god mode st...
-- **`game-entity-component-system`**: High-performance Entity Component System (ECS) architecture, Data-Oriented Design (DOD), Archetype vs Sparse-S...
+- **`local-model-coprocessor`**: Dispatches translation and dialogue repairs to `aya:8b` and `qwen2.5:7b` locally in VRAM/RAM (0 cloud tokens).
+- **`game-localization-i18n`**: Internationalization (i18n) and localization (l10n) pipelines for games, desktop, and web apps.
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

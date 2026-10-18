@@ -14,6 +14,13 @@ This skill governs automatic reasoning selection and model escalation to maximiz
 
 Before beginning work on any user request, evaluate the prompt's structural complexity:
 
+### Tier 0: Zero-Quota Local Fleet Offload (34 Local Models including 70B/72B Titans & Specialists)
+* **Triggers:** Docstring generation, conventional git commit messages, boilerplate/regex generation, game physics ODE / quaternion math derivations, 32-to-64 bit pointer sanitization, DirectX 9/11 to Vulkan shader translation, SQLite DDL indexing, multilingual dialogue translation, CAD/Blender procedural 3D modeling (`blenderllm:7b-q4`), binary assembly-to-C decompilation (`llm4decompile:22b-q4`), formal 64-bit struct padding proofs (`deepseek-r1:70b-iq2`), or large-scale C++20 engine modernization (`qwen2.5:72b-iq2`).
+* **Reasoning Strategy:**
+  - Route directly to `local-coprocessor generate --task <task>` (`bin/local-coprocessor`) or manage models with `ultra-model-manager` (`umm`).
+  - **Cloud Tokens Billed: ZERO.** Runs entirely in host VRAM (RTX 5060) and 32 CPU threads via Ollama (up to 70B/72B parameters via dual-drive RAM/VRAM offload).
+  - Leaves 100% of rolling 5-hour and weekly Gemini 4 Argon / Claude 3.7 Sonnet quota untouched.
+
 ### Tier 1: Trivial / Direct Execution
 * **Triggers:** Single-line fixes, simple typo corrections, direct shell commands, asking for file locations, formatting, quick status checks, inspecting LAA 4GB PE flags (`laa_pe_patcher.py`), semantic skill matching (`dynamic-skill-router`), or skill health audits/sync (`skills-audit-update`).
 * **Reasoning Strategy:**

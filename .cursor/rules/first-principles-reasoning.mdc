@@ -47,6 +47,10 @@ python3 config/skills/first-principles-reasoning/scripts/verification_reasoner.p
 # 2. Rank debugging hypotheses by Ockham's Razor score
 python3 config/skills/first-principles-reasoning/scripts/verification_reasoner.py \
   rank hypotheses.json
+
+# 3. Offload Deep Chain-of-Verification Reasoning to Local Titan Reasoner (DeepSeek-R1 70B)
+local-coprocessor generate --task reason \
+  --prompt "Perform adversarial red-team analysis on this proposal: Migrating legacy X-Ray memory allocator to C++20 PMR. What are the 3 fastest ways this could cause undefined behavior?"
 ```
 
 ---

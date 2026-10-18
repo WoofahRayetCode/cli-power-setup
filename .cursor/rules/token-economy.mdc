@@ -52,6 +52,10 @@ To ensure the new frontier efficiency tools are always utilized:
   When tackling complex or multi-domain tasks, query `skill_router.py` to identify the exact 2–3 expert skills rather than reading or injecting dozens of unrelated skill files into prompt context.
 * **Episodic Checkpointing Across Compaction (`session-episodic-memory`):**
   Capture decision rationale and active hypotheses in `.agents/episodes/` before running `/compact`, ensuring zero token-cost amnesia upon conversation resumption.
+* **Zero-Quota Local LLM Fleet Offloading (`local-model-coprocessor`, `agy-omni-mode`):**
+  Offload entire task turns to 34 local models on 32-thread CPU + RTX 5060 CUDA/OptiX. Specifically, offload 70B/72B frontier reasoning (`deepseek-r1:70b-iq2`), dense C++20 architecture (`qwen2.5:72b-iq2`), binary decompilation (`llm4decompile:22b-q4`), and CAD scripts (`blenderllm:7b-q4`), saving 8,000–32,000 cloud reasoning and context tokens per turn (100% cloud quota preservation).
+* **Voice-to-Text Input Context Normalization (`voice-prompt-context-optimizer`):**
+  Compress spoken speech-to-text dictation by 50%–85%, stripping conversational filler ("um", "can you please"), normalizing phonetic jargon (`see plus plus` $\rightarrow$ `C++`, `ogsr engine` $\rightarrow$ `OGSR Engine`), and mapping spoken intent phrases directly into deterministic slash commands (`/goal`, `/plan`, `/boost`).
 
 ---
 
@@ -89,7 +93,7 @@ To ensure the new frontier efficiency tools are always utilized:
 
 ## 5. Token Savings Metric Footer
 Conclude plans, refactors, and multi-step tasks with a single high-density token economy line quantifying estimated output/quota savings achieved through these constraints:
-`📉 Token Economy: ~<N> tokens saved (<breakdown: e.g. cache hits, symbol lookup, swarm offload, surgical diffs>)`
+`📉 Token Economy: ~<N> tokens saved (<breakdown: e.g. cache hits, local 70B offload, voice compaction, symbol lookup, surgical diffs>)`
 
 ## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
 - Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

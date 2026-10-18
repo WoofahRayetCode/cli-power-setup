@@ -88,6 +88,18 @@ $$\frac{dv_x}{dx} = \frac{dv_x / dt}{dx / dt} = -k_{\text{air}} v_x \implies v_x
 ```bash
 game-math-solver ode --erp 0.2 --cfm 1e-5 --step 0.02 --new-step 0.01
 game-math-solver ballistics --v0 900 --drag 0.0012 --range 300
+## 6. Local Symbolic Math & Ballistics Proofing (`mathstral:7b`, `wizard-math:7b`, `phi4:14b` via `local-coprocessor`)
+
+To perform complex ODE derivations, quaternion conversions, or non-linear ballistics integrations without burning cloud thinking tokens:
+
+```bash
+# Derive non-linear air resistance equations using Mistral STEM specialist
+local-coprocessor generate --task math \
+  --prompt "Derive bullet trajectory x(t) and y(t) with quadratic drag F_d = -0.5 * rho * v^2 * C_d * A and initial velocity 900 m/s"
+
+# Quaternion SLERP & change-of-basis transforms via Wizard-Math
+local-coprocessor generate --task math \
+  --prompt "Derive the exact quaternion SLERP equation and handle near-parallel dot products >= 0.9995 to prevent divide-by-zero"
 ```
 
 ## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
