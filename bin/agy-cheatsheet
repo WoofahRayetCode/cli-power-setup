@@ -34,6 +34,7 @@ GITHUB_ROOT = _resolve_github_root()
 CONFIG_STATE_PATH = GITHUB_ROOT / "cli-power-setup" / "config" / "repo_cheatsheet.json"
 USER_STATE_PATH = Path.home() / ".cli_power_setup" / "repo_cheatsheet.json"
 STATUSLINE_CACHE = Path(tempfile.gettempdir()) / "agy_cheatsheet_statusline.json"
+STATUSLINE_CLAUDE_CACHE = Path(tempfile.gettempdir()) / "claude_cheatsheet_statusline.json"
 
 # ANSI Colors
 C_RESET = "\033[0m"
@@ -540,18 +541,43 @@ def _short_tier(model_str: str) -> str:
     return base
 
 
-def get_statusline_bars(target_dir: str | None = None) -> dict:
+def _short_tier_claude(model_str: str) -> str:
+    base = "Eco"
+    if "Sonnet•High" in model_str or "Sonnet (High" in model_str or "Argon•High" in model_str or "High" in model_str:
+        base = "Son•Hi"
+    elif "Sonnet•Med" in model_str or "Sonnet (Med" in model_str or "Argon•Med" in model_str or "Med" in model_str:
+        base = "Son•Med"
+    elif "Opus" in model_str:
+        base = "Opus"
+    elif "claude-eco" in model_str or "Eco" in model_str:
+        base = "Eco"
+    if "blender-arch" in model_str:
+        return f"{base}+🤖blend"
+    if "minicpm" in model_str:
+        return f"{base}+🤖vlm"
+    if "r1:8b" in model_str:
+        return f"{base}+🤖r1"
+    if "qwen7b" in model_str:
+        return f"{base}+🤖q7b"
+    if "qwen1.5b" in model_str:
+        return f"{base}+🤖q1.5"
+    return base
+
+
+def get_statusline_bars(target_dir: str | None = None, is_claude: bool = False) -> dict:
     """Fast (<15ms cached) bottom-of-statusline cheat sheet bars for agy-quota-statusline."""
     cwd = Path(target_dir or os.getcwd()).resolve()
     now = time.time()
+    cache_path = STATUSLINE_CLAUDE_CACHE if is_claude else STATUSLINE_CACHE
 
     # 5-second cache keyed by directory so file edits update almost immediately
-    if STATUSLINE_CACHE.exists():
+    if cache_path.exists():
         try:
-            cache = json.loads(STATUSLINE_CACHE.read_text(encoding="utf-8"))
+            cache = json.loads(cache_path.read_text(encoding="utf-8"))
             if (
-                cache.get("schema_v") == 8
+                cache.get("schema_v") == 9
                 and cache.get("cwd") == str(cwd)
+                and cache.get("is_claude") == is_claude
                 and (now - cache.get("ts", 0)) < 5
                 and "active_segments" in cache
             ):
@@ -601,6 +627,9 @@ def get_statusline_bars(target_dir: str | None = None) -> dict:
             "plan_short": "Argon•Med+🤖r1:8b(Plan)",
             "impl_short": "Argon•Med+🤖qwen7b(Code)",
             "edit_short": "Flash•Low+🤖qwen1.5b(Edits)",
+            "claude_plan_short": "Sonnet•Med+🤖r1:8b(Plan)",
+            "claude_impl_short": "Sonnet•Med+🤖qwen7b(Code)",
+            "claude_edit_short": "claude-eco+🤖q1.5b(Edits)",
             "live_rec": "Flash•Low+🤖qwen1.5b",
             "live_reason": "Standard workflow",
             "routine": "Flash•Low+🤖qwen1.5b",
@@ -613,12 +642,26 @@ def get_statusline_bars(target_dir: str | None = None) -> dict:
     ext_badge = ",".join(recent_exts[:2]) if recent_exts else "clean"
     short_prefix = prefix_label.replace("ogsr-complete-", "ogsr-")
 
-    active_segments = [
-        f"🧭 {short_prefix} ({info['work_now']} {ext_badge})",
-        f"📐 Plan: {info['plan_short'].replace(' (', '(')}",
-        f"🔨 Implement: {info['impl_short'].replace(' (', '(')}",
-        f"✏️ Edit Files: {info['edit_short'].replace(' (', '(')}",
-    ]
+    if is_claude:
+        plan_str = info.get("claude_plan_short") or info.get("plan_short", "")
+        impl_str = info.get("claude_impl_short") or info.get("impl_short", "")
+        edit_str = info.get("claude_edit_short") or info.get("edit_short", "")
+        plan_str = plan_str.replace("Argon•High", "Sonnet•High").replace("Argon•Med", "Sonnet•Med").replace("Flash•Low", "claude-eco")
+        impl_str = impl_str.replace("Argon•High", "Sonnet•High").replace("Argon•Med", "Sonnet•Med").replace("Flash•Low", "claude-eco")
+        edit_str = edit_str.replace("Flash•Low", "claude-eco").replace("Argon•Med", "Sonnet•Med").replace("Argon•High", "Sonnet•High")
+        active_segments = [
+            f"🧭 {short_prefix} ({info['work_now']} {ext_badge})",
+            f"📐 Plan: {plan_str.replace(' (', '(')}",
+            f"🔨 Implement: {impl_str.replace(' (', '(')}",
+            f"✏️ Edit Files: {edit_str.replace(' (', '(')}",
+        ]
+    else:
+        active_segments = [
+            f"🧭 {short_prefix} ({info['work_now']} {ext_badge})",
+            f"📐 Plan: {info['plan_short'].replace(' (', '(')}",
+            f"🔨 Implement: {info['impl_short'].replace(' (', '(')}",
+            f"✏️ Edit Files: {info['edit_short'].replace(' (', '(')}",
+        ]
 
     # Build top active fleet strip (Hardware offload + top 3 other active repos with Plan/Impl/Edit)
     fleet_items = []
@@ -631,9 +674,14 @@ def get_statusline_bars(target_dir: str | None = None) -> dict:
             .replace("cli-power-setup", "cli-power")
             .replace("wlfryt-", "")[:14]
         )
-        p_t = _short_tier(r.get("plan_short", "Argon•Med"))
-        i_t = _short_tier(r.get("impl_short", "Argon•Med"))
-        e_t = _short_tier(r.get("edit_short", "Flash•Low"))
+        if is_claude:
+            p_t = _short_tier_claude(r.get("claude_plan_short", r.get("plan_short", "Sonnet•Med")))
+            i_t = _short_tier_claude(r.get("claude_impl_short", r.get("impl_short", "Sonnet•Med")))
+            e_t = _short_tier_claude(r.get("claude_edit_short", r.get("edit_short", "claude-eco")))
+        else:
+            p_t = _short_tier(r.get("plan_short", "Argon•Med"))
+            i_t = _short_tier(r.get("impl_short", "Argon•Med"))
+            e_t = _short_tier(r.get("edit_short", "Flash•Low"))
         fleet_items.append(f"{short_name}({p_t}/{i_t}/{e_t})")
         if len(fleet_items) >= 3:
             break
@@ -643,23 +691,31 @@ def get_statusline_bars(target_dir: str | None = None) -> dict:
         fleet_segments.append(f"📚 Other Repos: {fleet_items[0]}")
         fleet_segments.extend(fleet_items[1:])
 
+    seg_str = (
+        f"📐Plan:{_short_tier_claude(plan_str)} 🔨Impl:{_short_tier_claude(impl_str)} ✏️Edit:{_short_tier_claude(edit_str)}"
+        if is_claude
+        else f"📐Plan:{_short_tier(info['plan_short'])} 🔨Impl:{_short_tier(info['impl_short'])} ✏️Edit:{_short_tier(info['edit_short'])}"
+    )
+
     out = {
-        "schema_v": 8,
+        "schema_v": 9,
         "cwd": str(cwd),
+        "is_claude": is_claude,
         "ts": now,
-        "seg": f"📐Plan:{_short_tier(info['plan_short'])} 🔨Impl:{_short_tier(info['impl_short'])} ✏️Edit:{_short_tier(info['edit_short'])}",
+        "seg": seg_str,
         "active_segments": active_segments,
         "fleet_segments": fleet_segments,
     }
     try:
-        STATUSLINE_CACHE.write_text(json.dumps(out), encoding="utf-8")
+        cache_path.write_text(json.dumps(out), encoding="utf-8")
     except Exception:
         pass
     return out
 
 
-def get_statusline_rec(target_dir: str | None = None) -> str:
-    return get_statusline_bars(target_dir).get("seg", "📐Plan:Med+🤖r1 🔨Impl:Med+🤖q7b ✏️Edit:Flash+🤖q1.5")
+def get_statusline_rec(target_dir: str | None = None, is_claude: bool = False) -> str:
+    fallback = "📐Plan:Son•Hi+🤖r1 🔨Impl:Son•Med+🤖q7b ✏️Edit:Eco+🤖q1.5" if is_claude else "📐Plan:Med+🤖r1 🔨Impl:Med+🤖q7b ✏️Edit:Flash+🤖q1.5"
+    return get_statusline_bars(target_dir, is_claude=is_claude).get("seg", fallback)
 
 
 def print_banner(cwd: Path, results: list[dict], top_n: int = 5) -> None:
@@ -848,26 +904,18 @@ def main() -> None:
     parser.add_argument("--json", action="store_true", help="Output full cheat sheet telemetry as JSON")
     args = parser.parse_args()
 
+    is_claude = args.claude or "claude" in Path(sys.argv[0]).name.lower() or os.environ.get("CLAUDE_MODE") == "1"
+
     if args.statusline_bars is not None:
-        print(json.dumps(get_statusline_bars(args.statusline_bars)))
+        print(json.dumps(get_statusline_bars(args.statusline_bars, is_claude=is_claude)))
         return
 
     if args.statusline is not None:
-        print(get_statusline_rec(args.statusline))
+        print(get_statusline_rec(args.statusline, is_claude=is_claude))
         return
 
     results = scan_all_repos(save=True)
     cwd = Path.cwd().resolve()
-
-    if args.update:
-        print(f"[✓] Updated dynamic model cheat sheet ({len(results)} repos indexed).")
-        return
-
-    if args.json:
-        print(json.dumps(results, indent=2))
-        return
-
-    is_claude = args.claude or "claude" in Path(sys.argv[0]).name.lower() or os.environ.get("CLAUDE_MODE") == "1"
 
     if args.banner:
         if is_claude:

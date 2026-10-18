@@ -667,8 +667,12 @@ def main():
     cs_active_segs = []
     cs_fleet_segs = []
     try:
+        cs_cmd = ["agy-cheatsheet"]
+        if is_claude:
+            cs_cmd.append("--claude")
+        cs_cmd.extend(["--statusline-bars", cwd])
         res_cs = subprocess.run(
-            ["agy-cheatsheet", "--statusline-bars", cwd],
+            cs_cmd,
             capture_output=True,
             text=True,
             timeout=0.8
@@ -681,7 +685,7 @@ def main():
         pass
 
     # 7b. Detect Real-Time Active Skills + Hardware/Swarm/VRAM/RAMDisk telemetry
-    live_skills_segs = get_live_active_skills(cwd)
+    live_skills_segs = get_live_active_skills(cwd, is_claude=is_claude)
     hw_swarm_segs = get_hw_and_swarm_segments()
 
     # 8. Assemble telemetry segments in priority order
@@ -970,12 +974,12 @@ CLI_TO_SKILL_MAP = {
 }
 
 
-def get_live_active_skills(cwd: str) -> list[str]:
+def get_live_active_skills(cwd: str, is_claude: bool = False) -> list[str]:
     """
     Detect the top 4 skills actively being used right now in real time (<5ms cached)
     by inspecting the tail of the most recently active transcript.jsonl + current workspace.
     """
-    cache_path = os.path.join(_TMP, "agy_live_skills_cache.json")
+    cache_path = os.path.join(_TMP, f"agy_live_skills_cache{'_claude' if is_claude else ''}.json")
     now = time.time()
     try:
         if os.path.exists(cache_path) and (now - os.path.getmtime(cache_path)) < 2.0:
@@ -1034,7 +1038,8 @@ def get_live_active_skills(cwd: str) -> list[str]:
     # 2. Enrich with workspace-specific domain skills based on active repo
     repo_low = os.path.basename(os.path.abspath(cwd)).lower()
     if "ogsr" in repo_low:
-        for s in ("cpp-64bit-engine-port-sanitizer", "argon-dynamic-subagent-swarm", "game-modding"):
+        sub_swarm = "subagent-swarm-orchestrator" if is_claude else "argon-dynamic-subagent-swarm"
+        for s in ("cpp-64bit-engine-port-sanitizer", sub_swarm, "game-modding"):
             add_skill(s)
     elif "zoneforge" in repo_low:
         for s in ("game-modding", "xray-lua-scripting", "game-audio-ogg-gsc-encoder"):
@@ -1048,6 +1053,31 @@ def get_live_active_skills(cwd: str) -> list[str]:
     else:
         for s in ("token-economy", "dynamic-repo-model-cheatsheet"):
             add_skill(s)
+
+    # 3. If in Claude mode, sanitize away any Gemini / Argon skills
+    if is_claude:
+        claude_equiv_map = {
+            "argon-adversarial-verification-gate": "claude-adversarial-verification-gate",
+            "argon-thinking-governor": "claude-thinking-budget-governor",
+            "argon-context-cache-guard": "claude-prompt-cache-sentinel",
+            "gemini-flash-cache-aligner": "claude-prompt-cache-sentinel",
+            "argon-long-haul-context-compaction-gate": "claude-context-rot-shield",
+            "argon-yolo-quota-pacing-watchdog": "claude-yolo-quota-watchdog",
+            "gemini-5h-quota-governor": "claude-yolo-quota-watchdog",
+            "argon-dynamic-subagent-swarm": "subagent-swarm-orchestrator",
+            "argon-ast-syntax-gate": "local-preflight-syntax-gate",
+            "argon-tool-calling-densifier": "claude-silent-dispatch",
+            "argon-subagent-dispatch-routing": "subagent-swarm-orchestrator",
+        }
+        sanitized = []
+        for s in found_skills:
+            if "argon" in s or "gemini" in s:
+                mapped = claude_equiv_map.get(s)
+                if mapped and mapped in valid_skills and mapped not in sanitized:
+                    sanitized.append(mapped)
+            else:
+                sanitized.append(s)
+        found_skills = sanitized
 
     top_skills = found_skills[:3]
     if not top_skills:
