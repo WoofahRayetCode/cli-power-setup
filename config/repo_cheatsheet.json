@@ -1,18 +1,20 @@
 {
-  "updated_at": "2026-10-17T19:49:01.860977",
+  "updated_at": "2026-10-17T19:49:47.297737",
   "total_repos": 33,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792291738.6694336,
-      "age_str": "3s ago",
-      "dirty_count": 8,
+      "activity_ts": 1792291786.9300663,
+      "age_str": "0s ago",
+      "dirty_count": 9,
       "dirty_exts": {
-        ".md": 2
+        ".md": 3,
+        ".mdc": 2
       },
       "recent_exts": [
+        ".md",
         ".mdc"
       ],
       "top_exts": [
@@ -20,7 +22,7 @@
         ".md",
         ".py"
       ],
-      "last_commit": "feat(claude): build claude-ultimate-quota-sentinel",
+      "last_commit": "feat(claude): add claude-cheatsheet dynamic repo m",
       "stack": "AI Skills / Python / Bash",
       "work_now": "Skills & Rules",
       "plan_short": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",

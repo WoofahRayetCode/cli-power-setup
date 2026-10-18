@@ -149,7 +149,7 @@ Regardless of which model is currently loaded in Cursor, Antigravity, Claude Cod
 
 ---
 
-## Complete Skills Catalog (325 Specialized Capabilities)
+## Complete Skills Catalog (327 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
@@ -225,6 +225,8 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`canvas-interactive-workspace`** | Emulates ChatGPT Canvas side-by-side collaborative drafting, targeted inline diff staging, and surgical change annotations in Claude Code. |
 | **`character-creature-anatomy-modeling`** | Character, creature, and animal 3D modeling in Blender. Covers organic biped and quadruped skeletal anatomy, deformation-friendly edge loop topology, automated retopology setup (bpy), and facial blendshapes. |
 | **`chatgpt-o1-hypothesis-tree`** | Emulates ChatGPT o1/o3-mini Tree-of-Thought deliberation on Gemini 4 Argon. Branches into 3 competing hypotheses, explores execution paths, and backtracks upon contradiction. |
+| **`claude-5-5-adaptive-thinking-governor`** | Dynamic reasoning and extended thinking governor tailored for Anthropic's Claude 5.5 generation (Sonnet 5.5, Opus 5.5, Fable 5.1). Automatically calibrates thinking budgets from 0 tokens on routine tool calls up to 128k tokens for formal architectural proofs, eliminating thinking token inflation. |
+| **`claude-5-5-multi-agent-orchestrator`** | Coordinates autonomous parallel subagent swarms for Anthropic's Claude 5.5 and Fable 5.1 generation. Leverages isolated git worktrees, background processes, structured JSON communication envelopes, and AST-aware milestone rebase merging. |
 | **`claude-adversarial-verification-gate`** | Formal adversarial self-critique, boundary-condition proofing, and confirmation-bias elimination for Claude 3.7+ Sonnet and Opus prior to declaring tasks complete. |
 | **`claude-context-rot-shield`** | Mitigates Claude context window degradation and prompt cache misses. Enforces 80k-token milestone compaction boundaries, prevents attention dilution, and aligns system prompts to 1,024-token prompt caching blocks. |
 | **`claude-fable-engine-governor`** | Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engine ports (e.g. S.T.A.L.K.E.R. OGSR/X-Ray). Enforces 1M-token prompt cache pinning, C++ AST skeletonization, and surgical crash-dump extraction. |

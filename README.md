@@ -9,7 +9,7 @@
 
 A production-grade, quota-optimized engineering, 3D modeling, and game engine porting suite for **Google Antigravity (`agy` — Gemini 4 Argon + Gemini 3.8 Flash Swarm)**, **Claude Code (`claude` — Claude 3.7 Sonnet / Opus / Fable)**, and **Cursor IDE** (featuring dedicated multi-model behavioral adaptation for **Gemini 4 Argon/Flash**, **Claude 3.7**, **xAI Grok**, **OpenAI GPT/o1/o3**, and **DeepSeek**), backed by **32-thread CPU + NVIDIA RTX 5060 CUDA/OptiX + 30 GB `/dev/shm` RAM-disk hardware offloading**.
 
-This repository organizes **325 autonomous agent skills**, 325 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a 42-model zero-quota local LLM fleet, an Omni-Auto dynamic routing engine, a floating voice dictation pill (`agy-mic-button`), and live multi-row telemetry statuslines (`agy-quota-statusline` & `claude-statusline`).
+This repository organizes **327 autonomous agent skills**, 327 modular Cursor rules (`.cursor/rules/*.mdc`), global engineering discipline rules, a 42-model zero-quota local LLM fleet, an Omni-Auto dynamic routing engine, a floating voice dictation pill (`agy-mic-button`), and live multi-row telemetry statuslines (`agy-quota-statusline` & `claude-statusline`).
 
 ---
 
@@ -85,7 +85,7 @@ Or pass flags non-interactively in automated scripts:
 
 ### What the Installer Does:
 1. **Safety Backup:** Automatically archives existing configurations to `~/.cli_power_setup_backups/`.
-2. **Environment Sync:** Deploys all 325 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
+2. **Environment Sync:** Deploys all 327 skills to `~/.gemini/config/skills/` and converts them into Cursor `.mdc` rules in `~/.cursor/rules/`.
 3. **Global Discipline & Voice Command Routing:** Installs engineering safeguards, Quota Governance, the **Output Token Economy**, Zero-Quota Local CPU/GPU Math Offload rules, and Natural-Language Spoken Command Routing (*"Set a goal..."*, *"Make a plan..."*, *"Use boost..."*) to `~/.gemini/config/GEMINI.md` and `~/.cursorrules`.
 4. **Live Multi-Row Telemetry Statusline (`agy-quota-statusline`):** Tracks real-time 5h/weekly quota, 250k compaction gate countdown (`🧹`), active skills in real time (`🛠️ Skills [Live]`), CPU/GPU temperatures & fan RPM (`🌡️`), lid-closed lock state (`🔒Lid-Safe`), RTX 5060 VRAM & `/dev/shm` RAM-disk usage (`🚀`), and active background workloads (`⚙️ 🎨Blender+🔨Build+🎮OGSR/Wine`).
 5. **Floating Voice Dictation Pill (`agy-mic-button`):** Launches a draggable, pinnable (`📌`/`📍`) floating `[🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin]` overlay that triggers `/voice` (`F5`) without keyboard shortcuts and auto-closes when `agy` exits.
@@ -467,7 +467,7 @@ A dedicated suite of executable utilities installed directly into `~/.local/bin/
 
 ## 🎯 Division of Labor: `agy` CLI vs. Cursor IDE
 
-While all 325 skills and CLI utilities are shared across environments, they divide into distinct operational sweet spots:
+While all 327 skills and CLI utilities are shared across environments, they divide into distinct operational sweet spots:
 
 <details>
 <summary><b>🎯 Click to View Division of Labor Details & Recommended Tooling</b></summary>
@@ -1007,7 +1007,7 @@ cli-power-setup/
 ├── README.md                   # Comprehensive documentation & categorized reference
 ├── .cursorrules                # Root-level unified Cursor AI rules & skill index
 ├── .cursor/
-│   └── rules/                  # 325 modular Cursor rules (.mdc) with semantic metadata
+│   └── rules/                  # 327 modular Cursor rules (.mdc) with semantic metadata
 ├── bin/
 │   ├── agy-omni-mode           # Dynamic Gemini & local Ollama model orchestrator
 │   ├── local-research-scout    # Zero-quota multi-source search (DDG, GitHub, SO) + RAG
@@ -1040,7 +1040,7 @@ cli-power-setup/
 ---
 
 <!-- AUTO-SYNC-CATALOG:START -->
-## 🔄 Auto-Synchronized Skill & CLI Inventory (325 Total Active Skills)
+## 🔄 Auto-Synchronized Skill & CLI Inventory (327 Total Active Skills)
 
 ### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)
 | CLI Tool | Purpose |
@@ -1060,7 +1060,7 @@ cli-power-setup/
 | **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |
 | **`local-coprocessor` / `local-rag` / `local-ast-compiler`** | Zero-quota local CPU/GPU/RAM offload engines for AST syntax checks, BM25/vector RAG, and local LLM summarization. |
 
-### Recently Evolved & SOTA Skills (23 Indexed Automatically)
+### Recently Evolved & SOTA Skills (25 Indexed Automatically)
 | Skill Name | Description |
 | :--- | :--- |
 | **`ai-procedural-audio-generation`** | AI-powered and procedural audio generation for game development, content creation, and applications. Covers procedural DSP synthesis (oscillators, envelopes, noise bursts, chiptune/sfxr), text-to-sound-effect (SFX) models, adaptive game soundtrack layering, UI sound design, and loudness normalization. |
@@ -1069,6 +1069,8 @@ cli-power-setup/
 | **`autonomous-audio-sfx-web-researcher`** | Autonomously searches open web audio repositories (Wikimedia Commons, Internet Archive) for real CC0/public-domain sound effects, foley, animal vocalizations, weapons, and ambient audio; ranks candidates acoustically by Signal-to-Noise Ratio (SNR), spectral centroid, and clipping; slices the cleanest audio event in /dev/shm; and exports mastered WAV/OGG with GSC X-Ray v3 binary headers. |
 | **`blender-3d-printing-cad-manifold-prep`** | General 3D engineering in Blender 5.2+ for 3D printing (FDM/SLA), CNC machining, watertight manifold repair, wall thickness solidification, mechanical snap-fit clearance tolerances (0.15-0.25mm), overhang analysis, and precision STL/3MF export. |
 | **`blender-local-ai-critic-loop`** | Closed-loop local AI 3D modeling, topology auditing, and VLM render critique pipeline (blender-local-ai). Bridges local Ollama models (blenderllm:7b-q4, qwen2.5:72b-iq2, deepseek-r1:70b-iq2, blender-architect:latest, minicpm-v:8b) with installed Blender 5.2+ skills at zero cloud token cost. |
+| **`claude-5-5-adaptive-thinking-governor`** | Dynamic reasoning and extended thinking governor tailored for Anthropic's Claude 5.5 generation (Sonnet 5.5, Opus 5.5, Fable 5.1). Automatically calibrates thinking budgets from 0 tokens on routine tool calls up to 128k tokens for formal architectural proofs, eliminating thinking token inflation. |
+| **`claude-5-5-multi-agent-orchestrator`** | Coordinates autonomous parallel subagent swarms for Anthropic's Claude 5.5 and Fable 5.1 generation. Leverages isolated git worktrees, background processes, structured JSON communication envelopes, and AST-aware milestone rebase merging. |
 | **`claude-fable-engine-governor`** | Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engine ports (e.g. S.T.A.L.K.E.R. OGSR/X-Ray). Enforces 1M-token prompt cache pinning, C++ AST skeletonization, and surgical crash-dump extraction. |
 | **`claude-ultimate-quota-sentinel`** | The ultimate all-in-one quota conservation and rate-limit preservation engine for Claude Code. Combines 1,024-token prompt cache locking, 5-minute TTL keep-alive guards, 40k milestone compaction, thinking token clamping, native tool exclusivity, and 50% weekly safe mode local fleet diversion. |
 | **`cross-agent-context-deduplicator`** | Eliminates redundant transcript ingestion and context pollution between Argon orchestrators and Flash subagents by clamping sync payloads to strict 15-line symbol diff abstracts. |

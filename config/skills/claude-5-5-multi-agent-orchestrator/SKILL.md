@@ -1,0 +1,64 @@
+---
+name: claude-5-5-multi-agent-orchestrator
+description: Coordinates autonomous parallel subagent swarms for Anthropic's Claude 5.5 and Fable 5.1 generation. Leverages isolated git worktrees, background processes, structured JSON communication envelopes, and AST-aware milestone rebase merging.
+---
+
+# Claude 5.5 Multi-Agent Swarm Orchestrator (`claude-5-5-multi-agent-orchestrator`)
+
+Claude 5.5 and Claude Fable 5.1 are architecturally designed to lead **hierarchical multi-agent swarms**. By delegating high-volume asset conversion, parallel test sweeps, and sub-module refactors to parallel worker agents in isolated git worktrees, task turnaround time is reduced by up to **80%**.
+
+However, uncoordinated subagents risk git branch collisions, circular message loops, and runaway context inflation. This skill establishes the formal coordination protocol.
+
+---
+
+## 🏛️ 1. Hierarchical Persona Topology
+
+```mermaid
+flowchart TD
+    Lead["Lead Architect (Claude 5.5 / Fable 5.1)"]
+    
+    subgraph Isolated Worktrees [Isolated Git Worktrees /dev/shm]
+        Worker1["Worker 1: LTX & Audio Engine (claude-eco)"]
+        Worker2["Worker 2: C++ Engine Port (claude)"]
+        Worker3["Worker 3: Test & QA Playtest (claude-yolo)"]
+    end
+    
+    Verifier["Adversarial Red-Team Gate (local deepseek-r1:70b)"]
+    
+    Lead -->|Dispatches Subtask Contracts| Worker1
+    Lead -->|Dispatches Subtask Contracts| Worker2
+    Lead -->|Dispatches Subtask Contracts| Worker3
+    
+    Worker1 -->|JSON Completion Envelope| Lead
+    Worker2 -->|JSON Completion Envelope| Lead
+    Worker3 -->|JSON Completion Envelope| Lead
+    
+    Lead --> Verifier
+    Verifier -->|Approved Diff| MainBranch([Atomic Merge to Main])
+```
+
+---
+
+## 🔒 2. Communication Contract & Payload Compression
+
+Parent and worker agents communicate strictly via **structured JSON envelopes** ($\le 15$ lines), eliminating conversational fluff:
+
+```json
+{
+  "taskId": "task-xray-sound-04",
+  "status": "COMPLETED",
+  "filesModified": ["gamedata/config/weapons/w_ak74.ltx"],
+  "verificationCommand": "python3 tests/verify_ltx_syntax.py",
+  "verificationResult": "PASSED (0 errors, 42 sections validated)",
+  "uncommittedDiffLines": 18,
+  "cloudTokensUsed": 1240
+}
+```
+
+---
+
+## ⚡ 3. Worktree Isolation Protocol
+
+1. **Dedicated Worktree Directory:** Every subagent runs inside `/dev/shm/worktree_<subtask_id>/` (fast RAM disk, zero SSD wear).
+2. **Lock-Free Concurrency:** Subagents never touch the primary working directory until the Lead Architect initiates an atomic squash-merge.
+3. **Automated Cleanup:** On completion or failure, the worktree is automatically cleaned up and pruned.

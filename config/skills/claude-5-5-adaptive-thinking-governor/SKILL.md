@@ -1,0 +1,39 @@
+---
+name: claude-5-5-adaptive-thinking-governor
+description: Dynamic reasoning and extended thinking governor tailored for Anthropic's Claude 5.5 generation (Sonnet 5.5, Opus 5.5, Fable 5.1). Automatically calibrates thinking budgets from 0 tokens on routine tool calls up to 128k tokens for formal architectural proofs, eliminating thinking token inflation.
+---
+
+# Claude 5.5 Adaptive Thinking Governor (`claude-5-5-adaptive-thinking-governor`)
+
+Anthropic's **Claude 5.5 generation** (Claude 3.7 Sonnet, Claude 5.5 Sonnet/Opus, and Claude Fable 5.1) features continuous-range adaptive reasoning capable of producing up to **128,000 internal thinking tokens**.
+
+Because extended thinking tokens are billed at **output token rates** (\$15/M to \$75/M), unconstrained reasoning on routine tasks can burn hundreds of thousands of tokens per hour. This skill establishes an automated cognitive calibration engine that sizes Claude 5.5's thinking budget precisely to task complexity.
+
+---
+
+## 🧠 1. Cognitive Complexity Routing Matrix for Claude 5.5
+
+| Cognitive Tier | Task Characteristics | Thinking Budget (`budget_tokens`) | Operational Behavior |
+| :--- | :--- | :--- | :--- |
+| **Tier 0: Mechanical** | Bash execution, file moves, git commits, regex, status queries | **0 tokens (Disabled)** | Emit tool calls immediately as token #1. Zero pre-tool monologue or internal speculation. |
+| **Tier 1: Surgical** | Typo fixes, 1-line LTX parameter tweaks, PEP 257 docstrings, unit test runs | **$\le$ 1,024 tokens** | Rapid edge-case sanity check; immediate dispatch of surgical diff. |
+| **Tier 2: Feature** | Standard feature implementation, C++ struct additions, Lua quest scripts, UI layouts | **2,048 – 4,096 tokens** | Interface verification, dependency checking, and caller compatibility scan. |
+| **Tier 3: Complex** | 64-bit engine porting, struct alignment proofs, concurrency, Slang shader transpilation | **8,192 – 16,384 tokens** | Deliberative Tree-of-Thought exploration; anti-deadlock and memory layout proofs. |
+| **Tier 4: Deep Proof** | Unidentified engine CTD forensics, binary disassembly reconstruction, formal verification | **32,768 – 128,000 tokens** | Full multi-hypothesis branch pruning; mathematical verification before modifying code. |
+
+---
+
+## ⚡ 2. Direct Action Mode (Zero-Thinking Tool Execution)
+
+When a turn involves tool calls (`Edit`, `Read`, `Bash`, `Glob`, `Grep`):
+1. **Zero Monologue:** Never write internal thoughts summarizing what a file might contain before reading it.
+2. **Immediate Tool Dispatch:** The very first token emitted by Claude 5.5 must be the tool call itself.
+3. **Silent Tool Return:** Do not narrate intermediate tool successes; report results only upon passing verification gates.
+
+---
+
+## 🛡️ 3. Safe Mode Pacing Gate
+
+When weekly quota headroom reaches $\le 50\%$:
+- Claude 5.5 automatically caps maximum thinking budgets to **2,048 tokens**.
+- Deep mathematical derivations and crash analysis are offloaded to host hardware via `local-coprocessor exec --task titan-reason` (running `deepseek-r1:70b-iq2` at 0 cloud tokens).
