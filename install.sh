@@ -211,12 +211,29 @@ with open(p, "w") as f:
 EOF
     log_done "Configured statusLine and low-effort thinking in Claude Code settings.json."
 
-    # Configure YOLO & Turbo mode aliases in bash
-    if [ -f "$HOME/.bashrc" ] && ! grep -q "claude-yolo" "$HOME/.bashrc"; then
+    # Configure Claude Code aliases in bash
+    if [ -f "$HOME/.bashrc" ] && ! grep -q "claude-eco" "$HOME/.bashrc"; then
         echo "" >> "$HOME/.bashrc"
-        echo "# Claude Code YOLO & Turbo mode aliases" >> "$HOME/.bashrc"
-        echo "alias claude-yolo='/home/ericparsley/.local/bin/claude-yolo'" >> "$HOME/.bashrc"
-        echo "alias claude-turbo='/home/ericparsley/.local/bin/claude-turbo'" >> "$HOME/.bashrc"
+        echo "# Claude Code aliases" >> "$HOME/.bashrc"
+        echo "alias claude-eco='$BIN_DEST/claude-eco'" >> "$HOME/.bashrc"
+        echo "alias claude-turbo='$BIN_DEST/claude-turbo'" >> "$HOME/.bashrc"
+        echo "alias claude-yolo='$BIN_DEST/claude-yolo'" >> "$HOME/.bashrc"
+        echo "alias claude-cheatsheet='$BIN_DEST/claude-cheatsheet'" >> "$HOME/.bashrc"
+    fi
+
+    # Install Desktop Shortcuts and Dolphin Service Menus
+    if [ -d "${SCRIPT_DIR}/config/desktop" ]; then
+        mkdir -p "$HOME/Desktop" "$HOME/.local/share/applications" "$HOME/.local/share/kio/servicemenus"
+        cp -f "${SCRIPT_DIR}/config/desktop/Claude-Code.desktop" "$HOME/Desktop/" 2>/dev/null || true
+        cp -f "${SCRIPT_DIR}/config/desktop/Claude-Eco.desktop" "$HOME/Desktop/" 2>/dev/null || true
+        chmod +x "$HOME/Desktop/Claude-Code.desktop" "$HOME/Desktop/Claude-Eco.desktop" 2>/dev/null || true
+        cp -f "${SCRIPT_DIR}/config/desktop/Claude-Code.desktop" "$HOME/.local/share/applications/" 2>/dev/null || true
+        cp -f "${SCRIPT_DIR}/config/desktop/Claude-Eco.desktop" "$HOME/.local/share/applications/" 2>/dev/null || true
+        cp -f "${SCRIPT_DIR}/config/desktop/claude-code-servicemenu.desktop" "$HOME/.local/share/kio/servicemenus/" 2>/dev/null || true
+        command -v gio >/dev/null 2>&1 && gio set "$HOME/Desktop/Claude-Code.desktop" metadata::trusted true 2>/dev/null || true
+        command -v gio >/dev/null 2>&1 && gio set "$HOME/Desktop/Claude-Eco.desktop" metadata::trusted true 2>/dev/null || true
+        command -v kbuildsycoca6 >/dev/null 2>&1 && kbuildsycoca6 2>/dev/null || true
+        log_done "Installed Claude Code desktop shortcuts and Dolphin context service menu."
     fi
 }
 
