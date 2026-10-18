@@ -46,6 +46,7 @@ def get_free_vram_mb() -> int:
 
 SKILLS_DIRS = [
     Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills"),
+    Path.home() / ".claude" / "skills",
     Path.home() / ".gemini" / "config" / "skills",
 ]
 

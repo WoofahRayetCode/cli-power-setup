@@ -1,28 +1,28 @@
 {
-  "updated_at": "2026-10-17T21:51:44.085959",
+  "updated_at": "2026-10-17T21:54:23.444113",
   "total_repos": 33,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792299097.7711294,
-      "age_str": "6s ago",
-      "dirty_count": 8,
+      "activity_ts": 1792299262.8559358,
+      "age_str": "0s ago",
+      "dirty_count": 4,
       "dirty_exts": {
-        ".md": 1
+        ".py": 2
       },
       "recent_exts": [
+        ".py",
         ".md",
-        ".mdc",
-        ".py"
+        ".mdc"
       ],
       "top_exts": [
         ".mdc",
         ".md",
         ".py"
       ],
-      "last_commit": "feat(skills): add OpenAI Operator, Grok Truth, Per",
+      "last_commit": "docs(readme): update skill count to 332 and docume",
       "stack": "AI Skills / Python / Bash",
       "work_now": "CLI Daemons & Skills",
       "plan_short": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",
@@ -48,8 +48,8 @@
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792298716.5241687,
-      "age_str": "6m ago",
+      "activity_ts": 1792299150.4123645,
+      "age_str": "1m ago",
       "dirty_count": 216,
       "dirty_exts": {
         ".ogf": 3,
@@ -137,7 +137,7 @@
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
       "activity_ts": 1792295561.9949565,
-      "age_str": "59m ago",
+      "age_str": "1h ago",
       "dirty_count": 47,
       "dirty_exts": {
         ".cpp": 37,
