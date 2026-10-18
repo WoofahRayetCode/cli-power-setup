@@ -230,6 +230,7 @@ EOF
         cp -f "${SCRIPT_DIR}/config/desktop/Claude-Code.desktop" "$HOME/.local/share/applications/" 2>/dev/null || true
         cp -f "${SCRIPT_DIR}/config/desktop/Claude-Eco.desktop" "$HOME/.local/share/applications/" 2>/dev/null || true
         cp -f "${SCRIPT_DIR}/config/desktop/claude-code-servicemenu.desktop" "$HOME/.local/share/kio/servicemenus/" 2>/dev/null || true
+        chmod +x "$HOME/.local/share/kio/servicemenus/claude-code-servicemenu.desktop" 2>/dev/null || true
         command -v gio >/dev/null 2>&1 && gio set "$HOME/Desktop/Claude-Code.desktop" metadata::trusted true 2>/dev/null || true
         command -v gio >/dev/null 2>&1 && gio set "$HOME/Desktop/Claude-Eco.desktop" metadata::trusted true 2>/dev/null || true
         command -v kbuildsycoca6 >/dev/null 2>&1 && kbuildsycoca6 2>/dev/null || true
