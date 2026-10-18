@@ -43,3 +43,12 @@ local-research-scout "linux uinput virtual keyboard permissions" --so-only
 # Save research report artifact to .agents/research/
 local-research-scout "S.T.A.L.K.E.R. LTX weapon ballistics formulas" --save-artifact
 ```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`local-vector-rag-engine`**: Local vector embeddings and dense semantic search engine running on host CPU/GPU/RAM. Replaces context-stuffin...
+- **`local-model-coprocessor`**: Offloads low-complexity tasks (docstrings, commit messages, log summarization, regex, boilerplate) to local SL...
+- **`adaptive-reasoning`**: Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-sp...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

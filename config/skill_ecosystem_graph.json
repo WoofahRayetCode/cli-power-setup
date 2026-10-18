@@ -1,13 +1,13 @@
 {
-  "total_skills": 311,
+  "total_skills": 316,
   "skills": {
     "adaptive-reasoning": {
       "description": "Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-speed execution on Flash and deep-reasoning planning on Argon based on prompt complexity.",
       "related": [
-        "argon-effort-auto-calibrator",
         "dynamic-model-downshifter",
-        "python-engineering",
-        "claude-thinking-budget-governor"
+        "agy-omni-mode",
+        "local-model-coprocessor",
+        "gemini-dynamic-reasoning-tuner"
       ]
     },
     "agent-error-recovery-sentinel": {
@@ -32,9 +32,9 @@
       "description": "System diagnostics and environment verification for Antigravity CLI (parity with claude doctor). Validates binary health, settings.json permissions, SQLite conversation database integrity, model endpoint connectivity, and quota locks.",
       "related": [
         "agy-context-telemetry",
+        "agy-omni-mode",
         "agy-codebase-init",
-        "skills-updater-and-auditor",
-        "screen-vision-inspector"
+        "skills-updater-and-auditor"
       ]
     },
     "agy-codebase-init": {
@@ -42,8 +42,8 @@
       "related": [
         "agy-context-telemetry",
         "agy-cli-doctor",
-        "semantic-codebase-indexing",
-        "headless-test-condenser"
+        "agy-omni-mode",
+        "semantic-codebase-indexing"
       ]
     },
     "agy-context-telemetry": {
@@ -53,6 +53,15 @@
         "agy-cli-doctor",
         "argon-context-cache-guard",
         "context-pruning-watchdog"
+      ]
+    },
+    "agy-omni-mode": {
+      "description": "Dynamic model & fleet orchestrator for Google Antigravity. Dynamically switches between Gemini models (Pro / Flash) and local Ollama language models based on task complexity, active step lifecycle, referenced project files, and rolling 5-hour quota headroom.",
+      "related": [
+        "gemini-dynamic-reasoning-tuner",
+        "adaptive-reasoning",
+        "dynamic-model-downshifter",
+        "agy-cli-doctor"
       ]
     },
     "ai-3d-mesh-generation": {
@@ -78,8 +87,8 @@
       "related": [
         "windows-linux-cross-os-runtime-bridge",
         "rtx-optix-gpu-baker-denoiser",
-        "local-model-coprocessor",
-        "vulkan-gpu-compute"
+        "ultra-large-model-quantization-optimizer",
+        "local-model-coprocessor"
       ]
     },
     "android-app-engineering": {
@@ -258,8 +267,8 @@
       "related": [
         "argon-thinking-governor",
         "claude-thinking-budget-governor",
-        "dynamic-model-downshifter",
-        "adaptive-reasoning"
+        "gemini-dynamic-reasoning-tuner",
+        "argon-adversarial-verification-gate"
       ]
     },
     "argon-hierarchical-worktree-isolator": {
@@ -330,8 +339,8 @@
       "related": [
         "argon-thinking-governor",
         "argon-dynamic-subagent-swarm",
-        "dynamic-model-downshifter",
-        "dual-engine-quota-balancer"
+        "dual-engine-quota-balancer",
+        "claude-opus-plan-sonnet-exec"
       ]
     },
     "argon-subagent-lifecycle-governor": {
@@ -551,12 +560,12 @@
       ]
     },
     "blender-local-ai-critic-loop": {
-      "description": "Closed-loop local AI 3D modeling, topology auditing, and VLM render critique pipeline (blender-local-ai). Bridges local Ollama models (blender-architect:latest, minicpm-v:8b, deepseek-r1:8b) with installed Blender 5.2+ skills at zero cloud token cost.",
+      "description": "Closed-loop local AI 3D modeling, topology auditing, and VLM render critique pipeline (blender-local-ai). Bridges local Ollama models (blenderllm:7b-q4, qwen2.5:72b-iq2, deepseek-r1:70b-iq2, blender-architect:latest, minicpm-v:8b) with installed Blender 5.2+ skills at zero cloud token cost.",
       "related": [
+        "agy-omni-mode",
         "blender-sdf-organic-remeshing",
-        "blender-gaussian-splatting-photogrammetry-cleanup",
         "blender-3d-engineering",
-        "blender-headless-token-shield"
+        "adaptive-reasoning"
       ]
     },
     "blender-pbr-texture-packager": {
@@ -681,8 +690,8 @@
       "related": [
         "argon-thinking-governor",
         "argon-effort-auto-calibrator",
-        "dynamic-model-downshifter",
-        "claude-opus-plan-sonnet-exec"
+        "claude-opus-plan-sonnet-exec",
+        "claude-silent-dispatch"
       ]
     },
     "claude-worktree-tmux": {
@@ -771,8 +780,8 @@
       "related": [
         "autonomous-3d-reference-researcher",
         "furry-fursona-art-design",
-        "blender-local-ai-critic-loop",
-        "blender-gaussian-splatting-photogrammetry-cleanup"
+        "blender-gaussian-splatting-photogrammetry-cleanup",
+        "blender-sdf-organic-remeshing"
       ]
     },
     "console-game-decompilation": {
@@ -985,10 +994,10 @@
     "deep-research-synthesizer": {
       "description": "Autonomous multi-source web crawling, recursive citation mapping, source credibility ranking, and publication-grade technical research synthesis.",
       "related": [
+        "local-research-scout",
         "coderabbit-ai-review",
         "grok-realtime-telemetry-scout",
-        "local-vector-rag-engine",
-        "static-site-architecture"
+        "local-vector-rag-engine"
       ]
     },
     "deepseek-r1-math-verification": {
@@ -1058,9 +1067,9 @@
       "description": "Dynamic telemetry coordination across Gemini 4 Argon, Gemini 3.8 Flash subagents, and local CPU/GPU offloads, balancing task allocation to guarantee uninterrupted execution without hitting rolling quota limits.",
       "related": [
         "argon-subagent-dispatch-routing",
-        "local-model-coprocessor",
-        "cross-agent-hot-reload-watcher",
-        "local-vector-rag-engine"
+        "agy-omni-mode",
+        "gemini-dynamic-reasoning-tuner",
+        "adaptive-reasoning"
       ]
     },
     "dx11-dx12-vulkan-rtx-bridge": {
@@ -1084,19 +1093,19 @@
     "dynamic-model-downshifter": {
       "description": "Autonomous multi-tier model downshifting for CLI sessions. Enforces the 'Frontier Brain, Fast Hands' pattern by offloading mechanical bash tasks, file moves, and git operations to lightweight models (Flash/Haiku), reserving frontier reasoning (Argon/Opus) exclusively for architectural design and complex debugging.",
       "related": [
+        "adaptive-reasoning",
+        "agy-omni-mode",
         "claude-opus-plan-sonnet-exec",
-        "argon-effort-auto-calibrator",
-        "claude-thinking-budget-governor",
-        "argon-subagent-dispatch-routing"
+        "local-model-coprocessor"
       ]
     },
     "dynamic-repo-model-cheatsheet": {
       "description": "Dynamic terminal cheat sheet (agy-cheatsheet / cs) and live statusline recommender that scans ~/Documents/GitHub repositories, uncommitted diffs, recent commits, and error states to recommend the optimal Model + Reasoning Effort + Local Hardware Offload.",
       "related": [
-        "dynamic-skill-router",
         "dynamic-model-downshifter",
-        "dual-engine-quota-balancer",
-        "cross-cli-session-handoff"
+        "gemini-dynamic-reasoning-tuner",
+        "dynamic-skill-router",
+        "adaptive-reasoning"
       ]
     },
     "dynamic-skill-router": {
@@ -1185,8 +1194,8 @@
       "related": [
         "argon-adversarial-verification-gate",
         "deliberative-reasoning-tree",
-        "dynamic-model-downshifter",
-        "argon-thinking-governor"
+        "argon-thinking-governor",
+        "executing-plans"
       ]
     },
     "flash-context-compactor": {
@@ -1598,9 +1607,9 @@
       "description": "Real-time telemetry governor for Gemini 3.8 Flash rolling 5-hour quota windows. Throttles tool verbosity and paces autonomous execution to guarantee uninterrupted workflow between rollover cycles.",
       "related": [
         "argon-yolo-quota-pacing-watchdog",
+        "gemini-dynamic-reasoning-tuner",
         "gemini-copy-then-patch-edit-governor",
-        "gemini-implicit-kv-cache-ttl-keeper",
-        "gemini-flash-cache-aligner"
+        "gemini-implicit-kv-cache-ttl-keeper"
       ]
     },
     "gemini-ast-symbol-window-slicer": {
@@ -1619,6 +1628,15 @@
         "gemini-implicit-kv-cache-ttl-keeper",
         "argon-thinking-governor",
         "cross-model-switch-pruner"
+      ]
+    },
+    "gemini-dynamic-reasoning-tuner": {
+      "description": "Real-time telemetry governor and automatic model/reasoning tuner for Gemini models in Google Antigravity. Dynamically adjusts model tier (pro vs flash vs flash_lite), subagent dispatch, and reasoning effort (low vs medium vs high) turn-by-turn based on rolling quota headroom, dirty repository file types, and task complexity, guaranteeing zero quota waste.",
+      "related": [
+        "agy-omni-mode",
+        "argon-effort-auto-calibrator",
+        "gemini-5h-quota-governor",
+        "local-model-coprocessor"
       ]
     },
     "gemini-flash-cache-aligner": {
@@ -1689,8 +1707,8 @@
       "related": [
         "devin-environment-self-healer",
         "linux-gaming-proton-optimization",
-        "autogen-adversarial-redteam-critic",
-        "dynamic-repo-model-cheatsheet"
+        "local-research-scout",
+        "autogen-adversarial-redteam-critic"
       ]
     },
     "hardware-tool-engineering": {
@@ -1750,10 +1768,10 @@
     "high-density-prompting": {
       "description": "Compresses verbose prompts into surgical, quota-saving directives, eliminates speculative reasoning tokens, and enforces deterministic, zero-waste agent outputs.",
       "related": [
+        "voice-prompt-context-optimizer",
         "claude-silent-dispatch",
         "gemini-flash-cache-aligner",
-        "context-window-governor",
-        "multi-model-cache-harmonizer"
+        "context-window-governor"
       ]
     },
     "homelab-docker-devops": {
@@ -1807,7 +1825,7 @@
         "humanities-lore-research",
         "static-site-architecture",
         "generative-visual-artifacts",
-        "intelligent-interactive-ui"
+        "local-research-scout"
       ]
     },
     "laptop-performance-profile": {
@@ -1903,10 +1921,10 @@
     "local-model-coprocessor": {
       "description": "Offloads low-complexity tasks (docstrings, commit messages, log summarization, regex, boilerplate) to local SLMs/LLMs running in GPU VRAM or system RAM via Ollama or llama.cpp, saving 100% of cloud quota for hard architectural reasoning.",
       "related": [
-        "local-vector-rag-engine",
-        "dual-engine-quota-balancer",
-        "local-ast-compiler-engine",
-        "local-preflight-syntax-gate"
+        "gemini-dynamic-reasoning-tuner",
+        "adaptive-reasoning",
+        "dynamic-model-downshifter",
+        "local-research-scout"
       ]
     },
     "local-preflight-syntax-gate": {
@@ -1915,16 +1933,25 @@
         "argon-ast-syntax-gate",
         "local-ast-compiler-engine",
         "local-vector-rag-engine",
-        "local-model-coprocessor"
+        "local-research-scout"
+      ]
+    },
+    "local-research-scout": {
+      "description": "Autonomous zero-quota multi-source web search, documentation scraping, and technical query synthesis. Sources across DuckDuckGo HTML, GitHub API, StackOverflow, and direct page scraping, ranking evidence with local embeddings (bge-m3) and synthesizing answers using local LLMs (deepseek-coder-v2:16b, deepseek-r1:14b, qwen2.5:32b).",
+      "related": [
+        "local-vector-rag-engine",
+        "local-model-coprocessor",
+        "adaptive-reasoning",
+        "deep-research-synthesizer"
       ]
     },
     "local-vector-rag-engine": {
       "description": "Local vector embeddings and dense semantic search engine running on host CPU/GPU/RAM. Replaces context-stuffing (50k+ tokens) by retrieving only the top-k relevant 15-line snippets into LLM prompts, slashing context consumption by 80-95%.",
       "related": [
+        "local-research-scout",
         "stalker-spawn-entity-indexer",
         "fable-virtual-context-manager",
-        "local-model-coprocessor",
-        "semantic-codebase-indexing"
+        "local-model-coprocessor"
       ]
     },
     "log-output-sanitizer": {
@@ -2129,9 +2156,9 @@
       "description": "Python software engineering and performance standards (Python 3.10+). Use when authoring or refactoring Python code, adding type annotations, writing pytest suites, optimizing hot paths, or using Ruff and Mypy.",
       "related": [
         "rust-engineering",
-        "adaptive-reasoning",
         "executing-plans",
-        "argon-ast-syntax-gate"
+        "argon-ast-syntax-gate",
+        "csharp-dotnet-engineering"
       ]
     },
     "qwen-polyglot-ast-cartographer": {
@@ -2427,8 +2454,8 @@
       "related": [
         "documentation-site-generator",
         "interactive-data-visualization-web",
-        "cross-browser-extensions",
-        "humanities-lore-research"
+        "local-research-scout",
+        "cross-browser-extensions"
       ]
     },
     "steamcmd-workshop-pipeline": {
@@ -2557,6 +2584,15 @@
         "cross-engine-3d-import-export-bridge"
       ]
     },
+    "ultra-large-model-quantization-optimizer": {
+      "description": "Hardware-aware model compression, extreme low-bit quantization (imatrix IQ2/IQ3), sparse MoE execution, and layer-wise NVMe SSD streaming (AirLLM). Enables running 70B to 405B parameter language models locally on consumer laptop hardware (30GB RAM + 8GB RTX 5060 VRAM).",
+      "related": [
+        "local-model-coprocessor",
+        "adaptive-reasoning",
+        "local-research-scout",
+        "dynamic-model-downshifter"
+      ]
+    },
     "unity-game-dev": {
       "description": "Game development workflows for Unity Engine (C#). Use when developing MonoBehaviours, ScriptableObjects, physics interactions, UI Toolkit/UGUI, shader integrations, or optimizing memory allocations and garbage collection.",
       "related": [
@@ -2620,13 +2656,22 @@
         "game-dialogue-ui-localization"
       ]
     },
+    "voice-prompt-context-optimizer": {
+      "description": "Autonomous voice-to-text prompt normalizer and context token saver. Eliminates conversational filler, corrects phonetic developer jargon (C++, OGSR, LTX, JSON), translates spoken commands into slash commands, and prevents compounding context bloat across voice-driven AI workflows.",
+      "related": [
+        "high-density-prompting",
+        "voice-speech-audio-synthesis",
+        "claude-silent-dispatch",
+        "token-economy"
+      ]
+    },
     "voice-speech-audio-synthesis": {
       "description": "Speech-to-text transcription via Whisper, natural voice generation using Piper/Kokoro/OpenAI TTS, game NPC dialogue synthesis, and subtitle timing.",
       "related": [
+        "voice-prompt-context-optimizer",
         "elevenlabs-voice-isolator-dubbing-sfx",
         "elevenlabs-voice-cloning-sts-studio",
-        "stalker-spawn-entity-indexer",
-        "youtube-shorts-video-automation"
+        "stalker-spawn-entity-indexer"
       ]
     },
     "vulkan-gpu-compute": {
