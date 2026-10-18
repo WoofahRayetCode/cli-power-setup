@@ -29,5 +29,13 @@ Anthropic cuts prompt caching blocks into **1,024-token increments**.
 
 Anthropic prompt caches are ephemeral with a **5-minute Time-To-Live (TTL)**.
 - If a build, test suite, or long-running game playtest takes **> 300 seconds** before the next interaction, the entire KV cache expires, forcing a full-cost re-billing of all context tokens.
-- **Pre-Wait Compaction**: Before launching any job expected to take `> 60s`, if active context exceeds 80k tokens, stage state to `.agents/memory/activeContext.md` and run `/compact`.
+- **Pre-Wait Compaction**: Before launching any job expected to take `> 60s`, if active context exceeds 40,000–50,000 tokens, stage state to `.agents/memory/activeContext.md` and run `/compact`.
 - **Log Tail Redirection**: Pipe noisy stdout to `/dev/shm/<job>.log` and only read `tail -n 25` to avoid loading megabytes of text that would dirty the prompt cache.
+
+---
+
+## 🔗 Related & Interoperating Skills
+- **`claude-ultimate-quota-sentinel`**: Master 6-pillar quota and rate-limit preservation engine for Claude Code.
+- **`fable-planning-token-compressor`**: 5-tier planning compression pipeline for Claude Fable 5.1.
+- **`claude-context-rot-shield`**: Proactive 40k–50k compaction boundaries and attention protection.
+- **`claude-eco`**: Launcher setting `--effort low` with low thinking budget and prompt cache alignment.

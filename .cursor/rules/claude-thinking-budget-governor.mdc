@@ -26,7 +26,7 @@ This skill eliminates thinking token inflation by dynamically sizing or disablin
 
 ## 2. Direct Action Mode (Zero-Thinking Tool Calls)
 
-When an operation requires invoking tools (`view_file`, `replace_file_content`, `run_command`):
+When an operation requires invoking tools (`Edit`, `Read`, `Write`, `Bash`, `Glob`, `Grep`):
 - **Rule:** Emit the tool call immediately.
 - **Prohibited:** Reciting file lines in internal thinking, writing long speculative drafts of what the file might contain, or narrating steps before running them.
 - **Principle:** Allow the tool result to provide the ground-truth evidence rather than hallucinating in reasoning tokens.
@@ -46,14 +46,18 @@ When invoking Claude via API, SDK, or CLI flags:
   }
   ```
 - Disable thinking entirely for batch linting, test condensation, or formatting scripts.
-- **Dynamic Repo Cheat Sheet (`dynamic-repo-model-cheatsheet`):** Follow the live `🎯 Rec: ...` indicator in `claude-statusline` and `agy-cheatsheet` (`cs`)—use `claude-turbo` (`MAX_THINKING_TOKENS=1024`) when working on routine config/UI repos, and reserve extended thinking for Tier 3 C++/64-bit/crash tasks.
+- **Dynamic Repo Cheat Sheet (`dynamic-repo-model-cheatsheet`):** Follow the live `🎯 Rec: ...` indicator in `claude-statusline` and `claude-cheatsheet`—use `claude-eco` or `claude-turbo` (`MAX_THINKING_TOKENS=1024`) when working on routine config/UI repos, and reserve extended thinking (`claude --effort high`) for Tier 3 C++/64-bit/crash tasks.
 - **Milestone Persistence:** After completing a high-thinking architectural fix, commit via `repo-auto-sync <repo> --checkpoint --push` and persist rules via `skill-evolve`.
 
 ## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
 - Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
 
-## Related & Interoperating Skills
-- **`argon-thinking-governor`**: Gemini 4 Argon internal chain-of-thought (CoT) and reasoning token governor. Clamps speculative reasoning bloa...
+## 🔗 Related & Interoperating Skills
+- **`claude-5-5-adaptive-thinking-governor`**: Next-gen continuous thinking governor up to 128k tokens for Claude 5.5 and Fable 5.1.
+- **`claude-ultimate-quota-sentinel`**: Master 6-pillar quota and rate-limit preservation engine for Claude Code.
+- **`claude-eco`**: Quota-optimized launcher enforcing `--effort low` with prompt cache alignment.
+- **`argon-thinking-governor`**: Gemini 4 Argon internal chain-of-thought (CoT) and reasoning token governor.
+- **`dynamic-repo-model-cheatsheet` (`claude-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
 - **`argon-effort-auto-calibrator`**: Dynamically calibrates Gemini 4 Argon reasoning effort (--effort low/medium/high) turn-by-turn based on cognit...
 - **`dynamic-model-downshifter`**: Autonomous multi-tier model downshifting for CLI sessions. Enforces the 'Frontier Brain, Fast Hands' pattern b...
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

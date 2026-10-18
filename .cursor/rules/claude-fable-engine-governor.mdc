@@ -96,7 +96,9 @@ Game engine crash logs (like `xray_*.log` or BugTrap reports) often exceed 15,00
 - **Multi-Agent Split Terminal:** On Windows 10/11, use **Windows Terminal (`wt.exe`)** split panes (`wt -p "PowerShell" \; split-pane -V ...`) in place of Linux `tmux`/`kitty`, and `sccache` / MSVC `/MP` for shared build caching across git worktrees.
 
 ## Related & Interoperating Skills
-- **`fable-virtual-context-manager`**: Virtualized context paging and hierarchical indexing for Claude Fable (1M-token context). Prevents full 1M-tok...
-- **`prompt-cache-context-optimizer`**: Emulates 1M+ context windows and maximizes Anthropic prompt caching discounts (>90% savings) through strict pr...
-- **`fable-atomic-diff-sequencer`**: Multi-file refactor execution coordinator for Claude Fable 5.1. Regulates Fable's 128k output capacity by brea...
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+- **`fable-planning-token-compressor`**: Eliminates input and output token bloat during Claude Fable 5.1 planning phases (AST skeletonization, contract-only plans).
+- **`claude-5-5-multi-agent-orchestrator`**: Coordinates autonomous parallel subagent swarms for Claude 5.5 and Fable 5.1.
+- **`fable-virtual-context-manager`**: Virtualized context paging and hierarchical indexing for Claude Fable (1M-token context). Prevents full 1M-token re-billing.
+- **`fable-atomic-diff-sequencer`**: Multi-file refactor execution coordinator for Claude Fable 5.1. Regulates Fable's 128k output capacity.
+- **`claude-ultimate-quota-sentinel`**: Unified 6-pillar quota and rate-limit preservation engine for Claude Code.
+- **`dynamic-repo-model-cheatsheet` (`claude-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

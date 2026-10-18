@@ -65,7 +65,8 @@ Run the automated host slice extractor before ingesting any subsystem:
 - Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
 
 ## Related & Interoperating Skills
-- **`fable-atomic-diff-sequencer`**: Multi-file refactor execution coordinator for Claude Fable 5.1. Regulates Fable's 128k output capacity by brea...
-- **`claude-fable-engine-governor`**: Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engin...
-- **`local-vector-rag-engine`**: Local vector embeddings and dense semantic search engine running on host CPU/GPU/RAM. Replaces context-stuffin...
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+- **`fable-planning-token-compressor`**: Eliminates input and output token bloat during Claude Fable 5.1 planning phases (AST skeletonization, contract-only plans).
+- **`fable-atomic-diff-sequencer`**: Multi-file refactor execution coordinator for Claude Fable 5.1. Regulates Fable's 128k output capacity.
+- **`claude-fable-engine-governor`**: Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engine ports.
+- **`local-vector-rag-engine`**: Local vector embeddings and dense semantic search engine running on host CPU/GPU/RAM.
+- **`dynamic-repo-model-cheatsheet` (`claude-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

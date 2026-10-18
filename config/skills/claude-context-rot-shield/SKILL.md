@@ -11,12 +11,12 @@ This skill protects session integrity through proactive compaction and prompt ca
 
 ---
 
-## 1. The 80,000-Token Compaction Boundary
+## 1. The 40,000–50,000-Token Compaction Boundary
 
-Attention quality remains pristine up to **80,000 tokens**. Beyond this threshold, token costs soar and attention sharpness drops.
+Attention quality remains pristine up to **40,000–50,000 tokens**. Beyond this threshold, per-turn input token costs multiply and attention sharpness drops.
 
 ### Automated Compaction Workflow:
-When context crosses 80k tokens:
+When context crosses 40k–50k tokens:
 1. **Freeze State:** Snapshot all verified accomplishments and working hypotheses to `.agents/memory/activeContext.md`.
 2. **Snapshot Working Diffs:** Save active changes with `git diff > .agents/checkpoints/pre_compact.diff`.
 3. **Trigger Compaction:** Execute `/compact` or `/clear`, restoring the baseline state from `activeContext.md` (< 300 tokens).
@@ -36,12 +36,14 @@ Anthropic's prompt caching applies across **1,024-token boundaries**:
 ## 3. Tool Output Sanitization
 
 To keep context rot from setting in prematurely:
-- Pipe long terminal commands to `head -n 40` or scratch logs.
+- Pipe long terminal commands to `head -n 25` or scratch logs in `/dev/shm`.
 - Never print full source files into context when a targeted diff suffices.
-- Condense test runner logs using `headless-test-condenser`.
+- Condense test runner logs using `headless-test-condenser` or `token-guard`.
 
-## Related & Interoperating Skills
-- **`argon-long-haul-context-compaction-gate`**: Monitors context consumption during long-running Argon YOLO porting runs, triggering atomic milestone compacti...
-- **`context-pruning-watchdog`**: Live telemetry monitoring of active context consumption; automatically stages memory state into activeContext....
+## 🔗 Related & Interoperating Skills
+- **`claude-ultimate-quota-sentinel`**: Unified 6-pillar quota and rate-limit preservation engine for Claude Code.
+- **`fable-planning-token-compressor`**: 5-tier planning compression pipeline for Claude Fable 5.1.
+- **`claude-prompt-cache-sentinel`**: Ephemeral 5-minute TTL keep-alive guard and 1,024-token cache alignment.
+- **`claude-eco`**: Quota-optimized launcher enforcing `--effort low` and prompt cache protection.
 - **`cross-model-switch-pruner`**: Pre-switch state compaction and history virtualization engine when switching models (Sonnet to Fable, Opus, or...
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
