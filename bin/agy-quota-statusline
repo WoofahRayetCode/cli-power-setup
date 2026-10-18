@@ -702,8 +702,38 @@ def main():
     ]
     segments = [s for s in segments if s]
 
+    # 8b. Fable 5.1/5.5 Quota Usage Line for Claude Code CLI
+    fable_line_seg = None
+    if is_claude:
+        fable_state = {}
+        fable_file = Path("/tmp/fable_quota_state.json")
+        if fable_file.is_file():
+            try:
+                fable_state = json.loads(fable_file.read_text(encoding="utf-8"))
+            except Exception:
+                pass
+
+        f_5h_val = fable_state.get("five_hour_remaining", c_5h_val)
+        f_wk_val = fable_state.get("weekly_remaining", c_wk_val)
+        f_tok_used = fable_state.get("plan_tokens_used", 0)
+
+        f_5h_str = f"5h: {f_5h_val}%" if f_5h_val is not None else f"5h: {quota.get('claude_5h', '100%')}"
+        f_wk_str = f"Wk: {f_wk_val}%" if f_wk_val is not None else f"Wk: {quota.get('claude_wk', '90%')}"
+        f_tok_str = f" • 📝Plan Used: {fmt_tok(f_tok_used)}" if f_tok_used > 0 else ""
+
+        fable_segs = [
+            "📜 Fable Quota Usage: [Claude 5.1/5.5 1M Plan]",
+            f_5h_str,
+            f_wk_str + f_tok_str,
+            "📌 1M Pinned Cache (90% discount)",
+            "🛡️ AST Skeleton Gate",
+        ]
+        fable_line_seg = wrap_segments(fable_segs, max_width=term_width, sep=" | ")
+
     # 9. Dynamically wrap telemetry + Hardware/Swarm + Live Active Skills + Bottom Cheat Sheet
     lines = [wrap_segments(segments, max_width=term_width, sep=" | ")]
+    if is_claude and fable_line_seg:
+        lines.append(fable_line_seg)
     if hw_swarm_segs:
         lines.append(wrap_segments(hw_swarm_segs, max_width=term_width, sep=" | "))
     if live_skills_segs:
