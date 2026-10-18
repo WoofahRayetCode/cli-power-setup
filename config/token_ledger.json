@@ -1,12 +1,12 @@
 {
   "lifetime_summary": {
-    "total_cached_tokens_saved": 1632138517,
+    "total_cached_tokens_saved": 1821933285,
     "total_sessions_tracked": 29,
-    "cache_hit_rate_pct": 94.05,
-    "total_uncached_input_tokens": 103201914,
-    "total_output_tokens": 7242172,
-    "total_turns_executed": 12524,
-    "last_updated": "2026-10-17T15:01:50.710034"
+    "cache_hit_rate_pct": 94.3,
+    "total_uncached_input_tokens": 110225163,
+    "total_output_tokens": 7794559,
+    "total_turns_executed": 13764,
+    "last_updated": "2026-10-17T18:13:52.554145"
   },
   "sessions": [
     {
@@ -25,182 +25,197 @@
     }
   ],
   "local_llm_savings": {
-    "total_calls": 9,
-    "total_local_tokens": 11021,
-    "total_cloud_tokens_saved": 24721,
-    "last_model": "deepseek-coder-v2:16b",
-    "last_saved_tokens": 3041,
-    "last_updated": "2026-10-17T11:56:11",
+    "total_calls": 89,
+    "total_local_tokens": 16227,
+    "total_cloud_tokens_saved": 167247,
+    "last_model": "qwen2.5:72b-iq2",
+    "last_saved_tokens": 2576,
+    "last_updated": "2026-10-17T18:20:10",
     "by_model": {
       "blender-architect": {
-        "calls": 1,
-        "local_tokens": 2460,
-        "cloud_tokens_saved": 4320
+        "calls": 3,
+        "local_tokens": 3758,
+        "cloud_tokens_saved": 9638
       },
       "minicpm-v:8b": {
-        "calls": 1,
-        "local_tokens": 2330,
-        "cloud_tokens_saved": 5530
+        "calls": 3,
+        "local_tokens": 2364,
+        "cloud_tokens_saved": 11974
       },
       "deepseek-r1:8b": {
-        "calls": 1,
-        "local_tokens": 1600,
-        "cloud_tokens_saved": 3040
+        "calls": 3,
+        "local_tokens": 1622,
+        "cloud_tokens_saved": 10092
       },
       "qwen2.5-coder:1.5b": {
-        "calls": 1,
-        "local_tokens": 93,
-        "cloud_tokens_saved": 1293
+        "calls": 3,
+        "local_tokens": 167,
+        "cloud_tokens_saved": 3767
       },
       "deepseek-coder:6.7b-instruct": {
-        "calls": 1,
-        "local_tokens": 2219,
-        "cloud_tokens_saved": 3419
+        "calls": 3,
+        "local_tokens": 2377,
+        "cloud_tokens_saved": 5977
       },
       "aya:8b": {
-        "calls": 1,
-        "local_tokens": 72,
-        "cloud_tokens_saved": 1272
+        "calls": 3,
+        "local_tokens": 100,
+        "cloud_tokens_saved": 3700
       },
       "mathstral:7b": {
-        "calls": 1,
-        "local_tokens": 339,
-        "cloud_tokens_saved": 1539
+        "calls": 3,
+        "local_tokens": 375,
+        "cloud_tokens_saved": 3975
       },
       "gemma2:9b": {
-        "calls": 1,
-        "local_tokens": 67,
-        "cloud_tokens_saved": 1267
+        "calls": 3,
+        "local_tokens": 101,
+        "cloud_tokens_saved": 3701
       },
       "deepseek-coder-v2:16b": {
-        "calls": 1,
-        "local_tokens": 1841,
-        "cloud_tokens_saved": 3041
+        "calls": 3,
+        "local_tokens": 1883,
+        "cloud_tokens_saved": 5483
       },
       "llama3.3:70b-iq2": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 144,
+        "cloud_tokens_saved": 5174
       },
       "qwen2.5:72b-iq2": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 122,
+        "cloud_tokens_saved": 5152
       },
       "blenderllm:7b-q4": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 130,
+        "cloud_tokens_saved": 4150
       },
       "deepseek-r1:70b-iq2": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 88,
+        "cloud_tokens_saved": 7138
       },
       "llm4decompile:22b-q4": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 28,
+        "cloud_tokens_saved": 4066
       },
       "qwen2.5:32b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 74,
+        "cloud_tokens_saved": 2474
       },
       "deepseek-r1:32b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 26,
+        "cloud_tokens_saved": 7056
       },
       "qwen2.5-coder:32b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 4,
+        "local_tokens": 152,
+        "cloud_tokens_saved": 4952
       },
       "deepseek-r1:14b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 24,
+        "cloud_tokens_saved": 7054
       },
       "qwen2.5-coder:14b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 74,
+        "cloud_tokens_saved": 2474
       },
       "qwen2.5:7b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 78,
+        "cloud_tokens_saved": 2478
       },
       "wizard-math:7b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 88,
+        "cloud_tokens_saved": 2488
       },
       "phi4:14b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 38,
+        "cloud_tokens_saved": 2438
       },
       "mistral-nemo:12b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 26,
+        "cloud_tokens_saved": 2426
       },
       "hermes3:8b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 36,
+        "cloud_tokens_saved": 2436
       },
       "sqlcoder:7b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 32,
+        "cloud_tokens_saved": 2432
       },
       "llama3.1:8b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 38,
+        "cloud_tokens_saved": 2438
       },
       "llama3.2:3b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 70,
+        "cloud_tokens_saved": 2470
       },
       "codellama:7b-python": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 28,
+        "cloud_tokens_saved": 2428
       },
       "starcoder2:7b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 60,
+        "cloud_tokens_saved": 2460
       },
       "granite-code:8b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 36,
+        "cloud_tokens_saved": 2436
       },
       "bge-m3": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 4,
+        "local_tokens": 1054,
+        "cloud_tokens_saved": 5854
       },
       "moondream": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 20,
+        "cloud_tokens_saved": 6422
       },
       "nomic-embed-text": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 4,
+        "local_tokens": 804,
+        "cloud_tokens_saved": 5604
       },
       "qwen2.5-coder:7b": {
-        "calls": 0,
-        "local_tokens": 0,
-        "cloud_tokens_saved": 0
+        "calls": 2,
+        "local_tokens": 74,
+        "cloud_tokens_saved": 2474
+      },
+      "phi3.5": {
+        "calls": 2,
+        "local_tokens": 40,
+        "cloud_tokens_saved": 2440
+      },
+      "smollm2:1.7b": {
+        "calls": 2,
+        "local_tokens": 74,
+        "cloud_tokens_saved": 2474
+      },
+      "deepseek-r1:1.5b": {
+        "calls": 2,
+        "local_tokens": 22,
+        "cloud_tokens_saved": 7052
       }
     }
   },

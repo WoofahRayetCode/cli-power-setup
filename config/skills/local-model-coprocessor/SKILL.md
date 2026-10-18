@@ -37,32 +37,49 @@ By delegating deterministic, low-complexity drafting tasks to local hardware, th
 
 ---
 
-## 2. Complete 34-Model Local Fleet & Task Matrix
+## 2. Complete 37-Model Local Fleet & Task Matrix
 
 The local fleet is orchestrated via Ollama (`http://localhost:11434`), consuming **`245 GB`** physical disk space across the primary NVMe (`/var/lib/ollama/blobs/` — 208 GB) and secondary NVMe (`/mnt/games/large-models/` — 76 GB) with zero cloud token usage:
 
-| Domain / Task Flag | Primary Model | Fallback | VRAM | Specialization / Routing Target |
+| Domain / Task Flag | Primary Model | Fallback | VRAM / RAM | Specialization / Routing Target |
 | :--- | :--- | :--- | :--- | :--- |
-| **`--task reason`** | **`deepseek-r1:70b-iq2`** | `deepseek-r1:32b` / `14b` | 18 Layers (7.0 GB) + RAM | **Titan 70B Deep Reasoning.** Chain-of-thought proofs, 64-bit struct padding verification |
-| **`--task plan`** | **`qwen2.5:72b-iq2`** | `qwen2.5-coder:32b` | 16 Layers (5.4 GB) + RAM | **Titan 72B Systems Architect.** C++ refactoring, game engine modernization, 3D geometry |
-| **`--task tool`** | **`llama3.3:70b-iq2`** | `hermes3:8b` / `llama3.1:8b` | 18 Layers (7.0 GB) + RAM | **Titan 70B Agentic Caller.** Complex tool orchestration, structured schema execution |
-| **`--task re`** | **`llm4decompile:22b-q4`** | `deepseek-coder-v2:16b` | 24 Layers (7.1 GB) + RAM | **Binary Reverse Engineering.** Assembly-to-C decompilation for REA MCP & Ghidra |
+| **`--task titan-agent`** | **`llama3.3:70b-iq2`** | `hermes3:8b` / `llama3.1:8b` | 18 Layers (7.0 GB) + RAM | **Titan 70B Agentic Swarm.** Complex multi-turn tool orchestration, structured schema execution |
+| **`--task titan-code`** / **`port`** | **`qwen2.5:72b-iq2`** | `deepseek-coder-v2:16b` | 16 Layers (5.4 GB) + RAM | **Titan 72B Systems Architect.** C++20 refactoring, engine modernization, 3D geometry |
+| **`--task titan-reason`** | **`deepseek-r1:70b-iq2`** | `deepseek-r1:32b` / `14b` | 18 Layers (7.0 GB) + RAM | **Titan 70B Deep Reasoning.** Chain-of-thought proofs, 64-bit struct padding verification |
+| **`--task code-frontier`** | **`qwen2.5-coder:32b`** | `qwen2.5-coder:14b` / `7b` | ~7.5 GB | **32B Frontier Code Planner.** SWE-bench refactoring, multi-file codebases |
+| **`--task general-synthesis`** | **`qwen2.5:32b`** | `qwen2.5:7b` / `llama3.1:8b` | ~7.5 GB | **32B General Knowledge.** Repository analysis, technical specifications, documentation |
+| **`--task reason-32b`** | **`deepseek-r1:32b`** | `deepseek-r1:14b` / `8b` | ~7.5 GB | **32B Frontier Deep CoT.** Architectural invariant proofs, memory layout proofs |
+| **`--task re`** / **`decompile`** | **`llm4decompile:22b-q4`** | `deepseek-coder-v2:16b` | 24 Layers (7.1 GB) + RAM | **Binary Reverse Engineering.** Assembly-to-C decompilation for REA MCP & Ghidra |
+| **`--task shader`** | **`deepseek-coder-v2:16b`** | `qwen2.5-coder:14b` | ~6.0 GB | **MoE Shader Transpiler.** SPIR-V, DX12 HLSL, Vulkan GLSL, low-level engine porting |
+| **`--task physics`** | **`phi4:14b`** | `mathstral:7b` / `wizard-math:7b` | ~7.2 GB | **STEM & ODE Physics.** Numerical integration, ballistics physics, scientific derivations |
+| **`--task reason-14b`** | **`deepseek-r1:14b`** | `deepseek-r1:8b` / `1.5b` | ~7.1 GB | **14B Fast CoT.** Rapid algorithmic verification and bug triage |
+| **`--task code-14b`** | **`qwen2.5-coder:14b`** | `qwen2.5-coder:7b` | ~7.1 GB | **14B Dense Code Architect.** High-speed multi-file refactoring and modernizations |
+| **`--task long`** | **`mistral-nemo:12b`** | `qwen2.5:32b` / `7b` | ~7.1 GB | **128k Long Context.** Long document summarization, release notes, compiler log triage |
+| **`--task business`** | **`gemma2:9b`** | `qwen2.5:32b` / `7b` | ~5.4 GB | **Executive Communications.** Anti-jargon client proposals, BLUF executive copy, SOWs |
 | **`--task blender`** | **`blenderllm:7b-q4`** | `blender-architect:latest` | ~4.7 GB (100% VRAM) | **CAD & 3D Meshes.** Trained on `BlendNet` for instant natural language $\rightarrow$ `bpy` scripts |
-| **`--task port`** | `deepseek-coder-v2:16b` | `qwen2.5:72b-iq2` | ~6.0 GB | **#1 Game Engine Porting.** 32-to-64-bit pointer math, struct alignment, HLSL/GLSL shaders |
-| **`--task code`** | `qwen2.5-coder:32b` | `qwen2.5-coder:14b` / `7b` | ~4.7 GB–7.5 GB | Core multi-language refactoring, AST linting, logic fixes |
-| **`--task fast`** | `qwen2.5-coder:1.5b` | `llama3.2:3b` | ~1.0 GB | Sub-second regex, docstrings, unit test boilerplate |
-| **`--task cpp`** | `qwen2.5:72b-iq2` | `deepseek-coder-v2:16b` | ~5.4 GB–6.0 GB | Modern C++20, pointer safety, S.T.A.L.K.E.R. Complete $\rightarrow$ OGSR engine porting |
-| **`--task csharp`** | `granite-code:8b` | `qwen2.5-coder:32b` | ~4.6 GB | C# .NET 8/9, Avalonia, EF Core, enterprise backend |
-| **`--task rust`** | `starcoder2:7b` | `qwen2.5-coder:32b` | ~4.0 GB | Rust ownership, borrow checker proofs, zero-cost abstractions |
-| **`--task python`** | `codellama:7b-python` | `qwen2.5-coder:32b` | ~3.8 GB | Python 3.10+, scientific computing, pytest test generation |
-| **`--task math`** | `mathstral:7b` | `wizard-math:7b` / `phi4` | ~4.1 GB–7.5 GB | Physics ODEs, exponential damping, quaternion SLERP |
-| **`--task translate`** | `aya:8b` | `qwen2.5:32b` / `7b` | ~4.8 GB | Cohere 101-language translation, Slavic/CJK/FIGS game dialogue |
-| **`--task web`** | `qwen2.5:32b` | `qwen2.5:7b` / `gemma2:9b` | ~4.7 GB–7.5 GB | Web modernization, responsive Tailwind, clean semantic HTML |
-| **`--task business`** | `gemma2:9b` | `qwen2.5:32b` / `7b` | ~5.4 GB | Anti-jargon client proposals, BLUF executive copy, SOWs |
-| **`--task sql`** | `sqlcoder:7b` | `granite-code:8b` | ~4.1 GB | State-of-the-art SQL query synthesis, SQLite WAL tuning |
-| **`--task long`** | `mistral-nemo:12b` | `qwen2.5:32b` / `7b` | ~7.1 GB | 128k context window, long document/repo summarization |
-| **`--task vision`** | `minicpm-v:8b` | `moondream:latest` | ~5.5 GB | Game HUD inspection, OCR triage, visual bug analysis |
-| **Embeddings** | `bge-m3:latest` | `nomic-embed-text` | ~1.2 GB | Dense multilingual vector embeddings for `local-vector-rag` |
+| **`--task blender-arch`** | **`blender-architect:latest`** | `blenderllm:7b-q4` | ~4.7 GB (100% VRAM) | **Blender 5.2 SDF & Game Export.** Organic remeshing, texel density, OGSR `.ogf`/`.dm` export |
+| **`--task vision`** | **`minicpm-v:8b`** | `moondream:latest` | ~5.5 GB | **Multimodal Vision.** Game HUD inspection, OCR triage, visual glitch & artifact analysis |
+| **`--task fast-vision`** | **`moondream:latest`** | `minicpm-v:8b` | ~1.7 GB (100% VRAM) | **Sub-second Lightweight VLM.** Bounding boxes, UI element presence verification |
+| **`--task csharp`** | **`granite-code:8b`** | `qwen2.5-coder:32b` | ~4.6 GB (100% VRAM) | **Enterprise C# / .NET 9.** Avalonia XAML, EF Core, ASP.NET backend engineering |
+| **`--task rust`** | **`starcoder2:7b`** | `qwen2.5-coder:32b` | ~4.0 GB (100% VRAM) | **Rust Systems Engineering.** Borrow-checker proofs, Cargo crates, memory safety |
+| **`--task python`** | **`codellama:7b-python`** | `qwen2.5-coder:32b` | ~3.8 GB (100% VRAM) | **Python 3.10+ Automation.** Scientific computing, pytest test suite generation |
+| **`--task translate`** | **`aya:8b`** | `qwen2.5:32b` / `7b` | ~4.8 GB (100% VRAM) | **Cohere 101-Language Translation.** Slavic, CJK, and FIGS game dialogue & XML strings |
+| **`--task sql`** | **`sqlcoder:7b`** | `granite-code:8b` | ~4.1 GB (100% VRAM) | **Defog SQLCoder.** SQL query tuning, SQLite WAL PRAGMAs, PostgreSQL DDL migrations |
+| **`--task tool`** | **`hermes3:8b`** | `llama3.1:8b` | ~4.7 GB (100% VRAM) | **Function Calling Specialist.** Strict JSON schema compliance and agent tool routing |
+| **`--task conversation`** | **`llama3.1:8b`** | `qwen2.5:32b` | ~4.9 GB (100% VRAM) | **General Agent Dialogue.** Multi-turn brainstorming and collaborative design exploration |
+| **`--task math`** | **`mathstral:7b`** | `wizard-math:7b` | ~4.1 GB (100% VRAM) | **STEM 3D Math.** Quaternion SLERP, 3D linear algebra, change-of-basis transforms |
+| **`--task competition-math`** | **`wizard-math:7b`** | `mathstral:7b` | ~4.1 GB (100% VRAM) | **Competition Math.** Formal geometry, coordinate matrix transformations, algebraic proofs |
+| **`--task reason-8b`** | **`deepseek-r1:8b`** | `deepseek-r1:1.5b` | ~5.2 GB (100% VRAM) | **Distilled CoT Reasoning.** Algorithmic logic proofs, boundary invariant checks |
+| **`--task web`** | **`qwen2.5:7b`** | `qwen2.5:32b` | ~4.7 GB (100% VRAM) | **Modern Web Frontend.** Responsive Tailwind CSS, semantic HTML components, Astro |
+| **`--task test`** / **`code`** | **`qwen2.5-coder:7b`** | `deepseek-coder:6.7b-instruct`| ~4.7 GB (100% VRAM) | **Workhorse Multi-language Coder.** C++, Python, Bash test suites and refactoring |
+| **`--task systems-posix`** | **`deepseek-coder:6.7b-instruct`**| `qwen2.5-coder:7b` | ~3.8 GB (100% VRAM) | **POSIX C & Linux Low-Level.** Systems programming, epoll, socket IPC, kernel interfaces |
+| **`--task status-report`** | **`llama3.2:3b`** | `smollm2:1.7b` | ~2.0 GB (100% VRAM) | **Sub-second Status Reporter.** Milestone briefs, notifications, text drafts |
+| **`--task mini-logic`** | **`phi3.5:latest`** | `deepseek-r1:1.5b` | ~2.2 GB (100% VRAM) | **Microsoft 128k Mini Model.** Fast logic puzzles, lightweight algorithms |
+| **`--task docstring`** | **`smollm2:1.7b`** | `qwen2.5-coder:1.5b` | ~1.8 GB (100% VRAM) | **Sub-second Instruct SLM.** PEP257 docstrings, code comment formatting |
+| **`--task regex`** / **`fast`** | **`qwen2.5-coder:1.5b`** | `smollm2:1.7b` | ~986 MB (100% VRAM) | **Sub-second Boilerplate.** Regex, conventional commit messages, boilerplate snippets |
+| **`--task fast-reason`** | **`deepseek-r1:1.5b`** | `deepseek-r1:8b` | ~1.1 GB (100% VRAM) | **Sub-second Distilled CoT.** 120+ tok/s sanity assertions and rapid logic proofs |
+| **`--task embed`** | **`nomic-embed-text:latest`** | `bge-m3:latest` | ~274 MB (100% VRAM) | **Codebase Vector Indexing.** 768-dim embeddings for local RAG semantic search |
+| **`--task embed-dense`** | **`bge-m3:latest`** | `nomic-embed-text:latest` | ~1.2 GB (100% VRAM) | **Dense Multilingual Vectors.** 1024-dim dense vector embeddings for cross-language search |
 
 ---
 

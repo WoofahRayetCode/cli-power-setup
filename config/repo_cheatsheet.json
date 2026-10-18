@@ -1,30 +1,29 @@
 {
-  "updated_at": "2026-10-17T15:07:51.695438",
+  "updated_at": "2026-10-17T18:20:25.730378",
   "total_repos": 33,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792274839.67704,
-      "age_str": "31s ago",
-      "dirty_count": 7,
+      "activity_ts": 1792286375.106315,
+      "age_str": "50s ago",
+      "dirty_count": 9,
       "dirty_exts": {
         ".md": 1,
-        ".ps1": 1,
-        ".sh": 1
+        ".py": 2
       },
       "recent_exts": [
+        ".py",
         ".md",
-        ".ps1",
-        ".sh"
+        ".ps1"
       ],
       "top_exts": [
         ".md",
         ".mdc",
         ".py"
       ],
-      "last_commit": "feat(quota): implement 50% weekly quota safe offlo",
+      "last_commit": "feat(installer): add host hardware auto-detection ",
       "stack": "AI Skills / Python / Bash",
       "work_now": "CLI Daemons & Skills",
       "plan_short": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",
@@ -43,28 +42,28 @@
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792274527.7162938,
-      "age_str": "5m ago",
-      "dirty_count": 205,
+      "activity_ts": 1792285434.689594,
+      "age_str": "16m ago",
+      "dirty_count": 210,
       "dirty_exts": {
         ".ogf": 3,
-        ".md": 14,
-        ".dds": 202,
+        ".md": 17,
+        ".dds": 211,
         ".txt": 12,
         ".csv": 13,
         ".out": 11,
         ".conf": 3,
-        ".json": 5,
+        ".json": 8,
         ".jsonl": 1,
         ".bak": 1,
         ".patch": 1,
-        ".ltx": 45,
+        ".ltx": 47,
         ".anm": 6,
         ".xml": 15,
         ".fog_vol": 1,
         ".puddles": 1,
         ".lua": 1,
-        ".script": 39,
+        ".script": 42,
         ".script_npc_lights_on": 1,
         ".script_disabled": 3,
         ".script~": 1,
@@ -90,7 +89,7 @@
         ".thm": 65,
         ".ini": 1,
         ".tsv": 1,
-        ".sh": 17,
+        ".sh": 18,
         ".pyc": 6,
         ".py": 28,
         ".js": 3
@@ -124,13 +123,13 @@
       "name": "OGSR-Engine",
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
-      "activity_ts": 1792265777.8859844,
-      "age_str": "2h ago",
-      "dirty_count": 42,
+      "activity_ts": 1792283041.5682282,
+      "age_str": "56m ago",
+      "dirty_count": 45,
       "dirty_exts": {
-        ".cpp": 34,
+        ".cpp": 36,
         ".hpp": 1,
-        ".h": 6,
+        ".h": 7,
         ".json": 1,
         ".md": 1
       },
@@ -163,7 +162,7 @@
       "path": "~/Documents/GitHub/FifineControlDeck",
       "is_git": true,
       "activity_ts": 1792261601.8510442,
-      "age_str": "3h ago",
+      "age_str": "6h ago",
       "dirty_count": 1,
       "dirty_exts": {
         ".exe": 1
@@ -196,7 +195,7 @@
       "path": "~/Documents/GitHub/AegisVault",
       "is_git": true,
       "activity_ts": 1792198538.3066192,
-      "age_str": "21h ago",
+      "age_str": "1d ago",
       "dirty_count": 36,
       "dirty_exts": {
         ".md": 1,
@@ -235,7 +234,7 @@
       "path": "~/Documents/GitHub/zoneforge",
       "is_git": true,
       "activity_ts": 1792111082.1888983,
-      "age_str": "1d ago",
+      "age_str": "2d ago",
       "dirty_count": 5,
       "dirty_exts": {
         ".md": 1,
@@ -340,7 +339,7 @@
       "path": "~/Documents/GitHub/SuperRCProHams",
       "is_git": true,
       "activity_ts": 1791416159.8010454,
-      "age_str": "9d ago",
+      "age_str": "10d ago",
       "dirty_count": 1,
       "dirty_exts": {},
       "recent_exts": [
@@ -373,7 +372,7 @@
       "path": "~/Documents/GitHub/tetherfusenet",
       "is_git": true,
       "activity_ts": 1791414936.7961917,
-      "age_str": "9d ago",
+      "age_str": "10d ago",
       "dirty_count": 1,
       "dirty_exts": {
         ".sh": 1
@@ -445,7 +444,7 @@
       "path": "~/Documents/GitHub/nsz",
       "is_git": true,
       "activity_ts": 1792189743.6650836,
-      "age_str": "23h ago",
+      "age_str": "1d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -478,7 +477,7 @@
       "path": "~/Documents/GitHub/Wlfryt-Android-Messages",
       "is_git": true,
       "activity_ts": 1792104752.0,
-      "age_str": "1d ago",
+      "age_str": "2d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -706,7 +705,7 @@
       "path": "~/Documents/GitHub/WlfRyt-BadUpdate-Prep",
       "is_git": true,
       "activity_ts": 1791672130.396296,
-      "age_str": "6d ago",
+      "age_str": "7d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -1067,7 +1066,7 @@
       "path": "~/Documents/GitHub/mobile-game-research",
       "is_git": true,
       "activity_ts": 1791420068.0,
-      "age_str": "9d ago",
+      "age_str": "10d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [

@@ -102,80 +102,191 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
     installed = get_installed_ollama_models(endpoint)
     if not installed:
         return requested_model
-    if requested_model != "auto" and requested_model in installed:
-        return requested_model
+    if requested_model != "auto":
+        if requested_model in installed:
+            return requested_model
+        if f"{requested_model}:latest" in installed:
+            return f"{requested_model}:latest"
+        for m in installed:
+            if m.startswith(requested_model) or requested_model in m:
+                return m
 
     free_mb = get_free_vram_mb()
-    if task in ("re", "decompile", "reverse", "disasm", "rea", "binary"):
-        for cand in ("llm4decompile:22b-q4", "deepseek-coder-v2:16b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "deepseek-r1:70b-iq2", "deepseek-r1:32b", "qwen2.5-coder:14b", "deepseek-r1:14b", "deepseek-coder:6.7b-instruct"):
+
+    # Dedicated Model Mappings (All 37 models mapped as #1 primary choice)
+    # Tier 1: Ultra-Large Titan Fleet (70B-72B)
+    if task in ("titan-agent", "agent-titan", "orchestrate", "swarm", "titan-swarm", "titan-tool", "llama3.3"):
+        for cand in ("llama3.3:70b-iq2", "qwen2.5:72b-iq2", "hermes3:8b"):
             if cand in installed:
                 return cand
-    elif task in ("port", "engine", "migration", "transpile"):
-        for cand in ("qwen2.5:72b-iq2", "deepseek-r1:70b-iq2", "deepseek-coder-v2:16b", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b"):
+    elif task in ("titan-code", "engine-titan", "systems-cxx-large", "qwen72b", "port", "engine", "migration", "transpile"):
+        for cand in ("qwen2.5:72b-iq2", "deepseek-coder-v2:16b", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "deepseek-coder:6.7b-instruct"):
             if cand in installed:
                 return cand
+    elif task in ("titan-reason", "reason-titan", "formal-proof", "struct-padding", "deep-reason", "r1-70b", "cot-deep", "root-cause-deep"):
+        for cand in ("deepseek-r1:70b-iq2", "deepseek-r1:32b", "deepseek-r1:14b", "deepseek-r1:8b", "deepseek-r1:1.5b"):
+            if cand in installed:
+                return cand
+
+    # Tier 2: 32B Frontier Heavyweights
+    elif task in ("code-frontier", "swe-bench", "code-planning", "multi-file-arch", "coder-32b"):
+        for cand in ("qwen2.5-coder:32b", "qwen2.5:72b-iq2", "qwen2.5-coder:14b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task in ("general-synthesis", "knowledge", "polyglot", "doc-site", "qwen-32b"):
+        for cand in ("qwen2.5:32b", "qwen2.5:7b", "mistral-nemo:12b", "llama3.1:8b"):
+            if cand in installed:
+                return cand
+    elif task in ("reason-32b", "cot-layout", "memory-layout-proof", "r1-32b"):
+        for cand in ("deepseek-r1:32b", "deepseek-r1:70b-iq2", "deepseek-r1:14b", "deepseek-r1:8b"):
+            if cand in installed:
+                return cand
+
+    # Tier 3: Binary & MoE Engine Transpilers (16B-22B)
+    elif task in ("re", "decompile", "reverse", "disasm", "rea", "binary", "assembly", "llm4decompile"):
+        for cand in ("llm4decompile:22b-q4", "deepseek-coder-v2:16b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "deepseek-coder:6.7b-instruct"):
+            if cand in installed:
+                return cand
+    elif task in ("shader", "cross-engine-shader", "moe-code", "spirv", "hlsl", "moe", "deepseek-coder-v2"):
+        for cand in ("deepseek-coder-v2:16b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "qwen2.5-coder:14b"):
+            if cand in installed:
+                return cand
+
+    # Tier 4: Mid-Weight Specialists (9B-14B)
+    elif task in ("physics", "ode", "stem", "numerical-math", "phi4", "ballistics-physics"):
+        for cand in ("phi4:14b", "mathstral:7b", "wizard-math:7b", "deepseek-r1:14b"):
+            if cand in installed:
+                return cand
+    elif task in ("reason-14b", "fast-cot-14b", "algo-proof", "r1-14b"):
+        for cand in ("deepseek-r1:14b", "deepseek-r1:32b", "deepseek-r1:8b"):
+            if cand in installed:
+                return cand
+    elif task in ("code-14b", "code-arch-14b", "rapid-refactor", "coder-14b"):
+        for cand in ("qwen2.5-coder:14b", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task in ("long", "long-context", "summarize-long", "log-analysis", "128k-summary", "nemo", "compact"):
+        for cand in ("mistral-nemo:12b", "qwen2.5:32b", "qwen2.5:7b", "llama3.1:8b"):
+            if cand in installed:
+                return cand
+    elif task in ("business", "executive", "proposals", "editorial", "client-comms", "gemma2"):
+        for cand in ("gemma2:9b", "llama3.1:8b", "qwen2.5:32b", "qwen2.5:7b"):
+            if cand in installed:
+                return cand
+
+    # Tier 5: Workhorse Domain Specialists (7B-8B)
+    elif task in ("blender", "bpy", "procedural-mesh", "geometry-nodes", "blenderllm"):
+        for cand in ("blenderllm:7b-q4", "blender-architect:latest", "qwen2.5:72b-iq2", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task in ("blender-arch", "sdf-remesh", "xray-ogf", "game-mesh", "blender-game-ready", "blender-architect"):
+        for cand in ("blender-architect:latest", "blenderllm:7b-q4", "qwen2.5:72b-iq2", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task in ("vision", "vlm", "screen-telemetry", "hud", "render-inspect", "minicpm"):
+        for cand in ("minicpm-v:8b", "moondream:latest"):
+            if cand in installed:
+                return cand
+    elif task in ("fast-vision", "vlm-crop", "bounding-box", "quick-image-qa", "moondream"):
+        for cand in ("moondream:latest", "minicpm-v:8b"):
+            if cand in installed:
+                return cand
+    elif task in ("csharp", "cs", "dotnet", "avalonia", "xaml", "granite"):
+        for cand in ("granite-code:8b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task in ("rust", "cargo", "borrow-checker", "systems-rust", "starcoder"):
+        for cand in ("starcoder2:7b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task in ("python", "py", "pytest", "data-pipeline", "codellama"):
+        for cand in ("codellama:7b-python", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task in ("translate", "localization", "dialogue", "stalker-xml", "i18n", "aya"):
+        for cand in ("aya:8b", "qwen2.5:32b", "qwen2.5:7b", "llama3.1:8b"):
+            if cand in installed:
+                return cand
+    elif task in ("sql", "database", "schema", "sqlite", "sqlcoder", "ddl"):
+        for cand in ("sqlcoder:7b", "granite-code:8b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task in ("tool", "tool-call", "agent", "json-schema", "hermes"):
+        for cand in ("hermes3:8b", "llama3.1:8b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task in ("conversation", "chat", "brainstorm", "dialogue-design", "llama3.1"):
+        for cand in ("llama3.1:8b", "qwen2.5:32b", "gemma2:9b"):
+            if cand in installed:
+                return cand
+    elif task in ("math", "quaternion", "slerp", "linear-algebra", "mathstral"):
+        for cand in ("mathstral:7b", "wizard-math:7b", "phi4:14b", "deepseek-r1:14b"):
+            if cand in installed:
+                return cand
+    elif task in ("competition-math", "matrix-transform", "geometry", "wizard-math"):
+        for cand in ("wizard-math:7b", "mathstral:7b", "phi4:14b", "deepseek-r1:14b"):
+            if cand in installed:
+                return cand
+    elif task in ("reason-8b", "logic-proof", "boundary-check", "r1-8b"):
+        for cand in ("deepseek-r1:8b", "deepseek-r1:14b", "deepseek-r1:1.5b"):
+            if cand in installed:
+                return cand
+    elif task in ("web", "frontend", "tailwind", "html-css-ui", "qwen7b"):
+        for cand in ("qwen2.5:7b", "qwen2.5:32b", "gemma2:9b", "qwen2.5-coder:32b"):
+            if cand in installed:
+                return cand
+    elif task in ("test", "unit-test", "code", "cpp", "c++", "qwen-coder", "code-workhorse"):
+        for cand in ("qwen2.5-coder:7b", "deepseek-coder:6.7b-instruct", "qwen2.5-coder:14b", "qwen2.5:72b-iq2"):
+            if cand in installed:
+                return cand
+    elif task in ("systems-posix", "linux-kernel", "c-lowlevel", "posix", "deepseek-coder"):
+        for cand in ("deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b", "qwen2.5:72b-iq2"):
+            if cand in installed:
+                return cand
+
+    # Tier 6: Compact & Edge Sub-Second Engines (1.5B - 3.8B)
+    elif task in ("status-report", "draft", "notification", "quick-text", "llama3.2"):
+        for cand in ("llama3.2:3b", "smollm2:1.7b", "phi3.5:latest"):
+            if cand in installed:
+                return cand
+    elif task in ("mini-logic", "fast-math", "phi3.5", "128k-mini"):
+        for cand in ("phi3.5:latest", "deepseek-r1:1.5b", "smollm2:1.7b"):
+            if cand in installed:
+                return cand
+    elif task in ("docstring", "comment", "pep257-format", "smollm", "format"):
+        for cand in ("smollm2:1.7b", "qwen2.5-coder:1.5b", "phi3.5:latest"):
+            if cand in installed:
+                return cand
+    elif task in ("regex", "boilerplate", "fast-code", "snippet-gen", "qwen-1.5b"):
+        for cand in ("qwen2.5-coder:1.5b", "smollm2:1.7b", "qwen2.5-coder:7b"):
+            if cand in installed:
+                return cand
+    elif task in ("fast-reason", "fast-cot", "fast-assertion", "sanity-proof", "r1-1.5b"):
+        for cand in ("deepseek-r1:1.5b", "deepseek-r1:8b", "phi3.5:latest"):
+            if cand in installed:
+                return cand
+
+    # Tier 7: Local Vector Embedding Engines
+    elif task in ("embed", "embedding", "code-vector", "local-rag", "nomic"):
+        for cand in ("nomic-embed-text:latest", "bge-m3:latest"):
+            if cand in installed:
+                return cand
+    elif task in ("embed-dense", "bge", "multilingual-vector", "dense-retrieval", "bge-m3"):
+        for cand in ("bge-m3:latest", "nomic-embed-text:latest"):
+            if cand in installed:
+                return cand
+
+    # General Fallbacks
     elif task in ("plan", "architect", "roadmap", "decompose"):
         for cand in ("deepseek-r1:70b-iq2", "qwen2.5:72b-iq2", "llama3.3:70b-iq2", "qwen2.5-coder:32b", "deepseek-r1:32b", "qwen2.5:32b", "deepseek-coder-v2:16b", "qwen2.5-coder:14b", "deepseek-r1:14b", "phi4:14b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
-    elif task == "blender":
-        for cand in ("blenderllm:7b-q4", "blender-architect:latest", "qwen2.5:72b-iq2", "qwen2.5-coder:7b", "deepseek-r1:8b"):
+    elif task in ("reason", "cot", "proof"):
+        for cand in ("deepseek-r1:70b-iq2", "deepseek-r1:32b", "deepseek-r1:14b", "deepseek-r1:8b", "phi4:14b", "deepseek-r1:1.5b"):
             if cand in installed:
                 return cand
-    elif task == "vision":
-        for cand in ("minicpm-v:8b", "minicpm-v:latest", "qwen2.5vl:7b", "moondream:latest", "llava:latest"):
-            if cand in installed:
-                return cand
-    elif task in ("csharp", "cs", "dotnet"):
-        for cand in ("granite-code:8b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "qwen2.5-coder:7b"):
-            if cand in installed:
-                return cand
-    elif task in ("cpp", "c++", "xray", "shader"):
-        for cand in ("qwen2.5:72b-iq2", "deepseek-r1:70b-iq2", "deepseek-coder-v2:16b", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b"):
-            if cand in installed:
-                return cand
-    elif task == "rust":
-        for cand in ("starcoder2:7b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
-            if cand in installed:
-                return cand
-    elif task in ("python", "py"):
-        for cand in ("codellama:7b-python", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
-            if cand in installed:
-                return cand
-    elif task in ("translate", "localization", "dialogue", "stalker-xml", "i18n"):
-        for cand in ("aya:8b", "qwen2.5:32b", "qwen2.5:7b", "llama3.1:8b"):
-            if cand in installed:
-                return cand
-    elif task in ("sql", "database", "schema"):
-        for cand in ("sqlcoder:7b", "granite-code:8b", "qwen2.5-coder:7b"):
-            if cand in installed:
-                return cand
-    elif task in ("tool", "agent", "swarm", "json"):
-        for cand in ("hermes3:8b", "llama3.1:8b", "qwen2.5-coder:7b"):
-            if cand in installed:
-                return cand
-    elif task in ("long", "summarize", "compact", "cartography"):
-        for cand in ("mistral-nemo:12b", "qwen2.5:32b", "qwen2.5:7b", "llama3.1:8b"):
-            if cand in installed:
-                return cand
-    elif task in ("web", "html", "modernize", "tailwind", "css", "frontend"):
-        for cand in ("qwen2.5:32b", "qwen2.5:7b", "gemma2:9b", "qwen2.5-coder:32b"):
-            if cand in installed:
-                return cand
-    elif task in ("business", "copy", "proposal", "outreach", "editorial", "proofread"):
-        for cand in ("gemma2:9b", "qwen2.5:32b", "qwen2.5:7b", "llama3.1:8b"):
-            if cand in installed:
-                return cand
-    elif task in ("math", "physics", "ballistics", "quaternion"):
-        for cand in ("mathstral:7b", "wizard-math:7b", "deepseek-r1:32b", "deepseek-r1:14b", "phi4:14b", "deepseek-r1:8b", "qwen2.5-coder:7b"):
-            if cand in installed:
-                return cand
-    elif task == "reason" and free_mb >= 5200:
-        for cand in ("deepseek-r1:32b", "deepseek-r1:14b", "deepseek-r1:8b", "phi4:14b", "qwen2.5-coder:32b", "phi3.5:latest", "deepseek-r1:1.5b"):
-            if cand in installed:
-                return cand
-    elif task == "fast" or free_mb < 4800:
-        for cand in ("deepseek-r1:1.5b", "smollm2:1.7b", "phi3.5:latest", "llama3.2:3b", "qwen2.5-coder:1.5b", "qwen2.5-coder:7b"):
+    elif task in ("fast", "quick"):
+        for cand in ("deepseek-r1:1.5b", "smollm2:1.7b", "qwen2.5-coder:1.5b", "llama3.2:3b", "phi3.5:latest"):
             if cand in installed:
                 return cand
 
@@ -255,15 +366,18 @@ def record_local_llm_savings(model: str, prompt_eval: int, eval_count: int, has_
     return cloud_saved, tot_saved
 
 
-def query_local_ollama(endpoint, model, prompt, system_prompt="", image_path="", timeout=35.0):
+def query_local_ollama(endpoint, model, prompt, system_prompt="", image_path="", timeout=180.0):
     resolved_model = resolve_best_local_model(model, "vision" if image_path else "auto", endpoint)
+    if any(k in resolved_model for k in ("70b", "72b")):
+        timeout = max(timeout, 240.0)
     _write_local_state(resolved_model, True)
     url = f"{endpoint.rstrip('/')}/api/generate"
+    num_ctx = 2048 if any(k in resolved_model for k in ("70b", "72b")) else 8192
     payload = {
         "model": resolved_model,
         "prompt": prompt,
         "stream": False,
-        "options": {"num_ctx": 8192},
+        "options": {"num_ctx": num_ctx},
     }
     if system_prompt:
         payload["system"] = system_prompt
@@ -395,7 +509,7 @@ def cmd_docstring(args):
     prompt = f"Write clean, concise Google/PEP257 style docstrings for this function:\n```\n{code}\n```"
     response = None
     if not args.dry_run:
-        resolved = resolve_best_local_model(args.model, "fast", args.endpoint)
+        resolved = resolve_best_local_model(args.model, "docstring", args.endpoint)
         response = query_local_ollama(args.endpoint, resolved, prompt)
 
     if response is None:
@@ -412,7 +526,7 @@ def cmd_commit_msg(args):
 
     response = None
     if not args.dry_run:
-        resolved = resolve_best_local_model(args.model, "fast", args.endpoint)
+        resolved = resolve_best_local_model(args.model, "regex", args.endpoint)
         response = query_local_ollama(args.endpoint, resolved, prompt)
 
     if response is None:
@@ -430,7 +544,7 @@ def cmd_summarize_log(args):
     prompt = f"Identify the root cause error in this compiler/execution log in 2 bullet points:\n```\n{log_text}\n```"
     response = None
     if not args.dry_run:
-        resolved = resolve_best_local_model(args.model, "fast", args.endpoint)
+        resolved = resolve_best_local_model(args.model, "log-analysis", args.endpoint)
         response = query_local_ollama(args.endpoint, resolved, prompt)
 
     if response is None:
@@ -439,12 +553,44 @@ def cmd_summarize_log(args):
     print(f"\n[✓] Local Log Triage:\n{response}")
 
 
+def cmd_embed(args):
+    dense = getattr(args, "dense", False)
+    default_task = "embed-dense" if dense else "embed"
+    resolved = resolve_best_local_model(args.model, default_task, args.endpoint)
+    text = args.text or ""
+    if getattr(args, "file", "") and os.path.exists(args.file):
+        text = Path(args.file).read_text(encoding="utf-8", errors="ignore")
+    if not text:
+        text = "Antigravity CLI local vector embedding sample query."
+    print(f"[🔢 Local Vector Embedding] Model: {resolved}")
+
+    url = f"{args.endpoint.rstrip('/')}/api/embeddings"
+    payload = {"model": resolved, "prompt": text}
+    data = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"}, method="POST")
+    try:
+        with urllib.request.urlopen(req, timeout=25.0) as resp:
+            if resp.status == 200:
+                res = json.loads(resp.read().decode("utf-8"))
+                vec = res.get("embedding", [])
+                dim = len(vec)
+                p_eval = max(1, len(text) // 4)
+                saved, tot_saved = record_local_llm_savings(resolved, p_eval, dim // 4)
+                _write_local_state(resolved, False, saved)
+                print(f"\n[✓] Generated embedding: {dim} dimensions (preview: {[round(x, 4) for x in vec[:5]]})")
+                print(f"[💰 Local Quota Shield] +{saved:,} cloud tokens saved by {resolved} (Lifetime Local Saved: {tot_saved:,})")
+                return vec
+    except Exception as e:
+        print(f"[!] Embedding error: {e}")
+    return None
+
+
 def main():
     common_parser = argparse.ArgumentParser(add_help=False)
     common_parser.add_argument("--dry-run", action="store_true", help="Simulate generation without active local server")
     common_parser.add_argument("--endpoint", type=str, default="http://localhost:11434", help="Local server URL")
     common_parser.add_argument("--model", type=str, default="auto", help="Local model name (default: auto-detect based on VRAM & task)")
-    common_parser.add_argument("--task", type=str, default="auto", choices=["auto", "fast", "code", "reason", "vision", "blender", "csharp", "cpp", "rust", "python", "translate", "sql", "tool", "long", "math", "web", "business", "port", "plan", "re", "decompile"], help="Task routing mode")
+    common_parser.add_argument("--task", type=str, default="auto", help="Task routing mode (e.g. auto, titan, port, reason, vision, blender, csharp, cpp, rust, python, translate, sql, tool, long, math, web, business, embed, decompile, etc.)")
     common_parser.add_argument("--skill", type=str, default="", help="Comma-separated skill names to inject into local model system prompt")
     common_parser.add_argument("--auto-skill", action="store_true", default=True, help="Automatically match and inject relevant SKILL.md rules")
 
@@ -486,6 +632,12 @@ def main():
     p_log.add_argument("--file", type=str, default="")
     p_log.add_argument("--log", type=str, default="")
 
+    # embed
+    p_emb = subparsers.add_parser("embed", parents=[common_parser], help="Generate vector embeddings locally using nomic-embed-text or bge-m3")
+    p_emb.add_argument("text", nargs="?", default="", help="Text to embed")
+    p_emb.add_argument("--file", type=str, default="", help="Optional file containing text to embed")
+    p_emb.add_argument("--dense", action="store_true", help="Use bge-m3 for dense multilingual 1024-dim embedding")
+
     args = parser.parse_args()
 
     if args.command == "status":
@@ -502,6 +654,8 @@ def main():
         cmd_commit_msg(args)
     elif args.command == "summarize-log":
         cmd_summarize_log(args)
+    elif args.command == "embed":
+        cmd_embed(args)
 
 
 if __name__ == "__main__":

@@ -236,7 +236,7 @@ def classify_workload(
         plan_full = "Argon • High + 🤖 deepseek-r1:8b (Quota Forensics & Multi-Agent Design)"
         impl_full = "Argon • Med + 🤖 qwen2.5-coder:7b / blender-architect (Python/Bash CLI & 3D AI)"
         edit_full = "Flash • Low + 🤖 qwen2.5-coder:1.5b / bge-m3 (SKILL.md, Docstrings & Commits)"
-        hw = "Local 8-LLM Fleet + 32-Thr"
+        hw = "Local 37-LLM Fleet + 32-Thr"
         live_rec = "Argon•Med+🤖qwen7b" if dirty_has(".py", ".sh") else "Flash•Low+🤖qwen1.5b"
         live_reason = work_now
 
