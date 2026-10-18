@@ -9,6 +9,7 @@
 export CLAUDE_TURBO=1
 export MAX_THINKING_TOKENS=1024
 export CLAUDE_CODE_NO_FLICKER=1
+export CLAUDE_MODE=1
 
 [ -t 1 ] && command -v agy-cheatsheet >/dev/null 2>&1 && agy-cheatsheet --banner
 echo -e "\033[32m[🛡️ Claude Eco Mode Active]\033[0m Quota Sentinel enabled: low thinking effort + prompt cache protection."

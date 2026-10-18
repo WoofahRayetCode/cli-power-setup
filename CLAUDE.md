@@ -55,3 +55,12 @@
 - **Spoken `"Make a plan..."` / `"Use boost..."` / `"Grill me..."` Routing:** Spoken *"make a plan..."* $\rightarrow$ `/plan` (`writing-plans`), *"use boost..."* $\rightarrow$ `/boost` (`claude-adversarial-verification-gate`), *"grill me..."* $\rightarrow$ `/grill-me` (`brainstorming`), and *"clamshell mode"* $\rightarrow$ `laptop-perf clamshell-3d`.
 - **Zero Conversational Mirroring for Voice Prompts:** Strip conversational filler internally and lead directly with technical results or actions.
 - **Phonetic & Code Term Normalization:** *"see plus plus"* $\rightarrow$ `C++`, *"oh gee ess are"* $\rightarrow$ `OGSR`, *"ex ray"* $\rightarrow$ `X-Ray`, *"ell tee ex"* $\rightarrow$ `LTX`, *"dot cpp"* $\rightarrow$ `.cpp`, *"you input"* $\rightarrow$ `/dev/uinput`, *"pie test"* $\rightarrow$ `pytest`, *"cmake lists"* $\rightarrow$ `CMakeLists.txt`, *"get status/commit/push"* $\rightarrow$ `git status/commit/push`.
+
+## 🧭 Dynamic Repo Cheat Sheet & Model Routing (`claude-cheatsheet`, `dynamic-repo-model-cheatsheet`)
+- **CLI Cheat Sheet Command:** Run `claude-cheatsheet` (or `agy-cheatsheet --claude`) to inspect real-time Claude model, reasoning effort, and local model offload recommendations across all repositories.
+- **Workflow Task & Launcher Routing:**
+  - **Bulk LTX configs / XML tables / Docstrings / Fast Edits:** Use `claude-eco` (`--effort low`, $\le 1024$ thinking tokens, 1,024-tok cache lock).
+  - **Standard Feature Implementation / Python / C# / UI:** Use standard `claude` (standard effort).
+  - **Deep 64-bit Engine Crash Triage / Math / Architecture:** Use `claude --effort high` (paired with local `deepseek-r1:70b-iq2` / `r1:8b`).
+  - **Hands-Free Autonomous Batch Asset Conversions / Playtest QA:** Use `claude-yolo` (`--dangerously-skip-permissions`).
+

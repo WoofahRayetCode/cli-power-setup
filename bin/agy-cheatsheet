@@ -309,6 +309,25 @@ def classify_workload(
         live_rec = "Argon•High+🤖r1:8b"
         live_reason = "⚠️ Recent error/retry escalation"
 
+    # Claude Code Counterparts
+    claude_plan_short = plan_short.replace("Argon•High", "Sonnet•High").replace("Argon•Med", "Sonnet•Med").replace("Flash•Low", "claude-eco")
+    claude_impl_short = impl_short.replace("Argon•High", "Sonnet•High").replace("Argon•Med", "Sonnet•Med").replace("Flash•Low", "claude-eco")
+    claude_edit_short = edit_short.replace("Flash•Low", "claude-eco").replace("Argon•Med", "Sonnet•Med").replace("Argon•High", "Sonnet•High")
+
+    claude_plan_full = plan_full.replace("Argon • High", "Claude 3.7 Sonnet (High Effort)").replace("Argon • Med", "Claude 3.7 Sonnet (Med Effort)").replace("Flash • Low", "claude-eco (Low Effort)")
+    claude_impl_full = impl_full.replace("Argon • High", "Claude 3.7 Sonnet (High Effort)").replace("Argon • Med", "Claude 3.7 Sonnet (Med Effort)").replace("Flash • Low", "claude-eco (Low Effort)")
+    claude_edit_full = edit_full.replace("Flash • Low", "claude-eco (Low Effort, <= 1024 thinking)").replace("Argon • Med", "Claude 3.7 Sonnet (Med Effort)")
+
+    # Recommended Claude CLI launcher
+    if "Crash" in work_now or "64b" in work_now or "Kernel" in work_now or "RE" in work_now:
+        claude_launcher = "claude --effort high"
+    elif "LTX" in work_now or "XML" in work_now or "HTML" in work_now or "Skills" in work_now or "Doc" in work_now:
+        claude_launcher = "claude-eco"
+    elif "QA" in work_now or "Playtest" in work_now:
+        claude_launcher = "claude-yolo"
+    else:
+        claude_launcher = "claude"
+
     return {
         "stack": stack,
         "work_now": work_now,
@@ -318,6 +337,13 @@ def classify_workload(
         "plan_full": plan_full,
         "impl_full": impl_full,
         "edit_full": edit_full,
+        "claude_plan_short": claude_plan_short,
+        "claude_impl_short": claude_impl_short,
+        "claude_edit_short": claude_edit_short,
+        "claude_plan_full": claude_plan_full,
+        "claude_impl_full": claude_impl_full,
+        "claude_edit_full": claude_edit_full,
+        "claude_launcher": claude_launcher,
         "routine": edit_short,
         "deep": plan_short,
         "live_rec": live_rec,
@@ -723,10 +749,99 @@ def print_full_table(cwd: Path, results: list[dict], show_all: bool = False) -> 
     print()
 
 
+def print_claude_banner(cwd: Path, results: list[dict], top_n: int = 5) -> None:
+    """Compact cheat sheet printed automatically when launching claude-eco / claude-turbo / claude-yolo."""
+    cur_repo = next((r for r in results if str(cwd).startswith(r["path"])), results[0] if results else None)
+
+    print(f"{C_CYAN}╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮{C_RESET}")
+    print(f"{C_CYAN}│{C_RESET} 🧠 {C_BOLD}CLAUDE CODE DYNAMIC MODEL & REASONING CHEAT SHEET{C_RESET} {C_DIM}(Optimal Model & Effort by Active Repo){C_RESET}                                   {C_CYAN}│{C_RESET}")
+    if cur_repo:
+        exts = ",".join(cur_repo.get("recent_exts", [])[:3]) or "clean"
+        print(
+            f"{C_CYAN}│{C_RESET} 📍 {C_BOLD}Active Repo:{C_RESET} {C_BOLD}{cur_repo['name']:<22}{C_RESET} │ 🔥 {C_BOLD}Current Work:{C_RESET} {C_YELLOW}{cur_repo.get('work_now', ''):<26}{C_RESET} ({exts})"
+        )
+        print(
+            f"{C_CYAN}│{C_RESET}    ├─ 📐 {C_BOLD}Plan (Deep CoT)      :{C_RESET} {C_MAGENTA}{cur_repo.get('claude_plan_full', cur_repo['plan_short'])}{C_RESET}"
+        )
+        print(
+            f"{C_CYAN}│{C_RESET}    ├─ 🔨 {C_BOLD}Implement (Features) :{C_RESET} {C_CYAN}{cur_repo.get('claude_impl_full', cur_repo['impl_short'])}{C_RESET}"
+        )
+        print(
+            f"{C_CYAN}│{C_RESET}    ├─ ✏️  {C_BOLD}Edit Files (Quota)   :{C_RESET} {C_GREEN}{cur_repo.get('claude_edit_full', cur_repo['edit_short'])}{C_RESET}"
+        )
+        print(
+            f"{C_CYAN}│{C_RESET}    └─ 🚀 {C_BOLD}Recommended Launcher :{C_RESET} {C_YELLOW}{C_BOLD}{cur_repo.get('claude_launcher', 'claude-eco')}{C_RESET} {C_DIM}(Offload: {cur_repo['hw']}){C_RESET}"
+        )
+
+    print(f"{C_CYAN}├──────────────────────┬───────────────────────┬────────────────────────────────┬──────────────────────────────────────┬────────────────────────────────┤{C_RESET}")
+    print(f"{C_CYAN}│{C_RESET} {C_BOLD}{'Recent Active Repo':<20}{C_RESET} │ {C_BOLD}{'Current Work':<21}{C_RESET} │ {C_BOLD}{'📐 Plan (Claude + Local)':<30}{C_RESET} │ {C_BOLD}{'🔨 Implement (Claude + Local)':<36}{C_RESET} │ {C_BOLD}{'✏️ Edit Files (Claude + Local)':<30}{C_RESET} {C_CYAN}│{C_RESET}")
+    print(f"{C_CYAN}├──────────────────────┼───────────────────────┼────────────────────────────────┼──────────────────────────────────────┼────────────────────────────────┤{C_RESET}")
+    for r in results[:top_n]:
+        name_col = r["name"][:20]
+        work_col = r.get("work_now", r["stack"])[:21]
+        plan_col = r.get("claude_plan_short", r.get("plan_short", ""))[:30]
+        impl_col = r.get("claude_impl_short", r.get("impl_short", ""))[:36]
+        edit_col = r.get("claude_edit_short", r.get("edit_short", ""))[:30]
+        print(
+            f"{C_CYAN}│{C_RESET} {name_col:<20} │ {work_col:<21} │ {C_MAGENTA}{plan_col:<30}{C_RESET} │ {C_CYAN}{impl_col:<36}{C_RESET} │ {C_GREEN}{edit_col:<30}{C_RESET} {C_CYAN}│{C_RESET}"
+        )
+    print(f"{C_CYAN}╰──────────────────────┴───────────────────────┴────────────────────────────────┴──────────────────────────────────────┴────────────────────────────────╯{C_RESET}")
+    print(f"{C_DIM}  Tip: Run `claude-cheatsheet` anytime for full table, or `claude-cheatsheet --all` for all {len(results)} repos.{C_RESET}\n")
+
+
+def print_claude_table(cwd: Path, results: list[dict], show_all: bool = False) -> None:
+    limit = len(results) if show_all else min(14, len(results))
+    cur_repo = next((r for r in results if str(cwd).startswith(r["path"])), results[0] if results else None)
+
+    print(f"\n{C_CYAN}========================================================================================================================================================{C_RESET}")
+    print(f" 🧠 {C_BOLD}CLAUDE CODE DYNAMIC MODEL & REASONING CHEAT SHEET — PLAN vs. IMPLEMENT vs. EDIT FILES{C_RESET} ({len(results)} GitHub Repos Indexed)")
+    print(f"{C_CYAN}========================================================================================================================================================{C_RESET}")
+
+    if cur_repo:
+        exts = ", ".join(cur_repo.get("recent_exts", [])[:3]) or "clean"
+        dirty_info = (
+            f"{cur_repo['dirty_count']} uncommitted files (Recent active: {exts})"
+            if cur_repo["dirty_count"]
+            else f"Working tree clean (Recent active: {exts})"
+        )
+        print(f" 📍 {C_BOLD}ACTIVE WORKSPACE:{C_RESET}       {C_BOLD}{cur_repo['name']}{C_RESET}  │  🔥 {C_BOLD}Current Work:{C_RESET} {C_YELLOW}{cur_repo.get('work_now', '')}{C_RESET}  │  {dirty_info}")
+        print(f"    📐 {C_BOLD}USE FOR PLANNING:{C_RESET}     {C_MAGENTA}{C_BOLD}{cur_repo.get('claude_plan_full', cur_repo.get('plan_full', ''))}{C_RESET}")
+        print(f"    🔨 {C_BOLD}USE FOR IMPLEMENTING:{C_RESET} {C_CYAN}{C_BOLD}{cur_repo.get('claude_impl_full', cur_repo.get('impl_full', ''))}{C_RESET}")
+        print(f"    ✏️  {C_BOLD}USE FOR FILE EDITING:{C_RESET} {C_GREEN}{C_BOLD}{cur_repo.get('claude_edit_full', cur_repo.get('edit_full', ''))}{C_RESET}")
+        print(f"    🚀 {C_BOLD}RECOMMENDED LAUNCHER:{C_RESET} {C_YELLOW}{C_BOLD}{cur_repo.get('claude_launcher', 'claude-eco')}{C_RESET}  │  Offload: {C_DIM}{cur_repo['hw']}{C_RESET}")
+        print(f"{C_CYAN}--------------------------------------------------------------------------------------------------------------------------------------------------------{C_RESET}")
+
+    header = f" {'Repository':<22} | {'Current Work':<21} | {'📐 Plan (Claude + Local)':<30} | {'🔨 Implement (Claude + Local)':<36} | {'✏️ Edit Files (Claude + Local)':<31}"
+    print(C_BOLD + header + C_RESET)
+    print(f"{C_CYAN}--------------------------------------------------------------------------------------------------------------------------------------------------------{C_RESET}")
+
+    for r in results[:limit]:
+        marker = "▶" if (cur_repo and r["name"] == cur_repo["name"]) else ("*" if r["dirty_count"] > 0 else " ")
+        name_str = f"{marker} {r['name'][:20]}"
+        work_str = r.get("work_now", r["stack"])[:21]
+        plan_str = r.get("claude_plan_short", r.get("plan_short", ""))[:30]
+        impl_str = r.get("claude_impl_short", r.get("impl_short", ""))[:36]
+        edit_str = r.get("claude_edit_short", r.get("edit_short", ""))[:31]
+        print(
+            f" {name_str:<22} | {work_str:<21} | {C_MAGENTA}{plan_str:<30}{C_RESET} | {C_CYAN}{impl_str:<36}{C_RESET} | {C_GREEN}{edit_str:<31}{C_RESET}"
+        )
+
+    print(f"{C_CYAN}========================================================================================================================================================{C_RESET}")
+    print(f" {C_BOLD}CLAUDE CODE LAUNCHER RECOMMENDATIONS BY WORKFLOW TASK:{C_RESET}")
+    print(f"  • 🚀 {C_GREEN}{C_BOLD}claude-eco{C_RESET}              Bulk LTX configs, XML tables, docstrings, and fast edits (Low thinking effort, 90% prompt cache lock).")
+    print(f"  • ⚡ {C_CYAN}{C_BOLD}claude{C_RESET}                  Standard feature implementation, C++ refactoring, Python, and UI components.")
+    print(f"  • 🧠 {C_MAGENTA}{C_BOLD}claude --effort high{C_RESET}    Deep 64-bit engine crash triage, complex architectural design, and reverse engineering.")
+    print(f"  • 🤖 {C_YELLOW}{C_BOLD}claude-yolo{C_RESET}             Hands-free autonomous asset batch conversions, test sweeps, and playtesting.")
+    if not show_all and len(results) > limit:
+        print(f"  {C_DIM}(Showing top {limit} most active repos. Run `claude-cheatsheet --all` to view all {len(results)} repos.){C_RESET}")
+    print()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Dynamic Repo-Aware Model & Reasoning Cheat Sheet")
     parser.add_argument("--all", action="store_true", help="Show all repositories in ~/Documents/GitHub")
-    parser.add_argument("--banner", action="store_true", help="Print compact startup banner for agy-yolo/agy-turbo")
+    parser.add_argument("--claude", action="store_true", help="Display Claude Code models, effort levels, and launchers")
+    parser.add_argument("--banner", action="store_true", help="Print compact startup banner for agy-yolo/agy-turbo/claude-eco")
     parser.add_argument("--statusline", nargs="?", const=".", help="Print compact 1-segment recommendation for statusline")
     parser.add_argument("--statusline-bars", nargs="?", const=".", help="Output JSON cheat sheet bars for bottom of statusline")
     parser.add_argument("--update", action="store_true", help="Silently scan and update repo_cheatsheet.json")
@@ -752,11 +867,20 @@ def main() -> None:
         print(json.dumps(results, indent=2))
         return
 
+    is_claude = args.claude or "claude" in Path(sys.argv[0]).name.lower() or os.environ.get("CLAUDE_MODE") == "1"
+
     if args.banner:
-        print_banner(cwd, results, top_n=5)
+        if is_claude:
+            print_claude_banner(cwd, results, top_n=5)
+        else:
+            print_banner(cwd, results, top_n=5)
     else:
-        print_full_table(cwd, results, show_all=args.all)
+        if is_claude:
+            print_claude_table(cwd, results, show_all=args.all)
+        else:
+            print_full_table(cwd, results, show_all=args.all)
 
 
 if __name__ == "__main__":
     main()
+
