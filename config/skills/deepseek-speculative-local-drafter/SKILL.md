@@ -1,0 +1,26 @@
+---
+name: deepseek-speculative-local-drafter
+description: Emulates DeepSeek-V3 Multi-Token Prediction and speculative drafting. Offloads candidate code diffs, struct boilerplate, and repetitive logic to fast local Ollama SLMs (qwen2.5:1.5b / deepseek-r1:1.5b) on host hardware before Claude verification.
+---
+
+# DeepSeek Speculative Local Drafter (`deepseek-speculative-local-drafter`)
+
+Emulates DeepSeek-V3 speculative decoding and multi-token prediction inside Claude Code by offloading candidate code drafting to your local Ollama fleet.
+
+## Core Capabilities
+- **Local Speculative Drafting:** Generates initial code passes, boilerplate classes, and unit tests using fast local SLMs (`qwen2.5:1.5b`, `deepseek-r1:1.5b`) running directly in RTX 5060 VRAM or system RAM.
+- **Claude as Verifier-in-the-Loop:** Claude reviews, audits, and applies the local candidate draft rather than generating repetitive code from scratch, slashing output token billing by up to 75%.
+- **Zero Cloud Latency:** Candidate drafting executes in under 2 seconds locally.
+
+## CLI Usage (`speculative-draft`)
+```bash
+speculative-draft "Generate C++ struct serialization for S.T.A.L.K.E.R. weather cycle"
+speculative-draft "Write pytest unit test for audio GSC comment chunk parser" --model deepseek-r1:1.5b
+```
+
+## Interoperability
+- Connects with `claude-local-fleet-offloader` to keep weekly cloud quota usage above 75%.
+- Connects with `local-model-coprocessor` to maximize GPU utilization.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

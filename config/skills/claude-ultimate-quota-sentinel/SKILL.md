@@ -102,3 +102,12 @@ Before emitting any turn output, verify:
 - [ ] Will this bash command output $<25$ lines, or is it piped through `token-guard` / `/dev/shm`?
 - [ ] Is thinking budget clamped appropriately for the difficulty of this specific step?
 - [ ] If weekly quota is $\le 50\%$, has mechanical code generation been offloaded to the local model fleet?
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`claude-prompt-cache-sentinel`**: Maximizes Anthropic Prompt Caching discounts (90% savings) through strict 1,024-token boundary alignment block...
+- **`claude-fable-engine-governor`**: Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engin...
+- **`claude-opus-conciseness-enforcer`**: Enforces extreme output conciseness, strict BLUF formatting, and hard token caps for Claude Opus. Eliminates c...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -1,6 +1,6 @@
 ---
 description: Eliminates conversational mirroring and normalizes stream-of-consciousness voice dictation from agy-mic-button into direct, high-density Claude Code actions.
-globs: 
+globs: *
 alwaysApply: false
 ---
 
@@ -44,3 +44,12 @@ Translate spoken phrases directly into Claude actions:
 | "pie test" | `pytest` |
 | "cmake lists" | `CMakeLists.txt` |
 | "get status/commit/push" | `git status/commit/push` |
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`claude-opus-conciseness-enforcer`**: Enforces extreme output conciseness, strict BLUF formatting, and hard token caps for Claude Opus. Eliminates c...
+- **`voice-prompt-context-optimizer`**: Autonomous voice-to-text prompt normalizer and context token saver. Eliminates conversational filler, corrects...
+- **`claude-silent-dispatch`**: Eliminates pre-tool narration, commentary, and conversational play-by-plays in Claude Code, executing tool cal...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

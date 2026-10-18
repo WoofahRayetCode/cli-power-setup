@@ -110,3 +110,6 @@ local-coprocessor generate --task translate --auto-skill \
 - **`local-model-coprocessor`**: Dispatches translation and dialogue repairs to `aya:8b` and `qwen2.5:7b` locally in VRAM/RAM (0 cloud tokens).
 - **`game-localization-i18n`**: Internationalization (i18n) and localization (l10n) pipelines for games, desktop, and web apps.
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

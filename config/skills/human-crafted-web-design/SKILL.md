@@ -86,3 +86,6 @@ local-coprocessor generate --task web --auto-skill \
 - **`android-compose-ui-ux`**: Advanced Jetpack Compose UI/UX architecture, Material 3 design systems, edge-to-edge window insets, recomposit...
 - **`executive-business-communications`**: Professional executive business correspondence, BLUF email structuring, client proposals, Scope of Work (SOW) ...
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

@@ -111,3 +111,11 @@ When working on any repository, invoke local models directly via the native Bash
 4. **Token Savings & VRAM Headroom**: `local-coprocessor status` (inspect lifetime saved tokens)
 5. **Symbol & Slice Inspection**: `slice-reader <file> <start> <end>` or `token-guard grep -n "pattern"`
 
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`adaptive-reasoning`**: Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-sp...
+- **`dynamic-model-downshifter`**: Autonomous multi-tier model downshifting for CLI sessions. Enforces the 'Frontier Brain, Fast Hands' pattern b...
+- **`claude-opus-plan-sonnet-exec`**: Three-tier model routing architecture for Anthropic Claude ('Opus Plan, Sonnet Code, Haiku Hands'). Preserves ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

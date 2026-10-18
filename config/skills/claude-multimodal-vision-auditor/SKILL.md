@@ -34,3 +34,6 @@ When diagnosing visual glitches, missing textures, or UI alignment:
 - **Missing Textures**: Detect the classic magenta/black checkerboard pattern in S.T.A.L.K.E.R. / OGSR engine rendering.
 - **HUD & Telemetry Verification**: Inspect MangoHud and DXVK overlays for frametimes, VRAM allocation, and thermal throttles.
 - **Blender 3D Silhouette Matching**: Inspect 2x2 contact sheets rendered from Blender to verify `Silhouette IoU >= 0.80` against reference concept art.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

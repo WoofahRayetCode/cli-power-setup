@@ -1,6 +1,6 @@
 ---
 description: Formal adversarial self-critique, boundary-condition proofing, and confirmation-bias elimination for Claude 3.7+ Sonnet and Opus prior to declaring tasks complete.
-globs: 
+globs: *
 alwaysApply: false
 ---
 
@@ -36,3 +36,12 @@ Verify safety across critical runtime boundaries:
 - Verify that only surgical diffs were applied (`replace_file_content` / targeted edits).
 - Verify that large templates or reports were written to disk rather than dumped into the conversation transcript.
 - Conclude with the mandatory token savings line: `📉 Token Economy: ~<N> tokens saved`.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`argon-adversarial-verification-gate`**: Harnesses Gemini 4 Argon's deep reasoning capacity for formal adversarial self-critique, boundary-condition pr...
+- **`argon-deep-memory-allocator-sanitizer`**: Mathematical 64-bit pointer, struct padding, and memory alignment sanitizer for Gemini 4 Argon. Eliminates poi...
+- **`claude-fable-engine-governor`**: Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engin...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

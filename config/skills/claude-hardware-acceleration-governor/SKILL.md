@@ -37,3 +37,6 @@ For headless 3D asset generation and rendering in Blender 5.2+ (`bpy`):
 - **Hardware Acceleration**: Always activate `compute_device_type = 'OPTIX'` (`scene.cycles.device = 'GPU'`).
 - **AI Denoising**: Activate OptiX AI Denoising at `16–32 samples` for sub-second viewport rendering and normal/AO texture baking.
 - **Never CPU Fallback**: Do not allow Cycles to fall back to CPU rendering when the RTX 5060 Laptop GPU with 8GB GDDR7 is present.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

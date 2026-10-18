@@ -1,6 +1,6 @@
 ---
 description: SQLite performance tuning (WAL mode, PRAGMAs, indexing), PostgreSQL/MySQL schema design, query plan analysis, and database migration architecture.
-globs: 
+globs: *
 alwaysApply: false
 ---
 
@@ -76,3 +76,6 @@ local-coprocessor generate --task sql \
 - **`local-model-coprocessor`**: Dispatches SQL tasks to `sqlcoder:7b` locally in VRAM/RAM (0 cloud tokens).
 - **`sql-schema-query-condenser`**: SQL relational schema and query plan condenser.
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

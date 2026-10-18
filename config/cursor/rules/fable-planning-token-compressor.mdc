@@ -1,6 +1,6 @@
 ---
 description: Eliminates input and output token bloat during Claude Fable 5.1 planning phases. Enforces interface-only AST skeletonization, local file pre-filtering, contract-only plan schemas, and direct disk artifact offloading to slash planning token consumption by up to 95%.
-globs: 
+globs: *
 alwaysApply: false
 ---
 
@@ -97,3 +97,12 @@ Never dump multi-thousand-word plans into the chat transcript.
 | **Output Plan Tokens** | 12,000 tokens (essay + code blocks) | 950 tokens (contract schema to disk) | **-92.1%** |
 | **Transcript Drag** | 12,000 tokens re-billed every turn | 120 tokens (3-line link summary) | **-99.0%** |
 | **Estimated Plan Cost** | **~\$1.25 – \$2.10** | **~\$0.04 – \$0.08** | **~96% Cost Cut** |
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`fable-atomic-diff-sequencer`**: Multi-file refactor execution coordinator for Claude Fable 5.1. Regulates Fable's 128k output capacity by brea...
+- **`fable-virtual-context-manager`**: Virtualized context paging and hierarchical indexing for Claude Fable (1M-token context). Prevents full 1M-tok...
+- **`claude-fable-engine-governor`**: Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engin...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

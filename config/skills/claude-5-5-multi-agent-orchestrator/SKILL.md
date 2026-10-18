@@ -62,3 +62,9 @@ Parent and worker agents communicate strictly via **structured JSON envelopes** 
 1. **Dedicated Worktree Directory:** Every subagent runs inside `/dev/shm/worktree_<subtask_id>/` (fast RAM disk, zero SSD wear).
 2. **Lock-Free Concurrency:** Subagents never touch the primary working directory until the Lead Architect initiates an atomic squash-merge.
 3. **Automated Cleanup:** On completion or failure, the worktree is automatically cleaned up and pruned.
+
+## Related & Interoperating Skills
+- **`subagent-swarm-orchestrator`**: Coordinates autonomous parallel subagent swarms in Claude Code, leveraging isolated git worktrees, background ...
+- **`claude-worktree-tmux`**: Native Claude Code background session and tmux pane isolation, running heavy builds, test suites, and long tas...
+- **`argon-dynamic-subagent-swarm`**: Spawns and coordinates parallel Gemini Flash worker subagents to execute high-volume asset conversion, audio p...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

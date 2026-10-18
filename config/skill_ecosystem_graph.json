@@ -1,13 +1,13 @@
 {
-  "total_skills": 316,
+  "total_skills": 332,
   "skills": {
     "adaptive-reasoning": {
       "description": "Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-speed execution on Flash and deep-reasoning planning on Argon based on prompt complexity.",
       "related": [
         "dynamic-model-downshifter",
+        "claude-local-fleet-offloader",
         "agy-omni-mode",
-        "local-model-coprocessor",
-        "gemini-dynamic-reasoning-tuner"
+        "local-model-coprocessor"
       ]
     },
     "agent-error-recovery-sentinel": {
@@ -23,9 +23,9 @@
       "description": "Autonomous AI agent visual reasoning, visual grounding, and high-resolution perception. Covers Slicing Aided Hyper Inference (SAHI) for 4K/8K images, natural language visual grounding coordinates [ymin, xmin, ymax, xmax], click centroid calculation, multi-scale crop-and-zoom inspection heuristics, and structural visual diffing (SSIM).",
       "related": [
         "argon-multimodal-vision-grounding",
-        "local-gpu-vision-ocr-preprocessor",
-        "screen-vision-inspector",
-        "game-ai-agent-play"
+        "claude-multimodal-vision-auditor",
+        "openai-operator-desktop-driver",
+        "local-gpu-vision-ocr-preprocessor"
       ]
     },
     "agy-cli-doctor": {
@@ -61,7 +61,7 @@
         "gemini-dynamic-reasoning-tuner",
         "adaptive-reasoning",
         "dynamic-model-downshifter",
-        "agy-cli-doctor"
+        "claude-local-fleet-offloader"
       ]
     },
     "ai-3d-mesh-generation": {
@@ -86,9 +86,9 @@
       "description": "Dual-GPU workload splitter for AMD Radeon 610M iGPU (/dev/dri/renderD129, RADV Vulkan + VA-API VCN + 30GB shared DDR5 RAM) and NVIDIA GeForce RTX 5060 dGPU (/dev/dri/renderD128, 8GB GDDR7 CUDA/OptiX). Prevents background agent tasks from stealing game VRAM.",
       "related": [
         "windows-linux-cross-os-runtime-bridge",
+        "claude-hardware-acceleration-governor",
         "rtx-optix-gpu-baker-denoiser",
-        "ultra-large-model-quantization-optimizer",
-        "local-model-coprocessor"
+        "claude-local-fleet-offloader"
       ]
     },
     "android-app-engineering": {
@@ -211,10 +211,10 @@
     "argon-adversarial-verification-gate": {
       "description": "Harnesses Gemini 4 Argon's deep reasoning capacity for formal adversarial self-critique, boundary-condition proofing, and confirmation-bias elimination prior to declaring tasks complete.",
       "related": [
+        "claude-adversarial-verification-gate",
         "deliberative-reasoning-tree",
         "argon-effort-auto-calibrator",
-        "argon-ast-syntax-gate",
-        "argon-thinking-governor"
+        "argon-ast-syntax-gate"
       ]
     },
     "argon-ast-syntax-gate": {
@@ -240,17 +240,17 @@
       "related": [
         "multi-model-cache-harmonizer",
         "gemini-flash-cache-aligner",
-        "agy-context-telemetry",
-        "argon-long-context-retrieval-anchor"
+        "claude-prompt-cache-sentinel",
+        "claude-ultimate-quota-sentinel"
       ]
     },
     "argon-deep-memory-allocator-sanitizer": {
       "description": "Mathematical 64-bit pointer, struct padding, and memory alignment sanitizer for Gemini 4 Argon. Eliminates pointer truncation and alignment faults in legacy C++ game engine ports.",
       "related": [
         "cpp-64bit-engine-port-sanitizer",
+        "claude-adversarial-verification-gate",
         "argon-thinking-governor",
-        "deepseek-r1-math-verification",
-        "argon-adversarial-verification-gate"
+        "deepseek-r1-math-verification"
       ]
     },
     "argon-dynamic-subagent-swarm": {
@@ -258,17 +258,17 @@
       "related": [
         "argon-subagent-dispatch-routing",
         "argon-hierarchical-worktree-isolator",
-        "argon-subagent-payload-compressor",
-        "argon-self-contained-autonomous-driver"
+        "claude-5-5-multi-agent-orchestrator",
+        "argon-subagent-payload-compressor"
       ]
     },
     "argon-effort-auto-calibrator": {
       "description": "Dynamically calibrates Gemini 4 Argon reasoning effort (--effort low/medium/high) turn-by-turn based on cognitive task complexity, slashing thinking token burn by up to 85% on routine tool execution.",
       "related": [
+        "claude-5-5-adaptive-thinking-governor",
         "argon-thinking-governor",
         "claude-thinking-budget-governor",
-        "gemini-dynamic-reasoning-tuner",
-        "argon-adversarial-verification-gate"
+        "gemini-dynamic-reasoning-tuner"
       ]
     },
     "argon-hierarchical-worktree-isolator": {
@@ -286,7 +286,7 @@
         "argon-long-haul-context-compaction-gate",
         "argon-thinking-governor",
         "argon-context-cache-guard",
-        "claude-context-rot-shield"
+        "claude-prompt-cache-sentinel"
       ]
     },
     "argon-long-haul-context-compaction-gate": {
@@ -301,10 +301,10 @@
     "argon-multimodal-vision-grounding": {
       "description": "Directs Gemini 4 Argon's native multimodal vision capabilities toward game screen telemetry, UI layout audits, rendering artifact triage, and graphical glitch diagnosis.",
       "related": [
+        "claude-multimodal-vision-auditor",
         "screen-vision-inspector",
-        "argon-dynamic-subagent-swarm",
-        "argon-self-contained-autonomous-driver",
-        "agentic-visual-perception"
+        "openai-operator-desktop-driver",
+        "argon-dynamic-subagent-swarm"
       ]
     },
     "argon-self-contained-autonomous-driver": {
@@ -383,9 +383,9 @@
       "description": "Telemetry governor that paces Gemini 4 Argon autonomous YOLO execution, preventing 5-hour quota exhaustion by staging state and safely sleeping until window refresh.",
       "related": [
         "gemini-5h-quota-governor",
+        "claude-yolo-quota-watchdog",
         "argon-long-haul-context-compaction-gate",
-        "context-pruning-watchdog",
-        "argon-subagent-dispatch-routing"
+        "context-pruning-watchdog"
       ]
     },
     "audio-dsp-tuning": {
@@ -401,9 +401,9 @@
       "description": "Emulates Microsoft AutoGen multi-persona red-teaming. Executes an internal Devil's Advocate audit to aggressively attack candidate fixes before committing code.",
       "related": [
         "argon-adversarial-verification-gate",
+        "claude-adversarial-verification-gate",
         "chatgpt-o1-hypothesis-tree",
-        "deliberative-reasoning-tree",
-        "argon-thinking-governor"
+        "deliberative-reasoning-tree"
       ]
     },
     "autonomous-3d-reference-researcher": {
@@ -438,8 +438,8 @@
       "related": [
         "autonomous-git-repo-sync-governor",
         "argon-long-haul-context-compaction-gate",
-        "yolo-autonomous-watchdog",
-        "working-memory-checkpointing"
+        "claude-yolo-quota-watchdog",
+        "yolo-autonomous-watchdog"
       ]
     },
     "autonomous-skill-ecosystem-optimizer": {
@@ -481,10 +481,10 @@
     "binary-re-workflows": {
       "description": "Orchestrates reverse engineering tools (REA MCP, Ghidra, JADX, TShark, objdump, hex analysis) with Superpowers discipline. Use when analyzing closed-source binaries, game executables, APKs, packet traces, or firmware.",
       "related": [
+        "claude-reverse-engineering-suite",
         "standalone-binary-re",
         "rea-mcp-obligation-ledger-orchestrator",
-        "lowlevel-dll-internals",
-        "network-protocol-engineering"
+        "lowlevel-dll-internals"
       ]
     },
     "blender-3d-engineering": {
@@ -640,22 +640,76 @@
         "autogen-adversarial-redteam-critic"
       ]
     },
+    "claude-5-5-adaptive-thinking-governor": {
+      "description": "Dynamic reasoning and extended thinking governor tailored for Anthropic's Claude 5.5 generation (Sonnet 5.5, Opus 5.5, Fable 5.1). Automatically calibrates thinking budgets from 0 tokens on routine tool calls up to 128k tokens for formal architectural proofs, eliminating thinking token inflation.",
+      "related": [
+        "claude-thinking-budget-governor",
+        "argon-effort-auto-calibrator",
+        "claude-opus-plan-sonnet-exec",
+        "claude-fable-engine-governor"
+      ]
+    },
+    "claude-5-5-multi-agent-orchestrator": {
+      "description": "Coordinates autonomous parallel subagent swarms for Anthropic's Claude 5.5 and Fable 5.1 generation. Leverages isolated git worktrees, background processes, structured JSON communication envelopes, and AST-aware milestone rebase merging.",
+      "related": [
+        "subagent-swarm-orchestrator",
+        "claude-worktree-tmux",
+        "argon-dynamic-subagent-swarm",
+        "claude-fable-engine-governor"
+      ]
+    },
+    "claude-adversarial-verification-gate": {
+      "description": "Formal adversarial self-critique, boundary-condition proofing, and confirmation-bias elimination for Claude 3.7+ Sonnet and Opus prior to declaring tasks complete.",
+      "related": [
+        "argon-adversarial-verification-gate",
+        "argon-deep-memory-allocator-sanitizer",
+        "claude-fable-engine-governor",
+        "deliberative-reasoning-tree"
+      ]
+    },
     "claude-context-rot-shield": {
       "description": "Mitigates Claude context window degradation and prompt cache misses. Enforces 80k-token milestone compaction boundaries, prevents attention dilution, and aligns system prompts to 1,024-token prompt caching blocks.",
       "related": [
         "argon-long-haul-context-compaction-gate",
+        "claude-prompt-cache-sentinel",
         "context-pruning-watchdog",
-        "cross-model-switch-pruner",
-        "flash-context-compactor"
+        "claude-ultimate-quota-sentinel"
       ]
     },
     "claude-fable-engine-governor": {
       "description": "Autonomous context, token, and quota governor for Anthropic's Claude Fable model during large-scale game engine ports (e.g. S.T.A.L.K.E.R. OGSR/X-Ray). Enforces 1M-token prompt cache pinning, C++ AST skeletonization, and surgical crash-dump extraction.",
       "related": [
         "fable-virtual-context-manager",
-        "prompt-cache-context-optimizer",
-        "fable-atomic-diff-sequencer",
-        "context-window-governor"
+        "claude-prompt-cache-sentinel",
+        "claude-5-5-adaptive-thinking-governor",
+        "fable-planning-token-compressor"
+      ]
+    },
+    "claude-hardware-acceleration-governor": {
+      "description": "Enforces dynamic 32-thread CPU saturation, 30 GB /dev/shm tmpfs RAM disk builds, and NVIDIA RTX 5060 OptiX GPU acceleration in Claude Code.",
+      "related": [
+        "ramdisk-tmpfs-build-bake-accelerator",
+        "windows-linux-cross-os-runtime-bridge",
+        "claude-local-fleet-offloader",
+        "amd-igpu-nvidia-dgpu-hybrid-offload"
+      ]
+    },
+    "claude-local-fleet-offloader": {
+      "description": "Offloads low-complexity and repetitive engineering tasks from Claude Code to the 42-model local Ollama fleet, automatically activating 50% weekly quota Safe Mode to preserve Anthropic cloud tokens.",
+      "related": [
+        "adaptive-reasoning",
+        "dynamic-model-downshifter",
+        "claude-opus-plan-sonnet-exec",
+        "claude-5-5-adaptive-thinking-governor"
+      ]
+    },
+    "claude-multimodal-vision-auditor": {
+      "description": "Directs Claude Code's multimodal vision capabilities toward screen telemetry, UI layout audits, rendering artifact triage, and local GPU perceptual diffing.",
+      "related": [
+        "local-gpu-vision-ocr-preprocessor",
+        "argon-multimodal-vision-grounding",
+        "openai-operator-desktop-driver",
+        "claude-reverse-engineering-suite"
       ]
     },
     "claude-opus-conciseness-enforcer": {
@@ -663,43 +717,88 @@
       "related": [
         "token-economy",
         "claude-silent-dispatch",
-        "claude-opus-plan-sonnet-exec",
-        "argon-subagent-payload-compressor"
+        "claude-ultimate-quota-sentinel",
+        "claude-voice-prompt-optimizer"
       ]
     },
     "claude-opus-plan-sonnet-exec": {
       "description": "Three-tier model routing architecture for Anthropic Claude ('Opus Plan, Sonnet Code, Haiku Hands'). Preserves expensive Opus quotas by confining Opus strictly to architectural planning and root-cause analysis, shifting to Sonnet for code execution and Haiku for mechanical shell commands.",
       "related": [
+        "claude-local-fleet-offloader",
+        "claude-5-5-adaptive-thinking-governor",
         "dynamic-model-downshifter",
-        "claude-thinking-budget-governor",
-        "argon-subagent-dispatch-routing",
-        "claude-opus-conciseness-enforcer"
+        "claude-thinking-budget-governor"
+      ]
+    },
+    "claude-prompt-cache-sentinel": {
+      "description": "Maximizes Anthropic Prompt Caching discounts (90% savings) through strict 1,024-token boundary alignment blocks, prefix freezing, and 5-minute ephemeral TTL protection.",
+      "related": [
+        "prompt-cache-context-optimizer",
+        "claude-ultimate-quota-sentinel",
+        "multi-model-cache-harmonizer",
+        "claude-fable-engine-governor"
+      ]
+    },
+    "claude-reverse-engineering-suite": {
+      "description": "Orchestrates Reverse Engineer Anything (REA MCP), Ghidra/Rizin decompilation analysis, objdiff binary diffing, and 64-bit engine porting workflows in Claude Code.",
+      "related": [
+        "binary-re-workflows",
+        "rea-mcp-obligation-ledger-orchestrator",
+        "claude-multimodal-vision-auditor",
+        "claude-local-fleet-offloader"
       ]
     },
     "claude-silent-dispatch": {
       "description": "Eliminates pre-tool narration, commentary, and conversational play-by-plays in Claude Code, executing tool calls directly and silently to slash output token burn.",
       "related": [
         "claude-opus-conciseness-enforcer",
+        "claude-5-5-adaptive-thinking-governor",
         "argon-tool-calling-densifier",
-        "high-density-prompting",
-        "claude-thinking-budget-governor"
+        "high-density-prompting"
       ]
     },
     "claude-thinking-budget-governor": {
       "description": "Extended thinking token budget governor for Claude 3.7+ Sonnet and Opus. Clamps internal reasoning tokens during routine tool execution and dynamically scales thinking budgets based on task complexity.",
       "related": [
+        "claude-5-5-adaptive-thinking-governor",
         "argon-thinking-governor",
         "argon-effort-auto-calibrator",
-        "claude-opus-plan-sonnet-exec",
-        "claude-silent-dispatch"
+        "claude-opus-plan-sonnet-exec"
+      ]
+    },
+    "claude-ultimate-quota-sentinel": {
+      "description": "The ultimate all-in-one quota conservation and rate-limit preservation engine for Claude Code. Combines 1,024-token prompt cache locking, 5-minute TTL keep-alive guards, 40k milestone compaction, thinking token clamping, native tool exclusivity, and 50% weekly safe mode local fleet diversion.",
+      "related": [
+        "claude-prompt-cache-sentinel",
+        "claude-fable-engine-governor",
+        "claude-opus-conciseness-enforcer",
+        "claude-local-fleet-offloader"
+      ]
+    },
+    "claude-voice-prompt-optimizer": {
+      "description": "Eliminates conversational mirroring and normalizes stream-of-consciousness voice dictation from agy-mic-button into direct, high-density Claude Code actions.",
+      "related": [
+        "claude-opus-conciseness-enforcer",
+        "voice-prompt-context-optimizer",
+        "claude-silent-dispatch",
+        "claude-thinking-budget-governor"
       ]
     },
     "claude-worktree-tmux": {
       "description": "Native Claude Code background session and tmux pane isolation, running heavy builds, test suites, and long tasks in detached worktrees without context pollution.",
       "related": [
         "subagent-swarm-orchestrator",
-        "claude-opus-plan-sonnet-exec",
-        "log-output-sanitizer",
+        "claude-5-5-multi-agent-orchestrator",
+        "grok-dialectic-truth-engine",
+        "claude-5-5-adaptive-thinking-governor"
+      ]
+    },
+    "claude-yolo-quota-watchdog": {
+      "description": "Autonomous execution watchdog and quota protector for Claude Code hands-free YOLO mode (claude --dangerously-skip-permissions), preventing infinite retry loops and rate limit exhaustion.",
+      "related": [
+        "argon-yolo-quota-pacing-watchdog",
+        "yolo-autonomous-watchdog",
+        "claude-ultimate-quota-sentinel",
         "claude-fable-engine-governor"
       ]
     },
@@ -789,8 +888,8 @@
       "related": [
         "standalone-binary-re",
         "binary-re-workflows",
-        "console-homebrew-engineering",
-        "lowlevel-dll-internals"
+        "claude-reverse-engineering-suite",
+        "console-homebrew-engineering"
       ]
     },
     "console-homebrew-engineering": {
@@ -833,9 +932,9 @@
       "description": "Detects and repairs 64-bit bitness porting defects in C++ game engines (e.g. X-Ray/OGSR). Audits pointer-to-integer truncations, #pragma pack(1) struct padding discrepancies, 64-bit ABI calling convention drift, and virtual method table alignment.",
       "related": [
         "argon-deep-memory-allocator-sanitizer",
-        "stalker-luajit-ffi-migration",
-        "cross-platform-game-compatibility",
-        "stalker-level-ai-graph-triage"
+        "claude-adversarial-verification-gate",
+        "claude-reverse-engineering-suite",
+        "stalker-luajit-ffi-migration"
       ]
     },
     "creative-web-design-archetypes": {
@@ -967,10 +1066,10 @@
     "cuda-numpy-batch-texture-dsp-processor": {
       "description": "Saturates all 32 host CPU threads (ProcessPoolExecutor), 30 GB RAM, and NVIDIA CUDA/NumPy SIMD vectorization for massively parallel batch processing of .dds textures, normal map swizzling, alpha-coverage mipmaps, and .ogg audio files.",
       "related": [
+        "claude-hardware-acceleration-governor",
         "pbr-radiometry-color-dsp-math",
         "blender-pbr-texture-packager",
-        "game-texture-material-pipeline",
-        "cuda-gpu-acceleration"
+        "game-texture-material-pipeline"
       ]
     },
     "cursor-inline-diff-lens": {
@@ -986,18 +1085,18 @@
       "description": "SQLite performance tuning (WAL mode, PRAGMAs, indexing), PostgreSQL/MySQL schema design, query plan analysis, and database migration architecture.",
       "related": [
         "sql-schema-query-condenser",
+        "claude-hardware-acceleration-governor",
         "electron-desktop-dev",
-        "game-localization-i18n",
-        "game-entity-component-system"
+        "game-localization-i18n"
       ]
     },
     "deep-research-synthesizer": {
       "description": "Autonomous multi-source web crawling, recursive citation mapping, source credibility ranking, and publication-grade technical research synthesis.",
       "related": [
+        "perplexity-multi-vector-scout",
         "local-research-scout",
         "coderabbit-ai-review",
-        "grok-realtime-telemetry-scout",
-        "local-vector-rag-engine"
+        "grok-realtime-telemetry-scout"
       ]
     },
     "deepseek-r1-math-verification": {
@@ -1006,7 +1105,16 @@
         "argon-deep-memory-allocator-sanitizer",
         "chatgpt-o1-hypothesis-tree",
         "argon-adversarial-verification-gate",
-        "meta-llama-kv-prefix-stabilizer"
+        "claude-adversarial-verification-gate"
+      ]
+    },
+    "deepseek-speculative-local-drafter": {
+      "description": "Emulates DeepSeek-V3 Multi-Token Prediction and speculative drafting. Offloads candidate code diffs, struct boilerplate, and repetitive logic to fast local Ollama SLMs (qwen2.5:1.5b / deepseek-r1:1.5b) on host hardware before Claude verification.",
+      "related": [
+        "claude-local-fleet-offloader",
+        "dynamic-model-downshifter",
+        "local-model-coprocessor",
+        "adaptive-reasoning"
       ]
     },
     "deliberative-reasoning-tree": {
@@ -1014,8 +1122,8 @@
       "related": [
         "argon-adversarial-verification-gate",
         "chatgpt-o1-hypothesis-tree",
-        "claude-thinking-budget-governor",
-        "autogen-adversarial-redteam-critic"
+        "claude-adversarial-verification-gate",
+        "claude-thinking-budget-governor"
       ]
     },
     "devin-environment-self-healer": {
@@ -1094,9 +1202,9 @@
       "description": "Autonomous multi-tier model downshifting for CLI sessions. Enforces the 'Frontier Brain, Fast Hands' pattern by offloading mechanical bash tasks, file moves, and git operations to lightweight models (Flash/Haiku), reserving frontier reasoning (Argon/Opus) exclusively for architectural design and complex debugging.",
       "related": [
         "adaptive-reasoning",
+        "claude-local-fleet-offloader",
         "agy-omni-mode",
-        "claude-opus-plan-sonnet-exec",
-        "local-model-coprocessor"
+        "claude-5-5-adaptive-thinking-governor"
       ]
     },
     "dynamic-repo-model-cheatsheet": {
@@ -1174,10 +1282,19 @@
     "fable-atomic-diff-sequencer": {
       "description": "Multi-file refactor execution coordinator for Claude Fable 5.1. Regulates Fable's 128k output capacity by breaking multi-file refactors into atomic, dependency-ordered chunk execution plans, preventing tool timeouts, chat transcript bloating, and broken syntax.",
       "related": [
+        "fable-planning-token-compressor",
         "fable-virtual-context-manager",
         "claude-fable-engine-governor",
-        "argon-ast-syntax-gate",
-        "universal-token-containment-protocol"
+        "argon-ast-syntax-gate"
+      ]
+    },
+    "fable-planning-token-compressor": {
+      "description": "Eliminates input and output token bloat during Claude Fable 5.1 planning phases. Enforces interface-only AST skeletonization, local file pre-filtering, contract-only plan schemas, and direct disk artifact offloading to slash planning token consumption by up to 95%.",
+      "related": [
+        "fable-atomic-diff-sequencer",
+        "fable-virtual-context-manager",
+        "claude-fable-engine-governor",
+        "flash-context-compactor"
       ]
     },
     "fable-virtual-context-manager": {
@@ -1185,17 +1302,17 @@
       "related": [
         "fable-atomic-diff-sequencer",
         "claude-fable-engine-governor",
-        "local-vector-rag-engine",
-        "hierarchical-memory-retrieval"
+        "fable-planning-token-compressor",
+        "local-vector-rag-engine"
       ]
     },
     "first-principles-reasoning": {
       "description": "First-principles decomposition, Chain-of-Verification (CoVe), adversarial red-teaming, and Ockham's Razor hypothesis ranking. Eliminates logical fallacies, confirmation bias, and cognitive overburn in complex engineering tasks.",
       "related": [
         "argon-adversarial-verification-gate",
+        "grok-dialectic-truth-engine",
         "deliberative-reasoning-tree",
-        "argon-thinking-governor",
-        "executing-plans"
+        "claude-adversarial-verification-gate"
       ]
     },
     "flash-context-compactor": {
@@ -1238,9 +1355,9 @@
       "description": "Autonomous game-playing agent engineering and reinforcement learning (Gymnasium, OpenCV computer vision, reward modeling, and low-latency input simulation via uinput/evdev/pyautogui).",
       "related": [
         "game-networking-state-sync",
+        "openai-operator-desktop-driver",
         "game-companion-pet-ai",
-        "game-qa-playtest-controller",
-        "game-screen-telemetry-monitor"
+        "game-qa-playtest-controller"
       ]
     },
     "game-animation-skeletal-pipeline": {
@@ -1645,7 +1762,7 @@
         "multi-model-cache-harmonizer",
         "argon-context-cache-guard",
         "prompt-cache-context-optimizer",
-        "high-density-prompting"
+        "claude-prompt-cache-sentinel"
       ]
     },
     "gemini-implicit-kv-cache-ttl-keeper": {
@@ -1702,13 +1819,22 @@
         "vulkan-gpu-compute"
       ]
     },
+    "grok-dialectic-truth-engine": {
+      "description": "Emulates xAI Grok 3's dialectic truth-seeking, anti-sycophancy rigor, and aggressive root-cause verification. Rejects plausible-sounding consensus falsehoods and demands empirical proof before committing changes.",
+      "related": [
+        "grok-realtime-telemetry-scout",
+        "argon-adversarial-verification-gate",
+        "claude-worktree-tmux",
+        "perplexity-multi-vector-scout"
+      ]
+    },
     "grok-realtime-telemetry-scout": {
       "description": "Emulates xAI Grok real-time live search on Gemini 4 Argon. Scouts bleeding-edge git commits, pull requests, issue trackers, and package feeds for undocumented Linux and game fixes.",
       "related": [
+        "perplexity-multi-vector-scout",
+        "grok-dialectic-truth-engine",
         "devin-environment-self-healer",
-        "linux-gaming-proton-optimization",
-        "local-research-scout",
-        "autogen-adversarial-redteam-critic"
+        "linux-gaming-proton-optimization"
       ]
     },
     "hardware-tool-engineering": {
@@ -1834,7 +1960,7 @@
         "linux-hardware-acpi",
         "hardware-tool-engineering",
         "mobile-thermal-frame-pacing",
-        "claude-worktree-tmux"
+        "claude-hardware-acceleration-governor"
       ]
     },
     "legacy-codebase-cartographer": {
@@ -1859,9 +1985,9 @@
       "description": "Linux game window containment, mouse grab/confinement, focus isolation, and dual-monitor multitasking under Wine/Proton, Gamescope, Wayland, and X11.",
       "related": [
         "linux-gaming-proton-optimization",
+        "openai-operator-desktop-driver",
         "linux-perf-flamegraph-bottleneck-triage",
-        "linux-systems-engineering",
-        "game-screen-telemetry-monitor"
+        "linux-systems-engineering"
       ]
     },
     "linux-gaming-proton-optimization": {
@@ -1912,10 +2038,10 @@
     "local-gpu-vision-ocr-preprocessor": {
       "description": "Pre-processes game screenshots, desktop captures, and 3D renders locally on host CPU/GPU using Pillow/NumPy perceptual frame-diffing and local Tesseract OCR, cutting cloud multimodal vision token consumption by 85-95%.",
       "related": [
+        "claude-multimodal-vision-auditor",
         "local-vector-rag-engine",
         "game-screen-telemetry-monitor",
-        "local-ast-compiler-engine",
-        "agent-error-recovery-sentinel"
+        "local-ast-compiler-engine"
       ]
     },
     "local-model-coprocessor": {
@@ -1923,8 +2049,8 @@
       "related": [
         "gemini-dynamic-reasoning-tuner",
         "adaptive-reasoning",
-        "dynamic-model-downshifter",
-        "local-research-scout"
+        "deepseek-speculative-local-drafter",
+        "dynamic-model-downshifter"
       ]
     },
     "local-preflight-syntax-gate": {
@@ -1969,16 +2095,16 @@
         "standalone-binary-re",
         "game-trainer-engineering",
         "game-patching-binary-repair",
-        "rea-mcp-obligation-ledger-orchestrator"
+        "claude-reverse-engineering-suite"
       ]
     },
     "meta-llama-kv-prefix-stabilizer": {
       "description": "Emulates Meta Llama 3.3 KV-cache alignment. Enforces strict token-boundary block padding to prevent prompt cache fragmentation and lock in 95% cache discounts.",
       "related": [
+        "claude-prompt-cache-sentinel",
         "multi-model-cache-harmonizer",
         "gemini-flash-cache-aligner",
-        "prompt-cache-context-optimizer",
-        "claude-fable-engine-governor"
+        "prompt-cache-context-optimizer"
       ]
     },
     "mobile-gpu-texture-compression": {
@@ -2022,8 +2148,8 @@
       "related": [
         "gemini-flash-cache-aligner",
         "argon-context-cache-guard",
-        "prompt-cache-context-optimizer",
-        "model-optimal-state-serializer"
+        "claude-prompt-cache-sentinel",
+        "prompt-cache-context-optimizer"
       ]
     },
     "network-packet-stream-condenser": {
@@ -2071,6 +2197,15 @@
         "claude-silent-dispatch"
       ]
     },
+    "openai-operator-desktop-driver": {
+      "description": "Emulates OpenAI Operator and Anthropic Computer-Use agentic desktop interaction. Provides visual coordinate mapping, mouse/keyboard simulation (ydotool, evdev, /dev/uinput), and autonomous GUI automation on Linux.",
+      "related": [
+        "claude-multimodal-vision-auditor",
+        "game-ai-agent-play",
+        "screen-vision-inspector",
+        "linux-game-window-input-capture"
+      ]
+    },
     "pbr-radiometry-color-dsp-math": {
       "description": "Physically Based Rendering (Cook-Torrance GGX BRDF), legacy X-Ray gloss-to-PBR roughness bijective mapping, IEC 61966-2-1 sRGB/Linear colorimetry, ACES Filmic tonemapping, Spherical Harmonics irradiance, and audio/texture DSP math.",
       "related": [
@@ -2087,6 +2222,15 @@
         "real-time-rendering-pipeline",
         "headless-gameplay-testing-bot",
         "proton-game-dev-linux"
+      ]
+    },
+    "perplexity-multi-vector-scout": {
+      "description": "Emulates Perplexity Pro and Sonar Deep Research multi-angle query decomposition. Splits complex technical inquiries into orthogonal search vectors across official documentation, GitHub PRs, git commits, and error logs.",
+      "related": [
+        "grok-realtime-telemetry-scout",
+        "deep-research-synthesizer",
+        "grok-dialectic-truth-engine",
+        "deepseek-speculative-local-drafter"
       ]
     },
     "physics-ballistics-ode-numerical-math": {
@@ -2137,10 +2281,10 @@
     "prompt-cache-context-optimizer": {
       "description": "Emulates 1M+ context windows and maximizes Anthropic prompt caching discounts (>90% savings) through strict prefix ordering, hierarchical AST compression, and cache stabilization.",
       "related": [
+        "claude-prompt-cache-sentinel",
         "gemini-flash-cache-aligner",
         "multi-model-cache-harmonizer",
-        "claude-fable-engine-governor",
-        "argon-context-cache-guard"
+        "claude-fable-engine-governor"
       ]
     },
     "proton-game-dev-linux": {
@@ -2173,19 +2317,19 @@
     "ramdisk-tmpfs-build-bake-accelerator": {
       "description": "Exploits 30 GB system RAM via Linux /dev/shm tmpfs RAM-disk (~40 GB/s bandwidth, zero SSD I/O wear) for ultra-fast Blender texture baking, S.T.A.L.K.E.R./UE5 archive extraction, CMake object compilation, and test staging.",
       "related": [
+        "claude-hardware-acceleration-governor",
         "windows-linux-cross-os-runtime-bridge",
         "rtx-optix-gpu-baker-denoiser",
-        "claude-worktree-tmux",
-        "headless-game-ci-automation"
+        "claude-worktree-tmux"
       ]
     },
     "rea-mcp-obligation-ledger-orchestrator": {
       "description": "Orchestrates the Reverse Engineer Anything (REA) MCP server obligation ledger, binary function diffing, and static-to-runtime correlation to formally verify decompiled or ported C++ game engine binaries.",
       "related": [
+        "claude-reverse-engineering-suite",
         "binary-re-workflows",
         "standalone-binary-re",
-        "game-patching-binary-repair",
-        "lowlevel-dll-internals"
+        "game-patching-binary-repair"
       ]
     },
     "real-time-rendering-pipeline": {
@@ -2201,9 +2345,9 @@
       "description": "Reverse engineer native, managed, Electron/JavaScript, packaged, firmware, and browser targets with REA. Use shipped-artifact or requested runtime evidence to explain features, compare versions, decompile code, or guide a reconstruction. Skip REA for ordinary source-repository architecture analysis.",
       "related": [
         "rea-mcp-obligation-ledger-orchestrator",
+        "claude-reverse-engineering-suite",
         "binary-re-workflows",
-        "open-apk",
-        "standalone-binary-re"
+        "open-apk"
       ]
     },
     "rigging-weight-painting-pipeline": {
@@ -2229,8 +2373,8 @@
       "related": [
         "cuda-gpu-acceleration",
         "amd-igpu-nvidia-dgpu-hybrid-offload",
-        "rtx-compute-bvh-raytracing-ssgi",
-        "ramdisk-tmpfs-build-bake-accelerator"
+        "claude-hardware-acceleration-governor",
+        "rtx-compute-bvh-raytracing-ssgi"
       ]
     },
     "rust-engineering": {
@@ -2247,17 +2391,17 @@
       "related": [
         "blender-headless-token-shield",
         "generative-visual-artifacts",
-        "blender-3d-engineering",
-        "game-memory-scanner"
+        "perplexity-multi-vector-scout",
+        "grok-dialectic-truth-engine"
       ]
     },
     "screen-vision-inspector": {
       "description": "Autonomously captures, crops, and visually inspects the active computer screen, desktop application windows, and UI rendering states via local screenshot utilities (Google Project Astra and GPT-6 Astra Vision parity).",
       "related": [
+        "claude-multimodal-vision-auditor",
+        "openai-operator-desktop-driver",
         "argon-multimodal-vision-grounding",
-        "self-healing-test-automation",
-        "headless-browser-automation",
-        "intelligent-interactive-ui"
+        "self-healing-test-automation"
       ]
     },
     "security-vulnerability-audit": {
@@ -2292,8 +2436,8 @@
       "related": [
         "self-evolving-skill-synthesizer",
         "screen-vision-inspector",
-        "android-device-automation",
-        "android-perf-battery-profiling"
+        "openai-operator-desktop-driver",
+        "claude-multimodal-vision-auditor"
       ]
     },
     "semantic-codebase-indexing": {
@@ -2488,10 +2632,10 @@
     "subagent-swarm-orchestrator": {
       "description": "Coordinates autonomous parallel subagent swarms in Claude Code, leveraging isolated git worktrees, background processes, and parent-child JSON messaging pipelines.",
       "related": [
+        "claude-5-5-multi-agent-orchestrator",
         "claude-worktree-tmux",
         "cross-agent-git-rebase-guard",
-        "argon-subagent-payload-compressor",
-        "subagent-code-reviewer"
+        "argon-subagent-payload-compressor"
       ]
     },
     "superpowers": {
@@ -2587,10 +2731,10 @@
     "ultra-large-model-quantization-optimizer": {
       "description": "Hardware-aware model compression, extreme low-bit quantization (imatrix IQ2/IQ3), sparse MoE execution, and layer-wise NVMe SSD streaming (AirLLM). Enables running 70B to 405B parameter language models locally on consumer laptop hardware (30GB RAM + 8GB RTX 5060 VRAM).",
       "related": [
+        "claude-local-fleet-offloader",
+        "deepseek-speculative-local-drafter",
         "local-model-coprocessor",
-        "adaptive-reasoning",
-        "local-research-scout",
-        "dynamic-model-downshifter"
+        "adaptive-reasoning"
       ]
     },
     "unity-game-dev": {
@@ -2634,17 +2778,17 @@
       "related": [
         "superpowers",
         "systematic-debugging",
-        "writing-plans",
-        "proton-game-dev-linux"
+        "claude-adversarial-verification-gate",
+        "writing-plans"
       ]
     },
     "video-production-automation": {
       "description": "Hardware-accelerated video engineering and automated post-production using FFmpeg with NVIDIA NVENC (AV1, HEVC, H.264), multi-track audio mastering (-14 LUFS), ProRes/DNxHR intermediate transcoding, and subtitle embedding.",
       "related": [
         "youtube-shorts-video-automation",
+        "claude-hardware-acceleration-governor",
         "cuda-gpu-acceleration",
-        "dual-engine-quota-balancer",
-        "vulkan-gpu-compute"
+        "dual-engine-quota-balancer"
       ]
     },
     "visual-document-ocr-intelligence": {
@@ -2652,17 +2796,17 @@
       "related": [
         "industrial-machine-vision-inspection",
         "computer-vision-deep-learning",
-        "argon-multimodal-vision-grounding",
-        "game-dialogue-ui-localization"
+        "claude-multimodal-vision-auditor",
+        "openai-operator-desktop-driver"
       ]
     },
     "voice-prompt-context-optimizer": {
       "description": "Autonomous voice-to-text prompt normalizer and context token saver. Eliminates conversational filler, corrects phonetic developer jargon (C++, OGSR, LTX, JSON), translates spoken commands into slash commands, and prevents compounding context bloat across voice-driven AI workflows.",
       "related": [
         "high-density-prompting",
+        "claude-voice-prompt-optimizer",
         "voice-speech-audio-synthesis",
-        "claude-silent-dispatch",
-        "token-economy"
+        "claude-silent-dispatch"
       ]
     },
     "voice-speech-audio-synthesis": {
@@ -2713,10 +2857,10 @@
     "windows-linux-cross-os-runtime-bridge": {
       "description": "Cross-platform runtime bridge between Windows 10/11 (PowerShell 7, Win32 API, DirectX/DXGI, MSVC, ETW, ImDisk RAMDisk) and Linux (CachyOS/Arch, POSIX/Bash, Vulkan/RADV, Wine/Proton, /dev/shm, /dev/uinput) so all 300+ skills execute natively on both operating systems.",
       "related": [
+        "claude-hardware-acceleration-governor",
         "amd-igpu-nvidia-dgpu-hybrid-offload",
         "ramdisk-tmpfs-build-bake-accelerator",
-        "dual-engine-quota-balancer",
-        "game-runtime-diagnostics"
+        "dual-engine-quota-balancer"
       ]
     },
     "windsurf-cascade-flow-tracker": {
@@ -2822,9 +2966,9 @@
       "description": "Autonomous execution watchdog and quota protector for YOLO modes (claude-yolo, agy-yolo). Prevents infinite retry loops, terminal stdout flooding, oscillating file churn, and runaway context inflation during unattended operation.",
       "related": [
         "shell-output-token-guard",
+        "claude-yolo-quota-watchdog",
         "agent-error-recovery-sentinel",
-        "autonomous-goal-governor",
-        "blender-headless-token-shield"
+        "autonomous-goal-governor"
       ]
     },
     "youtube-shorts-video-automation": {

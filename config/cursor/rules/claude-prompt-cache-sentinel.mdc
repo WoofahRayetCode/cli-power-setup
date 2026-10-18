@@ -1,6 +1,6 @@
 ---
 description: Maximizes Anthropic Prompt Caching discounts (90% savings) through strict 1,024-token boundary alignment blocks, prefix freezing, and 5-minute ephemeral TTL protection.
-globs: 
+globs: *
 alwaysApply: false
 ---
 

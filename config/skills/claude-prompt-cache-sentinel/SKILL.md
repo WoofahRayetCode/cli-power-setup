@@ -38,4 +38,3 @@ Anthropic prompt caches are ephemeral with a **5-minute Time-To-Live (TTL)**.
 - **`fable-planning-token-compressor`**: 5-tier planning compression pipeline for Claude Fable 5.1.
 - **`claude-context-rot-shield`**: Proactive 40k–50k compaction boundaries and attention protection.
 - **`claude-eco`**: Launcher setting `--effort low` with low thinking budget and prompt cache alignment.
-

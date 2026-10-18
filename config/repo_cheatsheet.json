@@ -1,26 +1,30 @@
 {
-  "updated_at": "2026-10-17T21:01:40.699963",
+  "updated_at": "2026-10-17T21:47:37.723522",
   "total_repos": 33,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792296084.1487262,
-      "age_str": "16s ago",
-      "dirty_count": 2,
-      "dirty_exts": {},
+      "activity_ts": 1792298856.6521811,
+      "age_str": "0s ago",
+      "dirty_count": 63,
+      "dirty_exts": {
+        ".mdc": 21,
+        ".md": 20,
+        ".py": 4
+      },
       "recent_exts": [
-        ".sh",
-        ".desktop",
-        ".mdc"
+        ".mdc",
+        ".md",
+        ".py"
       ],
       "top_exts": [
         ".mdc",
         ".md",
         ".py"
       ],
-      "last_commit": "perf(titan-models): optimize 70B/72B layer allocat",
+      "last_commit": "feat(statusline): add dedicated Fable quota usage ",
       "stack": "AI Skills / Python / Bash",
       "work_now": "CLI Daemons & Skills",
       "plan_short": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",
@@ -46,9 +50,9 @@
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792295631.0753958,
-      "age_str": "7m ago",
-      "dirty_count": 213,
+      "activity_ts": 1792298716.5241687,
+      "age_str": "2m ago",
+      "dirty_count": 216,
       "dirty_exts": {
         ".ogf": 3,
         ".md": 18,
@@ -67,7 +71,7 @@
         ".fog_vol": 1,
         ".puddles": 1,
         ".lua": 1,
-        ".script": 42,
+        ".script": 43,
         ".script_npc_lights_on": 1,
         ".script_disabled": 3,
         ".script~": 1,
@@ -100,7 +104,7 @@
       },
       "recent_exts": [
         ".md",
-        ".patch",
+        ".xml",
         ".script"
       ],
       "top_exts": [
@@ -135,7 +139,7 @@
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
       "activity_ts": 1792295561.9949565,
-      "age_str": "8m ago",
+      "age_str": "54m ago",
       "dirty_count": 47,
       "dirty_exts": {
         ".cpp": 37,
@@ -180,7 +184,7 @@
       "path": "~/Documents/GitHub/FifineControlDeck",
       "is_git": true,
       "activity_ts": 1792261601.8510442,
-      "age_str": "9h ago",
+      "age_str": "10h ago",
       "dirty_count": 1,
       "dirty_exts": {
         ".exe": 1
@@ -755,7 +759,7 @@
       "path": "~/Documents/GitHub/ClutterlessSocial",
       "is_git": false,
       "activity_ts": 1791864515.969679,
-      "age_str": "4d ago",
+      "age_str": "5d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -993,7 +997,7 @@
       "path": "~/Documents/GitHub/HiveGuard",
       "is_git": true,
       "activity_ts": 1791519815.0,
-      "age_str": "8d ago",
+      "age_str": "9d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [

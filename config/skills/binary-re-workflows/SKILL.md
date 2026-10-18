@@ -37,3 +37,6 @@ This skill connects the **Reverse Engineer Anything (REA)** MCP server and nativ
 - **`rea-mcp-obligation-ledger-orchestrator`**: Orchestrates the Reverse Engineer Anything (REA) MCP server obligation ledger, binary function diffing, and st...
 - **`lowlevel-dll-internals`**: Windows PE/DLL internals, assembly-level disassembly, vtable reconstruction, calling convention alignment (__t...
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

@@ -37,3 +37,12 @@ This skill establishes circuit breakers and pacing rules for uninterrupted auton
   token-guard git log -n 50
   ```
 - Pipe full outputs to `/dev/shm/<job>.log` and inspect only `tail -n 25`.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`argon-yolo-quota-pacing-watchdog`**: Telemetry governor that paces Gemini 4 Argon autonomous YOLO execution, preventing 5-hour quota exhaustion by ...
+- **`yolo-autonomous-watchdog`**: Autonomous execution watchdog and quota protector for YOLO modes (claude-yolo, agy-yolo). Prevents infinite re...
+- **`claude-ultimate-quota-sentinel`**: The ultimate all-in-one quota conservation and rate-limit preservation engine for Claude Code. Combines 1,024-...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

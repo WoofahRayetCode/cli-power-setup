@@ -37,3 +37,12 @@ When a turn involves tool calls (`Edit`, `Read`, `Bash`, `Glob`, `Grep`):
 When weekly quota headroom reaches $\le 50\%$:
 - Claude 5.5 automatically caps maximum thinking budgets to **2,048 tokens**.
 - Deep mathematical derivations and crash analysis are offloaded to host hardware via `local-coprocessor exec --task titan-reason` (running `deepseek-r1:70b-iq2` at 0 cloud tokens).
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`claude-thinking-budget-governor`**: Extended thinking token budget governor for Claude 3.7+ Sonnet and Opus. Clamps internal reasoning tokens duri...
+- **`argon-effort-auto-calibrator`**: Dynamically calibrates Gemini 4 Argon reasoning effort (--effort low/medium/high) turn-by-turn based on cognit...
+- **`claude-opus-plan-sonnet-exec`**: Three-tier model routing architecture for Anthropic Claude ('Opus Plan, Sonnet Code, Haiku Hands'). Preserves ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
