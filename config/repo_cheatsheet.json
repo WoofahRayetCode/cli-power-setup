@@ -1,14 +1,14 @@
 {
-  "updated_at": "2026-10-17T20:19:32.848168",
+  "updated_at": "2026-10-17T20:34:53.394654",
   "total_repos": 33,
   "repos": [
     {
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792293553.3307216,
-      "age_str": "19s ago",
-      "dirty_count": 4,
+      "activity_ts": 1792294486.2205136,
+      "age_str": "7s ago",
+      "dirty_count": 3,
       "dirty_exts": {},
       "recent_exts": [
         ".sh",
@@ -20,7 +20,7 @@
         ".md",
         ".py"
       ],
-      "last_commit": "fix(desktop): mark Dolphin service menu desktop fi",
+      "last_commit": "feat(statusline): remove Gemini models from Claude",
       "stack": "AI Skills / Python / Bash",
       "work_now": "CLI Daemons & Skills",
       "plan_short": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",
@@ -46,8 +46,8 @@
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792287840.7963974,
-      "age_str": "1h ago",
+      "activity_ts": 1792294407.064108,
+      "age_str": "1m ago",
       "dirty_count": 213,
       "dirty_exts": {
         ".ogf": 3,
@@ -61,7 +61,7 @@
         ".jsonl": 1,
         ".bak": 1,
         ".patch": 1,
-        ".ltx": 46,
+        ".ltx": 47,
         ".anm": 6,
         ".xml": 15,
         ".fog_vol": 1,
@@ -100,8 +100,8 @@
       },
       "recent_exts": [
         ".md",
-        ".script",
-        ".ltx"
+        ".ltx",
+        ".patch"
       ],
       "top_exts": [
         ".ps",
@@ -134,11 +134,11 @@
       "name": "OGSR-Engine",
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
-      "activity_ts": 1792283041.5682282,
-      "age_str": "2h ago",
-      "dirty_count": 45,
+      "activity_ts": 1792293803.613,
+      "age_str": "11m ago",
+      "dirty_count": 46,
       "dirty_exts": {
-        ".cpp": 36,
+        ".cpp": 37,
         ".hpp": 1,
         ".h": 7,
         ".json": 1,
@@ -180,7 +180,7 @@
       "path": "~/Documents/GitHub/FifineControlDeck",
       "is_git": true,
       "activity_ts": 1792261601.8510442,
-      "age_str": "8h ago",
+      "age_str": "9h ago",
       "dirty_count": 1,
       "dirty_exts": {
         ".exe": 1
