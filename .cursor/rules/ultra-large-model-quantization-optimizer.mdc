@@ -1,0 +1,79 @@
+---
+description: Hardware-aware model compression, extreme low-bit quantization (imatrix IQ2/IQ3), sparse MoE execution, and layer-wise NVMe SSD streaming (AirLLM). Enables running 70B to 405B parameter language models locally on consumer laptop hardware (30GB RAM + 8GB RTX 5060 VRAM).
+globs: *
+alwaysApply: false
+---
+
+# Ultra-Large Model Quantization & Hardware Optimizer
+
+Enables running models with **70 billion to 405 billion parameters** locally on your laptop (32 CPU threads, 30.4 GB DDR5 RAM, 8 GB GDDR7 RTX 5060 VRAM, PCIe Gen4 NVMe SSD) with zero cloud token costs.
+
+---
+
+## 🚀 The 4 Breakthrough Technologies
+
+### 1. Importance Matrix (imatrix) Extreme Low-Bit Quantization (`IQ2_XXS`, `IQ2_XS`)
+* **How It Works:** Rather than naive uniform quantization, `llama-imatrix` computes an activation importance profile on a domain calibration dataset (C++, Python, ASM, Math). The top ~5% most sensitive weights are kept in higher precision while non-critical weights are compressed to 2.0–2.2 bits per weight.
+* **The Math:**
+  * Dense 70B in FP16: `70B * 2 bytes = 140 GB` (Requires multi-A100 server)
+  * Dense 70B in Q4_K_M: `70B * 0.55 bytes = ~39–42 GB` (Exceeds 30 GB RAM)
+  * **Dense 70B in IQ2_XS:** `70B * 0.28 bytes = ~21.5–22.4 GB`!
+  * **Fits 100% inside 30.4 GB DDR5 RAM**, leaving 7–8 GB for OS, caching, and background tasks.
+* **Key 70B Models Running Locally:**
+  * `Qwen2.5-Coder-70B-Instruct` (IQ2_XS, ~22.4 GB) — #1 open code & decompilation intelligence
+  * `DeepSeek-R1-Distill-Llama-70B` (IQ2_XXS, ~21.2 GB) — Frontier Chain-of-Thought reasoning
+  * `Llama-3.3-70B-Instruct` (IQ2_XS, ~22.0 GB) — Enterprise generalist and tool use
+
+### 2. Sparse Mixture-of-Experts (MoE) Architecture
+* **How It Works:** Total network capacity is massive (e.g. 57B to 236B parameters), but a routing gate activates only a tiny fraction (2 to 8 experts) for any individual token.
+* **`DeepSeek-Coder-V2-Instruct` (236B Total, 21B Active):**
+  * You get the structural coding breadth of 236 billion parameters, but your CPU/GPU only computes 21 billion parameters per token. Compute latency runs 5x–10x faster than a dense 70B model.
+* **`Mixtral-8x7B` (47B Total, 13B Active):**
+  * Fits inside ~26 GB RAM at Q4_K_M, with only 13B active compute.
+
+### 3. Layer-Wise NVMe SSD Streaming (`AirLLM`)
+* **How It Works:** AirLLM eliminates VRAM limits by keeping the full model on high-speed NVMe SSD storage (`~7,000 MB/s` PCIe Gen4 read speeds) and streaming **one transformer layer at a time** into the 8 GB RTX 5060 GDDR7 VRAM.
+* **Capability:**
+  * Runs **`Meta-Llama-3.1-405B`** on a single 8 GB GPU without quantization or pruning.
+  * Perfect for offline architectural decomposition, reverse engineering audits, and generating comprehensive project plans overnight.
+
+### 4. Quantized KV-Caches (`q4_0` / `q8_0`) & FlashAttention-2
+* Standard FP16 KV-caches for a 32,768-token context window consume 8–12 GB of RAM just for activations.
+* In Ollama, setting `OLLAMA_KV_CACHE_TYPE=q4_0` reduces cache memory by **75%**, allowing 32k context windows on local hardware without memory exhaustion.
+
+---
+
+## 🛠️ CLI Usage & Quick Start
+
+```bash
+# Manage, download, and hardware-optimize ultra-large models on secondary drive
+ultra-model-manager list
+
+# Download and register DeepSeek-R1 70B (IQ2_XXS) directly to /mnt/games/large-models/
+ultra-model-manager download deepseek-r1-70b --optimize
+
+# Download and register LLM4Decompile 22B for binary reverse engineering (REA MCP interop)
+ultra-model-manager download llm4decompile-22b --optimize
+
+# Download and register Qwen 72B for dense systems architecture and C++ porting
+ultra-model-manager download qwen-72b-instruct --optimize
+
+# Check secondary drive storage and Ollama registration status
+ultra-model-manager status
+
+# Run an interactive prompt with any ultra-large model
+ultra-model-manager run deepseek-r1-70b --prompt "Verify 64-bit struct padding for X-Ray vertex buffer"
+
+# Generate an AirLLM Python streaming script to run 405B on 8GB VRAM
+model-quant-optimizer --airllm-script > /mnt/games/large-models/airllm/run_405b.py
+python3 /mnt/games/large-models/airllm/run_405b.py
+```
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`local-model-coprocessor`**: Offloads low-complexity tasks (docstrings, commit messages, log summarization, regex, boilerplate) to local SL...
+- **`adaptive-reasoning`**: Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-sp...
+- **`local-research-scout`**: Autonomous zero-quota multi-source web search, documentation scraping, and technical query synthesis. Sources ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

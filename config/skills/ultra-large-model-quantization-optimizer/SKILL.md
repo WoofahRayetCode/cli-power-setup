@@ -68,3 +68,11 @@ model-quant-optimizer --airllm-script > /mnt/games/large-models/airllm/run_405b.
 python3 /mnt/games/large-models/airllm/run_405b.py
 ```
 
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`local-model-coprocessor`**: Offloads low-complexity tasks (docstrings, commit messages, log summarization, regex, boilerplate) to local SL...
+- **`adaptive-reasoning`**: Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-sp...
+- **`local-research-scout`**: Autonomous zero-quota multi-source web search, documentation scraping, and technical query synthesis. Sources ...
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
