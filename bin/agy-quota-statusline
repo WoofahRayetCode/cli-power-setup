@@ -370,6 +370,35 @@ def wrap_segments(segments, max_width, sep=" | "):
 
     return "\n".join(lines)
 
+def get_cache_savings_claude(transcript_path):
+    if not transcript_path or not os.path.exists(transcript_path):
+        return None, None
+    total_cached = 0
+    total_uncached = 0
+    try:
+        with open(transcript_path, "r", encoding="utf-8", errors="ignore") as f:
+            for line in f:
+                if '"cache_read_input_tokens"' in line:
+                    try:
+                        row = json.loads(line)
+                        msg = row.get("message", {})
+                        if isinstance(msg, dict):
+                            u = msg.get("usage", {})
+                            if u:
+                                c = u.get("cache_read_input_tokens", 0)
+                                if c:
+                                    total_cached += c
+                                total_uncached += u.get("input_tokens", 0) + u.get("cache_creation_input_tokens", 0)
+                    except Exception:
+                        pass
+    except Exception:
+        return None, None
+    if total_cached <= 0:
+        return None, None
+    total_in = total_cached + total_uncached
+    hit_pct = int(round((total_cached / total_in) * 100)) if total_in > 0 else 0
+    return total_cached, hit_pct
+
 def main():
     if len(sys.argv) > 1 and sys.argv[1] == "--refresh":
         refresh_now()
@@ -402,73 +431,181 @@ def main():
             except Exception:
                 term_width = 100
 
-    # 3. Model display name
-    model_name = "Argon High"
-    cfg_path = os.path.expanduser("~/.gemini/antigravity-cli/settings.json")
-    if os.path.exists(cfg_path):
-        try:
-            with open(cfg_path) as cf:
-                cfg = json.load(cf)
-                m = cfg.get("model", "")
-                if "Argon" in m:
-                    model_name = "Argon High" if "High" in m else "Argon"
-                elif "Flash" in m:
-                    model_name = "Flash"
-                elif m:
-                    model_name = m.replace("Gemini ", "").replace(" (High)", " High")
-        except Exception:
-            pass
+    is_claude = "claude" in os.path.basename(sys.argv[0]).lower() or "--claude" in sys.argv
 
-    is_turbo = os.environ.get("AGY_TURBO") == "1" or "turbo" in sys.argv[0].lower()
-    turbo_tag = " • Turbo" if is_turbo else ""
-    model_seg = f"⚡ agy [{model_name}{turbo_tag}]"
-
-    # 4. Quotas
-    quota = get_quota_info()
-    g_5h = quota.get("gemini_5h", "--%")
-    g_reset = quota.get("gemini_5h_reset", "")
-    reset_str = f" (reset {g_reset})" if g_reset else ""
-    g_wk = quota.get("gemini_wk", "--%")
-    g_wk_reset = quota.get("gemini_wk_reset", "")
-    wk_reset_str = f" (reset {g_wk_reset})" if g_wk_reset else ""
-    quota_5h_seg = f"5h: {g_5h}{reset_str}"
-    quota_wk_seg = f"Wk: {g_wk}{wk_reset_str}"
-
-    # 5. Session token telemetry
-    telem = get_session_telemetry()
-    ctx_seg = None
-    save_seg = None
-    turn_seg = None
-
-    if telem:
-        cur_ctx = telem["current_ctx"]
-        # Argon context window is 1,000,000 tokens
-        ctx_pct = min(100.0, (cur_ctx / 1_000_000.0) * 100.0)
-        bar = make_bar(ctx_pct, width=6)
-        tok_str = fmt_tok(cur_ctx)
-        
-        if cur_ctx >= 250_000:
-            ctx_seg = f"🧠 Ctx: [{bar}] {ctx_pct:.0f}% ({tok_str} ⚠️ Gate 250k • /compact)"
+    if is_claude:
+        # --- CLAUDE CODE CLI MODE ---
+        model_obj = payload.get("model", {})
+        if isinstance(model_obj, dict):
+            model_raw = model_obj.get("display_name") or model_obj.get("id") or "Sonnet 3.7"
         else:
-            rem_gate = fmt_tok(250_000 - cur_ctx)
-            ctx_seg = f"🧠 Ctx: [{bar}] {ctx_pct:.0f}% ({tok_str} • 🧹{rem_gate} to gate)"
+            model_raw = str(model_obj) if model_obj else "Sonnet 3.7"
+        model_name = model_raw.replace("Claude ", "").replace("Anthropic ", "").replace("3-7-", "3.7 ").replace("3-5-", "3.5 ")
+        is_turbo = os.environ.get("CLAUDE_TURBO") == "1" or os.environ.get("MAX_THINKING_TOKENS") == "1024" or "turbo" in sys.argv[0].lower()
+        turbo_tag = " • Turbo" if is_turbo else ""
+        model_seg = f"⚡ Claude [{model_name}{turbo_tag}]"
 
-        # Cumulative cache savings (Active Session)
-        tot_c = telem["total_cached"]
-        hit_pct = telem["hit_pct"]
-        mod_c = telem["model_cached"]
-        if tot_c > 0:
-            if len(mod_c) > 1:
-                breakdown = " / ".join(f"{m} {fmt_tok(c)}" for m, c in sorted(mod_c.items(), key=lambda x: -x[1]))
-                save_seg = f"💾 Session: {fmt_tok(tot_c)} tok ({hit_pct}% cache • {breakdown})"
+        # Rate limits & Quotas
+        rate_limits = payload.get("rate_limits", {})
+        five_h = rate_limits.get("five_hour", {})
+        c_5h_val = None
+        c_5h_str = None
+        if five_h:
+            used = five_h.get("used_percentage")
+            resets_at = five_h.get("resets_at")
+            if used is not None:
+                c_5h_val = max(0, 100 - int(round(used)))
+                r_str = ""
+                if resets_at:
+                    try:
+                        dt = datetime.fromtimestamp(resets_at).astimezone()
+                        r_str = f" (reset {dt.strftime('%H:%M')})"
+                    except Exception:
+                        pass
+                c_5h_str = f"5h: {c_5h_val}%{r_str}"
+
+        seven_d = rate_limits.get("seven_day", {})
+        c_wk_val = None
+        c_wk_str = None
+        if seven_d:
+            used = seven_d.get("used_percentage")
+            resets_at_wk = seven_d.get("resets_at")
+            if used is not None:
+                c_wk_val = max(0, 100 - int(round(used)))
+                rw_str = ""
+                if resets_at_wk:
+                    try:
+                        dt_wk = datetime.fromtimestamp(resets_at_wk).astimezone()
+                        now_dt = datetime.now().astimezone()
+                        diff_sec = (dt_wk - now_dt).total_seconds()
+                        if 0 < diff_sec < 86400:
+                            mins = int(round(diff_sec / 60))
+                            rw_str = f" (reset in {mins}m)" if mins < 60 else f" (reset in {mins // 60}h {mins % 60}m)"
+                        else:
+                            rw_str = f" (reset {dt_wk.strftime('%a %H:%M')})"
+                    except Exception:
+                        pass
+                safe_tag = " 🛡️ Safe Mode" if c_wk_val <= 50 else ""
+                c_wk_str = f"Wk: {c_wk_val}%{rw_str}{safe_tag}"
+
+        quota = get_quota_info()
+        quota_5h_seg = c_5h_str if c_5h_str else f"5h: {quota.get('claude_5h', '100%')} (reset active)"
+        quota_wk_seg = c_wk_str if c_wk_str else f"Wk: {quota.get('claude_wk', '90%')} (reset Fri 14:59)"
+
+        if c_5h_val is not None or c_wk_val is not None:
+            try:
+                with open("/tmp/claude_quota_state.json", "w") as f:
+                    json.dump({
+                        "updated_at": datetime.now().isoformat(),
+                        "five_hour_remaining": c_5h_val,
+                        "weekly_remaining": c_wk_val
+                    }, f, indent=2)
+            except Exception:
+                pass
+
+        # Context window
+        ctx_info = payload.get("context_window", {})
+        used_pct = ctx_info.get("used_percentage")
+        raw_tok = ctx_info.get("total_input_tokens")
+        if raw_tok is None and used_pct is not None:
+            raw_tok = int((float(used_pct) / 100.0) * 200_000)
+
+        ctx_seg = None
+        if raw_tok is not None:
+            pct_val = float(used_pct) if used_pct is not None else min(100.0, (raw_tok / 200_000.0) * 100.0)
+            bar = make_bar(pct_val, width=6)
+            tok_str = fmt_tok(raw_tok)
+            if raw_tok >= 80_000:
+                ctx_seg = f"🧠 Ctx: [{bar}] {pct_val:.0f}% ({tok_str} ⚠️ Gate 80k • /compact)"
             else:
-                save_seg = f"💾 Session: {fmt_tok(tot_c)} tok ({hit_pct}% cache)"
+                rem_gate = fmt_tok(80_000 - raw_tok)
+                ctx_seg = f"🧠 Ctx: [{bar}] {pct_val:.0f}% ({tok_str} • 🧹{rem_gate} to gate)"
 
-        # Last turn token velocity
-        l_in = telem["last_in"]
-        l_out = telem["last_out"]
-        if l_in > 0 or l_out > 0:
-            turn_seg = f"Turn: In {fmt_tok(l_in)} | Out {fmt_tok(l_out)}"
+        save_seg = None
+        transcript_path = payload.get("transcript_path")
+        if transcript_path and os.path.exists(transcript_path):
+            cached_c, hit_c = get_cache_savings_claude(transcript_path)
+            if cached_c and cached_c > 0:
+                save_seg = f"💾 Session: {fmt_tok(cached_c)} tok ({hit_c}% cache)"
+
+        turn_seg = None
+        cost_info = payload.get("cost", {})
+        if isinstance(cost_info, dict):
+            cost_usd = cost_info.get("total_cost_usd", 0.0)
+            lines_add = cost_info.get("total_lines_added", 0)
+            lines_del = cost_info.get("total_lines_removed", 0)
+            if cost_usd > 0 or lines_add > 0 or lines_del > 0:
+                diff_str = f" +{lines_add}/-{lines_del}" if (lines_add or lines_del) else ""
+                turn_seg = f"💲 ${cost_usd:.2f}{diff_str}"
+
+    else:
+        # --- ANTIGRAVITY CLI MODE ---
+        model_name = "Argon High"
+        cfg_path = os.path.expanduser("~/.gemini/antigravity-cli/settings.json")
+        if os.path.exists(cfg_path):
+            try:
+                with open(cfg_path) as cf:
+                    cfg = json.load(cf)
+                    m = cfg.get("model", "")
+                    if "Argon" in m:
+                        model_name = "Argon High" if "High" in m else "Argon"
+                    elif "Flash" in m:
+                        model_name = "Flash"
+                    elif m:
+                        model_name = m.replace("Gemini ", "").replace(" (High)", " High")
+            except Exception:
+                pass
+
+        is_turbo = os.environ.get("AGY_TURBO") == "1" or "turbo" in sys.argv[0].lower()
+        turbo_tag = " • Turbo" if is_turbo else ""
+        model_seg = f"⚡ agy [{model_name}{turbo_tag}]"
+
+        # 4. Quotas
+        quota = get_quota_info()
+        g_5h = quota.get("gemini_5h", "--%")
+        g_reset = quota.get("gemini_5h_reset", "")
+        reset_str = f" (reset {g_reset})" if g_reset else ""
+        g_wk = quota.get("gemini_wk", "--%")
+        g_wk_reset = quota.get("gemini_wk_reset", "")
+        wk_reset_str = f" (reset {g_wk_reset})" if g_wk_reset else ""
+        quota_5h_seg = f"5h: {g_5h}{reset_str}"
+        quota_wk_seg = f"Wk: {g_wk}{wk_reset_str}"
+
+        # 5. Session token telemetry
+        telem = get_session_telemetry()
+        ctx_seg = None
+        save_seg = None
+        turn_seg = None
+
+        if telem:
+            cur_ctx = telem["current_ctx"]
+            # Argon context window is 1,000,000 tokens
+            ctx_pct = min(100.0, (cur_ctx / 1_000_000.0) * 100.0)
+            bar = make_bar(ctx_pct, width=6)
+            tok_str = fmt_tok(cur_ctx)
+            
+            if cur_ctx >= 250_000:
+                ctx_seg = f"🧠 Ctx: [{bar}] {ctx_pct:.0f}% ({tok_str} ⚠️ Gate 250k • /compact)"
+            else:
+                rem_gate = fmt_tok(250_000 - cur_ctx)
+                ctx_seg = f"🧠 Ctx: [{bar}] {ctx_pct:.0f}% ({tok_str} • 🧹{rem_gate} to gate)"
+
+            # Cumulative cache savings (Active Session)
+            tot_c = telem["total_cached"]
+            hit_pct = telem["hit_pct"]
+            mod_c = telem["model_cached"]
+            if tot_c > 0:
+                if len(mod_c) > 1:
+                    breakdown = " / ".join(f"{m} {fmt_tok(c)}" for m, c in sorted(mod_c.items(), key=lambda x: -x[1]))
+                    save_seg = f"💾 Session: {fmt_tok(tot_c)} tok ({hit_pct}% cache • {breakdown})"
+                else:
+                    save_seg = f"💾 Session: {fmt_tok(tot_c)} tok ({hit_pct}% cache)"
+
+            # Last turn token velocity
+            l_in = telem["last_in"]
+            l_out = telem["last_out"]
+            if l_in > 0 or l_out > 0:
+                turn_seg = f"Turn: In {fmt_tok(l_in)} | Out {fmt_tok(l_out)}"
 
     # 6. Global Lifetime Token Ledger (Cache + Local LLM Fleet Savings)
     global_saved_seg = None
@@ -489,7 +626,7 @@ def main():
             pass
 
     # 7. Workspace, Git, Mic Pill & Dynamic Bottom-of-Statusline Cheat Sheet
-    cwd = payload.get("current_dir") or payload.get("project_dir") or os.getcwd()
+    cwd = payload.get("current_dir") or payload.get("project_dir") or payload.get("cwd") or os.getcwd()
     git_seg = get_git_info(cwd)
 
     # Check & auto-ensure Clickable Floating Mic Button (`agy-mic-button`) is active
