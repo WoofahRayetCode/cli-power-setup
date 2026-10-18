@@ -159,6 +159,18 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
         for cand in ("llm4decompile:22b-q4", "deepseek-coder-v2:16b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "deepseek-coder:6.7b-instruct"):
             if cand in installed:
                 return cand
+    elif task in ("deepseek-33b", "dense-33b", "cxx-dense", "deepseek-coder-33b"):
+        for cand in ("deepseek-coder:33b-custom", "deepseek-coder:33b-instruct", "qwen2.5-coder:32b", "qwen2.5:72b-iq2"):
+            if cand in installed:
+                return cand
+    elif task in ("starcoder", "starcoder2", "multi-lang-code", "fim-code", "code-complete"):
+        for cand in ("starcoder2:custom", "starcoder2:15b", "starcoder2:7b", "qwen2.5-coder:14b"):
+            if cand in installed:
+                return cand
+    elif task in ("tool-use", "groq-tool", "function-calling", "agent-tool", "llama3-groq"):
+        for cand in ("llama3-groq-tool-use:custom", "llama3-groq-tool-use:8b", "hermes3:8b", "llama3.1:8b"):
+            if cand in installed:
+                return cand
     elif task in ("shader", "cross-engine-shader", "moe-code", "spirv", "hlsl", "moe", "deepseek-coder-v2"):
         for cand in ("deepseek-coder-v2:16b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "qwen2.5-coder:14b"):
             if cand in installed:
