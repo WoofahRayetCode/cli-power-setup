@@ -1,0 +1,121 @@
+#!/usr/bin/env python3
+"""claude-autosend: press Enter for you when text in the Claude Code prompt has stopped changing for DELAY seconds (default 12).
+  claude-autosend on | off | status | delay SECONDS      switch it / change the wait (state in ~/.cache/claude-autosend/)
+  claude-autosend autopilot on [MAX=12] | off | idle SECONDS | status   (unattended: sends a standing 'continue safely' message when Claude has been idle and the prompt empty)
+  claude-autosend daemon                                 watcher for THIS kitty window (claude-yolo starts it; needs kitty allow_remote_control + KITTY_LISTEN_ON)
+Off by default. Reads the prompt box through kitty remote control (get-text), so it never touches Claude Code itself.
+Safety: nothing is sent while the text still changes, when the prompt is empty, for the placeholder / text that was already there when the watcher started or after a send,
+or for text starting with "/" (the slash-command menu would swallow Enter). Typing again restarts the countdown."""
+import json, os, re, subprocess, sys, time
+from pathlib import Path
+S = Path.home() / ".cache/claude-autosend"; S.mkdir(parents=True, exist_ok=True)
+EN, DL = S / "enabled", S / "delay"
+RQ = S / "remote_queue.jsonl"
+AP, AP_MAX, AP_N, AP_IDLE, AP_TXT, AP_STOP = S / "autopilot", S / "autopilot_max", S / "autopilot_count", S / "autopilot_idle", S / "autopilot_prompt.txt", S / "autopilot_stop"
+AP_DEFAULT = ("AUTOPILOT (the user is asleep and has given standing permission to continue without asking): read .agents/memory/activeContext.md, .agents/backlog.md and docs/QA.md, "
+              "pick the next highest-value step that needs no user decision, do it, log it in docs/WORK_LOG.md and sync the Joplin notes. HARD LIMITS: no Workshop uploads, no git commits or pushes, "
+              "no deleting user data or backups, no system package installs, stay inside the project, zoneforge and cli-power-setup repos, respect the quota rules (below 50% weekly use local workers, checkpoint at 25%). "
+              "When no safe step is left, run `claude-autosend autopilot off` and write a short morning summary to .agents/needs_you.txt.")
+ANSI = re.compile(r"\x1b\[[0-9;:?<>=]*[ -/]*[@-~]|\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)")
+def delay():
+    try: return max(3.0, float(DL.read_text()))
+    except Exception: return 12.0
+def apidle():
+    try: return max(30.0, float(AP_IDLE.read_text()))
+    except Exception: return 120.0
+def apmax():
+    try: return int(AP_MAX.read_text())
+    except Exception: return 12
+def apcount():
+    try: return int(AP_N.read_text())
+    except Exception: return 0
+def prompt_text(screen):
+    """Text of the input box: the lines between the last two long horizontal rules, without the leading prompt mark."""
+    lines = [ANSI.sub("", l).rstrip() for l in screen.splitlines()]
+    def is_rule(l):                                   # a long horizontal rule, possibly with a label inside it ("──── Claude Code YOLO shortcut ─"): at least 80 % rule characters
+        t = l.strip()
+        return len(t) >= 30 and sum(c in "─━-" for c in t) / len(t) >= 0.8
+    rules = [i for i, l in enumerate(lines) if is_rule(l)]
+    if len(rules) < 2: return None
+    a, b = rules[-2], rules[-1]
+    if b - a < 2 or b - a > 12: return None
+    body = [re.sub(r"^\s*[❯>]\s?", "", l) for l in lines[a + 1:b]]
+    return "\n".join(body).strip()
+def busy(screen):
+    """Claude is working: the spinner line like 'Nucleating… (20s · thought for 18s)' or 'esc to interrupt' is on screen."""
+    p = ANSI.sub("", screen)
+    return bool(re.search(r"…\s*\(\d+[sm]\b|esc to interrupt", p))
+def ghost(screen):
+    """The grey 'predicted next message' in the prompt box: text drawn in grey / dim / reverse straight after the prompt mark, not typed text (default colour)."""
+    for l in screen.splitlines():
+        m = re.match(r"^(?:\x1b\[[0-9;:]*m)*\s*[❯>][\xa0 ]*((?:\x1b\[[0-9;:]*m)*)(\S)", l)
+        if m and ANSI.sub("", l).strip() not in ("❯", ">"):
+            return bool(re.search(r"38:2:(\d+):\1:\1|\[2m|\[7m|\[90m|38;5;24[0-9]", m.group(1))) and ANSI.sub("", l).strip(" ❯>\xa0")
+    return ""
+def get(win, sock):
+    r = subprocess.run(["kitten", "@", "--to", sock, "get-text", "--match", f"id:{win}", "--ansi"], capture_output=True, text=True, timeout=5)
+    return r.stdout if r.returncode == 0 else None
+def daemon():
+    win, sock = os.environ.get("KITTY_WINDOW_ID"), os.environ.get("KITTY_LISTEN_ON")
+    if not win or not sock: sys.exit("claude-autosend: run inside a kitty window with remote control (KITTY_WINDOW_ID / KITTY_LISTEN_ON)")
+    lock = S / f"daemon_{win}.pid"
+    if lock.exists():
+        try: os.kill(int(lock.read_text()), 0); sys.exit(0)
+        except Exception: pass
+    lock.write_text(str(os.getpid()))
+    baseline, cur, since = None, None, time.time()
+    quiet_since = time.time()                      # last moment Claude was working or the prompt text changed (autopilot waits AP_IDLE seconds of quiet)
+    while True:
+        time.sleep(1)
+        try:
+            scr = get(win, sock)
+            if scr is None: break                                    # window gone
+            t = prompt_text(scr)
+            if t is None: continue
+            if busy(scr): quiet_since = time.time()
+            if RQ.exists() and (t == "" or ghost(scr)):                  # a command from the phone dashboard (tools/statusweb.py): typed in when the prompt is empty, even while Claude is working
+                rows = [json.loads(x) for x in RQ.read_text().splitlines() if x.strip()]
+                nxt = next((r for r in rows if r.get("status") == "new"), None)
+                if nxt:
+                    subprocess.run(["kitten", "@", "--to", sock, "send-text", "--match", f"id:{win}", "📱 PHONE (Zone Monitor app, token + PIN checked): from the user, same as typed here. " + nxt["text"] + "\r"], timeout=5)
+                    nxt["status"] = "delivered"; RQ.write_text("".join(json.dumps(r) + "\n" for r in rows)); quiet_since = time.time(); continue
+            if AP.exists() and not AP_STOP.exists() and not busy(scr) and time.time() - quiet_since >= apidle():
+                g = ghost(scr)
+                if (t == "" or g) and apcount() < apmax():          # nothing typed by the user: only an empty box or the grey suggestion
+                    hint = f" Claude Code's predicted next message was: \"{g}\" - use it only if it fits and is safe." if g else ""
+                    txt = (AP_TXT.read_text().strip() if AP_TXT.exists() else AP_DEFAULT) + hint
+                    subprocess.run(["kitten", "@", "--to", sock, "send-text", "--match", f"id:{win}", txt.replace("\n", " ") + "\r"], timeout=5)
+                    AP_N.write_text(str(apcount() + 1)); quiet_since = time.time()
+                    if apcount() >= apmax(): AP.unlink(missing_ok=True)   # used up the night's allowance: switches itself off
+                    continue
+            if baseline is None: baseline = t                        # whatever is there at start (placeholder / earlier draft) is never sent
+            if t != cur: cur, since = t, time.time(); continue
+            # phone-app messages waiting while text sits in the prompt box (a voice-typed draft nobody sent): after the same quiet time as auto-send (claude-autosend delay N, default 12 s)
+            # the draft is submitted with Enter, so the box empties and the waiting phone messages go in. Works even when auto-send itself is OFF; only ever triggers while a phone message waits.
+            try: waiting = any(json.loads(x).get("status") == "new" for x in RQ.read_text().splitlines() if x.strip()) if RQ.exists() else False
+            except Exception: waiting = False
+            if waiting and t and not t.startswith("/") and not ghost(scr) and time.time() - since >= delay():
+                subprocess.run(["kitten", "@", "--to", sock, "send-text", "--match", f"id:{win}", "\r"], timeout=5)
+                baseline, since = t, time.time(); continue
+            if not EN.exists() or not t or t == baseline or t.startswith("/") or ghost(scr): continue   # never send the grey suggestion as if the user typed it
+            if time.time() - since >= delay():
+                subprocess.run(["kitten", "@", "--to", sock, "send-text", "--match", f"id:{win}", "\r"], timeout=5)
+                baseline, since = t, time.time()                     # the sent text must not be sent twice
+        except Exception: pass
+    lock.unlink(missing_ok=True)
+if __name__ == "__main__":
+    c = sys.argv[1] if len(sys.argv) > 1 else "status"
+    if c == "on": EN.write_text("1"); print(f"autosend ON (waits {delay():.0f} s of no typing)")
+    elif c == "off": EN.unlink(missing_ok=True); print("autosend OFF")
+    elif c == "delay": DL.write_text(sys.argv[2]); print(f"delay {delay():.0f} s")
+    elif c == "autopilot":
+        sub = sys.argv[2] if len(sys.argv) > 2 else "status"
+        if sub == "on":
+            AP.write_text("1"); AP_STOP.unlink(missing_ok=True); AP_N.write_text("0")
+            if len(sys.argv) > 3: AP_MAX.write_text(sys.argv[3])
+            print(f"autopilot ON: after {apidle():.0f} s of quiet with an empty prompt it sends the standing 'continue safely' message, at most {apmax()} times")
+        elif sub == "off": AP.unlink(missing_ok=True); print("autopilot OFF")
+        elif sub == "idle": AP_IDLE.write_text(sys.argv[3]); print(f"autopilot idle wait {apidle():.0f} s")
+        else: print(("ON" if AP.exists() else "OFF"), f"| sent {apcount()}/{apmax()} | idle wait {apidle():.0f} s")
+    elif c == "daemon": daemon()
+    else: print(("ON" if EN.exists() else "OFF"), f"delay {delay():.0f} s")

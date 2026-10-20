@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Claude Code YOLO (+ status window)
+GenericName=AI Coding Assistant (bypass permissions)
+Comment=Resumes the last Claude Code conversation in the STALKER merge folder, with --dangerously-skip-permissions
+Exec=kitty --hold --start-as=maximized -o allow_remote_control=socket-only -o window_padding_width=2 --listen-on unix:/tmp/kitty-yolo --title "Claude Code YOLO" --directory /home/ericparsley/Documents/GitHub/ogsr-complete-merge /home/ericparsley/.local/bin/claude-yolo --continue
+Icon=claude-code
+Terminal=false
+Categories=Development;Utility;

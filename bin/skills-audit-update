@@ -26,26 +26,26 @@ REPO_CURSOR_RULES = REPO_DIR / ".cursor/rules"
 
 # Key external tool dependencies mapped to skills
 TOOL_DEPENDENCIES = {
-    "ffmpeg": ["video-production-automation", "youtube-shorts-video-automation"],
-    "adb": ["android-device-automation", "android-perf-battery-profiling", "android-ndk-jni-engineering"],
-    "scrcpy": ["android-device-automation"],
-    "glslangValidator": ["shader-cross-compilation", "vulkan-gpu-compute"],
-    "spirv-val": ["shader-cross-compilation"],
-    "spirv-opt": ["shader-cross-compilation"],
-    "renderdoccmd": ["real-time-rendering-pipeline"],
-    "vulkaninfo": ["vulkan-gpu-compute", "emulator-development-engineering"],
-    "nvcc": ["cuda-gpu-acceleration"],
-    "cargo": ["rust-engineering", "tauri-multiplatform-dev"],
-    "cmake": ["cmake-cross-platform", "modern-cpp-engineering", "android-ndk-jni-engineering"],
-    "ninja": ["android-ndk-jni-engineering"],
-    "tshark": ["network-protocol-engineering", "binary-re-workflows"],
-    "python3": ["python-engineering", "sandbox-code-interpreter", "game-texture-material-pipeline", "autonomous-goal-governor", "furry-fursona-art-design", "android-rom-os-engineering", "game-qa-playtest-controller", "computer-vision-deep-learning", "industrial-machine-vision-inspection", "agentic-visual-perception", "local-model-coprocessor", "local-vector-rag-engine", "local-ast-compiler-engine", "game-exploratory-fuzzing", "self-healing-test-automation", "coverage-guided-mutation-testing"],
+    "ffmpeg": ["game-audio-voice-engineering", "local-model-coprocessor"],
+    "adb": ["local-model-coprocessor"],
+    "scrcpy": ["local-model-coprocessor"],
+    "glslangValidator": ["cross-engine-shader-rendering"],
+    "spirv-val": ["cross-engine-shader-rendering"],
+    "spirv-opt": ["cross-engine-shader-rendering"],
+    "renderdoccmd": ["cross-engine-shader-rendering"],
+    "vulkaninfo": ["cross-engine-shader-rendering", "console-emulation-toolchains"],
+    "nvcc": ["blender-3d-asset-pipeline", "local-model-coprocessor"],
+    "cargo": ["rust-engineering", "cross-platform-web-desktop"],
+    "cmake": ["modern-cpp-engineering"],
+    "ninja": ["modern-cpp-engineering"],
+    "tshark": ["database-network-engineering", "standalone-binary-re"],
+    "python3": ["python-engineering", "stalker-ogsr-engine-porting", "blender-3d-asset-pipeline", "autonomous-game-qa-playtesting", "local-model-coprocessor"],
     "objdiff": ["console-game-decompilation"],
     "splat": ["console-game-decompilation"],
-    "rizin": ["console-game-decompilation", "binary-re-workflows"],
+    "rizin": ["console-game-decompilation", "standalone-binary-re"],
     "m2c": ["console-game-decompilation"],
-    "spectacle": ["game-screen-telemetry-monitor"],
-    "tesseract": ["game-screen-telemetry-monitor", "visual-document-ocr-intelligence"],
+    "spectacle": ["autonomous-game-qa-playtesting"],
+    "tesseract": ["autonomous-game-qa-playtesting", "local-model-coprocessor"],
 }
 
 def parse_frontmatter(skill_file: Path) -> dict:
@@ -245,6 +245,13 @@ def sync_skills():
     print(f"[→] Synchronizing skills from {REPO_SKILLS}...")
     GEMINI_SKILLS.mkdir(parents=True, exist_ok=True)
     CLAUDE_SKILLS.mkdir(parents=True, exist_ok=True)
+
+    # Prune stale skills not in REPO_SKILLS
+    repo_skill_names = set(p.name for p in REPO_SKILLS.iterdir() if p.is_dir())
+    for target_dir in [GEMINI_SKILLS, CLAUDE_SKILLS]:
+        for item in target_dir.iterdir():
+            if item.is_dir() and item.name not in repo_skill_names and item.name != "synced":
+                shutil.rmtree(item)
 
     subprocess.run(f"cp -r '{REPO_SKILLS}/'* '{GEMINI_SKILLS}/'", shell=True, check=True)
     subprocess.run(f"cp -r '{REPO_SKILLS}/'* '{CLAUDE_SKILLS}/'", shell=True, check=True)

@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=STALKER resume
+Exec=/home/ericparsley/Documents/GitHub/ogsr-complete-merge/tools/resume_after_boot.sh
+X-GNOME-Autostart-Delay=20

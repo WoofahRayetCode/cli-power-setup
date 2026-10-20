@@ -1,0 +1,21 @@
+---
+name: game-engines-multiplatform
+description: Modern Godot 4, Unreal Engine 5, Unity, Steamworks publishing, Steam Deck tuning, and Proton game dev.
+---
+
+# Multiplatform Game Engine Engineering (`game-engines-multiplatform`)
+
+Commercial and open-source game development across Godot 4, Unreal Engine 5, Unity, and Steam platform packaging.
+
+## Engine Workflows
+- **Godot 4:** GDScript 2.0, static typing, signals, scene tree architecture, custom GDExtensions, headless export CLI.
+- **Unreal Engine 5:** Gameplay framework, UObject lifecycle, Enhanced Input, Niagara particles, and Lumen/Nanite optimization.
+- **Steam Deck & Handheld Tuning:** 15W TDP power budgeting, 40Hz frame pacing, and 1280x800 resolution UI font scaling.
+- **Asset Packaging:** Virtual file system packager:
+  `python3 config/skills/game-engines-multiplatform/scripts/vfs_asset_packer.py`
+
+## Related & Interoperating Skills
+- **`game-audio-voice-engineering`**: Game audio Ogg Vorbis GSC comment headers, procedural SFX, spatial HRTF, ElevenLabs, and Piper TTS.
+- **`game-physics-math-ballistics`**: 3D/4D linear algebra, quaternions, Euler HPB, Open Dynamics Engine (ODE) solvers, and ballistics ODEs.
+- **`modern-web-architecture`**: Modern Jamstack and SSG development with Astro, VitePress, Content Collections, and GitHub Pages CI/CD.
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

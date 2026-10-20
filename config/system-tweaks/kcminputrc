@@ -1,0 +1,8 @@
+[Keyboard]
+NumLock=0
+
+[Libinput][1267][13037][ELAN012F:00 04F3:32ED Touchpad]
+Enabled=false
+
+[Mouse]
+cursorTheme=breeze_cursors

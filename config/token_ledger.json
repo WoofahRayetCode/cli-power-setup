@@ -1,12 +1,12 @@
 {
   "lifetime_summary": {
-    "total_cached_tokens_saved": 1967884320,
-    "total_sessions_tracked": 29,
-    "cache_hit_rate_pct": 94.37,
-    "total_uncached_input_tokens": 117347277,
-    "total_output_tokens": 8224125,
-    "total_turns_executed": 14774,
-    "last_updated": "2026-10-17T22:01:58.630283"
+    "total_cached_tokens_saved": 1978376957,
+    "total_sessions_tracked": 30,
+    "cache_hit_rate_pct": 94.34,
+    "total_uncached_input_tokens": 118356169,
+    "total_output_tokens": 8251772,
+    "total_turns_executed": 14867,
+    "last_updated": "2026-10-19T00:50:24.027836"
   },
   "sessions": [
     {
@@ -25,17 +25,17 @@
     }
   ],
   "local_llm_savings": {
-    "total_calls": 103,
-    "total_local_tokens": 17561,
-    "total_cloud_tokens_saved": 200951,
-    "last_model": "sqlcoder:7b",
-    "last_saved_tokens": 1294,
-    "last_updated": "2026-10-17T18:57:15",
+    "total_calls": 130,
+    "total_local_tokens": 29975,
+    "total_cloud_tokens_saved": 248509,
+    "last_model": "qwen3-coder:30b",
+    "last_saved_tokens": 2211,
+    "last_updated": "2026-10-18T18:20:13",
     "by_model": {
       "blender-architect": {
-        "calls": 3,
-        "local_tokens": 3758,
-        "cloud_tokens_saved": 9638
+        "calls": 4,
+        "local_tokens": 4512,
+        "cloud_tokens_saved": 12536
       },
       "minicpm-v:8b": {
         "calls": 3,
@@ -48,9 +48,9 @@
         "cloud_tokens_saved": 10092
       },
       "qwen2.5-coder:1.5b": {
-        "calls": 3,
-        "local_tokens": 167,
-        "cloud_tokens_saved": 3767
+        "calls": 4,
+        "local_tokens": 204,
+        "cloud_tokens_saved": 5004
       },
       "deepseek-coder:6.7b-instruct": {
         "calls": 3,
@@ -128,9 +128,9 @@
         "cloud_tokens_saved": 2474
       },
       "qwen2.5:7b": {
-        "calls": 2,
-        "local_tokens": 78,
-        "cloud_tokens_saved": 2478
+        "calls": 10,
+        "local_tokens": 2537,
+        "cloud_tokens_saved": 14797
       },
       "wizard-math:7b": {
         "calls": 2,
@@ -198,9 +198,9 @@
         "cloud_tokens_saved": 5604
       },
       "qwen2.5-coder:7b": {
-        "calls": 2,
-        "local_tokens": 74,
-        "cloud_tokens_saved": 2474
+        "calls": 14,
+        "local_tokens": 5157,
+        "cloud_tokens_saved": 23497
       },
       "phi3.5": {
         "calls": 2,
@@ -241,6 +241,16 @@
         "calls": 2,
         "local_tokens": 158,
         "cloud_tokens_saved": 5374
+      },
+      "qwen3-coder:30b": {
+        "calls": 4,
+        "local_tokens": 4046,
+        "cloud_tokens_saved": 8846
+      },
+      "qwen2.5:1.5b": {
+        "calls": 1,
+        "local_tokens": 35,
+        "cloud_tokens_saved": 1235
       }
     }
   },
@@ -257,7 +267,7 @@
     },
     "voice_prompt_context_optimizer": {
       "description": "Speech-to-text transcript compression stripping conversational filler, normalizing phonetic tokens (C++, OGSR, LTX), and mapping to slash commands",
-      "estimated_tokens_saved": 1420016,
+      "estimated_tokens_saved": 1420028,
       "efficiency_multiplier": "50-85% input token reduction per voice turn"
     },
     "gemini_ast_symbol_window_slicer": {

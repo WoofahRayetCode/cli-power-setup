@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Run a command; if it is still going after N seconds it is left running in the background and this returns at once.
+#   bgrun [-t SECONDS=5] [-n NAME] -- command args...
+# Fast command: prints its output and exit code. Slow command: prints "BACKGROUND name pid" plus where to look:
+#   $BG_DIR/<name>.log (output), $BG_DIR/<name>.exit (written when it finishes; contains the exit code)
+# Wait for it without blocking:  until [ -f $BG_DIR/<name>.exit ]; do sleep 2; done   (use the Monitor tool)
+BG_DIR="${BGRUN_DIR:-$HOME/.cache/bgrun}"; t=5; name=""
+while [[ "${1:-}" == -* && "$1" != "--" ]]; do case "$1" in -t) t="$2"; shift 2;; -n) name="$2"; shift 2;; *) echo "bgrun: unknown option $1"; exit 2;; esac; done
+[[ "${1:-}" == "--" ]] && shift; (( $# )) || { echo "usage: bgrun.sh [-t sec] [-n name] -- cmd..."; exit 2; }
+mkdir -p "$BG_DIR"; name="${name:-$(date +%H%M%S)_$(basename "$1")}"; log="$BG_DIR/$name.log"; ex="$BG_DIR/$name.exit"; rm -f "$ex"
+setsid bash -c 'l=$0; e=$1; shift; "$@" >"$l" 2>&1; echo $? >"$e"' "$log" "$ex" "$@" </dev/null &
+pid=$!
+for ((i=0; i<t*10; i++)); do [[ -f "$ex" ]] && { cat "$log"; echo "[exit $(cat "$ex")]"; exit "$(cat "$ex")"; }; sleep 0.1; done
+echo "BACKGROUND $name pid=$pid after ${t}s | log: $BG_DIR/$name.log | done-file: $BG_DIR/$name.exit"

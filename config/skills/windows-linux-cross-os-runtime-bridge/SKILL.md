@@ -1,83 +1,21 @@
 ---
 name: windows-linux-cross-os-runtime-bridge
-description: Cross-platform runtime bridge between Windows 10/11 (PowerShell 7, Win32 API, DirectX/DXGI, MSVC, ETW, ImDisk RAMDisk) and Linux (CachyOS/Arch, POSIX/Bash, Vulkan/RADV, Wine/Proton, /dev/shm, /dev/uinput) so all 300+ skills execute natively on both operating systems.
+description: Native Linux and Windows 10/11 cross-OS runtime parity, Win32 APIs, PowerShell 7, and Wine/Proton.
 ---
 
-# Windows 10/11 & Linux Cross-OS Runtime Bridge (`windows-linux-cross-os-runtime-bridge`)
+# Cross-OS Runtime Bridge (`windows-linux-cross-os-runtime-bridge`)
 
-Ensures every hardware offload, game modding, 3D Blender pipeline, autonomous QA playtester, crash interceptor, and repository governor executes natively on **both Windows 10/11 and Linux** without hardcoded POSIX path failures.
+Guarantees 100% cross-OS compatibility across Linux and Windows 10/11 for all CLI tools, game modding pipelines, and build systems.
 
-## 1. Cross-OS Subsystem Translation Matrix
-
-| Subsystem | Linux (CachyOS / Arch / POSIX) | Windows 10/11 (PowerShell 7 / Win32) | Portable Python (`os.name` / `sys.platform`) |
-| :--- | :--- | :--- | :--- |
-| **CPU Thread Saturation (32 Threads)** | `$(nproc)` / `MAKEFLAGS="-j$(nproc)"` | `$env:NUMBER_OF_PROCESSORS` / `%NUMBER_OF_PROCESSORS%` / `msbuild /m` | `os.cpu_count() or 16` + `CMAKE_BUILD_PARALLEL_LEVEL` |
-| **RAM-Disk & Fast Scratch I/O** | `/dev/shm` (`tmpfs`, up to 15 GB) | ImDisk/OSFMount RAMDrive (`R:\`) or `$env:TEMP` (`%LOCALAPPDATA%\Temp`) | `Path("/dev/shm") if Path("/dev/shm").exists() else Path("R:/") if Path("R:/").exists() else Path(tempfile.gettempdir())` |
-| **Dual-GPU Offload (dGPU vs iGPU)** | `DRI_PRIME=1` (RTX 5060 `/dev/dri/renderD128`) vs `DRI_PRIME=0` (Radeon 610M `renderD129`) | Windows Graphics Settings (`HKCU\Software\Microsoft\DirectX\UserGpuPreferences` `GpuPreference=2` dGPU vs `1` iGPU) | `VK_LOADER_DEVICE_SELECT` + `CUDA_VISIBLE_DEVICES=0` |
-| **Synthetic Game Input (Bot/QA)** | `/dev/uinput` / `evdev` + `xdotool`/`kdotool` | Win32 `SendInput` (`ctypes.windll.user32.SendInput`), `SetCursorPos`, `ClipCursor` | Runtime dispatch via `sys.platform == "win32"` |
-| **Screen Capture & OCR** | `spectacle -b -n` / `grim` / `import` + `tesseract` | DXGI Desktop Duplication / `PIL.ImageGrab.grab(all_screens=True)` + `C:\Program Files\Tesseract-OCR\tesseract.exe` | `PIL.ImageGrab.grab()` + `shutil.which("tesseract")` |
-| **Crash Modal Sweep (`notepad.exe` / `BugTrap`)** | `pgrep -f notepad.exe` / `pkill -f` under Wine/Proton | `Get-Process notepad,xrEngine -EA 0 \| Stop-Process -Force` / `taskkill /F /IM notepad.exe` + WER `LocalDumps` | Cross-OS `psutil` or `tasklist` / `pgrep` wrapper |
-| **File System Hot-Reload Watcher** | `inotifywait -m -r -e close_write` | `.NET System.IO.FileSystemWatcher` (PowerShell `Register-ObjectEvent`) / Win32 `ReadDirectoryChangesW` | `watchdog` or polling fallback |
-| **CPU Profiling & Time-Travel Debug** | `perf record -F 99 -g` + Mozilla `rr` | Windows Performance Recorder (`wpr -start GeneralProfile` / `wpa.exe`) + WinDbg TTD (`ttd.exe`) | Platform-specific profiler invocation |
-| **Steam Library Discovery** | `~/.local/share/Steam/steamapps/libraryfolders.vdf` | Registry `HKCU\Software\Valve\Steam\SteamPath` + `C:\Program Files (x86)\Steam\steamapps\libraryfolders.vdf` | `bin/steam-mod-scanner` (supports both + WSL `/mnt/c`) |
-| **Multi-Agent Terminal Multiplexing** | `tmux` / `kitty` / `konsole` split panes | **Windows Terminal (`wt.exe`)** split panes (`wt -p "PowerShell" \; split-pane -V ...`) | Auto-detect `wt.exe` on Windows vs `tmux` on Linux |
-
----
-
-## 2. Portable Python Helpers for Skill Scripts
-
-### A. Cross-Platform RAM-Disk / Scratch Directory Resolver
-Always use this helper instead of hardcoding `/tmp` or `/dev/shm`:
-```python
-import os, tempfile
-from pathlib import Path
-
-def get_fast_scratch_dir(subdir: str = "agy_work") -> Path:
-    if os.name != "nt" and Path("/dev/shm").is_dir():
-        base = Path("/dev/shm")
-    elif os.name == "nt" and Path("R:/").is_dir():
-        base = Path("R:/")  # Windows ImDisk / OSFMount RAMDisk
-    else:
-        base = Path(tempfile.gettempdir())
-    target = base / subdir
-    target.mkdir(parents=True, exist_ok=True)
-    return target
-```
-
-### B. Cross-Platform Synthetic Input (`SendInput` on Windows vs `/dev/uinput` on Linux)
-When running `stalker-playtest-runner` or `game-qa-playtest-controller` on Windows natively (without Wine):
-```python
-import ctypes, sys
-
-def send_key_windows(vk_code: int) -> None:
-    if sys.platform == "win32":
-        ctypes.windll.user32.keybd_event(vk_code, 0, 0, 0)
-        ctypes.windll.user32.keybd_event(vk_code, 0, 2, 0)
-```
-
-### C. Cross-Platform Dual-GPU Selection on Windows 10/11
-To bind background headless tools (FFmpeg, Vulkan validators, lightweight previews) to the **AMD Radeon 610M iGPU** (`GpuPreference=1`) while keeping the **NVIDIA RTX 5060 dGPU** (`GpuPreference=2`) for games and Blender Cycles OptiX on Windows:
-```powershell
-# PowerShell 7: Set GPU preference for an executable on Windows 10/11
-$RegPath = "HKCU:\Software\Microsoft\DirectX\UserGpuPreferences"
-New-Item -Path $RegPath -Force | Out-Null
-# 1 = Power Saving (AMD Radeon iGPU), 2 = High Performance (NVIDIA RTX 5060 dGPU)
-Set-ItemProperty -Path $RegPath -Name "C:\Program Files\Blender Foundation\Blender 5.2\blender.exe" -Value "GpuPreference=2;"
-```
-
-### D. Cross-Platform Crash Modal Sweep (Windows Native & Linux Wine)
-```python
-import os, subprocess
-
-def sweep_xray_crash_modals() -> None:
-    if os.name == "nt":
-        subprocess.run(["taskkill", "/F", "/IM", "notepad.exe", "/FI", "WINDOWTITLE eq xray_*"], capture_output=True)
-    else:
-        subprocess.run(["pkill", "-f", "notepad.exe.*xray_"], capture_output=True)
-```
+## Universal Compatibility Rules
+- **Path Resolution:** Always use `pathlib.Path` or POSIX forward slashes. Never hardcode `/tmp/`; use `Path(tempfile.gettempdir())`.
+- **Execution & Shims:** Linux executes bash scripts (`.sh`); Windows executes PowerShell 7 (`.ps1`) or `.cmd` shims in `$HOME\.local\bin`.
+- **Wine & Proton Interop:** Seamlessly translate between Linux paths (`/home/user/...`) and Wine drive paths (`Z:\home\user\...`, `C:\users\user\...`) using `winepath -w` and `winepath -u`.
+- **Large Address Aware (LAA) PE Patching:**
+  `python3 config/skills/windows-linux-cross-os-runtime-bridge/scripts/laa_pe_patcher.py <exe>`
 
 ## Related & Interoperating Skills
-- **`amd-igpu-nvidia-dgpu-hybrid-offload`**: Dual-GPU workload splitter for AMD Radeon 610M iGPU (/dev/dri/renderD129, RADV Vulkan + VA-API VCN + 30GB shar...
-- **`ramdisk-tmpfs-build-bake-accelerator`**: Exploits 30 GB system RAM via Linux /dev/shm tmpfs RAM-disk (~40 GB/s bandwidth, zero SSD I/O wear) for ultra-...
-- **`dual-engine-quota-balancer`**: Dynamic telemetry coordination across Gemini 4 Argon, Gemini 3.8 Flash subagents, and local CPU/GPU offloads, ...
+- **`standalone-binary-re`**: Native Linux zero-MCP reverse engineering: objdump, readelf, nm, rizin, gdb, JADX, and PE/ELF headers.
+- **`anti-overwork-file-slicer`**: Mandatory window slicing (<=80 lines), AST symbol-first lookup, and prohibition on whole-file reads.
+- **`reverse-engineer-anything`**: Reverse Engineer Anything (REA) MCP server integration, function diffing, and obligation ledgers.
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

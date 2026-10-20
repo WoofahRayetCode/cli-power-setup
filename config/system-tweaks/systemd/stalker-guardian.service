@@ -1,0 +1,15 @@
+[Unit]
+Description=STALKER port guardian (restarts the supervisors, dashboard, watchers and night walk when they die or hang)
+After=graphical-session.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Documents/GitHub/ogsr-complete-merge
+Environment=DISPLAY=:0 WAYLAND_DISPLAY=wayland-0
+ExecStart=/usr/bin/python3 %h/Documents/GitHub/ogsr-complete-merge/tools/guardian.py
+Restart=always
+RestartSec=10
+Nice=10
+
+[Install]
+WantedBy=default.target

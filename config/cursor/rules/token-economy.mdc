@@ -1,105 +1,23 @@
 ---
-description: Output token optimization and high-density communication protocol. Use to minimize output token consumption, prevent transcript context bloat, and maintain concise progress visibility during long engineering workflows.
+description: Output token containment: zero conversational fluff, high-density status, silent tools, and surgical diffs.
 globs: 
 alwaysApply: false
 ---
 
-# Output Token Economy & High-Density Protocol
+# Output Token Economy & High-Density Protocol (`token-economy`)
 
-This skill enforces strict token efficiency across agent sessions to preserve user quota and prevent compounding context bloat.
+Enforces strict token containment across all interactions to eliminate conversational fluff, reduce latency, and prevent context bloat.
 
----
-
-## 1. Zero Conversational Overhead
-* **Strip Preambles & Fillers:** Eliminate opening pleasantries ("Sure, I can do that!", "Here is what I found:") and closing conversational sign-offs ("Let me know if you need anything else!").
-* **Zero Prompt Restatement:** Never echo, paraphrase, or summarize the user's request. Lead directly with actionable technical data, indicators, or code actions.
-* **Zero Code Duplication in Chat:** Once code has been created or modified via tools (`replace_file_content`, `write_to_file`, `Edit`), never re-paste the code blocks into chat text. State only the file link, line range, and a 1-sentence rationale.
-
----
-
-## 2. High-Density Status Indicators
-Replace conversational status updates with compact markdown checklists:
-* `[✓] Completed step / file path`
-* `[→] In progress step`
-* `[!] Warning or blocker`
-* `[✗] Failure with 1-line error message`
-
----
-
-## 3. Active Context-Saving Enforcement Chain
-
-To ensure the new frontier efficiency tools are always utilized:
-
-* **Prompt Cache Prefix Stability (`prompt-cache-context-optimizer`):**
-  Never interleave dynamic project files between static instructions. Maintain exact prefix order so Anthropic's **90% prompt caching discount** is never broken.
-* **Symbol Lookups Over Full-File Reads (`semantic-codebase-indexing`):**
-  Query `.code_index_tags.json` via `jq` to locate exact function lines before invoking `view_file`. Never read 500-line files when targeting a 10-line function.
-* **Terminal Stream Sanitization (`log-output-sanitizer`):**
-  Never allow verbose test suites or compiler logs to dump 200+ lines into chat. Use silent/short flags and surface only 1-line metrics or actionable stack traces.
-* **Canvas Staged Diffs (`canvas-interactive-workspace`):**
-  Stage proposed edits in `.canvas/` and output only targeted unified diff chunks. Prohibit full-file conversational rewrites.
-* **Swarm Background Offloading (`subagent-swarm-orchestrator`):**
-  Offload multi-file linter sweeps, build logs, and test suites to background worktree subagents, preventing thousands of lines of stdout from polluting the main conversation history.
-* **Visual Artifacts Over ASCII Bloat (`generative-visual-artifacts`):**
-  Never generate massive 50-line ASCII diagrams or markdown tables in chat. Offload visual UI mockups and telemetry graphs to self-contained HTML artifacts that open in the browser.
-* **Reactive Micro-Apps Over Static Tables (`intelligent-interactive-ui`):**
-  When generating calculators, ROI models, or parameter tuners, generate single-file reactive widgets rather than burning multi-turn conversational tokens on manual re-calculations.
-* **Cropped Vision Over Full-DPI Dumps (`screen-vision-inspector`):**
-  Crop screenshots to relevant bounding boxes and downscale to 1280px max dimension before vision ingestion to prevent vision token bloat.
-* **Surgical Directive Formatting (`high-density-prompting`):**
-  Format instructions with target file, line, exact action, and verification command, suppressing 75%–90% of reasoning token burn.
-* **Dynamic Skill Routing Over Catalog Scanning (`dynamic-skill-router`):**
-  When tackling complex or multi-domain tasks, query `skill_router.py` to identify the exact 2–3 expert skills rather than reading or injecting dozens of unrelated skill files into prompt context.
-* **Episodic Checkpointing Across Compaction (`session-episodic-memory`):**
-  Capture decision rationale and active hypotheses in `.agents/episodes/` before running `/compact`, ensuring zero token-cost amnesia upon conversation resumption.
-* **Zero-Quota Local LLM Fleet Offloading (`local-model-coprocessor`, `agy-omni-mode`):**
-  Offload entire task turns to 34 local models on 32-thread CPU + RTX 5060 CUDA/OptiX. Specifically, offload 70B/72B frontier reasoning (`deepseek-r1:70b-iq2`), dense C++20 architecture (`qwen2.5:72b-iq2`), binary decompilation (`llm4decompile:22b-q4`), and CAD scripts (`blenderllm:7b-q4`), saving 8,000–32,000 cloud reasoning and context tokens per turn (100% cloud quota preservation).
-* **Voice-to-Text Input Context Normalization (`voice-prompt-context-optimizer`):**
-  Compress spoken speech-to-text dictation by 50%–85%, stripping conversational filler ("um", "can you please"), normalizing phonetic jargon (`see plus plus` $\rightarrow$ `C++`, `ogsr engine` $\rightarrow$ `OGSR Engine`), and mapping spoken intent phrases directly into deterministic slash commands (`/goal`, `/plan`, `/boost`).
-
----
-
-## 4. Offloading Heavy Content
-* **Large Diffs, Logs, or Plans:** Write extensive documentation, plans, or test matrices into files or artifacts.
-* **Documents & Web Templates:** When generating HTML landing pages, PDF templates, invoices, proposals, or contracts, write the entire content directly to disk via `write_to_file`. **Never dump 200+ lines of raw HTML, CSS, or legal text into the chat transcript.**
-* **Video Filtergraphs & Subtitles:** When generating long complex FFmpeg filtergraphs, word-level `.ass` / `.srt` subtitle transcripts, or ADB logcat dumps, write them directly to script files or disk assets rather than printing them in full to chat.
-* **Shader Code & SPIR-V Disassemblies:** When generating or disassembling extensive shaders (HLSL/GLSL/SPIR-V), write them directly to shader files (`.vert`, `.frag`, `.hlsl`, `.spvasm`) rather than dumping 300+ lines of shader code into chat.
-* **Android Native Dumps & Gfxinfo Metrics:** When dumping raw tombstones, HPROF traces, or 200+ frame `dumpsys gfxinfo` tables, capture them to `/tmp/` log files, presenting only the symbolized crash frames or jank frame percentage in chat.
-* **VFS Archive Listings & Physics Contact Matrices:** When unpacking or inspecting large asset archives (`vfs_asset_packer.py --list`) or dumping physics contact manifold tables, pipe results to files or artifacts, presenting only summary counts (file count, total payload size, active contact pairs) in chat.
-* **ECS Dumps & Save State Payloads:** When inspecting entity archetype tables or raw save state payloads (`save_state_inspector.py --inspect`), offload detailed byte hex dumps to disk/artifacts, presenting only container header validation, schema versions, and compression statistics in chat.
-* **Discord API Payloads & Gateway Event Logs:** When querying large Discord API endpoints (guild member lists, audit logs, role hierarchies) or capturing raw WebSocket Gateway dispatch JSON, stream them to temporary `.json` files, presenting only counts, user tags, or permission flags in chat.
-* **Audio Waveform Arrays & Loudness Tables:** When generating procedural audio or running FFmpeg loudness filter analysis (`ebur128`), write raw sample arrays and multi-pass JSON logs to disk, outputting only target integrated LUFS, True Peak dB, and file paths in chat.
-* **Security Audits, SBOM Manifests & Binary Disassembly:** When generating multi-thousand-line CycloneDX/SPDX SBOM manifests, full `cargo-audit` dependency advisory trees, or native binary disassembly dumps, write them to disk/artifacts, presenting only the vulnerability count, severity breakdown, and `checksec` status table in chat.
-* **Proton Logs, Crash Traces & PE Import Tables:** When capturing verbose `PROTON_LOG=1` traces (often 10,000+ lines), Windows Event ID 1000 crash dumps, or extensive PE Import Address Tables, redirect stdout to disk log files, surfacing only the faulting module, exception offset, or missing DLL names in chat.
-* **Threat Model Matrices & Pen-Test Logs:** When generating extensive STRIDE threat matrices, DAST penetration test outputs, or network packet captures (`pcap`), offload them to structured artifacts or disk files, presenting only the critical risk score and remediations in chat.
-* **Wine Relay Traces & Handheld Performance Logs:** When capturing `WINEDEBUG=+relay` execution traces (hundreds of thousands of Win32 calls) or multi-minute MangoHud/Steam Deck frametime CSVs, pipe them directly to files in `/tmp/`, reporting only the specific hanging function call or 1% low FPS metrics in chat.
-* **GameMaker YYP Projects & Room Layout JSON:** When inspecting large GameMaker `.yyp` project manifests or room layer JSON files (tens of thousands of JSON lines), offload to disk/artifacts, presenting only resource counts or modified layer names in chat.
-* **Memory Scan Dumps & Pointer Resolution Maps:** When scanning game memory for addresses or dumping Cheat Engine pointer maps (tens of thousands of memory hits), pipe them to disk files in `/tmp/`, surfacing only the final base address, validated offset chain, and value range in chat.
-* **Translation Catalogs, Headless CI Logs & Shader Graphs:** When inspecting multi-language PO/JSON translation catalogs, continuous integration engine build logs (Godot/Unity/UE5 cooking output), or Godot visual shader node graphs, offload to disk/artifacts, presenting only translation completeness percentages, build duration/status, or material shader parameters in chat.
-* **Raw Checkpoint Patches & Retrieval Matrices:** When taking state snapshots (`state_checkpoint.py`) or querying deep memory indices (`memory_retriever.py --json`), save raw multi-file unified diff patches and full JSON scoring trees to `.agents/checkpoints/` or disk files, presenting only the saved checkpoint name, branch SHA, or top 1–2 snippet excerpts in chat.
-* **CodeRabbit Review Reports & Walkthrough Tables:** When generating comprehensive PR reviews (`coderabbit_review.py --save`), offload full multi-page review reports with raw hunk suggestions to `.agents/reviews/review_<timestamp>.md`, presenting only the verdict, readiness score (0–100), change impact table, and critical/major findings in chat.
-* **Console Decompilation Assembly Splits & Splat Configs:** When generating thousands of disassembled function files (`.s`), full Ghidra symbol maps, or extensive `splat.yaml` segment manifests, write them directly to the `decomp/` workspace tree, presenting only section counts, identified compiler toolchains, and `objdiff` match percentages in chat.
-* **Game Screen Telemetry Sequences & Crash OCR Dumps:** When running continuous in-game screen watchers (`game_screen_monitor.py monitor`) or dumping full-screen OCR text logs, save raw frame sequences and OCR transcripts to `.agents/telemetry/` or `/tmp/`, presenting only the detected visual anomaly type (magenta texture/freeze/blackout), timestamp, and parsed fatal crash stack trace in chat.
-* **Goal Execution Logs & Autonomous Run Traces:** When executing long-running `/goal` tasks (`goal_governor.py`), offload full step traces, subagent transcripts, and phased milestone diffs to `.agents/goals/` and `.agents/episodes/`, presenting only active phase progress, strike counts, and the machine verification status in chat.
-* **Fursona Profiles, Refsheets & Palette Swatches:** When formulating fursona character sheets (`fursona_generator.py`), save full JSON profiles, multi-model prompt tables, and rendered swatch graphics to `.agents/fursonas/`, presenting only the character name, species archetype, hex palette summary, and clickable image/spec links in chat.
-* **AOSP Build Dumps & SELinux Audit Traces:** When compiling custom ROMs (`mka bacon`) or capturing bootloop dmesg logs (often 50,000+ lines), pipe raw logs to disk files in `/tmp/` or `.agents/rom/`, presenting only the Ninja compilation error, missing vendor blob path, or generated `.te` allow rule in chat.
-* **Game Playtest Locomotion Traces & Input Replays:** When running extended game playtesting or action stress cycles (`game_playtest_controller.py`), save raw tick-by-tick evdev event streams, mouse delta recordings, and input replays to `.agents/playtest/` or `/tmp/`, presenting only the locomotion pattern, duration, tick count, and pass/fail summary in chat.
-* **Vision Tensors, SAHI Slices & Raw Bounding Box Dumps:** When running deep neural inference, SAHI 4K/8K grid tiling, or multi-page OCR layout trees (hundreds of bounding boxes and raw float tensors), offload full JSON coordinate manifests and high-res debug crops to `.agents/vision/` or `/tmp/`, presenting only detected class tallies, click centroids, or OCR snippet lines in chat.
-* **Local Coprocessor Logs, Vector Indices & AST Parse Trees:** When generating verbose code via local SLMs (`local_model_coprocessor.py`), building dense RAG indices (`.agents/rag/index.json`), or dumping raw multithreaded AST trees, keep raw tokens and embeddings on local disk/RAM, presenting only final generated snippets, top-k search results, or verified syntax status in chat.
-* **QA Fuzzing Genomes, Healed Locator Patches & Mutant Manifests:** When generating hundreds of mutated input genomes (`game_exploratory_fuzzer.py`), evaluating test flakiness traces, or calculating full AST mutation score matrices (`mutation_test_harness.py`), save raw JSON manifests and unified `.patch` files to disk/artifacts, presenting only the novel state count, healed selector string, or overall mutation score percentage in chat.
-* Provide a single clickable file link and a 1-sentence headline rather than dumping large blocks of markdown or HTML into the chat transcript.
-
----
-
-## 5. Token Savings Metric Footer
-Conclude plans, refactors, and multi-step tasks with a single high-density token economy line quantifying estimated output/quota savings achieved through these constraints:
-`📉 Token Economy: ~<N> tokens saved (<breakdown: e.g. cache hits, local 70B offload, voice compaction, symbol lookup, surgical diffs>)`
-
-## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
-- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+## Invariant Rules
+1. **Zero Conversational Fluff:** Eliminate opening pleasantries ("Sure, I can help!"), restatements of user requests, and closing filler.
+2. **High-Density Status Checklists:** Report multi-step progress using compact markdown tags (`[✓] Complete`, `[→] In progress`, `[!] Warning`).
+3. **Silent Tool Execution:** Never narrate routine tool executions or echo entire successful command dumps. Show only actionable errors and compact summaries.
+4. **Surgical Diff Discipline:** Enforce chunk replacements (`replace_file_content`) <= 30 lines. Never overwrite full files with `write_to_file`.
+5. **Terminal Output Truncation:** Pipe verbose commands through `token-guard` or `tail -n 25`.
+6. **Token Economy Visibility:** Conclude workflows with: `📉 Token Economy: ~<N> tokens saved`.
 
 ## Related & Interoperating Skills
-- **`claude-opus-conciseness-enforcer`**: Enforces extreme output conciseness, strict BLUF formatting, and hard token caps for Claude Opus. Eliminates c...
-- **`claude-silent-dispatch`**: Eliminates pre-tool narration, commentary, and conversational play-by-plays in Claude Code, executing tool cal...
-- **`argon-subagent-payload-compressor`**: Enforces high-density structured return envelopes on Gemini subagent messages, eliminating conversational fluf...
+- **`writing-plans`**: Granular implementation planning (/plan), dependency ordering, verifiable contracts, and artifact offloading.
+- **`anti-overwork-file-slicer`**: Mandatory window slicing (<=80 lines), AST symbol-first lookup, and prohibition on whole-file reads.
+- **`argon-adversarial-verification-gate`**: Formal 4-stage pre-completion adversarial self-critique and boundary-condition proofing for Argon and Claude.
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

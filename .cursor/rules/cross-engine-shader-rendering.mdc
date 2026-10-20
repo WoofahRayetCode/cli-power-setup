@@ -1,0 +1,21 @@
+---
+description: Slang/SPIRV-Cross shader transpilation (Vulkan, DX12, HLSL, GLSL), Cook-Torrance GGX PBR, and bloom FX.
+globs: 
+alwaysApply: false
+---
+
+# Cross-Engine Shader & Rendering Pipeline (`cross-engine-shader-rendering`)
+
+Universal shader compilation, HLSL/GLSL/SPIR-V transpilation, Cook-Torrance PBR math, and dynamic post-processing effects.
+
+## Pipelines
+- **Cross-Compilation:** Author single-source shaders and compile via `glslangValidator`, `spirv-opt`, and SPIRV-Cross into Vulkan SPIR-V, DX12 HLSL, and OpenGL GLSL:
+  `python3 config/skills/cross-engine-shader-rendering/scripts/shader_transpile_validate.py`
+- **Weather & Post-Processing:** Sun shafts, progressive bloom, and HDR tonemapping tuning:
+  `python3 config/skills/cross-engine-shader-rendering/scripts/weather_lighting_tuner.py`
+
+## Related & Interoperating Skills
+- **`console-emulation-toolchains`**: Console homebrew toolchains (devkitPro, libnx, devkitARM), emulator optimization (Ryujinx, RetroArch), and Obt...
+- **`cross-platform-web-desktop`**: Cross-platform desktop and extension development with Tauri 2.0 (Rust), Electron IPC, and Manifest V3.
+- **`windows-linux-cross-os-runtime-bridge`**: Native Linux and Windows 10/11 cross-OS runtime parity, Win32 APIs, PowerShell 7, and Wine/Proton.
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

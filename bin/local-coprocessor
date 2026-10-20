@@ -68,7 +68,7 @@ def load_skill_context(skill_names: str = "", auto_skill: bool = False, prompt_t
         keyword_map = [
             (("blender", "bpy", "mesh", "3d", "sculpt", "ogf", "remesh", "aisha"), ["blender-3d-engineering", "blender-sdf-organic-remeshing"]),
             (("shader", "hlsl", "dx11", "rtx", "dlss", "vulkan"), ["xray-dx11-shader-modernization", "rtx-compute-bvh-raytracing-ssgi"]),
-            (("ogg", "audio", "sound", "meow", "voice", "tts"), ["game-audio-ogg-gsc-encoder", "creature-animal-bioacoustic-audio"]),
+            (("ogg", "audio", "sound", "meow", "voice", "tts"), ["game-audio-ogg-gsc-encoder", "creature-sound-forge"]),
             (("ltx", "stalker", "ogsr", "xray", "crash"), ["game-modding", "xray-crash-log-diagnostician"]),
             (("64-bit", "pointer", "cpp", "c++"), ["cpp-64bit-engine-port-sanitizer", "modern-cpp-engineering"]),
             (("re", "decompile", "disasm", "reverse engineer", "ghidra", "hopper", "rizin", "vtable", "rva"), ["reverse-engineer-anything", "binary-re-workflows", "rea-mcp-obligation-ledger-orchestrator"]),
@@ -116,51 +116,51 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
     # Dedicated Model Mappings (All 37 models mapped as #1 primary choice)
     # Tier 1: Ultra-Large Titan Fleet (70B-72B)
     if task in ("titan-agent", "agent-titan", "orchestrate", "swarm", "titan-swarm", "titan-tool", "llama3.3"):
-        for cand in ("llama3.3:70b-iq2", "qwen2.5:72b-iq2", "hermes3:8b"):
+        for cand in ("qwen3-coder:30b", "gpt-oss:20b", "hermes3:8b"):
             if cand in installed:
                 return cand
     elif task in ("titan-code", "engine-titan", "systems-cxx-large", "qwen72b", "port", "engine", "migration", "transpile"):
-        for cand in ("qwen2.5:72b-iq2", "deepseek-coder-v2:16b", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "deepseek-coder:6.7b-instruct"):
+        for cand in ("gpt-oss:20b", "deepseek-coder-v2:16b", "qwen2.5-coder:32b", "qwen2.5-coder:14b", "deepseek-coder:6.7b-instruct"):
             if cand in installed:
                 return cand
     elif task in ("titan-reason", "reason-titan", "formal-proof", "struct-padding", "deep-reason", "r1-70b", "cot-deep", "root-cause-deep"):
-        for cand in ("deepseek-r1:70b-iq2", "deepseek-r1:32b", "deepseek-r1:14b", "deepseek-r1:8b", "deepseek-r1:1.5b"):
+        for cand in ("gpt-oss:20b", "deepseek-r1:14b", "nemotron-3-nano:4b", "deepseek-r1:1.5b"):
             if cand in installed:
                 return cand
 
     # Tier 2: 32B-47B Frontier Heavyweights & MoE
     elif task in ("enterprise-agent", "agent-35b", "command-r", "agentic-rag", "tool-orchestrate"):
-        for cand in ("command-r:35b", "llama3.3:70b-iq2", "hermes3:8b"):
+        for cand in ("qwen3-coder:30b", "hermes3:8b"):
             if cand in installed:
                 return cand
     elif task in ("moe-heavy", "mixtral", "moe-8x7b", "sparse-moe", "moe-reason"):
-        for cand in ("mixtral:8x7b", "deepseek-coder-v2:16b", "qwen2.5:72b-iq2"):
+        for cand in ("qwen3-coder:30b", "deepseek-coder-v2:16b", "gpt-oss:20b"):
             if cand in installed:
                 return cand
     elif task in ("mistral-small", "dense-24b", "long-code", "doc-synthesis", "knowledge-dense"):
-        for cand in ("mistral-small:24b", "mistral-nemo:12b", "qwen2.5:32b"):
+        for cand in ("gpt-oss:20b", "mistral-nemo:12b", "qwen3-coder:30b"):
             if cand in installed:
                 return cand
     elif task in ("code-frontier", "swe-bench", "code-planning", "multi-file-arch", "coder-32b"):
-        for cand in ("qwen2.5-coder:32b", "qwen2.5:72b-iq2", "qwen2.5-coder:14b", "qwen2.5-coder:7b"):
+        for cand in ("qwen2.5-coder:32b", "gpt-oss:20b", "qwen2.5-coder:14b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task in ("general-synthesis", "knowledge", "polyglot", "doc-site", "qwen-32b"):
-        for cand in ("qwen2.5:32b", "qwen2.5:7b", "mistral-nemo:12b", "llama3.1:8b"):
+        for cand in ("qwen3-coder:30b", "qwen2.5:7b", "mistral-nemo:12b", "llama3.1:8b"):
             if cand in installed:
                 return cand
     elif task in ("reason-32b", "cot-layout", "memory-layout-proof", "r1-32b"):
-        for cand in ("deepseek-r1:32b", "deepseek-r1:70b-iq2", "deepseek-r1:14b", "deepseek-r1:8b"):
+        for cand in ("gpt-oss:20b", "deepseek-r1:14b", "nemotron-3-nano:4b"):
             if cand in installed:
                 return cand
 
     # Tier 3: Binary & MoE Engine Transpilers (16B-22B)
     elif task in ("re", "decompile", "reverse", "disasm", "rea", "binary", "assembly", "llm4decompile"):
-        for cand in ("llm4decompile:22b-q4", "deepseek-coder-v2:16b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "deepseek-coder:6.7b-instruct"):
+        for cand in ("llm4decompile:22b-q4", "deepseek-coder-v2:16b", "gpt-oss:20b", "qwen2.5-coder:32b", "deepseek-coder:6.7b-instruct"):
             if cand in installed:
                 return cand
     elif task in ("deepseek-33b", "dense-33b", "cxx-dense", "deepseek-coder-33b"):
-        for cand in ("deepseek-coder:33b-custom", "deepseek-coder:33b-instruct", "qwen2.5-coder:32b", "qwen2.5:72b-iq2"):
+        for cand in ("deepseek-coder:33b-custom", "deepseek-coder:33b-instruct", "qwen2.5-coder:32b", "gpt-oss:20b"):
             if cand in installed:
                 return cand
     elif task in ("starcoder", "starcoder2", "multi-lang-code", "fim-code", "code-complete"):
@@ -172,17 +172,17 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
             if cand in installed:
                 return cand
     elif task in ("shader", "cross-engine-shader", "moe-code", "spirv", "hlsl", "moe", "deepseek-coder-v2"):
-        for cand in ("deepseek-coder-v2:16b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "qwen2.5-coder:14b"):
+        for cand in ("deepseek-coder-v2:16b", "gpt-oss:20b", "qwen2.5-coder:32b", "qwen2.5-coder:14b"):
             if cand in installed:
                 return cand
 
     # Tier 4: Mid-Weight Specialists (9B-14B)
     elif task in ("physics", "ode", "stem", "numerical-math", "phi4", "ballistics-physics"):
-        for cand in ("phi4:14b", "mathstral:7b", "wizard-math:7b", "deepseek-r1:14b"):
+        for cand in ("gpt-oss:20b", "phi4:14b", "deepseek-r1:14b"):
             if cand in installed:
                 return cand
     elif task in ("reason-14b", "fast-cot-14b", "algo-proof", "r1-14b"):
-        for cand in ("deepseek-r1:14b", "deepseek-r1:32b", "deepseek-r1:8b"):
+        for cand in ("deepseek-r1:14b", "gpt-oss:20b", "nemotron-3-nano:4b"):
             if cand in installed:
                 return cand
     elif task in ("code-14b", "code-arch-14b", "rapid-refactor", "coder-14b"):
@@ -190,33 +190,33 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
             if cand in installed:
                 return cand
     elif task in ("long", "long-context", "summarize-long", "log-analysis", "128k-summary", "nemo", "compact"):
-        for cand in ("mistral-nemo:12b", "qwen2.5:32b", "qwen2.5:7b", "llama3.1:8b"):
+        for cand in ("mistral-nemo:12b", "qwen3-coder:30b", "qwen2.5:7b", "llama3.1:8b"):
             if cand in installed:
                 return cand
     elif task in ("business", "executive", "proposals", "editorial", "client-comms", "gemma2"):
-        for cand in ("gemma2:9b", "llama3.1:8b", "qwen2.5:32b", "qwen2.5:7b"):
+        for cand in ("gemma2:9b", "llama3.1:8b", "qwen3-coder:30b", "qwen2.5:7b"):
             if cand in installed:
                 return cand
 
     # Tier 5: Workhorse Domain Specialists (7B-8B)
     elif task in ("blender", "bpy", "procedural-mesh", "geometry-nodes", "blenderllm"):
-        for cand in ("blenderllm:7b-q4", "blender-architect:latest", "qwen2.5:72b-iq2", "qwen2.5-coder:7b"):
+        for cand in ("blenderllm:7b-q4", "blender-architect:latest", "gpt-oss:20b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task in ("blender-arch", "sdf-remesh", "xray-ogf", "game-mesh", "blender-game-ready", "blender-architect"):
-        for cand in ("blender-architect:latest", "blenderllm:7b-q4", "qwen2.5:72b-iq2", "qwen2.5-coder:7b"):
+        for cand in ("blender-architect:latest", "blenderllm:7b-q4", "gpt-oss:20b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task in ("vision-13b", "llava", "vision-sota", "diagram-audit", "ui-audit"):
-        for cand in ("llava:13b", "minicpm-v:8b", "moondream:latest"):
+        for cand in ("minicpm-v:8b"):
             if cand in installed:
                 return cand
     elif task in ("vision", "vlm", "screen-telemetry", "hud", "render-inspect", "minicpm"):
-        for cand in ("llava:13b", "minicpm-v:8b", "moondream:latest"):
+        for cand in ("minicpm-v:8b"):
             if cand in installed:
                 return cand
     elif task in ("fast-vision", "vlm-crop", "bounding-box", "quick-image-qa", "moondream"):
-        for cand in ("moondream:latest", "minicpm-v:8b", "llava:13b"):
+        for cand in ("minicpm-v:8b"):
             if cand in installed:
                 return cand
     elif task in ("code-repo", "repo-ast", "codegeex", "repo-level", "whole-repo"):
@@ -224,11 +224,11 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
             if cand in installed:
                 return cand
     elif task in ("csharp", "cs", "dotnet", "avalonia", "xaml", "granite"):
-        for cand in ("granite-code:8b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
+        for cand in ("granite-code:8b", "gpt-oss:20b", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task in ("rust", "cargo", "borrow-checker", "systems-rust", "starcoder"):
-        for cand in ("starcoder2:7b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
+        for cand in ("starcoder2:7b", "gpt-oss:20b", "qwen2.5-coder:32b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task in ("python", "py", "pytest", "data-pipeline", "codellama"):
@@ -236,7 +236,7 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
             if cand in installed:
                 return cand
     elif task in ("translate", "localization", "dialogue", "stalker-xml", "i18n", "aya"):
-        for cand in ("aya:8b", "qwen2.5:32b", "qwen2.5:7b", "llama3.1:8b"):
+        for cand in ("aya:8b", "qwen3-coder:30b", "qwen2.5:7b", "llama3.1:8b"):
             if cand in installed:
                 return cand
     elif task in ("sql", "database", "schema", "sqlite", "sqlcoder", "ddl"):
@@ -248,31 +248,31 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
             if cand in installed:
                 return cand
     elif task in ("conversation", "chat", "brainstorm", "dialogue-design", "llama3.1"):
-        for cand in ("llama3.1:8b", "qwen2.5:32b", "gemma2:9b"):
+        for cand in ("llama3.1:8b", "qwen3-coder:30b", "gemma2:9b"):
             if cand in installed:
                 return cand
     elif task in ("math", "quaternion", "slerp", "linear-algebra", "mathstral"):
-        for cand in ("mathstral:7b", "wizard-math:7b", "phi4:14b", "deepseek-r1:14b"):
+        for cand in ("gpt-oss:20b", "phi4:14b", "deepseek-r1:14b"):
             if cand in installed:
                 return cand
     elif task in ("competition-math", "matrix-transform", "geometry", "wizard-math"):
-        for cand in ("wizard-math:7b", "mathstral:7b", "phi4:14b", "deepseek-r1:14b"):
+        for cand in ("gpt-oss:20b", "phi4:14b", "deepseek-r1:14b"):
             if cand in installed:
                 return cand
     elif task in ("reason-8b", "logic-proof", "boundary-check", "r1-8b"):
-        for cand in ("deepseek-r1:8b", "deepseek-r1:14b", "deepseek-r1:1.5b"):
+        for cand in ("nemotron-3-nano:4b", "deepseek-r1:14b", "deepseek-r1:1.5b"):
             if cand in installed:
                 return cand
     elif task in ("web", "frontend", "tailwind", "html-css-ui", "qwen7b"):
-        for cand in ("qwen2.5:7b", "qwen2.5:32b", "gemma2:9b", "qwen2.5-coder:32b"):
+        for cand in ("qwen2.5:7b", "qwen3-coder:30b", "gemma2:9b", "qwen2.5-coder:32b"):
             if cand in installed:
                 return cand
     elif task in ("test", "unit-test", "code", "cpp", "c++", "qwen-coder", "code-workhorse"):
-        for cand in ("qwen2.5-coder:7b", "deepseek-coder:6.7b-instruct", "qwen2.5-coder:14b", "qwen2.5:72b-iq2"):
+        for cand in ("qwen2.5-coder:7b", "deepseek-coder:6.7b-instruct", "qwen2.5-coder:14b", "gpt-oss:20b"):
             if cand in installed:
                 return cand
     elif task in ("systems-posix", "linux-kernel", "c-lowlevel", "posix", "deepseek-coder"):
-        for cand in ("deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b", "qwen2.5:72b-iq2"):
+        for cand in ("deepseek-coder:6.7b-instruct", "qwen2.5-coder:7b", "gpt-oss:20b"):
             if cand in installed:
                 return cand
 
@@ -294,7 +294,7 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
             if cand in installed:
                 return cand
     elif task in ("fast-reason", "fast-cot", "fast-assertion", "sanity-proof", "r1-1.5b"):
-        for cand in ("deepseek-r1:1.5b", "deepseek-r1:8b", "phi3.5:latest"):
+        for cand in ("deepseek-r1:1.5b", "nemotron-3-nano:4b", "phi3.5:latest"):
             if cand in installed:
                 return cand
 
@@ -310,11 +310,11 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
 
     # General Fallbacks
     elif task in ("plan", "architect", "roadmap", "decompose"):
-        for cand in ("deepseek-r1:70b-iq2", "qwen2.5:72b-iq2", "llama3.3:70b-iq2", "qwen2.5-coder:32b", "deepseek-r1:32b", "qwen2.5:32b", "deepseek-coder-v2:16b", "qwen2.5-coder:14b", "deepseek-r1:14b", "phi4:14b", "qwen2.5-coder:7b"):
+        for cand in ("gpt-oss:20b", "qwen3-coder:30b", "qwen2.5-coder:32b", "deepseek-coder-v2:16b", "qwen2.5-coder:14b", "deepseek-r1:14b", "phi4:14b", "qwen2.5-coder:7b"):
             if cand in installed:
                 return cand
     elif task in ("reason", "cot", "proof"):
-        for cand in ("deepseek-r1:70b-iq2", "deepseek-r1:32b", "deepseek-r1:14b", "deepseek-r1:8b", "phi4:14b", "deepseek-r1:1.5b"):
+        for cand in ("gpt-oss:20b", "deepseek-r1:14b", "nemotron-3-nano:4b", "phi4:14b", "deepseek-r1:1.5b"):
             if cand in installed:
                 return cand
     elif task in ("fast", "quick"):
@@ -377,6 +377,7 @@ def record_local_llm_savings(model: str, prompt_eval: int, eval_count: int, has_
         Path.home() / ".cli_power_setup" / "token_ledger.json",
         Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/token_ledger.json")
     ]
+    ledger_paths = list({str(q.resolve()): q for q in ledger_paths}.values())   # ~/.cli_power_setup/token_ledger.json is a symlink to the repo copy: write once, not twice
     for ledger_p in ledger_paths:
         try:
             if not ledger_p.parent.exists():

@@ -1,0 +1,23 @@
+---
+name: game-physics-math-ballistics
+description: 3D/4D linear algebra, quaternions, Euler HPB, Open Dynamics Engine (ODE) solvers, and ballistics ODEs.
+---
+
+# Game Physics, Math & Ballistics (`game-physics-math-ballistics`)
+
+Mathematical foundations of 3D game engines: coordinate transforms, quaternion kinematics, constraint solvers, and ballistics.
+
+## Mathematical Core
+- **Coordinate Basis Transforms:** Matrix conversions between UE5 (Z-up, Left-handed), Blender (Z-up, Right-handed), and X-Ray (Y-up, Right-handed).
+- **Quaternions:** Quaternion SLERP, Dual-Quaternion skeletal skinning, and Gimbal-lock free Euler conversions.
+- **ODE Physics Solvers:** Error Reduction Parameter (ERP) and Constraint Force Mixing (CFM) LCP solver scaling in Open Dynamics Engine.
+- **External Ballistics:** Runge-Kutta 4th order (RK4) integration for projectile air resistance, gravity drop, and terminal velocity.
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`game-engines-multiplatform`**: Modern Godot 4, Unreal Engine 5, Unity, Steamworks publishing, Steam Deck tuning, and Proton game dev.
+- **`game-audio-voice-engineering`**: Game audio Ogg Vorbis GSC comment headers, procedural SFX, spatial HRTF, ElevenLabs, and Piper TTS.
+- **`interactive-data-visualization-web`**: Browser-based interactive D3.js force graphs, Vis.js timelines, KaTeX, and reactive single-file micro-apps.
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

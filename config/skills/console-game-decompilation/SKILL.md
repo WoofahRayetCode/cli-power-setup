@@ -1,123 +1,21 @@
 ---
 name: console-game-decompilation
-description: Console game decompilation, matching reverse engineering, and disassembly workflows for PS1, PS2, PS3, original Xbox, Xbox 360, and retro platforms (MIPS, PowerPC, x86). Covers container inspection (PS-X EXE, ELF, XBE, XEX), binary splitting (splat), compiler matching, and objdiff verification.
+description: Matching binary decompilation for console ROMs and retro binaries using Splat, m2c, and objdiff.
 ---
 
-# Console Game Decompilation & Matching Reverse Engineering
+# Console Game Matching Decompilation (`console-game-decompilation`)
 
-This skill provides specialized workflows for decompiling, disassembling, and reverse engineering console game executables into clean, compilable C/C++ source code ("matching decompilations") for game preservation, native PC ports, and engine modding.
+Matching decompilation workflows for console binaries (N64, PS1, PS2, GameCube, GBA, Switch).
 
----
+## Tooling & Verification
+- **Binary Splitting:** Configure `splat.yaml` with segment definitions, text, data, and rodata addresses.
+- **Assembly-to-C:** Transpile assembly snippets into candidate C functions via `m2c`.
+- **Instruction Matching:** Verify exact compiler match against original ROM hashes using `objdiff-cli`.
+- **Analyzer Script:**
+  `python3 config/skills/console-game-decompilation/scripts/console_binary_analyzer.py`
 
-## 🎮 1. Supported Console Platforms & Architectures
-
-| Console | Primary CPU / Architecture | Executable Container | Native Compiler Toolchain | Ghidra / IDA Target |
-| :--- | :--- | :--- | :--- | :--- |
-| **PlayStation 1 (PS1)** | MIPS I (R3000A, 33.8 MHz) + GTE | `PS-X EXE` (`.exe`, `.bin`) | GCC 2.6.x – 2.95.2 (Psy-Q) | `MIPS:LE:32:default` |
-| **PlayStation 2 (PS2)** | MIPS III / R5900 (EE, 294 MHz) + VU0/VU1 | ELF32 (`.elf`), IOP modules (`.irx`) | EE-GCC, Metrowerks CodeWarrior, SN ProDG | `MIPS:LE:32:R5900` (Ghidra EE plugin) |
-| **PlayStation 3 (PS3)** | Cell Broadband Engine (PPE PPC64 + 8 SPEs) | SELF / Decrypted ELF64 (`.elf`, `.sprx`)| GCC Cell SDK, SN Systems SNC | `PowerPC:BE:64:default` & `SPU` |
-| **Original Xbox** | x86-32 (Intel Pentium III Coppermine) | `XBE` (`default.xbe`) | Microsoft Visual C++ 6.0 – 2003 | `x86:LE:32:default` (Ghidra XBE Loader) |
-| **Xbox 360** | PowerPC 64 (Xenon 3-core 6-thread) + VMX128 | `XEX` / `XEX2` (`default.xex`) | Microsoft Visual C++ 2005 – 2010 (XDK) | `PowerPC:BE:64:A2` (Ghidra Xenon extension)|
-| **GameCube / Wii** | PowerPC 750 (Gekko 485 MHz / Broadway 729 MHz)| DOL (`default.dol`) | Metrowerks CodeWarrior (GC 1.0 – 2.7) | `PowerPC:BE:32:Gekko_Broadway` |
-
----
-
-## ⚡ 2. Console Binary Inspection CLI
-
-Analyze console executables and generate matching decompilation split templates:
-
-```bash
-# Identify console binary format, architecture, load address & entry point
-python3 config/skills/console-game-decompilation/scripts/console_binary_analyzer.py SLUS_000.01
-
-# Inspect Xbox XBE or Xbox 360 XEX with JSON telemetry
-python3 config/skills/console-game-decompilation/scripts/console_binary_analyzer.py default.xbe --json
-
-# Generate splat-compatible split configuration YAML for automated disassembly
-python3 config/skills/console-game-decompilation/scripts/console_binary_analyzer.py game.elf --splat --out-dir decomp_project/
-```
-
----
-
-## 🔬 3. The Matching Decompilation Pipeline
-
-Matching decompilation guarantees that compiled C code produces the exact byte-for-byte binary hash of the original game executable.
-
-```
-┌─────────────────┐      ┌───────────────┐      ┌─────────────────┐
-│ Original Binary │ ───> │ splat Splitting│ ───> │ Disassembled .s │
-└─────────────────┘      └───────────────┘      └─────────────────┘
-                                                        │
-┌─────────────────┐      ┌───────────────┐              ▼
-│ Matched .c Code │ <─── │ objdiff /     │ <─── Reconstruct C code
-│ (Byte-identical)│      │ decomp.me     │      in target compiler
-└─────────────────┘      └───────────────┘
-```
-
-### Step 1: Binary Splitting (`splat`)
-Partition the executable into manageable chunks:
-* `.text`: Code functions (split into per-function assembly `.s` files).
-* `.rodata`: Read-only string tables, jump tables, and floating-point constants.
-* `.data`: Initialized global variables and function pointer tables.
-* `.bss`: Uninitialized RAM allocations.
-
-### Step 2: Compiler Archeology & Optimization Discovery
-Ancient compilers had distinct code generation quirks. Identify the original compiler via build strings and metadata:
-* **PS1 Psy-Q GCC:** Look for `-O2 -G0`, register allocation order (`$v0`, `$v1`, `$a0`–`$a3`, `$t0`–`$t7`), and branch delay slot reordering. Use `maspsx` to eliminate modern gas assembler divergence.
-* **PS2 CodeWarrior vs EE-GCC:** CodeWarrior favors aggressive inlining and paired SIMD loads (`lq`/`sq`). EE-GCC strictly respects 128-bit 16-byte alignment on VU structures.
-* **GameCube CodeWarrior:** Note `-O4,p` global optimization and floating-point paired single instructions (`ps_merge00`, `psq_l`).
-* **Original Xbox MSVC:** Kernel imports are resolved by 16-bit ordinal numbers via the Xbox Hal import table rather than string names.
-
-### Step 3: Iterative Function Matching with `objdiff`
-1. Load original disassembly and target compiled object into `objdiff` or `decomp.me`.
-2. Reconstruct C function body until register allocation, branch instructions, and stack frames match 100%.
-3. **Common Mismatch Traps:**
-   * Stack frame size mismatch: Missing local variables or incorrect struct alignment.
-   * Register allocation swaps: Evaluation order of function arguments or sub-expressions.
-   * Branch condition inversions: `if (a && b)` vs nested `if (a) { if (b) }`.
-
----
-
-## 🛠️ 4. Installed Local Toolchain Ecosystem
-
-The following native tools are installed and ready for immediate CLI usage:
-
-* **`objdiff`:** Local visual and CLI diff engine highlighting registers, instructions, and relocations in real time.
-  ```bash
-  objdiff cli diff --target build/func.o --base orig/func.o
-  ```
-* **`splat` (`splat64`):** Binary splitting framework to partition ROMs/ELFs into `.s`, `.c`, and asset chunks.
-  ```bash
-  splat split split.yaml
-  ```
-* **`m2c` (`mips-to-c`):** High-performance assembly-to-C translator supporting MIPS, PS2 Emotion Engine, PowerPC, and ARM.
-  ```bash
-  # PS2 Emotion Engine assembly to C scaffolding
-  m2c -t mipsee -f CalculatePhysics asm/physics.s
-
-  # GameCube / Wii / Xbox 360 PowerPC assembly to C
-  m2c -t ppc -f ProcessMatrix asm/matrix.s
-
-  # PS1 MIPS I assembly to C
-  m2c -t mips -f InitGame asm/init.s
-  ```
-* **`rizin` & `rz-ghidra`:** Offline headless Ghidra decompilation and disassembly engine.
-  ```bash
-  # Decompile function at entry point via rz-ghidra
-  rizin -q -A -c "s main; pdc" game.elf
-  ```
-* **Ghidra Processors (External GUI):**
-  * PS2: `ghidra-emotionengine` (supports R5900 128-bit registers, VU0/VU1 microcode).
-  * PS3: `Ghidra-Cell-SPU` (Cell Synergistic Processing Element assembly analysis).
-  * Xbox / Xbox 360: `ghidra-xbe` & `ghidra-xex` loaders.
-
----
-
-## 🔄 Interoperability & Handoffs
-
-* **Handoff to `emulator-development-engineering`:** Verifies reconstructed function logic against emulator CPU interpreters and MMU mappings.
-* **Handoff to `binary-re-workflows`:** Coordinates Ghidra headless scripts and symbol export.
-* **Handoff to `token-economy`:** Offloads massive disassembly text files and splat YAML split tables to disk.
-
-## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
-- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+## Related & Interoperating Skills
+- **`console-emulation-toolchains`**: Console homebrew toolchains (devkitPro, libnx, devkitARM), emulator optimization (Ryujinx, RetroArch), and Obt...
+- **`console-storage-package-tools`**: FAT32 32KB cluster alignment, NSP/NSZ compression, XCI trimming, title ID mapping, and hactoolnet extraction.
+- **`client-memory-anti-tamper-re`**: Game memory scanning, pointer paths, XOR masking, DLL proxy generation, anti-debugging, and rr replay.
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

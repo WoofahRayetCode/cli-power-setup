@@ -399,6 +399,16 @@ def get_cache_savings_claude(transcript_path):
     hit_pct = int(round((total_cached / total_in) * 100)) if total_in > 0 else 0
     return total_cached, hit_pct
 
+def _bar(pct, width=10):
+    """filled/empty bar for a 0-100 value (visual, calm, no colour flashing)"""
+    try: n = max(0, min(width, int(round(width * float(pct) / 100.0))))
+    except Exception: n = 0
+    return "\u25b0" * n + "\u25b1" * (width - n)
+def _prefs():
+    try:
+        import json as _j; return _j.load(open(os.path.expanduser("~/.claude/status_prefs.json")))
+    except Exception:
+        return {}
 def main():
     if len(sys.argv) > 1 and sys.argv[1] == "--refresh":
         refresh_now()
@@ -462,7 +472,7 @@ def main():
                         r_str = f" (reset {dt.strftime('%H:%M')})"
                     except Exception:
                         pass
-                c_5h_str = f"5h: {c_5h_val}%{r_str}"
+                c_5h_str = f"5h: {_bar(c_5h_val)} {c_5h_val}%{r_str}"
 
         seven_d = rate_limits.get("seven_day", {})
         c_wk_val = None
@@ -486,11 +496,11 @@ def main():
                     except Exception:
                         pass
                 safe_tag = " 🛡️ Safe Mode" if c_wk_val <= 50 else ""
-                c_wk_str = f"Wk: {c_wk_val}%{rw_str}{safe_tag}"
+                c_wk_str = f"Wk: {_bar(c_wk_val)} {c_wk_val}%{rw_str}{safe_tag}"
 
         quota = get_quota_info()
-        quota_5h_seg = c_5h_str if c_5h_str else f"5h: {quota.get('claude_5h', '100%')} (reset active)"
-        quota_wk_seg = c_wk_str if c_wk_str else f"Wk: {quota.get('claude_wk', '90%')} (reset Fri 14:59)"
+        quota_5h_seg = c_5h_str if c_5h_str else f"5h: ~{quota.get('claude_5h', '100%')} (no live data)"
+        quota_wk_seg = c_wk_str if c_wk_str else f"Wk: ~{quota.get('claude_wk', '90%')} (no live data)"
 
         if c_5h_val is not None or c_wk_val is not None:
             try:
@@ -513,13 +523,13 @@ def main():
         ctx_seg = None
         if raw_tok is not None:
             pct_val = float(used_pct) if used_pct is not None else min(100.0, (raw_tok / 200_000.0) * 100.0)
-            bar = make_bar(pct_val, width=6)
+            bar = _bar(pct_val)
             tok_str = fmt_tok(raw_tok)
             if raw_tok >= 80_000:
-                ctx_seg = f"🧠 Ctx: [{bar}] {pct_val:.0f}% ({tok_str} ⚠️ Gate 80k • /compact)"
+                ctx_seg = f"🧠 Ctx: {bar} {pct_val:.0f}% ({tok_str} ⚠️ Gate 80k • /compact)"
             else:
                 rem_gate = fmt_tok(80_000 - raw_tok)
-                ctx_seg = f"🧠 Ctx: [{bar}] {pct_val:.0f}% ({tok_str} • 🧹{rem_gate} to gate)"
+                ctx_seg = f"🧠 Ctx: {bar} {pct_val:.0f}% ({tok_str} • 🧹{rem_gate} to gate)"
 
         save_seg = None
         transcript_path = payload.get("transcript_path")
@@ -581,14 +591,14 @@ def main():
             cur_ctx = telem["current_ctx"]
             # Argon context window is 1,000,000 tokens
             ctx_pct = min(100.0, (cur_ctx / 1_000_000.0) * 100.0)
-            bar = make_bar(ctx_pct, width=6)
+            bar = _bar(ctx_pct)
             tok_str = fmt_tok(cur_ctx)
             
             if cur_ctx >= 250_000:
-                ctx_seg = f"🧠 Ctx: [{bar}] {ctx_pct:.0f}% ({tok_str} ⚠️ Gate 250k • /compact)"
+                ctx_seg = f"🧠 Ctx: {bar} {ctx_pct:.0f}% ({tok_str} ⚠️ Gate 250k • /compact)"
             else:
                 rem_gate = fmt_tok(250_000 - cur_ctx)
-                ctx_seg = f"🧠 Ctx: [{bar}] {ctx_pct:.0f}% ({tok_str} • 🧹{rem_gate} to gate)"
+                ctx_seg = f"🧠 Ctx: {bar} {ctx_pct:.0f}% ({tok_str} • 🧹{rem_gate} to gate)"
 
             # Cumulative cache savings (Active Session)
             tot_c = telem["total_cached"]
@@ -743,6 +753,75 @@ def main():
     if cs_fleet_segs:
         lines.append(wrap_segments(cs_fleet_segs, max_width=term_width, sep=" • "))
 
+    # compact view (default): drop rows that repeat what the machine row / quota row already show (routing cheat-sheet, skill lists, temps/VRAM line, AST gate)
+    try:
+        if _prefs().get("compact", True):
+            lines = [l for l in lines if "AST Skeleton" not in l and not l.startswith(("\U0001f9ed", "\U0001f528", "\U0001f6e1", "\U0001f6e0", "\U0001f321", "\U0001f680"))]
+    except Exception:
+        pass
+    # live session facts straight from Claude Code's own payload + transcript: cost, time, lines, context size (local, no tokens)
+    try:
+        facts = []
+        cost = payload.get("cost", {}) if isinstance(payload, dict) else {}
+        if cost.get("total_duration_ms"): facts.append(f"\u23f1 {int(cost['total_duration_ms'] / 60000)}m")
+        if cost.get("total_lines_added") is not None: facts.append(f"\u00b1 +{cost.get('total_lines_added', 0)}/-{cost.get('total_lines_removed', 0)} lines")
+        tp = payload.get("transcript_path") if isinstance(payload, dict) else None
+        if tp and os.path.exists(tp):
+            with open(tp, "rb") as fh:
+                fh.seek(0, 2); size = fh.tell(); fh.seek(max(0, size - 400000)); chunk = fh.read().decode("utf-8", "ignore")
+            last = None
+            for ln in chunk.splitlines():
+                if '"usage"' in ln and '"input_tokens"' in ln:
+                    try: u = json.loads(ln).get("message", {}).get("usage")
+                    except Exception: u = None
+                    if u: last = u
+            if last:
+                ctx = last.get("input_tokens", 0) + last.get("cache_read_input_tokens", 0) + last.get("cache_creation_input_tokens", 0)
+                win = (payload.get("context_window", {}) or {}).get("context_window_size") or 1000000
+                hit = 100.0 * last.get("cache_read_input_tokens", 0) / max(ctx, 1)
+                facts.append(f"out {last.get('output_tokens', 0)} tok")
+        if facts: lines.append(" | ".join(facts))
+    except Exception:
+        pass
+    # extra info rows (what the walker / director / Aisha are "thinking", machine metrics): ~/.claude/status_rows.txt, written by tools/ticker_daemon.py, local file only
+    try:
+        sr = os.path.expanduser("~/.claude/status_rows.txt")
+        if os.path.exists(sr) and time.time() - os.path.getmtime(sr) < 600:
+            for row in open(sr, encoding="utf-8").read().splitlines()[:3]:
+                if row.strip(): lines.append(row[:max(40, min(term_width, 220))])
+    except Exception:
+        pass
+    # bug ticker (second scrolling row): ~/.claude/bug_ticker.txt = bugs seen during testing and when they were fixed (tools/ticker_daemon.py + tools/bug.sh)
+    try:
+        bt = os.path.expanduser("~/.claude/bug_ticker.txt")
+        if os.path.exists(bt):
+            btxt = open(bt, encoding="utf-8").read().strip().replace("\n", "   ")
+            if btxt:
+                bw = max(20, min(term_width, 200) - 4); bpad = btxt + "    ***    "
+                if len(bpad) <= bw or _prefs().get("scroll") is False:
+                    bwin = (bpad[:bw - 1] + "\u2026") if len(bpad) > bw else bpad.ljust(bw)
+                else:
+                    boff = int(time.time() * 3) % len(bpad); bwin = (bpad + bpad)[boff:boff + bw]
+                lines.append("\U0001f41e " + bwin)
+    except Exception:
+        pass
+    # news ticker on the very last line: ~/.claude/ticker.txt (written by tools/ticker.sh) scrolls by wall-clock time; costs no tokens (local file only)
+    try:
+        tk = os.path.expanduser("~/.claude/ticker.txt")
+        if os.path.exists(tk) and time.time() - os.path.getmtime(tk) < 6 * 3600:
+            txt = open(tk, encoding="utf-8").read().strip().replace("\n", "  ///  ")
+            if txt:
+                width = max(20, min(term_width, 200) - 4)
+                pad = txt + "    ***    "
+                if len(pad) <= width or _prefs().get("scroll") is False:   # calm mode: no moving text
+                    pad = pad[:width - 1] + "\u2026" if len(pad) > width else pad
+                    win = pad.ljust(width)
+                else:
+                    off = int(time.time() * 3) % len(pad)
+                    win = (pad + pad)[off:off + width]
+                lines.append("\u25b8 " + win)
+    except Exception:
+        pass
     print("\n".join(line for line in lines if line))
 
 
@@ -997,7 +1076,7 @@ CLI_TO_SKILL_MAP = {
     "local-ast-compiler": "argon-ast-syntax-gate",
     "local-rag": "local-vector-rag-engine",
     "local-coprocessor": "local-model-coprocessor",
-    "slice-reader": "selective-context-ingestor",
+    "slice-reader": "smart-context-packer",
     "token-guard": "shell-output-token-guard",
     "skills-audit-update": "skills-updater-and-auditor",
     "blender": "blender-3d-engineering",
@@ -1087,17 +1166,15 @@ def get_live_active_skills(cwd: str, is_claude: bool = False) -> list[str]:
     # 3. If in Claude mode, sanitize away any Gemini / Argon skills
     if is_claude:
         claude_equiv_map = {
-            "argon-adversarial-verification-gate": "claude-adversarial-verification-gate",
-            "argon-thinking-governor": "claude-thinking-budget-governor",
-            "argon-context-cache-guard": "claude-prompt-cache-sentinel",
-            "gemini-flash-cache-aligner": "claude-prompt-cache-sentinel",
-            "argon-long-haul-context-compaction-gate": "claude-context-rot-shield",
-            "argon-yolo-quota-pacing-watchdog": "claude-yolo-quota-watchdog",
-            "gemini-5h-quota-governor": "claude-yolo-quota-watchdog",
+            "argon-adversarial-verification-gate": "verification-before-completion",
+            "argon-thinking-governor": "adaptive-reasoning",
+            "argon-context-cache-guard": "prompt-cache-context-optimizer",
+            "gemini-flash-cache-aligner": "prompt-cache-context-optimizer",
+            "gemini-5h-quota-governor": "claude-ultimate-quota-sentinel",
             "argon-dynamic-subagent-swarm": "subagent-swarm-orchestrator",
             "argon-ast-syntax-gate": "local-preflight-syntax-gate",
-            "argon-tool-calling-densifier": "claude-silent-dispatch",
-            "argon-subagent-dispatch-routing": "subagent-swarm-orchestrator",
+            "argon-tool-calling-densifier": "token-economy",
+            "argon-atomic-diff-sequencer": "token-economy",
         }
         sanitized = []
         for s in found_skills:

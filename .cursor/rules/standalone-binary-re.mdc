@@ -1,140 +1,21 @@
 ---
-description: Standalone binary reverse engineering without external MCP servers. Uses native Linux CLI utilities (objdump, readelf, nm, jadx, gdb, strings, xxd) and Python (pefile, struct) for fast, zero-dependency disassembly, symbol analysis, and APK decompilation.
+description: Native Linux zero-MCP reverse engineering: objdump, readelf, nm, rizin, gdb, JADX, and PE/ELF headers.
 globs: 
 alwaysApply: false
 ---
 
-# Standalone Binary Reverse Engineering (Zero-MCP)
+# Standalone Binary Reverse Engineering (`standalone-binary-re`)
 
-This skill provides a complete, self-contained reverse engineering workflow using native Linux CLI tools and standard Python libraries. Use this when the REA MCP server is offline, when working in lightweight environments, or for fast single-binary checks without MCP overhead.
+Zero-MCP native Linux binary analysis, disassembly, symbol extraction, and APK decompilation.
 
----
-
-## 🛠️ Toolchain Matrix
-
-| Target Format | Primary Tool | Command Pattern | Key Outputs |
-| :--- | :--- | :--- | :--- |
-| **Linux ELF (`.so`, `.ko`, exec)** | `readelf` + `objdump` | `readelf -Ws <elf>`, `objdump -d -M intel` | Symbols, PLT/GOT relocations, assembly |
-| **Windows PE (`.exe`, `.dll`, ASI)** | Python `pefile` + `objdump` | Python script, `objdump -p <pe>` | Imports, Exports, Section entropy, RVA |
-| **Android (`.apk`, `.dex`, `.jar`)** | `jadx` CLI | `jadx -d <outdir> --show-bad-code <apk>` | Readable Java classes, AndroidManifest.xml |
-| **Game Archives & Custom Binaries** | `hexdump` / `strings` / Python | `xxd -l 128`, `strings -n 6` | Magic headers, section offsets, ASCII/UTF strings |
-| **Dynamic / Memory Inspection** | `gdb` (batch mode) | `gdb -batch -ex "disas main" <binary>` | Function frame analysis, register mappings |
-
----
-
-## 1. Linux ELF Analysis (`readelf` & `objdump`)
-
-### Quick Identification
-```bash
-file target.so
-readelf -h target.so | grep -E "Class|Machine|Entry"
-```
-
-### Exported & Imported Symbols
-```bash
-# Clean demangled dynamic symbols
-nm -D --demangle target.so | grep -E " [T|t] "
-
-# Detailed symbol table with binding and visibility
-readelf -Ws --demangle target.so | grep -E "FUNC|OBJECT"
-```
-
-### Relocations & PLT/GOT
-```bash
-readelf -r target.so
-```
-
-### Targeted Function Disassembly (Token-Safe)
-Never dump entire binaries into terminal output. Disassemble only target functions:
-```bash
-objdump -d -M intel --no-show-raw-insn target.so | sed -n '/<target_function>:/,/^$/p' | head -n 50
-```
-
----
-
-## 2. Windows PE & DLL Analysis (`pefile` & Python)
-
-Inspect Windows executables and game DLLs (e.g. S.T.A.L.K.E.R., GTA, Unity plugins) using Python:
-
-### Extract Exports, Imports, and Sections
-```python
-import pefile
-
-pe = pefile.PE("target.dll")
-
-# Print section headers
-for section in pe.sections:
-    print(f"{section.Name.decode().strip()}: VSize={hex(section.Misc_VirtualSize)} RawSize={hex(section.SizeOfRawData)}")
-
-# Print imported DLLs and functions
-if hasattr(pe, "DIRECTORY_ENTRY_IMPORT"):
-    for entry in pe.DIRECTORY_ENTRY_IMPORT:
-        print(f"Import from {entry.dll.decode()}:")
-        for imp in entry.imports[:5]:
-            print(f"  {hex(imp.address)}: {imp.name.decode() if imp.name else ord(imp.ordinal)}")
-
-# Print exported functions
-if hasattr(pe, "DIRECTORY_ENTRY_EXPORT"):
-    for exp in pe.DIRECTORY_ENTRY_EXPORT.symbols:
-        print(f"Export: {exp.name.decode() if exp.name else 'ord_' + str(exp.ordinal)} @ RVA {hex(exp.address)}")
-```
-
----
-
-## 3. Android APK & DEX Decompilation (`jadx` CLI)
-
-Decompile Android packages directly to structured Java source without intermediate MCP servers:
-
-### Fast Targeted Decompilation
-```bash
-# Decompile whole APK (sources only, skips heavy media/assets)
-jadx -d ./decompiled_src --no-res --show-bad-code target.apk
-
-# Decompile specific class only
-jadx -d ./decompiled_src --single-class "com.example.app.MainActivity" target.apk
-
-# Extract AndroidManifest.xml only
-jadx -d ./decompiled_manifest --no-src target.apk
-```
-
----
-
-## 4. Header & Magic Signature Probing
-
-Probe unknown proprietary game assets, archive containers, or firmware:
-
-```bash
-# Examine the first 128 bytes with hex and ASCII
-hexdump -C -n 128 target.bin
-
-# Search for embedded human-readable strings
-strings -n 8 target.bin | head -n 30
-```
-
-### Python Binary Struct Unpacker
-```python
-import struct
-
-with open("target.dat", "rb") as f:
-    header = f.read(16)
-    # Example: 4-byte magic, uint32 version, uint32 file_count, uint32 data_offset
-    magic, version, count, offset = struct.unpack("<4sIII", header)
-    print(f"Magic: {magic}, Version: {version}, Files: {count}, Offset: {hex(offset)}")
-```
-
----
-
-## 5. Token Protection & Subagent Rules
-
-1. **Never Echo Massive Disassemblies:** Pipe disassembler output to temporary files or grep for specific symbol signatures.
-2. **Subagent Delegation for Large Targets:** When reverse engineering large APKs or multi-megabyte shared objects, invoke a `research` subagent to analyze the code and report back only high-level structs, function signatures, and logic summaries.
-3. **Always Note Offsets:** Record verified file offsets and RVAs for any discovered patches or hooks.
-
-## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
-- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+## CLI Toolsuite
+- **Disassembly & Inspection:** `objdump -d -M intel`, `readelf -h -S -s`, `nm -C -D`, `rizin -A`, `strings -a`, `xxd`.
+- **PE & ELF Headers:** Large Address Aware verification, export directory parsing, and dynamic library import resolution:
+  `python3 config/skills/standalone-binary-re/scripts/pe_dependency_check.py`
+- **Android APKs:** Decompile classes and dex structures via `jadx -d out/ target.apk`.
 
 ## Related & Interoperating Skills
-- **`binary-re-workflows`**: Orchestrates reverse engineering tools (REA MCP, Ghidra, JADX, TShark, objdump, hex analysis) with Superpowers...
-- **`lowlevel-dll-internals`**: Windows PE/DLL internals, assembly-level disassembly, vtable reconstruction, calling convention alignment (__t...
-- **`rea-mcp-obligation-ledger-orchestrator`**: Orchestrates the Reverse Engineer Anything (REA) MCP server obligation ledger, binary function diffing, and st...
+- **`reverse-engineer-anything`**: Reverse Engineer Anything (REA) MCP server integration, function diffing, and obligation ledgers.
+- **`windows-linux-cross-os-runtime-bridge`**: Native Linux and Windows 10/11 cross-OS runtime parity, Win32 APIs, PowerShell 7, and Wine/Proton.
+- **`adaptive-reasoning`**: Dynamic cognitive complexity routing and reasoning effort tuning between Flash and Argon (adaptive_model_route...
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -35,17 +35,17 @@ RESET = "\033[0m"
 
 FLEET_ROSTER = [
     # Tier 1: Ultra-Large Titan Fleet (70B-72B)
-    ("llama3.3:70b-iq2", "titan-agent", "Agent Swarm & Function Calling", "generate", "Plan subagent swarm"),
-    ("qwen2.5:72b-iq2", "titan-code", "Engine Porting & Systems C++20", "generate", "Optimize C++20 struct"),
-    ("deepseek-r1:70b-iq2", "titan-reason", "Deep CoT & 64-bit Struct Proofs", "generate", "Verify memory alignment"),
+    ("qwen3-coder:30b", "titan-agent", "Agent Swarm & Function Calling", "generate", "Plan subagent swarm"),
+    ("gpt-oss:20b", "titan-code", "Engine Porting & Systems C++20", "generate", "Optimize C++20 struct"),
+    ("gpt-oss:20b", "titan-reason", "Deep CoT & 64-bit Struct Proofs", "generate", "Verify memory alignment"),
 
     # Tier 2: 32B-47B Frontier Heavyweights & MoE
-    ("command-r:35b", "enterprise-agent", "Cohere 35B Enterprise Agent & RAG", "generate", "Generate structured tool schema"),
-    ("mixtral:8x7b", "moe-heavy", "Sparse MoE 47B Reasoning & C++ Engine", "generate", "Optimize memory cache alignment"),
-    ("mistral-small:24b", "mistral-small", "Mistral Small 3 24B Reasoning & Code", "generate", "Synthesize multi-file diff"),
+    ("qwen3-coder:30b", "enterprise-agent", "Cohere 35B Enterprise Agent & RAG", "generate", "Generate structured tool schema"),
+    ("qwen3-coder:30b", "moe-heavy", "Sparse MoE 47B Reasoning & C++ Engine", "generate", "Optimize memory cache alignment"),
+    ("gpt-oss:20b", "mistral-small", "Mistral Small 3 24B Reasoning & Code", "generate", "Synthesize multi-file diff"),
     ("qwen2.5-coder:32b", "code-frontier", "SWE-bench Code Planning & Refactors", "generate", "Refactor module API"),
-    ("qwen2.5:32b", "general-synthesis", "Full Repo Analysis & Technical Specs", "generate", "Draft architecture spec"),
-    ("deepseek-r1:32b", "reason-32b", "CoT Proofs & Algorithmic Triage", "generate", "Solve pointer boundary condition"),
+    ("qwen3-coder:30b", "general-synthesis", "Full Repo Analysis & Technical Specs", "generate", "Draft architecture spec"),
+    ("gpt-oss:20b", "reason-32b", "CoT Proofs & Algorithmic Triage", "generate", "Solve pointer boundary condition"),
 
     # Tier 3: Binary & MoE Engine Transpilers (16B-22B)
     ("llm4decompile:22b-q4", "decompile", "Assembly Decompilation & REA MCP", "generate", "Analyze x86 disassembly"),
@@ -59,12 +59,12 @@ FLEET_ROSTER = [
     ("gemma2:9b", "business", "Executive Communications & Proposals", "generate", "Draft client proposal"),
 
     # Tier 5: Workhorse Domain Specialists (7B-13B)
-    ("llava:13b", "vision-13b", "LLaVA 13B Multimodal Vision & UI Triage", "generate", "Check render frame anomalies"),
+    ("minicpm-v:8b", "vision-13b", "LLaVA 13B Multimodal Vision & UI Triage", "generate", "Check render frame anomalies"),
     ("codegeex4:9b", "code-repo", "Whole-Repository Code Intelligence & AST", "generate", "Index repository symbols"),
     ("blenderllm:7b-q4", "blender", "Procedural Blender bpy Scripting", "generate", "import bpy; # cube"),
     ("blender-architect:latest", "blender-arch", "Blender 5.2 SDF Remesh & OGF Export", "generate", "Generate organic SDF remesh script"),
     ("minicpm-v:8b", "vision", "Multimodal VLM Screenshot Triage", "generate", "Check render frame anomalies"),
-    ("moondream:latest", "fast-vision", "Lightweight Vision & Bounding Boxes", "generate", "Detect UI button"),
+    ("minicpm-v:8b", "fast-vision", "Lightweight Vision & Bounding Boxes", "generate", "Detect UI button"),
     ("granite-code:8b", "csharp", "Enterprise C# .NET 9 & Avalonia", "generate", "public class DataService {}"),
     ("starcoder2:7b", "rust", "Rust Systems & Borrow Checker Proofs", "generate", "fn calculate_hash() -> u64 { 0 }"),
     ("codellama:7b-python", "python", "Python 3.12 Automation & Pytest", "generate", "def test_pipeline(): assert True"),
@@ -72,9 +72,9 @@ FLEET_ROSTER = [
     ("sqlcoder:7b", "sql", "SQL Query Tuning & SQLite WAL Pragmas", "generate", "EXPLAIN QUERY PLAN SELECT"),
     ("hermes3:8b", "tool", "Agent Tool Calling & JSON Schemas", "generate", "Return JSON tool call"),
     ("llama3.1:8b", "conversation", "Multi-turn Agent Coordination", "generate", "Evaluate design tradeoff"),
-    ("mathstral:7b", "math", "Quaternions & 3D Vector Math", "generate", "Calculate quaternion SLERP"),
-    ("wizard-math:7b", "competition-math", "Competition Math & Matrix Geometry", "generate", "Derive rotation matrix"),
-    ("deepseek-r1:8b", "reason-8b", "Logic Proofs & Boundary Invariants", "generate", "Check boundary bounds"),
+    ("gpt-oss:20b", "math", "Quaternions & 3D Vector Math", "generate", "Calculate quaternion SLERP"),
+    ("gpt-oss:20b", "competition-math", "Competition Math & Matrix Geometry", "generate", "Derive rotation matrix"),
+    ("nemotron-3-nano:4b", "reason-8b", "Logic Proofs & Boundary Invariants", "generate", "Check boundary bounds"),
     ("qwen2.5:7b", "web", "Modern Web Tailwind CSS & HTML", "generate", "Generate dark mode card component"),
     ("qwen2.5-coder:7b", "test", "Workhorse C++/Py Unit Testing", "generate", "Generate test cases"),
     ("deepseek-coder:6.7b-instruct", "systems-posix", "POSIX C & Linux Low-level Internals", "generate", "Implement epoll listener"),

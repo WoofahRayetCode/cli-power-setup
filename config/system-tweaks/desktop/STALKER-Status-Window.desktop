@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=STALKER Status Window
+GenericName=Reopen the status line window
+Comment=Opens (or re-places) the dedicated status window next to a running Claude Code YOLO window, then applies the screen layout
+Exec=env KITTY_LISTEN_ON=unix:/tmp/kitty-yolo /home/ericparsley/Documents/GitHub/ogsr-complete-merge/tools/statuspane.sh --open
+Icon=claude-code
+Terminal=false
+Categories=Development;Utility;

@@ -1,53 +1,23 @@
 ---
 name: argon-adversarial-verification-gate
-description: Harnesses Gemini 4 Argon's deep reasoning capacity for formal adversarial self-critique, boundary-condition proofing, and confirmation-bias elimination prior to declaring tasks complete.
+description: Formal 4-stage pre-completion adversarial self-critique and boundary-condition proofing for Argon and Claude.
 ---
 
-# Argon Adversarial Verification Gate (`argon-adversarial-verification-gate`)
+# Adversarial Verification Gate (`argon-adversarial-verification-gate`)
 
-Large language models routinely suffer from "confirmation bias"—once an agent generates a code fix, it naturally seeks arguments confirming its own hypothesis rather than searching for flaws.
+Pre-completion formal quality gate for Gemini 4 Argon and Claude 3.7+ Sonnet/Opus to eliminate confirmation bias.
 
-Gemini 4 Argon possesses the deepest internal reasoning and chain-of-thought capacity in the Gemini family. This skill harnesses that deep reasoning budget specifically for **pre-completion adversarial self-auditing**, rigorously challenging fixes before presenting them to the user.
+## The 4-Stage Verification Gate
+1. **Stage 1: Invert the Fix (Devil's Advocate):** Hypothesize 2 ways the proposed fix could fail in production.
+2. **Stage 2: Boundary Condition Proofing:** Check null pointers, empty collections, 64-bit alignment, and thread concurrency.
+3. **Stage 3: Live Terminal Evidence Gate:** Execute actual automated test runners (`pytest`, `cargo test`, `cmake --build`) and verify exit code 0. Never claim complete without terminal evidence.
+4. **Stage 4: Token Economy Audit:** Verify that only surgical diffs were applied and templates were offloaded to disk.
 
----
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
 
-## 1. Adversarial Audit Protocol
-
-Before declaring any architectural refactor, low-level binary hook, or complex algorithmic task complete, execute a structured 3-part adversarial audit in internal reasoning:
-
-```
-+-------------------------------------------------------------+
-|                 ADVERSARIAL SELF-CRITIQUE                   |
-| 1. Boundary Condition Attack:                               |
-|    - What happens on empty input, 0-length buffers, or null?|
-| 2. Concurrency & Race Condition Audit:                      |
-|    - Does this hold under multithreaded engine execution?   |
-| 3. Memory & GC Lifetime Proof:                              |
-|    - Are pointers valid across frame boundaries?            |
-+-------------------------------------------------------------+
-```
-
----
-
-## 2. The 3 Counter-Example Rule
-
-When validating a complex modification:
-1. **Formulate 3 Hostile Edge Cases:** Explicitly hypothesize 3 specific scenarios designed to break the implementation (e.g. integer overflow, missing fallback branch, unhandled exception in Wine/Proton).
-2. **Verify Immunity:** Trace execution through the proposed code against each hostile edge case.
-3. **Evidence-Based Acceptance:** Only accept the solution if all 3 hostile scenarios are demonstrably handled or proven mathematically impossible under the system constraints.
-
----
-
-## 3. Scope of Activation
-
-- **Activate For:**
-  - C++ 64-bit pointer/struct alignment.
-  - LuaJIT GC64 memory boundary bridges.
-  - Multi-threaded file I/O and game loop hooks.
-  - Cryptographic and token parsing logic.
-- **Bypass For:**
-  - Routine typo fixes, static documentation updates, and standard git operations (to conserve reasoning quota under `argon-effort-auto-calibrator`).
-
-## Windows 10/11 & Cross-Platform CLI Interop (`windows-linux-cross-os-runtime-bridge`)
-- **Cross-OS Deployment (`install.ps1` & `install.sh`):** All CLI tools (`agy-cheatsheet` / `cs`, `repo-auto-sync`, `skill-evolve`, `skills-audit-update`, `adaptive-model-router`) run natively on Windows 10/11 via `.cmd`/PowerShell shims in `$HOME\.local\bin` and use `Path(tempfile.gettempdir())` instead of hardcoded `/tmp`.
-- **Multi-Agent Split Terminal:** On Windows 10/11, use **Windows Terminal (`wt.exe`)** split panes (`wt -p "PowerShell" \; split-pane -V ...`) in place of Linux `tmux`/`kitty`, and `sccache` / MSVC `/MP` for shared build caching across git worktrees.
+## Related & Interoperating Skills
+- **`token-economy`**: Output token containment: zero conversational fluff, high-density status, silent tools, and surgical diffs.
+- **`adaptive-reasoning`**: Dynamic cognitive complexity routing and reasoning effort tuning between Flash and Argon (adaptive_model_route...
+- **`first-principles-reasoning`**: First-principles debugging, 3-branch Tree-of-Thought deliberation, Ockham's razor, and Chain-of-Verification.
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

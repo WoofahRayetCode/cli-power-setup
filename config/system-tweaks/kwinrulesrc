@@ -1,0 +1,105 @@
+[1]
+Description=STALKER Call of Prypiat EE Borderless Fix
+decorationpolicy=none
+decorationpolicyrule=2
+ignoregeometry=true
+ignoregeometryrule=2
+position=0,0
+positionrule=3
+size=1920,1200
+sizerule=3
+wmclass=xrengine
+wmclasscomplete=false
+wmclassmatch=2
+
+[10]
+Description=STALKER helper windows (ops log, monitor): never take focus, stay above
+above=true
+aboverule=2
+fsplevel=4
+fsplevelrule=2
+wmclass=stalker-
+wmclasscomplete=false
+wmclassmatch=2
+
+[2]
+Description=STALKER Call of Prypiat EE Steam App Rule
+decorationpolicy=none
+decorationpolicyrule=2
+ignoregeometry=true
+ignoregeometryrule=2
+position=0,0
+positionrule=3
+size=1920,1200
+sizerule=3
+wmclass=steam_app_2427430
+wmclasscomplete=false
+wmclassmatch=2
+
+[3]
+Description=OGSR game: never steal keyboard focus from the terminal
+above=true
+aboverule=2
+fsplevel=4
+fsplevelrule=2
+position=0,0
+positionrule=3
+title=OGSR Engine
+titlematch=2
+
+[4]
+Description=STALKER status window: never take focus by itself
+above=true
+aboverule=2
+fsplevel=4
+fsplevelrule=2
+wmclass=stalker-status
+wmclasscomplete=false
+wmclassmatch=2
+
+[5]
+Description=Steam EE games: never take focus by themselves
+above=true
+aboverule=2
+fsplevel=4
+fsplevelrule=2
+wmclass=steam_app_2427
+wmclasscomplete=false
+wmclassmatch=2
+
+[6]
+Description=Joplin: never take focus by itself
+fsplevel=4
+fsplevelrule=2
+wmclass=joplin
+wmclasscomplete=false
+wmclassmatch=2
+
+[7]
+Description=Steam client: never take focus by itself
+fsplevel=4
+fsplevelrule=2
+wmclass=steamwebhelper
+wmclasscomplete=false
+wmclassmatch=2
+
+[8]
+Description=Walker Mind window: never take focus by itself
+above=true
+aboverule=2
+fsplevel=4
+fsplevelrule=2
+wmclass=walker-mind
+wmclasscomplete=false
+wmclassmatch=2
+
+[9]
+Description=Spectacle: always on top of everything (so screenshots can be copied and pasted)
+above=true
+aboverule=2
+wmclass=spectacle
+wmclasscomplete=false
+wmclassmatch=2
+
+[General]
+Order=steam,1,2,3,4,5,6,7,8,9,10

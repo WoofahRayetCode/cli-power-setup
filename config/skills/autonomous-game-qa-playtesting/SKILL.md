@@ -1,0 +1,23 @@
+---
+name: autonomous-game-qa-playtesting
+description: Autonomous game testing, nav-graph recording, /dev/uinput simulation, MangoHud, screen OCR, and fuzzing.
+---
+
+# Autonomous Game QA & Playtesting (`autonomous-game-qa-playtesting`)
+
+Fully hands-free game playtesting, automated input injection, crash triage, in-game OCR telemetry, and evolutionary fuzzing.
+
+## Capabilities & Toolsuite
+- **Autonomous Input Emulation:** Kernel-level controller simulation via Linux `/dev/uinput` and `game_window_helper.sh`.
+- **Nav-Graph Navigation AI:** Level vertex recording, route playback, and obstacle avoidance:
+  `nav-graph-recorder` (`scripts/nav_graph_recorder.py`, `walkcoach.py`, `navplan.py`)
+- **Screen Telemetry & OCR:** Real-time missing texture detection and BugTrap OCR:
+  `scripts/game_screen_monitor.py`
+- **Fuzzing & Self-Healing:**
+  `scripts/game_exploratory_fuzzer.py`, `scripts/self_healing_tester.py`, `scripts/mutation_test_harness.py`
+
+## Related & Interoperating Skills
+- **`game-audio-voice-engineering`**: Game audio Ogg Vorbis GSC comment headers, procedural SFX, spatial HRTF, ElevenLabs, and Piper TTS.
+- **`linux-systems-engineering`**: Linux systems programming, POSIX, io_uring, systemd, CachyOS/Arch packaging, and laptop ACPI controls.
+- **`stalker-ogsr-engine-porting`**: 64-bit S.T.A.L.K.E.R. OGSR/X-Ray migration, LuaJIT FFI, LTX inheritance, crash triage, and night ops.
+- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -37,7 +37,7 @@ FLEET_TIERS = {
             "llama3.2:3b",
             "qwen2.5-coder:1.5b",
             "aya:8b",
-            "moondream:latest",
+            "minicpm-v:8b",
         ],
     },
     "code": {
@@ -55,10 +55,9 @@ FLEET_TIERS = {
     "math": {
         "description": "Physics ODEs, quaternion/transform math, and symbolic derivations (~22 GB)",
         "models": [
-            "mathstral:7b",
-            "wizard-math:7b",
+            "gpt-oss:20b",
             "phi4:14b",
-            "deepseek-r1:8b",
+            "nemotron-3-nano:4b",
         ],
     },
     "dialogue-i18n": {
@@ -81,7 +80,7 @@ FLEET_TIERS = {
         "description": "Structured JSON schema generation, tool calling, and long-context reasoning (~35 GB)",
         "models": [
             "hermes3:8b",
-            "command-r:35b",
+            "qwen3-coder:30b",
             "llama3.1:8b",
             "mistral-nemo:12b",
         ],
@@ -89,9 +88,7 @@ FLEET_TIERS = {
     "vision": {
         "description": "Multimodal screen inspection, game UI audit, and local OCR (~15 GB)",
         "models": [
-            "llava:13b",
             "minicpm-v:8b",
-            "moondream:latest",
         ],
     },
     "embeddings": {
@@ -115,12 +112,12 @@ FLEET_TIERS = {
         "description": "Heavyweight 14B–32B frontier models for offline planning, verification, and architecture (~100 GB)",
         "models": [
             "deepseek-coder-v2:16b",
-            "mistral-small:24b",
+            "gpt-oss:20b",
             "qwen2.5-coder:14b",
             "deepseek-r1:14b",
             "qwen2.5-coder:32b",
-            "deepseek-r1:32b",
-            "qwen2.5:32b",
+            "gpt-oss:20b",
+            "qwen3-coder:30b",
         ],
     },
     "custom": {
@@ -140,11 +137,10 @@ FLEET_TIERS = {
     "ultra-large": {
         "description": "Ultra-large & specialist models stored on secondary NVMe drive (/mnt/games/large-models) with hardware layer offload (~108 GB)",
         "models": [
-            "mixtral:8x7b",
+            "qwen3-coder:30b",
             "llm4decompile:22b-q4",
-            "deepseek-r1:70b-iq2",
-            "qwen2.5:72b-iq2",
-            "llama3.3:70b-iq2",
+            "gpt-oss:20b",
+            "qwen3-coder:30b",
             "blenderllm:7b-q4",
         ],
     },
@@ -153,8 +149,8 @@ FLEET_TIERS = {
 ALL_MODELS = [
     "deepseek-coder-v2:16b",
     "qwen2.5-coder:32b",
-    "deepseek-r1:32b",
-    "qwen2.5:32b",
+    "gpt-oss:20b",
+    "qwen3-coder:30b",
     "qwen2.5-coder:14b",
     "deepseek-r1:14b",
     "qwen2.5-coder:7b",
@@ -163,10 +159,9 @@ ALL_MODELS = [
     "granite-code:8b",
     "starcoder2:7b",
     "codellama:7b-python",
-    "deepseek-r1:8b",
+    "nemotron-3-nano:4b",
     "phi4:14b",
-    "mathstral:7b",
-    "wizard-math:7b",
+    "gpt-oss:20b",
     "aya:8b",
     "qwen2.5:7b",
     "gemma2:9b",
@@ -176,7 +171,6 @@ ALL_MODELS = [
     "llama3.1:8b",
     "llama3.2:3b",
     "minicpm-v:8b",
-    "moondream:latest",
     "bge-m3:latest",
     "nomic-embed-text:latest",
     "blender-architect:latest",
@@ -184,27 +178,22 @@ ALL_MODELS = [
     "smollm2:1.7b",
     "deepseek-r1:1.5b",
     "llm4decompile:22b-q4",
-    "deepseek-r1:70b-iq2",
-    "qwen2.5:72b-iq2",
-    "llama3.3:70b-iq2",
+    "gpt-oss:20b",
+    "qwen3-coder:30b",
     "blenderllm:7b-q4",
-    "command-r:35b",
-    "mixtral:8x7b",
-    "mistral-small:24b",
-    "llava:13b",
+    "qwen3-coder:30b",
+    "gpt-oss:20b",
+    "minicpm-v:8b",
     "codegeex4:9b",
 ]
 
 MODEL_SPECS = {
-    "command-r:35b": ("19 GB", "Cohere 35B Enterprise Agent: 128k context, multi-step tool calling, structured JSON & enterprise RAG"),
-    "mixtral:8x7b": ("26 GB", "Sparse MoE 46.7B (12.9B active): High-speed deep reasoning, C++ engine refactoring & large-scale synthesis"),
-    "mistral-small:24b": ("14 GB", "Mistral Small 3 24B: 128k context, high-density reasoning, code generation & multi-document synthesis"),
-    "llava:13b": ("8.0 GB", "13B Multimodal VLM: Full VRAM offload for UI triage, diagram analysis, and Blender renders"),
+    "qwen3-coder:30b": ("19 GB", "Cohere 35B Enterprise Agent: 128k context, multi-step tool calling, structured JSON & enterprise RAG"),
+    "gpt-oss:20b": ("14 GB", "Mistral Small 3 24B: 128k context, high-density reasoning, code generation & multi-document synthesis"),
+    "minicpm-v:8b": ("5.5 GB", "MiniCPM-V 8B vision: screenshots, UI and diagrams (replaced llava:13b and moondream in our tests)"),
     "codegeex4:9b": ("5.5 GB", "Whole-repository code intelligence: 128k context, repo-level AST mapping & code completion in VRAM"),
     "deepseek-coder-v2:16b": ("8.9 GB", "MoE 16B (2.4B active): #1 Game engine porting, C++ systems, and shader dialect translation"),
     "qwen2.5-coder:32b": ("19.8 GB", "32B Heavyweight frontier code planner: SWE-bench leader, large refactors, C++20 modernizations"),
-    "deepseek-r1:32b": ("19.9 GB", "32B Frontier deep reasoning: architectural verification, invariant proofs, root-cause debugging"),
-    "qwen2.5:32b": ("19.8 GB", "32B Frontier generalist: large repository analysis, complex web architecture, and enterprise copy"),
     "qwen2.5-coder:14b": ("9.0 GB", "14B Dense code architect: multi-file dependency reasoning and C++20 modernizer"),
     "deepseek-r1:14b": ("9.0 GB", "14B Chain-of-thought verification: physics ODE proofs, memory alignment, and bug triage"),
     "qwen2.5-coder:7b": ("4.7 GB", "Core multi-language code editing, refactoring, and AST analysis"),
@@ -213,10 +202,8 @@ MODEL_SPECS = {
     "granite-code:8b": ("4.6 GB", "C#, .NET 8/9, EF Core, enterprise backend & SQL integration"),
     "starcoder2:7b": ("4.0 GB", "Rust engineering, borrow-checker proofs, low-level memory safety"),
     "codellama:7b-python": ("3.8 GB", "Python 3.10+, scientific computing, pytest test generation"),
-    "deepseek-r1:8b": ("5.2 GB", "Local chain-of-thought mathematical and algorithmic verification"),
+    "nemotron-3-nano:4b": ("2.8 GB", "NVIDIA Nemotron 3 Nano 4B: fast reasoning and agent/tool use (replaced deepseek-r1:8b)"),
     "phi4:14b": ("9.1 GB", "Advanced multi-step reasoning, ODE physics, and numerical analysis"),
-    "mathstral:7b": ("4.1 GB", "Mistral STEM specialist for algebraic proofs and physical calculations"),
-    "wizard-math:7b": ("4.1 GB", "Complex algebra, quaternion SLERP, and 3D transform matrices"),
     "aya:8b": ("4.8 GB", "Cohere multilingual translation (101 languages), Slavic/CJK/FIGS game dialogue"),
     "qwen2.5:7b": ("4.7 GB", "Modern web HTML/CSS/Tailwind UI modernization & text repair"),
     "gemma2:9b": ("5.4 GB", "Google Gemma 2 anti-jargon business copy, BLUF proposals, and SOWs"),
@@ -225,8 +212,6 @@ MODEL_SPECS = {
     "mistral-nemo:12b": ("7.1 GB", "128k context window for large document & repository summarization"),
     "llama3.1:8b": ("4.9 GB", "Versatile generalist reasoning and multi-turn agent conversations"),
     "llama3.2:3b": ("2.0 GB", "Ultra-fast low-VRAM general text summarizer & status reporter"),
-    "minicpm-v:8b": ("5.5 GB", "Local vision & OCR inspection for UI testing, HUD audits, and graphics triage"),
-    "moondream:latest": ("1.7 GB", "Ultra-lightweight fast vision for rapid screenshot presence checks"),
     "bge-m3:latest": ("1.2 GB", "8192-token dense multilingual vector embeddings for local RAG"),
     "nomic-embed-text:latest": ("274 MB", "High-efficiency local vector embeddings for fast code search"),
     "blender-architect:latest": ("4.7 GB", "Custom Modelfile fused with Blender 5.2+ API & organic SDF skills"),
@@ -234,9 +219,6 @@ MODEL_SPECS = {
     "smollm2:1.7b": ("1.8 GB", "1.7B Sub-second instruct SLM: instant formatting, docstrings, and error diagnosis"),
     "deepseek-r1:1.5b": ("1.1 GB", "1.5B Distilled fast CoT: 120+ tok/s chain-of-thought, formal proofs, and invariant checks"),
     "llm4decompile:22b-q4": ("13 GB", "Assembly-to-C decompilation for REA MCP, Ghidra & x64dbg binary DLL analysis"),
-    "deepseek-r1:70b-iq2": ("19 GB", "Formal chain-of-thought proofs, 64-bit struct padding, invariant & memory alignment"),
-    "qwen2.5:72b-iq2": ("25 GB", "Systems architecture, C++20 refactoring, 3D geometry & spatial layout, large codebase reasoning"),
-    "llama3.3:70b-iq2": ("19 GB", "Complex multi-turn agentic tool calling, function orchestration, structured JSON extraction"),
     "blenderllm:7b-q4": ("4.7 GB", "Dedicated BlendNet CAD & procedural bpy mesh modeling from natural language"),
 }
 
@@ -285,9 +267,9 @@ def get_ollama_disk_usage() -> tuple[str, str]:
 
 
 ULTRA_LARGE_MAP = {
-    "deepseek-r1:70b-iq2": "deepseek-r1-70b",
-    "qwen2.5:72b-iq2": "qwen-72b-instruct",
-    "llama3.3:70b-iq2": "llama-3.3-70b",
+    "gpt-oss:20b": "deepseek-r1-70b",
+    "gpt-oss:20b": "qwen-72b-instruct",
+    "qwen3-coder:30b": "llama-3.3-70b",
     "llm4decompile:22b-q4": "llm4decompile-22b",
     "blenderllm:7b-q4": "blenderllm-7b",
 }

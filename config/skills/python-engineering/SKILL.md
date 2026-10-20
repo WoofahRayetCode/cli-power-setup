@@ -1,43 +1,23 @@
 ---
 name: python-engineering
-description: Python software engineering and performance standards (Python 3.10+). Use when authoring or refactoring Python code, adding type annotations, writing pytest suites, optimizing hot paths, or using Ruff and Mypy.
+description: Python 3.11+ software engineering, typed async, Ruff, Mypy, pytest, and performance profiling.
 ---
 
-# Modern Python Engineering Guide
+# Modern Python Engineering (`python-engineering`)
 
-This skill governs writing, refactoring, and optimizing Python code to ensure high reliability, zero runtime type errors, and minimal quota consumption.
+Production Python software engineering adhering to Python 3.11+ standards, strict typing, high-speed linting, and robust testing.
 
-## Core Engineering Principles
+## Standards
+- **Typing & Annotations:** Annotate all public functions with `typing` and built-in generics (`list[str]`, `dict[str, Any]`, `X | None`). Verify with `mypy --strict`.
+- **Toolchain:** Format and lint with Ruff (`ruff check .`, `ruff format .`). Manage virtual environments cleanly via `.venv`.
+- **Testing:** Comprehensive test suites using `pytest -v`. Write test fixtures cleanly in `conftest.py`.
+- **Performance:** Use `__slots__` on high-volume data classes. Profile hot paths with `cProfile` and replace Python loops with NumPy or Cython extensions.
 
-### 1. Strict Typing & Modern Idioms
-- Always supply complete type annotations on function signatures and class definitions (`typing.Self`, `typing.Literal`, `Union` syntax `X | Y`).
-- Favor standard library modern idioms:
-  - Use `pathlib.Path` over legacy `os.path` operations.
-  - Use `dataclasses` (or Pydantic for API boundaries) with `@dataclass(frozen=True)` or `@dataclass(slots=True)` for memory and speed.
-  - Leverage pattern matching (`match / case`) for complex state/AST parsing.
-
-### 2. Surgical Diffs over Full-File Regeneration
-- When editing Python files, use `replace_file_content` to make minimal, pinpoint edits.
-- Never output an entire 400-line module to change a single function.
-
-### 3. Fast Tooling & Verification Loops
-- Run fast linting and type checking before executing heavy test suites:
-  ```bash
-  ruff check path/to/file.py --fix
-  mypy path/to/file.py
-  ```
-- Run targeted `pytest` assertions:
-  ```bash
-  pytest -q tests/test_specific.py::test_case_name
-  ```
-- If a test fails, formulate a hypothesis with `systematic-debugging` instead of guessing patches.
-
-## Cross-OS Windows 10/11 & Linux Runtime Bridge (`windows-linux-cross-os-runtime-bridge`)
-- **Unified Windows & Linux Execution:** Pair with `windows-linux-cross-os-runtime-bridge` for portable CPU thread saturation (`os.cpu_count()` / `$env:NUMBER_OF_PROCESSORS` / `$(nproc)`), scratch staging (`Path(tempfile.gettempdir())` / `R:\` RAMDisk / `/dev/shm`), and dual-GPU routing (Windows `UserGpuPreferences` vs Linux `DRI_PRIME`).
-- **Dynamic Cheat Sheet, Git Sync & Self-Evolution:** Consult `agy-cheatsheet` (`cs` / `dynamic-repo-model-cheatsheet`) for live per-repo model/effort selection, commit verified milestones via `repo-auto-sync <repo> --checkpoint --push` (`autonomous-git-repo-sync-governor`), and promote reusable cross-OS scripts via `skill-evolve` (`self-evolving-skill-synthesizer`).
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
 
 ## Related & Interoperating Skills
-- **`rust-engineering`**: Rust software engineering and compiler-first workflows. Use when authoring or debugging Rust code, managing li...
-- **`adaptive-reasoning`**: Automatic reasoning effort selection and cognitive complexity routing. Automatically scales between instant-sp...
-- **`argon-ast-syntax-gate`**: Pre-flight local compiler and AST syntax verification gate for Gemini 4 Argon. Catches syntax, typing, and par...
+- **`linux-systems-engineering`**: Linux systems programming, POSIX, io_uring, systemd, CachyOS/Arch packaging, and laptop ACPI controls.
+- **`rust-engineering`**: Rust development, Cargo builds, borrow checker, lifetimes, zero-cost abstractions, and clippy.
+- **`database-network-engineering`**: SQLite WAL tuning, PostgreSQL schemas, raw TCP/UDP, tshark packet capture, and cryptographic security.
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

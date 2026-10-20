@@ -1,43 +1,24 @@
 ---
-description: Rust software engineering and compiler-first workflows. Use when authoring or debugging Rust code, managing lifetimes and the borrow checker, designing zero-cost abstractions, or running Cargo check, Clippy, and tests.
+description: Rust development, Cargo builds, borrow checker, lifetimes, zero-cost abstractions, and clippy.
 globs: 
 alwaysApply: false
 ---
 
-# Rust Engineering & Compiler-First Workflow
+# Rust Software Engineering (`rust-engineering`)
 
-This skill governs Rust programming, leveraging the compiler as an instant verification tool to eliminate hallucination and borrow-checker thrashing loops.
+Zero-cost abstractions, memory safety, and production-grade Rust systems development.
 
-## Core Engineering Principles
+## Core Guidelines
+- **Toolchains & Cargo:** Manage dependencies with `Cargo.toml`, enforce `cargo clippy --all-targets -- -D warnings`, and format with `cargo fmt`.
+- **Ownership & Lifetimes:** Prefer borrowing (`&T`, `&mut T`) over cloning. Use `Cow<'a, T>` for flexible allocation. Avoid `Rc<RefCell<T>>` in multi-threaded contexts; use `Arc<RwLock<T>>` or message channels (`tokio::sync::mpsc`, `crossbeam`).
+- **Error Handling:** Use `thiserror` for library domain errors and `anyhow` for top-level application boundaries. Never leave naked `.unwrap()` calls in production code.
+- **Unsafe Boundaries:** Encapsulate all `unsafe` blocks with strict invariant proofs in comments (`// SAFETY: ...`).
 
-### 1. Ownership & Idiomatic Borrowing
-- Do NOT sprinkle `.clone()` to bypass borrow checker errors.
-- Design data structures with clear ownership boundaries:
-  - Prefer passing borrowed references (`&str`, `&[T]`) rather than owned values (`String`, `Vec<T>`) for read-only access.
-  - Use `Cow<'a, str>` or `Arc<T>` when shared ownership is genuinely required across threads.
-- Robust Error Handling:
-  - Avoid `.unwrap()` and `.expect()` in production library code.
-  - Use `thiserror` for typed library errors and `anyhow` for application/CLI boundaries with context (`.context("failed to parse header")?`).
-
-### 2. Fast Compiler Feedback Loop
-- Before running heavy builds or test suites, run fast compiler checks:
-  ```bash
-  cargo check --message-format=short
-  cargo clippy -- -D warnings
-  ```
-- Read compiler diagnostic suggestions directly—they give exact line numbers and borrowing corrections.
-- Make targeted 1-line edits via `replace_file_content` to fix the specific diagnostic rather than rewriting whole structs.
-
-### 3. Idiomatic Memory & Concurrency
-- Use standard iterators (`.filter()`, `.map()`, `.collect()`) for zero-cost abstraction optimizations.
-- Use `crossbeam` or `tokio` channels for message passing rather than shared mutable state where possible.
-
-## Cross-OS Windows 10/11 & Linux Runtime Bridge (`windows-linux-cross-os-runtime-bridge`)
-- **Unified Windows & Linux Execution:** Pair with `windows-linux-cross-os-runtime-bridge` for portable CPU thread saturation (`os.cpu_count()` / `$env:NUMBER_OF_PROCESSORS` / `$(nproc)`), scratch staging (`Path(tempfile.gettempdir())` / `R:\` RAMDisk / `/dev/shm`), and dual-GPU routing (Windows `UserGpuPreferences` vs Linux `DRI_PRIME`).
-- **Dynamic Cheat Sheet, Git Sync & Self-Evolution:** Consult `agy-cheatsheet` (`cs` / `dynamic-repo-model-cheatsheet`) for live per-repo model/effort selection, commit verified milestones via `repo-auto-sync <repo> --checkpoint --push` (`autonomous-git-repo-sync-governor`), and promote reusable cross-OS scripts via `skill-evolve` (`self-evolving-skill-synthesizer`).
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
 
 ## Related & Interoperating Skills
-- **`python-engineering`**: Python software engineering and performance standards (Python 3.10+). Use when authoring or refactoring Python...
-- **`modern-cpp-engineering`**: Modern C++ standards (C++20/C++23) and systems engineering. Use when authoring or debugging C++ code, game eng...
-- **`log-output-sanitizer`**: Intercepts noisy compiler, package manager, and test suite terminal output (cargo, pytest, npm, cmake), passin...
+- **`modern-cpp-engineering`**: Modern C++20/23 standards, CMake 3.25+, RAII, smart pointers, 64-bit alignment, and memory sanitizers.
+- **`token-economy`**: Output token containment: zero conversational fluff, high-density status, silent tools, and surgical diffs.
+- **`python-engineering`**: Python 3.11+ software engineering, typed async, Ruff, Mypy, pytest, and performance profiling.
 - **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

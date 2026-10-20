@@ -5,4 +5,9 @@
 # ==============================================================================
 export CLAUDE_MODE=1
 [ -t 1 ] && command -v agy-cheatsheet >/dev/null 2>&1 && agy-cheatsheet --banner
+if [ -n "$KITTY_LISTEN_ON" ] && [ -n "$KITTY_WINDOW_ID" ]; then   # status line moves to its own window attached to this kitty
+  export CLAUDE_STATUS_PANE=1 STALKER_MAIN_WIN="$KITTY_WINDOW_ID"
+  (sleep 2; /home/ericparsley/Documents/GitHub/ogsr-complete-merge/tools/statuspane.sh --open >/dev/null 2>&1 &)
+fi
+[ -n "$KITTY_LISTEN_ON" ] && [ -n "$KITTY_WINDOW_ID" ] && (setsid nohup claude-autosend daemon >/dev/null 2>&1 &)   # auto-send watcher (off until: claude-autosend on)
 exec claude --dangerously-skip-permissions "$@"

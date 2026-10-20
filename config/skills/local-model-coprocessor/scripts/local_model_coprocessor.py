@@ -46,7 +46,6 @@ def get_free_vram_mb() -> int:
 
 SKILLS_DIRS = [
     Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills"),
-    Path.home() / ".claude" / "skills",
     Path.home() / ".gemini" / "config" / "skills",
 ]
 
@@ -158,6 +157,18 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
     # Tier 3: Binary & MoE Engine Transpilers (16B-22B)
     elif task in ("re", "decompile", "reverse", "disasm", "rea", "binary", "assembly", "llm4decompile"):
         for cand in ("llm4decompile:22b-q4", "deepseek-coder-v2:16b", "qwen2.5:72b-iq2", "qwen2.5-coder:32b", "deepseek-coder:6.7b-instruct"):
+            if cand in installed:
+                return cand
+    elif task in ("deepseek-33b", "dense-33b", "cxx-dense", "deepseek-coder-33b"):
+        for cand in ("deepseek-coder:33b-custom", "deepseek-coder:33b-instruct", "qwen2.5-coder:32b", "qwen2.5:72b-iq2"):
+            if cand in installed:
+                return cand
+    elif task in ("starcoder", "starcoder2", "multi-lang-code", "fim-code", "code-complete"):
+        for cand in ("starcoder2:custom", "starcoder2:15b", "starcoder2:7b", "qwen2.5-coder:14b"):
+            if cand in installed:
+                return cand
+    elif task in ("tool-use", "groq-tool", "function-calling", "agent-tool", "llama3-groq"):
+        for cand in ("llama3-groq-tool-use:custom", "llama3-groq-tool-use:8b", "hermes3:8b", "llama3.1:8b"):
             if cand in installed:
                 return cand
     elif task in ("shader", "cross-engine-shader", "moe-code", "spirv", "hlsl", "moe", "deepseek-coder-v2"):
@@ -366,6 +377,7 @@ def record_local_llm_savings(model: str, prompt_eval: int, eval_count: int, has_
         Path.home() / ".cli_power_setup" / "token_ledger.json",
         Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/token_ledger.json")
     ]
+    ledger_paths = list({str(q.resolve()): q for q in ledger_paths}.values())   # ~/.cli_power_setup/token_ledger.json is a symlink to the repo copy: write once, not twice
     for ledger_p in ledger_paths:
         try:
             if not ledger_p.parent.exists():
@@ -627,8 +639,8 @@ def main():
     # status
     subparsers.add_parser("status", parents=[common_parser], help="Check connection to local Ollama / llama.cpp")
 
-    # generate
-    p_gen = subparsers.add_parser("generate", parents=[common_parser], help="Generate code or text locally")
+    # generate / exec
+    p_gen = subparsers.add_parser("generate", aliases=["exec"], parents=[common_parser], help="Generate code or text locally")
     p_gen.add_argument("--prompt", type=str, default="", help="Prompt text")
     p_gen.add_argument("--file", type=str, default="", help="Input file path")
     p_gen.add_argument("--image", type=str, default="", help="Optional image path for local VLM")
@@ -669,7 +681,7 @@ def main():
 
     if args.command == "status":
         cmd_status(args)
-    elif args.command == "generate":
+    elif args.command in ("generate", "exec"):
         cmd_generate(args)
     elif args.command == "vision":
         cmd_vision(args)
