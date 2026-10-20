@@ -1,6 +1,6 @@
 # CLI Power Setup (`cli-power-setup`)
 
-[![Active Skills](https://img.shields.io/badge/Skills-332%20Active-brightgreen.svg)](#-categorized-skills-directory-332-skills)
+[![Active Skills](https://img.shields.io/badge/Skills-35%20Active-brightgreen.svg)](#-categorized-skills-directory-35-active-hubs)
 [![Local Fleet](https://img.shields.io/badge/Local%20Fleet-42%20Models%20(Ollama)-blue.svg)](#-zero-quota-local-language-model-fleet-42-models-0-cloud-tokens)
 [![Fleet Disk Size](https://img.shields.io/badge/Fleet%20Disk%20Size-320%20GB%20(42%20Models)-blueviolet.svg)](#-zero-quota-local-language-model-fleet-42-models-0-cloud-tokens)
 [![Secondary NVMe](https://img.shields.io/badge/Secondary%20NVMe-1.3%20TB%20Headroom%20(/mnt/games)-success.svg)](#-secondary-drive-ultra-large-model-repository--hardware-optimizer)
@@ -13,10 +13,72 @@ This repository organizes **35 autonomous agent skills**, 35 modular Cursor rule
 
 ---
 
+## ⚡ Why the CLI is Optimal: Token Economy & Full Skill Exploitation
+
+> Executive architectural comparison demonstrating why headless/CLI execution (`agy` / `claude`) achieves 60%–80% token savings and 100% skill toolchain activation compared to web or GUI IDE chat.
+
+### 1. Token Economy Architecture: Why the CLI Saves 60%–80% of Tokens
+
+| Mechanism | GUI / Web / IDE Chat Pitfall | CLI Optimization Engine | Token Impact |
+| :--- | :--- | :--- | :--- |
+| **Stdout Containment** | Full compiler outputs, stack traces, and test logs dump directly into context buffers. | CLI pipes output through [`token-guard`](bin/bgrun) and stream filters (`tail -n 25`, `grep`). | **-90%** on build & test output turns (`~500` tokens vs. `10k–50k`). |
+| **Prompt Cache Stability** | IDEs inject open tabs, cursor line positions, and file trees into the prefix on every keystroke, invalidating the KV cache. | CLI maintains a deterministic prefix (fixed system rules + 35 skill hubs). Crosses the 32k barrier once; subsequent turns hit cached KV states. | **95% discount** on cached input tokens; zero cache invalidation thrashing. |
+| **Zero-Quota Pre-Processing** | The model computes symbol trees, search offsets, and math via expensive internal thinking tokens. | CLI dispatches host utilities ([`local_ast_compiler.py`](config/skills/local-model-coprocessor/scripts/local_ast_compiler.py), `grep -n`, [`local_vector_rag.py`](config/skills/local-model-coprocessor/scripts/local_vector_rag.py)) on CPU/GPU before drafting. | **0 cloud tokens** spent on search, coordinate discovery, or matrix math. |
+| **File Slicing Law** | Auto-ingesting entire files ($500–2,000$ lines) on clicks or tab references. | Mandatory [`anti-overwork-file-slicer`](config/skills/anti-overwork-file-slicer/SKILL.md) enforcement: `view_file` strictly capped at $\le 80$ lines with exact `StartLine`/`EndLine`. | **-85%** input tokens per inspection. |
+| **Patching vs. Regeneration** | Rewriting 500-line files to change 3 lines burns thousands of output tokens. | Surgical copy-then-patch: `cp -f <src> <dst>` followed by localized `replace_file_content` chunks ($\le 45$ lines). | **-92%** output tokens on refactors. |
+
+---
+
+### 2. Skill Exploitation Architecture: Why the CLI Fully Activates Skills
+
+#### A. Direct Script Execution (89 Helper Scripts)
+Skills are not just markdown prompts; they are executable toolchains. In GUI chat or sandboxed web frontends, scripts cannot execute on the host machine. In the CLI:
+- The model invokes utilities directly via POSIX execution:
+  - [`switch_sd_prep.py`](config/skills/nintendo-switch-homebrew/scripts/switch_sd_prep.py): 32KB cluster alignment and Atmosphere package generation.
+  - [`xray_crash_handler.py`](config/skills/stalker-ogsr-engine-porting/scripts/xray_crash_handler.py): Intercepts Wine BugTrap/Notepad dialogs and parses engine logs in real time.
+  - [`shader_transpiler.py`](config/skills/cross-engine-shader-rendering/scripts/shader_transpiler.py): Compiles HLSL/GLSL to SPIR-V via host `glslangValidator`.
+
+#### B. Bare-Metal Hardware Saturation
+- **32-Thread Parallelism:** CLI scripts saturate all CPU threads via `ProcessPoolExecutor(max_workers=os.cpu_count())` and `-j$(nproc)`, completing operations in seconds without timing out context turns.
+- **OptiX GPU Rendering:** CLI dispatches headless Blender tasks directly to the RTX 5060 using CUDA/OptiX flags (`scene.cycles.device = 'GPU'`).
+- **RAM Disk (`/dev/shm`):** CLI stages intermediate archives, texture bakes, and temporary build trees in tmpfs at $\sim 40\text{ GB/s}$ memory bus speed with zero SSD wear and instant cleanup.
+
+#### C. System-Level Interoperability
+- **Input Simulation & QA:** Direct access to `/dev/uinput` via [`stalker-playtest-runner`](config/skills/autonomous-game-qa-playtesting/SKILL.md) to dismiss loading screens, test controls, and navigate 3D game worlds autonomously.
+- **Asynchronous Daemon Decoupling:** Long jobs run in the background (`run_command` with `WaitMsBeforeAsync` or [`bgrun`](bin/bgrun)) without holding UI execution locks or inflating turn history.
+
+---
+
+### 3. Workflow Division of Labor
+
+```mermaid
+flowchart TD
+    A["User Request"] --> B{"Task Type"}
+    B -->|"Build, Refactor, RE, Test, Automation"| C["CLI Engine (agy / claude)"]
+    B -->|"Visual Diff Review, 3D Preview, Web UI"| D["IDE / Browser Viewport (Cursor / Chrome)"]
+    
+    C --> C1["Fixed 35-Hub Catalog (Cache Lock)"]
+    C --> C2["Zero-Quota Local AST & Host Scripts"]
+    C --> C3["Surgical Window Slices (<=80 lines)"]
+    C --> C4["Hardware Saturation (32-Thr / RTX 5060)"]
+    
+    D --> D1["Side-by-Side Git Diff Inspection"]
+    D --> D2["Interactive Hot-Reload Preview"]
+```
+
+- **CLI Engine (`agy` / `claude`):** The primary workhorse for plan formulation, script execution, file patching, hardware offloading, and autonomous loops.
+- **Cursor / GUI:** Strictly a passive viewport for visual inspection of diffs, markdown rendering, and interactive frontend debugging.
+
+---
+
 ## 🧭 Quick Navigation
 
 Jump directly to any section of the documentation:
 
+* [⚡ Why the CLI is Optimal: Token Economy & Full Skill Exploitation](#-why-the-cli-is-optimal-token-economy--full-skill-exploitation)
+  * [1. Token Economy Architecture (Why the CLI Saves 60%–80% of Tokens)](#1-token-economy-architecture-why-the-cli-saves-6080-of-tokens)
+  * [2. Skill Exploitation Architecture (Why the CLI Fully Activates Skills)](#2-skill-exploitation-architecture-why-the-cli-fully-activates-skills)
+  * [3. Workflow Division of Labor](#3-workflow-division-of-labor)
 * [⚡ Quick Start & Installation](#-quick-start)
 * [🧠 Zero-Quota Local Language Model Fleet (42 Models)](#-zero-quota-local-language-model-fleet-42-models-0-cloud-tokens)
   * [Key Benefits & Token Savings](#-key-benefits--overall-usage-savings)
@@ -471,61 +533,11 @@ A dedicated suite of executable utilities installed directly into `~/.local/bin/
 
 ## 🎯 Division of Labor: `agy` CLI vs. Cursor IDE
 
+> 💡 **Architectural Analysis:** See [Why the CLI is Optimal: Token Economy & Full Skill Exploitation](#-why-the-cli-is-optimal-token-economy--full-skill-exploitation) at the top of this documentation for full comparative token metrics, stream truncation mechanics, and hardware saturation proofs.
+
 While all 35 skills and CLI utilities are shared across environments, they divide into distinct operational sweet spots:
 
-### 1. Token Economy Architecture: Why the CLI Saves 60%–80% of Tokens
-
-| Mechanism | GUI / Web / IDE Chat Pitfall | CLI Optimization Engine | Token Impact |
-| :--- | :--- | :--- | :--- |
-| **Stdout Containment** | Full compiler outputs, stack traces, and test logs dump directly into context buffers. | CLI pipes output through [`token-guard`](bin/bgrun) and stream filters (`tail -n 25`, `grep`). | **-90%** on build & test output turns (`~500` tokens vs. `10k–50k`). |
-| **Prompt Cache Stability** | IDEs inject open tabs, cursor line positions, and file trees into the prefix on every keystroke, invalidating the KV cache. | CLI maintains a deterministic prefix (fixed system rules + 35 skill hubs). Crosses the 32k barrier once; subsequent turns hit cached KV states. | **95% discount** on cached input tokens; zero cache invalidation thrashing. |
-| **Zero-Quota Pre-Processing** | The model computes symbol trees, search offsets, and math via expensive internal thinking tokens. | CLI dispatches host utilities ([`local_ast_compiler.py`](config/skills/local-model-coprocessor/scripts/local_ast_compiler.py), `grep -n`, [`local_vector_rag.py`](config/skills/local-model-coprocessor/scripts/local_vector_rag.py)) on CPU/GPU before drafting. | **0 cloud tokens** spent on search, coordinate discovery, or matrix math. |
-| **File Slicing Law** | Auto-ingesting entire files ($500–2,000$ lines) on clicks or tab references. | Mandatory [`anti-overwork-file-slicer`](config/skills/anti-overwork-file-slicer/SKILL.md) enforcement: `view_file` strictly capped at $\le 80$ lines with exact `StartLine`/`EndLine`. | **-85%** input tokens per inspection. |
-| **Patching vs. Regeneration** | Rewriting 500-line files to change 3 lines burns thousands of output tokens. | Surgical copy-then-patch: `cp -f <src> <dst>` followed by localized `replace_file_content` chunks ($\le 45$ lines). | **-92%** output tokens on refactors. |
-
----
-
-### 2. Skill Exploitation Architecture: Why the CLI Fully Activates Skills
-
-#### A. Direct Script Execution (89 Helper Scripts)
-Skills are not just markdown prompts; they are executable toolchains. In GUI chat or sandboxed web frontends, scripts cannot execute on the host machine. In the CLI:
-- The model invokes utilities directly via POSIX execution:
-  - [`switch_sd_prep.py`](config/skills/nintendo-switch-homebrew/scripts/switch_sd_prep.py): 32KB cluster alignment and Atmosphere package generation.
-  - [`xray_crash_handler.py`](config/skills/stalker-ogsr-engine-porting/scripts/xray_crash_handler.py): Intercepts Wine BugTrap/Notepad dialogs and parses engine logs in real time.
-  - [`shader_transpiler.py`](config/skills/cross-engine-shader-rendering/scripts/shader_transpiler.py): Compiles HLSL/GLSL to SPIR-V via host `glslangValidator`.
-
-#### B. Bare-Metal Hardware Saturation
-- **32-Thread Parallelism:** CLI scripts saturate all CPU threads via `ProcessPoolExecutor(max_workers=os.cpu_count())` and `-j$(nproc)`, completing operations in seconds without timing out context turns.
-- **OptiX GPU Rendering:** CLI dispatches headless Blender tasks directly to the RTX 5060 using CUDA/OptiX flags (`scene.cycles.device = 'GPU'`).
-- **RAM Disk (`/dev/shm`):** CLI stages intermediate archives, texture bakes, and temporary build trees in tmpfs at $\sim 40\text{ GB/s}$ memory bus speed with zero SSD wear and instant cleanup.
-
-#### C. System-Level Interoperability
-- **Input Simulation & QA:** Direct access to `/dev/uinput` via [`stalker-playtest-runner`](config/skills/autonomous-game-qa-playtesting/SKILL.md) to dismiss loading screens, test controls, and navigate 3D game worlds autonomously.
-- **Asynchronous Daemon Decoupling:** Long jobs run in the background (`run_command` with `WaitMsBeforeAsync` or [`bgrun`](bin/bgrun)) without holding UI execution locks or inflating turn history.
-
----
-
-### 3. Workflow Division of Labor
-
-```mermaid
-flowchart TD
-    A["User Request"] --> B{"Task Type"}
-    B -->|"Build, Refactor, RE, Test, Automation"| C["CLI Engine (agy / claude)"]
-    B -->|"Visual Diff Review, 3D Preview, Web UI"| D["IDE / Browser Viewport (Cursor / Chrome)"]
-    
-    C --> C1["Fixed 35-Hub Catalog (Cache Lock)"]
-    C --> C2["Zero-Quota Local AST & Host Scripts"]
-    C --> C3["Surgical Window Slices (<=80 lines)"]
-    C --> C4["Hardware Saturation (32-Thr / RTX 5060)"]
-    
-    D --> D1["Side-by-Side Git Diff Inspection"]
-    D --> D2["Interactive Hot-Reload Preview"]
-```
-
-- **CLI Engine (`agy` / `claude`):** The primary workhorse for plan formulation, script execution, file patching, hardware offloading, and autonomous loops.
-- **Cursor / GUI:** Strictly a passive viewport for visual inspection of diffs, markdown rendering, and interactive frontend debugging.
-
-<details>
+<details open>
 <summary><b>🎯 Click to View Division of Labor Details & Recommended Tooling</b></summary>
 
 ### 1. Skills That Excel in `agy` CLI (Headless, Voice-Driven & Unattended)
