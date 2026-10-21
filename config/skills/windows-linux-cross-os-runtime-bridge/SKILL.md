@@ -12,7 +12,7 @@ Guarantees 100% cross-OS compatibility across Linux and Windows 10/11 for all CL
 - **Execution & Shims:** Linux executes bash scripts (`.sh`); Windows executes PowerShell 7 (`.ps1`) or `.cmd` shims in `$HOME\.local\bin`.
 - **Wine & Proton Interop:** Seamlessly translate between Linux paths (`/home/user/...`) and Wine drive paths (`Z:\home\user\...`, `C:\users\user\...`) using `winepath -w` and `winepath -u`.
 - **Large Address Aware (LAA) PE Patching:**
-  `python3 ~/.claude/skills/windows-linux-cross-os-runtime-bridge/scripts/laa_pe_patcher.py <exe>`
+  `python3 ~/.gemini/config/skills/windows-linux-cross-os-runtime-bridge/scripts/laa_pe_patcher.py <exe>`
 
 ## Related & Interoperating Skills
 - **`standalone-binary-re`**: Native Linux zero-MCP reverse engineering: objdump, readelf, nm, rizin, gdb, JADX, and PE/ELF headers.

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Apply the screen layout (tools/kwin_layout.js): game top-left with a 1280x720 drawing area, Claude terminal below it, status window on the right, all above the taskbar.
+# Apply the screen layout (tools/kwin_layout.js): game top-left with a 1280x720 drawing area, Antigravity terminal below it, status window on the right, all above the taskbar.
 # The script stays loaded (re-fits when the game window appears or resizes). KWin keeps a stale copy when a script is reloaded under the same name,
 # so every run uses a NEW plugin name and unloads the previous one.
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"; st=/tmp/ogsr_layout.name

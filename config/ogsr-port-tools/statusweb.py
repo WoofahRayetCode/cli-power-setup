@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Read-only phone dashboard: the same blocks as the status window (needs-you, now, local workers, game, status line, ticker) plus a feed of what Claude is doing
+"""Read-only phone dashboard: the same blocks as the status window (needs-you, now, local workers, game, status line, ticker) plus a feed of what Antigravity is doing
 (descriptions of its recent tool calls and replies, never the commands themselves). Open it in the phone's browser, or add it to the home screen / use the Android shell app.
   statusweb.py run [--port 8765]     serve on all interfaces; every request needs the secret token (?t=...), kept in ~/.cache/statusweb/token
   statusweb.py url                   print the links (LAN and Tailscale)
@@ -15,7 +15,7 @@ D = Path.home() / ".cache/statusweb"; D.mkdir(parents=True, exist_ok=True); TOK 
 if not TOK.exists(): TOK.write_text(secrets.token_urlsafe(18)); TOK.chmod(0o600)
 TOKEN = TOK.read_text().strip()
 PIN_F, SENDS = D / "pin", D / "sends.log"
-QUEUE = Path.home() / ".cache/claude-autosend/remote_queue.jsonl"      # claude-autosend's watcher types these into the Claude prompt when it is empty
+QUEUE = Path.home() / ".cache/agy-autosend/remote_queue.jsonl"      # agy-autosend's watcher types these into the Antigravity prompt when it is empty
 def pin():
     try: return PIN_F.read_text().strip()
     except OSError: return ""
@@ -36,8 +36,8 @@ def ansi_html(s):
         else: out.append(html.escape(part))
     return "".join(out) + ("</span>" if open_ else "")
 def activity(n=14):
-    """what Claude did lately: assistant replies (first line) and tool descriptions from the newest session transcript"""
-    proj = Path.home() / ".claude/projects" / str(here).replace("/", "-")
+    """what Antigravity did lately: assistant replies (first line) and tool descriptions from the newest session transcript"""
+    proj = Path.home() / ".agy/projects" / str(here).replace("/", "-")
     fs = sorted(proj.glob("*.jsonl"), key=lambda p: p.stat().st_mtime, reverse=True)
     if not fs: return []
     out = []
@@ -68,7 +68,7 @@ def _tail(path, key, first=0):
     with open(path, "rb") as f: f.seek(_ev["pos"][key]); data = f.read().decode("utf-8", "ignore"); _ev["pos"][key] = f.tell()
     return [l for l in data.splitlines() if l.strip()]
 def collect_events():
-    """feeds /api/events (the Android app's notifications and chat): NEEDS YOU changes, walker 'learned' lines, guardian problems, Claude's replies, messages sent from the phone"""
+    """feeds /api/events (the Android app's notifications and chat): NEEDS YOU changes, walker 'learned' lines, guardian problems, Antigravity's replies, messages sent from the phone"""
     first = not _ev["inited"]
     if first:
         _ev["inited"] = True
@@ -85,7 +85,7 @@ def collect_events():
     if xs:
         for l in _tail(xs[-1], "x", 0):
             if "WALK LEARNED" in l: _ev_add("learned", l.split("WALK LEARNED", 1)[-1].strip())
-    proj = Path.home() / ".claude/projects" / str(here).replace("/", "-")
+    proj = Path.home() / ".agy/projects" / str(here).replace("/", "-")
     fs = sorted(proj.glob("*.jsonl"), key=lambda p: p.stat().st_mtime, reverse=True)
     if fs:
         for l in _tail(fs[0], "c", 0):
@@ -103,7 +103,7 @@ def collect_events():
             for c in (e.get("message", {}).get("content") or []):
                 if c.get("type") == "text" and len(c["text"].strip()) > 20:
                     key = c["text"].strip()[:200]                                      # the transcript repeats some messages: dedupe by content
-                    if key not in _ev["seen"]: _ev["seen"].add(key); _ev_add("claude", c["text"].strip())
+                    if key not in _ev["seen"]: _ev["seen"].add(key); _ev_add("agy", c["text"].strip())
     for l in _tail(QUEUE, "q", 0):
         try: r = json.loads(l)
         except Exception: continue
@@ -169,13 +169,13 @@ def tab_text(name):
     return "unknown tab"
 def snapshot():
     lines = statuspane.compose(64, 80)
-    return {"time": time.strftime("%F %T"), "html": "\n".join(ansi_html(l) for l in lines), "activity": activity(), "autopilot": subprocess.run("claude-autosend autopilot status", shell=True, capture_output=True, text=True).stdout.strip()}
+    return {"time": time.strftime("%F %T"), "html": "\n".join(ansi_html(l) for l in lines), "activity": activity(), "autopilot": subprocess.run("agy-autosend autopilot status", shell=True, capture_output=True, text=True).stdout.strip()}
 PAGE = """<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=theme-color content="#0f1419"><title>STALKER Port</title>
 <style>:root{color-scheme:dark light;--bg:#0f1419;--fg:#e6e6e6;--mut:#8a9199;--h:#4dd0e1;--y:#ffd54f;--m:#ce93d8;--g:#81c784}@media(prefers-color-scheme:light){:root{--bg:#fafafa;--fg:#1d2127;--mut:#5f6770;--h:#00838f;--y:#b26a00;--m:#7b1fa2;--g:#2e7d32}}
 body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.35 ui-monospace,Menlo,monospace}main{padding:12px 16px 40px;max-width:900px;margin:auto}h2{font:600 12px sans-serif;letter-spacing:.08em;color:var(--mut);margin:18px 0 6px}
 pre{white-space:pre-wrap;word-break:break-word;margin:0}.h{color:var(--h);font-weight:700}.y{color:var(--y);font-weight:700}.m{color:var(--m);font-weight:700}.g{color:var(--g);font-weight:700}.d{color:var(--mut)}.b{font-weight:700}#t{color:var(--mut);font-size:12px}</style></head>
 <body><main><div id=t>connecting…</div><div class=d>Android app: <a href="zonemonitor.apk?t=" id=apk style="color:var(--h)">download Zone Monitor</a></div><h2>STATUS</h2><pre id=s></pre><h2>WHAT CLAUDE IS DOING</h2><pre id=a></pre><h2>AUTOPILOT</h2><pre id=p></pre>
-<h2>SEND A COMMAND TO CLAUDE</h2><div id=c><input id=pin type=password placeholder="PIN" autocomplete=off style="width:6em"> <input id=txt placeholder="message to Claude" style="width:60%"> <button id=go onclick="send()">Send</button><div id=r class=d></div></div>
+<h2>SEND A COMMAND TO CLAUDE</h2><div id=c><input id=pin type=password placeholder="PIN" autocomplete=off style="width:6em"> <input id=txt placeholder="message to Antigravity" style="width:60%"> <button id=go onclick="send()">Send</button><div id=r class=d></div></div>
 <script>const q=new URLSearchParams(location.search).get("t")||"";async function go(){try{const r=await fetch("api?t="+encodeURIComponent(q),{cache:"no-store"});if(!r.ok)throw 0;const d=await r.json();
 document.getElementById("t").textContent="updated "+d.time;document.getElementById("s").innerHTML=d.html;document.getElementById("a").textContent=d.activity.join("\\n");document.getElementById("p").textContent=d.autopilot}catch(e){document.getElementById("t").textContent="offline - retrying"}}document.getElementById("apk").href="zonemonitor.apk?t="+encodeURIComponent(q);try{document.getElementById("pin").value=localStorage.getItem("zpin")||""}catch(e){}
 async function send(){const pin=document.getElementById("pin").value,text=document.getElementById("txt").value;if(!text.trim())return;try{localStorage.setItem("zpin",pin)}catch(e){}
@@ -199,7 +199,7 @@ class H(BaseHTTPRequestHandler):
         with open(QUEUE, "a") as f: f.write(json.dumps({"t": time.strftime("%F %T"), "text": text, "from": self.client_address[0], "status": "new"}) + "\n")
         with open(SENDS, "a") as f: f.write(f"{time.time()}\n")
         with open(here / "docs/INBOX.md", "a") as f: f.write(f"- [{time.strftime('%F %H:%M')}] [remote] {text}\n")
-        reply(200, "queued: it is typed into Claude's prompt as soon as the prompt is empty")
+        reply(200, "queued: it is typed into Antigravity's prompt as soon as the prompt is empty")
     def do_GET(self):
         u = urlparse(self.path); t = parse_qs(u.query).get("t", [""])[0]
         if not secrets.compare_digest(t, TOKEN): self.send_response(403); self.end_headers(); self.wfile.write(b"forbidden"); return

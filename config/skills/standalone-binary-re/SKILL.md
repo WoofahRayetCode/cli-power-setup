@@ -10,7 +10,7 @@ Zero-MCP native Linux binary analysis, disassembly, symbol extraction, and APK d
 ## CLI Toolsuite
 - **Disassembly & Inspection:** `objdump -d -M intel`, `readelf -h -S -s`, `nm -C -D`, `rizin -A`, `strings -a`, `xxd`.
 - **PE & ELF Headers:** Large Address Aware verification, export directory parsing, and dynamic library import resolution:
-  `python3 ~/.claude/skills/standalone-binary-re/scripts/pe_dependency_check.py`
+  `python3 ~/.gemini/config/skills/standalone-binary-re/scripts/pe_dependency_check.py`
 - **Android APKs:** Decompile classes and dex structures via `jadx -d out/ target.apk`.
 
 ## Related & Interoperating Skills

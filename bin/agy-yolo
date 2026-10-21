@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+# Launch Antigravity CLI (YOLO) hands-free: auto-approves all tool permission requests.
+# Supports both terminal invocation and GUI desktop/service-menu launches via kitty.
+export __NV_PRIME_RENDER_OFFLOAD=1
+export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+export __GLX_VENDOR_LIBRARY_NAME=nvidia
+export __VK_LAYER_NV_optimus=NVIDIA_only
+
+dir="${1:-$PWD}"
+[ -f "$dir" ] && dir="$(dirname "$dir")"
+dir="$(realpath "$dir")"
+
+python3 - "$dir" <<'PY' 2>/dev/null || true
+import json, os, sys, tempfile
+path = os.path.expanduser("~/.gemini/antigravity-cli/settings.json")
+d = sys.argv[1]
+try:
+    with open(path) as f: cfg = json.load(f)
+except Exception:
+    cfg = {}
+trusted = cfg.setdefault("trustedWorkspaces", [])
+if d not in trusted:
+    trusted.append(d)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    fd, tmp = tempfile.mkstemp(dir=os.path.dirname(path), prefix=".settings.json.")
+    with os.fdopen(fd, "w") as f: json.dump(cfg, f, indent=2)
+    os.replace(tmp, path)
+PY
+
+[ -t 1 ] && command -v agy-cheatsheet >/dev/null 2>&1 && agy-cheatsheet --banner
+[ -t 1 ] && command -v agy-mic-button >/dev/null 2>&1 && agy-mic-button >/dev/null 2>&1 &
+
+if [ -t 0 ] && [ "$#" -le 1 ] && [ "$dir" = "$PWD" ]; then
+    exec agy --dangerously-skip-permissions --mode auto "$@"
+fi
+
+if command -v kitty >/dev/null 2>&1; then
+    exec kitty --title "Antigravity (YOLO) — $(basename "$dir")" --class agy-yolo \
+      --listen-on=unix:/tmp/kitty-yolo \
+      --directory "$dir" agy --dangerously-skip-permissions --mode auto "$@"
+else
+    cd "$dir" && exec agy --dangerously-skip-permissions --mode auto "$@"
+fi

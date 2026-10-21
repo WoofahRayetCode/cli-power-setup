@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Event watcher for live reporting in the Claude chat: runs in the background, exits (printing what happened) as soon as something worth telling the user happens, waits 20 s after the
-first event to collect related ones, then exits so Claude is woken up, reports, and starts it again.
+"""Event watcher for live reporting in the Antigravity chat: runs in the background, exits (printing what happened) as soon as something worth telling the user happens, waits 20 s after the
+first event to collect related ones, then exits so Antigravity is woken up, reports, and starts it again.
 Watches: NEEDS YOU changes, guardian recoveries/give-ups, walker "learned" lines, game crash windows, a REAL phone appearing on adb, the Discord token file, new Joplin inbox items,
-second screen (un)plugged, a new Walker/test result summary line in the work log, agenda changes. Also exits after 55 min with "heartbeat" so Claude gives a status."""
+second screen (un)plugged, a new Walker/test result summary line in the work log, agenda changes. Also exits after 55 min with "heartbeat" so Antigravity gives a status."""
 import glob, json, os, re, subprocess, sys, time
 from pathlib import Path
 here = Path(__file__).resolve().parent.parent

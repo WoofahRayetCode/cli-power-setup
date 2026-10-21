@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Claude Code (Eco Mode)
-GenericName=AI Coding Assistant (Eco Mode)
-Comment=Launch Claude Code in quota-optimized Eco Mode
-Exec=konsole -e /home/ericparsley/.local/bin/claude-eco
-Icon=claude-eco
-Terminal=false
-Categories=Development;Utility;

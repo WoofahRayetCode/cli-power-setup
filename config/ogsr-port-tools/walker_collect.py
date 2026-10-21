@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Walker data collector (the training data for the GPU trainer, and the report Claude reads to help the walker learn).
+"""Walker data collector (the training data for the GPU trainer, and the report Antigravity reads to help the walker learn).
 Runs while an OGSR game with the auto walker is up (guardian starts it). Read-only: only reads the files the game writes.
   docs/learn/walker_dataset.jsonl   1 row / 2 s: {t, level, x, z, wp, dist, want, speed, stuck, hostile30, fps, n_enemy, n_ally, nearest_enemy, nearest_anomaly, nearest_artifact}
                                     + event rows {ev: kick|learned|hot|skip|stuck, ...} parsed from the newest xray log (with the angle tried and whether it worked)

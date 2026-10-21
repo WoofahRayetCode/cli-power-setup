@@ -12,9 +12,9 @@ Production 3D asset creation, procedural geometry, organic sculpting, and GPU ba
 - **30 GB `/dev/shm` tmpfs Accelerator:** Stage intermediate texture bakes and OBJ/FBX exports in `/dev/shm` to eliminate SSD wear.
 - **SDF Organic Remeshing:** Eliminate the 'cartoony balloon-animal' look via Voxel SDF Remeshing, Volume-Preserving Laplacian smoothing, and QuadriFlow retopology.
 - **Tools:**
-  Silhouette verification: `python3 ~/.claude/skills/blender-3d-asset-pipeline/scripts/silhouette_iou_profiler.py`
-  Texture editing: `python3 ~/.claude/skills/blender-3d-asset-pipeline/scripts/texture_editor.py`
-  PBR channel packing: `python3 ~/.claude/skills/blender-3d-asset-pipeline/scripts/texture_pbr_packer.py`
+  Silhouette verification: `python3 ~/.gemini/config/skills/blender-3d-asset-pipeline/scripts/silhouette_iou_profiler.py`
+  Texture editing: `python3 ~/.gemini/config/skills/blender-3d-asset-pipeline/scripts/texture_editor.py`
+  PBR channel packing: `python3 ~/.gemini/config/skills/blender-3d-asset-pipeline/scripts/texture_pbr_packer.py`
 
 ## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
 - Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

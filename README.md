@@ -3,7 +3,7 @@
 [![Local Fleet](https://img.shields.io/badge/Local%20Fleet-Ollama-blue.svg)](#-zero-quota-local-language-model-fleet-37-models-0-cloud-tokens)
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)](#-license)
 
-An engineering, 3D modeling, and game engine porting toolkit for **Claude Code** (`claude`) and **Cursor IDE**: global rules, skills (as Claude Code skills and Cursor `.mdc` rules), CLI utilities in `~/.local/bin`, a local Ollama model fleet for zero-quota offload, and a token-ledger statusline.
+An engineering, 3D modeling, and game engine porting toolkit natively built for **Google Antigravity** (`agy`): ultra-lean global rules (`GEMINI.md`), 30 progressive on-demand skills, CLI utilities in `~/.local/bin`, a local Ollama model fleet for zero-quota offload, a live quota statusline, and a multi-tool exporter (`export-skills`) for Cursor, universal `.agents/`, and other agent platforms.
 
 ---
 
@@ -13,18 +13,16 @@ An engineering, 3D modeling, and game engine porting toolkit for **Claude Code**
 git clone https://github.com/WoofahRayetCode/cli-power-setup.git
 cd cli-power-setup
 ./install.sh                # interactive menu
-./install.sh --all          # Claude Code + Cursor
-./install.sh --claude       # Claude Code only
-./install.sh --cursor       # Cursor only
-./install.sh --with-models  # also sync the local Ollama model fleet
+./install.sh --all          # Antigravity (agy) + CLI Utilities [Recommended]
+./install.sh --with-models  # also sync and optimize the local Ollama model fleet
 ```
 
 On Windows run `install.ps1` (`-WithModels` / `-ModelsOnly` are optional).
 
 ### What the installer does
-1. Copies every script in `bin/` to `~/.local/bin/`.
-2. **Claude Code:** copies `config/skills/*` to `~/.claude/skills/`, `config/CLAUDE.md` to `~/.claude/CLAUDE.md`, and sets the `statusLine` (`claude-token-statusline`) and low default effort in `~/.claude/settings.json`. Adds `claude-eco`, `claude-turbo`, `claude-yolo` aliases to `~/.bashrc` and installs the desktop shortcuts from `config/desktop/`.
-3. **Cursor:** runs `bin/cursor-rules-sync` to generate `.cursor/rules/*.mdc` and `~/.cursorrules` from the skills, and updates Cursor `settings.json`.
+1. Copies every script in `bin/` to `~/.local/bin/` (including `export-skills`, `cs`, `agy-yolo`, `agy-turbo`, `agy-eco`, `agy-doctor`, `local-coprocessor`).
+2. **Antigravity (`agy`):** copies `config/skills/*` to `~/.gemini/config/skills/`, `config/GEMINI.md` to `~/.gemini/config/GEMINI.md`, and configures `statusLine` (`agy-quota-statusline`), trusted workspaces, and model settings in `~/.gemini/antigravity-cli/settings.json`. Adds `yolo`, `agy-yolo`, `agy-turbo`, `agy-eco`, and `cs` aliases to `~/.bashrc` / `~/.zshrc` and installs the desktop shortcuts from `config/desktop/`.
+3. **Multi-Tool Compatibility:** Use `export-skills` at any time to export skills to Cursor (`.cursor/rules/*.mdc` + `.cursorrules`), universal `.agents/` (`AGENTS.md` + `.agents/skills/`), Windsurf, or custom directories.
 4. Backs up existing configuration to `~/.cli_power_setup_backups/` first.
 
 ---
@@ -335,56 +333,30 @@ local-research-scout "godot compute shaders buffer sync" --raw-search
 
 | Utility | Purpose |
 | :--- | :--- |
-| `claude-token-statusline` | Claude Code statusline; records measured token/cache data in `config/token_ledger.json`. |
-| `claude-yolo` / `claude-turbo` / `claude-eco` | Launchers: skip-permissions, low-effort, and low-thinking-budget modes. |
-| `claude-autosend` | Sends a prompt to a running Claude Code terminal. |
-| `skill-scope` | Turns off skills a repo does not need via `skillOverrides` in `.claude/settings.local.json`. |
-| `local-coprocessor`, `local-worker`, `local-fleet-mcp`, `setup-local-model-fleet`, `ultra-model-manager`, `model-quant-optimizer`, `verify-fleet-utilization.py` | Local Ollama fleet management and zero-quota offload. |
-| `local-research-scout`, `perplexity-scout`, `grok-truth-audit`, `speculative-draft` | Research and verification helpers. |
-| `slice-reader`, `bgrun`, `repo-auto-sync`, `cursor-rules-sync` | File slicing, background runs, repo checkpoint/push, Cursor rule generation. |
-| `stalker-playtest-runner`, `self-improving-qa`, `nav-graph-recorder`, `game-test-watchdog`, `game-window-helper`, `operator-driver` | Autonomous game QA and playtesting. |
-| `game-texture-editor`, `game-dialogue-tool`, `game-dll-proxy-gen`, `game-math-solver`, `game-memory-scanner`, `weather-lighting-tuner`, `mangohud-configurator`, `rtx-engine-toolkit`, `steam-mod-scanner` | Game modding and engine tooling. |
-| `blender`, `blender-local-ai`, `creature-sound-forge`, `sound-web-scout`, `eleven-studio`, `voice-prompt-optimizer` | 3D and audio pipeline helpers. |
-| `android-dev-runner` | Android SDK/NDK build, deploy and screen mirroring. |
+| `agy-quota-statusline` | Real-time Antigravity statusline displaying model, reasoning effort, and weekly/daily quota telemetry. |
+| `agy-yolo` / `yolo` | Hands-free launcher: auto-approves all tool permissions (`--dangerously-skip-permissions --mode auto`). |
+| `agy-turbo` / `agy-eco` | High-speed Flash low-effort and low-cost execution modes. |
+| `agy-autosend` | Background watcher that presses Enter after prompt idle time and pipes mobile/Discord requests into the agent. |
+| `agy-doctor` / `agy-context` / `agy-init` | CLI diagnostics, context tree inspector, and repository initialization. |
+| `export-skills` | Universal exporter: converts `agy` skills & rules for Cursor, `.agents/` (OpenCode/Codex), Windsurf, or custom paths. |
+| `cs` (`agy-cheatsheet`) | Interactive dynamic model & effort router for all active repositories. |
+| `local-coprocessor`, `local-worker`, `local-fleet-mcp`, `setup-local-model-fleet`, `ultra-model-manager`, `model-quant-optimizer`, `verify-fleet-utilization.py` | Local Ollama fleet management and zero-quota offload on RTX 5060 + 32-thread CPU. |
+| `local-research-scout`, `perplexity-scout`, `grok-truth-audit`, `speculative-draft` | Local RAG and offline technical synthesis. |
+| `slice-reader`, `bgrun`, `repo-auto-sync` | Window-bounded file inspection, background runners, and automated git synchronization. |
+| `stalker-playtest-runner`, `self-improving-qa`, `nav-graph-recorder`, `game-test-watchdog`, `game-window-helper`, `operator-driver` | Autonomous game QA, `/dev/uinput` input simulation, and crash log sweeps. |
+| `game-texture-editor`, `game-dialogue-tool`, `game-dll-proxy-gen`, `game-math-solver`, `game-memory-scanner`, `weather-lighting-tuner`, `mangohud-configurator`, `rtx-engine-toolkit`, `steam-mod-scanner` | Game modding, DLL proxying, and engine tooling. |
+| `blender`, `blender-local-ai`, `creature-sound-forge`, `sound-web-scout`, `eleven-studio`, `voice-prompt-optimizer` | 3D Blender 5.2+ `bpy` automation, sound design, and speech normalization. |
+| `android-dev-runner` | Android SDK/NDK build, deploy and scrcpy screen mirroring. |
 
 ---
 
 ## Skills (`config/skills/`)
 
+30 canonical, progressive on-demand skills tailored for high-performance agentic engineering:
 
-`autonomous-game-qa-playtesting`, `blender-3d-asset-pipeline`, `client-memory-anti-tamper-re`, `console-emulation-toolchains`, `console-game-decompilation`, `console-storage-package-tools`, `cross-engine-shader-rendering`, `cross-platform-web-desktop`, `database-network-engineering`, `game-audio-voice-engineering`, `game-engines-multiplatform`, `game-physics-math-ballistics`, `human-crafted-web-design`, `interactive-data-visualization-web`, `linux-systems-engineering`, `local-model-coprocessor`, `modern-cpp-engineering`, `modern-web-architecture`, `nintendo-switch-homebrew`, `project-memory-bank`, `python-engineering`, `reverse-engineer-anything`, `rust-engineering`, `stalker-ogsr-engine-porting`, `stalker2-ue5-asset-transpiler`, `standalone-binary-re`, `threejs-webgl-engineering`, `windows-linux-cross-os-runtime-bridge`
+`adaptive-reasoning`, `autonomous-game-qa-playtesting`, `blender-3d-asset-pipeline`, `client-memory-anti-tamper-re`, `console-emulation-toolchains`, `console-game-decompilation`, `console-storage-package-tools`, `cross-engine-shader-rendering`, `cross-platform-web-desktop`, `database-network-engineering`, `first-principles-reasoning`, `game-audio-voice-engineering`, `game-engines-multiplatform`, `game-physics-math-ballistics`, `human-crafted-web-design`, `interactive-data-visualization-web`, `linux-systems-engineering`, `local-model-coprocessor`, `modern-cpp-engineering`, `modern-web-architecture`, `nintendo-switch-homebrew`, `project-memory-bank`, `python-engineering`, `reverse-engineer-anything`, `rust-engineering`, `stalker-ogsr-engine-porting`, `stalker2-ue5-asset-transpiler`, `standalone-binary-re`, `threejs-webgl-engineering`, `windows-linux-cross-os-runtime-bridge`
 
-Each skill is mirrored as a Cursor rule in `config/cursor/rules/` and `.cursor/rules/` (generated by `bin/cursor-rules-sync`). `config/skills/` mirrors `~/.claude/skills/`.
-
----
-
-## 📱 Android 2D & 3D Game & App Development Workflows
-
-The repository provides a dedicated toolchain and automation suite for high-performance 2D and 3D Android development across C++/Vulkan NDK, Godot, Unity, and Jetpack Compose:
-
-<details>
-<summary><b>📱 Click to View Android Game & App Toolchain Workflows</b></summary>
-
-1. **High-End 3D Native Game Architecture (C++ / Vulkan NDK):**
-   * **Skills:** `android-ndk-jni-engineering` + `vulkan-gpu-compute` + `game-texture-material-pipeline` + `android-perf-battery-profiling`.
-   * **Tooling:** Automated NDK builds with CMake, Vulkan validation layers, ASTC texture compression, and zero-copy ByteBuffers.
-
-2. **Cross-Platform Engine Porting (Godot / Unity Android):**
-   * **Skills:** `android-app-engineering` + `android-mobile-3d-asset-optimizer` + `mobile-thermal-frame-pacing`.
-   * **Optimization:** TBDR tile budget profiling, Swappy frame pacing, and Dynamic Resolution Scaling (DRS).
-
-3. **Modern Jetpack Compose UI & Reactive Apps:**
-   * **Skills:** `android-compose-ui-ux` + `android-architecture-jetpack` + `android-testing-ci-cd-security`.
-   * **Architecture:** Clean Architecture with MVI/StateFlow, edge-to-edge window insets, StrongBox Keystore security, and Robolectric UI tests.
-
-```bash
-# Verify Android SDK/NDK, USB debugging & device screen mirroring
-android-dev-runner doctor
-android-dev-runner mirror   # Launches high-performance scrcpy mirror
-android-dev-runner jank     # Profiles frame rendering drops and 1% lows
-```
-
-</details>
+Skills are deployed to `~/.gemini/config/skills/` during installation and loaded on-demand by Antigravity using progressive disclosure.
 
 ---
 
@@ -392,27 +364,24 @@ android-dev-runner jank     # Profiles frame rendering drops and 1% lows
 
 ```
 cli-power-setup/
-├── install.sh / install.ps1   # Installers (Claude Code + Cursor)
-├── CLAUDE.md                  # Global Claude Code rules (same as config/CLAUDE.md)
-├── .cursorrules, .cursor/     # Generated Cursor rules
-├── bin/                       # CLI utilities installed to ~/.local/bin
+├── install.sh / install.ps1   # Native installers (Antigravity agy + Local Model Fleet)
+├── GEMINI.md                  # Global Antigravity rules (~60 lines, high-density discipline)
+├── bin/                       # CLI utilities (agy-*, export-skills, local fleet tools)
 ├── config/
-│   ├── CLAUDE.md              # Global rules installed to ~/.claude/CLAUDE.md
-│   ├── skills/                # Claude Code skills
-│   ├── cursor/                # Cursor rules and settings template
-│   ├── desktop/               # Desktop shortcuts and Dolphin service menus
-│   ├── ogsr-port-tools/       # OGSR port helper tools
-│   ├── system-tweaks/         # System tweaks (see docs/SYSTEM_TWEAKS.md)
-│   ├── settings.template.json # Claude Code statusLine template
-│   └── token_ledger.json      # Token savings ledger
+│   ├── GEMINI.md              # Global rules installed to ~/.gemini/config/GEMINI.md
+│   ├── skills/                # 30 canonical Antigravity skills
+│   ├── desktop/               # agy-yolo desktop shortcuts & Dolphin service menus
+│   ├── ogsr-port-tools/       # OGSR 64-bit porting & guardian daemon tools
+│   ├── system-tweaks/         # Linux system tweaks
+│   └── token_ledger.json      # Lifetime token savings ledger
 ├── docs/                      # Documentation
 └── scripts/                   # Maintenance scripts
 ```
 
-## Adding a Skill
+## Adding or Exporting Skills
 1. Create `config/skills/<name>/SKILL.md` (and optional `scripts/`).
-2. Run `bin/cursor-rules-sync` to generate the Cursor rule.
-3. Run `./install.sh --all` to deploy.
+2. Run `./install.sh --all` to deploy to `~/.gemini/config/skills/`.
+3. To export to other platforms, run `export-skills --target cursor` or `export-skills --target agents`.
 
 ---
 

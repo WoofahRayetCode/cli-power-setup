@@ -5,10 +5,10 @@
   joplin_bridge.py inbox                   one-shot read of the phone inbox
   joplin_bridge.py done "fragment" ...     mark matching inbox lines [done] after they are completed (never deletes)
 Notebook "STALKER Port" with three notes:
-  "1 STATUS (Claude writes)"   what is running now, last results, the ticker text, free space, newest night report, research results   (overwritten every cycle)
+  "1 STATUS (Antigravity writes)"   what is running now, last results, the ticker text, free space, newest night report, research results   (overwritten every cycle)
   "2 INBOX (you write)"        type ideas / bugs / links here on the phone. Every NEW line is appended to docs/INBOX.md as [phone] and to .agents/queue.jsonl;
                                lines containing a URL are fetched (YouTube: title/description via oEmbed) and summarised by a local model into "3 RESEARCH"
-  "3 RESEARCH (Claude writes)" summaries of the links / ideas you sent, with what could be built from them
+  "3 RESEARCH (Antigravity writes)" summaries of the links / ideas you sent, with what could be built from them
 Needs Joplin's clipper service (it is on: port 41184). The token is read from Joplin's settings.json and never printed. Local model: llmrun (game-aware, CPU while the game runs)."""
 import json, os, re, sys, time, html, urllib.request, urllib.parse
 from pathlib import Path
@@ -16,7 +16,7 @@ here = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(here / "tools"))
 import joplin_sync as J
 QUEUE, SEEN = here / ".agents/queue.jsonl", here / ".agents/joplin_seen.json"
-NB = "STALKER Port"; T_STATUS, T_INBOX, T_RES = "1 STATUS (Claude writes)", "2 INBOX (you write)", "3 RESEARCH (Claude writes)"
+NB = "STALKER Port"; T_STATUS, T_INBOX, T_RES = "1 STATUS (Antigravity writes)", "2 INBOX (you write)", "3 RESEARCH (Antigravity writes)"
 def connect():
     port = J.find_port()
     if not port: raise RuntimeError("Joplin API not answering")
@@ -54,7 +54,7 @@ def summarise(line):
          "Summarise in <= 8 lines, then list 3 concrete things we could build from it (file/tool/effort).")
     return llmrun.ask("qwen3:30b-a3b", p, 900)
 def inbox():
-    connect(); f = folder(); n = note(f, T_INBOX, "Write ideas, bugs and links here, one per line. Claude picks up new lines.\n\n")
+    connect(); f = folder(); n = note(f, T_INBOX, "Write ideas, bugs and links here, one per line. Antigravity picks up new lines.\n\n")
     seen = set(json.loads(SEEN.read_text())) if SEEN.exists() else set()
     new = [l.strip() for l in n["body"].splitlines()[2:] if l.strip() and l.strip() not in seen and not l.startswith("#") and not l.strip().lower().startswith("[done]")]
     if not new: return 0

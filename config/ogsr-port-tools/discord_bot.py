@@ -2,15 +2,15 @@
 """STALKER port Discord bot: talks ONLY to you, in direct messages. Run with ~/.cache/discordbot/bin/python tools/discord_bot.py
 Setup (once, needs you): see docs/DISCORD_BOT.md. Config in ~/.config/stalker-discord/ : `token` (bot token), `owner_id` (your numeric Discord user id); both chmod 600.
 Safety: every message from anybody but owner_id is ignored (no reply at all); it never joins channels (guild messages are ignored); commands are limited to the list below;
-text for Claude goes through the same remote queue as the phone dashboard (10 per hour); nothing is ever executed from message text.
+text for Antigravity goes through the same remote queue as the phone dashboard (10 per hour); nothing is ever executed from message text.
 Pushes (DM, batched, at most one message per 10 s): NEEDS YOU changes, guardian recoveries, walker "learned" events, new local-model failures, hourly digest.
-Commands (send as a DM): help | status | needs | walker | log | models | guardian | ask <text for Claude> | nightwalk on|off | digest on|off | mute <min>
-Any other text is treated as `ask <text>` (queued for Claude, who answers in the terminal; his short replies are sent back here when the work log changes)."""
+Commands (send as a DM): help | status | needs | walker | log | models | guardian | ask <text for Antigravity> | nightwalk on|off | digest on|off | mute <min>
+Any other text is treated as `ask <text>` (queued for Antigravity, who answers in the terminal; his short replies are sent back here when the work log changes)."""
 import asyncio, json, os, re, subprocess, sys, time, urllib.request
 from pathlib import Path
 import discord
 here = Path(__file__).resolve().parent.parent; CFG = Path.home() / ".config/stalker-discord"
-QUEUE = Path.home() / ".cache/claude-autosend/remote_queue.jsonl"; SENDS = Path.home() / ".cache/discord_sends.txt"
+QUEUE = Path.home() / ".cache/agy-autosend/remote_queue.jsonl"; SENDS = Path.home() / ".cache/discord_sends.txt"
 def cfg(n):
     try: return (CFG / n).read_text().strip()
     except Exception: return ""
@@ -38,12 +38,12 @@ def status_text():
         "game: " + ("running" if sh("pgrep -f '[x]rEngine.exe' | head -1") else "closed"), "walker: " + (v.group(1) if v else "no data"), "guardian: " + sh("tail -1 .agents/guardian.log")[:120], "workers: " + sh("local-worker status | head -1")])
 def ask_claude(text):
     recent = [float(x) for x in rd(SENDS, 4000).split() if x.replace(".", "").isdigit() and time.time() - float(x) < 3600]
-    if len(recent) >= 10: return "limit: 10 messages to Claude per hour"
+    if len(recent) >= 10: return "limit: 10 messages to Antigravity per hour"
     QUEUE.parent.mkdir(parents=True, exist_ok=True)
     with open(QUEUE, "a") as f: f.write(json.dumps({"t": time.strftime("%F %T"), "text": text[:1000], "from": "discord", "status": "new"}) + "\n")
     with open(SENDS, "a") as f: f.write(f"{time.time()}\n")
     with open(here / "docs/INBOX.md", "a") as f: f.write(f"- [{time.strftime('%F %H:%M')}] [discord] {text[:500]}\n")
-    return "queued for Claude: it is typed into his prompt as soon as the prompt is empty"
+    return "queued for Antigravity: it is typed into his prompt as soon as the prompt is empty"
 def command(text):
     t = text.strip(); low = t.lower(); a = low.split()
     if not a or a[0] in ("help", "?"): return __doc__.split("Commands (send as a DM):")[1].split("\n")[0].strip()

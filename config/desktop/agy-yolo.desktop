@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Antigravity (YOLO)
+GenericName=AI Agent CLI (Skip Permissions)
+Comment=Open Antigravity CLI with --dangerously-skip-permissions in Kitty terminal
+Exec=/home/ericparsley/.local/bin/agy-yolo
+Icon=utilities-terminal
+Path=/home/ericparsley
+Terminal=false
+Categories=Development;Utility;
+StartupNotify=true
+StartupWMClass=agy-yolo

@@ -11,7 +11,7 @@ High-performance static site generators, Jamstack architecture, zero-JS baseline
 - **Frameworks:** Astro 4/5 for content-driven marketing and blogs; VitePress for technical documentation.
 - **Content Collections & Schemas:** Enforce frontmatter validation using Zod (`z.object({ title: z.string(), date: z.date() })`).
 - **Scaffolding Tool:**
-  `python3 ~/.claude/skills/modern-web-architecture/scripts/static_site_scaffolder.py`
+  `python3 ~/.gemini/config/skills/modern-web-architecture/scripts/static_site_scaffolder.py`
 
 ## Related & Interoperating Skills
 - **`modern-cpp-engineering`**: Modern C++20/23 standards, CMake 3.25+, RAII, smart pointers, 64-bit alignment, and memory sanitizers.

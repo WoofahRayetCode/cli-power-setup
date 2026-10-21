@@ -147,7 +147,7 @@ def normalize_voice_text(raw_text: str) -> tuple[str, str, int, int]:
     # B. Phonetic Term Normalization
     for pattern, replacement in PHONETIC_REPLACEMENTS:
         text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
-    # B2. personal speech dictionary (learned corrections, ~/.claude/speech_corrections.json via the STALKER repo tools/speech_memory.py)
+    # B2. personal speech dictionary (learned corrections, ~/.gemini/config/speech_corrections.json via the STALKER repo tools/speech_memory.py)
     try:
         import importlib.util, os as _os
         _sp = _os.path.expanduser("~/Documents/GitHub/ogsr-complete-merge/tools/speech_memory.py")

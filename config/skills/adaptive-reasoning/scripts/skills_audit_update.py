@@ -1,0 +1,278 @@
+#!/usr/bin/env python3
+"""
+Skills Auditor & Multi-CLI Updater (skills-audit-update)
+Audits integrity, permissions, frontmatter, host dependencies, and synchronization
+across config/skills, ~/.gemini/config/skills, and ~/.gemini/config/skills.
+"""
+
+import sys
+import os
+import shutil
+import subprocess
+import argparse
+import json
+import py_compile
+from pathlib import Path
+
+# Paths
+HOME = Path.home()
+REPO_DIR = Path("/home/ericparsley/Documents/GitHub/cli-power-setup")
+REPO_SKILLS = REPO_DIR / "config/skills"
+GEMINI_SKILLS = HOME / ".gemini/config/skills"
+CLAUDE_SKILLS = HOME / ".claude/skills"
+
+# Key external tool dependencies mapped to skills
+TOOL_DEPENDENCIES = {
+    "ffmpeg": ["video-production-automation", "youtube-shorts-video-automation"],
+    "adb": ["android-device-automation"],
+    "scrcpy": ["android-device-automation"],
+    "glslangValidator": ["shader-cross-compilation", "vulkan-gpu-compute"],
+    "spirv-val": ["shader-cross-compilation"],
+    "spirv-opt": ["shader-cross-compilation"],
+    "renderdoccmd": ["real-time-rendering-pipeline"],
+    "vulkaninfo": ["vulkan-gpu-compute", "emulator-development-engineering"],
+    "nvcc": ["cuda-gpu-acceleration"],
+    "cargo": ["rust-engineering", "tauri-multiplatform-dev"],
+    "cmake": ["cmake-cross-platform", "modern-cpp-engineering"],
+    "tshark": ["network-protocol-engineering", "binary-re-workflows"],
+    "python3": ["python-engineering", "sandbox-code-interpreter", "game-texture-material-pipeline", "autonomous-goal-governor", "furry-fursona-art-design", "android-rom-os-engineering", "game-qa-playtest-controller", "computer-vision-deep-learning", "industrial-machine-vision-inspection", "agentic-visual-perception", "local-model-coprocessor", "local-vector-rag-engine", "local-ast-compiler-engine", "game-exploratory-fuzzing", "self-healing-test-automation", "coverage-guided-mutation-testing"],
+    "objdiff": ["console-game-decompilation"],
+    "splat": ["console-game-decompilation"],
+    "rizin": ["console-game-decompilation", "binary-re-workflows"],
+    "m2c": ["console-game-decompilation"],
+    "spectacle": ["game-screen-telemetry-monitor"],
+    "tesseract": ["game-screen-telemetry-monitor", "visual-document-ocr-intelligence"],
+}
+
+def parse_frontmatter(skill_file: Path) -> dict:
+    if not skill_file.exists():
+        return {}
+    content = skill_file.read_text(encoding="utf-8", errors="ignore")
+    lines = content.splitlines()
+    if not (lines and lines[0].strip() == "---"):
+        return {}
+    
+    meta = {}
+    for line in lines[1:]:
+        if line.strip() == "---":
+            break
+        if ":" in line:
+            k, v = line.split(":", 1)
+            meta[k.strip()] = v.strip()
+    return meta
+
+def audit_skills(fix: bool = False, json_output: bool = False):
+    report = {
+        "repo_dir": str(REPO_DIR),
+        "repo_skills_count": 0,
+        "gemini_skills_count": 0,
+        "claude_skills_count": 0,
+        "desync_skills": [],
+        "invalid_frontmatter": [],
+        "script_syntax_errors": [],
+        "permission_fixed": [],
+        "dependency_status": {},
+        "upstream_status": "unknown"
+    }
+
+    # 1. Skill Counts
+    repo_skills = set(p.name for p in REPO_SKILLS.iterdir() if p.is_dir()) if REPO_SKILLS.exists() else set()
+    gemini_skills = set(p.name for p in GEMINI_SKILLS.iterdir() if p.is_dir()) if GEMINI_SKILLS.exists() else set()
+    claude_skills = set(p.name for p in CLAUDE_SKILLS.iterdir() if p.is_dir() and p.name != "synced") if CLAUDE_SKILLS.exists() else set()
+
+    report["repo_skills_count"] = len(repo_skills)
+    report["gemini_skills_count"] = len(gemini_skills)
+    report["claude_skills_count"] = len(claude_skills)
+
+    # Desync detection
+    all_known = repo_skills | gemini_skills | claude_skills
+    for s in sorted(all_known):
+        in_repo = s in repo_skills
+        in_gemini = s in gemini_skills
+        in_claude = s in claude_skills
+        if not (in_repo and in_gemini and in_claude):
+            report["desync_skills"].append({
+                "skill": s,
+                "in_repo": in_repo,
+                "in_gemini": in_gemini,
+                "in_claude": in_claude
+            })
+
+    # 2. Check Frontmatter & Scripts in Repo
+    for skill_dir in sorted(REPO_SKILLS.iterdir()):
+        if not skill_dir.is_dir():
+            continue
+        skill_name = skill_dir.name
+        skill_md = skill_dir / "SKILL.md"
+
+        if not skill_md.exists():
+            report["invalid_frontmatter"].append({"skill": skill_name, "error": "SKILL.md missing"})
+            continue
+
+        fm = parse_frontmatter(skill_md)
+        if not fm.get("name") or not fm.get("description"):
+            report["invalid_frontmatter"].append({
+                "skill": skill_name,
+                "error": "Missing 'name' or 'description' in YAML frontmatter"
+            })
+
+        # Scripts checking
+        scripts_dir = skill_dir / "scripts"
+        if scripts_dir.exists() and scripts_dir.is_dir():
+            for script in scripts_dir.iterdir():
+                if not script.is_file():
+                    continue
+                # Executable permissions check
+                is_exec = os.access(script, os.X_OK)
+                if not is_exec:
+                    if fix:
+                        script.chmod(script.stat().st_mode | 0o755)
+                        report["permission_fixed"].append(str(script.relative_to(REPO_DIR)))
+                    else:
+                        report["permission_fixed"].append(f"{script.relative_to(REPO_DIR)} (needs +x)")
+
+                # Python syntax check
+                if script.suffix == ".py":
+                    try:
+                        py_compile.compile(str(script), doraise=True)
+                    except py_compile.PyCompileError as e:
+                        report["script_syntax_errors"].append({"script": str(script), "error": str(e)})
+
+                # Bash syntax check
+                elif script.suffix == ".sh":
+                    res = subprocess.run(["bash", "-n", str(script)], capture_output=True, text=True)
+                    if res.returncode != 0:
+                        report["script_syntax_errors"].append({"script": str(script), "error": res.stderr.strip()})
+
+    # 3. Check Host Tool Dependencies
+    for tool, associated_skills in TOOL_DEPENDENCIES.items():
+        found = shutil.which(tool) is not None
+        report["dependency_status"][tool] = {
+            "installed": found,
+            "path": shutil.which(tool) if found else None,
+            "used_by": associated_skills
+        }
+
+    # 4. Check Upstream Git Status
+    if (REPO_DIR / ".git").exists():
+        try:
+            subprocess.run(["git", "fetch", "--dry-run"], cwd=REPO_DIR, capture_output=True, timeout=5)
+            res = subprocess.run(["git", "status", "-uno"], cwd=REPO_DIR, capture_output=True, text=True, timeout=5)
+            if "Your branch is up to date" in res.stdout:
+                report["upstream_status"] = "up-to-date"
+            elif "Your branch is behind" in res.stdout:
+                report["upstream_status"] = "behind-remote"
+            elif "Your branch is ahead" in res.stdout:
+                report["upstream_status"] = "ahead-of-remote"
+            else:
+                report["upstream_status"] = "diverged-or-uncommitted"
+        except Exception:
+            report["upstream_status"] = "offline-or-timeout"
+
+    if json_output:
+        print(json.dumps(report, indent=2))
+        return 0
+
+    # Pretty CLI Terminal Output
+    print(f"\n=======================================================")
+    print(f" 🛡️  Skills Integrity & Health Audit Report           ")
+    print(f"=======================================================")
+    print(f"Repository:        {REPO_DIR}")
+    print(f"Repo Skills:       {report['repo_skills_count']} active")
+    print(f"Gemini Skills:     {report['gemini_skills_count']} active ({GEMINI_SKILLS})")
+    print(f"Claude Skills:     {report['claude_skills_count']} active ({CLAUDE_SKILLS})")
+    print(f"Git Remote Status: {report['upstream_status']}")
+
+    # Desync
+    if report["desync_skills"]:
+        print(f"\n[!] Desynchronized Skills Found ({len(report['desync_skills'])}):")
+        for d in report["desync_skills"]:
+            print(f"    - {d['skill']}: repo={d['in_repo']}, gemini={d['in_gemini']}, claude={d['in_claude']}")
+        print("    Run: `skills-audit-update --sync` to synchronize all directories.")
+    else:
+        print(f"\n[✓] All {report['repo_skills_count']} skills are 100% synchronized across Antigravity and Claude Code.")
+
+    # Frontmatter
+    if report["invalid_frontmatter"]:
+        print(f"\n[✗] Invalid YAML Frontmatter ({len(report['invalid_frontmatter'])}):")
+        for err in report["invalid_frontmatter"]:
+            print(f"    - {err['skill']}: {err['error']}")
+    else:
+        print(f"[✓] YAML frontmatter validated for all {report['repo_skills_count']} skills.")
+
+    # Scripts
+    if report["script_syntax_errors"]:
+        print(f"\n[✗] Script Syntax Errors ({len(report['script_syntax_errors'])}):")
+        for err in report["script_syntax_errors"]:
+            print(f"    - {err['script']}: {err['error']}")
+    else:
+        print(f"[✓] All helper scripts passed Python/Bash syntax checks.")
+
+    # Permissions
+    if report["permission_fixed"]:
+        if fix:
+            print(f"\n[✓] Fixed executable permissions on {len(report['permission_fixed'])} scripts.")
+        else:
+            print(f"\n[!] Scripts missing executable (+x) permissions: {len(report['permission_fixed'])}")
+            print("    Run: `skills-audit-update --fix` to auto-repair permissions.")
+    else:
+        print(f"[✓] All scripts have valid executable permissions.")
+
+    # Dependencies
+    print(f"\n--- Host Tool Dependencies ---")
+    missing = [t for t, d in report["dependency_status"].items() if not d["installed"]]
+    installed = [t for t, d in report["dependency_status"].items() if d["installed"]]
+    print(f"[✓] Available ({len(installed)}): {', '.join(installed)}")
+    if missing:
+        print(f"[!] Optional Missing ({len(missing)}): {', '.join(missing)}")
+    else:
+        print(f"[✓] All {len(installed)} mapped tool dependencies are present.")
+
+    print(f"=======================================================\n")
+    return 0 if not (report["desync_skills"] or report["invalid_frontmatter"] or report["script_syntax_errors"]) else 1
+
+def sync_skills():
+    print(f"[→] Synchronizing skills from {REPO_SKILLS}...")
+    GEMINI_SKILLS.mkdir(parents=True, exist_ok=True)
+    CLAUDE_SKILLS.mkdir(parents=True, exist_ok=True)
+
+    subprocess.run(f"cp -r '{REPO_SKILLS}/'* '{GEMINI_SKILLS}/'", shell=True, check=True)
+    subprocess.run(f"cp -r '{REPO_SKILLS}/'* '{CLAUDE_SKILLS}/'", shell=True, check=True)
+
+    gem_cnt = len([p for p in GEMINI_SKILLS.iterdir() if p.is_dir()])
+    cla_cnt = len([p for p in CLAUDE_SKILLS.iterdir() if p.is_dir() and p.name != "synced"])
+    print(f"[✓] Synchronized: Gemini={gem_cnt} skills, Claude={cla_cnt} skills.")
+
+def pull_upstream():
+    print(f"[→] Fetching and pulling latest upstream changes from origin/main...")
+    res = subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=REPO_DIR, capture_output=True, text=True)
+    print(res.stdout)
+    if res.returncode != 0:
+        print(f"[✗] Git pull failed:\\n{res.stderr}")
+        return res.returncode
+    sync_skills()
+    return 0
+
+def main():
+    parser = argparse.ArgumentParser(description="Skills Auditor & Multi-CLI Synchronizer")
+    parser.add_argument("--audit", action="store_true", help="Audit all skills, scripts, frontmatter, and dependencies")
+    parser.add_argument("--sync", action="store_true", help="Synchronize skills across repo, Gemini, and Claude")
+    parser.add_argument("--fix", action="store_true", help="Auto-repair script permissions and missing directories")
+    parser.add_argument("--pull", action="store_true", help="Pull latest upstream updates from git and sync")
+    parser.add_argument("--json", action="store_true", help="Output audit report as JSON")
+
+    args = parser.parse_args()
+
+    if args.pull:
+        return pull_upstream()
+    if args.sync:
+        sync_skills()
+        return 0
+    if args.audit or args.fix or args.json:
+        return audit_skills(fix=args.fix, json_output=args.json)
+
+    # Default action if no flags provided: audit
+    return audit_skills(fix=False, json_output=False)
+
+if __name__ == "__main__":
+    sys.exit(main())

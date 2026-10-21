@@ -1,0 +1,216 @@
+#!/usr/bin/env python3
+"""
+export-skills: Export Antigravity (agy) skills and rules to other platforms and workspaces.
+
+Usage:
+  export-skills --list                                 List all available skills
+  export-skills --target cursor [--dest DIR]           Export to Cursor (.cursor/rules/*.mdc, ~/.cursorrules)
+  export-skills --target agents [--dest DIR]           Export to universal .agents/ (AGENTS.md + .agents/skills)
+  export-skills --target agy-workspace --repo DIR      Configure a repo with .agents/skills.json & GEMINI.md
+  export-skills --target windsurf [--dest DIR]         Export to .windsurfrules
+  export-skills --target custom --dest DIR             Export raw skills and rules to any destination directory
+"""
+
+import argparse
+import json
+import os
+import shutil
+import sys
+from pathlib import Path
+
+DEFAULT_REPO_DIR = Path("/home/ericparsley/Documents/GitHub/cli-power-setup")
+if not DEFAULT_REPO_DIR.exists():
+    DEFAULT_REPO_DIR = Path(__file__).resolve().parent.parent
+
+SKILLS_DIR = DEFAULT_REPO_DIR / "config/skills"
+if not SKILLS_DIR.exists():
+    SKILLS_DIR = Path.home() / ".gemini/config/skills"
+
+GLOBAL_RULES_PATH = DEFAULT_REPO_DIR / "config/GEMINI.md"
+if not GLOBAL_RULES_PATH.exists():
+    GLOBAL_RULES_PATH = Path.home() / ".gemini/config/GEMINI.md"
+
+def parse_skill(skill_path: Path):
+    """Parses frontmatter and markdown body from SKILL.md."""
+    md_file = skill_path / "SKILL.md"
+    if not md_file.exists():
+        return {}, ""
+    content = md_file.read_text(encoding="utf-8", errors="ignore")
+    lines = content.splitlines()
+    if not (lines and lines[0].strip() == "---"):
+        return {}, content
+
+    meta = {}
+    end_idx = 1
+    for i, line in enumerate(lines[1:], start=1):
+        if line.strip() == "---":
+            end_idx = i
+            break
+        if ":" in line:
+            k, v = line.split(":", 1)
+            meta[k.strip()] = v.strip()
+
+    body = "\n".join(lines[end_idx + 1:]).strip()
+    return meta, body
+
+def list_skills():
+    print(f"\nAvailable Antigravity Skills ({SKILLS_DIR}):\n")
+    if not SKILLS_DIR.exists():
+        print("No skills directory found.")
+        return 0
+    skills = sorted([p for p in SKILLS_DIR.iterdir() if p.is_dir() and (p / "SKILL.md").exists()])
+    for s in skills:
+        meta, _ = parse_skill(s)
+        desc = meta.get("description", "No description provided.")
+        print(f"  • \033[1m{s.name:36s}\033[0m {desc}")
+    print(f"\nTotal: {len(skills)} skills available.\n")
+    return 0
+
+def export_cursor(dest_dir=None, global_cursor=True):
+    print("\n[→] Exporting skills to Cursor IDE format (.mdc rules + .cursorrules)...")
+    user_cursor_dir = Path(dest_dir) if dest_dir else (Path.home() / ".cursor/rules")
+    user_cursorrules = (Path(dest_dir).parent if dest_dir else Path.home()) / ".cursorrules"
+    user_cursor_dir.mkdir(parents=True, exist_ok=True)
+
+    rules_body = GLOBAL_RULES_PATH.read_text(encoding="utf-8") if GLOBAL_RULES_PATH.exists() else ""
+    skill_rows = []
+    converted = 0
+
+    skills = sorted([p for p in SKILLS_DIR.iterdir() if p.is_dir() and (p / "SKILL.md").exists()])
+    for s in skills:
+        meta, body = parse_skill(s)
+        desc = meta.get("description", f"Instructions for {s.name}")
+        skill_rows.append((s.name, desc))
+
+        mdc_content = f"""---
+description: {desc}
+globs: 
+alwaysApply: false
+---
+
+{body}
+"""
+        out_file = user_cursor_dir / f"{s.name}.mdc"
+        out_file.write_text(mdc_content, encoding="utf-8")
+        converted += 1
+
+    table = "\n".join([f"| **`{name}`** | {desc} |" for name, desc in skill_rows])
+    cursorrules_content = f"""# Cursor AI Unified Rules & Multi-Model Power Configuration
+
+{rules_body}
+
+---
+
+## Complete Skills Catalog ({converted} Capabilities)
+All skills below are indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`:
+
+| Skill | Capabilities & When to Use |
+| :--- | :--- |
+{table}
+"""
+    user_cursorrules.write_text(cursorrules_content, encoding="utf-8")
+    print(f"[✓] Successfully exported {converted} rules to {user_cursor_dir}")
+    print(f"[✓] Generated unified rules in {user_cursorrules}\n")
+    return 0
+
+def export_agents(dest_dir=None):
+    print("\n[→] Exporting to universal .agents/ standard...")
+    target_agents_dir = Path(dest_dir) if dest_dir else (Path.home() / ".agents")
+    target_skills_dir = target_agents_dir / "skills"
+    target_agents_md = target_agents_dir / "AGENTS.md"
+    target_skills_dir.mkdir(parents=True, exist_ok=True)
+
+    skills = sorted([p for p in SKILLS_DIR.iterdir() if p.is_dir() and (p / "SKILL.md").exists()])
+    for s in skills:
+        dest_skill = target_skills_dir / s.name
+        if dest_skill.exists():
+            shutil.rmtree(dest_skill)
+        shutil.copytree(s, dest_skill)
+
+    if GLOBAL_RULES_PATH.exists():
+        shutil.copy2(GLOBAL_RULES_PATH, target_agents_md)
+
+    print(f"[✓] Exported {len(skills)} skills into {target_skills_dir}")
+    print(f"[✓] Exported AGENTS.md to {target_agents_md}\n")
+    return 0
+
+def export_agy_workspace(repo_path, selected_skills=None):
+    repo = Path(repo_path).expanduser().resolve()
+    if not repo.is_dir():
+        sys.exit(f"Error: Repository directory does not exist: {repo}")
+
+    dot_agents = repo / ".agents"
+    dot_agents.mkdir(parents=True, exist_ok=True)
+
+    # Copy repo-local GEMINI.md
+    if GLOBAL_RULES_PATH.exists():
+        shutil.copy2(GLOBAL_RULES_PATH, repo / "GEMINI.md")
+
+    # Generate skills.json
+    all_skills = sorted([p.name for p in SKILLS_DIR.iterdir() if p.is_dir() and (p / "SKILL.md").exists()])
+    if selected_skills:
+        chosen = [s.strip() for s in selected_skills.split(",") if s.strip() in all_skills]
+    else:
+        chosen = all_skills
+
+    manifest = {
+        "inherits": [
+            {
+                "path": str(Path.home() / ".gemini/config/skills"),
+                "include_only": chosen
+            }
+        ]
+    }
+    (dot_agents / "skills.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    print(f"\n[✓] Configured {repo.name} with {len(chosen)} scoped skills in .agents/skills.json and GEMINI.md\n")
+    return 0
+
+def export_custom(dest_dir):
+    dest = Path(dest_dir).expanduser().resolve()
+    dest.mkdir(parents=True, exist_ok=True)
+    skills = sorted([p for p in SKILLS_DIR.iterdir() if p.is_dir() and (p / "SKILL.md").exists()])
+    for s in skills:
+        out = dest / s.name
+        if out.exists():
+            shutil.rmtree(out)
+        shutil.copytree(s, out)
+    if GLOBAL_RULES_PATH.exists():
+        shutil.copy2(GLOBAL_RULES_PATH, dest / "RULES.md")
+    print(f"\n[✓] Exported {len(skills)} skills and RULES.md to {dest}\n")
+    return 0
+
+def main():
+    parser = argparse.ArgumentParser(description="Antigravity Skills & Rules Exporter")
+    parser.add_argument("--list", action="store_true", help="List all available skills")
+    parser.add_argument("--target", choices=["cursor", "agents", "agy-workspace", "windsurf", "custom"], help="Export target platform")
+    parser.add_argument("--dest", help="Custom destination directory")
+    parser.add_argument("--repo", help="Target repository directory for --target agy-workspace")
+    parser.add_argument("--skills", help="Comma-separated skill subset for scoping")
+
+    args = parser.parse_args()
+
+    if args.list or len(sys.argv) == 1:
+        return list_skills()
+
+    if args.target == "cursor":
+        return export_cursor(args.dest)
+    elif args.target == "agents":
+        return export_agents(args.dest)
+    elif args.target == "agy-workspace":
+        return export_agy_workspace(args.repo or os.getcwd(), args.skills)
+    elif args.target == "windsurf":
+        out = Path(args.dest) if args.dest else Path.home() / ".windsurfrules"
+        if GLOBAL_RULES_PATH.exists():
+            shutil.copy2(GLOBAL_RULES_PATH, out)
+            print(f"[✓] Exported rules to {out}")
+        return 0
+    elif args.target == "custom":
+        if not args.dest:
+            sys.exit("Error: --dest DIR is required when using --target custom")
+        return export_custom(args.dest)
+    else:
+        parser.print_help()
+        return 1
+
+if __name__ == "__main__":
+    sys.exit(main())

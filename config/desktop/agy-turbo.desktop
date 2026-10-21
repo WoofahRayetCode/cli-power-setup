@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Antigravity (Turbo)
+GenericName=Fast AI Agent CLI
+Comment=Open Antigravity CLI in Turbo Flash Mode
+Exec=/home/ericparsley/.local/bin/agy-turbo
+Icon=utilities-terminal
+Path=/home/ericparsley
+Terminal=false
+Categories=Development;Utility;
+StartupNotify=true
+StartupWMClass=agy-turbo

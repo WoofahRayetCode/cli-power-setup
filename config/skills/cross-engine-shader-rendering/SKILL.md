@@ -9,9 +9,9 @@ Universal shader compilation, HLSL/GLSL/SPIR-V transpilation, Cook-Torrance PBR 
 
 ## Pipelines
 - **Cross-Compilation:** Author single-source shaders and compile via `glslangValidator`, `spirv-opt`, and SPIRV-Cross into Vulkan SPIR-V, DX12 HLSL, and OpenGL GLSL:
-  `python3 ~/.claude/skills/cross-engine-shader-rendering/scripts/shader_transpile_validate.py`
+  `python3 ~/.gemini/config/skills/cross-engine-shader-rendering/scripts/shader_transpile_validate.py`
 - **Weather & Post-Processing:** Sun shafts, progressive bloom, and HDR tonemapping tuning:
-  `python3 ~/.claude/skills/cross-engine-shader-rendering/scripts/weather_lighting_tuner.py`
+  `python3 ~/.gemini/config/skills/cross-engine-shader-rendering/scripts/weather_lighting_tuner.py`
 
 ## Related & Interoperating Skills
 - **`console-emulation-toolchains`**: Console homebrew toolchains (devkitPro, libnx, devkitARM), emulator optimization (Ryujinx, RetroArch), and Obt...

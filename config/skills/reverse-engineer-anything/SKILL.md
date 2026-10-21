@@ -11,7 +11,7 @@ High-level multi-engine binary reverse engineering using the REA MCP server.
 - **Obligation Ledger:** Build and maintain formal reconstruction obligation ledgers tracking function signatures, call-paths, and boundary validations.
 - **Static & Runtime Correlation:** Bridge static disassembly with live process telemetry, memory hooks, and symbol verification.
 - **Lua API Probe:**
-  `python3 ~/.claude/skills/reverse-engineer-anything/scripts/lua_api_probe.py`
+  `python3 ~/.gemini/config/skills/reverse-engineer-anything/scripts/lua_api_probe.py`
 
 ## Related & Interoperating Skills
 - **`client-memory-anti-tamper-re`**: Game memory scanning, pointer paths, XOR masking, DLL proxy generation, anti-debugging, and rr replay.

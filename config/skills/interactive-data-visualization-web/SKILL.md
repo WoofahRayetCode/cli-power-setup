@@ -12,8 +12,8 @@ Browser-based interactive visualizations for complex graphs, timelines, game lor
 - **Timelines:** Chronological Vis.js timeline bands for release schedules and historical lore.
 - **Micro-Apps:** Self-contained single-file HTML/JS calculators and parameter tuners with zero npm build step.
 - **Generator Scripts:**
-  `python3 ~/.claude/skills/interactive-data-visualization-web/scripts/data_vis_generator.py`
-  `python3 ~/.claude/skills/interactive-data-visualization-web/scripts/lore_research_compiler.py`
+  `python3 ~/.gemini/config/skills/interactive-data-visualization-web/scripts/data_vis_generator.py`
+  `python3 ~/.gemini/config/skills/interactive-data-visualization-web/scripts/lore_research_compiler.py`
 
 ## Related & Interoperating Skills
 - **`modern-web-architecture`**: Modern Jamstack and SSG development with Astro, VitePress, Content Collections, and GitHub Pages CI/CD.

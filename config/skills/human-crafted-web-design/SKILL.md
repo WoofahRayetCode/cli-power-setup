@@ -12,7 +12,7 @@ Professional frontend aesthetics that avoid generic AI design tropes. Production
 - **Typography:** Strict modular scale (`text-xs`, `text-sm`, `text-base`, `text-xl`, `text-3xl`). Use high-legibility fonts (Inter, Geist Sans, JetBrains Mono).
 - **Tactile Inputs:** Subtle 1px borders with border-opacity (`border-white/10`), active press scales (`active:scale-[0.98]`), and crisp focus rings.
 - **Template Generator:**
-  `python3 ~/.claude/skills/human-crafted-web-design/scripts/archetype_template_generator.py`
+  `python3 ~/.gemini/config/skills/human-crafted-web-design/scripts/archetype_template_generator.py`
 
 ## Related & Interoperating Skills
 - **`interactive-data-visualization-web`**: Browser-based interactive D3.js force graphs, Vis.js timelines, KaTeX, and reactive single-file micro-apps.

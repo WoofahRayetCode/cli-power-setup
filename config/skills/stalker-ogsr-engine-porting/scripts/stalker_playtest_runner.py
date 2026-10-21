@@ -64,12 +64,12 @@ def main():
     def find_tool(subpath):
         for root in [
             Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills"),
-            Path.home() / ".claude/skills",
+            Path.home() / ".gemini/config/skills",
         ]:
             p = root / subpath
             if p.exists():
                 return p
-        return Path.home() / ".claude/skills" / subpath
+        return Path.home() / ".gemini/config/skills" / subpath
 
     ast_tool = find_tool("local-ast-compiler-engine/scripts/local_ast_compiler.py")
     qa_controller = find_tool("game-qa-playtest-controller/scripts/game_playtest_controller.py")

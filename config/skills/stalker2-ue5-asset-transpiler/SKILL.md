@@ -10,8 +10,8 @@ Extracts, converts, and transpiles S.T.A.L.K.E.R. 2 Heart of Chornobyl (UE5 IoSt
 ## Pipelines
 - **IoStore Extraction:** Inspect and extract `.pak`, `.ucas`, `.utoc` containers via `repak` and `FModel`.
 - **3D Meshes (.ogf & .dm):** Convert vegetation, trees, and props into 64-bit OGSR `.ogf` (models) and `.dm` (detail flora):
-  `python3 ~/.claude/skills/stalker2-ue5-asset-transpiler/scripts/s2_vegetation_import.py`
-  `python3 ~/.claude/skills/stalker2-ue5-asset-transpiler/scripts/write_ogf.py`
+  `python3 ~/.gemini/config/skills/stalker2-ue5-asset-transpiler/scripts/s2_vegetation_import.py`
+  `python3 ~/.gemini/config/skills/stalker2-ue5-asset-transpiler/scripts/write_ogf.py`
 - **Asset Vault Management:** Monitor Steam drive space and harvest models/audio automatically.
 
 ## Related & Interoperating Skills

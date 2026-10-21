@@ -11,10 +11,10 @@ Zero-quota offloading pipeline executing across host 32-thread CPU + NVIDIA RTX 
 - **Local Workers (0 Cloud Tokens):**
   `local-worker run --kind lua|python|xml|json|ltx|text --task "..." --out FILE`
 - **Multi-Core AST Symbol Indexing:**
-  `python3 ~/.claude/skills/local-model-coprocessor/scripts/local_ast_compiler.py check-syntax --path <dir>`
-  `python3 ~/.claude/skills/local-model-coprocessor/scripts/subsystem_slice_extractor.py --dir <dir> --ext cpp`
+  `python3 ~/.gemini/config/skills/local-model-coprocessor/scripts/local_ast_compiler.py check-syntax --path <dir>`
+  `python3 ~/.gemini/config/skills/local-model-coprocessor/scripts/subsystem_slice_extractor.py --dir <dir> --ext cpp`
 - **Local Semantic RAG Search:**
-  `python3 ~/.claude/skills/local-model-coprocessor/scripts/local_vector_rag.py query "symbol"`
+  `python3 ~/.gemini/config/skills/local-model-coprocessor/scripts/local_vector_rag.py query "symbol"`
 - **Hardware Profile:** Saturates all 32 threads, stages scratch files in `/dev/shm`, and keeps secondary models on `/mnt/games/llm`.
 
 ## Related & Interoperating Skills

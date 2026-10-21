@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Dedicated status window: the same status line Claude Code shows (claude-token-statusline) plus the STALKER widget text, refreshed every 3 s. Costs no tokens.
+# Dedicated status window: the same status line Antigravity shows (agy-token-statusline) plus the STALKER widget text, refreshed every 3 s. Costs no tokens.
 #   tools/statuspane.sh           run the refresh loop in THIS terminal
 #   tools/statuspane.sh --open    open the "STALKER status" kitty window (through the main window's remote control when available) and lay the screen out
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 if [[ "${1:-}" == "--open" ]]; then
-  # three-window setup: Claude terminal + STALKER status + "Walker Mind" (kept open, bottom right); the layout script docks them
+  # three-window setup: Antigravity terminal + STALKER status + "Walker Mind" (kept open, bottom right); the layout script docks them
   pgrep -f '^python3 .*walker_mind.py' >/dev/null || (setsid nohup python3 "$here/tools/walker_mind.py" --keep >/dev/null 2>&1 &)
   # the status window is its OWN kitty process with its own remote-control socket: that is the only way to change ITS font size (kitty's font command cannot target one window of a
-  # shared kitty), so the pane can shrink/grow its text to fit the content without touching the Claude terminal.
+  # shared kitty), so the pane can shrink/grow its text to fit the content without touching the Antigravity terminal.
   if [[ "$("$here/tools/layout_kind.sh")" == dual ]]; then      # two screens: also open the ops log and system monitor terminals (right column of the main screen)
     pgrep -f 'class stalker-ops' >/dev/null || (cd "$here" && setsid nohup kitty --title "Ops log" --class stalker-ops -o font_size=9 -o window_padding_width=4 -o confirm_os_window_close=0 python3 "$here/tools/opslog.py" >/dev/null 2>&1 &)
     pgrep -f 'class stalker-mon' >/dev/null || (cd "$here" && setsid nohup kitty --title "System monitor" --class stalker-mon -o font_size=7 -o window_padding_width=3 -o confirm_os_window_close=0 btop --config "$HOME/.config/btop/stalker-mon.conf" >/dev/null 2>&1 &)

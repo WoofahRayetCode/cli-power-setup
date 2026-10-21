@@ -264,13 +264,22 @@
   },
   "claude_code": {
     "source": "measured: Claude Code transcript usage blocks (~/.claude/projects)",
-    "sessions_tracked": 6,
-    "api_calls": 1082,
-    "uncached_input_tokens": 2194,
-    "cache_write_tokens": 4734323,
-    "cache_read_tokens": 307555510,
-    "output_tokens": 402583,
-    "cache_hit_rate_pct": 98.48,
-    "last_updated": "2026-10-21T12:50:57"
+    "sessions_tracked": 7,
+    "api_calls": 1131,
+    "uncached_input_tokens": 2298,
+    "cache_write_tokens": 4869131,
+    "cache_read_tokens": 312966396,
+    "output_tokens": 430871,
+    "cache_hit_rate_pct": 98.47,
+    "last_updated": "2026-10-21T13:13:26"
+  },
+  "lifetime_summary": {
+    "total_cached_tokens_saved": 7515128,
+    "total_sessions_tracked": 1,
+    "cache_hit_rate_pct": 93.48,
+    "total_uncached_input_tokens": 524428,
+    "total_output_tokens": 44702,
+    "total_turns_executed": 70,
+    "last_updated": "2026-10-21T13:59:43.314504"
   }
 }

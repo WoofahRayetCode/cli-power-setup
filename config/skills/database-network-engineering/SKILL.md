@@ -18,8 +18,8 @@ Relational schema design, SQLite performance tuning, raw socket protocols, packe
 ## Network & Security
 - **Packet Inspection:** Condense verbose network traces via `tshark -r capture.pcap -T fields -e frame.time_relative -e ip.src -e ip.dst -e _ws.col.Protocol -e _ws.col.Info`.
 - **Crypto & Hardening:**
-  Verify binary compiler flags: `python3 ~/.claude/skills/database-network-engineering/scripts/binary_hardening_check.py`
-  Cryptographic verification: `python3 ~/.claude/skills/database-network-engineering/scripts/crypto_guard.py`
+  Verify binary compiler flags: `python3 ~/.gemini/config/skills/database-network-engineering/scripts/binary_hardening_check.py`
+  Cryptographic verification: `python3 ~/.gemini/config/skills/database-network-engineering/scripts/crypto_guard.py`
 
 ## Related & Interoperating Skills
 - **`standalone-binary-re`**: Native Linux zero-MCP reverse engineering: objdump, readelf, nm, rizin, gdb, JADX, and PE/ELF headers.

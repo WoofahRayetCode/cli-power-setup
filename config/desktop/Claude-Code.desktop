@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Claude Code
-GenericName=AI Coding Assistant
-Comment=Launch Claude Code in interactive terminal
-Exec=konsole -e /home/ericparsley/.local/bin/claude
-Icon=claude-code
-Terminal=false
-Categories=Development;Utility;

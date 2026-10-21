@@ -1,0 +1,154 @@
+#!/usr/bin/env python3
+"""agy-autosend: press Enter for you when text in the Antigravity prompt has stopped changing for DELAY seconds (default 12).
+  agy-autosend on | off | status | delay SECONDS      switch it / change the wait (state in ~/.cache/agy-autosend/)
+  agy-autosend autopilot on [MAX=12] | off | idle SECONDS | status   (unattended: sends a standing 'continue safely' message when agent has been idle and the prompt empty)
+  agy-autosend daemon                                 watcher for THIS kitty window (agy-yolo starts it; needs kitty allow_remote_control + KITTY_LISTEN_ON)
+Off by default. Reads the prompt box through kitty remote control (get-text), so it never touches the agy process itself.
+Safety: nothing is sent while the text still changes, when the prompt is empty, for the placeholder / text that was already there when the watcher started or after a send,
+or for text starting with "/" (the slash-command menu would swallow Enter). Typing again restarts the countdown."""
+import json, os, re, subprocess, sys, time
+from pathlib import Path
+S = Path.home() / ".cache/agy-autosend"; S.mkdir(parents=True, exist_ok=True)
+EN, DL = S / "enabled", S / "delay"
+RQ = S / "remote_queue.jsonl"
+AP, AP_MAX, AP_N, AP_IDLE, AP_TXT, AP_STOP = S / "autopilot", S / "autopilot_max", S / "autopilot_count", S / "autopilot_idle", S / "autopilot_prompt.txt", S / "autopilot_stop"
+AP_DEFAULT = ("AUTOPILOT (the user is asleep and has given standing permission to continue without asking): read .agents/memory/activeContext.md, .agents/backlog.md and docs/QA.md, "
+              "pick the next highest-value step that needs no user decision, do it, log it in docs/WORK_LOG.md and sync the Joplin notes. HARD LIMITS: no Workshop uploads, no git commits or pushes, "
+              "no deleting user data or backups, no system package installs, stay inside the active project, zoneforge and cli-power-setup repos. "
+              "When no safe step is left, run `agy-autosend autopilot off` and write a short morning summary to .agents/needs_you.txt.")
+ANSI = re.compile(r"\x1b\[[0-9;:?<>=]*[ -/]*[@-~]|\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)")
+
+def delay():
+    try: return max(3.0, float(DL.read_text()))
+    except Exception: return 12.0
+def apidle():
+    try: return max(30.0, float(AP_IDLE.read_text()))
+    except Exception: return 120.0
+def apmax():
+    try: return int(AP_MAX.read_text())
+    except Exception: return 12
+def apcount():
+    try: return int(AP_N.read_text())
+    except Exception: return 0
+
+def prompt_text(screen):
+    """Text of the input box: the lines between the last two horizontal rules or below prompt marker."""
+    lines = [ANSI.sub("", l).rstrip() for l in screen.splitlines()]
+    def is_rule(l):
+        t = l.strip()
+        return len(t) >= 30 and sum(c in "─━-" for c in t) / len(t) >= 0.8
+    rules = [i for i, l in enumerate(lines) if is_rule(l)]
+    if len(rules) >= 2:
+        a, b = rules[-2], rules[-1]
+        if 2 <= (b - a) <= 12:
+            body = [re.sub(r"^\s*[❯>]\s?", "", l) for l in lines[a + 1:b]]
+            return "\n".join(body).strip()
+    # Fallback prompt check
+    for idx in range(len(lines) - 1, -1, -1):
+        if re.search(r"^[❯>]\s", lines[idx]):
+            return re.sub(r"^[❯>]\s*", "", lines[idx]).strip()
+    return None
+
+def busy(screen):
+    p = ANSI.sub("", screen)
+    return bool(re.search(r"…\s*\(\d+[sm]\b|esc to interrupt|Thinking…|Running…", p))
+
+def ghost(screen):
+    for l in screen.splitlines():
+        m = re.match(r"^(?:\x1b\[[0-9;:]*m)*\s*[❯>][\xa0 ]*((?:\x1b\[[0-9;:]*m)*)(\S)", l)
+        if m and ANSI.sub("", l).strip() not in ("❯", ">"):
+            return bool(re.search(r"38:2:(\d+):\1:\1|\[2m|\[7m|\[90m|38;5;24[0-9]", m.group(1))) and ANSI.sub("", l).strip(" ❯>\xa0")
+    return ""
+
+def get(win, sock):
+    r = subprocess.run(["kitten", "@", "--to", sock, "get-text", "--match", f"id:{win}", "--ansi"], capture_output=True, text=True, timeout=5)
+    return r.stdout if r.returncode == 0 else None
+
+def daemon():
+    win, sock = os.environ.get("KITTY_WINDOW_ID"), os.environ.get("KITTY_LISTEN_ON")
+    if not win or not sock: sys.exit("agy-autosend: run inside a kitty window with remote control (KITTY_WINDOW_ID / KITTY_LISTEN_ON)")
+    lock = S / f"daemon_{win}.pid"
+    if lock.exists():
+        try: os.kill(int(lock.read_text()), 0); sys.exit(0)
+        except Exception: pass
+    lock.write_text(str(os.getpid()))
+    baseline, cur, since = None, None, time.time()
+    quiet_since = time.time()
+    while True:
+        time.sleep(1)
+        try:
+            scr = get(win, sock)
+            if scr is None: break
+            t = prompt_text(scr)
+            if t is None: continue
+            if busy(scr): quiet_since = time.time()
+            if RQ.exists() and (t == "" or ghost(scr)):
+                rows = [json.loads(x) for x in RQ.read_text().splitlines() if x.strip()]
+                nxt = next((r for r in rows if r.get("status") == "new"), None)
+                if nxt:
+                    subprocess.run(["kitten", "@", "--to", sock, "send-text", "--match", f"id:{win}", "📱 PHONE (Zone Monitor app, token + PIN checked): from the user, same as typed here. " + nxt["text"] + "\r"], timeout=5)
+                    nxt["status"] = "delivered"; RQ.write_text("".join(json.dumps(r) + "\n" for r in rows)); quiet_since = time.time(); continue
+            if AP.exists() and not AP_STOP.exists() and not busy(scr) and time.time() - quiet_since >= apidle():
+                g = ghost(scr)
+                if (t == "" or g) and apcount() < apmax():
+                    hint = f" Antigravity's suggested next step: \"{g}\" - use it only if it fits and is safe." if g else ""
+                    txt = (AP_TXT.read_text().strip() if AP_TXT.exists() else AP_DEFAULT) + hint
+                    subprocess.run(["kitten", "@", "--to", sock, "send-text", "--match", f"id:{win}", txt.replace("\n", " ") + "\r"], timeout=5)
+                    AP_N.write_text(str(apcount() + 1)); quiet_since = time.time()
+                    if apcount() >= apmax(): AP.unlink(missing_ok=True)
+                    continue
+            if baseline is None: baseline = t
+            if t != cur: cur, since = t, time.time(); continue
+            try: waiting = any(json.loads(x).get("status") == "new" for x in RQ.read_text().splitlines() if x.strip()) if RQ.exists() else False
+            except Exception: waiting = False
+            if waiting and t and not t.startswith("/") and not ghost(scr) and time.time() - since >= delay():
+                subprocess.run(["kitten", "@", "--to", sock, "send-text", "--match", f"id:{win}", "\r"], timeout=5)
+                baseline, since = t, time.time(); continue
+            if not EN.exists() or not t or t == baseline or t.startswith("/") or ghost(scr): continue
+            if time.time() - since >= delay():
+                subprocess.run(["kitten", "@", "--to", sock, "send-text", "--match", f"id:{win}", "\r"], timeout=5)
+                baseline, since = t, time.time()
+        except Exception:
+            pass
+
+def main():
+    cmd = sys.argv[1] if len(sys.argv) > 1 else "status"
+    if cmd == "on":
+        EN.write_text("1")
+        print(f"agy-autosend: ON (delay {delay():.1f}s)")
+    elif cmd == "off":
+        EN.unlink(missing_ok=True)
+        print("agy-autosend: OFF")
+    elif cmd == "status":
+        state = "ON" if EN.exists() else "OFF"
+        ap_state = "ON" if AP.exists() else "OFF"
+        print(f"agy-autosend: {state} (delay: {delay():.1f}s) | Autopilot: {ap_state} (runs: {apcount()}/{apmax()})")
+    elif cmd == "delay":
+        if len(sys.argv) > 2:
+            DL.write_text(sys.argv[2])
+            print(f"agy-autosend delay set to {float(sys.argv[2]):.1f}s")
+    elif cmd == "autopilot":
+        sub = sys.argv[2] if len(sys.argv) > 2 else "status"
+        if sub == "on":
+            AP.write_text("1")
+            AP_STOP.unlink(missing_ok=True)
+            if len(sys.argv) > 3: AP_MAX.write_text(sys.argv[3])
+            print("agy-autosend autopilot: ON")
+        elif sub == "off":
+            AP.unlink(missing_ok=True)
+            AP_STOP.write_text("1")
+            print("agy-autosend autopilot: OFF")
+        elif sub == "idle":
+            if len(sys.argv) > 3:
+                AP_IDLE.write_text(sys.argv[3])
+                print(f"agy-autosend autopilot idle threshold set to {float(sys.argv[3]):.1f}s")
+        else:
+            st = "ON" if AP.exists() else "OFF"
+            print(f"agy-autosend autopilot: {st} (count: {apcount()}/{apmax()}, idle threshold: {apidle():.1f}s)")
+    elif cmd == "daemon":
+        daemon()
+    else:
+        print(__doc__)
+
+if __name__ == "__main__":
+    main()

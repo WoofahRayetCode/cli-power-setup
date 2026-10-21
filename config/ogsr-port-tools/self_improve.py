@@ -3,7 +3,7 @@
   failures.jsonl  (.agents/)  one line per recovery/failure: {t, who, why}   <- written by the guardian (allowed()) and by anything calling `self_improve.py note WHO WHY`
   self_improve.py run         (guardian: hourly) groups the last 24 h by (who, why); for each cause seen 3+ times a small local model proposes a diagnosis + fix idea
                               from that helper's own log tail; the result is appended once to .agents/lessons.md (dedup by key) and, for causes seen 6+ times, put on the
-                              needs-you line so a human/Claude patches the code. Also runs `local-worker evolve` (lessons the workers read in every prompt).
+                              needs-you line so a human/Antigravity patches the code. Also runs `local-worker evolve` (lessons the workers read in every prompt).
   self_improve.py show        print lessons.md
 Costs no cloud tokens (qwen2.5:7b on the local Ollama; falls back to a rule-based note)."""
 import json, subprocess, sys, time, urllib.request
@@ -45,7 +45,7 @@ NEEDS = here / ".agents/needs_you.txt"; SEEN = here / ".agents/needs_seen.json"
 HELPER_OF = (("joplin", "joplin_watchdog"), ("statusweb", "statusweb"), ("sysguard", "sysguard"), ("night walk", "nightwalk"), ("nightwalk", "nightwalk"), ("autosend", "autosend"), ("ee_session", "ee_session"), ("guardian", "guardian"))
 def watch_needs():
     """Monitor the NEEDS YOU line: every new line is a helper that could not heal itself. Log it as a failure (so the 3x/6x rules and the diagnosis see it), get an immediate
-    diagnosis from the local model into .agents/lessons.md, and keep an open-items list (.agents/needs_open.md) that Claude reads each turn to patch the helper's code."""
+    diagnosis from the local model into .agents/lessons.md, and keep an open-items list (.agents/needs_open.md) that Antigravity reads each turn to patch the helper's code."""
     try: seen = set(json.loads(SEEN.read_text()))
     except Exception: seen = set()
     try: lines = [l.strip() for l in NEEDS.read_text().splitlines() if l.strip()]

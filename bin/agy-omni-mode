@@ -1,0 +1,394 @@
+#!/usr/bin/env python3
+"""
+agy-omni-mode (bin/agy-omni-mode)
+Autonomous Dynamic Orchestrator for Antigravity & Local Language Model Fleet.
+Dynamically switches between Gemini models (Pro / Flash / Flash-Lite) and local
+Ollama models based on task complexity, active step lifecycle, project file types,
+and real-time rolling 5-hour quota headroom.
+"""
+
+from __future__ import annotations
+import argparse
+import json
+import os
+import re
+import subprocess
+import sys
+import tempfile
+import time
+from datetime import datetime
+from pathlib import Path
+from typing import Any
+
+BOLD = "\033[1m"
+GREEN = "\033[32m"
+CYAN = "\033[36m"
+YELLOW = "\033[33m"
+RED = "\033[31m"
+MAGENTA = "\033[35m"
+DIM = "\033[2m"
+RESET = "\033[0m"
+
+STATE_FILE = Path(".agents/memory/omni_mode_state.json")
+QUOTA_CACHE_FILE = Path(tempfile.gettempdir()) / "agy_quota_cache.json"
+
+# Local models mapped to specialized domains
+DOMAIN_LOCAL_MODELS = {
+    "game-engine-porting": "gpt-oss:20b",
+    "systems-cxx": "gpt-oss:20b",
+    "modern-web": "qwen3-coder:30b",
+    "python-automation": "codellama:7b-python",
+    "math-physics-ballistics": "gpt-oss:20b",
+    "localization-dialogue": "aya:8b",
+    "database-sql": "sqlcoder:7b",
+    "deep-reasoning-plan": "gpt-oss:20b",
+    "fast-summary-commit": "mistral-nemo:12b",
+    "research-search": "deepseek-coder-v2:16b",
+    "reverse-engineering": "llm4decompile:22b-q4",
+    "blender-3d": "blenderllm:7b-q4",
+    "blender-architect": "blender-architect:latest",
+    "agent-tool-calling": "qwen3-coder:30b",
+    "code-frontier": "qwen2.5-coder:32b",
+    "code-architect": "qwen2.5-coder:14b",
+    "code-workhorse": "qwen2.5-coder:7b",
+    "subsecond-boilerplate": "qwen2.5-coder:1.5b",
+    "subsecond-docstring": "smollm2:1.7b",
+    "subsecond-cot": "deepseek-r1:1.5b",
+    "fast-logic-proof": "nemotron-3-nano:4b",
+    "cot-verification-14b": "deepseek-r1:14b",
+    "cot-reasoning-32b": "gpt-oss:20b",
+    "physics-ode": "phi4:14b",
+    "matrix-geometry": "gpt-oss:20b",
+    "executive-business": "gemma2:9b",
+    "rust-systems": "starcoder2:7b",
+    "csharp-dotnet": "granite-code:8b",
+    "posix-c": "deepseek-coder:6.7b-instruct",
+    "shader-transpilation": "deepseek-coder-v2:16b",
+    "frontend-tailwind": "qwen2.5:7b",
+    "multi-turn-chat": "llama3.1:8b",
+    "fast-status-report": "llama3.2:3b",
+    "mini-logic": "phi3.5:latest",
+    "multimodal-vision": "minicpm-v:8b",
+    "sota-multimodal-vision": "minicpm-v:8b",
+    "fast-vision-presence": "minicpm-v:8b",
+    "enterprise-agent-rag": "qwen3-coder:30b",
+    "sparse-moe-reasoning": "qwen3-coder:30b",
+    "dense-long-context": "gpt-oss:20b",
+    "whole-repo-intelligence": "codegeex4:9b",
+    "code-vector-embedding": "nomic-embed-text:latest",
+    "multilingual-dense-embedding": "bge-m3:latest",
+}
+
+
+def get_git_dirty_stats(cwd: Path = Path.cwd()) -> dict[str, Any]:
+    stats = {"total_dirty": 0, "extensions": {}, "filenames": []}
+    try:
+        res = subprocess.run(
+            ["git", "-C", str(cwd), "status", "--porcelain"],
+            capture_output=True,
+            text=True,
+            timeout=2.0,
+            check=False,
+        )
+        if res.returncode == 0:
+            for line in res.stdout.splitlines():
+                if len(line) >= 4:
+                    fname = line[3:].strip()
+                    stats["total_dirty"] += 1
+                    stats["filenames"].append(fname)
+                    ext = Path(fname).suffix.lower()
+                    if ext:
+                        stats["extensions"][ext] = stats["extensions"].get(ext, 0) + 1
+    except Exception:
+        pass
+    return stats
+
+
+def detect_project_domain(cwd: Path = Path.cwd(), dirty_stats: dict[str, Any] = None) -> tuple[str, str]:
+    """Detects primary project domain based on files and git modifications."""
+    exts = dirty_stats["extensions"] if dirty_stats else {}
+    
+    # Check dirty extensions first
+    if any(ext in exts for ext in [".ltx", ".ogf", ".dm", ".xr"]):
+        return "game-engine-porting", "S.T.A.L.K.E.R. / OGSR Modding"
+    if any(ext in exts for ext in [".cpp", ".hpp", ".cxx", ".h", ".hlsl", ".glsl"]):
+        return "systems-cxx", "C++ / Graphics Engineering"
+    if any(ext in exts for ext in [".html", ".css", ".vue", ".jsx", ".tsx", ".ts", ".astro"]):
+        return "modern-web", "Modern Web Architecture"
+    if any(ext in exts for ext in [".py"]):
+        return "python-automation", "Python / Automation"
+    if any(ext in exts for ext in [".sql"]):
+        return "database-sql", "Relational SQL / Database"
+    if any(ext in exts for ext in [".xml"]):
+        return "localization-dialogue", "Dialogue / XML String Tables"
+
+    # Fallback to filesystem markers
+    if (cwd / "gamedata").exists() or (cwd / "fsgame.ltx").exists():
+        return "game-engine-porting", "S.T.A.L.K.E.R. / OGSR Engine Workspace"
+    if (cwd / "CMakeLists.txt").exists():
+        return "systems-cxx", "Modern CMake / C++ Workspace"
+    if (cwd / "package.json").exists() or (cwd / "astro.config.mjs").exists():
+        return "modern-web", "Web Frontend / Node Workspace"
+    if (cwd / "pyproject.toml").exists() or (cwd / "requirements.txt").exists():
+        return "python-automation", "Python Project Workspace"
+
+    return "general", "General Software Engineering"
+
+
+def get_quota_headroom() -> dict[str, Any]:
+    if QUOTA_CACHE_FILE.exists():
+        try:
+            data = json.loads(QUOTA_CACHE_FILE.read_text(encoding="utf-8"))
+            return {
+                "rolling_5h": data.get("rolling_5h_percent", 85),
+                "weekly": data.get("weekly_percent", 90),
+                "source": "cache"
+            }
+        except Exception:
+            pass
+    return {"rolling_5h": 85, "weekly": 90, "source": "default"}
+
+
+def load_state() -> dict[str, Any]:
+    if STATE_FILE.exists():
+        try:
+            return json.loads(STATE_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {
+        "active_step": "execute",
+        "last_decision": {},
+        "updated_at": datetime.now().isoformat()
+    }
+
+
+def save_state(state: dict[str, Any]):
+    STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    state["updated_at"] = datetime.now().isoformat()
+    STATE_FILE.write_text(json.dumps(state, indent=2), encoding="utf-8")
+
+
+def evaluate_routing(prompt: str = "", step: str = "", domain: str = "", quota: dict[str, Any] = None) -> dict[str, Any]:
+    """
+    Evaluates optimal routing between Local models and Gemini models.
+    Tiers:
+      Tier 0: Local Ollama Model (0 Cloud Tokens)
+      Tier 1: Gemini 3.8 Flash (Low Reasoning)
+      Tier 2: Gemini 3.8 Flash (Medium Reasoning / Parallel Subagent)
+      Tier 3: Gemini 4 Argon / Gemini Pro (High Reasoning)
+    """
+    p_low = prompt.lower()
+    quota_5h = quota.get("rolling_5h", 85) if quota else 85
+    quota_weekly = quota.get("weekly", 90) if quota else 90
+    is_weekly_constrained = quota_weekly <= 50
+    is_quota_constrained = (quota_5h < 40) or is_weekly_constrained
+
+    # 1. Check for explicit local search or research requests
+    if any(k in p_low for k in ["search", "research", "find info", "look up", "documentation"]):
+        return {
+            "tier": 0,
+            "engine": "LOCAL_RESEARCH_SCOUT",
+            "model": "local-research-scout (deepseek-coder-v2:16b + bge-m3)",
+            "command": f"bin/local-research-scout '{prompt}' --rag",
+            "rationale": "Research query offloaded to local multi-source scout with RAG embeddings (0 Cloud Tokens)."
+        }
+
+    # Reverse Engineering & Binary Decompilation (REA MCP synergy)
+    if re.search(r"\b(reverse engineer|decompile|disassembly|disasm|ghidra|hopper|rizin|vtable|rva|rea|obligation ledger)\b", p_low):
+        return {
+            "tier": 0,
+            "engine": "LOCAL_OLLAMA",
+            "model": DOMAIN_LOCAL_MODELS["reverse-engineering"],
+            "command": f"bin/local-coprocessor --task re --prompt '{prompt}'",
+            "rationale": "Reverse engineering & binary decompilation routed to local LLM4Decompile 22B with REA skill context (0 Cloud Tokens)."
+        }
+
+    # Blender 3D Procedural Modeling & CAD (BlenderLLM & Titan Qwen 72B)
+    is_3d_task = any(k in p_low for k in ["bpy", "3d mesh", "3d model", ".blend", "retopology", "subdivision", "sdf remesh", "uv unwrap", "lightmap", "cad"]) or ("blender" in p_low and not any(x in p_low for x in ["port", "ogsr", "x-ray", "shader", "engine"]))
+    if is_3d_task:
+        model = "gpt-oss:20b" if any(k in p_low for k in ["complex", "architecture", "multi-part", "rigging", "hierarchy"]) else DOMAIN_LOCAL_MODELS["blender-3d"]
+        return {
+            "tier": 0,
+            "engine": "LOCAL_OLLAMA",
+            "model": model,
+            "command": f"bin/local-coprocessor --task blender --prompt '{prompt}'",
+            "rationale": f"3D procedural modeling routed to local {model} with Blender 5.2 bpy rules (0 Cloud Tokens)."
+        }
+
+    # Formal Reasoning & Struct Padding Proofs
+    if any(k in p_low for k in ["struct padding", "memory alignment", "pragma pack", "vtable alignment", "chain of thought", "proof"]):
+        return {
+            "tier": 0,
+            "engine": "LOCAL_OLLAMA",
+            "model": DOMAIN_LOCAL_MODELS["deep-reasoning-plan"],
+            "command": f"bin/local-coprocessor --task reason --prompt '{prompt}'",
+            "rationale": "Formal verification and 64-bit alignment proofs routed to local DeepSeek-R1 70B (0 Cloud Tokens)."
+        }
+
+    # 2. Check for step lifecycle: intake, verify, docs, commit
+    if step in ["intake", "scan"] or any(k in p_low for k in ["find symbol", "list files", "ast map"]):
+        return {
+            "tier": 0,
+            "engine": "LOCAL_CPU",
+            "model": "local-ast-compiler / slice-reader",
+            "command": "slice-reader or local-ast-compiler",
+            "rationale": "Symbol lookup and AST exploration handled locally on host (0 Cloud Tokens)."
+        }
+
+    if step in ["verify", "test"] or any(k in p_low for k in ["run tests", "pytest", "cargo test", "verify syntax"]):
+        return {
+            "tier": 0,
+            "engine": "LOCAL_CPU_GPU",
+            "model": "Host Test Harness & Linters",
+            "command": "run_command (pytest / cargo / ruff / local-preflight-syntax-gate)",
+            "rationale": "Verification executed directly via local compilers and test suites (0 Cloud Tokens)."
+        }
+
+    if step in ["docs", "commit"] or any(k in p_low for k in ["commit message", "docstring", "summarize log"]):
+        return {
+            "tier": 0,
+            "engine": "LOCAL_OLLAMA",
+            "model": DOMAIN_LOCAL_MODELS["fast-summary-commit"],
+            "command": f"bin/local-coprocessor --task fast --prompt '{prompt}'",
+            "rationale": "Boilerplate/docstring/commit offloaded to local mistral-nemo (0 Cloud Tokens)."
+        }
+
+    # 3. Math & Physics
+    if any(k in p_low for k in ["quaternion", "slerp", "ballistics", "ode", "exponential damping", "euler angles"]):
+        return {
+            "tier": 0,
+            "engine": "LOCAL_OLLAMA",
+            "model": DOMAIN_LOCAL_MODELS["math-physics-ballistics"],
+            "command": f"bin/local-coprocessor --task math --prompt '{prompt}'",
+            "rationale": "Mathematical derivation offloaded to local Mathstral 7B on RTX 5060 (0 Cloud Tokens)."
+        }
+
+    # 4. Engine porting / 64-bit migration
+    if domain == "game-engine-porting" or any(k in p_low for k in ["port", "ogsr", "x-ray", "ltx delta", "64-bit pointer"]):
+        if is_quota_constrained or step == "execute":
+            return {
+                "tier": 0,
+                "engine": "LOCAL_OLLAMA",
+                "model": DOMAIN_LOCAL_MODELS["game-engine-porting"],
+                "command": f"bin/local-coprocessor --task port --prompt '{prompt}'",
+                "rationale": "Game engine porting and LTX/C++ code generation routed to local Titan Qwen 2.5 72B (0 Cloud Tokens)."
+            }
+        else:
+            return {
+                "tier": 1,
+                "engine": "GEMINI_FLASH",
+                "model": "gemini-3.8-flash",
+                "effort": "low",
+                "subagents": "Flash worker for edits",
+                "rationale": "Execution routed to Gemini 3.8 Flash with low reasoning for fast tool dispatch."
+            }
+
+    # 5. Planning & Architecture
+    if step == "plan" or any(k in p_low for k in ["plan", "architecture", "design", "refactor architecture", "root cause"]):
+        if is_quota_constrained:
+            quota_reason = f"Weekly quota at {quota_weekly}% (<=50% safe threshold)" if is_weekly_constrained else f"5h rolling quota at {quota_5h}% (<40%)"
+            return {
+                "tier": 0,
+                "engine": "LOCAL_OLLAMA",
+                "model": DOMAIN_LOCAL_MODELS["deep-reasoning-plan"],
+                "command": f"bin/local-coprocessor --task plan --prompt '{prompt}'",
+                "rationale": f"Quota constrained ({quota_reason}): Complex planning routed to local DeepSeek-R1 70B (0 Cloud Tokens)."
+            }
+        else:
+            return {
+                "tier": 3,
+                "engine": "GEMINI_PRO",
+                "model": "gemini-4-pro (Argon)",
+                "effort": "high",
+                "rationale": "High-complexity architectural reasoning routed to Gemini 4 Argon with deep thinking."
+            }
+
+    # Default fallback
+    if is_quota_constrained:
+        quota_reason = f"Weekly quota at {quota_weekly}% (<=50% safe threshold)" if is_weekly_constrained else f"5h rolling quota at {quota_5h}% (<40%)"
+        return {
+            "tier": 0,
+            "engine": "LOCAL_OLLAMA",
+            "model": DOMAIN_LOCAL_MODELS["systems-cxx"],
+            "command": f"bin/local-coprocessor --task code --prompt '{prompt}'",
+            "rationale": f"Quota protection active ({quota_reason}): General code editing routed to local Titan Qwen 2.5 72B (0 Cloud Tokens)."
+        }
+
+    return {
+        "tier": 1,
+        "engine": "GEMINI_FLASH",
+        "model": "gemini-3.8-flash",
+        "effort": "low",
+        "rationale": "Standard execution routed to Gemini 3.8 Flash low effort for fast turnaround."
+    }
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Omni-Auto Mode - Dynamic Gemini & Local LLM Fleet Orchestrator")
+    parser.add_argument("prompt", nargs="*", help="Optional prompt or instruction to evaluate")
+    parser.add_argument("--step", "-s", choices=["intake", "search", "plan", "execute", "verify", "docs", "commit"], help="Active workflow step")
+    parser.add_argument("--eval", "-e", action="store_true", help="Evaluate routing and print recommendation")
+    parser.add_argument("--exec", "-x", action="store_true", help="Execute immediately on chosen engine if Tier 0")
+    parser.add_argument("--set-step", help="Set active workflow step in persistent state")
+    parser.add_argument("--json", action="store_true", help="Output pure JSON")
+
+    args = parser.parse_args()
+    state = load_state()
+
+    if args.set_step:
+        state["active_step"] = args.set_step
+        save_state(state)
+        print(f"{GREEN}✓ Omni-Auto Mode active step set to:{RESET} {BOLD}{args.set_step}{RESET}")
+        return
+
+    prompt_str = " ".join(args.prompt).strip()
+    step = args.step or state.get("active_step", "execute")
+    dirty = get_git_dirty_stats()
+    domain_key, domain_label = detect_project_domain(dirty_stats=dirty)
+    quota = get_quota_headroom()
+
+    decision = evaluate_routing(prompt=prompt_str, step=step, domain=domain_key, quota=quota)
+    state["last_decision"] = decision
+    save_state(state)
+
+    if args.json:
+        payload = {
+            "domain": domain_key,
+            "domain_label": domain_label,
+            "active_step": step,
+            "dirty_files": dirty["total_dirty"],
+            "quota_5h": quota["rolling_5h"],
+            "routing": decision
+        }
+        print(json.dumps(payload, indent=2))
+        return
+
+    # Print High-Density Status
+    print(f"\n{BOLD}═══════════════════════════════════════════════════════════════{RESET}")
+    print(f"{CYAN}{BOLD}  🚀 AGY OMNI-AUTO MODE: DYNAMIC MODEL & FLEET GOVERNOR{RESET}")
+    print(f"{BOLD}═══════════════════════════════════════════════════════════════{RESET}\n")
+
+    print(f"  📂 {BOLD}Active Workspace Domain:{RESET}  {YELLOW}{domain_label}{RESET} ({domain_key})")
+    print(f"  📝 {BOLD}Git Modified Files:{RESET}       {dirty['total_dirty']} files {DIM}{list(dirty['extensions'].keys())}{RESET}")
+    print(f"  🔄 {BOLD}Active Workflow Step:{RESET}     {MAGENTA}{step.upper()}{RESET}")
+    print(f"  🔋 {BOLD}Rolling 5h Quota:{RESET}         {GREEN if quota['rolling_5h'] >= 40 else RED}{quota['rolling_5h']}% Headroom{RESET}\n")
+
+    print(f"{BOLD}🎯 Optimal Engine Recommendation:{RESET}")
+    if decision["tier"] == 0:
+        print(f"  • {BOLD}Engine Tier:{RESET}   {GREEN}Tier 0: Zero-Quota Local Fleet (0 Cloud Tokens){RESET}")
+        print(f"  • {BOLD}Local Model:{RESET}   {CYAN}{decision['model']}{RESET}")
+        print(f"  • {BOLD}Dispatch:{RESET}      `{decision['command']}`")
+    else:
+        print(f"  • {BOLD}Engine Tier:{RESET}   {YELLOW}Tier {decision['tier']}: Cloud Gemini Dispatch{RESET}")
+        print(f"  • {BOLD}Cloud Model:{RESET}   {CYAN}{decision['model']}{RESET} (Effort: {decision.get('effort', 'default')})")
+
+    print(f"  • {BOLD}Rationale:{RESET}     {DIM}{decision['rationale']}{RESET}\n")
+
+    if args.exec and decision["tier"] == 0:
+        print(f"{BOLD}⚡ Executing locally via host / Ollama...{RESET}\n")
+        cmd = decision["command"]
+        os.system(cmd)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Service
+MimeType=inode/directory;all/allfiles;
+Actions=agyyolo;
+X-KDE-Priority=TopLevel
+
+[Desktop Action agyyolo]
+Name=Open Antigravity YOLO here
+Icon=utilities-terminal
+Exec=/home/ericparsley/.local/bin/agy-yolo %f

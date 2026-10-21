@@ -5,7 +5,7 @@ Checks every 30 s (each recovery is rate-limited to 4 per hour; past that it onl
   sysguard            the job supervisor (python3 tools/sysguard.py run)              -> start it
   statusweb           the phone dashboard on :8765 must answer                           -> restart it
   joplin_watchdog     keeps Joplin alive                                                  -> start it
-  claude-autosend     the prompt watcher for the kitty window (only while that window exists) -> start it
+  agy-autosend     the prompt watcher for the kitty window (only while that window exists) -> start it
   nightwalk           the OGSR overnight tour, wanted while .agents/nightwalk.want exists and no EE session / stop file -> start it
   frozen game         the OGSR game whose newest log has not changed for 8 minutes      -> kill it (the night walk moves on)
   wine crash windows  notepad.exe opened by Wine to show an xray crash log               -> close it
@@ -48,8 +48,8 @@ def tick(st):
     except Exception: web = False
     if not web and allowed(st, "statusweb"): say("statusweb not answering: restarting"); sh("pkill -f '^python3 tools/statusweb.py run'"); time.sleep(1); spawn("python3 tools/statusweb.py run > .agents/job_statusweb.log 2>&1")
     if not alive("tools/joplin_watchdog.py run") and allowed(st, "joplin_watchdog"): say("joplin_watchdog missing: starting"); spawn("python3 tools/joplin_watchdog.py run")
-    if Path("/tmp/kitty-yolo").exists() and sh("kitten @ --to unix:/tmp/kitty-yolo ls --match id:1 2>/dev/null | head -c 5") and not alive("claude-autosend daemon") and allowed(st, "autosend"):
-        say("claude-autosend watcher missing: starting"); spawn("KITTY_WINDOW_ID=1 KITTY_LISTEN_ON=unix:/tmp/kitty-yolo claude-autosend daemon"); sh("rm -f ~/.cache/claude-autosend/daemon_1.pid")
+    if Path("/tmp/kitty-yolo").exists() and sh("kitten @ --to unix:/tmp/kitty-yolo ls --match id:1 2>/dev/null | head -c 5") and not alive("agy-autosend daemon") and allowed(st, "autosend"):
+        say("agy-autosend watcher missing: starting"); spawn("KITTY_WINDOW_ID=1 KITTY_LISTEN_ON=unix:/tmp/kitty-yolo agy-autosend daemon"); sh("rm -f ~/.cache/agy-autosend/daemon_1.pid")
     want = (here / ".agents/nightwalk.want").exists() and not (here / ".agents/nightwalk.stop").exists()
     if want and not ee.exists() and not alive("tools/nightwalk.sh") and not alive("tools/ee_test.sh") and allowed(st, "nightwalk"):
         say("night walk missing (wanted): starting"); spawn("tools/nightwalk.sh 420 6 > .agents/job_nightwalk.log 2>&1")

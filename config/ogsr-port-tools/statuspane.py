@@ -20,17 +20,17 @@ def wrap(text, w, maxl=None):
     return out[:maxl] if maxl else out
 def block(title, color, lines): return [f"{C[color]}{title}{C['0']}"] + lines
 def statusline_input():
-    """the REAL input Claude Code last sent the status command (quota, model, context), saved by claude-statusline; the made-up one below only when none exists / it is over 15 min old"""
-    real = Path.home() / ".cache/claude-statusline/real_input.json"
+    """the REAL input Antigravity last sent the status command (quota, model, context), saved by agy-quota-statusline; the made-up one below only when none exists / it is over 15 min old"""
+    real = Path.home() / ".cache/agy-quota-statusline/real_input.json"
     try:
         if time.time() - real.stat().st_mtime < 900:
             d = json.loads(real.read_text())
             if d.get("rate_limits") or d.get("model"): return json.dumps(d)
     except Exception: pass
-    proj = Path.home() / ".claude/projects" / str(here).replace("/", "-")
+    proj = Path.home() / ".agy/projects" / str(here).replace("/", "-")
     fs = sorted(proj.glob("*.jsonl"), key=lambda p: p.stat().st_mtime, reverse=True)
     t = str(fs[0]) if fs else ""
-    return json.dumps({"session_id": Path(t).stem, "transcript_path": t, "cwd": str(here), "model": {"id": "claude-sonnet-5-5", "display_name": "Sonnet 5.5"},
+    return json.dumps({"session_id": Path(t).stem, "transcript_path": t, "cwd": str(here), "model": {"id": "agy-sonnet-5-5", "display_name": "Sonnet 5.5"},
                        "workspace": {"current_dir": str(here), "project_dir": str(here)}, "cost": {"total_cost_usd": 0, "total_lines_added": 0, "total_lines_removed": 0, "total_duration_ms": 0}, "version": "2.1.302"})
 def daypart(h=None):
     """name of the part of the day, for the window titles: morning 5-12, afternoon 12-17, evening 17-21, night 21-5"""
@@ -43,7 +43,7 @@ def compose(cols, rows):
     B[2] = (block("NOW", "h", wrap(now_txt, cols, 4)), None)
     ag = [l.strip() for l in rd(here / ".agents/agenda.txt").splitlines() if l.strip() and not l.startswith("#")]
     inbox = []                                                          # newer tasks from the user that are still OPEN: Joplin inbox queue (status not done) + phone/Discord/web messages waiting to be typed in
-    for f, key in ((here / ".agents/queue.jsonl", "text"), (Path.home() / ".cache/claude-autosend/remote_queue.jsonl", "text")):
+    for f, key in ((here / ".agents/queue.jsonl", "text"), (Path.home() / ".cache/agy-autosend/remote_queue.jsonl", "text")):
         try:
             for l in rd(f).splitlines()[-30:]:
                 r = json.loads(l)
@@ -62,10 +62,10 @@ def compose(cols, rows):
     nl = [l[:cols] for l in rd(night[-1]).splitlines() if re.match(r"l\d\d", l)][-8:] if night else []
     gm = "game running" if sh("pgrep -f '[x]rEngine.exe -nointro'").strip() else "game closed"
     B[4] = (block(f"GAME / {daypart()} WALK", "g", [gm] + nl), block(f"GAME / {daypart()} WALK", "g", [gm] + nl[-2:]))
-    sl = [l for l in sh("claude-token-statusline", statusline_input()).splitlines() if l.strip()]
+    sl = [l for l in sh("agy-token-statusline", statusline_input()).splitlines() if l.strip()]
     sl_w = sum([wrap(l, cols) if "\x1b" not in l else [l] for l in sl], [])
     B[2.5] = (block("STATUS LINE", "d", sl_w[:7]), block("STATUS LINE", "d", sl_w[:3]))     # quota stays visible: right after NOW
-    tk = rd(Path.home() / ".claude/ticker.txt")
+    tk = rd(Path.home() / ".gemini/config/ticker.txt")
     B[6] = (block("TICKER", "d", wrap(tk, cols, 8)), block("TICKER", "d", wrap(tk, cols, 2)))
     budget, out, used = rows - 2, {}, 0
     for pri in sorted(B):                       # fill from the most important block down

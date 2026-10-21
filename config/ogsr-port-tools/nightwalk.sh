@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Unattended overnight tour: the auto walker (route = auto) walks every level's offline-planned coverage tour while auto insanity runs, the crash watcher
 # fixes / analyses crashes, and a morning report lands in docs/night/.   tools/nightwalk.sh [stay_seconds=420] [max_hours=8] [levels comma list]
-#   stop early: touch .agents/nightwalk.stop        fixer for new crashes: FIX=claude|local|none (default local = Ollama analysis when the game is closed)
+#   stop early: touch .agents/nightwalk.stop        fixer for new crashes: FIX=agy|local|none (default local = Ollama analysis when the game is closed)
 # After a crash the next session starts at the level after the last one reached, so every level gets its turn. Tours resume where they stopped.
 set -uo pipefail
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"; cd "$here"

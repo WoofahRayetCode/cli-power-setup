@@ -14,7 +14,7 @@ Low-level Linux systems programming, asynchronous I/O, systemd service architect
 - **Laptop Performance & Thermal Governor:**
   Control acoustics, TDP, and fan curves via:
   `laptop-perf [status|sleep-mode|balanced|performance|boost]`
-  Script: `~/.claude/skills/linux-systems-engineering/scripts/laptop_performance_controller.py`
+  Script: `~/.gemini/config/skills/linux-systems-engineering/scripts/laptop_performance_controller.py`
 
 ## Related & Interoperating Skills
 - **`cross-platform-web-desktop`**: Cross-platform desktop and extension development with Tauri 2.0 (Rust), Electron IPC, and Manifest V3.

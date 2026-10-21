@@ -1,11 +1,11 @@
-// KWin script (Plasma 6, 1920x1200 screen): game top-left with a 1280x720 DRAWING area, the Claude Code terminal under it, the "STALKER status" window filling the
+// KWin script (Plasma 6, 1920x1200 screen): game top-left with a 1280x720 DRAWING area, the Antigravity terminal under it, the "STALKER status" window filling the
 // right strip, all inside the work area (above the taskbar) and above other windows. Stays loaded: it re-fits whenever the game or status window appears,
 // gets its title, or changes size (the engine creates a small window first and resizes it later). Run/reload with tools/layout.sh.
 var GAME_W = 1280, GAME_H = 720;
 function isGame(w) { return /OGSR Engine/.test(String(w.caption || "")) || /steam_app_2427(410|420|430)/.test(String(w.resourceClass || "")); }
 function isStatus(w) { var c = String(w.resourceClass || "").toLowerCase(); return c.indexOf("stalker-status") >= 0 || (c.indexOf("kitty") >= 0 && /STALKER status/.test(String(w.caption || ""))); }
 function isMind(w) { return String(w.resourceClass || "").toLowerCase().indexOf("walker-mind") >= 0 || /^Walker Mind$/.test(String(w.caption || "")); }
-var MIND_H = 450;   // Walker Mind: the bottom right, its top edge level with the Claude terminal's top (the game's bottom edge)
+var MIND_H = 450;   // Walker Mind: the bottom right, its top edge level with the Antigravity terminal's top (the game's bottom edge)
 function isTerm(w) { return String(w.resourceClass || "").toLowerCase().indexOf("kitty") >= 0 && !isStatus(w); }
 var busy = false;
 function apply() {

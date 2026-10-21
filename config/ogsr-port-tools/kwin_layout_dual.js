@@ -1,5 +1,5 @@
 // KWin script (Plasma 6): TWO-SCREEN layout, used by tools/layout.sh when a second screen is attached (the single-screen layout in kwin_layout.js is untouched).
-//  main screen (the biggest, the laptop panel): game slot 1280x720 top-left, Claude terminal below it (1280 wide, rest of the height), right column: "ops" log terminal on top, system monitor below
+//  main screen (the biggest, the laptop panel): game slot 1280x720 top-left, Antigravity terminal below it (1280 wide, rest of the height), right column: "ops" log terminal on top, system monitor below
 //  second screen: STALKER status (left part, full height) + Walker Mind (the rest, full height: a much bigger map)
 var GAME_W = 1280, GAME_H = 720, STATUS_W = 960;
 function cls(w) { return String(w.resourceClass || "").toLowerCase(); }

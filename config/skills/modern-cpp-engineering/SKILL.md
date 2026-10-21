@@ -16,7 +16,7 @@ Mastery of ISO modern C++ (C++20 and C++23) standards, robust CMake build archit
   - Struct padding & cache alignment: Align hot structures to 64-byte L1 cache boundaries using `alignas(64)`.
 - **Compiler Error Cascade Isolator:**
   When compilation fails with dozens of errors, isolate the root error via:
-  `python3 ~/.claude/skills/modern-cpp-engineering/scripts/compiler_cascade_isolator.py`
+  `python3 ~/.gemini/config/skills/modern-cpp-engineering/scripts/compiler_cascade_isolator.py`
 
 ## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
 - Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).

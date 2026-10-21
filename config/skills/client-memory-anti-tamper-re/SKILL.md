@@ -9,11 +9,11 @@ Runtime memory scanning, pointer chain resolution, anti-cheat detection, DLL pro
 
 ## Workflows
 - **Memory Scanning:** Scan process memory for dynamic addresses and pointer paths:
-  `python3 ~/.claude/skills/client-memory-anti-tamper-re/scripts/memory_scanner.py`
+  `python3 ~/.gemini/config/skills/client-memory-anti-tamper-re/scripts/memory_scanner.py`
 - **DLL Proxy Generation:** Automatically generate forwarding DLL proxies that intercept exported function calls:
-  `python3 ~/.claude/skills/client-memory-anti-tamper-re/scripts/dll_proxy_generator.py`
+  `python3 ~/.gemini/config/skills/client-memory-anti-tamper-re/scripts/dll_proxy_generator.py`
 - **Save State Serialization:** Inspect binary save states and verify checksum integrity:
-  `python3 ~/.claude/skills/client-memory-anti-tamper-re/scripts/save_state_inspector.py`
+  `python3 ~/.gemini/config/skills/client-memory-anti-tamper-re/scripts/save_state_inspector.py`
 - **Time-Travel Debugging:** Deterministic record and replay of segfaults using Mozilla `rr`.
 
 ## Related & Interoperating Skills
