@@ -1,6 +1,7 @@
 # Engineering & Game Modding Rules
 
 ## Engineering Discipline
+- **Task Workspace & Directory Confinement:** All file reads, creations, modifications (`edit_file`, `write_file`), and terminal commands (`run_command`) must remain strictly confined within the specific target project directory relating to the active task (e.g. `/home/ericparsley/Documents/GitHub/<repo>/`). Never create scratch files, temporary outputs, or build artifacts in parent directories (`/home/ericparsley`), `~/.gemini/`, Desktop, or unrelated sibling repositories unless explicitly requested.
 - **Plan Before Major Modifications:** When working on complex tasks, multi-file refactors, or new mod architectures, outline the implementation plan or invoke `writing-plans` / `/plan`.
 - **Systematic Debugging:** Trace bugs and game crashes to root causes via engine logs, stack traces, and reproducible test cases before changing code. Do not speculate or randomly alter values.
 - **Evidence-Based Completion:** Verify that code builds, unit tests pass, and assets parse before declaring any task complete.
@@ -55,6 +56,32 @@
 ## Voice Dictation & Natural-Language Slash Command Routing (`agy-mic-button`, `voice-prompt-context-optimizer`)
 - **Spoken `"Set a goal..."` $\rightarrow$ Automatic `/goal` Execution (`autonomous-goal-governor`):** Whenever a user prompt begins with or contains spoken natural-language command phrases such as *"set a goal..."*, *"start a goal..."*, *"run a goal..."*, or *"goal: ..."*, immediately treat it as a full `/goal` invocation: formulate a machine-verifiable completion contract in `.agents/memory/activeContext.md` and execute autonomously end-to-end without stopping until all verification gates pass.
 - **Spoken `"Make a plan..."` / `"Use boost..."` / `"Grill me..."` Routing:** Automatically map spoken *"make a plan..."* / *"set a plan..."* to `/plan` (`writing-plans`), *"use boost..."* / *"boost mode..."* to `/boost` (`first-principles-reasoning` + `argon-adversarial-verification-gate`), *"grill me..."* to `/grill-me` (`brainstorming`), and *"clamshell mode"* / *"lid closed 3D mode"* to `laptop-perf clamshell-3d`.
+
+## Git Safety & Blast Radius Defense
+- **Destructive Command Prohibition:** Never execute destructive git operations (`git reset --hard`, `git clean -fd`, `git checkout -- .`, `git push --force`, or branch deletions) without explicit, unambiguous user confirmation.
+- **Atomic Staging & Binary Shield:** Never execute blind `git add -A` or `git add .` from root. Inspect `git status` first and stage only modified files relating to the active task. Strictly prevent staging large binaries (>50 MB), archives (`.zip`, `.7z`, `.pak`, `.db`), virtual environments (`.venv/`, `node_modules/`), or intermediate build outputs (`build/`, `bin/`, `obj/`, `__pycache__/`).
+- **Conventional Commit Clarity:** When crafting commit messages, adhere to standard Conventional Commits format (`feat(scope): ...`, `fix(scope): ...`, `refactor(scope): ...`, `chore(scope): ...`) with a concise 1-line summary.
+
+## Autonomous Anti-Thrashing & 3-Strike Error Recovery
+- **The 3-Strike Failure Pivot:** If a compiler build, unit test, or tool call fails 2 consecutive times with the same or similar error, do NOT attempt a 3rd minor syntactic variation of the same hypothesis.
+- **Systematic Pivot Protocol:** On Strike 3, immediately halt execution, step back to first principles, re-read the enclosing scope and call site via `slice-reader` or symbol search, verify foundational assumptions, or ask the user for guidance rather than burning quota in an iterative churn loop.
+
+## Hermetic Dependency & Environment Hygiene
+- **Virtual Environment First:** In Python projects, always execute via the project's local virtual environment (`.venv/bin/python`, `.venv/bin/pytest`, `.venv/bin/ruff`) rather than host system Python. Never invoke `pip install` globally or pollute `/usr/lib/python*`.
+- **System Command Protection:** Never execute commands with `sudo` unless explicitly requested and approved by the user. Prefer local user binaries in `~/.local/bin/` or workspace dev dependencies.
+
+## Secrets & Credential Shielding
+- **Zero Token Leakage:** Never output, echo, log, or commit secret keys, API tokens (`GEMINI_API_KEY`, `ANTHROPIC_API_KEY`, `GITHUB_TOKEN`), private keys, or `.env` credential files to chat transcripts, artifacts, or git history.
+- **Redaction Protocol:** If error logs or configuration dumps contain potential secrets, automatically mask or redact them before reporting findings.
+
+## Codebase Docstring & Formatting Preservation
+- **Documentation Integrity:** Never delete, strip, or summarize existing comments, docstrings, copyright headers, or type annotations in untouched sections of code during file edits.
+- **Style & Idiom Matching:** Match existing indentation (tabs vs. spaces, 2 vs. 4 spaces), naming conventions, and file structures already established in the target codebase.
+
+## Subagent Orchestration & Context Hygiene
+- **Context Offloading via Research Subagents:** When a task requires broad codebase reconnaissance, multi-file keyword sweeps, or reading large documentation sets, invoke the `research` subagent to perform the discovery and return synthesized findings, keeping the parent conversation context lean and fast.
+- **Subagent Boundary Enforcement:** Subagents must strictly inherit all directory confinement and token economy rules, never modifying files outside the active workspace.
+
 - **Zero Conversational Mirroring for Voice Prompts (`voice-prompt-context-optimizer`):** When receiving conversational, stream-of-consciousness, or speech-to-text dictation from `agy-mic-button`, never mirror the conversational tone. Never output pleasantries, conversational preambles ("Sure, I can help with that"), or restatements. Strip conversational filler internally and lead directly with technical results or actions.
 - **Phonetic & Code Term Normalization:** Transparently map spoken phonetic transcriptions into exact technical code tokens: *"see plus plus"* $\rightarrow$ `C++`, *"oh gee ess are"* $\rightarrow$ `OGSR`, *"ex ray"* $\rightarrow$ `X-Ray`, *"ell tee ex"* $\rightarrow$ `LTX`, *"dot cpp"* $\rightarrow$ `.cpp`, *"you input"* $\rightarrow$ `/dev/uinput`, *"pie test"* $\rightarrow$ `pytest`, *"cmake lists"* $\rightarrow$ `CMakeLists.txt`, *"get status/commit/push"* $\rightarrow$ `git status/commit/push`.
 

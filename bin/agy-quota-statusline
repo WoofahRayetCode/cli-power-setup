@@ -327,15 +327,26 @@ def get_quota_info():
             pass
 
     if not quota:
-        quota = refresh_now()
+        if not os.path.exists(LOCK_FILE):
+            try:
+                with open(LOCK_FILE, "w") as f:
+                    f.write(str(os.getpid()))
+                subprocess.Popen(
+                    [sys.executable, __file__, "--refresh"],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL
+                )
+            except Exception:
+                pass
+        return {
+            "gemini_5h": "100%",
+            "gemini_5h_reset": "",
+            "gemini_wk": "34%",
+            "claude_5h": "100%",
+            "claude_wk": "90%"
+        }
 
-    return quota or {
-        "gemini_5h": "92%",
-        "gemini_5h_reset": "",
-        "gemini_wk": "61%",
-        "claude_5h": "100%",
-        "claude_wk": "90%"
-    }
+    return quota
 
 def wrap_segments(segments, max_width, sep=" | "):
     """
@@ -674,30 +685,6 @@ def main():
     except Exception:
         pass
 
-    cs_active_segs = []
-    cs_fleet_segs = []
-    try:
-        cs_cmd = ["agy-cheatsheet"]
-        if is_claude:
-            cs_cmd.append("--claude")
-        cs_cmd.extend(["--statusline-bars", cwd])
-        res_cs = subprocess.run(
-            cs_cmd,
-            capture_output=True,
-            text=True,
-            timeout=0.8
-        )
-        if res_cs.returncode == 0 and res_cs.stdout.strip():
-            cs_data = json.loads(res_cs.stdout.strip())
-            cs_active_segs = cs_data.get("active_segments", [])
-            cs_fleet_segs = cs_data.get("fleet_segments", [])
-    except Exception:
-        pass
-
-    # 7b. Detect Real-Time Active Skills + Hardware/Swarm/VRAM/RAMDisk telemetry
-    live_skills_segs = get_live_active_skills(cwd, is_claude=is_claude)
-    hw_swarm_segs = get_hw_and_swarm_segments()
-
     # 8. Assemble telemetry segments in priority order
     segments = [
         model_seg,
@@ -740,88 +727,10 @@ def main():
         ]
         fable_line_seg = wrap_segments(fable_segs, max_width=term_width, sep=" | ")
 
-    # 9. Dynamically wrap telemetry + Hardware/Swarm + Live Active Skills + Bottom Cheat Sheet
+    # 9. Dynamically wrap telemetry
     lines = [wrap_segments(segments, max_width=term_width, sep=" | ")]
     if is_claude and fable_line_seg:
         lines.append(fable_line_seg)
-    if hw_swarm_segs:
-        lines.append(wrap_segments(hw_swarm_segs, max_width=term_width, sep=" | "))
-    if live_skills_segs:
-        lines.append(wrap_segments(live_skills_segs, max_width=term_width, sep=" • "))
-    if cs_active_segs:
-        lines.append(wrap_segments(cs_active_segs, max_width=term_width, sep=" | "))
-    if cs_fleet_segs:
-        lines.append(wrap_segments(cs_fleet_segs, max_width=term_width, sep=" • "))
-
-    # compact view (default): drop rows that repeat what the machine row / quota row already show (routing cheat-sheet, skill lists, temps/VRAM line, AST gate)
-    try:
-        if _prefs().get("compact", True):
-            lines = [l for l in lines if "AST Skeleton" not in l and not l.startswith(("\U0001f9ed", "\U0001f528", "\U0001f6e1", "\U0001f6e0", "\U0001f321", "\U0001f680"))]
-    except Exception:
-        pass
-    # live session facts straight from Claude Code's own payload + transcript: cost, time, lines, context size (local, no tokens)
-    try:
-        facts = []
-        cost = payload.get("cost", {}) if isinstance(payload, dict) else {}
-        if cost.get("total_duration_ms"): facts.append(f"\u23f1 {int(cost['total_duration_ms'] / 60000)}m")
-        if cost.get("total_lines_added") is not None: facts.append(f"\u00b1 +{cost.get('total_lines_added', 0)}/-{cost.get('total_lines_removed', 0)} lines")
-        tp = payload.get("transcript_path") if isinstance(payload, dict) else None
-        if tp and os.path.exists(tp):
-            with open(tp, "rb") as fh:
-                fh.seek(0, 2); size = fh.tell(); fh.seek(max(0, size - 400000)); chunk = fh.read().decode("utf-8", "ignore")
-            last = None
-            for ln in chunk.splitlines():
-                if '"usage"' in ln and '"input_tokens"' in ln:
-                    try: u = json.loads(ln).get("message", {}).get("usage")
-                    except Exception: u = None
-                    if u: last = u
-            if last:
-                ctx = last.get("input_tokens", 0) + last.get("cache_read_input_tokens", 0) + last.get("cache_creation_input_tokens", 0)
-                win = (payload.get("context_window", {}) or {}).get("context_window_size") or 1000000
-                hit = 100.0 * last.get("cache_read_input_tokens", 0) / max(ctx, 1)
-                facts.append(f"out {last.get('output_tokens', 0)} tok")
-        if facts: lines.append(" | ".join(facts))
-    except Exception:
-        pass
-    # extra info rows (what the walker / director / Aisha are "thinking", machine metrics): ~/.claude/status_rows.txt, written by tools/ticker_daemon.py, local file only
-    try:
-        sr = os.path.expanduser("~/.claude/status_rows.txt")
-        if os.path.exists(sr) and time.time() - os.path.getmtime(sr) < 600:
-            for row in open(sr, encoding="utf-8").read().splitlines()[:3]:
-                if row.strip(): lines.append(row[:max(40, min(term_width, 220))])
-    except Exception:
-        pass
-    # bug ticker (second scrolling row): ~/.claude/bug_ticker.txt = bugs seen during testing and when they were fixed (tools/ticker_daemon.py + tools/bug.sh)
-    try:
-        bt = os.path.expanduser("~/.claude/bug_ticker.txt")
-        if os.path.exists(bt):
-            btxt = open(bt, encoding="utf-8").read().strip().replace("\n", "   ")
-            if btxt:
-                bw = max(20, min(term_width, 200) - 4); bpad = btxt + "    ***    "
-                if len(bpad) <= bw or _prefs().get("scroll") is False:
-                    bwin = (bpad[:bw - 1] + "\u2026") if len(bpad) > bw else bpad.ljust(bw)
-                else:
-                    boff = int(time.time() * 3) % len(bpad); bwin = (bpad + bpad)[boff:boff + bw]
-                lines.append("\U0001f41e " + bwin)
-    except Exception:
-        pass
-    # news ticker on the very last line: ~/.claude/ticker.txt (written by tools/ticker.sh) scrolls by wall-clock time; costs no tokens (local file only)
-    try:
-        tk = os.path.expanduser("~/.claude/ticker.txt")
-        if os.path.exists(tk) and time.time() - os.path.getmtime(tk) < 6 * 3600:
-            txt = open(tk, encoding="utf-8").read().strip().replace("\n", "  ///  ")
-            if txt:
-                width = max(20, min(term_width, 200) - 4)
-                pad = txt + "    ***    "
-                if len(pad) <= width or _prefs().get("scroll") is False:   # calm mode: no moving text
-                    pad = pad[:width - 1] + "\u2026" if len(pad) > width else pad
-                    win = pad.ljust(width)
-                else:
-                    off = int(time.time() * 3) % len(pad)
-                    win = (pad + pad)[off:off + width]
-                lines.append("\u25b8 " + win)
-    except Exception:
-        pass
     print("\n".join(line for line in lines if line))
 
 
@@ -1076,7 +985,7 @@ CLI_TO_SKILL_MAP = {
     "local-ast-compiler": "argon-ast-syntax-gate",
     "local-rag": "local-vector-rag-engine",
     "local-coprocessor": "local-model-coprocessor",
-    "slice-reader": "smart-context-packer",
+    "slice-reader": "selective-context-ingestor",
     "token-guard": "shell-output-token-guard",
     "skills-audit-update": "skills-updater-and-auditor",
     "blender": "blender-3d-engineering",
@@ -1166,15 +1075,17 @@ def get_live_active_skills(cwd: str, is_claude: bool = False) -> list[str]:
     # 3. If in Claude mode, sanitize away any Gemini / Argon skills
     if is_claude:
         claude_equiv_map = {
-            "argon-adversarial-verification-gate": "verification-before-completion",
-            "argon-thinking-governor": "adaptive-reasoning",
-            "argon-context-cache-guard": "prompt-cache-context-optimizer",
-            "gemini-flash-cache-aligner": "prompt-cache-context-optimizer",
-            "gemini-5h-quota-governor": "claude-ultimate-quota-sentinel",
+            "argon-adversarial-verification-gate": "claude-adversarial-verification-gate",
+            "argon-thinking-governor": "claude-thinking-budget-governor",
+            "argon-context-cache-guard": "claude-prompt-cache-sentinel",
+            "gemini-flash-cache-aligner": "claude-prompt-cache-sentinel",
+            "argon-long-haul-context-compaction-gate": "claude-context-rot-shield",
+            "argon-yolo-quota-pacing-watchdog": "claude-yolo-quota-watchdog",
+            "gemini-5h-quota-governor": "claude-yolo-quota-watchdog",
             "argon-dynamic-subagent-swarm": "subagent-swarm-orchestrator",
             "argon-ast-syntax-gate": "local-preflight-syntax-gate",
-            "argon-tool-calling-densifier": "token-economy",
-            "argon-atomic-diff-sequencer": "token-economy",
+            "argon-tool-calling-densifier": "claude-silent-dispatch",
+            "argon-subagent-dispatch-routing": "subagent-swarm-orchestrator",
         }
         sanitized = []
         for s in found_skills:

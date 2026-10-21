@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-19T19:01:37.325382",
-  "total_repos": 18,
+  "updated_at": "2026-10-21T08:13:19.948394",
+  "total_repos": 17,
   "repos": [
     {
       "name": "ogsr-complete-merge",
       "path": "~/Documents/GitHub/ogsr-complete-merge",
       "is_git": true,
-      "activity_ts": 1792461693.4523628,
-      "age_str": "3s ago",
+      "activity_ts": 1792595595.0254812,
+      "age_str": "4s ago",
       "dirty_count": 136,
       "dirty_exts": {
         ".ogf": 1,
@@ -88,14 +88,13 @@
       "name": "cli-power-setup",
       "path": "~/Documents/GitHub/cli-power-setup",
       "is_git": true,
-      "activity_ts": 1792461676.2017322,
-      "age_str": "20s ago",
-      "dirty_count": 1,
+      "activity_ts": 1792475931.0803294,
+      "age_str": "1d ago",
+      "dirty_count": 4,
       "dirty_exts": {
         ".md": 1
       },
       "recent_exts": [
-        ".md",
         ".mdc"
       ],
       "top_exts": [
@@ -103,7 +102,7 @@
         ".md",
         ".mdc"
       ],
-      "last_commit": "docs(readme): add cli token economy and skill expl",
+      "last_commit": "docs(readme): reposition cli optimization architec",
       "stack": "AI Skills / Python / Bash",
       "work_now": "Skills & Rules",
       "plan_short": "Argon\u2022High+\ud83e\udd16r1:8b(Quota/Arch)",
@@ -126,55 +125,57 @@
       "hw": "Local 42-LLM Fleet + 32-Thr"
     },
     {
-      "name": "wlfryt-android-messages",
-      "path": "~/Documents/GitHub/wlfryt-android-messages",
+      "name": "PS-Multi-Tools",
+      "path": "~/Documents/GitHub/PS-Multi-Tools",
       "is_git": true,
-      "activity_ts": 1792428939.409123,
-      "age_str": "9h ago",
-      "dirty_count": 5,
+      "activity_ts": 1792468672.7210464,
+      "age_str": "1d ago",
+      "dirty_count": 93,
       "dirty_exts": {
-        ".js": 3,
-        ".html": 1,
-        ".json": 1
+        ".cs": 25,
+        ".axaml": 4,
+        ".csproj": 1,
+        ".zip": 1,
+        ".dll": 5
       },
       "recent_exts": [
-        ".js",
-        ".html",
-        ".json"
+        ".txt",
+        ".json",
+        ".cache"
       ],
       "top_exts": [
-        ".js",
-        ".json",
-        ".html"
+        ".dll",
+        ".png",
+        ".luac"
       ],
-      "last_commit": "Improve viewing of received video messages",
-      "stack": "Web / JS / Extension",
-      "work_now": "Web UI & JS Components",
-      "plan_short": "Argon\u2022Med+\ud83e\udd16minicpm-v(UX/Visual)",
-      "impl_short": "Flash\u2022Low+\ud83e\udd16qwen7b(JS/TS/CSS)",
-      "edit_short": "Flash\u2022Low+\ud83e\udd16qwen1.5b(HTML/Styles)",
-      "plan_full": "Argon \u2022 Med + \ud83e\udd16 minicpm-v:8b (UI/UX Architecture & Visual Layout Critique)",
-      "impl_full": "Flash \u2022 Low + \ud83e\udd16 qwen2.5-coder:7b (JS/TS Components & Tailwind/CSS)",
-      "edit_full": "Flash \u2022 Low + \ud83e\udd16 qwen2.5-coder:1.5b (HTML Markup, Copy & Style Tweaks)",
-      "claude_plan_short": "Sonnet\u2022Med+\ud83e\udd16minicpm-v(UX/Visual)",
-      "claude_impl_short": "claude-eco+\ud83e\udd16qwen7b(JS/TS/CSS)",
-      "claude_edit_short": "claude-eco+\ud83e\udd16qwen1.5b(HTML/Styles)",
-      "claude_plan_full": "Claude 3.7 Sonnet (Med Effort) + \ud83e\udd16 minicpm-v:8b (UI/UX Architecture & Visual Layout Critique)",
-      "claude_impl_full": "claude-eco (Low Effort) + \ud83e\udd16 qwen2.5-coder:7b (JS/TS Components & Tailwind/CSS)",
-      "claude_edit_full": "claude-eco (Low Effort, <= 1024 thinking) + \ud83e\udd16 qwen2.5-coder:1.5b (HTML Markup, Copy & Style Tweaks)",
+      "last_commit": "Route merged CDR tracks to dedicated folder",
+      "stack": "C# .NET / Unity / Avalonia",
+      "work_now": "C# Async & Logic",
+      "plan_short": "Argon\u2022Med+\ud83e\udd16r1:8b(MVVM/Async)",
+      "impl_short": "Argon\u2022Med(C#)+\ud83e\udd16qwen7b(.NET)",
+      "edit_short": "Flash\u2022Low+\ud83e\udd16qwen1.5b(AXAML/UI)",
+      "plan_full": "Argon \u2022 Med + \ud83e\udd16 deepseek-r1:8b (MVVM Architecture & Async/AOT Plan)",
+      "impl_full": "Argon \u2022 Med (C# Core Logic, Span<T>) + \ud83e\udd16 qwen2.5-coder:7b (ViewModels)",
+      "edit_full": "Flash \u2022 Low + \ud83e\udd16 qwen2.5-coder:1.5b (AXAML/XAML Views, CSProj & Configs)",
+      "claude_plan_short": "Sonnet\u2022Med+\ud83e\udd16r1:8b(MVVM/Async)",
+      "claude_impl_short": "Sonnet\u2022Med(C#)+\ud83e\udd16qwen7b(.NET)",
+      "claude_edit_short": "claude-eco+\ud83e\udd16qwen1.5b(AXAML/UI)",
+      "claude_plan_full": "Claude 3.7 Sonnet (Med Effort) + \ud83e\udd16 deepseek-r1:8b (MVVM Architecture & Async/AOT Plan)",
+      "claude_impl_full": "Claude 3.7 Sonnet (Med Effort) (C# Core Logic, Span<T>) + \ud83e\udd16 qwen2.5-coder:7b (ViewModels)",
+      "claude_edit_full": "claude-eco (Low Effort, <= 1024 thinking) + \ud83e\udd16 qwen2.5-coder:1.5b (AXAML/XAML Views, CSProj & Configs)",
       "claude_launcher": "claude",
-      "routine": "Flash\u2022Low+\ud83e\udd16qwen1.5b(HTML/Styles)",
-      "deep": "Argon\u2022Med+\ud83e\udd16minicpm-v(UX/Visual)",
-      "live_rec": "Flash\u2022Low+\ud83e\udd16qwen7b",
-      "live_reason": "Web UI & JS Components",
-      "hw": "Radeon 610M iGPU Preview"
+      "routine": "Flash\u2022Low+\ud83e\udd16qwen1.5b(AXAML/UI)",
+      "deep": "Argon\u2022Med+\ud83e\udd16r1:8b(MVVM/Async)",
+      "live_rec": "Argon\u2022Med+\ud83e\udd16qwen7b",
+      "live_reason": "C# Async & Logic",
+      "hw": "Dotnet Parallel Build"
     },
     {
       "name": "OGSR-Engine",
       "path": "~/Documents/GitHub/OGSR-Engine",
       "is_git": true,
       "activity_ts": 1792390656.2567747,
-      "age_str": "19h ago",
+      "age_str": "2d ago",
       "dirty_count": 59,
       "dirty_exts": {
         ".cpp": 46,
@@ -219,7 +220,7 @@
       "path": "~/Documents/GitHub/omen-space",
       "is_git": true,
       "activity_ts": 1792069600.0371482,
-      "age_str": "4d ago",
+      "age_str": "6d ago",
       "dirty_count": 2,
       "dirty_exts": {
         ".sh": 2
@@ -257,52 +258,11 @@
       "hw": "CARGO_BUILD_JOBS=32"
     },
     {
-      "name": "Thumbprint",
-      "path": "~/Documents/GitHub/Thumbprint",
-      "is_git": true,
-      "activity_ts": 1791641100.1808212,
-      "age_str": "9d ago",
-      "dirty_count": 3,
-      "dirty_exts": {
-        ".godot": 1,
-        ".gd": 7
-      },
-      "recent_exts": [
-        ".gd",
-        ".godot"
-      ],
-      "top_exts": [
-        ".gd",
-        ".godot"
-      ],
-      "last_commit": "",
-      "stack": "Godot 4 (GDScript / 3D GLB)",
-      "work_now": "GDScript & Scenes",
-      "plan_short": "Argon\u2022Med+\ud83e\udd16minicpm-v(Scene/3D)",
-      "impl_short": "Argon\u2022Med+\ud83e\udd16blender-arch(3D)/qwen7b(GD)",
-      "edit_short": "Flash\u2022Low+\ud83e\udd16qwen1.5b(TSCN/UI)",
-      "plan_full": "Argon \u2022 Med + \ud83e\udd16 minicpm-v:8b (Scene Tree, 3D Render Critique & Topology)",
-      "impl_full": "Argon \u2022 Med + \ud83e\udd16 blender-architect (3D GLB) \u2502 \ud83e\udd16 qwen2.5-coder:7b (GDScript)",
-      "edit_full": "Flash \u2022 Low + \ud83e\udd16 qwen2.5-coder:1.5b (TSCN/TRES Properties & UI Tweaks)",
-      "claude_plan_short": "Sonnet\u2022Med+\ud83e\udd16minicpm-v(Scene/3D)",
-      "claude_impl_short": "Sonnet\u2022Med+\ud83e\udd16blender-arch(3D)/qwen7b(GD)",
-      "claude_edit_short": "claude-eco+\ud83e\udd16qwen1.5b(TSCN/UI)",
-      "claude_plan_full": "Claude 3.7 Sonnet (Med Effort) + \ud83e\udd16 minicpm-v:8b (Scene Tree, 3D Render Critique & Topology)",
-      "claude_impl_full": "Claude 3.7 Sonnet (Med Effort) + \ud83e\udd16 blender-architect (3D GLB) \u2502 \ud83e\udd16 qwen2.5-coder:7b (GDScript)",
-      "claude_edit_full": "claude-eco (Low Effort, <= 1024 thinking) + \ud83e\udd16 qwen2.5-coder:1.5b (TSCN/TRES Properties & UI Tweaks)",
-      "claude_launcher": "claude",
-      "routine": "Flash\u2022Low+\ud83e\udd16qwen1.5b(TSCN/UI)",
-      "deep": "Argon\u2022Med+\ud83e\udd16minicpm-v(Scene/3D)",
-      "live_rec": "Flash\u2022Low+\ud83e\udd16qwen7b",
-      "live_reason": "GDScript & Scenes",
-      "hw": "RTX 5060 OptiX (Blender)"
-    },
-    {
       "name": "omen-acpi",
       "path": "~/Documents/GitHub/omen-acpi",
       "is_git": true,
       "activity_ts": 1791294774.0817323,
-      "age_str": "13d ago",
+      "age_str": "15d ago",
       "dirty_count": 20,
       "dirty_exts": {
         ".md": 4,
@@ -342,11 +302,51 @@
       "hw": "CARGO_BUILD_JOBS=32"
     },
     {
+      "name": "wlfryt-android-messages",
+      "path": "~/Documents/GitHub/wlfryt-android-messages",
+      "is_git": true,
+      "activity_ts": 1792483513.0,
+      "age_str": "1d ago",
+      "dirty_count": 0,
+      "dirty_exts": {},
+      "recent_exts": [
+        ".js",
+        ".json",
+        ".html"
+      ],
+      "top_exts": [
+        ".js",
+        ".html",
+        ".json"
+      ],
+      "last_commit": "feat(voice): add voice-to-text dictation and comma",
+      "stack": "Web / JS / Extension",
+      "work_now": "Web UI & JS Components",
+      "plan_short": "Argon\u2022Med+\ud83e\udd16minicpm-v(UX/Visual)",
+      "impl_short": "Flash\u2022Low+\ud83e\udd16qwen7b(JS/TS/CSS)",
+      "edit_short": "Flash\u2022Low+\ud83e\udd16qwen1.5b(HTML/Styles)",
+      "plan_full": "Argon \u2022 Med + \ud83e\udd16 minicpm-v:8b (UI/UX Architecture & Visual Layout Critique)",
+      "impl_full": "Flash \u2022 Low + \ud83e\udd16 qwen2.5-coder:7b (JS/TS Components & Tailwind/CSS)",
+      "edit_full": "Flash \u2022 Low + \ud83e\udd16 qwen2.5-coder:1.5b (HTML Markup, Copy & Style Tweaks)",
+      "claude_plan_short": "Sonnet\u2022Med+\ud83e\udd16minicpm-v(UX/Visual)",
+      "claude_impl_short": "claude-eco+\ud83e\udd16qwen7b(JS/TS/CSS)",
+      "claude_edit_short": "claude-eco+\ud83e\udd16qwen1.5b(HTML/Styles)",
+      "claude_plan_full": "Claude 3.7 Sonnet (Med Effort) + \ud83e\udd16 minicpm-v:8b (UI/UX Architecture & Visual Layout Critique)",
+      "claude_impl_full": "claude-eco (Low Effort) + \ud83e\udd16 qwen2.5-coder:7b (JS/TS Components & Tailwind/CSS)",
+      "claude_edit_full": "claude-eco (Low Effort, <= 1024 thinking) + \ud83e\udd16 qwen2.5-coder:1.5b (HTML Markup, Copy & Style Tweaks)",
+      "claude_launcher": "claude",
+      "routine": "Flash\u2022Low+\ud83e\udd16qwen1.5b(HTML/Styles)",
+      "deep": "Argon\u2022Med+\ud83e\udd16minicpm-v(UX/Visual)",
+      "live_rec": "Flash\u2022Low+\ud83e\udd16qwen7b",
+      "live_reason": "Web UI & JS Components",
+      "hw": "Radeon 610M iGPU Preview"
+    },
+    {
       "name": "zoneforge",
       "path": "~/Documents/GitHub/zoneforge",
       "is_git": true,
       "activity_ts": 1792454957.0,
-      "age_str": "1h ago",
+      "age_str": "1d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -386,7 +386,7 @@
       "path": "~/Documents/GitHub/gta-pc-fixes",
       "is_git": true,
       "activity_ts": 1792440729.0,
-      "age_str": "5h ago",
+      "age_str": "1d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -426,7 +426,7 @@
       "path": "~/Documents/GitHub/checkpoint-concept-sites",
       "is_git": true,
       "activity_ts": 1792436974.0,
-      "age_str": "6h ago",
+      "age_str": "1d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -465,7 +465,7 @@
       "path": "~/Documents/GitHub/ModernizedSites",
       "is_git": true,
       "activity_ts": 1792436974.0,
-      "age_str": "6h ago",
+      "age_str": "1d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -504,7 +504,7 @@
       "path": "~/Documents/GitHub/switch-softmod-prep",
       "is_git": true,
       "activity_ts": 1792436754.5150867,
-      "age_str": "6h ago",
+      "age_str": "1d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -542,7 +542,7 @@
       "path": "~/Documents/GitHub/rea",
       "is_git": true,
       "activity_ts": 1792388127.7288163,
-      "age_str": "20h ago",
+      "age_str": "2d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -581,7 +581,7 @@
       "path": "~/Documents/GitHub/nsz",
       "is_git": true,
       "activity_ts": 1792189743.6650836,
-      "age_str": "3d ago",
+      "age_str": "4d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -621,7 +621,7 @@
       "path": "~/Documents/GitHub/wlfryt-obtainium-emulators",
       "is_git": false,
       "activity_ts": 1792083208.5005193,
-      "age_str": "4d ago",
+      "age_str": "5d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -659,7 +659,7 @@
       "path": "~/Documents/GitHub/raspberry-pi-nas-setup",
       "is_git": false,
       "activity_ts": 1791737982.257108,
-      "age_str": "8d ago",
+      "age_str": "9d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -699,7 +699,7 @@
       "path": "~/Documents/GitHub/badupdate-prep",
       "is_git": true,
       "activity_ts": 1791672130.396296,
-      "age_str": "9d ago",
+      "age_str": "10d ago",
       "dirty_count": 0,
       "dirty_exts": {},
       "recent_exts": [
@@ -731,45 +731,6 @@
       "live_rec": "Argon\u2022Med+\ud83e\udd16qwen7b",
       "live_reason": "Homebrew & Binary Tools",
       "hw": "32-Thr ProcessPool + /dev/shm"
-    },
-    {
-      "name": "PS-Multi-Tools",
-      "path": "~/Documents/GitHub/PS-Multi-Tools",
-      "is_git": true,
-      "activity_ts": 1791296814.7809658,
-      "age_str": "13d ago",
-      "dirty_count": 0,
-      "dirty_exts": {},
-      "recent_exts": [
-        ".zip",
-        ".exe"
-      ],
-      "top_exts": [
-        ".cs",
-        ".axaml",
-        ".exe"
-      ],
-      "last_commit": "Route merged CDR tracks to dedicated folder",
-      "stack": "C# .NET / Unity / Avalonia",
-      "work_now": "C# Async & Logic",
-      "plan_short": "Argon\u2022Med+\ud83e\udd16r1:8b(MVVM/Async)",
-      "impl_short": "Argon\u2022Med(C#)+\ud83e\udd16qwen7b(.NET)",
-      "edit_short": "Flash\u2022Low+\ud83e\udd16qwen1.5b(AXAML/UI)",
-      "plan_full": "Argon \u2022 Med + \ud83e\udd16 deepseek-r1:8b (MVVM Architecture & Async/AOT Plan)",
-      "impl_full": "Argon \u2022 Med (C# Core Logic, Span<T>) + \ud83e\udd16 qwen2.5-coder:7b (ViewModels)",
-      "edit_full": "Flash \u2022 Low + \ud83e\udd16 qwen2.5-coder:1.5b (AXAML/XAML Views, CSProj & Configs)",
-      "claude_plan_short": "Sonnet\u2022Med+\ud83e\udd16r1:8b(MVVM/Async)",
-      "claude_impl_short": "Sonnet\u2022Med(C#)+\ud83e\udd16qwen7b(.NET)",
-      "claude_edit_short": "claude-eco+\ud83e\udd16qwen1.5b(AXAML/UI)",
-      "claude_plan_full": "Claude 3.7 Sonnet (Med Effort) + \ud83e\udd16 deepseek-r1:8b (MVVM Architecture & Async/AOT Plan)",
-      "claude_impl_full": "Claude 3.7 Sonnet (Med Effort) (C# Core Logic, Span<T>) + \ud83e\udd16 qwen2.5-coder:7b (ViewModels)",
-      "claude_edit_full": "claude-eco (Low Effort, <= 1024 thinking) + \ud83e\udd16 qwen2.5-coder:1.5b (AXAML/XAML Views, CSProj & Configs)",
-      "claude_launcher": "claude",
-      "routine": "Flash\u2022Low+\ud83e\udd16qwen1.5b(AXAML/UI)",
-      "deep": "Argon\u2022Med+\ud83e\udd16r1:8b(MVVM/Async)",
-      "live_rec": "Argon\u2022Med+\ud83e\udd16qwen7b",
-      "live_reason": "C# Async & Logic",
-      "hw": "Dotnet Parallel Build"
     }
   ]
 }

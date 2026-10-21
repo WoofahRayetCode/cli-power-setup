@@ -1,12 +1,12 @@
 {
   "lifetime_summary": {
     "total_cached_tokens_saved": 1978376957,
-    "total_sessions_tracked": 30,
-    "cache_hit_rate_pct": 94.34,
+    "total_sessions_tracked": 34,
+    "cache_hit_rate_pct": 94.55,
     "total_uncached_input_tokens": 118356169,
     "total_output_tokens": 8251772,
     "total_turns_executed": 14867,
-    "last_updated": "2026-10-19T00:50:24.027836"
+    "last_updated": "2026-10-21T08:50:22.366472"
   },
   "sessions": [
     {
@@ -285,5 +285,16 @@
       "estimated_tokens_saved": 7350000,
       "efficiency_multiplier": "10k-50k tokens saved per build/test failure"
     }
+  },
+  "claude_code": {
+    "source": "measured: Claude Code transcript usage blocks (~/.claude/projects)",
+    "sessions_tracked": 6,
+    "api_calls": 1054,
+    "uncached_input_tokens": 2138,
+    "cache_write_tokens": 4638545,
+    "cache_read_tokens": 305348034,
+    "output_tokens": 397685,
+    "cache_hit_rate_pct": 98.5,
+    "last_updated": "2026-10-21T12:49:01"
   }
 }
