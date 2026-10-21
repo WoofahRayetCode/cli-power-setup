@@ -24,3 +24,10 @@
 - **Constraint-Bound Prompts:** Always specify exact input types, expected return contracts, and failure modes. Unambiguous boundaries collapse Argon's internal Tree-of-Thought branching from 5+ exploration paths down to 1 direct proof path.
 - **Local Fleet Offloading for Implementation:** Use Argon strictly for architectural design, algorithmic strategy, and verification plans. Offload bulk code typing, regex, test fixtures, and AST checks to the local Ollama fleet (`local-coprocessor` with `qwen3-coder:30b` or `nemotron-3-nano:4b`).
 - **Turn-Boundary Compaction:** After Argon establishes an architectural decision or closes a major bug, record state in `.agents/memory/activeContext.md` and recommend `/compact` to purge intermediate deliberation tokens before proceeding.
+
+## 5. Prompt Caching & Local KV-Cache Preservation
+- **Static Prefix Invariant:** Keep system rules (`GEMINI.md`) and project instructions strictly immutable during an active session. Never edit rules or append transient state to early context headers; changes to earlier tokens invalidate all subsequent cached tokens for both Argon and Flash.
+- **Append-Only Context Discipline:** When recording state or updating progress, always write to disk files (`.agents/memory/activeContext.md`, `docs/WORK_LOG.md`) rather than mutating early system messages. Keep the in-flight conversation trajectory strictly append-only.
+- **Stable Command Outputs:** Avoid injecting high-frequency timestamps, random seeds, or dynamic process IDs into prompt messages. Normalized command outputs allow the prompt cache to match previous turns across repeated runs.
+- **Local Fleet KV-Cache Alignment:** In `local-coprocessor` and `local-worker` invocations, reuse standardized system prompts so Ollama's local KV-cache remains warm in RTX 5060 VRAM, achieving instant time-to-first-token (TTFT).
+- **Turn-Boundary Compaction:** Execute `/compact` only when a milestone completes and background tasks are idle. Compacting mid-task flushes the warm prefix cache; compacting at milestone boundaries establishes a fresh, clean prefix anchor.
