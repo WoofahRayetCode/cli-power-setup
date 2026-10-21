@@ -17,3 +17,10 @@
 - **Hermetic Environment & Safety:** In Python projects, always use `.venv/bin/python` / `.venv/bin/pytest`. Never run `pip install` globally or invoke `sudo` without explicit user approval. Never echo or commit secrets/API keys.
 - **Evidence-Based Completion:** Trace bugs to root causes via logs/stack traces before editing. Before claiming done, run the real build/test (`pytest`, `cargo check`, `luajit -b`, `cmake --build`), confirm it passed, and preserve all unrelated comments/docstrings.
 - **Voice Input Normalization:** Strip conversational filler from dictated prompts and normalize phonetic code terms (*"oh gee ess are"* -> `OGSR`, *"ell tee ex"* -> `LTX`, *"see plus plus"* -> `C++`, *"you input"* -> `/dev/uinput`).
+
+## 4. Gemini 4 Argon Reasoning & Token Clamping
+- **Effort Clamping by Default:** Run Argon on `medium` effort for standard architecture and debugging. Escalate to `high` or `max` only for formal mathematical proofs, complex multi-threading race conditions, or binary decompiler algorithm reconstruction.
+- **Upstream Subagent File Slicing:** Never let Argon read raw logs or files >200 lines directly. Delegate file reading and symbol search to a Flash subagent (`invoke_subagent` with `Model: "flash"` or `"flash_lite"`), returning a <=15-line targeted synthesis to Argon.
+- **Constraint-Bound Prompts:** Always specify exact input types, expected return contracts, and failure modes. Unambiguous boundaries collapse Argon's internal Tree-of-Thought branching from 5+ exploration paths down to 1 direct proof path.
+- **Local Fleet Offloading for Implementation:** Use Argon strictly for architectural design, algorithmic strategy, and verification plans. Offload bulk code typing, regex, test fixtures, and AST checks to the local Ollama fleet (`local-coprocessor` with `qwen3-coder:30b` or `nemotron-3-nano:4b`).
+- **Turn-Boundary Compaction:** After Argon establishes an architectural decision or closes a major bug, record state in `.agents/memory/activeContext.md` and recommend `/compact` to purge intermediate deliberation tokens before proceeding.
