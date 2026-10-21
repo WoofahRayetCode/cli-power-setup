@@ -647,7 +647,50 @@ def main():
             pass
 
     # 7. Workspace, Git, Mic Pill & Dynamic Bottom-of-Statusline Cheat Sheet
-    cwd = payload.get("current_dir") or payload.get("project_dir") or payload.get("cwd") or os.getcwd()
+    cwd = None
+    state_file = "/tmp/agy_current_cwd.txt"
+    if os.path.exists(state_file):
+        try:
+            cand = open(state_file).read().strip()
+            if os.path.isdir(cand):
+                cwd = cand
+        except Exception:
+            pass
+    if not cwd:
+        cwd = payload.get("current_dir") or payload.get("project_dir") or payload.get("cwd") or os.environ.get("AGY_PROJECT_DIR")
+    if not cwd or cwd == os.path.expanduser("~"):
+        # Resolve from latest transcript operations
+        try:
+            base_dir = os.path.expanduser("~/.gemini/antigravity-cli")
+            transcripts = glob.glob(f"{base_dir}/brain/*/.system_generated/logs/transcript.jsonl")
+            if transcripts:
+                latest = max(transcripts, key=os.path.getmtime)
+                with open(latest, "r", encoding="utf-8", errors="ignore") as f:
+                    lines = f.readlines()
+                for l in reversed(lines):
+                    d = json.loads(l)
+                    calls = d.get("tool_calls", [])
+                    for c in calls:
+                        args = c.get("args", {})
+                        path_arg = args.get("Path", "")
+                        if path_arg and os.path.isabs(path_arg):
+                            p_dir = os.path.dirname(path_arg)
+                            if "brain" not in p_dir and ".gemini" not in p_dir and os.path.isdir(p_dir):
+                                cwd = p_dir
+                                break
+                        cmd = args.get("CommandLine", "")
+                        m_cd = re.search(r"cd\s+([/a-zA-Z0-9_\-\s.]+)", cmd)
+                        if m_cd:
+                            cand = m_cd.group(1).rstrip("/")
+                            if os.path.isdir(cand) and not cand.endswith("/.gemini"):
+                                cwd = cand
+                                break
+                    if cwd and cwd != os.path.expanduser("~"):
+                        break
+        except Exception:
+            pass
+    if not cwd:
+        cwd = os.getcwd()
     git_seg = get_git_info(cwd)
 
     # Check & auto-ensure Clickable Floating Mic Button (`agy-mic-button`) is active
