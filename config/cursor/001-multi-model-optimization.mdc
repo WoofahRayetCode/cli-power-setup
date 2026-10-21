@@ -19,7 +19,7 @@ Modern development workflows frequently rotate between frontier API models and o
   - `high` / `xhigh`: Multi-file engine refactors, decompilation matching, and complex X-Ray engine crash isolation.
 - **Tone & Persona Suppression:** Override default witty banter and sarcasm. Lead immediately with code diffs, terminal actions, or diagnostic evidence.
 - **Anti-Hallucination:** Never guess S.T.A.L.K.E.R. LTX section names or C++ engine symbols; always verify against unpacked/repo references.
-- **Native Tool Calling:** In Cursor Agent, invoke local CLI tools in `~/.local/bin/` (`game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`, `skills-audit-update`).
+- **Native Tool Calling:** In Cursor Agent, invoke local CLI tools in `~/.local/bin/` (`game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`).
 
 ---
 
@@ -49,7 +49,6 @@ Modern development workflows frequently rotate between frontier API models and o
 - **Role & Sweet Spot:** Ultra-fast iteration (Flash), 1M–2M context window inspection, multimodal image/texture analysis, and rapid thinking.
 - **Context Handling:** While Gemini handles 1M+ tokens effortlessly, maintain structure using interface-only AST skeletons to avoid attention dilution over large codebases.
 - **Multimodal Grounding:** Use Gemini for visual texture analysis (evaluating DDS mipmaps, magenta texture artifacts, and UI rendering errors).
-- **Flash Thinking:** Leverage low/medium thinking budgets in Antigravity for instant-speed verification loops.
 
 ---
 
@@ -94,10 +93,10 @@ Modern development workflows frequently rotate between frontier API models and o
 
 ## 9. Universal Execution Contract Across All Models
 
-Regardless of which model is currently loaded in Cursor, Antigravity, Claude Code, or an external API harness:
+Regardless of which model is currently loaded in Cursor, Claude Code, or an external API harness:
 1. **Zero Conversational Fluff:** Omit pleasantries, preambles, and conversational sign-offs.
 2. **Surgical Diffs Over Rewrites:** Replace only modified lines; never regenerate entire source files unless creating new files.
-3. **Use Installed CLI Utilities:** Invoke tools in `~/.local/bin/` (`game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`, `skills-audit-update`).
+3. **Use Installed CLI Utilities:** Invoke tools in `~/.local/bin/` (`game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`).
 4. **Evidence-Based Completion:** Test builds, run linters, or execute unit tests before declaring any task complete.
 5. **Token Economy Reporting:** Conclude responses with a high-density token savings line:
    `📉 Token Economy: ~<N> tokens saved (<breakdown>)`

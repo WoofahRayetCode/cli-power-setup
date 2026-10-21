@@ -2,9 +2,9 @@
 # Autonomous Game Texture Editing & Enhancement Tool Launcher
 set -e
 
-SCRIPT_PATH="${HOME}/.gemini/config/skills/game-texture-editing/scripts/texture_editor.py"
+SCRIPT_PATH="${HOME}/.claude/skills/blender-3d-asset-pipeline/scripts/texture_editor.py"
 if [ ! -f "$SCRIPT_PATH" ]; then
-    SCRIPT_PATH="${HOME}/.gemini/config/skills/game-texture-editing/scripts/texture_editor.py"
+    SCRIPT_PATH="${HOME}/.claude/skills/blender-3d-asset-pipeline/scripts/texture_editor.py"
 fi
 if [ ! -f "$SCRIPT_PATH" ]; then
     SCRIPT_PATH="/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills/game-texture-editing/scripts/texture_editor.py"

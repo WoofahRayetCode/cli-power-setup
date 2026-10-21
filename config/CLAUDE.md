@@ -1,66 +1,32 @@
-# Engineering & Game Modding Rules (Claude Code)
+# Global rules
 
-## Engineering Discipline
-- **Plan Before Major Modifications:** When working on complex tasks, multi-file refactors, or new mod architectures, outline the implementation plan or invoke `writing-plans` / `/plan`.
-- **Systematic Debugging:** Trace bugs and game crashes to root causes via engine logs, stack traces, and reproducible test cases before changing code. Do not speculate or randomly alter values.
-- **Evidence-Based Completion:** Verify that code builds, unit tests pass, and assets parse before declaring any task complete.
+## Token economy
+- No opening pleasantries, no restating the request, no closing filler. Lead with the result.
+- Don't narrate routine tool calls. Report outcomes and actionable errors only.
+- Keep command output small: pipe verbose builds/logs through `tail -n 25`, `grep`, or quiet flags. Show the full log only when diagnosing a failure.
+- Bound directory scans: `find -maxdepth 2` / `ls`, never unbounded `find .` or `ls -R` on large trees.
+- For files over ~300 lines, locate the symbol with `grep -n` first and read only the relevant range.
+- Change existing files with targeted Edit calls; rewrite a whole file only when most of it changes.
+- Don't re-read a file just to confirm an edit landed.
+- Send broad multi-file searches to an Explore subagent so the file dumps stay out of the main context.
+- Never report invented metrics such as "tokens saved".
 
-## Game Modding & S.T.A.L.K.E.R. EE Rules
-- **Protect Vanilla Baselines:** Treat unpacked game archives (e.g. `unpacked/`) as strictly read-only references for diffs. Mod files belong in project mod source directories.
-- **LTX Syntax Discipline:** Respect case-sensitivity, correct section headers (`[section]`), inheritance (`[child]:parent`), and avoid trailing commas or malformed keys.
-- **Audio Integrity:** When modifying or converting S.T.A.L.K.E.R. audio, never use standard editors that strip the proprietary GSC binary engine chunk from the Ogg Vorbis comment header. Use ZoneForge asset replacement tools to preserve distance and volume parameters.
-- **Autonomous Hands-Free Playtest & QA:** When testing ported mods (e.g. S.T.A.L.K.E.R. Complete to OGSR) without live user input, immediately launch `stalker-playtest-runner` (interoperating with `self-improving-qa`, `nav-graph-recorder`, and `game-window-helper`) to autonomously dismiss 'Press any key to play' loading screens, inject god mode / infinite ammo cheats, take control of character movement via `/dev/uinput`, monitor frames for missing textures/freezes, and auto-triage crash dialogs.
-- **X-Ray Crash Interception & Modal Dismissal:** When OGSR or X-Ray crashes under Wine/Proton and spawns a Notepad or BugTrap crash log window (`xray_*.log - Notepad`), immediately run `xray_crash_handler.py sweep` or rely on `stalker-playtest-runner` to extract the crash stack trace and terminate `notepad.exe` so tests never hang.
-- **Dialogue & Conversation UI Integrity:** When editing string tables or conversation scripts, validate XML syntax, missing string IDs, text overflow, and talk dialog formatting with `game-dialogue-tool` to prevent runtime truncation or CTDs.
-- **Weather, Lighting & Telemetry Tuning:** Balance sun shafts, bloom, and dynamic skyboxes using `weather-lighting-tuner`, and monitor live rendering metrics using `mangohud-configurator`.
-- **Task Velocity & Anti-Thrashing Discipline:** Enforce `task-velocity-governor` (5-step targeted rule, stop once tests pass, break 3-strike file churn loops) and `first-principles-reasoning` (Chain-of-Verification, Ockham's razor on bug hypotheses) to ensure porting tasks don't take longer than necessary.
-- **Laptop Acoustics & Night Governance:** Interoperate with `laptop-performance-profile` (use `laptop_performance_controller.py sleep-mode` during overnight runs or when muted, and `boost-exec` for heavy parallel builds).
-- **Lore Research & Web Architecture:** When documenting game lore, faction histories, or creating modding web portals, leverage `humanities-lore-research`, `creative-web-design-archetypes`, `static-site-architecture`, and `interactive-data-visualization-web`.
+## Long sessions & expensive models
+- Keep the main thread for decisions and hard reasoning. Delegate bulk reading, searching, and mechanical edits to subagents on a cheaper model (`model: sonnet`, or `haiku` for pure lookups). Ask for conclusions in ≤15 lines, not file dumps.
+- Don't spawn a subagent for a single known-location lookup; the startup overhead costs more than it saves.
+- Send large generated output (disassembly, decompiler output, diff reports, build/test logs) to a file in the scratchpad or project, then `grep`/`sed -n` the relevant range. Never print whole asm or log files.
+- Don't re-read files or re-run commands whose results are already in context.
+- Batch independent tool calls in one turn. Use background tasks instead of sleep/poll loops.
+- At each milestone, write progress to `.agents/memory/activeContext.md` in the repo (done, in progress, next, dead ends) so compaction or `/clear` loses nothing. Resume from that file, not from replaying history.
+- After 3 failed attempts at the same problem, stop and report what was tried instead of looping.
+- Prefer incremental builds and single-target tests over full rebuilds.
+- Decompilation: one function (or small cluster) per subagent; report match %, the remaining diff in brief, and the file changed.
 
-## Output Token Economy & High-Density Visibility
-- **Zero Conversational Fluff:** Omit pleasantries, preambles ("Sure, I can help with that", "Now I will proceed to..."), and conversational sign-offs. Lead directly with the technical result or action.
-- **High-Density Status:** Report multi-step progress using compact checklists (`[✓] Step complete`, `[→] In progress`) rather than multi-sentence narratives.
-- **Silent Tool Success:** Do not narrate routine tool executions or echo entire successful command outputs into chat. Show only actionable errors, test pass/fail tallies, and critical metrics.
-- **Surgical Edits Over Rewrites:** Always prefer targeted chunk replacements (`replace_file_content` / `Edit`) over full-file overwrites to minimize token thrashing.
-- **Artifact & File Offloading:** For extensive plans, large reports, detailed logs, HTML templates, reactive micro-apps, landing pages, contracts, proposals, and invoices, write them directly to files and provide a clickable link with a 1-line headline, rather than dumping large blocks of text directly into the chat transcript.
-- **Zero Code & Template Duplication in Chat:** Once code, HTML templates, or documents are created or modified via tools, never re-paste the content blocks into chat. State only the file link, line range, and rationale.
-- **Zero Prompt Restatement:** Never echo or paraphrase the user's request. Lead immediately with the action, data, or checklist.
-- **Token Economy Visibility:** Conclude plans, refactors, and multi-step workflows with a single high-density token savings line: `📉 Token Economy: ~<N> tokens saved (<breakdown, e.g. surgical diffs, local offload, prompt cache>)`.
+## Engineering discipline
+- Non-obvious bug: list the candidate root causes and check each against evidence (logs, debugger, diff) before editing code.
+- Before claiming done: run the real build/test and confirm it passed; state one way the change could still fail. No "done" without that evidence.
+- Multi-step work: write the plan to a file (success criteria, files touched, verification command). Chat gets the path plus open decisions only. Wait for approval before editing.
+- For variants of a large file, copy it and patch, rather than regenerating it.
 
-## Hardware-Aware High-Performance Execution & Local CPU/GPU/RAM Quota Offloading
-- **Dynamic Thread Saturation (32 Threads):** Automatically saturate all available CPU threads when compiling, running test suites, or batch-processing textures/audio (`-j$(nproc)` / `MAKEFLAGS="-j$(nproc)"`, `CARGO_BUILD_JOBS=$(nproc)`, `CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)`, `ProcessPoolExecutor(max_workers=os.cpu_count())` via `cuda-numpy-batch-texture-dsp-processor`). Never default to single-threaded builds or pixel loops.
-- **30 GB RAM `/dev/shm` tmpfs Accelerator (`ramdisk-tmpfs-build-bake-accelerator`):** Stage intermediate Blender texture bakes, contact sheet renders, game archive extractions (`.db`/`.pak`), and CMake `TMPDIR=/dev/shm` objects in `/dev/shm` (`~40 GB/s` RAM bandwidth, zero SSD wear) and clean up on exit.
-- **NVIDIA RTX 5060 OptiX & CUDA Dispatch (`rtx-optix-gpu-baker-denoiser`):** In headless Blender 5.2+ (`bpy`), always activate `compute_device_type = 'OPTIX'` (`scene.cycles.device = 'GPU'`) with AI OptiX Denoising at `16–32 samples` for sub-second baking and rendering rather than slow CPU fallback.
-- **Zero-Quota Local Offload Pipeline (42-Model Fleet):** Automatically offload symbol scanning (`local-ast-compiler`), codebase semantic search (`local-rag`), line-slice extraction (`slice-reader`), stdout truncation (`token-guard`), local HUD/dialog OCR & image downscaling (`local-gpu-vision-ocr-preprocessor`), 3D/matrix/physics/symbolic math (`game-math-solver` on 32-thread CPU + RTX 5060 CUDA 13.4), and boilerplate/log summarization (`local-coprocessor`) to host CPU/GPU/RAM before spending cloud tokens. Invoke via Bash: `local-coprocessor exec --task <task> --prompt "<prompt>"` or `local-coprocessor exec --model <model> --prompt "<prompt>"`. Full 42-model catalog in `claude-local-fleet-offloader`.
-- **Automatic Closed-Loop Skill Self-Evolution (`self-evolving-skill-synthesizer`):** Across **all** installed skills, whenever you fix a stale instruction/API workaround, research a verified domain table/blueprint online (`autonomous-3d-reference-researcher`), or author a reusable verified helper script (`> 25` lines), automatically persist it mid-task via `skill-evolve --hot-patch <skill>`, `skill-evolve --append-rule`, or `skill-evolve --promote <script> --to <skill>` so every skill continuously self-improves.
-- **2D Drawing-to-3D Silhouette Lock (`concept-art-sketch-to-3d-sculptor`):** When creating 3D models from 2D drawings/refsheets, automatically extract mathematical contour slices (`silhouette_iou_profiler.py profile`), research real-world anatomical/mechanical ratios online, fuse primitives with SDF voxel remeshing (`blender-sdf-organic-remeshing`), and verify `Silhouette IoU >= 0.80` against the reference image.
-
-## Quota Governance & Uninterrupted Execution (`claude-ultimate-quota-sentinel`)
-- **Never Quit on Available Quota:** Quota percentages (e.g. 5h: 86%, Wk: 96%) indicate healthy available headroom. Never quit, halt, or abort autonomous goals or test runners when quota is available (> safe reserve limits).
-- **5-Hour Exhaustion Wait-for-Refresh:** If rolling 5-hour quota reaches or drops below safe reserve during autonomous runs, do not abort or fail the task. Stage working state to `.agents/memory/activeContext.md`, safely sleep until the recorded reset timestamp passes, verify quota replenishment, and seamlessly resume execution.
-- **50% Weekly Quota Safe Mode (Local Fleet Diversion):** When weekly quota drops to $\le 50\%$, automatically divert code generation, C++ refactoring, LTX configs, and planning to the local 42-model fleet (`local-coprocessor exec`, `claude-omni-mode --exec`, `qwen2.5:72b-iq2`, `deepseek-r1:70b-iq2`, `llm4decompile:22b-q4`, `blender-architect`, `phi3.5:latest`, `deepseek-r1:1.5b`) to preserve the remaining 50% cloud reserve safely until the weekly reset.
-- **Smart Checkpoint at 25% Weekly Reserve:** When weekly quota nears 25% remaining, automatically snapshot all uncommitted diffs, git branch, and active hypothesis context to `.agents/checkpoints/` and update `.agents/memory/activeContext.md` before continuing execution.
-- **Automatic Repository Sync & Milestone Pushing (`autonomous-git-repo-sync-governor`):** When starting work on a repository, run `repo-auto-sync --pull <repo>` to incorporate upstream changes. During long sessions or general multi-step tasks, automatically commit and push verified milestones via `repo-auto-sync <repo> --checkpoint -m "<type>(<scope>): <summary>" --push` (which automatically blocks `>50 MB` binaries and temp files) so work is continuously persisted to GitHub.
-- **Uninterrupted Compaction & 40k–50k Milestone Resumption:** Compaction must **never** interrupt an active goal, plan, or test run. Always execute compaction at clean step boundaries at **40,000–50,000 tokens** before context bloat multiplies input re-billing. Before `/compact`, verify `.agents/memory/activeContext.md` contains the active goal, current in-flight state, and resumption instructions. Upon resuming post-compaction, immediately read `activeContext.md` (<300 tokens) and proceed directly to the next step without pausing or asking the user for direction.
-
-## Claude Thinking Governance & Prompt Caching Alignment
-- **Direct Tool Action Over Monologue (`claude-silent-dispatch`):** Invoke tools directly without pre-tool monologue, speculative preamble, or repeating file contents.
-- **Thinking Token Budgeting (`claude-thinking-budget-governor`):** Dynamic calibration of extended thinking budgets (`budget_tokens` between 1,024 and 64,000) based on cognitive task complexity. Routine file edits, syntax fixes, and bash command dispatches execute with low thinking effort (`--effort low` / `claude-turbo` / `claude-eco`).
-- **Prompt Cache Alignment (`claude-prompt-cache-sentinel`):** Maintain prefix stability across 1,024-token boundary blocks to lock in 90% prompt caching discounts. Avoid inserting volatile timestamps or dynamic preamble at the beginning of sessions.
-- **Copy-Then-Patch Over Full-File Regeneration:** When creating variant scripts or shaders, use `cp -f <src> <dst>` followed by surgical chunk diffs (`<= 45` lines).
-- **Mandatory Window Slicing:** Never view unbounded multi-hundred line files when locating symbols. Grep line numbers first, then inspect targeted `<= 80`-line windows.
-
-## Voice Dictation & Natural-Language Slash Command Routing (`agy-mic-button`, `voice-prompt-context-optimizer`)
-- **Spoken `"Set a goal..."` $\rightarrow$ Automatic `/goal` Execution:** Treat spoken *"set a goal..."*, *"start a goal..."*, *"run a goal..."*, or *"goal: ..."* as autonomous goal mode: formulate a machine-verifiable completion contract in `.agents/memory/activeContext.md` and execute end-to-end.
-- **Spoken `"Make a plan..."` / `"Use boost..."` / `"Grill me..."` Routing:** Spoken *"make a plan..."* $\rightarrow$ `/plan` (`writing-plans`), *"use boost..."* $\rightarrow$ `/boost` (`claude-adversarial-verification-gate`), *"grill me..."* $\rightarrow$ `/grill-me` (`brainstorming`), and *"clamshell mode"* $\rightarrow$ `laptop-perf clamshell-3d`.
-- **Zero Conversational Mirroring for Voice Prompts:** Strip conversational filler internally and lead directly with technical results or actions.
-- **Phonetic & Code Term Normalization:** *"see plus plus"* $\rightarrow$ `C++`, *"oh gee ess are"* $\rightarrow$ `OGSR`, *"ex ray"* $\rightarrow$ `X-Ray`, *"ell tee ex"* $\rightarrow$ `LTX`, *"dot cpp"* $\rightarrow$ `.cpp`, *"you input"* $\rightarrow$ `/dev/uinput`, *"pie test"* $\rightarrow$ `pytest`, *"cmake lists"* $\rightarrow$ `CMakeLists.txt`, *"get status/commit/push"* $\rightarrow$ `git status/commit/push`.
-
-## 🧭 Dynamic Repo Cheat Sheet & Model Routing (`claude-cheatsheet`, `dynamic-repo-model-cheatsheet`)
-- **CLI Cheat Sheet Command:** Run `claude-cheatsheet` (or `agy-cheatsheet --claude`) to inspect real-time Claude model, reasoning effort, and local model offload recommendations across all repositories.
-- **Workflow Task & Launcher Routing:**
-  - **Bulk LTX configs / XML tables / Docstrings / Fast Edits:** Use `claude-eco` (`--effort low`, $\le 1024$ thinking tokens, 1,024-tok cache lock).
-  - **Standard Feature Implementation / Python / C# / UI:** Use standard `claude` (standard effort).
-  - **Deep 64-bit Engine Crash Triage / Math / Architecture:** Use `claude --effort high` (paired with local `deepseek-r1:70b-iq2` / `r1:8b`).
-  - **Hands-Free Autonomous Batch Asset Conversions / Playtest QA:** Use `claude-yolo` (`--dangerously-skip-permissions`).
-
+## Skill scoping
+- When first planning or analyzing a repo that has no `skillOverrides` in `.claude/settings.local.json`, pick the skills it needs and run `skill-scope <repo> <skill>...`; report which skills were turned off. Takes effect next session.

@@ -99,11 +99,9 @@ PHONETIC_REPLACEMENTS = [
     (r"\bget commit\b", "git commit"),
     (r"\bget push\b", "git push"),
     (r"\bget diff\b", "git diff"),
+    (r"\bclaude yolo\b", "claude-yolo"),
     (r"\brepo auto sync\b", "repo-auto-sync"),
     (r"\blocal coprocessor\b", "local-coprocessor"),
-    (r"\bagy yolo\b", "agy-yolo"),
-    (r"\bagy turbo\b", "agy-turbo"),
-    (r"\bagy omni mode\b", "agy-omni-mode"),
     (r"\breverse engineer anything\b", "reverse-engineer-anything"),
     (r"\brea mcp\b", "REA MCP"),
 ]
@@ -149,6 +147,14 @@ def normalize_voice_text(raw_text: str) -> tuple[str, str, int, int]:
     # B. Phonetic Term Normalization
     for pattern, replacement in PHONETIC_REPLACEMENTS:
         text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+    # B2. personal speech dictionary (learned corrections, ~/.claude/speech_corrections.json via the STALKER repo tools/speech_memory.py)
+    try:
+        import importlib.util, os as _os
+        _sp = _os.path.expanduser("~/Documents/GitHub/ogsr-complete-merge/tools/speech_memory.py")
+        if _os.path.exists(_sp):
+            _spec = importlib.util.spec_from_file_location("speech_memory", _sp); _m = importlib.util.module_from_spec(_spec); _spec.loader.exec_module(_m); text = _m.fix(text)
+    except Exception:
+        pass
 
     # C. Conversational Filler & Preamble Removal (Multi-pass loop)
     cleaned = text

@@ -21,4 +21,3 @@ Production Python software engineering adhering to Python 3.11+ standards, stric
 - **`linux-systems-engineering`**: Linux systems programming, POSIX, io_uring, systemd, CachyOS/Arch packaging, and laptop ACPI controls.
 - **`rust-engineering`**: Rust development, Cargo builds, borrow checker, lifetimes, zero-cost abstractions, and clippy.
 - **`database-network-engineering`**: SQLite WAL tuning, PostgreSQL schemas, raw TCP/UDP, tshark packet capture, and cryptographic security.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

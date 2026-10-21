@@ -21,4 +21,3 @@ Mathematical foundations of 3D game engines: coordinate transforms, quaternion k
 - **`game-engines-multiplatform`**: Modern Godot 4, Unreal Engine 5, Unity, Steamworks publishing, Steam Deck tuning, and Proton game dev.
 - **`game-audio-voice-engineering`**: Game audio Ogg Vorbis GSC comment headers, procedural SFX, spatial HRTF, ElevenLabs, and Piper TTS.
 - **`interactive-data-visualization-web`**: Browser-based interactive D3.js force graphs, Vis.js timelines, KaTeX, and reactive single-file micro-apps.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

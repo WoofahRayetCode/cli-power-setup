@@ -17,4 +17,3 @@ Lightweight desktop applications and web extensions using Tauri 2.0, Electron, a
 - **`linux-systems-engineering`**: Linux systems programming, POSIX, io_uring, systemd, CachyOS/Arch packaging, and laptop ACPI controls.
 - **`cross-engine-shader-rendering`**: Slang/SPIRV-Cross shader transpilation (Vulkan, DX12, HLSL, GLSL), Cook-Torrance GGX PBR, and bloom FX.
 - **`rust-engineering`**: Rust development, Cargo builds, borrow checker, lifetimes, zero-cost abstractions, and clippy.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

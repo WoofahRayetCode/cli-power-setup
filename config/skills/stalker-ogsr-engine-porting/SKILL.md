@@ -12,15 +12,14 @@ Comprehensive authority for porting mods, scripting, and testing on the 64-bit S
 - **LTX Inheritance Discipline:** Respect section headers (`[section]:parent`), case sensitivity, and strip identical inherited parameters via `config_delta_extractor.py`.
 - **Crash Triage & Modal Sweep:**
   Dismiss lingering crash popups and parse crash stack traces:
-  `python3 config/skills/stalker-ogsr-engine-porting/scripts/xray_crash_handler.py sweep`
+  `python3 ~/.claude/skills/stalker-ogsr-engine-porting/scripts/xray_crash_handler.py sweep`
   Archive and resolve RVA addresses to lines:
-  `python3 config/skills/stalker-ogsr-engine-porting/scripts/crash_archive.py`
-  `python3 config/skills/stalker-ogsr-engine-porting/scripts/xray_crash_resolver.py`
+  `python3 ~/.claude/skills/stalker-ogsr-engine-porting/scripts/crash_archive.py`
+  `python3 ~/.claude/skills/stalker-ogsr-engine-porting/scripts/xray_crash_resolver.py`
 - **Autonomous Playtesting:**
-  `python3 config/skills/stalker-ogsr-engine-porting/scripts/stalker_playtest_runner.py`
+  `python3 ~/.claude/skills/stalker-ogsr-engine-porting/scripts/stalker_playtest_runner.py`
 
 ## Related & Interoperating Skills
 - **`game-audio-voice-engineering`**: Game audio Ogg Vorbis GSC comment headers, procedural SFX, spatial HRTF, ElevenLabs, and Piper TTS.
 - **`stalker2-ue5-asset-transpiler`**: S.T.A.L.K.E.R. 2 UE5 IoStore asset extraction, audio conversion, and vegetation transpilation to OGSR.
 - **`autonomous-game-qa-playtesting`**: Autonomous game testing, nav-graph recording, /dev/uinput simulation, MangoHud, screen OCR, and fuzzing.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

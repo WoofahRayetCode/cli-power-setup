@@ -91,7 +91,7 @@ def generate_openai_dalle(prompt: str, output_path: str):
 def main():
     parser = argparse.ArgumentParser(description="Frontier Image Generation Dispatcher")
     parser.add_argument("--backend", choices=["openai", "gemini", "local-svg", "local-texture"], default="local-svg")
-    parser.add_argument("--prompt", type=str, default="Antigravity Power Setup")
+    parser.add_argument("--prompt", type=str, default="CLI Power Setup")
     parser.add_argument("--type", type=str, default="grid", choices=["grid", "noise", "badge"])
     parser.add_argument("--output", type=str, default="output_image.png")
     args = parser.parse_args()

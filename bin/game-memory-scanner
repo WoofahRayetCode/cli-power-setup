@@ -5,11 +5,11 @@ TOOL_SCRIPT="${SCRIPT_DIR}/config/skills/game-memory-scanner/scripts/memory_scan
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
     # Fallback if running from ~/.local/bin
-    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-memory-scanner/scripts/memory_scanner.py"
+    TOOL_SCRIPT="${HOME}/.claude/skills/client-memory-anti-tamper-re/scripts/memory_scanner.py"
 fi
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
-    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-memory-scanner/scripts/memory_scanner.py"
+    TOOL_SCRIPT="${HOME}/.claude/skills/client-memory-anti-tamper-re/scripts/memory_scanner.py"
 fi
 
 exec python3 "${TOOL_SCRIPT}" "$@"

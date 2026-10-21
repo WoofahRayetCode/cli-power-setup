@@ -25,4 +25,3 @@ Custom firmware (CFW) bring-up, bootloader management, signature patching, and s
 - **`modern-cpp-engineering`**: Modern C++20/23 standards, CMake 3.25+, RAII, smart pointers, 64-bit alignment, and memory sanitizers.
 - **`console-emulation-toolchains`**: Console homebrew toolchains (devkitPro, libnx, devkitARM), emulator optimization (Ryujinx, RetroArch), and Obt...
 - **`console-storage-package-tools`**: FAT32 32KB cluster alignment, NSP/NSZ compression, XCI trimming, title ID mapping, and hactoolnet extraction.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Dedicated status window: the same status line Claude Code shows (claude-statusline) plus the STALKER widget text, refreshed every 3 s. Costs no tokens.
+# Dedicated status window: the same status line Claude Code shows (claude-token-statusline) plus the STALKER widget text, refreshed every 3 s. Costs no tokens.
 #   tools/statuspane.sh           run the refresh loop in THIS terminal
 #   tools/statuspane.sh --open    open the "STALKER status" kitty window (through the main window's remote control when available) and lay the screen out
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

@@ -1,7 +1,7 @@
 {
   "statusLine": {
-    "command": "/home/USER/.local/bin/agy-quota-statusline",
-    "enabled": true,
-    "stack_with_default": true
+    "type": "command",
+    "command": "/home/USER/.local/bin/claude-token-statusline",
+    "padding": 0
   }
 }

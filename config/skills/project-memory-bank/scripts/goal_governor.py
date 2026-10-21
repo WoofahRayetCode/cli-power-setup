@@ -202,7 +202,7 @@ def cmd_status(args):
     print(f"=======================================================\n")
 
 def get_live_quota() -> dict:
-    """Reads live quota telemetry across Claude Code and Antigravity."""
+    """Reads live quota telemetry from Claude Code."""
     quota = {
         "platform": "Unknown",
         "five_hour_remaining": None,
@@ -230,41 +230,6 @@ def get_live_quota() -> dict:
         except Exception:
             pass
 
-    # 2. Check Antigravity JSON state
-    agy_state = Path("/tmp/agy_quota_state.json")
-    if agy_state.exists():
-        try:
-            d = json.loads(agy_state.read_text())
-            quota["platform"] = "Antigravity (Gemini)"
-            quota["five_hour_remaining"] = d.get("five_hour_remaining")
-            quota["five_hour_resets_at"] = d.get("five_hour_resets_at") or ""
-            quota["five_hour_resets_epoch"] = d.get("five_hour_resets_epoch")
-            quota["weekly_remaining"] = d.get("weekly_remaining")
-            quota["weekly_resets_at"] = d.get("weekly_resets_at") or ""
-            quota["weekly_resets_epoch"] = d.get("weekly_resets_epoch")
-            if quota["five_hour_remaining"] is not None:
-                return quota
-        except Exception:
-            pass
-
-    # 3. Check Antigravity Text Cache
-    agy_cache = Path("/tmp/agy_quota_cache.txt")
-    if agy_cache.exists():
-        try:
-            txt = agy_cache.read_text()
-            quota["platform"] = "Antigravity (Gemini)"
-            m5 = re.search(r"5h:\s*(\d+)%", txt)
-            if m5:
-                quota["five_hour_remaining"] = int(m5.group(1))
-            mr = re.search(r"\(reset\s*([^)]+)\)", txt)
-            if mr:
-                quota["five_hour_resets_at"] = mr.group(1)
-            mw = re.search(r"Wk:\s*(\d+)%", txt)
-            if mw:
-                quota["weekly_remaining"] = int(mw.group(1))
-            return quota
-        except Exception:
-            pass
 
     return quota
 

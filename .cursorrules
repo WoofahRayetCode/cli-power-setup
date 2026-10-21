@@ -3,7 +3,7 @@
 # Global Engineering Discipline & Game Modding Standards
 
 ## 1. Engineering Discipline
-- **Plan Before Major Modifications:** When working on complex tasks, multi-file refactors, or new mod architectures, outline the implementation plan or invoke `writing-plans` / `/plan`.
+- **Plan Before Major Modifications:** When working on complex tasks, multi-file refactors, or new mod architectures, outline the implementation plan (Claude Code: `/plan`).
 - **Systematic Debugging:** Trace bugs and game crashes to root causes via engine logs, stack traces, and reproducible test cases before changing code. Do not speculate or randomly alter values.
 - **Evidence-Based Completion:** Verify that code builds, unit tests pass, and assets parse before declaring any task complete.
 
@@ -13,7 +13,7 @@
 - **Audio Integrity:** When modifying or converting S.T.A.L.K.E.R. audio, never use standard editors that strip the proprietary GSC binary engine chunk from the Ogg Vorbis comment header. Use ZoneForge asset replacement tools to preserve distance and volume parameters.
 - **Autonomous Hands-Free Playtest & QA:** When testing ported mods (e.g. S.T.A.L.K.E.R. Complete to OGSR) without live user input, immediately launch `stalker-playtest-runner` to autonomously dismiss 'Press any key to play' loading screens, inject god mode / infinite ammo cheats, take control of character movement via `/dev/uinput`, monitor frames for missing textures/freezes, and auto-triage crash dialogs.
 - **X-Ray Crash Interception & Modal Dismissal:** When OGSR or X-Ray crashes under Wine/Proton and spawns a Notepad or BugTrap crash log window (`xray_*.log - Notepad`), immediately run `xray_crash_handler.py sweep` or rely on `stalker-playtest-runner` to extract the crash stack trace and terminate `notepad.exe` so tests never hang.
-- **Task Velocity & Anti-Thrashing Discipline:** Enforce `task-velocity-governor` (5-step targeted rule, stop once tests pass, break 3-strike file churn loops) and `first-principles-reasoning` (Chain-of-Verification, Ockham's razor on bug hypotheses) to ensure porting tasks don't take longer than necessary.
+- **Task Velocity & Anti-Thrashing Discipline:** Enforce `task-velocity-governor` (5-step targeted rule, stop once tests pass, break 3-strike file churn loops) to ensure porting tasks don't take longer than necessary.
 - **Laptop Acoustics & Night Governance:** Interoperate with `laptop-performance-profile` (use `laptop_performance_controller.py sleep-mode` during overnight runs or when muted, and `boost-exec` for heavy parallel builds).
 - **Lore Research & Web Architecture:** When documenting game lore, faction histories, or creating modding web portals, leverage `humanities-lore-research`, `creative-web-design-archetypes`, `static-site-architecture`, and `interactive-data-visualization-web`.
 
@@ -43,9 +43,7 @@ The following tools are installed in `~/.local/bin` and can be executed directly
 - `game-dialogue-tool`: S.T.A.L.K.E.R. & RPG conversation UI layout repair, string table cross-referencing, encoding/mojibake fixing, and dialogue graph validation.
 - `stalker-playtest-runner`: Autonomous hands-free game QA, dialogue & locomotion runner via `/dev/uinput`.
 - `game-test-watchdog`: Anti-stuck, freeze, and infinite loop supervisor for headless game testing.
-- `skills-audit-update`: Health auditor, permissions fixer, and multi-CLI/editor synchronizer.
-- `context-watchdog`: Background context telemetry and pre-compaction memory stager.
-- `agy-quota-statusline` / `claude-statusline`: Live quota statusline generators.
+- `claude-token-statusline`: Claude Code statusline with measured token/cache ledger.
 
 ---
 
@@ -64,7 +62,7 @@ Modern development workflows frequently rotate between frontier API models and o
   - `high` / `xhigh`: Multi-file engine refactors, decompilation matching, and complex X-Ray engine crash isolation.
 - **Tone & Persona Suppression:** Override default witty banter and sarcasm. Lead immediately with code diffs, terminal actions, or diagnostic evidence.
 - **Anti-Hallucination:** Never guess S.T.A.L.K.E.R. LTX section names or C++ engine symbols; always verify against unpacked/repo references.
-- **Native Tool Calling:** In Cursor Agent, invoke local CLI tools in `~/.local/bin/` (`game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`, `skills-audit-update`).
+- **Native Tool Calling:** In Cursor Agent, invoke local CLI tools in `~/.local/bin/` (`game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`).
 
 ---
 
@@ -94,7 +92,6 @@ Modern development workflows frequently rotate between frontier API models and o
 - **Role & Sweet Spot:** Ultra-fast iteration (Flash), 1M–2M context window inspection, multimodal image/texture analysis, and rapid thinking.
 - **Context Handling:** While Gemini handles 1M+ tokens effortlessly, maintain structure using interface-only AST skeletons to avoid attention dilution over large codebases.
 - **Multimodal Grounding:** Use Gemini for visual texture analysis (evaluating DDS mipmaps, magenta texture artifacts, and UI rendering errors).
-- **Flash Thinking:** Leverage low/medium thinking budgets in Antigravity for instant-speed verification loops.
 
 ---
 
@@ -139,24 +136,21 @@ Modern development workflows frequently rotate between frontier API models and o
 
 ## 9. Universal Execution Contract Across All Models
 
-Regardless of which model is currently loaded in Cursor, Antigravity, Claude Code, or an external API harness:
+Regardless of which model is currently loaded in Cursor, Claude Code, or an external API harness:
 1. **Zero Conversational Fluff:** Omit pleasantries, preambles, and conversational sign-offs.
 2. **Surgical Diffs Over Rewrites:** Replace only modified lines; never regenerate entire source files unless creating new files.
-3. **Use Installed CLI Utilities:** Invoke tools in `~/.local/bin/` (`game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`, `skills-audit-update`).
+3. **Use Installed CLI Utilities:** Invoke tools in `~/.local/bin/` (`game-texture-editor`, `stalker-playtest-runner`, `game-test-watchdog`).
 4. **Evidence-Based Completion:** Test builds, run linters, or execute unit tests before declaring any task complete.
 5. **Token Economy Reporting:** Conclude responses with a high-density token savings line:
    `📉 Token Economy: ~<N> tokens saved (<breakdown>)`
 
 ---
 
-## Complete Skills Catalog (35 Specialized Capabilities)
+## Complete Skills Catalog (28 Specialized Capabilities)
 All skills below are also indexed individually as modular rules in `.cursor/rules/<skill-name>.mdc`. When tackling any relevant task, invoke the corresponding workflows, scripts in `~/.local/bin/`, or reference specifications:
 
 | Skill | Capabilities & When to Use |
 | :--- | :--- |
-| **`adaptive-reasoning`** | Dynamic cognitive complexity routing and reasoning effort tuning between Flash and Argon (adaptive_model_router). |
-| **`anti-overwork-file-slicer`** | Mandatory window slicing (<=80 lines), AST symbol-first lookup, and prohibition on whole-file reads. |
-| **`argon-adversarial-verification-gate`** | Formal 4-stage pre-completion adversarial self-critique and boundary-condition proofing for Argon and Claude. |
 | **`autonomous-game-qa-playtesting`** | Autonomous game testing, nav-graph recording, /dev/uinput simulation, MangoHud, screen OCR, and fuzzing. |
 | **`blender-3d-asset-pipeline`** | Headless Blender 5.2+ bpy automation, hard-surface CAD, SDF remeshing, SLIM UVs, and RTX 5060 OptiX baking. |
 | **`client-memory-anti-tamper-re`** | Game memory scanning, pointer paths, XOR masking, DLL proxy generation, anti-debugging, and rr replay. |
@@ -166,7 +160,6 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`cross-engine-shader-rendering`** | Slang/SPIRV-Cross shader transpilation (Vulkan, DX12, HLSL, GLSL), Cook-Torrance GGX PBR, and bloom FX. |
 | **`cross-platform-web-desktop`** | Cross-platform desktop and extension development with Tauri 2.0 (Rust), Electron IPC, and Manifest V3. |
 | **`database-network-engineering`** | SQLite WAL tuning, PostgreSQL schemas, raw TCP/UDP, tshark packet capture, and cryptographic security. |
-| **`first-principles-reasoning`** | First-principles debugging, 3-branch Tree-of-Thought deliberation, Ockham's razor, and Chain-of-Verification. |
 | **`game-audio-voice-engineering`** | Game audio Ogg Vorbis GSC comment headers, procedural SFX, spatial HRTF, ElevenLabs, and Piper TTS. |
 | **`game-engines-multiplatform`** | Modern Godot 4, Unreal Engine 5, Unity, Steamworks publishing, Steam Deck tuning, and Proton game dev. |
 | **`game-physics-math-ballistics`** | 3D/4D linear algebra, quaternions, Euler HPB, Open Dynamics Engine (ODE) solvers, and ballistics ODEs. |
@@ -177,8 +170,7 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`modern-cpp-engineering`** | Modern C++20/23 standards, CMake 3.25+, RAII, smart pointers, 64-bit alignment, and memory sanitizers. |
 | **`modern-web-architecture`** | Modern Jamstack and SSG development with Astro, VitePress, Content Collections, and GitHub Pages CI/CD. |
 | **`nintendo-switch-homebrew`** | Nintendo Switch Atmosphere CFW, Hekate bootloader, sys-patch, emuMMC setup, RCM payloads, and archive bit fix. |
-| **`project-memory-bank`** | Persistent project memory curation (.agents/memory/activeContext.md), checkpoints, and task velocity guardrails. |
-| **`prompt-cache-context-optimizer`** | Prompt cache prefix stabilization, 32k token cache barrier locking (95% discount), and TTL preservation. |
+| **`project-memory-bank`** | Save/restore working-state checkpoints and the project notes file (.agents/memory/activeContext.md) for long sessions. Run manually with /project-memory-bank. |
 | **`python-engineering`** | Python 3.11+ software engineering, typed async, Ruff, Mypy, pytest, and performance profiling. |
 | **`reverse-engineer-anything`** | Reverse Engineer Anything (REA) MCP server integration, function diffing, and obligation ledgers. |
 | **`rust-engineering`** | Rust development, Cargo builds, borrow checker, lifetimes, zero-cost abstractions, and clippy. |
@@ -186,6 +178,4 @@ All skills below are also indexed individually as modular rules in `.cursor/rule
 | **`stalker2-ue5-asset-transpiler`** | S.T.A.L.K.E.R. 2 UE5 IoStore asset extraction, audio conversion, and vegetation transpilation to OGSR. |
 | **`standalone-binary-re`** | Native Linux zero-MCP reverse engineering: objdump, readelf, nm, rizin, gdb, JADX, and PE/ELF headers. |
 | **`threejs-webgl-engineering`** | Interactive 3D WebGL and WebGPU engineering with Three.js, OrbitControls, GLTFLoader, and PBR rigs. |
-| **`token-economy`** | Output token containment: zero conversational fluff, high-density status, silent tools, and surgical diffs. |
 | **`windows-linux-cross-os-runtime-bridge`** | Native Linux and Windows 10/11 cross-OS runtime parity, Win32 APIs, PowerShell 7, and Wine/Proton. |
-| **`writing-plans`** | Granular implementation planning (/plan), dependency ordering, verifiable contracts, and artifact offloading. |

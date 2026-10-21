@@ -18,4 +18,3 @@ Homebrew cross-compilation toolchains, native SDKs (libnx), emulator performance
 - **`console-storage-package-tools`**: FAT32 32KB cluster alignment, NSP/NSZ compression, XCI trimming, title ID mapping, and hactoolnet extraction.
 - **`console-game-decompilation`**: Matching binary decompilation for console ROMs and retro binaries using Splat, m2c, and objdiff.
 - **`cross-engine-shader-rendering`**: Slang/SPIRV-Cross shader transpilation (Vulkan, DX12, HLSL, GLSL), Cook-Torrance GGX PBR, and bloom FX.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

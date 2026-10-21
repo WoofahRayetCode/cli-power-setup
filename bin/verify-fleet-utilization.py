@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 verify-fleet-utilization.py (bin/verify-fleet-utilization.py)
-Validates that Antigravity CLI actively routes to, executes inferences on,
+Validates that Claude Code actively routes to, executes inferences on,
 and records token savings for all 37 installed models in the local LLM fleet.
 """
 
@@ -165,7 +165,7 @@ def test_model(model: str, task: str, desc: str, mtype: str, test_prompt: str, e
 
 
 def main():
-    print(f"{BOLD}=== Antigravity CLI Local LLM Fleet Utilization Audit ==={RESET}", flush=True)
+    print(f"{BOLD}=== Claude Code Local LLM Fleet Utilization Audit ==={RESET}", flush=True)
     endpoint = "http://localhost:11434"
     installed = get_installed_ollama_models(endpoint)
     print(f"Ollama Endpoint: {CYAN}{endpoint}{RESET} | Installed Models: {GREEN}{len(installed)}/37{RESET}\n", flush=True)
@@ -187,11 +187,6 @@ def main():
     print(f"{BOLD}Audit Summary:{RESET} {GREEN}{passed}/{len(FLEET_ROSTER)}{RESET} models verified active.")
     print(f"{BOLD}Session Cloud Tokens Saved:{RESET} {CYAN}+{total_saved:,}{RESET} tokens billed at $0.00.")
 
-    # Refresh statusline
-    try:
-        subprocess.run(["bin/agy-quota-statusline"], capture_output=True, timeout=2.0)
-    except Exception:
-        pass
 
 
 if __name__ == "__main__":

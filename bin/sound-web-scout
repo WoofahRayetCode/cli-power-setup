@@ -26,7 +26,7 @@ import numpy as np
 from scipy import signal
 
 CACHE_DIR = Path.home() / ".cache" / "sound_web_scout"
-USER_AGENT = "AntigravitySoundScout/1.0 (Linux; Autonomous Game Audio Engineering)"
+USER_AGENT = "SoundWebScout/1.0 (Linux; Autonomous Game Audio Engineering)"
 
 
 def http_get_json(url: str, timeout: float = 8.0) -> dict:

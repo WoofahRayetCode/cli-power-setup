@@ -12,10 +12,9 @@ High-level multi-engine binary reverse engineering using the REA MCP server.
 - **Obligation Ledger:** Build and maintain formal reconstruction obligation ledgers tracking function signatures, call-paths, and boundary validations.
 - **Static & Runtime Correlation:** Bridge static disassembly with live process telemetry, memory hooks, and symbol verification.
 - **Lua API Probe:**
-  `python3 config/skills/reverse-engineer-anything/scripts/lua_api_probe.py`
+  `python3 ~/.claude/skills/reverse-engineer-anything/scripts/lua_api_probe.py`
 
 ## Related & Interoperating Skills
 - **`client-memory-anti-tamper-re`**: Game memory scanning, pointer paths, XOR masking, DLL proxy generation, anti-debugging, and rr replay.
 - **`standalone-binary-re`**: Native Linux zero-MCP reverse engineering: objdump, readelf, nm, rizin, gdb, JADX, and PE/ELF headers.
 - **`windows-linux-cross-os-runtime-bridge`**: Native Linux and Windows 10/11 cross-OS runtime parity, Win32 APIs, PowerShell 7, and Wine/Proton.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

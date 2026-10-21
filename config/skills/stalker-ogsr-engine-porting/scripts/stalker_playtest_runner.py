@@ -60,12 +60,11 @@ def main():
     print(f"Cheats & QA Aids: God Mode: {args.god_mode} | Infinite Ammo: {args.infinite_ammo} | Skip Intro: {args.skip_intro}")
     print("-----------------------------------------------------------------------\n")
 
-    # Resolve skill script paths dynamically across Claude, Gemini, and Repo
+    # Resolve skill script paths dynamically across Claude and Repo
     def find_tool(subpath):
         for root in [
             Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills"),
             Path.home() / ".claude/skills",
-            Path.home() / ".gemini/config/skills"
         ]:
             p = root / subpath
             if p.exists():

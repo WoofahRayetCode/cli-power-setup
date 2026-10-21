@@ -1,22 +1,23 @@
 ---
-description: Persistent project memory curation (.agents/memory/activeContext.md), checkpoints, and task velocity guardrails.
+description: Save/restore working-state checkpoints and the project notes file (.agents/memory/activeContext.md) for long sessions. Run manually with /project-memory-bank.
 globs: 
 alwaysApply: false
 ---
 
-# Project Memory Bank & Checkpointing (`project-memory-bank`)
+# Project Memory Bank
 
-Persistent working context, episodic logging, milestone checkpointing, and anti-thrashing velocity governance.
+The notes-file rule in `~/.claude/CLAUDE.md` covers routine use. This skill adds the scripts.
 
-## Components
-- **Active Context:** Curates `.agents/memory/activeContext.md` to ensure zero token-cost amnesia across sessions and `/compact`.
-- **Working State Checkpointing:** Snapshot in-flight git diffs with 1-command rollback:
-  `python3 config/skills/project-memory-bank/scripts/state_checkpoint.py`
-- **Task Velocity Governor:** 5-step targeted rule, halting iterative loops when diminishing returns occur:
-  `python3 config/skills/project-memory-bank/scripts/task_velocity_guard.py`
+## Notes file
+`.agents/memory/activeContext.md` in the repo root. Sections: **Done**, **In progress**, **Next**, **Dead ends** (with why). Keep it under ~150 lines; collapse finished items into one-line summaries.
 
-## Related & Interoperating Skills
-- **`prompt-cache-context-optimizer`**: Prompt cache prefix stabilization, 32k token cache barrier locking (95% discount), and TTL preservation.
-- **`token-economy`**: Output token containment: zero conversational fluff, high-density status, silent tools, and surgical diffs.
-- **`client-memory-anti-tamper-re`**: Game memory scanning, pointer paths, XOR masking, DLL proxy generation, anti-debugging, and rr replay.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+## Checkpoints (git working state)
+```
+python3 ~/.claude/skills/project-memory-bank/scripts/state_checkpoint.py save -m "<label>"
+python3 ~/.claude/skills/project-memory-bank/scripts/state_checkpoint.py list
+python3 ~/.claude/skills/project-memory-bank/scripts/state_checkpoint.py restore <id>
+```
+Save one before a risky refactor or a long decomp batch.
+
+## Task velocity guard
+`python3 ~/.claude/skills/project-memory-bank/scripts/task_velocity_guard.py {start,step,status,finish}` — timeboxes a task and flags diminishing returns.

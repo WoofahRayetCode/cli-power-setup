@@ -150,10 +150,8 @@ def record_in_ledger(all_time: dict, sessions: int) -> dict:
 
 
 def ledger_global(ld: dict) -> dict:
-    ls = ld.get("lifetime_summary", {})
     cc = ld.get("claude_code", {})
     return {
-        "other_cache": ls.get("total_cached_tokens_saved", 0),
         "claude_cache": cc.get("cache_read_tokens", 0),
         "local_est": ld.get("local_llm_savings", {}).get("total_cloud_tokens_saved", 0),
     }
@@ -215,7 +213,7 @@ def status_line(inp: dict) -> str:
         f"💾 session in {fmt(tot_in)} · out {fmt(sess['output'])} · ♻ cached {fmt(sess['cache_read'])} ({hit:.0f}%, -90% cost)",
     ]
     g = ledger_global(ld)
-    parts2.append(f"🌐 ledger ♻ {fmt(g['claude_cache'] + g['other_cache'])} all-time (claude {fmt(g['claude_cache'])} + agy {fmt(g['other_cache'])}) · 🤖 local est {fmt(g['local_est'])}")
+    parts2.append(f"🌐 ledger ♻ {fmt(g['claude_cache'])} all-time")
     return " │ ".join(parts1) + "\n" + " │ ".join(parts2)
 
 
@@ -226,7 +224,6 @@ def print_ledger() -> None:
         atomic_write_json(STATE_FILE, state)
     all_time = sum_entries(state["files"].values())
     ld = record_in_ledger(all_time, len([p for p in state["files"] if "/subagents/" not in p]))
-    ls = ld.get("lifetime_summary", {})
     cc = ld.get("claude_code", {})
     loc = ld.get("local_llm_savings", {})
     print(f"Global token ledger: {os.path.realpath(LEDGER)}\n")
@@ -234,15 +231,10 @@ def print_ledger() -> None:
     print(f"  sessions {cc.get('sessions_tracked', 0)} · API calls {cc.get('api_calls', 0):,}")
     print(f"  cache-read {cc.get('cache_read_tokens', 0):,} · cache-write {cc.get('cache_write_tokens', 0):,} · uncached in {cc.get('uncached_input_tokens', 0):,} · out {cc.get('output_tokens', 0):,}")
     print(f"  cache hit rate {cc.get('cache_hit_rate_pct', 0)}% · input-token cost avoided ≈ {int(0.9 * cc.get('cache_read_tokens', 0)):,} token-equivalents\n")
-    print("Antigravity / Gemini lifetime_summary (as recorded by agy-quota-statusline)")
-    print(f"  cache-read {ls.get('total_cached_tokens_saved', 0):,} · uncached in {ls.get('total_uncached_input_tokens', 0):,} · out {ls.get('total_output_tokens', 0):,}")
-    print(f"  sessions {ls.get('total_sessions_tracked', 0)} · turns {ls.get('total_turns_executed', 0):,} · hit rate {ls.get('cache_hit_rate_pct', 0)}% · updated {ls.get('last_updated', '?')}\n")
     print("Local LLM offload (estimates written by local-coprocessor, not measured cloud usage)")
     print(f"  calls {loc.get('total_calls', 0)} · local tokens {loc.get('total_local_tokens', 0):,} · est. cloud tokens saved {loc.get('total_cloud_tokens_saved', 0):,}")
     for m, v in sorted(loc.get("by_model", {}).items(), key=lambda kv: -kv[1].get("cloud_tokens_saved", 0)):
         print(f"    {m:30s} {v.get('cloud_tokens_saved', 0):>9,} est. saved · {v.get('calls', 0)} calls")
-    tot = cc.get("cache_read_tokens", 0) + ls.get("total_cached_tokens_saved", 0)
-    print(f"\nAll-time cache-read total (Claude + Gemini): {tot:,}")
 
 
 def main() -> int:

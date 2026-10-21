@@ -45,6 +45,5 @@ case "$EFFORT_VAL" in
         ;;
 esac
 
-[ -t 1 ] && command -v agy-cheatsheet >/dev/null 2>&1 && agy-cheatsheet --banner
 exec claude $EFFORT_FLAG "${USER_ARGS[@]}"
 

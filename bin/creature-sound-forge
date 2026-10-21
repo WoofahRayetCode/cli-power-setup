@@ -215,7 +215,7 @@ def fetch_real_sample(preset: str, sr: int = 44100) -> np.ndarray | None:
     cached_ogg = CACHE_DIR / f"{preset}.ogg"
     if not cached_ogg.exists() or cached_ogg.stat().st_size < 1024:
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": "AntigravityAudioForge/1.0"})
+            req = urllib.request.Request(url, headers={"User-Agent": "CreatureSoundForge/1.0"})
             data = urllib.request.urlopen(req, timeout=8).read()
             cached_ogg.write_bytes(data)
         except Exception:

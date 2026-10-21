@@ -19,6 +19,4 @@ Zero-cost abstractions, memory safety, and production-grade Rust systems develop
 
 ## Related & Interoperating Skills
 - **`modern-cpp-engineering`**: Modern C++20/23 standards, CMake 3.25+, RAII, smart pointers, 64-bit alignment, and memory sanitizers.
-- **`token-economy`**: Output token containment: zero conversational fluff, high-density status, silent tools, and surgical diffs.
 - **`python-engineering`**: Python 3.11+ software engineering, typed async, Ruff, Mypy, pytest, and performance profiling.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

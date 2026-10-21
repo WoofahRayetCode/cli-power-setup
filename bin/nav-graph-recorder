@@ -4,11 +4,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TOOL_SCRIPT="${SCRIPT_DIR}/config/skills/game-autonomous-navigation-ai/scripts/nav_graph_recorder.py"
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
-    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-autonomous-navigation-ai/scripts/nav_graph_recorder.py"
+    TOOL_SCRIPT="${HOME}/.claude/skills/autonomous-game-qa-playtesting/scripts/nav_graph_recorder.py"
 fi
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
-    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-autonomous-navigation-ai/scripts/nav_graph_recorder.py"
+    TOOL_SCRIPT="${HOME}/.claude/skills/autonomous-game-qa-playtesting/scripts/nav_graph_recorder.py"
 fi
 
 exec python3 "${TOOL_SCRIPT}" "$@"

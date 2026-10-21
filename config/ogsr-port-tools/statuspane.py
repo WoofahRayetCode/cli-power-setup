@@ -62,7 +62,7 @@ def compose(cols, rows):
     nl = [l[:cols] for l in rd(night[-1]).splitlines() if re.match(r"l\d\d", l)][-8:] if night else []
     gm = "game running" if sh("pgrep -f '[x]rEngine.exe -nointro'").strip() else "game closed"
     B[4] = (block(f"GAME / {daypart()} WALK", "g", [gm] + nl), block(f"GAME / {daypart()} WALK", "g", [gm] + nl[-2:]))
-    sl = [l for l in sh("claude-statusline", statusline_input()).splitlines() if l.strip()]
+    sl = [l for l in sh("claude-token-statusline", statusline_input()).splitlines() if l.strip()]
     sl_w = sum([wrap(l, cols) if "\x1b" not in l else [l] for l in sl], [])
     B[2.5] = (block("STATUS LINE", "d", sl_w[:7]), block("STATUS LINE", "d", sl_w[:3]))     # quota stays visible: right after NOW
     tk = rd(Path.home() / ".claude/ticker.txt")

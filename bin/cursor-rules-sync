@@ -60,13 +60,7 @@ def sync_cursor():
         shutil.copy2(core_multimodel, REPO_CURSOR_RULES / "001-multi-model-optimization.mdc")
         shutil.copy2(core_multimodel, USER_CURSOR_RULES / "001-multi-model-optimization.mdc")
 
-    # 2. Prune old .mdc files (except core discipline rules)
-    for cr_dir in [CONFIG_CURSOR_RULES, REPO_CURSOR_RULES, USER_CURSOR_RULES]:
-        for f in cr_dir.glob("*.mdc"):
-            if not f.name.startswith("000-") and not f.name.startswith("001-"):
-                f.unlink(missing_ok=True)
-
-    # Convert all canonical skills to .mdc format
+    # 2. Convert all 157 skills to .mdc format
     skill_entries = []
     converted_count = 0
     for skill_path in sorted(SKILLS_DIR.iterdir()):

@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-# Claude Code Statusline Wrapper (identical to agy-quota-statusline)
-# In the YOLO setup (CLAUDE_STATUS_PANE set) nothing is printed under the prompt, but the REAL status input Claude Code sends (quota percentages and reset times,
-# model, context use) is kept in ~/.cache/claude-statusline/real_input.json for the "STALKER status" window, which renders it with the same code.
-if [ -n "$CLAUDE_STATUS_PANE" ]; then
-  d="$HOME/.cache/claude-statusline"; mkdir -p "$d"; cat > "$d/real_input.tmp" && mv "$d/real_input.tmp" "$d/real_input.json"
-  exit 0
-fi
-exec agy-quota-statusline --claude "$@"

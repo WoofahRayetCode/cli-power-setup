@@ -14,10 +14,9 @@ Low-level Linux systems programming, asynchronous I/O, systemd service architect
 - **Laptop Performance & Thermal Governor:**
   Control acoustics, TDP, and fan curves via:
   `laptop-perf [status|sleep-mode|balanced|performance|boost]`
-  Script: `config/skills/linux-systems-engineering/scripts/laptop_performance_controller.py`
+  Script: `~/.claude/skills/linux-systems-engineering/scripts/laptop_performance_controller.py`
 
 ## Related & Interoperating Skills
 - **`cross-platform-web-desktop`**: Cross-platform desktop and extension development with Tauri 2.0 (Rust), Electron IPC, and Manifest V3.
 - **`python-engineering`**: Python 3.11+ software engineering, typed async, Ruff, Mypy, pytest, and performance profiling.
 - **`modern-web-architecture`**: Modern Jamstack and SSG development with Astro, VitePress, Content Collections, and GitHub Pages CI/CD.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

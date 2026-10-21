@@ -46,7 +46,7 @@ def get_free_vram_mb() -> int:
 
 SKILLS_DIRS = [
     Path("/home/ericparsley/Documents/GitHub/cli-power-setup/config/skills"),
-    Path.home() / ".gemini" / "config" / "skills",
+    Path.home() / ".claude" / "skills",
 ]
 
 
@@ -94,7 +94,7 @@ def load_skill_context(skill_names: str = "", auto_skill: bool = False, prompt_t
 
     if not blocks:
         return "", []
-    header = "You MUST strictly obey the following installed Antigravity Skill specifications:\n\n"
+    header = "You MUST strictly obey the following installed Skill specifications:\n\n"
     return header + "\n\n".join(blocks), loaded_names
 
 
@@ -331,7 +331,7 @@ def resolve_best_local_model(requested_model: str, task: str = "auto", endpoint:
 def _write_local_state(model: str, active: bool, last_saved: int = 0) -> None:
     try:
         clean_m = model.replace(":latest", "")
-        state_p = Path("/tmp/agy_local_model_state.json")
+        state_p = Path("/tmp/local_model_state.json")
         payload = {"model": clean_m, "active": active, "ts": time.time()}
         if last_saved > 0:
             payload["last_saved"] = last_saved
@@ -346,7 +346,7 @@ def record_local_llm_savings(model: str, prompt_eval: int, eval_count: int, has_
     local_tok = max(1, prompt_eval + eval_count)
     
     # Tier-specific cloud equivalent calculation:
-    # 1. Ultra-Large Reasoners (DeepSeek-R1 70B/32B): replaces Argon High / Claude Extended Thinking (6x-8x reasoning token burn)
+    # 1. Ultra-Large Reasoners (DeepSeek-R1 70B/32B): replaces Claude extended thinking (6x-8x reasoning token burn)
     if "deepseek-r1" in clean_m:
         reason_mult = 6 if ("70b" in clean_m or "72b" in clean_m) else 4
         cloud_saved = prompt_eval + (eval_count * reason_mult) + 3500
@@ -600,7 +600,7 @@ def cmd_embed(args):
     if getattr(args, "file", "") and os.path.exists(args.file):
         text = Path(args.file).read_text(encoding="utf-8", errors="ignore")
     if not text:
-        text = "Antigravity CLI local vector embedding sample query."
+        text = "Local vector embedding sample query."
     print(f"[🔢 Local Vector Embedding] Model: {resolved}")
 
     url = f"{args.endpoint.rstrip('/')}/api/embeddings"

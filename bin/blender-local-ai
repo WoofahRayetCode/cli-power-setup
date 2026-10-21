@@ -43,7 +43,7 @@ def _write_local_state(model: str, active: bool, last_saved: int = 0) -> None:
         payload = {"model": clean_m, "active": active, "ts": time.time()}
         if last_saved > 0:
             payload["last_saved"] = last_saved
-        Path("/tmp/agy_local_model_state.json").write_text(
+        Path("/tmp/local_model_state.json").write_text(
             json.dumps(payload),
             encoding="utf-8",
         )

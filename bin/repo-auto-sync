@@ -170,7 +170,6 @@ def sync_readme(repo: Path) -> bool:
             "### Latest CLI Utilities (`bin/` -> `~/.local/bin/`)",
             "| CLI Tool | Purpose |",
             "| :--- | :--- |",
-            "| **`agy-mic-button`** | Floating XWayland voice dictation pill (`[🎙️ Talk | ⏎ Send | ⚡Auto | 📌Pin]`) with drag memory, terminal snap-pin, and auto-close on `agy` exit. |",
             "| **`rtx-engine-toolkit`** | NVIDIA RTX/NGX/DLSS 4 engine auditor & code generator (`audit`, `gen-dlss-patch`, `gen-hlsl-ssgi` SM 5.0 compute ray-tracing, `gen-cdb-bvh`, `gen-dx12-bridge`). |",
             "| **`eleven-studio`** | ElevenLabs feature parity CLI: expressive character neural TTS, `--ref-audio` 32-band timbre cloning, STS voice changer (`--pitch`/`--formant`), STFT Voice Isolator, S.T.A.L.K.E.R. radio/gasmask FX, and GSC v3 Ogg headers. |",
             "| **`game-math-solver`** | Zero-quota 32-thread AVX-512 CPU + RTX 5060 CUDA 13.4 GPU math solver (`coord`, `ode`, `ballistics`, `ai-node`, `prove`, `hw-bench`). |",
@@ -178,8 +177,6 @@ def sync_readme(repo: Path) -> bool:
             "| **`sound-web-scout`** | Autonomous web audio & SFX researcher (Wikimedia Commons + Internet Archive) with `/dev/shm` SNR scoring, burst slicing, and GSC v3 Ogg mastering. |",
             "| **`blender` (RTX 5060 Wrapper)** | Forces NVIDIA GeForce RTX 5060 PRIME offload for Viewport/EEVEE/Workbench + locks Cycles to `OPTIX` GPU (`force_rtx5060_optix.py`). |",
             "| **`laptop-perf`** | Hardware acoustic & thermal governor (`clamshell-3d` lid-closed 3D render lock, `sleep-mode`, `wake-mode`, `boost-exec`). |",
-            "| **`agy-cheatsheet` (`cs`)** | Dynamic repo-aware model, reasoning effort, and hardware offload cheat sheet + live statusline recommender (`~/Documents/GitHub`). |",
-            "| **`skill-evolve` & `skill-optimize`** | Closed-loop runtime skill scaffolder, Voyager script promoter, `<50ms` hot-patcher, and automatic ecosystem mesh optimizer (`skill_ecosystem_graph.json`). |",
             "| **`repo-auto-sync`** | Autonomous git repo puller, `.gitignore` hardener, `README.md` updater, milestone committer, and 32-repo fleet manager. |",
             "| **`steam-mod-scanner`** | Fingerprints installed Steam games (`/mnt/games/SteamLibrary`) by engine & archive format and maps to modding skills. |",
             "| **`silhouette-iou-profiler`** | Extracts 32-slice mathematical width contours & hex palettes from 2D drawings and verifies 3D render Silhouette IoU. |",
@@ -235,10 +232,6 @@ def cmd_checkpoint(repo: Path, message: str | None, push: bool) -> None:
 
     ensure_gitignore(repo)
     sync_readme(repo)
-    try:
-        subprocess.run(["agy-cheatsheet", "--update"], capture_output=True, timeout=5, check=False)
-    except Exception:
-        pass
     run_git(repo, "add", "-A")
 
     # Safety Filter: Unstage any file > 50 MB or matching temp patterns & append >50MB files to .gitignore

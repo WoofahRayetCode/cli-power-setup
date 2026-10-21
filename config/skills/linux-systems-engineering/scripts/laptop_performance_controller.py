@@ -225,7 +225,7 @@ def boost_command(cmd: list[str]) -> int:
         return res.returncode
 
 
-INHIBIT_PID_FILE = os.path.join(os.path.expanduser("~"), ".cache", "agy_lid_inhibit.pid")
+INHIBIT_PID_FILE = os.path.join(os.path.expanduser("~"), ".cache", "lid_inhibit.pid")
 
 
 def is_lid_inhibited() -> Optional[int]:
@@ -257,7 +257,7 @@ def start_lid_inhibitor(reason: str = "Autonomous 3D & Overnight Execution (Lid 
         [
             "systemd-inhibit",
             "--what=handle-lid-switch:sleep:idle",
-            "--who=Antigravity Clamshell 3D Runner",
+            "--who=Clamshell 3D Runner",
             f"--why={reason}",
             "--mode=block",
             "sleep",

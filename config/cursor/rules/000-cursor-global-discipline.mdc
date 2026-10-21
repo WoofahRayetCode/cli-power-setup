@@ -7,7 +7,7 @@ alwaysApply: true
 # Global Engineering Discipline & Game Modding Standards
 
 ## 1. Engineering Discipline
-- **Plan Before Major Modifications:** When working on complex tasks, multi-file refactors, or new mod architectures, outline the implementation plan or invoke `writing-plans` / `/plan`.
+- **Plan Before Major Modifications:** When working on complex tasks, multi-file refactors, or new mod architectures, outline the implementation plan (Claude Code: `/plan`).
 - **Systematic Debugging:** Trace bugs and game crashes to root causes via engine logs, stack traces, and reproducible test cases before changing code. Do not speculate or randomly alter values.
 - **Evidence-Based Completion:** Verify that code builds, unit tests pass, and assets parse before declaring any task complete.
 
@@ -17,7 +17,7 @@ alwaysApply: true
 - **Audio Integrity:** When modifying or converting S.T.A.L.K.E.R. audio, never use standard editors that strip the proprietary GSC binary engine chunk from the Ogg Vorbis comment header. Use ZoneForge asset replacement tools to preserve distance and volume parameters.
 - **Autonomous Hands-Free Playtest & QA:** When testing ported mods (e.g. S.T.A.L.K.E.R. Complete to OGSR) without live user input, immediately launch `stalker-playtest-runner` to autonomously dismiss 'Press any key to play' loading screens, inject god mode / infinite ammo cheats, take control of character movement via `/dev/uinput`, monitor frames for missing textures/freezes, and auto-triage crash dialogs.
 - **X-Ray Crash Interception & Modal Dismissal:** When OGSR or X-Ray crashes under Wine/Proton and spawns a Notepad or BugTrap crash log window (`xray_*.log - Notepad`), immediately run `xray_crash_handler.py sweep` or rely on `stalker-playtest-runner` to extract the crash stack trace and terminate `notepad.exe` so tests never hang.
-- **Task Velocity & Anti-Thrashing Discipline:** Enforce `task-velocity-governor` (5-step targeted rule, stop once tests pass, break 3-strike file churn loops) and `first-principles-reasoning` (Chain-of-Verification, Ockham's razor on bug hypotheses) to ensure porting tasks don't take longer than necessary.
+- **Task Velocity & Anti-Thrashing Discipline:** Enforce `task-velocity-governor` (5-step targeted rule, stop once tests pass, break 3-strike file churn loops) to ensure porting tasks don't take longer than necessary.
 - **Laptop Acoustics & Night Governance:** Interoperate with `laptop-performance-profile` (use `laptop_performance_controller.py sleep-mode` during overnight runs or when muted, and `boost-exec` for heavy parallel builds).
 - **Lore Research & Web Architecture:** When documenting game lore, faction histories, or creating modding web portals, leverage `humanities-lore-research`, `creative-web-design-archetypes`, `static-site-architecture`, and `interactive-data-visualization-web`.
 
@@ -47,6 +47,4 @@ The following tools are installed in `~/.local/bin` and can be executed directly
 - `game-dialogue-tool`: S.T.A.L.K.E.R. & RPG conversation UI layout repair, string table cross-referencing, encoding/mojibake fixing, and dialogue graph validation.
 - `stalker-playtest-runner`: Autonomous hands-free game QA, dialogue & locomotion runner via `/dev/uinput`.
 - `game-test-watchdog`: Anti-stuck, freeze, and infinite loop supervisor for headless game testing.
-- `skills-audit-update`: Health auditor, permissions fixer, and multi-CLI/editor synchronizer.
-- `context-watchdog`: Background context telemetry and pre-compaction memory stager.
-- `agy-quota-statusline` / `claude-statusline`: Live quota statusline generators.
+- `claude-token-statusline`: Claude Code statusline with measured token/cache ledger.

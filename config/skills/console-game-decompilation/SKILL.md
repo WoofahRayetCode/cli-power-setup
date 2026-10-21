@@ -12,10 +12,9 @@ Matching decompilation workflows for console binaries (N64, PS1, PS2, GameCube, 
 - **Assembly-to-C:** Transpile assembly snippets into candidate C functions via `m2c`.
 - **Instruction Matching:** Verify exact compiler match against original ROM hashes using `objdiff-cli`.
 - **Analyzer Script:**
-  `python3 config/skills/console-game-decompilation/scripts/console_binary_analyzer.py`
+  `python3 ~/.claude/skills/console-game-decompilation/scripts/console_binary_analyzer.py`
 
 ## Related & Interoperating Skills
 - **`console-emulation-toolchains`**: Console homebrew toolchains (devkitPro, libnx, devkitARM), emulator optimization (Ryujinx, RetroArch), and Obt...
 - **`console-storage-package-tools`**: FAT32 32KB cluster alignment, NSP/NSZ compression, XCI trimming, title ID mapping, and hactoolnet extraction.
 - **`client-memory-anti-tamper-re`**: Game memory scanning, pointer paths, XOR masking, DLL proxy generation, anti-debugging, and rr replay.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

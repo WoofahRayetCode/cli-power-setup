@@ -5,11 +5,11 @@ TOOL_SCRIPT="${SCRIPT_DIR}/config/skills/game-dialogue-ui-localization/scripts/d
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
     # Fallback if running from ~/.local/bin
-    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-dialogue-ui-localization/scripts/dialogue_tool.py"
+    TOOL_SCRIPT="${HOME}/.claude/skills/stalker-ogsr-engine-porting/scripts/dialogue_tool.py"
 fi
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
-    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-dialogue-ui-localization/scripts/dialogue_tool.py"
+    TOOL_SCRIPT="${HOME}/.claude/skills/stalker-ogsr-engine-porting/scripts/dialogue_tool.py"
 fi
 
 exec python3 "${TOOL_SCRIPT}" "$@"

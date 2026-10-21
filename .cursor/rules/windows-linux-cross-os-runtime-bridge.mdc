@@ -13,10 +13,8 @@ Guarantees 100% cross-OS compatibility across Linux and Windows 10/11 for all CL
 - **Execution & Shims:** Linux executes bash scripts (`.sh`); Windows executes PowerShell 7 (`.ps1`) or `.cmd` shims in `$HOME\.local\bin`.
 - **Wine & Proton Interop:** Seamlessly translate between Linux paths (`/home/user/...`) and Wine drive paths (`Z:\home\user\...`, `C:\users\user\...`) using `winepath -w` and `winepath -u`.
 - **Large Address Aware (LAA) PE Patching:**
-  `python3 config/skills/windows-linux-cross-os-runtime-bridge/scripts/laa_pe_patcher.py <exe>`
+  `python3 ~/.claude/skills/windows-linux-cross-os-runtime-bridge/scripts/laa_pe_patcher.py <exe>`
 
 ## Related & Interoperating Skills
 - **`standalone-binary-re`**: Native Linux zero-MCP reverse engineering: objdump, readelf, nm, rizin, gdb, JADX, and PE/ELF headers.
-- **`anti-overwork-file-slicer`**: Mandatory window slicing (<=80 lines), AST symbol-first lookup, and prohibition on whole-file reads.
 - **`reverse-engineer-anything`**: Reverse Engineer Anything (REA) MCP server integration, function diffing, and obligation ledgers.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

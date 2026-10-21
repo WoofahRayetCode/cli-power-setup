@@ -4,11 +4,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TOOL_SCRIPT="${SCRIPT_DIR}/config/skills/game-weather-lighting-fx/scripts/weather_lighting_tuner.py"
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
-    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-weather-lighting-fx/scripts/weather_lighting_tuner.py"
+    TOOL_SCRIPT="${HOME}/.claude/skills/cross-engine-shader-rendering/scripts/weather_lighting_tuner.py"
 fi
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
-    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-weather-lighting-fx/scripts/weather_lighting_tuner.py"
+    TOOL_SCRIPT="${HOME}/.claude/skills/cross-engine-shader-rendering/scripts/weather_lighting_tuner.py"
 fi
 
 exec python3 "${TOOL_SCRIPT}" "$@"

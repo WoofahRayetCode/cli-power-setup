@@ -19,4 +19,3 @@ MicroSD storage optimization, FAT32 cluster alignment, game package compression 
 - **`console-emulation-toolchains`**: Console homebrew toolchains (devkitPro, libnx, devkitARM), emulator optimization (Ryujinx, RetroArch), and Obt...
 - **`console-game-decompilation`**: Matching binary decompilation for console ROMs and retro binaries using Splat, m2c, and objdiff.
 - **`nintendo-switch-homebrew`**: Nintendo Switch Atmosphere CFW, Hekate bootloader, sys-patch, emuMMC setup, RCM payloads, and archive bit fix.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -1,5 +1,5 @@
 {
-  "cursor.general.userRules": "Adhere strictly to ~/.cursorrules and .cursor/rules/*.mdc. Follow Output Token Economy (zero conversational fluff, high-density status, surgical edits). Never restate user prompts. Use installed CLI tools in ~/.local/bin (game-texture-editor, stalker-playtest-runner, game-test-watchdog, skills-audit-update).",
+  "cursor.general.userRules": "Adhere strictly to ~/.cursorrules and .cursor/rules/*.mdc. Follow Output Token Economy (zero conversational fluff, high-density status, surgical edits). Never restate user prompts. Use installed CLI tools in ~/.local/bin (game-texture-editor, stalker-playtest-runner, game-test-watchdog).",
   "cursor.composer.agentFlag": true,
   "cursor.composer.showAgent": true,
   "cursor.chat.model": "grok-4.7",

@@ -1,29 +1,5 @@
 {
-  "lifetime_summary": {
-    "total_cached_tokens_saved": 1978376957,
-    "total_sessions_tracked": 34,
-    "cache_hit_rate_pct": 94.55,
-    "total_uncached_input_tokens": 118356169,
-    "total_output_tokens": 8251772,
-    "total_turns_executed": 14867,
-    "last_updated": "2026-10-21T08:50:22.366472"
-  },
-  "sessions": [
-    {
-      "session_id": "antigravity-lifetime",
-      "environment": "antigravity-cli",
-      "model": "Gemini 4 Argon + Gemini 3.8 Flash",
-      "transcript_path": "~/.gemini/antigravity/brain/",
-      "cached_tokens_saved": 1284574783,
-      "cache_hit_rate_pct": 93.83,
-      "turns": 10010,
-      "primary_tasks": [
-        "S.T.A.L.K.E.R. Complete to 64-bit OGSR Engine Migration",
-        "Autonomous Skill Ecosystem & Hardware Offload Pipeline",
-        "Argon High + Flash Swarm Orchestration"
-      ]
-    }
-  ],
+  "sessions": [],
   "local_llm_savings": {
     "total_calls": 130,
     "total_local_tokens": 29975,
@@ -270,11 +246,6 @@
       "estimated_tokens_saved": 1420028,
       "efficiency_multiplier": "50-85% input token reduction per voice turn"
     },
-    "gemini_ast_symbol_window_slicer": {
-      "description": "Bounded 40-80 line StartLine/EndLine window slicing via grep/AST lookup instead of un-bounded 800-line view_file calls",
-      "estimated_tokens_saved": 19600000,
-      "efficiency_multiplier": "85-95% reduction on file inspection tokens"
-    },
     "local_vector_rag_engine": {
       "description": "BGE-M3 1024-dim dense vector search retrieving only top-k 15-line snippets into prompts instead of whole-file context stuffing",
       "estimated_tokens_saved": 12800000,
@@ -284,17 +255,22 @@
       "description": "Terminal stdout 30-line ceilings and compiler/test error sanitization intercepting runaway dumps",
       "estimated_tokens_saved": 7350000,
       "efficiency_multiplier": "10k-50k tokens saved per build/test failure"
+    },
+    "ast_symbol_window_slicer": {
+      "description": "Bounded 40-80 line StartLine/EndLine window slicing via grep/AST lookup instead of un-bounded 800-line view_file calls",
+      "estimated_tokens_saved": 19600000,
+      "efficiency_multiplier": "85-95% reduction on file inspection tokens"
     }
   },
   "claude_code": {
     "source": "measured: Claude Code transcript usage blocks (~/.claude/projects)",
     "sessions_tracked": 6,
-    "api_calls": 1054,
-    "uncached_input_tokens": 2138,
-    "cache_write_tokens": 4638545,
-    "cache_read_tokens": 305348034,
-    "output_tokens": 397685,
-    "cache_hit_rate_pct": 98.5,
-    "last_updated": "2026-10-21T12:49:01"
+    "api_calls": 1082,
+    "uncached_input_tokens": 2194,
+    "cache_write_tokens": 4734323,
+    "cache_read_tokens": 307555510,
+    "output_tokens": 402583,
+    "cache_hit_rate_pct": 98.48,
+    "last_updated": "2026-10-21T12:50:57"
   }
 }

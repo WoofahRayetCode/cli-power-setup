@@ -12,10 +12,9 @@ Commercial and open-source game development across Godot 4, Unreal Engine 5, Uni
 - **Unreal Engine 5:** Gameplay framework, UObject lifecycle, Enhanced Input, Niagara particles, and Lumen/Nanite optimization.
 - **Steam Deck & Handheld Tuning:** 15W TDP power budgeting, 40Hz frame pacing, and 1280x800 resolution UI font scaling.
 - **Asset Packaging:** Virtual file system packager:
-  `python3 config/skills/game-engines-multiplatform/scripts/vfs_asset_packer.py`
+  `python3 ~/.claude/skills/game-engines-multiplatform/scripts/vfs_asset_packer.py`
 
 ## Related & Interoperating Skills
 - **`game-audio-voice-engineering`**: Game audio Ogg Vorbis GSC comment headers, procedural SFX, spatial HRTF, ElevenLabs, and Piper TTS.
 - **`game-physics-math-ballistics`**: 3D/4D linear algebra, quaternions, Euler HPB, Open Dynamics Engine (ODE) solvers, and ballistics ODEs.
 - **`modern-web-architecture`**: Modern Jamstack and SSG development with Astro, VitePress, Content Collections, and GitHub Pages CI/CD.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.

@@ -4,11 +4,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TOOL_SCRIPT="${SCRIPT_DIR}/config/skills/game-performance-overlay-telemetry/scripts/mangohud_configurator.py"
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
-    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-performance-overlay-telemetry/scripts/mangohud_configurator.py"
+    TOOL_SCRIPT="${HOME}/.claude/skills/autonomous-game-qa-playtesting/scripts/mangohud_configurator.py"
 fi
 
 if [ ! -f "${TOOL_SCRIPT}" ]; then
-    TOOL_SCRIPT="${HOME}/.gemini/config/skills/game-performance-overlay-telemetry/scripts/mangohud_configurator.py"
+    TOOL_SCRIPT="${HOME}/.claude/skills/autonomous-game-qa-playtesting/scripts/mangohud_configurator.py"
 fi
 
 exec python3 "${TOOL_SCRIPT}" "$@"
