@@ -303,6 +303,24 @@ ultra-model-manager run deepseek-r1-70b --prompt "Verify 64-bit struct padding f
 
 ---
 
+
+## ⚡ Gemini 4 Argon & CLI Token Optimization Stack
+
+Complete local indexing, output filtering, and quota preservation architecture configured for **Google Antigravity CLI (`agy`)** and **Gemini 4 Argon / Gemini 3.8 Flash**:
+
+1. **Rust Token Killer (`rtk`) Transparent Compression Hook:**
+   - Filters and compresses verbose command outputs before entering model context (`rtk init -g --gemini`).
+2. **Code Context Engine (`cce`):**
+   - High-speed local embeddings with `sqlite-vec` + tree-sitter AST index (`cce init`).
+3. **jCodeMunch MCP (`jcodemunch`):**
+   - Zero-telemetry AST-aware code navigation and symbol extraction.
+4. **Sigmap & Antigravity Usage:**
+   - Structural code signature mapping (`sigmap --mcp`) and live quota telemetry tracking.
+5. **Quota Guard Plugin:**
+   - Real-time token usage validation (`agy plugin install https://github.com/tanaikech/antigravity-cli-check-usage-plugin`).
+
+> See detailed installation, MCP setup, and repository indexing commands in [docs/ARGON_TOKEN_OPTIMIZATION_STACK.md](docs/ARGON_TOKEN_OPTIMIZATION_STACK.md).
+
 ## 🔎 Zero-Quota Local Research Scout (`local-research-scout`)
 
 Autonomous multi-source web searching and technical RAG without cloud API keys or token billing:
