@@ -149,3 +149,19 @@ build/
 ```bash
 cce init
 ```
+
+---
+
+## 7. Batch Repository Optimization (`batch-optimize-repos`)
+
+To apply the token-saving configuration across all local repositories:
+
+```bash
+# Available directly in ~/.local/bin or as ~/batch-optimize-repos.sh:
+batch-optimize-repos ~/Documents/GitHub
+```
+
+What it performs per repository:
+1. Installs `.geminiignore` blocking high-token caches, lockfiles, virtualenvs, and log files.
+2. Updates `.git/info/exclude` to isolate `.geminiignore`, `.cce/`, `.mcp.json`, and agent files without dirtying `git status`.
+3. Executes `cce init` to index tree-sitter AST and SQLite-Vec embeddings locally and setup auto-update git hooks.

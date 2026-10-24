@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Point this to your local GitHub parent directory
+GITHUB_DIR="${1:-}"
+
+if [[ -z "$GITHUB_DIR" ]]; then
+  if [[ -d "$HOME/Documents/GitHub" ]]; then
+    GITHUB_DIR="$HOME/Documents/GitHub"
+  elif [[ -d "$HOME/GitHub" ]]; then
+    GITHUB_DIR="$HOME/GitHub"
+  elif [[ -d "$HOME/github" ]]; then
+    GITHUB_DIR="$HOME/github"
+  fi
+fi
+
+if [[ -z "$GITHUB_DIR" || ! -d "$GITHUB_DIR" ]]; then
+  echo "Directory not found: ${GITHUB_DIR:-<none>}"
+  echo "Usage: batch-optimize-repos [path/to/github/folder]"
+  exit 1
+fi
+
+echo "Scanning repositories in: $GITHUB_DIR"
+
+# Find every Git repository (up to 3 levels deep)
+find "$GITHUB_DIR" -maxdepth 3 -name ".git" -type d | while read -r gitdir; do
+  repo_root="$(dirname "$gitdir")"
+  repo_name="$(basename "$repo_root")"
+  echo "----------------------------------------"
+  echo "Optimizing: $repo_name ($repo_root)"
+
+  # 1. Create .geminiignore if it doesn't exist yet
+  if [[ ! -f "$repo_root/.geminiignore" ]]; then
+    cat << 'IGNORE' > "$repo_root/.geminiignore"
+# Dependencies & Virtual Environments
+node_modules/
+.venv/
+venv/
+__pycache__/
+vendor/
+
+# Build Artifacts & Caches
+target/
+dist/
+build/
+out/
+.next/
+.nuxt/
+.cache/
+*.min.js
+*.min.css
+*.map
+
+# Lockfiles & High-Token Logs/Databases
+*.lock
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+Cargo.lock
+poetry.lock
+uv.lock
+*.log
+*.sqlite
+*.sqlite3
+*.db
+
+# Local AI Index & Agent Artifacts
+.cce/
+.jcodemunch/
+.claude/
+CLAUDE.md
+.mcp.json
+.context-engine.yaml
+IGNORE
+    echo "  [+] Created .geminiignore"
+  else
+    echo "  [=] .geminiignore already exists (skipped)"
+  fi
+
+  # 2. Hide local AI files in .git/info/exclude so git status stays clean
+  exclude_file="$gitdir/info/exclude"
+  mkdir -p "$(dirname "$exclude_file")"
+  touch "$exclude_file"
+  for pattern in ".geminiignore" ".cce/" ".context-engine.yaml" ".jcodemunch/" ".claude/" "CLAUDE.md" ".mcp.json"; do
+    if ! grep -qxF "$pattern" "$exclude_file"; then
+      echo "$pattern" >> "$exclude_file"
+    fi
+  done
+  echo "  [+] Updated .git/info/exclude (keeps git status clean)"
+
+  # 3. Build local Code Context Engine (tree-sitter + sqlite-vec) index
+  if command -v cce >/dev/null 2>&1; then
+    (cd "$repo_root" && cce init >/dev/null 2>&1 || true)
+    echo "  [+] Indexed with cce (and installed git auto-reindex hooks)"
+  fi
+done
+
+echo "----------------------------------------"
+echo "All repositories optimized!"
