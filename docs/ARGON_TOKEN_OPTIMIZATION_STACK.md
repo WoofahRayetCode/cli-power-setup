@@ -165,3 +165,14 @@ What it performs per repository:
 1. Installs `.geminiignore` blocking high-token caches, lockfiles, virtualenvs, and log files.
 2. Updates `.git/info/exclude` to isolate `.geminiignore`, `.cce/`, `.mcp.json`, and agent files without dirtying `git status`.
 3. Executes `cce init` to index tree-sitter AST and SQLite-Vec embeddings locally and setup auto-update git hooks.
+
+
+### Automatic On-Demand Optimization in Antigravity (agy)
+
+In addition to manual batch optimization, `agy-quota-statusline` incorporates an on-demand optimizer hook (`auto_optimize_repo`):
+- **Trigger:** Whenever you switch to or perform work in a Git repository within `agy`.
+- **Action:**
+  1. Checks if `.git/info/.agy_optimized` marker exists (takes <0.1ms).
+  2. If not optimized yet: writes `.geminiignore`, updates `.git/info/exclude` to isolate agent and index files without dirtying `git status`, and spawns a non-blocking `cce init` in the background.
+  3. Writes `.git/info/.agy_optimized` so future turns are instant.
+- **Incremental Updates:** `cce` git hooks (`post-commit`, `post-merge`, `post-checkout`) handle ongoing re-indexing when code commits or branch switches occur.
