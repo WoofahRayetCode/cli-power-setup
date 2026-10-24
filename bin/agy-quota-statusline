@@ -37,6 +37,58 @@ def fmt_tok(n):
         return f"{n / 1_000:.0f}k"
     return str(n)
 
+
+def get_latest_active_repo(transcript_path):
+    if not transcript_path or not os.path.exists(transcript_path):
+        return None
+    try:
+        with open(transcript_path, "rb") as f:
+            f.seek(0, 2)
+            size = f.tell()
+            f.seek(max(0, size - 65536))
+            lines = f.read().decode("utf-8", errors="ignore").splitlines()
+
+        for line in reversed(lines):
+            try:
+                row = json.loads(line)
+                # Check user input for "change dir to <repo>" or "in <repo>"
+                if row.get("type") == "USER_INPUT":
+                    content = row.get("content", "").strip().lower()
+                    m_cd = re.search(r"(?:change dir(?:ectory)? to|cd into|cd to|switch to|in)\s+([a-zA-Z0-9._-]+)", content)
+                    if m_cd:
+                        target = m_cd.group(1).strip()
+                        for base in ["~/Documents/GitHub", "~/GitHub", "~"]:
+                            cand = os.path.expanduser(f"{base}/{target}")
+                            if os.path.isdir(cand):
+                                return cand
+
+                # Check tool calls
+                for call in row.get("tool_calls", []):
+                    args = call.get("args", {})
+                    p = args.get("Path")
+                    if p and isinstance(p, str) and os.path.exists(p):
+                        cur = p if os.path.isdir(p) else os.path.dirname(p)
+                        while cur and cur != "/" and cur != os.path.expanduser("~"):
+                            if os.path.isdir(os.path.join(cur, ".git")):
+                                return cur
+                            cur = os.path.dirname(cur)
+                    cmd = args.get("CommandLine", "")
+                    if cmd:
+                        m = re.findall(r"(?:-C\s+|cd\s+)(/home/ericparsley/[^\s;&]+)", cmd)
+                        if m:
+                            cand = m[-1]
+                            if os.path.exists(cand):
+                                cur = cand if os.path.isdir(cand) else os.path.dirname(cand)
+                                while cur and cur != "/" and cur != os.path.expanduser("~"):
+                                    if os.path.isdir(os.path.join(cur, ".git")):
+                                        return cur
+                                    cur = os.path.dirname(cur)
+            except Exception:
+                pass
+    except Exception:
+        pass
+    return None
+
 def get_git_info(target_dir):
     if not target_dir or not os.path.exists(target_dir):
         target_dir = os.getcwd()
@@ -699,8 +751,18 @@ def main():
             pass
 
     # 7. Workspace, Git, Mic Pill & Dynamic Bottom-of-Statusline Cheat Sheet
+    # Resolve active repository: prioritize live transcript operations over static launcher directory
+    active_repo = None
+    if not is_claude:
+        base_dir = os.path.expanduser("~/.gemini/antigravity-cli")
+        transcripts = glob.glob(f"{base_dir}/brain/*/.system_generated/logs/transcript.jsonl")
+        if transcripts:
+            latest_t = max(transcripts, key=os.path.getmtime)
+            active_repo = get_latest_active_repo(latest_t)
+
     cwd = (
-        payload.get("cwd")
+        active_repo
+        or payload.get("cwd")
         or (payload.get("workspace") or {}).get("current_dir")
         or (payload.get("workspace") or {}).get("project_dir")
         or payload.get("current_dir")
