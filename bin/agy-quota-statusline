@@ -415,6 +415,58 @@ def _bar(pct, width=10):
     try: n = max(0, min(width, int(round(width * float(pct) / 100.0))))
     except Exception: n = 0
     return "\u25b0" * n + "\u25b1" * (width - n)
+
+def get_token_stack_badge(cwd):
+    badges = []
+    # RTK hook active
+    if os.path.isfile(os.path.expanduser("~/.gemini/hooks/rtk-hook-gemini.sh")):
+        badges.append("RTK")
+
+    # CCE local index
+    cce_p = os.path.expanduser("~/.cce/projects")
+    has_cce = False
+    if cwd and os.path.isdir(cce_p):
+        for p in glob.glob(f"{cce_p}/*"):
+            meta = os.path.join(p, "meta.json")
+            if os.path.isfile(meta):
+                try:
+                    with open(meta) as f:
+                        if os.path.abspath(json.load(f).get("project_dir", "")) == os.path.abspath(cwd):
+                            has_cce = True
+                            break
+                except Exception:
+                    pass
+    if has_cce:
+        badges.append("CCE")
+    elif glob.glob(f"{cce_p}/*"):
+        badges.append("CCE")
+
+    # jCodeMunch MCP
+    jcm_active = False
+    for jp in glob.glob(os.path.expanduser("~/.code-index/_processes/*.json")):
+        try:
+            with open(jp) as jf:
+                pid = json.load(jf).get("pid")
+                if pid:
+                    os.kill(pid, 0)
+                    jcm_active = True
+                    break
+        except Exception:
+            pass
+    if jcm_active:
+        badges.append("jCM")
+
+    # Sigmap MCP
+    if os.path.isfile(os.path.expanduser("~/.local/bin/sigmap")):
+        badges.append("Sigmap")
+
+    # QuotaGuard Plugin
+    if os.path.isdir(os.path.expanduser("~/.gemini/config/plugins/antigravity-cli-check-usage-plugin")):
+        badges.append("Guard")
+
+    b_str = "+".join(badges)
+    return f"🛡️ [{b_str}]" if badges else None
+
 def _prefs():
     try:
         import json as _j; return _j.load(open(os.path.expanduser("~/.claude/status_prefs.json")))
@@ -647,49 +699,15 @@ def main():
             pass
 
     # 7. Workspace, Git, Mic Pill & Dynamic Bottom-of-Statusline Cheat Sheet
-    cwd = None
-    state_file = "/tmp/agy_current_cwd.txt"
-    if os.path.exists(state_file):
-        try:
-            cand = open(state_file).read().strip()
-            if os.path.isdir(cand):
-                cwd = cand
-        except Exception:
-            pass
-    if not cwd:
-        cwd = payload.get("current_dir") or payload.get("project_dir") or payload.get("cwd") or os.environ.get("AGY_PROJECT_DIR")
-    if not cwd or cwd == os.path.expanduser("~"):
-        # Resolve from latest transcript operations
-        try:
-            base_dir = os.path.expanduser("~/.gemini/antigravity-cli")
-            transcripts = glob.glob(f"{base_dir}/brain/*/.system_generated/logs/transcript.jsonl")
-            if transcripts:
-                latest = max(transcripts, key=os.path.getmtime)
-                with open(latest, "r", encoding="utf-8", errors="ignore") as f:
-                    lines = f.readlines()
-                for l in reversed(lines):
-                    d = json.loads(l)
-                    calls = d.get("tool_calls", [])
-                    for c in calls:
-                        args = c.get("args", {})
-                        path_arg = args.get("Path", "")
-                        if path_arg and os.path.isabs(path_arg):
-                            p_dir = os.path.dirname(path_arg)
-                            if "brain" not in p_dir and ".gemini" not in p_dir and os.path.isdir(p_dir):
-                                cwd = p_dir
-                                break
-                        cmd = args.get("CommandLine", "")
-                        m_cd = re.search(r"cd\s+([/a-zA-Z0-9_\-\s.]+)", cmd)
-                        if m_cd:
-                            cand = m_cd.group(1).rstrip("/")
-                            if os.path.isdir(cand) and not cand.endswith("/.gemini"):
-                                cwd = cand
-                                break
-                    if cwd and cwd != os.path.expanduser("~"):
-                        break
-        except Exception:
-            pass
-    if not cwd:
+    cwd = (
+        payload.get("cwd")
+        or (payload.get("workspace") or {}).get("current_dir")
+        or (payload.get("workspace") or {}).get("project_dir")
+        or payload.get("current_dir")
+        or payload.get("project_dir")
+        or os.environ.get("AGY_PROJECT_DIR")
+    )
+    if not cwd or not os.path.isdir(cwd):
         cwd = os.getcwd()
     git_seg = get_git_info(cwd)
 
@@ -729,8 +747,11 @@ def main():
         pass
 
     # 8. Assemble telemetry segments in priority order
+    stack_seg = get_token_stack_badge(cwd)
+
     segments = [
         model_seg,
+        stack_seg,
         quota_5h_seg,
         quota_wk_seg,
         ctx_seg,
