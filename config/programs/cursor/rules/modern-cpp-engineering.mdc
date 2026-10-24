@@ -1,0 +1,28 @@
+---
+description: Modern C++20/23 standards, CMake 3.25+, RAII, smart pointers, 64-bit alignment, and memory sanitizers.
+globs: 
+alwaysApply: false
+---
+
+# Modern C++ Engineering (`modern-cpp-engineering`)
+
+Mastery of ISO modern C++ (C++20 and C++23) standards, robust CMake build architectures, 64-bit memory safety, and sanitizers across Linux and Windows.
+
+## Core Standards & Architecture
+- **Language Standards:** Compile with `-std=c++20` or `-std=c++23`. Leverage Concepts (`template<typename T> requires std::integral<T>`), Ranges, Coroutines, `std::span`, and `std::string_view` for zero-allocation views.
+- **Modern Target-Based CMake:** Always use target-centric modern CMake (3.25+):
+  `target_include_directories(tgt PUBLIC/PRIVATE ...)`, `target_compile_features(tgt PUBLIC cxx_std_20)`, and `target_link_libraries(tgt PRIVATE ...)`. Never use global `include_directories()` or `link_directories()`.
+- **64-Bit Memory Alignment & Safety:**
+  - Prevent pointer-to-integer truncations: Never cast pointers to `int` or `long` (which is 32-bit on Windows x64 LLP64). Always use `uintptr_t`, `intptr_t`, or `size_t`.
+  - Struct padding & cache alignment: Align hot structures to 64-byte L1 cache boundaries using `alignas(64)`.
+- **Compiler Error Cascade Isolator:**
+  When compilation fails with dozens of errors, isolate the root error via:
+  `python3 ~/.gemini/config/skills/modern-cpp-engineering/scripts/compiler_cascade_isolator.py`
+
+## Windows 10/11 & Cross-Platform Parity (`windows-linux-cross-os-runtime-bridge`)
+- Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
+
+## Related & Interoperating Skills
+- **`modern-web-architecture`**: Modern Jamstack and SSG development with Astro, VitePress, Content Collections, and GitHub Pages CI/CD.
+- **`rust-engineering`**: Rust development, Cargo builds, borrow checker, lifetimes, zero-cost abstractions, and clippy.
+- **`nintendo-switch-homebrew`**: Nintendo Switch Atmosphere CFW, Hekate bootloader, sys-patch, emuMMC setup, RCM payloads, and archive bit fix.

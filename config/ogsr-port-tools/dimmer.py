@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Screen dimmer: instead of switching the panel OFF when nothing is happening, turn the backlight down to almost nothing (1.5 %) and bring it back at the first touch of the laptop's keyboard/touchpad.
+"""Screen dimmer: instead of switching the panel OFF when nothing is happening, turn the backlight down to almost nothing (1 %) and bring it back at the first touch of the laptop's keyboard/touchpad.
 The panel stays ON, so screenshots (spectacle) work without waking anything, windows are not re-stacked by a DPMS wake, and the picture is still there, just dark.
   dimmer.py run            loop (guardian keeps it alive); dims after DIM_AFTER s without keyboard/touchpad activity, restores on activity
   dimmer.py mode dim|off   dim (default): KDE's own screen-off is disabled on AC and this loop dims | off: back to KDE's screen-off after 60 s, the loop idles
@@ -12,7 +12,8 @@ from dpms import activity
 here = Path(__file__).resolve().parent.parent; MODE = here / ".agents/screen_mode"; SAVED = Path("/tmp/dimmer.saved")
 import json
 SB, SBP = "org.kde.ScreenBrightness", "/org/kde/ScreenBrightness"
-DIM_AFTER, DIM_LEVEL = 60, 4500                     # 45 %: the lowest brightness any screen gets (dimmed or not) until the user says otherwise
+DIM_AFTER, DIM_LEVEL = 60, 100                      # 1 %: the brightness of an idle (dimmed) screen
+MIN_LEVEL = 4500                                    # 45 %: the lowest brightness an awake screen gets until the user says otherwise
 AWAKE = here / ".agents/awake_brightness.json"      # per screen: the brightness you like while you are at the computer: coming back from a dim ALWAYS returns to it, and it follows any change you make yourself
 def q(*a):
     try: return subprocess.run(["qdbus6", *a], capture_output=True, text=True, timeout=6).stdout.strip()
@@ -32,7 +33,7 @@ def dim():
     for d in displays():
         cur = level(d)
         if cur is None: continue
-        a.setdefault(d, max(cur, DIM_LEVEL)); saved[d] = a[d]
+        a.setdefault(d, max(cur, MIN_LEVEL)); saved[d] = a[d]
         if cur > DIM_LEVEL + 50: setl(d, DIM_LEVEL)
     save_awake(a)
     if saved: SAVED.write_text(json.dumps(saved))
@@ -41,16 +42,16 @@ def restore():
     a = awake()
     try: saved = json.loads(SAVED.read_text())
     except Exception: saved = {}
-    for d in displays(): setl(d, max(a.get(d) or saved.get(d) or 7800, DIM_LEVEL))
+    for d in displays(): setl(d, max(a.get(d) or saved.get(d) or 7800, MIN_LEVEL))
     SAVED.unlink(missing_ok=True)
 def follow_user():
-    """while awake (not dimmed): a brightness you set yourself becomes the new 'awake' level; nothing ever stays below the 25 % minimum"""
+    """while awake (not dimmed): a brightness you set yourself becomes the new 'awake' level; nothing ever stays below MIN_LEVEL"""
     a = awake(); changed = False
     for d in displays():
         cur = level(d)
         if cur is None: continue
-        if cur < DIM_LEVEL - 50 and not SAVED.exists(): setl(d, DIM_LEVEL); cur = DIM_LEVEL                # enforce the minimum
-        if not SAVED.exists() and cur > DIM_LEVEL + 50 and a.get(d) != cur: a[d] = cur; changed = True
+        if cur < MIN_LEVEL - 50 and not SAVED.exists(): setl(d, MIN_LEVEL); cur = MIN_LEVEL                # enforce the minimum
+        if not SAVED.exists() and cur > MIN_LEVEL + 50 and a.get(d) != cur: a[d] = cur; changed = True
     if changed: save_awake(a)
 def kde_off(seconds):
     subprocess.run(["kwriteconfig6", "--file", "powerdevilrc", "--group", "AC", "--group", "Display", "--key", "TurnOffDisplayIdleTimeoutSec", str(seconds)], capture_output=True)

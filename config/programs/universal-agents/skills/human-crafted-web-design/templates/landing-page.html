@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CoreSystems — High-Performance Telemetry</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Geist', sans-serif; background-color: #09090b; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="text-neutral-100 min-h-screen flex flex-col selection:bg-sky-500/20 selection:text-sky-300">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b border-neutral-800/80 bg-neutral-950/70 backdrop-blur-md">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-6 h-6 rounded bg-sky-500 flex items-center justify-center font-mono font-bold text-xs text-neutral-950">C</div>
+        <span class="font-semibold text-sm tracking-tight text-white">CoreSystems</span>
+      </div>
+      <nav class="hidden md:flex items-center gap-8 text-sm text-neutral-400">
+        <a href="#features" class="hover:text-white transition-colors">Architecture</a>
+        <a href="#telemetry" class="hover:text-white transition-colors">Benchmarks</a>
+        <a href="#pricing" class="hover:text-white transition-colors">Documentation</a>
+      </nav>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/WoofahRayetCode" class="font-mono text-xs px-3 py-1.5 rounded-lg border border-neutral-800 bg-neutral-900 text-neutral-300 hover:border-neutral-700 hover:text-white transition-all">GitHub v2.4</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="pt-24 pb-20 px-6 max-w-4xl mx-auto text-center">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-sky-800/50 bg-sky-950/30 text-sky-400 text-xs font-mono mb-8">
+      <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
+      Linux Kernel ACPI & Telemetry Daemon
+    </div>
+    <h1 class="text-4xl sm:text-6xl font-semibold tracking-tight text-white leading-tight">
+      Hardware telemetry without <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-300">computational bloat</span>
+    </h1>
+    <p class="mt-6 text-base sm:text-lg text-neutral-400 max-w-2xl mx-auto leading-relaxed">
+      A zero-dependency background daemon engineered in Rust and C. Controls fan hysteresis curves, reads thermal sensors, and synchronizes systemd metrics in sub-millisecond intervals.
+    </p>
+    <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+      <a href="#quickstart" class="px-5 py-2.5 rounded-lg bg-white text-neutral-950 font-medium text-sm hover:bg-neutral-200 transition-colors">Quickstart Guide</a>
+      <a href="#benchmarks" class="px-5 py-2.5 rounded-lg border border-neutral-800 bg-neutral-900 text-neutral-300 font-medium text-sm hover:border-neutral-700 hover:text-white transition-colors">View Benchmarks</a>
+    </div>
+  </section>
+
+  <!-- Code Preview -->
+  <section class="max-w-4xl mx-auto px-6 pb-24 w-full">
+    <div class="rounded-xl border border-neutral-800 bg-neutral-950 overflow-hidden shadow-2xl">
+      <div class="h-10 border-b border-neutral-800/80 px-4 flex items-center justify-between bg-neutral-900/40">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-neutral-800"></div>
+          <div class="w-3 h-3 rounded-full bg-neutral-800"></div>
+          <div class="w-3 h-3 rounded-full bg-neutral-800"></div>
+          <span class="ml-2 font-mono text-xs text-neutral-500">daemon.rs — 0.4ms tick</span>
+        </div>
+        <span class="font-mono text-xs text-sky-400">100% Rust</span>
+      </div>
+      <pre class="p-6 font-mono text-xs leading-relaxed text-neutral-300 overflow-x-auto"><code><span class="text-neutral-500">// Zero-allocation sensor query loop</span>
+<span class="text-sky-400">pub fn</span> <span class="text-indigo-300">poll_thermal_sensors</span>(hwmon: &<span class="text-sky-300">HwmonDevice</span>) -> <span class="text-sky-400">Result</span>&lt;<span class="text-sky-300">ThermalState</span>&gt; {
+    <span class="text-sky-400">let</span> temp_mC = hwmon.read_temp_raw(<span class="text-indigo-300">Zone</span>::CpuPackage)?;
+    <span class="text-sky-400">let</span> target_rpm = <span class="text-indigo-300">compute_hysteresis</span>(temp_mC, &hwmon.curve);
+    hwmon.write_pwm_duty(target_rpm)?;
+    <span class="text-sky-400">Ok</span>(<span class="text-indigo-300">ThermalState</span> { temp_mC, target_rpm })
+}</code></pre>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section id="features" class="max-w-6xl mx-auto px-6 py-20 border-t border-neutral-800/60">
+    <div class="text-center max-w-xl mx-auto mb-16">
+      <h2 class="text-2xl sm:text-3xl font-semibold tracking-tight text-white">Engineered for production reliability</h2>
+      <p class="mt-3 text-sm text-neutral-400">Zero electron bloat, zero background memory leaks, zero telemetry spyware.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="rounded-xl border border-neutral-800 bg-neutral-900/30 p-6 hover:border-neutral-700 transition-colors">
+        <div class="font-mono text-xs text-sky-400 mb-3">[01] Memory Safety</div>
+        <h3 class="text-base font-semibold text-white mb-2">Zero-Allocation Daemon</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">Runs in 4.2 MB RAM with zero heap allocations during runtime polling loops.</p>
+      </div>
+      <div class="rounded-xl border border-neutral-800 bg-neutral-900/30 p-6 hover:border-neutral-700 transition-colors">
+        <div class="font-mono text-xs text-sky-400 mb-3">[02] D-Bus Control</div>
+        <h3 class="text-base font-semibold text-white mb-2">Unprivileged IPC</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">Exposes a secure D-Bus interface with Polkit privilege separation for desktop frontends.</p>
+      </div>
+      <div class="rounded-xl border border-neutral-800 bg-neutral-900/30 p-6 hover:border-neutral-700 transition-colors">
+        <div class="font-mono text-xs text-sky-400 mb-3">[03] Systemd Native</div>
+        <h3 class="text-base font-semibold text-white mb-2">Sandboxed Service</h3>
+        <p class="text-sm text-neutral-400 leading-relaxed">Hardened systemd unit with ProtectSystem=strict, watchdog heartbeats, and zero root daemon requirements.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-neutral-800/80 py-8 px-6 text-center text-xs text-neutral-500 font-mono">
+    &copy; 2026 CoreSystems. MIT Licensed. Crafted with human-centered engineering standards.
+  </footer>
+</body>
+</html>

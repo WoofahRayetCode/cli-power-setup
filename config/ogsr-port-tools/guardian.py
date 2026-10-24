@@ -85,7 +85,8 @@ def extras(st):
     if time.time() - st.get("adb_t", 0) > 60:        # keep the phone's ADB connection (over Tailscale, adb tcpip 5555) alive without the cable
         st["adb_t"] = time.time()
         if "100.67.106.78:5555\tdevice" not in sh("~/Android/Sdk/platform-tools/adb devices", t=8) and "poco" in sh("tailscale status 2>/dev/null | grep -i poco-x8"): sh("timeout 8 ~/Android/Sdk/platform-tools/adb connect 100.67.106.78:5555", t=10)
-    if not alive("tools/dimmer.py run") and allowed(st, "dimmer"): say("dimmer missing: starting"); spawn("python3 tools/dimmer.py run")
+    # dimmer moved to min-max-idle-bright GUI app (takes place of tools/dimmer.py)
+    # if not alive("tools/dimmer.py run") and allowed(st, "dimmer"): say("dimmer missing: starting"); spawn("python3 tools/dimmer.py run")
     if time.time() - st.get("needs_w", 0) > 60: st["needs_w"] = time.time(); spawn("python3 tools/self_improve.py needs")      # new NEEDS YOU lines -> diagnosis + open item
     if time.time() - st.get("self_imp", 0) > 3600: st["self_imp"] = time.time(); spawn("python3 tools/self_improve.py run")
     if time.time() - st.get("ai_ckpt", 0) > 600 and not alive("tools/ckpt_worker.py"): st["ai_ckpt"] = time.time(); spawn("python3 tools/ckpt_worker.py")    # small local model writes the narrative checkpoint

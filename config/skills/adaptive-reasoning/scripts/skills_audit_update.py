@@ -234,14 +234,17 @@ def audit_skills(fix: bool = False, json_output: bool = False):
 def sync_skills():
     print(f"[→] Synchronizing skills from {REPO_SKILLS}...")
     GEMINI_SKILLS.mkdir(parents=True, exist_ok=True)
-    CLAUDE_SKILLS.mkdir(parents=True, exist_ok=True)
-
     subprocess.run(f"cp -r '{REPO_SKILLS}/'* '{GEMINI_SKILLS}/'", shell=True, check=True)
-    subprocess.run(f"cp -r '{REPO_SKILLS}/'* '{CLAUDE_SKILLS}/'", shell=True, check=True)
-
     gem_cnt = len([p for p in GEMINI_SKILLS.iterdir() if p.is_dir()])
-    cla_cnt = len([p for p in CLAUDE_SKILLS.iterdir() if p.is_dir() and p.name != "synced"])
-    print(f"[✓] Synchronized: Gemini={gem_cnt} skills, Claude={cla_cnt} skills.")
+
+    msg = f"Antigravity={gem_cnt} skills"
+    if CLAUDE_SKILLS.parent.exists():
+        CLAUDE_SKILLS.mkdir(parents=True, exist_ok=True)
+        subprocess.run(f"cp -r '{REPO_SKILLS}/'* '{CLAUDE_SKILLS}/'", shell=True, check=True)
+        cla_cnt = len([p for p in CLAUDE_SKILLS.iterdir() if p.is_dir() and p.name != "synced"])
+        msg += f", Claude={cla_cnt} skills"
+
+    print(f"[✓] Synchronized: {msg}.")
 
 def pull_upstream():
     print(f"[→] Fetching and pulling latest upstream changes from origin/main...")

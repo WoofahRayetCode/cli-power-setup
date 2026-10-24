@@ -88,15 +88,19 @@ install_antigravity() {
 
     # 1. Skills
     mkdir -p "${GEMINI_SKILLS}"
-    cp -r "${SCRIPT_DIR}/config/skills/"* "${GEMINI_SKILLS}/"
+    local src_skills="${SCRIPT_DIR}/config/programs/antigravity/skills"
+    if [ ! -d "${src_skills}" ]; then src_skills="${SCRIPT_DIR}/config/skills"; fi
+    cp -r "${src_skills}/"* "${GEMINI_SKILLS}/"
     local count
     count="$(find "${GEMINI_SKILLS}" -mindepth 1 -maxdepth 1 -type d | wc -l)"
     log_done "Synchronized ${count} skills in ${GEMINI_SKILLS}."
 
     # 2. Global Rules
     mkdir -p "${GEMINI_CONFIG}"
-    cp "${SCRIPT_DIR}/config/GEMINI.md" "${GEMINI_RULES}"
-    log_done "Installed lean global rules in ${GEMINI_RULES}."
+    local src_rules="${SCRIPT_DIR}/config/programs/antigravity/GEMINI.md"
+    if [ ! -f "${src_rules}" ]; then src_rules="${SCRIPT_DIR}/config/GEMINI.md"; fi
+    cp "${src_rules}" "${GEMINI_RULES}"
+    log_done "Installed clean global rules in ${GEMINI_RULES}."
 
     # 3. Settings / Statusline / Trusted Workspaces
     mkdir -p "$(dirname "${GEMINI_CLI_SETTINGS}")"
@@ -155,6 +159,42 @@ EOF
         command -v kbuildsycoca6 >/dev/null 2>&1 && kbuildsycoca6 2>/dev/null || true
         command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database "$HOME/.local/share/applications" 2>/dev/null || true
         log_done "Installed Antigravity desktop shortcuts and Dolphin context service menu."
+    fi
+}
+
+install_claude() {
+    local claude_dir="${HOME}/.claude"
+    if [ -d "${claude_dir}" ] || [ -d "${SCRIPT_DIR}/config/programs/claude" ]; then
+        echo ""
+        log_info "Configuring Claude Code (separated program target)..."
+        mkdir -p "${claude_dir}/skills"
+        if [ -d "${SCRIPT_DIR}/config/programs/claude/skills" ]; then
+            cp -r "${SCRIPT_DIR}/config/programs/claude/skills/"* "${claude_dir}/skills/"
+        fi
+        if [ -f "${SCRIPT_DIR}/config/programs/claude/CLAUDE.md" ]; then
+            cp "${SCRIPT_DIR}/config/programs/claude/CLAUDE.md" "${claude_dir}/CLAUDE.md"
+        fi
+        local count
+        count="$(find "${claude_dir}/skills" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l)"
+        log_done "Synchronized ${count} skills in ${claude_dir}/skills and updated ${claude_dir}/CLAUDE.md."
+    fi
+}
+
+install_cursor() {
+    local cursor_rules_dir="${HOME}/.cursor/rules"
+    if [ -d "${HOME}/.cursor" ] || [ -d "${SCRIPT_DIR}/config/programs/cursor" ]; then
+        echo ""
+        log_info "Configuring Cursor IDE (separated program target)..."
+        mkdir -p "${cursor_rules_dir}"
+        if [ -d "${SCRIPT_DIR}/config/programs/cursor/rules" ]; then
+            cp -r "${SCRIPT_DIR}/config/programs/cursor/rules/"* "${cursor_rules_dir}/"
+        fi
+        if [ -f "${SCRIPT_DIR}/config/programs/cursor/.cursorrules" ]; then
+            cp "${SCRIPT_DIR}/config/programs/cursor/.cursorrules" "${HOME}/.cursorrules"
+        fi
+        local count
+        count="$(find "${cursor_rules_dir}" -name "*.mdc" 2>/dev/null | wc -l)"
+        log_done "Synchronized ${count} rules in ${cursor_rules_dir} and updated ${HOME}/.cursorrules."
     fi
 }
 
@@ -238,10 +278,13 @@ main() {
         while [ "$#" -gt 0 ]; do
             case "$1" in
                 --all|-a)           TARGET="all" ;;
+                --antigravity|-agy) TARGET="antigravity" ;;
+                --claude|-c)        TARGET="claude" ;;
+                --cursor)           TARGET="cursor" ;;
                 --models|-m)        TARGET="models"; SYNC_MODELS=1 ;;
                 --with-models)      TARGET="all"; SYNC_MODELS=1 ;;
                 --help|-h)
-                    echo "Usage: ./install.sh [--all | --models | --with-models]"
+                    echo "Usage: ./install.sh [--all | --antigravity | --claude | --cursor | --models | --with-models]"
                     exit 0
                     ;;
                 *)
@@ -263,9 +306,22 @@ main() {
             backup_existing
             install_binaries
             install_antigravity
+            install_claude
+            install_cursor
             if [ "${SYNC_MODELS}" -eq 1 ]; then
                 install_models
             fi
+            ;;
+        antigravity)
+            backup_existing
+            install_binaries
+            install_antigravity
+            ;;
+        claude)
+            install_claude
+            ;;
+        cursor)
+            install_cursor
             ;;
         models)
             install_binaries

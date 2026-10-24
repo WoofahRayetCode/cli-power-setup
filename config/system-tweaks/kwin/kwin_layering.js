@@ -1,5 +1,5 @@
-// KWin script (Plasma 6): terminal (kitty = Claude Code) and the game window share the "keep above" layer, so every other window stays below both,
-// and between the two the GAME is always in front (it is re-raised, without taking focus, whenever the terminal is clicked or typed in); a Claude Code
+// KWin script (Plasma 6): terminal (kitty = Antigravity) and the game window share the "keep above" layer, so every other window stays below both,
+// and between the two the GAME is always in front (it is re-raised, without taking focus, whenever the terminal is clicked or typed in); an Antigravity
 // update no longer pops over the game. Remove the raiseGame calls at the bottom to go back to "last used is in front".
 function isGame(w) { return w && ((w.caption && String(w.caption).indexOf("OGSR Engine") === 0) || /steam_app_2427(410|420|430)/.test(String(w.resourceClass || ""))); }
 function isTerm(w) { return w && w.resourceClass && String(w.resourceClass).toLowerCase().indexOf("kitty") >= 0; }

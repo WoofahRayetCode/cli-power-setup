@@ -1,0 +1,26 @@
+---
+name: database-network-engineering
+description: SQLite WAL tuning, PostgreSQL schemas, raw TCP/UDP, tshark packet capture, and cryptographic security.
+---
+
+# Database & Network Protocol Engineering (`database-network-engineering`)
+
+Relational schema design, SQLite performance tuning, raw socket protocols, packet inspection with tshark, and defensive cryptographic validation.
+
+## Database Tuning (SQLite & PostgreSQL)
+- **SQLite Performance PRAGMAs:**
+  `PRAGMA journal_mode = WAL;` (Write-Ahead Logging for concurrent reads)
+  `PRAGMA synchronous = NORMAL;` (Safe with WAL, 10x write speed)
+  `PRAGMA cache_size = -64000;` (64 MB cache)
+  `PRAGMA temp_store = MEMORY;`
+- **Schema & Indexing:** Always analyze query plans with `EXPLAIN QUERY PLAN`. Index foreign keys and composite filter coordinates.
+
+## Network & Security
+- **Packet Inspection:** Condense verbose network traces via `tshark -r capture.pcap -T fields -e frame.time_relative -e ip.src -e ip.dst -e _ws.col.Protocol -e _ws.col.Info`.
+- **Crypto & Hardening:**
+  Verify binary compiler flags: `python3 ~/.gemini/config/skills/database-network-engineering/scripts/binary_hardening_check.py`
+  Cryptographic verification: `python3 ~/.gemini/config/skills/database-network-engineering/scripts/crypto_guard.py`
+
+## Related & Interoperating Skills
+- **`standalone-binary-re`**: Native Linux zero-MCP reverse engineering: objdump, readelf, nm, rizin, gdb, JADX, and PE/ELF headers.
+- **`client-memory-anti-tamper-re`**: Game memory scanning, pointer paths, XOR masking, DLL proxy generation, anti-debugging, and rr replay.

@@ -1,0 +1,19 @@
+---
+name: game-audio-voice-engineering
+description: Game audio Ogg Vorbis GSC comment headers, procedural SFX, spatial HRTF, ElevenLabs, and Piper TTS.
+---
+
+# Game Audio & Voice Engineering (`game-audio-voice-engineering`)
+
+Complete game audio engineering, proprietary comment header injection, procedural synthesis, and local/cloud voice generation.
+
+## Standards
+- **GSC Proprietary Ogg Comment Chunk:** Never use standard audio editors that strip the GSC engine chunk. Always preserve `min_dist`, `max_dist`, `max_ai_dist`, and `base_volume`.
+- **Tools:**
+  Silent audio test harness: `python3 ~/.gemini/config/skills/game-audio-voice-engineering/scripts/silent_audio_tester.py`
+  Procedural SFX generator: `python3 ~/.gemini/config/skills/game-audio-voice-engineering/scripts/procedural_sfx_generator.py`
+  Voice prompt optimizer: `python3 ~/.gemini/config/skills/game-audio-voice-engineering/scripts/voice_prompt_optimizer.py`
+
+## Related & Interoperating Skills
+- **`game-engines-multiplatform`**: Modern Godot 4, Unreal Engine 5, Unity, Steamworks publishing, Steam Deck tuning, and Proton game dev.
+- **`client-memory-anti-tamper-re`**: Game memory scanning, pointer paths, XOR masking, DLL proxy generation, anti-debugging, and rr replay.

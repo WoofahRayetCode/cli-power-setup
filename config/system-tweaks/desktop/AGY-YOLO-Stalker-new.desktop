@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
-Name=Claude Code YOLO (new chat + status window)
+Name=Antigravity YOLO (new chat + STALKER status)
 GenericName=AI Coding Assistant (bypass permissions)
-Comment=Fresh Claude Code conversation in the STALKER merge folder, bypass permissions
-Exec=kitty --hold --start-as=maximized -o allow_remote_control=socket-only -o window_padding_width=2 --listen-on unix:/tmp/kitty-yolo --title "Claude Code YOLO" --directory /home/ericparsley/Documents/GitHub/ogsr-complete-merge /home/ericparsley/.local/bin/claude-yolo
-Icon=claude-code
+Comment=Fresh Antigravity conversation in the STALKER merge folder, bypass permissions
+Exec=kitty --hold --start-as=maximized -o allow_remote_control=socket-only -o window_padding_width=2 --listen-on unix:/tmp/kitty-yolo --title "Antigravity YOLO" --directory /home/ericparsley/Documents/GitHub/ogsr-complete-merge /home/ericparsley/.local/bin/agy-yolo
+Icon=utilities-terminal
 Terminal=false
 Categories=Development;Utility;

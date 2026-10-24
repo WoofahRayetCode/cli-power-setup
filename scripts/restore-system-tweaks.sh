@@ -7,11 +7,11 @@ here="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"; force=0; [[ "${1:-}" ==
 PROJECT="${OGSR_PROJECT:-$HOME/Documents/GitHub/ogsr-complete-merge}"; ok() { echo "[✓] $*"; }; skip() { echo "[-] $*"; }
 mkdir -p "$HOME/.local/bin" "$HOME/.local/share/applications"
 
-# 1. CLI helpers: bgrun (auto-background after N s), claude-yolo (+ opens the right-hand status widget), local-coprocessor (ledger written once)
-for b in bgrun claude-yolo claude-autosend local-worker local-coprocessor; do install -m 755 "$here/bin/$b" "$HOME/.local/bin/$b" && ok "bin/$b -> ~/.local/bin"; done
+# 1. CLI helpers: bgrun (auto-background after N s), agy-yolo (+ opens the right-hand status widget), local-coprocessor (ledger written once)
+for b in bgrun agy-yolo agy-autosend local-worker local-coprocessor; do install -m 755 "$here/bin/$b" "$HOME/.local/bin/$b" && ok "bin/$b -> ~/.local/bin"; done
 
 # 2. YOLO launchers: kitty --hold keeps the window open so a startup error stays visible
-for d in Claude-Code-YOLO.desktop Claude-Code-YOLO-new.desktop STALKER-Status-Window.desktop; do
+for d in AGY-YOLO-Stalker.desktop AGY-YOLO-Stalker-new.desktop STALKER-Status-Window.desktop; do
   install -m 755 "$here/config/system-tweaks/desktop/$d" "$HOME/.local/share/applications/$d"; [[ -d "$HOME/Desktop" ]] && install -m 755 "$here/config/system-tweaks/desktop/$d" "$HOME/Desktop/$d"; ok "$d"
 done; command -v update-desktop-database >/dev/null && update-desktop-database "$HOME/.local/share/applications" 2>/dev/null
 
@@ -41,10 +41,13 @@ if command -v kwriteconfig6 >/dev/null; then kwriteconfig6 --file powerdevilrc -
 # 5. Speech corrections dictionary (merge, never overwrite what is there)
 python3 - "$here/config/system-tweaks/speech_corrections.seed.json" <<'PY'
 import json, os, sys
-p = os.path.expanduser("~/.claude/speech_corrections.json"); os.makedirs(os.path.dirname(p), exist_ok=True)
-cur = json.load(open(p)) if os.path.exists(p) else {"map": {}}; seed = json.load(open(sys.argv[1]))
-for k, v in seed["map"].items(): cur.setdefault("map", {}).setdefault(k, v)
-json.dump(cur, open(p, "w"), indent=1); print("[✓] speech_corrections merged:", len(cur["map"]), "entries")
+seed = json.load(open(sys.argv[1]))
+for rel in ["~/.gemini/speech_corrections.json", "~/.claude/speech_corrections.json"]:
+    p = os.path.expanduser(rel); os.makedirs(os.path.dirname(p), exist_ok=True)
+    cur = json.load(open(p)) if os.path.exists(p) else {"map": {}}
+    for k, v in seed["map"].items(): cur.setdefault("map", {}).setdefault(k, v)
+    json.dump(cur, open(p, "w"), indent=1)
+print("[✓] speech_corrections merged into ~/.gemini and ~/.claude:", len(seed["map"]), "entries")
 PY
 
 # 6. Port project tools (only if the project exists; existing files are kept unless --force)

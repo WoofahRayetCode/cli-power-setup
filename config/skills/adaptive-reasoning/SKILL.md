@@ -1,24 +1,25 @@
 ---
 name: adaptive-reasoning
-description: Dynamic cognitive complexity routing and reasoning effort tuning between Flash and Argon (adaptive_model_router).
+description: Dynamic cognitive complexity routing, task decomposition, and verification tuning.
 ---
 
-# Adaptive Reasoning & Model Effort Router (`adaptive-reasoning`)
+# Adaptive Reasoning (`adaptive-reasoning`)
 
-Governs model escalation and reasoning effort tuning to maximize response speed and minimize quota burn.
+Governs problem decomposition, cognitive complexity assessment, and verification rigor to ensure robust engineering workflows.
 
-## Hierarchy
-- **Tier 0:** Zero-Quota Local Fleet Offload (`local-coprocessor`, 34 Ollama models).
-- **Tier 1:** Trivial / Direct Execution (Flash, instant streaming, surgical diffs).
-- **Tier 2:** Standard Engineering (Flash medium reasoning, test verification).
-- **Tier 3:** Deep Architecture & Planning (Argon high reasoning, 3-branch ToT).
-- **Router CLI:**
-  `python3 config/skills/adaptive-reasoning/scripts/adaptive_model_router.py route --error "<error>" --attempts <N>`
-- **Auditor & Updater:**
-  `skills-audit-update (--audit, --sync, --fix)`
+## Execution Hierarchy
+- **Tier 0 (Direct Execution):** Trivial diffs, localized syntax formatting, simple renames, and atomic edits.
+- **Tier 1 (Standard Engineering):** Multi-file feature implementations, unit test creation, regression triage, and straightforward bug fixes.
+- **Tier 2 (Architectural Planning):** Cross-subsystem refactoring, 3-branch Tree-of-Thought deliberation, API redesign, and dependency decoupling.
+- **Tier 3 (Formal Verification):** Invariant verification, boundary condition stress-testing, and strict memory/concurrency proofing.
+
+## Command-Line Tools
+- **Complexity Assessment:**
+  `python3 config/skills/adaptive-reasoning/scripts/adaptive_model_router.py --task "<task-description>"`
+- **Catalog Integrity & Sync:**
+  `skills-audit-update (--audit, --sync)`
 
 ## Related & Interoperating Skills
-- **`local-model-coprocessor`**: Zero-quota offload to 32-thread CPU + RTX 5060 Ollama fleet (34 local models, local AST, and local RAG).
 - **`first-principles-reasoning`**: First-principles debugging, 3-branch Tree-of-Thought deliberation, Ockham's razor, and Chain-of-Verification.
-- **`standalone-binary-re`**: Native Linux zero-MCP reverse engineering: objdump, readelf, nm, rizin, gdb, JADX, and PE/ELF headers.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+- **`standalone-binary-re`**: Native Linux reverse engineering: objdump, readelf, nm, rizin, gdb, JADX, and PE/ELF headers.
+- **`local-model-coprocessor`**: Local background worker execution, AST symbol indexing, and vector search.

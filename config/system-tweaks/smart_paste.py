@@ -1,4 +1,4 @@
-"""Ctrl+V in kitty: a screenshot/image on the clipboard goes to Claude Code as a real Ctrl+V key press (Claude Code reads the image from the clipboard itself);
+"""Ctrl+V in kitty: a screenshot/image on the clipboard goes to Antigravity as a real Ctrl+V key press;
 plain text on the clipboard is pasted as text (bracketed paste), exactly like kitty's own paste_from_clipboard. Needs wl-clipboard (wl-paste)."""
 import subprocess
 from kittens.tui.handler import result_handler

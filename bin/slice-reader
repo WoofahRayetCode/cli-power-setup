@@ -83,7 +83,8 @@ def extract_slice_around_symbol(filepath, symbol, context_lines=15):
 def main():
     parser = argparse.ArgumentParser(description="Extract surgical line slices or AST skeleton from files")
     parser.add_argument("file", help="Path to source file")
-    parser.add_argument("target", nargs="?", help="Symbol name, function name, or line number (default: extracts AST skeleton)")
+    parser.add_argument("target", nargs="?", default=None, help="Symbol name, function name, or line number (default: extracts AST skeleton)")
+    parser.add_argument("--skeleton", "-s", action="store_true", help="Force AST skeleton extraction")
     parser.add_argument("--context", "-c", type=int, default=15, help="Number of context lines above and below target (default: 15)")
     args = parser.parse_args()
 
@@ -91,10 +92,10 @@ def main():
         print(f"Error: {args.file} not found", file=sys.stderr)
         sys.exit(1)
 
-    if args.target:
-        lines = extract_slice_around_symbol(args.file, args.target, args.context)
-    else:
+    if args.skeleton or not args.target:
         lines = extract_ast_skeleton(args.file)
+    else:
+        lines = extract_slice_around_symbol(args.file, args.target, args.context)
 
     for l in lines:
         print(l)

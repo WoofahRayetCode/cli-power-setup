@@ -202,7 +202,7 @@ def cmd_status(args):
     print(f"=======================================================\n")
 
 def get_live_quota() -> dict:
-    """Reads live quota telemetry from Claude Code."""
+    """Reads live quota telemetry from Antigravity or Claude Code."""
     quota = {
         "platform": "Unknown",
         "five_hour_remaining": None,
@@ -213,7 +213,26 @@ def get_live_quota() -> dict:
         "weekly_resets_epoch": None
     }
     
-    # 1. Check Claude Code state
+    # 1. Check Antigravity (agy) state cache first
+    agy_cache = Path("/tmp/agy_quota_cache.txt")
+    if agy_cache.exists():
+        try:
+            d = json.loads(agy_cache.read_text())
+            g_5h = d.get("gemini_5h", "").replace("%", "").strip()
+            g_wk = d.get("gemini_wk", "").replace("%", "").strip()
+            quota["platform"] = "Google Antigravity (agy)"
+            if g_5h.isdigit():
+                quota["five_hour_remaining"] = int(g_5h)
+            quota["five_hour_resets_at"] = d.get("gemini_5h_reset", "")
+            if g_wk.isdigit():
+                quota["weekly_remaining"] = int(g_wk)
+            quota["weekly_resets_at"] = d.get("gemini_wk_reset", "")
+            if quota["weekly_remaining"] is not None:
+                return quota
+        except Exception:
+            pass
+
+    # 2. Check Claude Code state
     claude_state = Path("/tmp/claude_quota_state.json")
     if claude_state.exists():
         try:
@@ -229,7 +248,6 @@ def get_live_quota() -> dict:
                 return quota
         except Exception:
             pass
-
 
     return quota
 

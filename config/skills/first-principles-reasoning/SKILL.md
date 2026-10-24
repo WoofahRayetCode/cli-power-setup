@@ -16,7 +16,6 @@ Eliminates trial-and-error debugging and cognitive overburn through structured T
    `python3 config/skills/first-principles-reasoning/scripts/grok_truth_auditor.py`
 
 ## Related & Interoperating Skills
-- **`adaptive-reasoning`**: Dynamic cognitive complexity routing and reasoning effort tuning between Flash and Argon (adaptive_model_route...
+- **`adaptive-reasoning`**: Dynamic cognitive complexity routing, task decomposition, and verification tuning.
 - **`reverse-engineer-anything`**: Reverse Engineer Anything (REA) MCP server integration, function diffing, and obligation ledgers.
-- **`argon-adversarial-verification-gate`**: Formal 4-stage pre-completion adversarial self-critique and boundary-condition proofing for Argon and Claude.
-- **`dynamic-repo-model-cheatsheet` (`agy-cheatsheet` / `cs`)**: Live statusline & repo model/effort router.
+- **`adversarial-verification-gate`**: Formal 4-stage pre-completion adversarial self-critique and boundary-condition proofing.

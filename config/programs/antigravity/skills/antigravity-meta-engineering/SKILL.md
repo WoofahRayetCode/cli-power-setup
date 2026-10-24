@@ -1,0 +1,37 @@
+---
+name: antigravity-meta-engineering
+description: Antigravity CLI (agy) workflow optimization, statusline integration, presets, multi-tool export, and doctor diagnostics.
+---
+
+# Antigravity Meta-Engineering (`antigravity-meta-engineering`)
+
+Governs the maintenance, diagnostics, statusline telemetry, and cross-platform export of the Google Antigravity (`agy`) CLI environment and local power-setup tooling.
+
+## Core Tooling & Commands
+
+- **Environment Diagnostics:**
+  `agy-doctor` — Audits executable permissions, CLI runtime, Antigravity `settings.json`, and terminal bindings.
+- **Project Initialization:**
+  `agy-init [path]` — Bootstraps a repository with local rules (`GEMINI.md`), activeContext tracking, and trusted workspace entry.
+- **Execution Presets & Modes:**
+  - `agy-yolo`: Runs `agy` with `--dangerously-skip-permissions` for uninterrupted automated workflows.
+  - `agy-turbo`: Runs `agy` in turbo mode for low-latency iterations.
+  - `agy-eco`: Runs `agy` in eco mode for maximum resource efficiency.
+  - `agy-omni-mode`: Interactive CLI selector to switch profiles dynamically.
+- **Statusline Telemetry:**
+  `agy-quota-statusline` — Real-time statusline widget delivering active session metrics, git branch context, and environment telemetry into `settings.json`.
+- **Background Job Execution:**
+  `bgrun [-t 5] [-n name] -- <cmd>` — Auto-detaches long-running tasks after N seconds so the session remains unblocked.
+- **Multi-Tool Skill Exporter:**
+  `export-skills [--cursor|--agents|--all]` — Converts canonical skills from `config/skills/` into Cursor rules (`.cursor/rules/*.mdc`), universal `.agents/skills/`, and Windsurf formats.
+
+## Configuration & Paths
+
+- Global Rules: `~/.gemini/config/GEMINI.md`
+- Active Skills: `~/.gemini/config/skills/`
+- App Settings: `~/.gemini/antigravity-cli/settings.json`
+
+## Related Skills
+- **`adaptive-reasoning`**: Dynamic cognitive complexity routing, task decomposition, and verification tuning.
+- **`local-model-coprocessor`**: Local background worker execution, AST symbol indexing, and vector search.
+- **`linux-systems-engineering`**: Linux systems programming, POSIX, and packaging.

@@ -1,4 +1,4 @@
-// KWin script (Plasma 6, 1920x1200 screen): game top-left with a 1280x720 DRAWING area, the Claude Code terminal under it, the "STALKER status" window filling the
+// KWin script (Plasma 6, 1920x1200 screen): game top-left with a 1280x720 DRAWING area, the Antigravity terminal under it, the "STALKER status" window filling the
 // right strip, all inside the work area (above the taskbar) and above other windows. Stays loaded: it re-fits whenever the game or status window appears,
 // gets its title, or changes size (the engine creates a small window first and resizes it later). Run/reload with tools/layout.sh.
 var GAME_W = 1280, GAME_H = 720;

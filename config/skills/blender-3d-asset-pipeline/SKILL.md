@@ -20,6 +20,5 @@ Production 3D asset creation, procedural geometry, organic sculpting, and GPU ba
 - Compatible with both Linux and Windows 10/11 (`install.ps1` / `.cmd` shims, `Path(tempfile.gettempdir())`, and native toolchain resolution).
 
 ## Related & Interoperating Skills
-- **`local-model-coprocessor`**: Zero-quota offload to 32-thread CPU + RTX 5060 Ollama fleet (34 local models, local AST, and local RAG).
 - **`game-engines-multiplatform`**: Modern Godot 4, Unreal Engine 5, Unity, Steamworks publishing, Steam Deck tuning, and Proton game dev.
 - **`game-audio-voice-engineering`**: Game audio Ogg Vorbis GSC comment headers, procedural SFX, spatial HRTF, ElevenLabs, and Piper TTS.

@@ -1,21 +1,23 @@
 ---
 name: local-model-coprocessor
-description: Zero-quota offload to 32-thread CPU + RTX 5060 Ollama fleet (34 local models, local AST, and local RAG).
+description: Local background worker execution, multi-core AST symbol indexing, and local vector search.
 ---
 
-# Local Model Coprocessor (`local-model-coprocessor`)
+# Local Worker & Symbol Coprocessor (`local-model-coprocessor`)
 
-Zero-quota offloading pipeline executing across host 32-thread CPU + NVIDIA RTX 5060 Ollama fleet (34 local models up to 70B/72B).
+High-performance local worker pipeline executing across host multi-core CPU and GPU acceleration for static analysis, symbol indexing, and background code operations.
 
 ## Toolsuite & Dispatch
-- **Local Workers (0 Cloud Tokens):**
+- **Local Workers:**
   `local-worker run --kind lua|python|xml|json|ltx|text --task "..." --out FILE`
 - **Multi-Core AST Symbol Indexing:**
   `python3 ~/.gemini/config/skills/local-model-coprocessor/scripts/local_ast_compiler.py check-syntax --path <dir>`
   `python3 ~/.gemini/config/skills/local-model-coprocessor/scripts/subsystem_slice_extractor.py --dir <dir> --ext cpp`
-- **Local Semantic RAG Search:**
+- **Local Semantic Vector Search:**
   `python3 ~/.gemini/config/skills/local-model-coprocessor/scripts/local_vector_rag.py query "symbol"`
-- **Hardware Profile:** Saturates all 32 threads, stages scratch files in `/dev/shm`, and keeps secondary models on `/mnt/games/llm`.
+- **Hardware Profile:**
+  Leverages multi-threaded host processing and stages scratch files in `/dev/shm` tmpfs for zero disk wear.
 
 ## Related & Interoperating Skills
-- **`blender-3d-asset-pipeline`**: Headless Blender 5.2+ bpy automation, hard-surface CAD, SDF remeshing, SLIM UVs, and RTX 5060 OptiX baking.
+- **`blender-3d-asset-pipeline`**: Headless Blender 5.2+ bpy automation, hard-surface CAD, SDF remeshing, and GPU baking.
+- **`adaptive-reasoning`**: Dynamic cognitive complexity routing, task decomposition, and verification tuning.
