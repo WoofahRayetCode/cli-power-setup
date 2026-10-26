@@ -274,12 +274,12 @@
     "last_updated": "2026-10-21T13:13:26"
   },
   "lifetime_summary": {
-    "total_cached_tokens_saved": 7515128,
-    "total_sessions_tracked": 1,
-    "cache_hit_rate_pct": 93.48,
-    "total_uncached_input_tokens": 524428,
-    "total_output_tokens": 44702,
-    "total_turns_executed": 70,
-    "last_updated": "2026-10-21T13:59:43.314504"
+    "total_cached_tokens_saved": 1011619662,
+    "total_sessions_tracked": 73,
+    "cache_hit_rate_pct": 94.5,
+    "total_uncached_input_tokens": 58835746,
+    "total_output_tokens": 5076071,
+    "total_turns_executed": 9161,
+    "last_updated": "2026-10-25T20:49:15.786180"
   }
 }
